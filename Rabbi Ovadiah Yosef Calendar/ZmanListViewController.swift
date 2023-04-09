@@ -17,10 +17,12 @@ class ZmanListViewController: UITableViewController {
     var elevation: Double = 0.0
     var timezone: TimeZone = TimeZone.current
     var userChosenDate: Date = Date()
+    var nextUpcomingZman: Date? = nil
     var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
     var jewishCalendar: JewishCalendar = JewishCalendar()
     let defaults = UserDefaults.standard
     var zmanimList = Array<ZmanListEntry>()
+    let dateFormatterForZmanim = DateFormatter()
     
     @IBAction func prevDayButton(_ sender: Any) {
         userChosenDate = userChosenDate.advanced(by: -86400)
@@ -50,7 +52,59 @@ class ZmanListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ZmanEntry", for: indexPath)
-        cell.textLabel?.text = zmanimList[indexPath.row].title
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
+        cell.textLabel?.numberOfLines = 1 // limit the label to a single line (optional)
+        let zman = zmanimList[indexPath.row].zman
+        
+        for subview in cell.contentView.subviews {
+          if let label = subview as? UILabel {
+            label.removeFromSuperview()
+          }
+        }
+        
+        if zmanimList[indexPath.row].isZman {
+            cell.textLabel?.text = ""
+            let label1 = UILabel()
+            let label2 = UILabel()
+            label1.translatesAutoresizingMaskIntoConstraints = false
+            label2.translatesAutoresizingMaskIntoConstraints = false
+            cell.contentView.addSubview(label1)
+            cell.contentView.addSubview(label2)
+            
+            NSLayoutConstraint.activate([
+                label1.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+                label1.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                label1.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+                label1.widthAnchor.constraint(equalTo: cell.contentView.widthAnchor, multiplier: 0.5, constant: -10),
+                
+                label2.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -10),
+                label2.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                label2.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+                label2.widthAnchor.constraint(equalTo: cell.contentView.widthAnchor, multiplier: 0.5, constant: -10),
+            ])
+            
+            if zman == nil {
+                label1.text = zmanimList[indexPath.row].title
+                label2.text = "N/A"
+            } else {
+                label1.text = zmanimList[indexPath.row].title
+                if zman == nextUpcomingZman {
+                    label2.text = "➤" + dateFormatterForZmanim.string(from: zman!)
+                } else {
+                    label2.text = dateFormatterForZmanim.string(from: zman!)
+                }
+            }
+            label1.font = UIFont.boldSystemFont(ofSize: 22) // Set bold font
+            label2.font = UIFont.boldSystemFont(ofSize: 22) // Set bold font
+            label1.adjustsFontSizeToFitWidth = true
+            label1.numberOfLines = 1 // limit the label to a single line (optional)
+            label2.adjustsFontSizeToFitWidth = true
+            label2.numberOfLines = 1 // limit the label to a single line (optional)
+            label1.textAlignment = .left
+            label2.textAlignment = .right
+        } else {
+            cell.textLabel?.text = zmanimList[indexPath.row].title
+        }
         return cell
     }
     
@@ -151,7 +205,6 @@ class ZmanListViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
 
-
     // Function to handle changes to the date picker value
     @objc func datePickerValueChanged(sender: UIDatePicker) {
         userChosenDate = sender.date
@@ -166,13 +219,26 @@ class ZmanListViewController: UITableViewController {
         tableView.refreshControl = refreshControl
         GlobalStruct.useElevation = defaults.bool(forKey: "useElevation")
         GlobalStruct.roundUp = defaults.bool(forKey: "roundUp")
-        //if #available(iOS 14.0, *) {
-                //datePicker.preferredDatePickerStyle = .inline
-        //}
         NotificationCenter.default.addObserver(self, selector: #selector(didGetNotification(_:)), name: NSNotification.Name("text"), object: nil)
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+        swipeGestureRecognizer.direction = .right
+        swipeLeftGestureRecognizer.direction = .left
+        tableView.addGestureRecognizer(swipeGestureRecognizer)
+        tableView.addGestureRecognizer(swipeLeftGestureRecognizer)
+        if defaults.bool(forKey: "showSeconds") {
+            dateFormatterForZmanim.dateFormat = "h:mm:ss aa"
+        } else {
+            dateFormatterForZmanim.dateFormat = "h:mm aa"
+        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {//then this method happens
+    override func viewWillAppear(_ animated: Bool) {//this method happens 2nd
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {//this method happens last
+        super.viewDidAppear(animated)
         if !defaults.bool(forKey: "hasRunBefore") {
             showZipcodeAlert()
         } else {//not first run
@@ -188,11 +254,98 @@ class ZmanListViewController: UITableViewController {
                 jewishCalendar = JewishCalendar(location: zmanimCalendar.geoLocation)
                 jewishCalendar.inIsrael = false
                 jewishCalendar.returnsModernHolidays = true
+                setNextUpcomingZman()
                 updateZmanimList()
             } else {
                 getUserLocation()
             }
         }
+    }
+    
+    func setNextUpcomingZman() {
+        var theZman: Date? = nil
+        var zmanim = Array<ZmanListEntry>()
+        var today = Date()
+        
+        today = today.advanced(by: -86400)//yesterday
+        jewishCalendar.workingDate = today
+        zmanimCalendar.workingDate = today
+        zmanim = addZmanim(list: zmanim)
+        
+        today = today.advanced(by: 86400)//today
+        jewishCalendar.workingDate = today
+        zmanimCalendar.workingDate = today
+        zmanim = addZmanim(list: zmanim)
+
+        today = today.advanced(by: 86400)//tomorrow
+        jewishCalendar.workingDate = today
+        zmanimCalendar.workingDate = today
+        zmanim = addZmanim(list: zmanim)
+
+        zmanimCalendar.workingDate = userChosenDate//reset
+        jewishCalendar.workingDate = userChosenDate//reset
+        
+        for entry in zmanim {
+            let zman = entry.zman
+            if zman != nil {
+                if zman! > Date() && (theZman == nil || zman! < theZman!) {
+                    theZman = zman
+                }
+            }
+        }
+        nextUpcomingZman = theZman
+    }
+    
+    func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
+        var temp = list
+        let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: true, mIsZmanimEnglishTranslated: false)
+        temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.alos72Zmanis(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.talitTefilin(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " " + zmanimNames.getMishorString(), zman: zmanimCalendar.seaLevelSunrise(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.sofZmanShmaMGA72MinutesZmanis(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.sofZmanShmaGra(), isZman: true))
+        if jewishCalendar.yomTovIndex() == kErevPesach.rawValue {
+            temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.sofZmanTfilaMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.sofZmanTfilaGra(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.sofZmanBiurChametzMGA(), isZman: true, isNoteworthyZman: true))
+        } else {
+            temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.sofZmanTfilaGra(), isZman: true))
+        }
+        temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.chatzos(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.minchaGedolaGreaterThan30(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman:zmanimCalendar.minchaKetana(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+        if (jewishCalendar.hasCandleLighting() && jewishCalendar.isAssurBemelacha()) || jewishCalendar.currentDayOfTheWeek() == 6 {
+            zmanimCalendar.candleLightingOffset = 20
+            if defaults.object(forKey: "candleLightingOffset") != nil {
+                zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
+            }
+            temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", zman:zmanimCalendar.candleLighting(), isZman: true, isNoteworthyZman: true))
+        }
+        temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.sunset(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.tzeit(), isZman: true))
+        if (jewishCalendar.hasCandleLighting() && jewishCalendar.isAssurBemelacha()) && jewishCalendar.currentDayOfTheWeek() != 6 {
+            temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString(), zman:zmanimCalendar.tzeit(), isZman: true, isNoteworthyZman: true))
+        }
+        if jewishCalendar.isTaanis() && jewishCalendar.yomTovIndex() != kYomKippur.rawValue {
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzeitTaanit(), isZman: true, isNoteworthyZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.tzeitTaanitLChumra(), isZman: true, isNoteworthyZman: true))
+        }
+        if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
+            zmanimCalendar.ateretTorahSunsetOffset = 40
+            if defaults.object(forKey: "shabbatOffset") != nil {
+                zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "shabbatOffset")
+            }
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(zmanimCalendar.ateretTorahSunsetOffset) + ")", zman:zmanimCalendar.tzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.tzait72Zmanit(), isZman: true, isNoteworthyZman: true, isRTZman: true))
+        }
+        if defaults.bool(forKey: "alwaysShowRT") {
+            if !(jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting()) {
+                temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.tzait72Zmanit(), isZman: true, isNoteworthyZman: true, isRTZman: true))
+            }
+        }
+        temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.solarMidnight(), isZman: true))
+        return temp
     }
     
     func getUserLocation() {
@@ -207,24 +360,31 @@ class ZmanListViewController: UITableViewController {
                 self.defaults.set(true, forKey: "hasRunBefore")
                 self.defaults.set(false, forKey: "useZipcode")
                 self.defaults.set(timezone.identifier, forKey: "timezone")
-                //let yesterday: Date = calendar.internalCalendar().date(byAdding: .day, value: -1, to: calendar.workingDate)!
-                //calendar.workingDate = yesterday
-
-                //let formatter = DateFormatter()
-                //formatter.dateFormat = "HH:mm:ss E, d MMM y"
                 LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
                     self.locationName = locationName!
                     if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
                         self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
-                    } else {//we have never been here before, remove elevation settings
+                    } else {//we have never been here before, revert to mishor/sea level
                         self.elevation = 0
                     }
                     self.recreateZmanimCalendar()
                     jewishCalendar = JewishCalendar(location: zmanimCalendar.geoLocation)
                     jewishCalendar.inIsrael = false
                     jewishCalendar.returnsModernHolidays = true
+                    setNextUpcomingZman()
                     updateZmanimList()
                 }
+            }
+        }
+    }
+    
+    @objc func handleSwipe(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        if gestureRecognizer.state == .ended {
+            if gestureRecognizer.direction == .left {
+                nextDayButton((Any).self)
+            }
+            if gestureRecognizer.direction == .right {
+                prevDayButton((Any).self)
             }
         }
     }
@@ -284,6 +444,7 @@ class ZmanListViewController: UITableViewController {
         if !hallel.isEmpty {
             zmanimList.append(ZmanListEntry(title: hallel))
         }
+        zmanimList.append(ZmanListEntry(title:jewishCalendar.getTachanun()))
         let bircatHelevana = jewishCalendar.getIsTonightStartOrEndBircatLevana()
         if !bircatHelevana.isEmpty {
             zmanimList.append(ZmanListEntry(title: bircatHelevana))
@@ -291,31 +452,22 @@ class ZmanListViewController: UITableViewController {
         if jewishCalendar.isBirkasHachamah() {
             zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today"))
         }
-        zmanimList.append(ZmanListEntry(title:jewishCalendar.getTachanun()))
-        //zmanim
-        if defaults.bool(forKey: "showSeconds") {
-            dateFormatter.dateFormat = "h:mm:ss aa"
-        } else {
-            dateFormatter.dateFormat = "h:mm aa"
+        dateFormatter.dateFormat = "h:mm aa"
+        let tekufa = jewishCalendar.getTekufaAsDate()
+        if tekufa != nil {
+            if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
+                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+            }
         }
-        zmanimList.append(ZmanListEntry(title:"Dawn: " + dateFormatter.string(from: zmanimCalendar.alos72Zmanis()!)))
-        zmanimList.append(ZmanListEntry(title:"Earliest Talit and Tefilin: " + dateFormatter.string(from: zmanimCalendar.talitTefilin()!)))
-        zmanimList.append(ZmanListEntry(title:"Sunrise (Sea Level): " + dateFormatter.string(from: zmanimCalendar.sunrise()!)))
-        zmanimList.append(ZmanListEntry(title:"Latest Shma MG'A: " + dateFormatter.string(from: zmanimCalendar.sofZmanShmaMGA72MinutesZmanis()!)))
-        zmanimList.append(ZmanListEntry(title:"Latest Shma GR'A: " + dateFormatter.string(from: zmanimCalendar.sofZmanShmaGra()!)))
-        zmanimList.append(ZmanListEntry(title:"Latest Berachot Shma: " + dateFormatter.string(from: zmanimCalendar.sofZmanTfilaGra()!)))
-        zmanimList.append(ZmanListEntry(title:"Mid-day: " + dateFormatter.string(from: zmanimCalendar.chatzos()!)))
-        zmanimList.append(ZmanListEntry(title:"Earliest Mincha: " + dateFormatter.string(from: zmanimCalendar.minchaGedolaGreaterThan30()!)))
-        zmanimList.append(ZmanListEntry(title:"Mincha Ketana: " + dateFormatter.string(from: zmanimCalendar.minchaKetana()!)))
-        zmanimList.append(ZmanListEntry(title:"Plag HaMincha: " + dateFormatter.string(from: zmanimCalendar.plagHamincha()!)))
-        if jewishCalendar.isErevYomTov() || jewishCalendar.currentDayOfTheWeek() == 6 {
-            zmanimCalendar.candleLightingOffset = 20
-            zmanimList.append(ZmanListEntry(title:"Candle Lighting: " + dateFormatter.string(from:zmanimCalendar.candleLighting()!)))
+        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
+        if checkTomorrowForTekufa != nil {
+            if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
+                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+            }
         }
-        zmanimList.append(ZmanListEntry(title:"Sunset: " + dateFormatter.string(from: zmanimCalendar.sunset()!)))
-        zmanimList.append(ZmanListEntry(title:"NightFall: " + dateFormatter.string(from: zmanimCalendar.tzeit()!)))
-        zmanimList.append(ZmanListEntry(title:"Rabbeinu Tam: " + dateFormatter.string(from: zmanimCalendar.tzais72Zmanis()!)))
-        zmanimList.append(ZmanListEntry(title:"Midnight: " + dateFormatter.string(from: zmanimCalendar.solarMidnight()!)))
+        jewishCalendar.workingDate = userChosenDate //reset
+        zmanimList = addZmanim(list: zmanimList)
         let dafYomi = jewishCalendar.dafYomiBavli()
         if dafYomi != nil {
             zmanimList.append(ZmanListEntry(title:"Daf Yomi: " + ((dafYomi!.name())) + " " + dafYomi!.pageNumber.formatHebrew()))
@@ -340,10 +492,30 @@ class ZmanListViewController: UITableViewController {
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
         zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanisGra())) ?? "N/A") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanis72MinutesZmanis())) ?? "N/A")))
-        for zman in zmanimList {
-            print(zman.title, "\n")
-        }
+//        for zman in zmanimList {
+//            print(zman.title, "\n")
+//        }
         tableView.reloadData()
+    }
+    
+    func getShabbatAndOrChag() -> String {
+        if (defaults.bool(forKey: "isZmanimInHebrew") || true) {
+            if jewishCalendar.isAssurBemelacha() {
+                return "\u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
+            } else if jewishCalendar.currentDayOfTheWeek() == 7 {
+                return "\u{05E9}\u{05D1}\u{05EA}"
+            } else {
+                return "\u{05D7}\u{05D2}"
+            }
+        } else {
+            if jewishCalendar.isAssurBemelacha() {
+                return "Shabbat/Chag";
+            } else if jewishCalendar.currentDayOfTheWeek() == 7 {
+                return "Shabbat";
+            } else {
+                return "Chag";
+            }
+        }
     }
     
     func showZipcodeAlert() {
@@ -409,8 +581,7 @@ class ZmanListViewController: UITableViewController {
     }
     
     public func recreateZmanimCalendar() {
-        let geoLocation = KosherCocoa.GeoLocation.init(latitude: self.lat, andLongitude: self.long, elevation: self.elevation, andTimeZone: timezone)
-        zmanimCalendar = ComplexZmanimCalendar(location: geoLocation)
+        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(name: locationName, andLatitude: lat, andLongitude: long, andElevation: elevation, andTimeZone: timezone))
     }
     
     public func getHebrewDay(day:Int) -> String {
@@ -459,18 +630,15 @@ public extension ComplexZmanimCalendar {
             return nil;
         }
         
-        if GlobalStruct.useElevation {
-            return sunset()?.addingTimeInterval(shaahZmanit*1.2);
-        }
-        return seaLevelSunset()?.addingTimeInterval(shaahZmanit*1.2);
+        return sunset()?.addingTimeInterval(shaahZmanit*1.2);
     }
     
     func tzeitTaanitLChumra() -> Date? {
-        return sunset()?.addingTimeInterval(20 * 60);
+        return sunset()?.addingTimeInterval(30 * 60);
     }
     
     func tzeitTaanit() -> Date? {
-        return sunset()?.addingTimeInterval(30 * 60);
+        return sunset()?.addingTimeInterval(20 * 60);
     }
     
     func tzeit() -> Date? {
@@ -504,6 +672,14 @@ public extension ComplexZmanimCalendar {
         return tzeit()?.addingTimeInterval(-(shaahZmanit + (15 * dakahZmanit)));
     }
     
+    func sofZmanBiurChametzMGA() -> Date? {
+        let shaahZmanit = shaahZmanitMga()
+        if (shaahZmanit == .leastNormalMagnitude) {
+            return nil;
+        }
+        return alos72Zmanis()?.addingTimeInterval(5 * shaahZmanit)
+    }
+    
     override func sunrise() -> Date? {
         if GlobalStruct.useElevation {
             return super.sunrise()
@@ -524,10 +700,21 @@ public extension ComplexZmanimCalendar {
     }
     
     override func shaahZmanisGra() -> Double {
-        if GlobalStruct.useElevation {
-            return temporalHour(fromSunrise: sunrise()!, toSunset: sunset()!)
+        let sunrise = sunrise()
+        let sunset = sunset()
+        if sunrise == nil || sunset == nil {
+            return .leastNormalMagnitude
         }
-        return temporalHour(fromSunrise: seaLevelSunrise()!, toSunset: seaLevelSunset()!)
+        return temporalHour(fromSunrise: sunrise!, toSunset: sunset!)
+    }
+    
+    func shaahZmanitMga() -> Double {
+        let alot = alos72Zmanis()
+        let tzait = tzait72Zmanit()
+        if alot == nil || tzait == nil {
+            return .leastNormalMagnitude
+        }
+        return temporalHour(fromSunrise: alos72Zmanis()!, toSunset: tzait72Zmanit()!)
     }
 }
 
@@ -549,7 +736,9 @@ public extension JewishCalendar {
         } else if !(yomTovOfNextDay.isEmpty) && !yomTovOfNextDay.hasPrefix("Erev") && !yomTovOfToday.hasSuffix(yomTovOfNextDay) {
             result.append(yomTovOfToday + " / Erev " + yomTovOfNextDay)
         } else {
-            result.append(yomTovOfToday)
+            if !yomTovOfToday.isEmpty {
+                result.append(yomTovOfToday)
+            }
         }
         
         result = addTaanitBechorot(result: result)
@@ -753,6 +942,9 @@ public extension JewishCalendar {
             }
             return "There is only Tachanun in the morning"
         }
+        if currentDayOfTheWeek() == 7 {
+            return "צדקתך"
+        }
         return "There is Tachanun today"
     }
     
@@ -763,6 +955,19 @@ public extension JewishCalendar {
         let yomTovIndexForTomorrow = yomTovIndex()
         workingDate = temp //reset
         return yomTovIndexForTomorrow
+    }
+    
+    func hasCandleLighting() -> Bool {
+        return currentDayOfTheWeek() == 6 || isErevYomTov() || isErevYomTovSheni()
+    }
+    
+    func isErevYomTovSheni() -> Bool {
+        return (currentHebrewMonth() == HebrewMonth.tishrei.rawValue && (currentHebrewDayOfMonth() == 1)) || (!inIsrael && ((currentHebrewMonth() == HebrewMonth.nissan.rawValue && (currentHebrewDayOfMonth() == 15 || currentHebrewDayOfMonth() == 21)) || (currentHebrewMonth() == HebrewMonth.tishrei.rawValue && (currentHebrewDayOfMonth() == 15 || currentHebrewDayOfMonth() == 22)) || (currentHebrewMonth() == HebrewMonth.sivan.rawValue && currentHebrewDayOfMonth() == 6 )))
+    }
+    
+    func isAssurBemelacha() -> Bool {
+        let holidayIndex = yomTovIndex()
+        return currentDayOfTheWeek() == 7 || holidayIndex == kPesach.rawValue || holidayIndex == kShavuos.rawValue || holidayIndex == kSuccos.rawValue || holidayIndex == kSheminiAtzeres.rawValue || holidayIndex == kSimchasTorah.rawValue || holidayIndex == kRoshHashana.rawValue || holidayIndex == kYomKippur.rawValue
     }
     
     func getHallelOrChatziHallel() -> String {
@@ -819,14 +1024,52 @@ public extension JewishCalendar {
     }
     
     func getIsTonightStartOrEndBircatLevana() -> String {
-        let sevenDays = tchilasZmanKidushLevana7Days(for: workingDate)!
-        let fifteenDays = sofZmanKidushLevana15Days(for: workingDate)!
+        let CHALKIM_PER_DAY = 25920
+        let chalakim = getChalakimSinceMoladTohu(year: currentHebrewYear(), month: currentHebrewMonth())
+        let moladToAbsDate = (chalakim / CHALKIM_PER_DAY) + (-1373429)
+        var year = moladToAbsDate / 366
+        while (moladToAbsDate >= gregorianDateToAbsDate(year: year+1,month: 1,dayOfMonth: 1)) {
+            year+=1
+        }
+        var month = 1
+        while (moladToAbsDate > gregorianDateToAbsDate(year: year, month: month, dayOfMonth: getLastDayOfGregorianMonth(month: month, year: year))) {
+            month+=1
+        }
+        var dayOfMonth = moladToAbsDate - gregorianDateToAbsDate(year: year, month: month, dayOfMonth: 1) + 1
+        if dayOfMonth > getLastDayOfGregorianMonth(month: month, year: year) {
+            dayOfMonth = getLastDayOfGregorianMonth(month: month, year: year)
+        }
+        let conjunctionDay = chalakim / CHALKIM_PER_DAY
+        let conjunctionParts = chalakim - conjunctionDay * CHALKIM_PER_DAY
         
-        //
-        //
-        //FIXME
-        //
-        //
+        var moladHours = conjunctionParts / 1080
+        let moladRemainingChalakim = conjunctionParts - moladHours * 1080
+        var moladMinutes = moladRemainingChalakim / 18
+        let moladChalakim = moladRemainingChalakim - moladMinutes * 18
+        var moladSeconds = Double(moladChalakim * 10 / 3)
+        
+        moladMinutes = moladMinutes - 20//to get to Standard Time
+        moladSeconds = moladSeconds - 56.496//to get to Standard Time
+        
+        var calendar = Calendar.init(identifier: .gregorian)
+        calendar.timeZone = Calendar.current.timeZone
+        
+        var moladDay = DateComponents(calendar: calendar, timeZone: TimeZone(identifier: "GMT+2")!, year: year, month: month, day: dayOfMonth, hour: moladHours, minute: moladMinutes, second: Int(moladSeconds))
+        
+        var molad:Date? = nil
+        
+        if moladHours > 6 {
+            moladHours = (moladHours + 18) % 24
+            moladDay.day! += 1
+            moladDay.setValue(moladHours, for: .hour)
+            molad = calendar.date(from: moladDay)
+        } else {
+            molad = calendar.date(from: moladDay)
+        }
+        
+        let sevenDays = calendar.date(byAdding: .day, value: 7, to: molad!)!
+        let fifteenDays = calendar.date(byAdding: .day, value: 15, to: molad!)!
+
         if Calendar.current.isDate(workingDate, inSameDayAs: sevenDays) {
             return "Birchat HaLevana starts tonight";
         }
@@ -837,6 +1080,39 @@ public extension JewishCalendar {
         return ""
     }
     
+    func gregorianDateToAbsDate(year:Int, month:Int, dayOfMonth:Int) -> Int {
+        var absDate = dayOfMonth
+        for m in stride(from: month-1, to: 0, by: -1) {
+            absDate += getLastDayOfGregorianMonth(month: m, year: year)
+        }
+        return (absDate // days this year
+                + 365 * (year - 1) // days in previous years ignoring leap days
+                + (year - 1) / 4 // Julian leap days before this year
+                - (year - 1) / 100 // minus prior century years
+        + (year - 1) / 400); // plus prior years divisible by 400
+    }
+    
+    func getLastDayOfGregorianMonth(month:Int, year:Int) -> Int {
+        switch month {
+        case 2:
+            if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+                return 29;
+            } else {
+                return 28;
+            }
+        case 4:
+            return 30;
+        case 6:
+            return 30;
+        case 9:
+            return 30;
+        case 11:
+            return 30;
+        default:
+            return 31;
+        }
+    }
+
     func getIsMashivHaruchOrMoridHatalSaid() -> String {
         if isMashivHaruachRecited() {
             return "משיב הרוח"
@@ -902,7 +1178,6 @@ public extension JewishCalendar {
 
         let solarDaysElapsed = days.truncatingRemainder(dividingBy: 365.25) // total days elapsed since start of solar year
         let tekufaDaysElapsed = solarDaysElapsed.truncatingRemainder(dividingBy: 91.3125) // the number of days that have passed since a tekufa event
-
         if (tekufaDaysElapsed > 0 && tekufaDaysElapsed <= 1) { // if the tekufa happens in the upcoming 24 hours
             return ((1.0 - tekufaDaysElapsed) * 24.0).truncatingRemainder(dividingBy: 24) // rationalize the tekufa event to number of hours since start of jewish day
         } else {
@@ -966,17 +1241,15 @@ public extension JewishCalendar {
     }
     
     func daysInJewishMonth(month: Int, year: Int) -> Int {
-        if ((month == HebrewMonth.iyar.rawValue) || (month == HebrewMonth.tammuz.rawValue) || (month == HebrewMonth.elul.rawValue) || ((month == HebrewMonth.cheshvan.rawValue) && !(isCheshvanLong()))
-                || ((month == HebrewMonth.kislev.rawValue) && isKislevShort()) || (month == HebrewMonth.teves.rawValue)
-                || ((month == HebrewMonth.adar.rawValue) && !(isHebrewLeapYear(year))) || (month == HebrewMonth.adar_II.rawValue)) {
+        if ((month == HebrewMonth.iyar.rawValue) || (month == HebrewMonth.tammuz.rawValue) || (month == HebrewMonth.elul.rawValue) || ((month == HebrewMonth.cheshvan.rawValue) && !(isCheshvanLong(year: year))) || ((month == HebrewMonth.kislev.rawValue) && isKislevShort()) || (month == HebrewMonth.teves.rawValue) || ((month == HebrewMonth.adar.rawValue) && !(isHebrewLeapYear(year))) || (month == HebrewMonth.adar_II.rawValue && isHebrewLeapYear(year))) {
             return 29;
         } else {
             return 30;
         }
     }
     
-    func isCheshvanLong() -> Bool {
-        return length(ofHebrewYear: currentHebrewYear()) == HebrewYearType.shalaim.rawValue
+    func isCheshvanLong(year:Int) -> Bool {
+        return length(ofHebrewYear: year) == HebrewYearType.shalaim.rawValue
     }
 
     func getJewishCalendarElapsedDays(jewishYear: Int) -> Int {
@@ -997,7 +1270,10 @@ public extension JewishCalendar {
         let CHALAKIM_MOLAD_TOHU: Int = 31524
         // Jewish lunar month = 29 days, 12 hours and 793 chalakim
         // chalakim since Molad Tohu BeHaRaD - 1 day, 5 hours and 204 chalakim
-        let monthOfYear = month
+        var monthOfYear = month
+        if !isHebrewLeapYear(year) && monthOfYear >= 7 {
+            monthOfYear = monthOfYear - 1//special case for adar 2 because swift is weird
+        }
         var monthsElapsed = (235 * ((year - 1) / 19))
         monthsElapsed = monthsElapsed + (12 * ((year - 1) % 19))
         monthsElapsed = monthsElapsed + ((7 * ((year - 1) % 19) + 1) / 19)

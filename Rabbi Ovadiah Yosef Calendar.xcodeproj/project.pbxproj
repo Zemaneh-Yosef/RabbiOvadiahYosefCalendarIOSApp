@@ -17,6 +17,7 @@
 		5D19D37D29A36DB300F8033D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37429A36DB200F8033D /* Constants.swift */; };
 		5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37629A36DB200F8033D /* LSGeoLookup.swift */; };
 		5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37A29A36DB300F8033D /* LocationManager.swift */; };
+		5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */; };
 		DF7E1A356E03966DB1AA9A53 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048275069529BB376700AEC9 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		5D19D37429A36DB200F8033D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5D19D37629A36DB200F8033D /* LSGeoLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSGeoLookup.swift; sourceTree = "<group>"; };
 		5D19D37A29A36DB300F8033D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimTimeNames.swift; sourceTree = "<group>"; };
 		747B14C1A73A4072A7CEE035 /* Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; sourceTree = "<group>"; };
 		8B5EA2EAF14252DB4ECAFDEF /* Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +90,7 @@
 				5D19D36029A3687900F8033D /* AppDelegate.swift */,
 				5D19D36229A3687900F8033D /* SceneDelegate.swift */,
 				5D19D36429A3687900F8033D /* ZmanListViewController.swift */,
+				5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */,
 				5D19D36629A3687900F8033D /* Main.storyboard */,
 				5D19D36929A3687B00F8033D /* Assets.xcassets */,
 				5D19D36B29A3687B00F8033D /* LaunchScreen.storyboard */,
@@ -238,6 +241,7 @@
 				5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */,
 				5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */,
 				5D19D36529A3687900F8033D /* ZmanListViewController.swift in Sources */,
+				5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

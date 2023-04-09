@@ -444,7 +444,7 @@
 }
 
 - (nullable NSDate *) tzaisAteretTorah{
-    return [self dateByAddingMinutes:[self ateretTorahSunsetOffset] toDate:[self seaLevelSunset]];
+    return [self dateByAddingMinutes:[self ateretTorahSunsetOffset] toDate:[self sunset]];
 }
 
 - (nullable NSDate *) sofZmanShmaAteretTorah{

@@ -398,18 +398,18 @@
 
 - (nullable NSDate *)moladTohuAsDate
 {
-    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierHebrew];
     
     NSDateComponents *tohuComponents = [[NSDateComponents alloc] init];
-    [tohuComponents setCalendar:gregorianCalendar];
-    [tohuComponents setYear:-3760];
-    [tohuComponents setMonth:9];
-    [tohuComponents setDay:6];
+    [tohuComponents setCalendar:hebrewCalendar];
+    [tohuComponents setYear:0001];
+    [tohuComponents setMonth:1];
+    [tohuComponents setDay:1];
     [tohuComponents setHour:5];
     [tohuComponents setMinute:0];
     [tohuComponents setSecond:204*3.5];
     
-    NSDate *tohu = [gregorianCalendar dateFromComponents:tohuComponents];
+    NSDate *tohu = [hebrewCalendar dateFromComponents:tohuComponents];
     
     return tohu;
 }
@@ -418,27 +418,24 @@
 {
     
     NSDate *tohu = [self moladTohuAsDate];
+
+    //  For each month, add 29 days 12 hours 793 chalakim
     
+    NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierHebrew];
     
-    //
-    //  For each month, add 1 day 12 hours 793 chalakim
-    //
+    NSUInteger componentTypes = (NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond);
     
-    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [hebrewCalendar components:componentTypes fromDate:tohu];
     
-    NSUInteger componentTypes = (NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond);
-    
-    NSDateComponents *components = [gregorianCalendar components:componentTypes fromDate:tohu];
-    
-    NSInteger day = [components day] + (1*numberOfMonths);
-    NSInteger hour = [components hour] + (12*numberOfMonths);
-    NSInteger seconds = [components second] + (793*3.5*numberOfMonths);
+    NSInteger day = [components day] + (29*(numberOfMonths));
+    NSInteger hour = [components hour] + (12*(numberOfMonths));
+    NSInteger seconds = [components second] + (793*3.5*(numberOfMonths));
     
     [components setDay:day];
     [components setHour:hour];
     [components setSecond:seconds];
     
-    NSDate *newMolad = [gregorianCalendar dateFromComponents:components];
+    NSDate *newMolad = [hebrewCalendar dateFromComponents:components];
     
     return newMolad;
 }
@@ -515,10 +512,8 @@
     NSDate *molad = [self moladForDate:date];
     
     NSCalendar *hebrewCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierHebrew];
-    [hebrewCalendar dateByAddingDays:7 toDate:molad];
-    
-    return [self moladForDate:molad];
-}
+    return [hebrewCalendar dateByAddingDays:7 toDate:molad];
+    }
 
 //  This method exists only for KosherJava compatibility
 - (nullable NSDate *)tchilasZmanKidushLevana7DaysForMonth:(NSInteger)month ofYear:(NSInteger)year
