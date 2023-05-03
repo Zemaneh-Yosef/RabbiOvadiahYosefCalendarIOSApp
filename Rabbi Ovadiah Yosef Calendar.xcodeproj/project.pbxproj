@@ -18,6 +18,15 @@
 		5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37629A36DB200F8033D /* LSGeoLookup.swift */; };
 		5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37A29A36DB300F8033D /* LocationManager.swift */; };
 		5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */; };
+		5D7550A329E3776700894335 /* ElevationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550A229E3776700894335 /* ElevationViewController.swift */; };
+		5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550A429EBC58200894335 /* MarqueeLabel.swift */; };
+		5D7550A929EF8B5800894335 /* InIsraelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550A829EF8B5800894335 /* InIsraelViewController.swift */; };
+		5D7550AC29EF94C300894335 /* ZmanimLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550AB29EF94C300894335 /* ZmanimLanguageViewController.swift */; };
+		5D7550B129F2761300894335 /* MoladViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B029F2761300894335 /* MoladViewController.swift */; };
+		5D7550B429F8FE6100894335 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B329F8FE6100894335 /* SettingsViewController.swift */; };
+		5D7550B829FC555200894335 /* ZmanimSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */; };
+		5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */; };
+		5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */; };
 		DF7E1A356E03966DB1AA9A53 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048275069529BB376700AEC9 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +47,15 @@
 		5D19D37629A36DB200F8033D /* LSGeoLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSGeoLookup.swift; sourceTree = "<group>"; };
 		5D19D37A29A36DB300F8033D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimTimeNames.swift; sourceTree = "<group>"; };
+		5D7550A229E3776700894335 /* ElevationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationViewController.swift; sourceTree = "<group>"; };
+		5D7550A429EBC58200894335 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
+		5D7550A829EF8B5800894335 /* InIsraelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InIsraelViewController.swift; sourceTree = "<group>"; };
+		5D7550AB29EF94C300894335 /* ZmanimLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimLanguageViewController.swift; sourceTree = "<group>"; };
+		5D7550B029F2761300894335 /* MoladViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoladViewController.swift; sourceTree = "<group>"; };
+		5D7550B329F8FE6100894335 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimSettingsViewController.swift; sourceTree = "<group>"; };
+		5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimNotificationsSettingsViewController.swift; sourceTree = "<group>"; };
+		5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimAlertInfoHolder.swift; sourceTree = "<group>"; };
 		747B14C1A73A4072A7CEE035 /* Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; sourceTree = "<group>"; };
 		8B5EA2EAF14252DB4ECAFDEF /* Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,8 +108,17 @@
 				5D19D36029A3687900F8033D /* AppDelegate.swift */,
 				5D19D36229A3687900F8033D /* SceneDelegate.swift */,
 				5D19D36429A3687900F8033D /* ZmanListViewController.swift */,
+				5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */,
+				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
+				5D7550A229E3776700894335 /* ElevationViewController.swift */,
 				5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */,
+				5D7550A429EBC58200894335 /* MarqueeLabel.swift */,
 				5D19D36629A3687900F8033D /* Main.storyboard */,
+				5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */,
+				5D7550B329F8FE6100894335 /* SettingsViewController.swift */,
+				5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */,
+				5D7550B029F2761300894335 /* MoladViewController.swift */,
+				5D7550AB29EF94C300894335 /* ZmanimLanguageViewController.swift */,
 				5D19D36929A3687B00F8033D /* Assets.xcassets */,
 				5D19D36B29A3687B00F8033D /* LaunchScreen.storyboard */,
 				5D19D36E29A3687B00F8033D /* Info.plist */,
@@ -234,12 +261,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */,
 				5D19D37D29A36DB300F8033D /* Constants.swift in Sources */,
 				5D19D36129A3687900F8033D /* AppDelegate.swift in Sources */,
+				5D7550A929EF8B5800894335 /* InIsraelViewController.swift in Sources */,
+				5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */,
+				5D7550A329E3776700894335 /* ElevationViewController.swift in Sources */,
+				5D7550B829FC555200894335 /* ZmanimSettingsViewController.swift in Sources */,
+				5D7550AC29EF94C300894335 /* ZmanimLanguageViewController.swift in Sources */,
 				5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */,
 				5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */,
 				5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */,
+				5D7550B129F2761300894335 /* MoladViewController.swift in Sources */,
+				5D7550B429F8FE6100894335 /* SettingsViewController.swift in Sources */,
 				5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */,
+				5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */,
 				5D19D36529A3687900F8033D /* ZmanListViewController.swift in Sources */,
 				5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */,
 			);
@@ -317,7 +353,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -371,7 +407,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -398,6 +434,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -430,6 +467,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

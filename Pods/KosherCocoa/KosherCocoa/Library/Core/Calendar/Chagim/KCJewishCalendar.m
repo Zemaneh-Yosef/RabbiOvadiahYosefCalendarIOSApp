@@ -289,7 +289,7 @@
     NSInteger holidayIndex = [self yomTovIndex];
 
     return holidayIndex == kErevPesach || holidayIndex == kErevShavuos || holidayIndex == kErevRoshHashana
-    || holidayIndex == kErevYomKippur || holidayIndex == kErevSuccos;
+    || holidayIndex == kErevYomKippur || holidayIndex == kErevSuccos || holidayIndex == kHoshanaRabba || (holidayIndex == kCholHamoedPesach && [self currentHebrewDayOfMonth] == 20);
 }
 
 // Returns true if the current day is Erev Rosh

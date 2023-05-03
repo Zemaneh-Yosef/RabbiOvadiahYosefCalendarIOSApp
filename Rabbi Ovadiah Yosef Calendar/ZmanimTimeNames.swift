@@ -11,6 +11,39 @@ struct ZmanimTimeNames {
     var mIsZmanimInHebrew = false
     var mIsZmanimEnglishTranslated = false
     
+    func getYalkutYosefString() -> String {
+        if (mIsZmanimInHebrew) {
+            return "ילקוט יוסף"
+        } else {
+            return "Yalkut Yosef"
+        }
+    }
+
+    func getHalachaBerurahString() -> String {
+        if (mIsZmanimInHebrew) {
+            return "הלכה ברורה"
+        } else {
+            return "Halacha Berurah"
+        }
+    }
+
+    func getAbbreviatedYalkutYosefString() -> String {
+        if (mIsZmanimInHebrew) {
+            return "י\"י"
+        } else {
+            return "Y\"Y"
+        }
+    }
+
+    func getAbbreviatedHalachaBerurahString() -> String {
+        if (mIsZmanimInHebrew) {
+            return "ה\"ב"
+        } else {
+            return "H\"B"
+        }
+    }
+
+    
     public func getChatzotLaylaString() -> String {
         if (mIsZmanimInHebrew) {
             return "חצות לילה";
@@ -100,22 +133,6 @@ struct ZmanimTimeNames {
             return "הדלקת נרות";
         } else {
             return "Candle Lighting";
-        }
-    }
-    
-    public func getYalkutYosefString() -> String {
-        if (mIsZmanimInHebrew) {
-            return "ילקוט יוסף";
-        } else {
-            return "Yalkut Yosef";
-        }
-    }
-    
-    public func getHalachaBerurahString() -> String {
-        if (mIsZmanimInHebrew) {
-            return "הלכה ברורה";
-        } else {
-            return "Halacha Berurah";
         }
     }
     

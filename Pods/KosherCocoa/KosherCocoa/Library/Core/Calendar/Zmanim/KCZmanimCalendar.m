@@ -31,7 +31,7 @@
 
 - (NSDate *)sofZmanShmaGra
 {
-    return [[self seaLevelSunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*3];
+    return [[self sunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*3];
 }
 
 - (NSDate *)sofZmanShmaMogenAvraham
@@ -99,7 +99,7 @@
 
 - (NSDate *)sofZmanTfilaGra
 {
-    return [[self seaLevelSunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*4];
+    return [[self sunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*4];
 }
 
 - (NSDate *)sofZmanTfilaMogenAvraham
@@ -124,7 +124,7 @@
 
 - (double)shaahZmanisGra
 {
-    return [self temporalHourFromSunrise:[self seaLevelSunrise] toSunset:[self seaLevelSunset]];
+    return [self temporalHourFromSunrise:[self sunrise] toSunset:[self sunset]];
 }
 
 - (double)shaahZmanisMogenAvraham

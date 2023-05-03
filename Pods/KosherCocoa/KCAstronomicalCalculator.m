@@ -94,11 +94,18 @@
 {
     if (zenith == kZenithGeometric)
     {
-        zenith = zenith
-        + (kSolarRadius + kRefraction + [self elevationAdjustmentForElevation:elevation]);
+        zenith = zenith + (kSolarRadius + kRefraction + [self elevationAdjustmentForElevation:elevation]);
     }
     
     return zenith;
+}
+
+- (double)UTCSunriseForDate:(nonnull NSDate *)date andZenith:(double)zenith adjustForElevation:(BOOL)adjustForElevation {
+    return 0;//TODO
+}
+
+- (double)UTCSunsetForDate:(nonnull NSDate *)date andZenith:(double)zenith adjustForElevation:(BOOL)adjustForElevation {
+    return 0;//TODO
 }
 
 @end

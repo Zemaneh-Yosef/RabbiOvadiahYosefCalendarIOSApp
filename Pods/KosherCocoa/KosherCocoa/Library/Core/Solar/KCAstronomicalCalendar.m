@@ -147,7 +147,7 @@
 {
     double dawn = [self UTCSunrise:offsetZenith];
    
-    if (dawn == NAN)
+    if (isnan(dawn))
     {
         return nil;
     }
