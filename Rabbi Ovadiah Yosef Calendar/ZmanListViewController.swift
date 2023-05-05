@@ -192,8 +192,8 @@ class ZmanListViewController: UITableViewController {
             alertController.addAction(elevationAction)
         }
 
-        let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in }
-        alertController.addAction(doneAction)
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .default) { (_) in }
+        alertController.addAction(dismissAction)
 
         if !zmanimInfo.getFullMessage().isEmpty || indexPath.row == 0 {
             present(alertController, animated: true, completion: nil)
@@ -346,8 +346,9 @@ class ZmanListViewController: UITableViewController {
                 } else {//we have never been here before, get the elevation from online
                     if self.defaults.bool(forKey: "useElevation") {
                         self.getElevationFromOnline()
+                    } else {
+                        self.elevation = 0//undo any previous values
                     }
-                    self.elevation = 0//undo any previous values
                 }
                 if locationName.isEmpty {
                     locationName = "Lat: " + String(lat) + " Long: " + String(long)
@@ -369,9 +370,13 @@ class ZmanListViewController: UITableViewController {
         defaults.set(locationName, forKey: "lastKnownLocation")
         checkIfUserIsInIsrael()
         createBackgroundThreadForNextUpcomingZman()
+        NotificationManager.instance.scheduleSunriseNotifications()
+        NotificationManager.instance.scheduleSunsetNotifications()
+        NotificationManager.instance.scheduleZmanimNotifications()
     }
     
     func setBooleansForNotifications() {
+        defaults.set(true, forKey: "roundUpRT")
         defaults.set(true, forKey: "zmanim_notifications")
         defaults.set(true, forKey: "zmanim_notifications_on_shabbat")
         
@@ -579,6 +584,7 @@ class ZmanListViewController: UITableViewController {
         ShabbatModeBanner.isHidden = false
         startBackgroundScrollingThread()
         scheduleTimer()
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     
     func scheduleTimer() {
@@ -638,6 +644,7 @@ class ZmanListViewController: UITableViewController {
         ShabbatModeBanner.isHidden = true
         updateZmanimList()
         timerForShabbatMode?.invalidate()
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     func setShabbatBannerColors(isFirstTime:Bool) {
@@ -936,10 +943,11 @@ class ZmanListViewController: UITableViewController {
                     }
                     self.recreateZmanimCalendar()
                     jewishCalendar = JewishCalendar(location: zmanimCalendar.geoLocation)
-                    jewishCalendar.inIsrael = false
+                    jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                     jewishCalendar.returnsModernHolidays = true
                     setNextUpcomingZman()
                     updateZmanimList()
+                    NotificationManager.instance.requestAuthorization()
                 }
             }
         }
@@ -1135,6 +1143,7 @@ class ZmanListViewController: UITableViewController {
                 self.defaults.set(true, forKey: "isSetup")
                 self.defaults.set(true, forKey: "useZipcode")
                 self.defaults.set(self.timezone.identifier, forKey: "timezone")
+                NotificationManager.instance.requestAuthorization()
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { UIAlertAction in
@@ -1488,6 +1497,34 @@ public extension JewishCalendar {
         result = addTaanitBechorot(result: result)
         result = addRoshChodesh(result: result)
         result = addDayOfOmer(result: result)
+        result = replaceChanukahWithDayOfChanukah(result: result)
+
+        return result.joined(separator: " / ")
+    }
+    
+    func getSpecialDayWithoutOmer() -> String {
+        var result = Array<String>()
+        
+        let index = yomTovIndex()
+        let indexNextDay = getYomTovIndexForNextDay()
+        
+        let yomTovOfToday = yomTovAsString(index:index)
+        let yomTovOfNextDay = yomTovAsString(index:indexNextDay)
+        
+        if yomTovOfToday.isEmpty && yomTovOfNextDay.isEmpty {
+            //Do nothing
+        } else if yomTovOfToday.isEmpty && !yomTovOfNextDay.hasPrefix("Erev") {
+            result.append("Erev " + yomTovOfNextDay)
+        } else if !(yomTovOfNextDay.isEmpty) && !yomTovOfNextDay.hasPrefix("Erev") && !yomTovOfToday.hasSuffix(yomTovOfNextDay) {
+            result.append(yomTovOfToday + " / Erev " + yomTovOfNextDay)
+        } else {
+            if !yomTovOfToday.isEmpty {
+                result.append(yomTovOfToday)
+            }
+        }
+        
+        result = addTaanitBechorot(result: result)
+        result = addRoshChodesh(result: result)
         result = replaceChanukahWithDayOfChanukah(result: result)
 
         return result.joined(separator: " / ")
@@ -2102,7 +2139,7 @@ public extension DafYomiCalculator {
         
         // Finally find the daf.
         for j in 0..<BLATT_PER_MASSECTA.count {
-            if total <= BLATT_PER_MASSECTA[j] {
+            if total < BLATT_PER_MASSECTA[j] {
                 dafYomi = Daf(tractateIndex: masechta, andPageNumber: total + 1)
                 break
             }

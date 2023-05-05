@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     let defaults = UserDefaults.standard
 
@@ -25,7 +26,7 @@ class SettingsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12 //increment this every time...
+        return 13 //increment this every time...
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -137,6 +138,9 @@ class SettingsViewController: UITableViewController {
             switchView.param = "setElevationToLastKnownLocation"
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
+        case 12:
+            content.text = "Have questions or feature requests?"
+            content.secondaryText = "Contact the developer"
         default:
             break
         }
@@ -160,11 +164,32 @@ class SettingsViewController: UITableViewController {
             newViewController.modalPresentationStyle = .fullScreen
             self.present(newViewController, animated: true)
         }
+        if indexPath.row == 12 {
+            let recipient = "elyahujacobi@gmail.com"
+            
+            // Check if the user's device can send email
+            guard MFMailComposeViewController.canSendMail() else {
+                // Display an error message if the device can't send email
+                let alert = UIAlertController(title: "Cannot Send Email", message: "Your device is not configured to send emails. Please send an email from another device to ElyahuJacobi@gmail.com", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            // Create an instance of MFMailComposeViewController
+            let mailComposer = MFMailComposeViewController()
+            mailComposer.mailComposeDelegate = self
+            mailComposer.setToRecipients([recipient])
+            
+            // Present the mail composer
+            present(mailComposer, animated: true, completion: nil)
+        }
     }
 
 }
 
 class SwitchWithParam: UISwitch {
     var param: String = ""
+    var paramWithoutNotify = ""
 }
 

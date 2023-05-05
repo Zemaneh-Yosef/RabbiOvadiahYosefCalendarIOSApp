@@ -39,6 +39,11 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
     }
     @IBAction func toggle(_ sender: SwitchWithParam) {
         defaults.set(sender.isOn, forKey: sender.param)
+        if !sender.isOn {
+            defaults.set(-1, forKey: sender.paramWithoutNotify)
+        } else {
+            defaults.set(0, forKey: sender.paramWithoutNotify)
+        }
         tableView.reloadData()
     }
     override func viewDidLoad() {
@@ -103,6 +108,7 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
             let switchView = SwitchWithParam(frame: .zero)
             switchView.isOn = defaults.bool(forKey: "Notify" + editableZmanim[indexPath.row-2])
             switchView.param = "Notify" + editableZmanim[indexPath.row-2]
+            switchView.paramWithoutNotify = editableZmanim[indexPath.row-2]
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
         default:
@@ -115,7 +121,7 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+                
         if indexPath.row >= 2 && self.defaults.bool(forKey: "Notify" + editableZmanim[indexPath.row-2]) {
             let alertController = UIAlertController(title: editableZmanim[indexPath.row-2], message:"Enter how many minutes before you would like to be notified for " + editableZmanim[indexPath.row-2], preferredStyle: .alert)
             

@@ -84,9 +84,6 @@ class ElevationViewController: UIViewController {
                 }
                 alert.addAction(alertAction)
                 present(alert, animated: true)
-                {
-                    () -> Void in
-                }
             }
         }
     }
@@ -94,25 +91,25 @@ class ElevationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.textfield.addTarget(self, action: #selector(onReturn), for: UIControl.Event.editingDidEndOnExit)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         if #available(iOS 15.0, *) {
             getFromOnlineButton.configuration = .filled()
             getFromOnlineButton.configuration?.background.backgroundColor = .systemBlue
         }
     }
 
-    @objc func keyboardWillShow(notification: NSNotification) {
-            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                        if self.view.frame.origin.y == 0 {
-                            self.view.frame.origin.y -= keyboardSize.height
-                        }
-                    }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-            if self.view.frame.origin.y != 0 {
-                        self.view.frame.origin.y = 0
-                    }
-    }
+//    @objc func keyboardWillShow(notification: NSNotification) {
+//            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+//                        if self.view.frame.origin.y == 0 {
+//                            self.view.frame.origin.y -= keyboardSize.height
+//                        }
+//                    }
+//    }
+//
+//    @objc func keyboardWillHide(notification: NSNotification) {
+//            if self.view.frame.origin.y != 0 {
+//                        self.view.frame.origin.y = 0
+//                    }
+//    }
 }

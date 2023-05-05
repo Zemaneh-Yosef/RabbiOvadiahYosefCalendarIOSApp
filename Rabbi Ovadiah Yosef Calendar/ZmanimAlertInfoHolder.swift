@@ -99,11 +99,11 @@ struct ZmanimAlertInfoHolder {
             "have elevation included.\n\n" +
             "In Luach Amudei Horaah mode, this time is calculated by finding out how many minutes " +
             "are between sunrise and 72 minutes as degrees (16.1) before sunrise on a equal day with sunrise and sunset set around 12 " +
-            "hours apart. Then we take those minutes and make them zmaniyot according to the GR\"a and we subtract that time from " +
+            "hours apart. Then we take those minutes and make them zmaniyot according to the GR\"A and we subtract that time from " +
             "sunrise to get the time for Alot Hashachar. This is according to the Halacha Berurah and this should only be done outside of " +
             "Israel in more northern or southern areas. The Halacha Berurah writes to do this because it is more according to the nature " +
             "of the world, however, it does not seem like Rabbi Ovadiah Yosef ZT\"L or the Yalkut Yosef agrees with this opinion. " +
-            "Elevation is not included in this calculation."
+            "Elevation is not included in Luach Amudei Horaah mode.\n\n"
         }
         if title.contains(zmanimNames.getTalitTefilinString()) {
             return "Misheyakir (literally \"when you recognize\") is the time when a person can distinguish between blue and white. " +
@@ -115,11 +115,11 @@ struct ZmanimAlertInfoHolder {
             "person should put on his talit/tefilin 60 regular minutes (and in the winter 50 regular minutes) before sunrise.\n\n" +
             "In Luach Amudei Horaah mode, this time is calculated by finding out how many minutes " +
             "are between sunrise and 72 minutes as degrees (16.1) before sunrise on a equal day with sunrise and sunset set around 12 " +
-            "hours apart. Then we take those minutes and make them zmaniyot according to the GR\"a and we subtract 5/6 of that time from " +
+            "hours apart. Then we take those minutes and make them zmaniyot according to the GR\"A and we subtract 5/6 of that time from " +
             "sunrise to get the time for Misheyakir. This is according to the Halacha Berurah and this should only be done outside of " +
             "Israel in more northern or southern areas. The Halacha Berurah writes to do this because it is more according to the nature " +
             "of the world, however, it does not seem like Rabbi Ovadiah Yosef ZT\"L or the Yalkut Yosef agrees with this opinion. " +
-            "Elevation is not included in this calculation."
+            "Elevation is not included in Luach Amudei Horaah mode.\n\n"
         }
         if title.contains(zmanimNames.getHaNetzString()) {
             return "This is the earliest time when all mitzvot (commandments) that are to be done during the daytime are allowed to be " +
@@ -285,7 +285,7 @@ struct ZmanimAlertInfoHolder {
             "sunset to get the time for Rabbeinu Tam. This is according to the Halacha Berurah and this should only be done outside of " +
             "Israel in more northern or southern areas. The Halacha Berurah writes to do this because it is more according to the nature " +
             "of the world, however, it does not seem like Rabbi Ovadiah Yosef ZT\"L or the Yalkut Yosef agrees with this opinion. " +
-            "Elevation is not included in this calculation.\n\n" +
+            "Elevation is not included in Luach Amudei Horaah mode.\n\n" +
             "It should be noted that Rabbi Ovadiah Yosef ZT\"L was of the opinion to keep the zmaniyot zman of rabbeinu tam whether or " +
             "not it fell out before or after 72 regular minutes after sunset. However, in Luach Amudei Horaah mode, we use the lesser of " +
             "the two times."

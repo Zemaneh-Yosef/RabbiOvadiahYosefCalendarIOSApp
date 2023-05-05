@@ -17,6 +17,7 @@
 		5D19D37D29A36DB300F8033D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37429A36DB200F8033D /* Constants.swift */; };
 		5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37629A36DB200F8033D /* LSGeoLookup.swift */; };
 		5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37A29A36DB300F8033D /* LocationManager.swift */; };
+		5D1CA12E2A021CA100F24323 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CA12D2A021CA100F24323 /* Notifications.swift */; };
 		5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */; };
 		5D7550A329E3776700894335 /* ElevationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550A229E3776700894335 /* ElevationViewController.swift */; };
 		5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550A429EBC58200894335 /* MarqueeLabel.swift */; };
@@ -46,6 +47,7 @@
 		5D19D37429A36DB200F8033D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5D19D37629A36DB200F8033D /* LSGeoLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSGeoLookup.swift; sourceTree = "<group>"; };
 		5D19D37A29A36DB300F8033D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5D1CA12D2A021CA100F24323 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimTimeNames.swift; sourceTree = "<group>"; };
 		5D7550A229E3776700894335 /* ElevationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationViewController.swift; sourceTree = "<group>"; };
 		5D7550A429EBC58200894335 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				5D19D36029A3687900F8033D /* AppDelegate.swift */,
 				5D19D36229A3687900F8033D /* SceneDelegate.swift */,
 				5D19D36429A3687900F8033D /* ZmanListViewController.swift */,
+				5D1CA12D2A021CA100F24323 /* Notifications.swift */,
 				5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */,
 				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
 				5D7550A229E3776700894335 /* ElevationViewController.swift */,
@@ -273,6 +276,7 @@
 				5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */,
 				5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */,
 				5D7550B129F2761300894335 /* MoladViewController.swift in Sources */,
+				5D1CA12E2A021CA100F24323 /* Notifications.swift in Sources */,
 				5D7550B429F8FE6100894335 /* SettingsViewController.swift in Sources */,
 				5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */,
 				5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */,
