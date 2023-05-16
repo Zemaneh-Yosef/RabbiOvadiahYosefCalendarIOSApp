@@ -31,6 +31,7 @@ class InIsraelViewController: UIViewController {
         if #available(iOS 15.0, *) {
             yes.configuration = .filled()
             yes.configuration?.background.backgroundColor = .systemBlue
+            yes.setTitleColor(.white, for: .normal)
             yes.widthAnchor.constraint(equalToConstant: 100).isActive = true
             yes.heightAnchor.constraint(equalToConstant: 100).isActive = true
             

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import KosherCocoa
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -33,14 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // Display the notification when the app is in the foreground
-        completionHandler([.banner, .sound, .badge])
-        UIApplication.shared.applicationIconBadgeNumber -= 1
+        completionHandler([.banner, .sound, .badge, .list])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        NotificationManager.instance.scheduleSunriseNotifications()
-        NotificationManager.instance.scheduleSunsetNotifications()
-        NotificationManager.instance.scheduleZmanimNotifications()
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
 }
 

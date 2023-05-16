@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9gp-gB-zWg">
-    <device id="retina6_72" orientation="portrait" appearance="dark"/>
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
@@ -16,37 +16,37 @@
             <objects>
                 <tableViewController definesPresentationContext="YES" id="9gp-gB-zWg" customClass="ZmanListViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="v5K-rG-DUN">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <stackView key="tableHeaderView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" distribution="fillProportionally" alignment="center" spacing="8" id="pJJ-yX-F9D">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="34"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fie-R8-61o">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="34"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TiG-Nr-Ykr">
-                                            <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="428" height="34"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rabbi Ovadiah Yosef Calendar" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="itn-HC-bF5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="350.33333333333331" height="34"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="348.66666666666669" height="34"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" name="AccentColor"/>
                                                     <nil key="highlightedColor"/>
                                                     <size key="shadowOffset" width="0.0" height="0.0"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VOV-VE-3mS">
-                                                    <rect key="frame" x="358.33333333333331" y="0.0" width="0.0" height="34"/>
+                                                    <rect key="frame" x="356.66666666666669" y="0.0" width="0.0" height="34"/>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="da3-l2-epj">
-                                                    <rect key="frame" x="366.33333333333331" y="0.0" width="0.0" height="34"/>
+                                                    <rect key="frame" x="364.66666666666669" y="0.0" width="0.0" height="34"/>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ny-oB-I0A">
-                                                    <rect key="frame" x="374.33333333333331" y="0.0" width="0.0" height="34"/>
+                                                    <rect key="frame" x="372.66666666666669" y="0.0" width="0.0" height="34"/>
                                                 </stackView>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="20g-Vz-vLe">
-                                                    <rect key="frame" x="382.33333333333331" y="0.0" width="47.666666666666686" height="34"/>
+                                                    <rect key="frame" x="380.66666666666669" y="0.0" width="47.333333333333314" height="34"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" button="YES" image="YES"/>
                                                     </accessibility>
@@ -63,7 +63,7 @@
                                             </subviews>
                                         </stackView>
                                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2g-Bw-1jh" customClass="MarqueeLabel" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="430" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="428" height="0.0"/>
                                             <color key="backgroundColor" red="0.062745098039215685" green="0.11764705882352941" blue="0.58823529411764708" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <string key="text">Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          </string>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -77,12 +77,12 @@
                             <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         </stackView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
+                            <rect key="frame" x="0.0" y="156" width="428" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
                                     <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="yOt-wi-GTu">
-                                        <rect key="frame" x="20" y="5" width="88" height="35"/>
+                                        <rect key="frame" x="20" y="5" width="58" height="35"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -101,7 +101,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
                                 <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
                                     <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="131.66666666666666" y="0.66666666666666785" width="166.99999999999997" height="44"/>
+                                        <rect key="frame" x="131" y="1" width="165" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" name="AccentColor"/>
@@ -118,7 +118,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="f4h-hk-AdI"/>
                                 <barButtonItem style="plain" id="6zE-hv-i2U">
                                     <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Z4d-1n-mPD">
-                                        <rect key="frame" x="384" y="5" width="26" height="35"/>
+                                        <rect key="frame" x="375" y="5" width="33" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <color key="tintColor" name="AccentColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -133,14 +133,14 @@
                         </toolbar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZmanEntry" textLabel="sY6-iq-P5q" style="IBUITableViewCellStyleDefault" id="qkt-V7-kQR">
-                                <rect key="frame" x="0.0" y="84" width="430" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="84" width="428" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qkt-V7-kQR" id="00M-d6-zG8">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sY6-iq-P5q">
-                                            <rect key="frame" x="20" y="0.0" width="390" height="43.666667938232422"/>
+                                            <rect key="frame" x="20" y="0.0" width="388" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <nil key="textColor"/>
@@ -175,11 +175,11 @@
             <objects>
                 <tableViewController storyboardIdentifier="SettingsViewController" id="0ID-mP-FuA" customClass="SettingsViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="bqI-V1-4n5">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="HmK-yh-cf2">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem title="Settings" id="K3E-29-Jrz">
@@ -193,14 +193,14 @@
                         </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicSettingsCell" textLabel="FeS-4f-X1R" style="IBUITableViewCellStyleDefault" id="3Eb-Ym-5Mc">
-                                <rect key="frame" x="0.0" y="99.333332061767578" width="430" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="99.333332061767578" width="428" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Eb-Ym-5Mc" id="nqW-eH-DjO">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FeS-4f-X1R">
-                                            <rect key="frame" x="20" y="0.0" width="390" height="43.666667938232422"/>
+                                            <rect key="frame" x="20" y="0.0" width="388" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
@@ -226,7 +226,7 @@
             <objects>
                 <viewController id="Zmu-tz-OkC" customClass="ElevationViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KQZ-V7-vNC">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="922"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="916"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFS-q7-s7V">
@@ -239,7 +239,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="97x-l7-W7Z">
-                                <rect key="frame" x="131" y="746" width="168.33333333333337" height="116"/>
+                                <rect key="frame" x="130" y="740" width="168.33333333333337" height="116"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter elevation in meters" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="LMX-jL-QP8">
                                         <rect key="frame" x="0.0" y="0.0" width="168.33333333333334" height="34"/>
@@ -264,7 +264,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
-                                <rect key="frame" x="20" y="410.33333333333331" width="390" height="101.66666666666669"/>
+                                <rect key="frame" x="20" y="407.33333333333331" width="388" height="101.66666666666669"/>
                                 <string key="text">Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. Therefore, I left this part up to the user. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -300,17 +300,17 @@
             <objects>
                 <viewController storyboardIdentifier="inIsrael" title="In Israel?" id="rGY-aZ-2MU" customClass="InIsraelViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g64-Xu-cpv">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you in Israel?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4z-vQ-WJh">
-                                <rect key="frame" x="112" y="450.33333333333331" width="206" height="31.333333333333314"/>
+                                <rect key="frame" x="111" y="447.33333333333331" width="206" height="31.333333333333314"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="56" translatesAutoresizingMaskIntoConstraints="NO" id="Pmd-Vp-7eX">
-                                <rect key="frame" x="134" y="719.66666666666663" width="162" height="53"/>
+                                <rect key="frame" x="133" y="713.66666666666663" width="162" height="53"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrT-Bz-BXD">
                                         <rect key="frame" x="0.0" y="0.0" width="53" height="53"/>
@@ -363,11 +363,11 @@
             <objects>
                 <viewController storyboardIdentifier="zmanim languages" title="Zmanim language" id="nYK-wy-b7l" customClass="ZmanimLanguageViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CRJ-gu-JN7">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What language would you like the zmanim to be in?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WnI-hR-Igp">
-                                <rect key="frame" x="16" y="135" width="398" height="157.66666666666663"/>
+                                <rect key="frame" x="16" y="123" width="396" height="157"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="WnI-hR-Igp" secondAttribute="height" multiplier="361:143" id="Gyo-Px-gyv"/>
                                 </constraints>
@@ -377,10 +377,10 @@
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hoX-l0-yRq">
-                                <rect key="frame" x="16" y="864" width="394" height="48"/>
+                                <rect key="frame" x="16" y="858" width="392" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0v-2T-Cbu">
-                                        <rect key="frame" x="0.0" y="0.0" width="126" height="48"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="125.33333333333333" height="48"/>
                                         <color key="backgroundColor" name="Gold"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="SHq-fP-3SH"/>
@@ -396,7 +396,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQF-QN-64C">
-                                        <rect key="frame" x="134" y="0.0" width="126" height="48"/>
+                                        <rect key="frame" x="133.33333333333334" y="0.0" width="125.33333333333334" height="48"/>
                                         <color key="backgroundColor" name="Gold"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="3TO-9z-QOZ"/>
@@ -412,7 +412,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iq2-uo-yuZ">
-                                        <rect key="frame" x="268" y="0.0" width="126" height="48"/>
+                                        <rect key="frame" x="266.66666666666669" y="0.0" width="125.33333333333331" height="48"/>
                                         <color key="backgroundColor" name="Gold"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="3aL-xV-2Hu"/>
@@ -431,10 +431,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GlM-kr-0dg">
-                                <rect key="frame" x="16" y="300.66666666666669" width="394" height="555.33333333333326"/>
+                                <rect key="frame" x="16" y="288" width="392" height="562"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pto-w5-0Pb">
-                                        <rect key="frame" x="0.0" y="0.0" width="118" height="555.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="118" height="562"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="118" id="5aK-jw-vg1"/>
@@ -451,8 +451,8 @@
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBv-t8-Yqx">
-                                        <rect key="frame" x="126" y="0.0" width="109" height="555.33333333333337"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBv-t8-Yqx">
+                                        <rect key="frame" x="126" y="0.0" width="109" height="562"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="443" id="g71-HJ-B55"/>
@@ -469,8 +469,8 @@ etc...</string>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynM-EA-aMC">
-                                        <rect key="frame" x="243" y="0.0" width="151" height="555.33333333333337"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynM-EA-aMC">
+                                        <rect key="frame" x="243" y="0.0" width="149" height="562"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="443" id="PwQ-wS-vqr"/>
@@ -518,11 +518,11 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="zmanim languages WIP" title="Zmanim language" id="5Bx-nt-VPP" customClass="ZmanimLanguageViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z2v-xu-gf3">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What language would you like the zmanim to be in?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1qt-bH-mvD">
-                                <rect key="frame" x="16" y="135" width="398" height="157.66666666666663"/>
+                                <rect key="frame" x="16" y="123" width="396" height="157"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1qt-bH-mvD" secondAttribute="height" multiplier="361:143" id="BL9-Ax-ZjH"/>
                                 </constraints>
@@ -532,20 +532,20 @@ etc...</string>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hebrew" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MBf-8p-dVW">
-                                <rect key="frame" x="16" y="254" width="127" height="71"/>
+                                <rect key="frame" x="16" y="254" width="126" height="70"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="English" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JjU-4A-w7A">
-                                <rect key="frame" x="142" y="253" width="125" height="71"/>
+                                <rect key="frame" x="142" y="253" width="124" height="70"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Translated English" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wER-3r-XGr">
-                                <rect key="frame" x="259" y="241" width="149" height="85"/>
+                                <rect key="frame" x="259" y="241" width="147" height="84"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -940,24 +940,25 @@ etc...</string>
             <objects>
                 <viewController restorationIdentifier="Molad" storyboardIdentifier="Molad" title="Molad" id="4xR-v4-sWZ" customClass="MoladViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" id="EX9-kQ-CX4">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Hu3-Nl-Pl2">
-                                <rect key="frame" x="16" y="86" width="398" height="62.333333333333343"/>
+                                <rect key="frame" x="16" y="74" width="396" height="62.333333333333343"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mg1-pN-exZ">
-                                        <rect key="frame" x="55" y="0.0" width="288" height="20"/>
+                                        <rect key="frame" x="54" y="0.0" width="288" height="20"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="288" id="jZR-dg-QLq"/>
                                             <constraint firstAttribute="height" constant="20" id="lia-V5-qvc"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqr-bm-4gl">
-                                        <rect key="frame" x="137.33333333333334" y="28.000000000000004" width="123.33333333333334" height="34.333333333333343"/>
+                                        <rect key="frame" x="136.33333333333334" y="28.000000000000004" width="123.33333333333334" height="34.333333333333343"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="123.5" id="0nN-34-Rfs"/>
                                         </constraints>
@@ -970,7 +971,8 @@ etc...</string>
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waq-mI-XcQ">
-                                <rect key="frame" x="15.999999999999996" y="59" width="61.666666666666657" height="34.333333333333343"/>
+                                <rect key="frame" x="15.999999999999996" y="47" width="61.666666666666657" height="34.333333333333343"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -978,7 +980,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="avp-2J-YNH">
-                                <rect key="frame" x="65" y="828" width="300" height="70"/>
+                                <rect key="frame" x="64" y="822" width="300" height="70"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PyY-kt-uCg">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="70"/>
@@ -999,7 +1001,7 @@ etc...</string>
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="tLE-xf-GcT">
-                                <rect key="frame" x="52" y="504" width="326" height="304"/>
+                                <rect key="frame" x="51" y="498" width="326" height="304"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The molad for this month in your timezone:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rs8-o5-gK9">
                                         <rect key="frame" x="0.0" y="0.0" width="326" height="21"/>
@@ -1008,7 +1010,7 @@ etc...</string>
                                             <constraint firstAttribute="width" constant="326" id="X2T-pE-b2p"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wje-0D-oIM">
@@ -1017,7 +1019,7 @@ etc...</string>
                                             <constraint firstAttribute="height" constant="29" id="bDv-rq-nDT"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Earliest Birchat Halevanah (7 days):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FfB-wK-SJ1">
@@ -1027,7 +1029,7 @@ etc...</string>
                                             <constraint firstAttribute="width" constant="268" id="vLJ-VZ-Ydy"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="397-eh-kl7">
@@ -1037,7 +1039,7 @@ etc...</string>
                                             <constraint firstAttribute="height" constant="21" id="sSJ-Kw-qv2"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latest Birchat Halevanah (15 days):" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gw7-10-IO9">
@@ -1047,7 +1049,7 @@ etc...</string>
                                             <constraint firstAttribute="width" constant="268" id="W6Z-OH-R62"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The entire night of the 15th day of the Hebrew month" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5W-g4-P5A">
@@ -1057,18 +1059,18 @@ etc...</string>
                                             <constraint firstAttribute="width" constant="268" id="Zzw-92-q1F"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="nyo-36-pap">
-                                <rect key="frame" x="27" y="178" width="230" height="66.666666666666686"/>
+                                <rect key="frame" x="27" y="166" width="230" height="66.666666666666686"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The molad time announced:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xox-Mi-AGY">
                                         <rect key="frame" x="0.0" y="0.0" width="230" height="20.333333333333332"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9a2-tM-uOe">
@@ -1077,7 +1079,7 @@ etc...</string>
                                             <constraint firstAttribute="width" constant="230" id="mKk-eL-jbK"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -1117,11 +1119,11 @@ etc...</string>
             <objects>
                 <tableViewController storyboardIdentifier="ZmanimSettingsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GZF-lJ-21o" customClass="ZmanimSettingsViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="iWv-7E-Uat">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="W7V-XK-eeL">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem title="Zmanim Settings" id="irM-BL-jQL">
@@ -1135,14 +1137,14 @@ etc...</string>
                         </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicSettingsCell" textLabel="PR6-Ei-Lbp" style="IBUITableViewCellStyleDefault" id="EVj-D2-7pH">
-                                <rect key="frame" x="0.0" y="99.333332061767578" width="430" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="99.333332061767578" width="428" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EVj-D2-7pH" id="8ls-P6-uwm">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PR6-Ei-Lbp">
-                                            <rect key="frame" x="20" y="0.0" width="390" height="43.666667938232422"/>
+                                            <rect key="frame" x="20" y="0.0" width="388" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
@@ -1168,11 +1170,11 @@ etc...</string>
             <objects>
                 <tableViewController storyboardIdentifier="ZmanimNotificationsSettingsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="YT3-Qu-u1k" customClass="ZmanimNotificationsSettingsViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="kPZ-rh-Toz">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="qJd-ut-Daw">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem title="Notification Settings" id="Qyu-WG-Roh">
@@ -1186,14 +1188,14 @@ etc...</string>
                         </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicSettingsCell" textLabel="qF8-a3-lyM" style="IBUITableViewCellStyleDefault" id="7gd-1G-Hj9">
-                                <rect key="frame" x="0.0" y="99.333332061767578" width="430" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="99.333332061767578" width="428" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7gd-1G-Hj9" id="QvB-p7-prw">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qF8-a3-lyM">
-                                            <rect key="frame" x="20" y="0.0" width="390" height="43.666667938232422"/>
+                                            <rect key="frame" x="20" y="0.0" width="388" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>

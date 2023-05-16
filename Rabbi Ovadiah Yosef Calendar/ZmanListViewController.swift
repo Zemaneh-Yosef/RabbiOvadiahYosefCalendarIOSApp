@@ -316,6 +316,9 @@ class ZmanListViewController: UITableViewController {
         tableView.addGestureRecognizer(swipeGestureRecognizer)
         tableView.addGestureRecognizer(swipeLeftGestureRecognizer)
         createMenu()
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+        ShabbatModeBanner.isUserInteractionEnabled = true
+        ShabbatModeBanner.addGestureRecognizer(tapGestureRecognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {//this method happens 2nd
@@ -370,15 +373,21 @@ class ZmanListViewController: UITableViewController {
         defaults.set(locationName, forKey: "lastKnownLocation")
         checkIfUserIsInIsrael()
         createBackgroundThreadForNextUpcomingZman()
-        NotificationManager.instance.scheduleSunriseNotifications()
-        NotificationManager.instance.scheduleSunsetNotifications()
-        NotificationManager.instance.scheduleZmanimNotifications()
+    }
+    
+    @objc func labelTapped() {
+        if shabbatMode {
+            ShabbatModeBanner.isHidden = true
+        } else {
+            ShabbatModeBanner.isHidden = false
+        }
     }
     
     func setBooleansForNotifications() {
+        defaults.set(false, forKey: "showDayOfOmer")
         defaults.set(true, forKey: "roundUpRT")
-        defaults.set(true, forKey: "zmanim_notifications")
-        defaults.set(true, forKey: "zmanim_notifications_on_shabbat")
+        defaults.set(false, forKey: "zmanim_notifications")
+        defaults.set(false, forKey: "zmanim_notifications_on_shabbat")
         
         defaults.set(false, forKey: "NotifyAlot Hashachar")
         defaults.set(false, forKey: "NotifyTalit And Tefilin")
@@ -388,7 +397,7 @@ class ZmanListViewController: UITableViewController {
         defaults.set(true, forKey: "NotifySof Zman Tefila")
         defaults.set(true, forKey: "NotifyAchilat Chametz")
         defaults.set(true, forKey: "NotifyBiur Chametz")
-        defaults.set(true, forKey: "NotifyChatzot")
+        defaults.set(false, forKey: "NotifyChatzot")
         defaults.set(false, forKey: "NotifyMincha Gedolah")
         defaults.set(false, forKey: "NotifyMincha Ketana")
         defaults.set(false, forKey: "NotifyPlag HaMincha Yalkut Yosef")
@@ -400,7 +409,7 @@ class ZmanListViewController: UITableViewController {
         defaults.set(true, forKey: "NotifyFast Ends")
         defaults.set(true, forKey: "NotifyFast Ends (Stringent)")
         defaults.set(false, forKey: "NotifyShabbat Ends")
-        defaults.set(true, forKey: "NotifyRabbeinu Tam")
+        defaults.set(false, forKey: "NotifyRabbeinu Tam")
         defaults.set(false, forKey: "NotifyChatzot Layla")
         
         defaults.set(-1, forKey: "Alot Hashachar")
@@ -869,6 +878,7 @@ class ZmanListViewController: UITableViewController {
         temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.chatzos(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.minchaGedolaGreaterThan30(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman: zmanimCalendar.minchaKetana(),isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedYalkutYosefString(), zman:zmanimCalendar.plagHaminchaYalkutYosefAmudeiHoraah(), isZman: true))
         if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.currentDayOfTheWeek() == 6 {
             zmanimCalendar.candleLightingOffset = 20
@@ -948,6 +958,7 @@ class ZmanListViewController: UITableViewController {
                     setNextUpcomingZman()
                     updateZmanimList()
                     NotificationManager.instance.requestAuthorization()
+                    NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
                 }
             }
         }
@@ -1786,7 +1797,7 @@ public extension JewishCalendar {
     }
     
     func isOKToListenToMusic() -> String {
-        if getDayOfOmer() >= 8 && getDayOfOmer() <= 33 {
+        if getDayOfOmer() >= 8 && getDayOfOmer() <= 32 {
             return "No Music"
         } else if currentHebrewMonth() == HebrewMonth.tammuz.rawValue {
             if currentHebrewDayOfMonth() >= 17 {

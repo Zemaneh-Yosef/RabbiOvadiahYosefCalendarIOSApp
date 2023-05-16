@@ -16,6 +16,11 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         dismiss(animated: true)
     }
     @IBAction func toggle(_ sender: SwitchWithParam) {
+        if sender.param == "showSeconds" {
+            let alert = UIAlertController(title: "Do not rely on these seconds!", message: "DO NOT RELY ON THESE SECONDS. These zmanim are NOT accurate to the second! You should always round up or down a minute or two just in case.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "I understand", style: .default))
+            present(alert, animated: true)
+        }
         defaults.set(sender.isOn, forKey: sender.param)
         tableView.reloadData()
     }
@@ -26,7 +31,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 13 //increment this every time...
+        return 14 //increment this every time...
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -37,7 +42,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         switch indexPath.row {
         case 0:
             content.text = "Zmanim Notifications"
-            content.secondaryText = "Receive daily zmanim notifications"
+            content.secondaryText = "Receive daily zmanim notifications (experimental)"
             let switchView = SwitchWithParam(frame: .zero)
             switchView.isOn = defaults.bool(forKey: "zmanim_notifications")
             switchView.param = "zmanim_notifications"
@@ -141,6 +146,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         case 12:
             content.text = "Have questions or feature requests?"
             content.secondaryText = "Contact the developer"
+        case 13:
+            content.text = "Need help?"
+            content.secondaryText = "Watch a video guide"
         default:
             break
         }
@@ -151,6 +159,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        print(indexPath.row)
 
         if indexPath.row == 1 && defaults.bool(forKey: "zmanim_notifications") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -164,6 +173,11 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             newViewController.modalPresentationStyle = .fullScreen
             self.present(newViewController, animated: true)
         }
+        if indexPath.row == 3 {
+            let alert = UIAlertController(title: "Do not rely on these seconds!", message: "DO NOT RELY ON THESE SECONDS. The only zman that can be relied on to the second is the visible sunrise time based on chaitables.com. Otherwise, these zmanim are NOT accurate to the second! You should always round up or down a minute or two just in case.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "I understand", style: .default))
+            present(alert, animated: true)
+        }
         if indexPath.row == 12 {
             let recipient = "elyahujacobi@gmail.com"
             
@@ -176,13 +190,16 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 return
             }
             
-            // Create an instance of MFMailComposeViewController
             let mailComposer = MFMailComposeViewController()
             mailComposer.mailComposeDelegate = self
             mailComposer.setToRecipients([recipient])
             
-            // Present the mail composer
             present(mailComposer, animated: true, completion: nil)
+        }
+        if indexPath.row == 13 {
+            if let url = URL(string: "https://youtu.be/JM_aN3FZD64/") {
+                    UIApplication.shared.open(url)
+            }
         }
     }
 

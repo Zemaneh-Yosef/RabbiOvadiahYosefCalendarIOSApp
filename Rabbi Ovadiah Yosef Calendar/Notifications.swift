@@ -20,82 +20,82 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     var long: Double = 0
     var elevation: Double = 0
     var timezone: TimeZone = TimeZone.current
+    
+    var amountOfNotificationsSet = 0
+    let amountOfPossibleNotifications = 64
 
     var zmanimCalendar = ComplexZmanimCalendar()
     var jewishCalendar = JewishCalendar()
+    
+    var notificationsAreBeingSet:Bool = false
     
     func requestAuthorization() {
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound, .carPlay]) {(success, error) in}
     }
     
-    func scheduleSunriseNotifications() {
+    fileprivate func scheduleDailyNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Jewish Special Day"
         content.sound = .default
         if defaults.bool(forKey: "showDayOfOmer") {
-            content.body = "Today is " + JewishCalendar().getSpecialDay()
+            content.body = "Today is " + jewishCalendar.getSpecialDay()
         } else {
-            content.body = "Today is " + JewishCalendar().getSpecialDayWithoutOmer()
+            content.body = "Today is " + jewishCalendar.getSpecialDayWithoutOmer()
         }
         content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
-        //So... Ideally, I wanted to make the notifications like the android version that fires at sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications to keep going off at the same time and update the time when the user interacts with the app. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
+        //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
         var trigger: UNCalendarNotificationTrigger
-        if zmanimCalendar.sunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {//if before sunrise set at sunrise
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour,.minute,.second], from: zmanimCalendar.sunrise() ?? Date()), repeats: true)
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
-        } else {//set to tomorrow
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour,.minute,.second], from: zmanimCalendar.sunrise() ?? Date()), repeats: true)
+        if zmanimCalendar.sunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {//if after sunrise
+            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)//set to next day's sunrise
+            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunrise() ?? Date()), repeats: false)
+            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)//reset
+        } else {//set to upcoming sunrise
+            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunrise() ?? Date()), repeats: false)
         }
         
-        let request = UNNotificationRequest(identifier: "DailyNotifications", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        if content.body != "Today is " {//avoid scheduling notifications that are not going to be displayed
+            notificationCenter.add(request)
+            amountOfNotificationsSet+=1
+        }
+    }
     
-        notificationCenter.add(request)
-        
-        if defaults.bool(forKey: "showDayOfOmer") {
-            if jewishCalendar.getSpecialDay().isEmpty {
-                notificationCenter.removePendingNotificationRequests(withIdentifiers: ["DailyNotifications"])
-            }
-        } else {
-            if jewishCalendar.getSpecialDayWithoutOmer().isEmpty {
-                notificationCenter.removePendingNotificationRequests(withIdentifiers: ["DailyNotifications"])
-            }
+    func scheduleSunriseNotifications() {
+        amountOfNotificationsSet = 0
+        notificationCenter.removeAllPendingNotificationRequests()//always start from scratch...
+        for _ in 1...14 {
+            scheduleDailyNotification()
+            zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
+            jewishCalendar.workingDate = zmanimCalendar.workingDate
         }
+        zmanimCalendar.workingDate = Date()
+        jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
         
-        //tekufa/seasonal notifications. The seasonal change only occurs 4 times a year, and the user will need to interact with the app around that day. Soooo... not sure if this'll even do anything for the user.
+        //Tekufa can happen whenever, so not neccesarily sunrise, but in my android app I check for tekufa at sunrise so it makes sense to put this code here
         let tekufaContent = UNMutableNotificationContent()
         tekufaContent.title = "Tekufa / Season Changes"
         tekufaContent.sound = .default
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm aa"
+        let backup = jewishCalendar.workingDate
+        while jewishCalendar.getTekufaAsDate() == nil {
+            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        }
         let tekufa = jewishCalendar.getTekufaAsDate()
-        if tekufa != nil {
-            if Calendar.current.isDate(tekufa!, inSameDayAs: Date()) {
-                tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
-            }
-        }
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
-        let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
-        if checkTomorrowForTekufa != nil {
-            if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: Date()) {
-                tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!) + ". Do not drink water half an hour before or after this time."
-            }
-        }
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(-86400)
-        
+        tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
+        jewishCalendar.workingDate = backup
         tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
-        let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: (tekufa?.addingTimeInterval(-1800) ?? checkTomorrowForTekufa?.addingTimeInterval(-1800)) ?? Date()), repeats: false)
+        let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
         
-        let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotifications", content: tekufaContent, trigger: tekufaTrigger)
-        if tekufa != nil || checkTomorrowForTekufa != nil {
-            notificationCenter.add(tekufaRequest)
-        }
+        let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
+        notificationCenter.add(tekufaRequest)
+        amountOfNotificationsSet+=1
     }
     
-    func scheduleSunsetNotifications() {
+    fileprivate func scheduleOmerNotifications() {
         let content = UNMutableNotificationContent()
         content.title = "Day of Omer"
         content.sound = .default
@@ -106,117 +106,129 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         content.body = "Tonight is the " + formatter.string(from: dayOfOmer as NSNumber)! + " day of the Omer"
         content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
-        //same issue as described in scheduleSunriseNotifications()
+        //same issue as described in scheduleDailyNotifications()
         var trigger: UNCalendarNotificationTrigger
         if zmanimCalendar.tzeit()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: true)
+            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
         } else {
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: true)
+            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
         }
         
-        let request = UNNotificationRequest(identifier: "OmerNotifications", content: content, trigger: trigger)
-        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         if dayOfOmer != -1 {
             notificationCenter.add(request)
-        } else {
-            notificationCenter.removePendingNotificationRequests(withIdentifiers: ["OmerNotifications"])
+            amountOfNotificationsSet+=1
         }
+    }
+    
+    func scheduleSunsetNotifications() {
+        for _ in 1...14 {
+            scheduleOmerNotifications()
+            zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
+            jewishCalendar.workingDate = zmanimCalendar.workingDate
+        }
+        zmanimCalendar.workingDate = Date()
+        jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
         
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(-86400)
-        let barcheinu = jewishCalendar.isVeseinBerachaRecited()//if yesterday we said Barcheinu
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
-        if barcheinu != jewishCalendar.isVeseinBerachaRecited() {//if there is a change
-            let contentBarech = UNMutableNotificationContent()
-            contentBarech.title = "Barech Aleinu Tonight!"
-            contentBarech.sound = .default
-            contentBarech.subtitle = locationName
-            contentBarech.body = "Tonight we start saying Barech Aleinu!"
-            contentBarech.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-            
-            //same issue as described in scheduleSunriseNotifications()
-            let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunset() ?? Date()), repeats: false)
-            
-            let request = UNNotificationRequest(identifier: "BarechNotification", content: contentBarech, trigger: triggerBarech)
-            notificationCenter.add(request)
-        }
+        while jewishCalendar.isVeseinBerachaRecited() {
+            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        }//now that the jewish date is set to the date where we change to Barech Aleinu, make a notification for sunset
+        zmanimCalendar.workingDate = jewishCalendar.workingDate
+        let contentBarech = UNMutableNotificationContent()
+        contentBarech.title = "Barech Aleinu Tonight!"
+        contentBarech.sound = .default
+        contentBarech.subtitle = locationName
+        contentBarech.body = "Tonight we start saying Barech Aleinu!"
+        contentBarech.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+        
+        let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunset() ?? Date()), repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "BarechAleinuNotification", content: contentBarech, trigger: triggerBarech)
+        notificationCenter.add(request)
+        amountOfNotificationsSet+=1
+        zmanimCalendar.workingDate = Date()
+        jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
     }
     
     func scheduleZmanimNotifications() {
         if !defaults.bool(forKey: "zmanim_notifications") {
             return
         }
-        let zmanTimeFormatter = DateFormatter()
-        if defaults.bool(forKey: "showSeconds") {
-            zmanTimeFormatter.dateFormat = "h:mm:ss aa"
-        } else {
-            zmanTimeFormatter.dateFormat = "h:mm aa"
-        }
-        var editableZmanim = ["Alot Hashachar",
-                              "Talit And Tefilin",
-                              "Sunrise",
-                              "Sof Zman Shma MGA",
-                              "Sof Zman Shma GRA",
-                              "Sof Zman Tefila",
-                              "Achilat Chametz",
-                              "Biur Chametz",
-                              "Chatzot",
-                              "Mincha Gedolah",
-                              "Mincha Ketana",
-                              "Plag HaMincha Yalkut Yosef",
-                              "Plag HaMincha Halacha Berurah",
-                              "Candle Lighting",
-                              "Sunset",
-                              "Tzeit Hacochavim",
-                              "Tzeit Hacochavim (Stringent)",
-                              "Fast Ends",
-                              "Fast Ends (Stringent)",
-                              "Shabbat Ends",
-                              "Rabbeinu Tam",
-                              "Chatzot Layla"]
-        
-        if !defaults.bool(forKey: "LuachAmudeiHoraah") {
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Halacha Berurah")!)
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Tzeit Hacochavim (Stringent)")!)
-        } else {
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Mincha Ketana")!)
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends")!)
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends (Stringent)")!)
-        }
-        for string in editableZmanim {
-            if !defaults.bool(forKey: "Notify"+string) || defaults.integer(forKey: string) < 0 {
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: string)!)
+        while amountOfNotificationsSet != amountOfPossibleNotifications {
+            let zmanTimeFormatter = DateFormatter()
+            if defaults.bool(forKey: "showSeconds") {
+                zmanTimeFormatter.dateFormat = "h:mm:ss aa"
+            } else {
+                zmanTimeFormatter.dateFormat = "h:mm aa"
             }
-        }
-        var zmanim: Array<ZmanListEntry> = []
-        zmanim = addZmanim(list: zmanim)
-        var index = 0
-        for zmanEntry in zmanim {
-            index+=1
-            let zman = zmanEntry.zman
-            if zman != nil {
-                let zmanContent = UNMutableNotificationContent()
-                zmanContent.title = zmanEntry.title
-                zmanContent.sound = .default
-                zmanContent.subtitle = locationName
-                if defaults.bool(forKey: "isZmanimInHebrew") {
-                    zmanContent.body = zmanTimeFormatter.string(from: zman ?? Date()) + " : " + zmanEntry.title
-                } else {
-                    zmanContent.body = zmanEntry.title + " is at " + zmanTimeFormatter.string(from: zman ?? Date())
+            var editableZmanim = ["Alot Hashachar",
+                                  "Talit And Tefilin",
+                                  "Sunrise",
+                                  "Sof Zman Shma MGA",
+                                  "Sof Zman Shma GRA",
+                                  "Sof Zman Tefila",
+                                  "Achilat Chametz",
+                                  "Biur Chametz",
+                                  "Chatzot",
+                                  "Mincha Gedolah",
+                                  "Mincha Ketana",
+                                  "Plag HaMincha Yalkut Yosef",
+                                  "Plag HaMincha Halacha Berurah",
+                                  "Candle Lighting",
+                                  "Sunset",
+                                  "Tzeit Hacochavim",
+                                  "Tzeit Hacochavim (Stringent)",
+                                  "Fast Ends",
+                                  "Fast Ends (Stringent)",
+                                  "Shabbat Ends",
+                                  "Rabbeinu Tam",
+                                  "Chatzot Layla"]
+            
+            if !defaults.bool(forKey: "LuachAmudeiHoraah") {
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Halacha Berurah")!)
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Tzeit Hacochavim (Stringent)")!)
+            } else {
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends")!)
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends (Stringent)")!)
+            }
+            for string in editableZmanim {
+                if !defaults.bool(forKey: "Notify"+string) || defaults.integer(forKey: string) < 0 {
+                    editableZmanim.remove(at: editableZmanim.firstIndex(of: string)!)//get rid of zmanim we do not want to notify for
                 }
-                zmanContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-                
-                if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
-                    return//no notification
-                } else {//notify
-                    //same issue as described in scheduleSunriseNotifications()
-                    let triggerZman = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.hour,.minute,.second], from: zman?.addingTimeInterval(TimeInterval(-60 * defaults.integer(forKey: editableZmanim[index]))) ?? Date()), repeats: true)
+            }
+            var zmanim: Array<ZmanListEntry> = []
+            zmanim = addZmanim(list: zmanim)//list is already filtered in this method
+            var index = 0 //we need the index for the list to match the array above
+            for zmanEntry in zmanim {
+                let zman = zmanEntry.zman
+                if zman != nil {
+                    let zmanContent = UNMutableNotificationContent()
+                    zmanContent.title = zmanEntry.title
+                    zmanContent.sound = .default
+                    zmanContent.subtitle = locationName
+                    if defaults.bool(forKey: "isZmanimInHebrew") {
+                        zmanContent.body = zmanTimeFormatter.string(from: zman ?? Date()) + " : " + zmanEntry.title
+                    } else {
+                        zmanContent.body = zmanEntry.title + " is at " + zmanTimeFormatter.string(from: zman ?? Date())
+                    }
+                    zmanContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
                     
-                    let request = UNNotificationRequest(identifier: editableZmanim[index]+"Notification", content: zmanContent, trigger: triggerZman)
-                    notificationCenter.add(request)
+                    if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
+                        //no notification
+                    } else {//notify
+                        let triggerZman = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zman?.addingTimeInterval(TimeInterval(-60 * defaults.integer(forKey: editableZmanim[index]))) ?? Date()), repeats: false)
+                        
+                        let request = UNNotificationRequest(identifier: UUID().uuidString, content: zmanContent, trigger: triggerZman)
+                        notificationCenter.add(request)
+                        amountOfNotificationsSet+=1
+                    }
                 }
+                index+=1
             }
+            zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
+            jewishCalendar.workingDate = zmanimCalendar.workingDate
         }
     }
     
@@ -401,7 +413,11 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     // MARK: - Helper methods
     
-    func initializeLocationObjects() {
+    func initializeLocationObjectsAndSetNotifications() {
+        if notificationsAreBeingSet {
+            return
+        }
+        notificationsAreBeingSet = true
         if defaults.bool(forKey: "useZipcode") {
             locationName = defaults.string(forKey: "locationName") ?? ""
             lat = defaults.double(forKey: "lat")
@@ -454,6 +470,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                         jewishCalendar = JewishCalendar(location: zmanimCalendar.geoLocation)
                         jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                         jewishCalendar.returnsModernHolidays = true
+                        self.scheduleSunriseNotifications()
+                        self.scheduleSunsetNotifications()
+                        self.scheduleZmanimNotifications()
+                        self.notificationsAreBeingSet = false
                     }
                 }
             }
