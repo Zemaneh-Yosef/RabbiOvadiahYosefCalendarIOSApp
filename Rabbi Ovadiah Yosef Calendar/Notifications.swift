@@ -154,6 +154,15 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     func scheduleZmanimNotifications() {
         if !defaults.bool(forKey: "zmanim_notifications") {
+            //if zmanim notifications are off, we can use the other local notifications for daily notifications which are the most important in my opinion
+            zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400 * 15)
+            jewishCalendar.workingDate = zmanimCalendar.workingDate
+            //we already scheduled for 14 days, so advance the dates 15 days
+            while amountOfNotificationsSet != amountOfPossibleNotifications {
+                scheduleDailyNotification()
+                zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
+                jewishCalendar.workingDate = zmanimCalendar.workingDate
+            }
             return
         }
         while amountOfNotificationsSet != amountOfPossibleNotifications {
