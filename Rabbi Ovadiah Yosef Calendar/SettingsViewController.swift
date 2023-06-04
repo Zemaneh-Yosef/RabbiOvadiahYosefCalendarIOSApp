@@ -41,6 +41,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         var content = cell.defaultContentConfiguration()
         switch indexPath.row {
         case 0:
+            content.text = "Zmanim Settings"
+            content.secondaryText = "Change the zmanim settings"
+        case 1:
             content.text = "Zmanim Notifications"
             content.secondaryText = "Receive daily zmanim notifications (experimental)"
             let switchView = SwitchWithParam(frame: .zero)
@@ -48,7 +51,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             switchView.param = "zmanim_notifications"
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
-        case 1:
+        case 2:
             content.text = "Zmanim Notifications Settings"
             content.secondaryText = "Change the zmanim notifications settings"
             if !defaults.bool(forKey: "zmanim_notifications") {
@@ -56,9 +59,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 content.secondaryTextProperties.color = .gray
                 cell.selectionStyle = .none
             }
-        case 2:
-            content.text = "Zmanim Settings"
-            content.secondaryText = "Change the zmanim settings"
         case 3:
             content.text = "Show seconds?"
             content.secondaryText = "Choose whether or not to display the seconds of the zmanim"
@@ -161,13 +161,13 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         tableView.deselectRow(at: indexPath, animated: true)
         print(indexPath.row)
 
-        if indexPath.row == 1 && defaults.bool(forKey: "zmanim_notifications") {
+        if indexPath.row == 2 && defaults.bool(forKey: "zmanim_notifications") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "ZmanimNotificationsSettingsViewController") as! ZmanimNotificationsSettingsViewController
             newViewController.modalPresentationStyle = .fullScreen
             self.present(newViewController, animated: true)
         }
-        if indexPath.row == 2 {
+        if indexPath.row == 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "ZmanimSettingsViewController") as! ZmanimSettingsViewController
             newViewController.modalPresentationStyle = .fullScreen

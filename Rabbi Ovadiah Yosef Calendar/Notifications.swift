@@ -108,12 +108,23 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         
         //same issue as described in scheduleDailyNotifications()
         var trigger: UNCalendarNotificationTrigger
-        if zmanimCalendar.tzeit()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
+
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            if zmanimCalendar.tzaitAmudeiHoraah()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
+                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzaitAmudeiHoraah() ?? Date()), repeats: false)
+                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
+            } else {
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzaitAmudeiHoraah() ?? Date()), repeats: false)
+            }
         } else {
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
+            if zmanimCalendar.tzeit()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
+                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
+                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
+            } else {
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
+            }
         }
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)

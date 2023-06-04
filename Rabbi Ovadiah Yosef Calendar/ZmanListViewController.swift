@@ -220,7 +220,11 @@ class ZmanListViewController: UITableViewController {
     }
     
     @objc func showDatePicker() {
-        let alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+        }
 
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
@@ -254,7 +258,11 @@ class ZmanListViewController: UITableViewController {
     }
     
     @objc func showHebrewDatePicker() {
-        let alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+        }
 
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
@@ -453,6 +461,7 @@ class ZmanListViewController: UITableViewController {
 
             let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
                 self.defaults.set(true, forKey: "inIsrael")
+                self.defaults.set(false, forKey: "LuachAmudeiHoraah")
                 self.jewishCalendar.inIsrael = true
                 self.updateZmanimList()
             }

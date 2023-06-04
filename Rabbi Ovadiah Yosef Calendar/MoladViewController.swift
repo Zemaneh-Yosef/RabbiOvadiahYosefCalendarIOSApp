@@ -110,8 +110,12 @@ class MoladViewController: UIViewController {
     }
     
     @objc func showDatePicker() {
-        let alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
 
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+        }
+        
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.date = jewishCalendar.workingDate
@@ -137,12 +141,16 @@ class MoladViewController: UIViewController {
         }
 
         alertController.addAction(doneAction)
-
+        
         present(alertController, animated: true, completion: nil)
     }
     
     @objc func showHebrewDatePicker() {
-        let alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+        }
 
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
