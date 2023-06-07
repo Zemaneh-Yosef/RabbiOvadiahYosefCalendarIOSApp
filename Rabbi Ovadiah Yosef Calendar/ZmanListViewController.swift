@@ -28,6 +28,7 @@ class ZmanListViewController: UITableViewController {
     var timerForNextZman: Timer?
     var currentIndex = 0
     
+    @IBOutlet weak var titleLabel: UILabel!
     @IBAction func prevDayButton(_ sender: Any) {
         userChosenDate = userChosenDate.advanced(by: -86400)
         syncCalendarDates()
@@ -174,7 +175,11 @@ class ZmanListViewController: UITableViewController {
         
         let zmanimInfo = ZmanimAlertInfoHolder.init(title: zmanimList[indexPath.row].title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         
-        let alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage(), preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage(), preferredStyle: .actionSheet)
+        
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage(), preferredStyle: .alert)
+        }
         
         if indexPath.row == 0 {
             var message = ""
@@ -327,6 +332,9 @@ class ZmanListViewController: UITableViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         ShabbatModeBanner.isUserInteractionEnabled = true
         ShabbatModeBanner.addGestureRecognizer(tapGestureRecognizer)
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            titleLabel.textAlignment = .natural
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {//this method happens 2nd

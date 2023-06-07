@@ -22,7 +22,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     var timezone: TimeZone = TimeZone.current
     
     var amountOfNotificationsSet = 0
-    let amountOfPossibleNotifications = 64
+    let amountOfPossibleNotifications = 63 // really 64 but programming
 
     var zmanimCalendar = ComplexZmanimCalendar()
     var jewishCalendar = JewishCalendar()
@@ -176,7 +176,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             }
             return
         }
-        while amountOfNotificationsSet != amountOfPossibleNotifications {
+        while amountOfNotificationsSet <= amountOfPossibleNotifications {
             let zmanTimeFormatter = DateFormatter()
             if defaults.bool(forKey: "showSeconds") {
                 zmanTimeFormatter.dateFormat = "h:mm:ss aa"
@@ -223,7 +223,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             var index = 0 //we need the index for the list to match the array above
             for zmanEntry in zmanim {
                 let zman = zmanEntry.zman
-                if zman != nil {
+                if zman != nil && zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970 {
                     let zmanContent = UNMutableNotificationContent()
                     zmanContent.title = zmanEntry.title
                     zmanContent.sound = .default
@@ -238,11 +238,13 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
                         //no notification
                     } else {//notify
-                        let triggerZman = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zman?.addingTimeInterval(TimeInterval(-60 * defaults.integer(forKey: editableZmanim[index]))) ?? Date()), repeats: false)
-                        
-                        let request = UNNotificationRequest(identifier: UUID().uuidString, content: zmanContent, trigger: triggerZman)
-                        notificationCenter.add(request)
-                        amountOfNotificationsSet+=1
+                        if amountOfNotificationsSet <= amountOfPossibleNotifications {
+                            let triggerZman = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zman?.addingTimeInterval(TimeInterval(-60 * defaults.integer(forKey: editableZmanim[index]))) ?? Date()), repeats: false)
+                            
+                            let request = UNNotificationRequest(identifier: UUID().uuidString, content: zmanContent, trigger: triggerZman)
+                            notificationCenter.add(request)
+                            amountOfNotificationsSet+=1
+                        }
                     }
                 }
                 index+=1
