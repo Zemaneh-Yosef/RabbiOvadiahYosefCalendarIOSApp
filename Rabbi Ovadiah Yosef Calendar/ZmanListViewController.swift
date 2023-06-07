@@ -894,8 +894,8 @@ class ZmanListViewController: UITableViewController {
         }
         temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.chatzos(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.minchaGedolaGreaterThan30(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman: zmanimCalendar.minchaKetana(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
-        temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman: zmanimCalendar.minchaKetana(),isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedYalkutYosefString(), zman:zmanimCalendar.plagHaminchaYalkutYosefAmudeiHoraah(), isZman: true))
         if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.currentDayOfTheWeek() == 6 {
             zmanimCalendar.candleLightingOffset = 20
@@ -1375,8 +1375,8 @@ public extension ComplexZmanimCalendar {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let alotBy16Degrees = alos16Point1Degrees()
-        let numberOfMinutes = ((sunrise()!.timeIntervalSince1970 - alotBy16Degrees!.timeIntervalSince1970) / 60)
+        let alotBy16Degrees = sunriseOffset(byDegrees:90 + 16.04)
+        let numberOfSeconds = ((sunrise()!.timeIntervalSince1970 - alotBy16Degrees!.timeIntervalSince1970))
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1386,15 +1386,17 @@ public extension ComplexZmanimCalendar {
         }
         
         let dakahZmanit = shaahZmanit / 60
+        let secondsZmanit = dakahZmanit / 60
         
-        return seaLevelSunriseOnly()?.addingTimeInterval(-(numberOfMinutes * dakahZmanit));
+        return seaLevelSunriseOnly()?.addingTimeInterval(-(numberOfSeconds * secondsZmanit));
     }
     
     func talitTefilinAmudeiHoraah() -> Date? {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let numberOfMinutes = ((seaLevelSunriseOnly()!.timeIntervalSince1970 - alos16Point1Degrees()!.timeIntervalSince1970) / 60)
+        let alotBy16Degrees = sunriseOffset(byDegrees:90 + 16.04)
+        let numberOfSeconds = ((sunrise()!.timeIntervalSince1970 - alotBy16Degrees!.timeIntervalSince1970))
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1404,22 +1406,23 @@ public extension ComplexZmanimCalendar {
         }
         
         let dakahZmanit = shaahZmanit / 60
+        let secondsZmanit = dakahZmanit / 60
         
-        return seaLevelSunriseOnly()?.addingTimeInterval(-(numberOfMinutes * dakahZmanit * 5 / 6));
+        return seaLevelSunriseOnly()?.addingTimeInterval(-(numberOfSeconds * secondsZmanit * 5 / 6));
     }
     
     func shmaMGAAmudeiHoraah() -> Date? {
-        let shaahZmanit = temporalHour(fromSunrise: alotAmudeiHoraah()!, toSunset: tzaitAmudeiHoraah()!)
+        let shaahZmanit = temporalHour(fromSunrise: alotAmudeiHoraah()!, toSunset: tzait72ZmanitAmudeiHoraah()!)
         return alotAmudeiHoraah()?.addingTimeInterval(3 * shaahZmanit)
     }
     
     func achilatChametzAmudeiHoraah() -> Date? {
-        let shaahZmanit = temporalHour(fromSunrise: alotAmudeiHoraah()!, toSunset: tzaitAmudeiHoraah()!)
+        let shaahZmanit = temporalHour(fromSunrise: alotAmudeiHoraah()!, toSunset: tzait72ZmanitAmudeiHoraah()!)
         return alotAmudeiHoraah()?.addingTimeInterval(4 * shaahZmanit)
     }
     
     func biurChametzAmudeiHoraah() -> Date? {
-        let shaahZmanit = temporalHour(fromSunrise: alotAmudeiHoraah()!, toSunset: tzaitAmudeiHoraah()!)
+        let shaahZmanit = temporalHour(fromSunrise: alotAmudeiHoraah()!, toSunset: tzait72ZmanitAmudeiHoraah()!)
         return alotAmudeiHoraah()?.addingTimeInterval(5 * shaahZmanit)
     }
     
@@ -1427,7 +1430,8 @@ public extension ComplexZmanimCalendar {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let numberOfMinutes = ((sunsetOffset(byDegrees: 90 + 3.86)!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970) / 60)
+        let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 3.75)
+        let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1437,15 +1441,17 @@ public extension ComplexZmanimCalendar {
         }
         
         let dakahZmanit = shaahZmanit / 60
+        let secondsZmanit = dakahZmanit / 60
         
-        return seaLevelSunset()?.addingTimeInterval(numberOfMinutes * dakahZmanit);
+        return seaLevelSunset()?.addingTimeInterval(numberOfSeconds * secondsZmanit);
     }
     
     func tzaitAmudeiHoraahLChumra() -> Date? {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let numberOfMinutes = ((sunsetOffset(byDegrees: 90 + 5.054)!.timeIntervalSince1970 - seaLevelSunset()!.timeIntervalSince1970) / 60)
+        let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 5.3)
+        let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1455,15 +1461,17 @@ public extension ComplexZmanimCalendar {
         }
         
         let dakahZmanit = shaahZmanit / 60
+        let secondsZmanit = dakahZmanit / 60
         
-        return seaLevelSunset()?.addingTimeInterval(numberOfMinutes * dakahZmanit);
+        return seaLevelSunset()?.addingTimeInterval(numberOfSeconds * secondsZmanit);
     }
     
     func tzait72ZmanitAmudeiHoraah() -> Date? {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let numberOfMinutes = ((sunsetOffset(byDegrees: 90 + 16.0)!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970) / 60)
+        let tzaitRTInDegrees = sunsetOffset(byDegrees:90 + 16.0)
+        let numberOfSeconds = (tzaitRTInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1473,8 +1481,9 @@ public extension ComplexZmanimCalendar {
         }
         
         let dakahZmanit = shaahZmanit / 60
+        let secondsZmanit = dakahZmanit / 60
         
-        return seaLevelSunset()?.addingTimeInterval(numberOfMinutes * dakahZmanit);
+        return seaLevelSunset()?.addingTimeInterval(numberOfSeconds * secondsZmanit);
     }
     
     func tzaitShabbatAmudeiHoraah() -> Date? {
