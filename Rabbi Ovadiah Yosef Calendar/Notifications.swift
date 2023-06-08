@@ -73,26 +73,89 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
         
         //Tekufa can happen whenever, so not neccesarily sunrise, but in my android app I check for tekufa at sunrise so it makes sense to put this code here
-        let tekufaContent = UNMutableNotificationContent()
-        tekufaContent.title = "Tekufa / Season Changes"
-        tekufaContent.sound = .default
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm aa"
-        let backup = jewishCalendar.workingDate
-        while jewishCalendar.getTekufaAsDate() == nil {
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
+        if tekufaSetting == 1 {
+            let tekufaContent = UNMutableNotificationContent()
+            tekufaContent.title = "Tekufa / Season Changes"
+            tekufaContent.sound = .default
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "h:mm aa"
+            let backup = jewishCalendar.workingDate
+            while jewishCalendar.getTekufaAsDate() == nil {
+                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            }
+            let tekufa = jewishCalendar.getTekufaAsDate()
+            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
+            jewishCalendar.workingDate = backup
+            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+            
+            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
+            
+            let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
+            notificationCenter.add(tekufaRequest)
+            amountOfNotificationsSet+=1
+        } else if tekufaSetting == 2 {
+            let tekufaContent = UNMutableNotificationContent()
+            tekufaContent.title = "Tekufa / Season Changes"
+            tekufaContent.sound = .default
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "h:mm aa"
+            let backup = jewishCalendar.workingDate
+            while jewishCalendar.getAmudeiHoraahTekufaAsDate() == nil {
+                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            }
+            let tekufa = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
+            jewishCalendar.workingDate = backup
+            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+            
+            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
+            
+            let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
+            notificationCenter.add(tekufaRequest)
+            amountOfNotificationsSet+=1
+        } else {
+            let tekufaContent = UNMutableNotificationContent()
+            tekufaContent.title = "Tekufa / Season Changes"
+            tekufaContent.sound = .default
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "h:mm aa"
+            let backup = jewishCalendar.workingDate
+            while jewishCalendar.getTekufaAsDate() == nil {
+                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            }
+            let tekufa = jewishCalendar.getTekufaAsDate()
+            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
+            jewishCalendar.workingDate = backup
+            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+            
+            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
+            
+            let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
+            notificationCenter.add(tekufaRequest)
+            amountOfNotificationsSet+=1
+            
+            let tekufaContent2 = UNMutableNotificationContent()
+            tekufaContent2.title = "Tekufa / Season Changes"
+            tekufaContent2.sound = .default
+            
+            while jewishCalendar.getAmudeiHoraahTekufaAsDate() == nil {
+                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            }
+            let tekufa2 = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            tekufaContent2.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa2!) + ". Do not drink water half an hour before or after this time."
+            jewishCalendar.workingDate = backup
+            tekufaContent2.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
+            
+            let tekufaTrigger2 = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa2?.addingTimeInterval(-1800) ?? Date()), repeats: false)
+            
+            let tekufaRequest2 = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent2, trigger: tekufaTrigger2)
+            notificationCenter.add(tekufaRequest2)
+            amountOfNotificationsSet+=1
         }
-        let tekufa = jewishCalendar.getTekufaAsDate()
-        tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
-        jewishCalendar.workingDate = backup
-        tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-        
-        let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
-        
-        let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
-        notificationCenter.add(tekufaRequest)
-        amountOfNotificationsSet+=1
     }
     
     fileprivate func scheduleOmerNotifications() {

@@ -1088,20 +1088,68 @@ class ZmanListViewController: UITableViewController {
             zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today"))
         }
         dateFormatter.dateFormat = "h:mm aa"
-        let tekufa = jewishCalendar.getTekufaAsDate()
-        if tekufa != nil {
-            if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+        let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
+        if tekufaSetting == 1 {
+            let tekufa = jewishCalendar.getTekufaAsDate()
+            if tekufa != nil {
+                if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                }
             }
-        }
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
-        let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
-        if checkTomorrowForTekufa != nil {
-            if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
+            if checkTomorrowForTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                }
             }
+            jewishCalendar.workingDate = userChosenDate //reset
+        } else if tekufaSetting == 2 {
+            let tekufa = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            if tekufa != nil {
+                if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                }
+            }
+            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            let checkTomorrowForTekufa = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            if checkTomorrowForTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                }
+            }
+            jewishCalendar.workingDate = userChosenDate //reset
+        } else {
+            let tekufa = jewishCalendar.getTekufaAsDate()
+            if tekufa != nil {
+                if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                }
+            }
+            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
+            if checkTomorrowForTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                }
+            }
+            jewishCalendar.workingDate = userChosenDate //reset
+            
+            let tekufaAH = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            if tekufaAH != nil {
+                if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufaAH!)))
+                }
+            }
+            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            let checkTomorrowForAHTekufa = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            if checkTomorrowForAHTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: userChosenDate) {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
+                }
+            }
+            jewishCalendar.workingDate = userChosenDate //reset
         }
-        jewishCalendar.workingDate = userChosenDate //reset
         
         zmanimList = addZmanim(list: zmanimList)
         
@@ -1462,7 +1510,7 @@ public extension ComplexZmanimCalendar {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 3.75)
+        let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 3.77)
         let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
@@ -1482,7 +1530,7 @@ public extension ComplexZmanimCalendar {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 5.3)
+        let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 5.135)
         let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
@@ -1502,7 +1550,7 @@ public extension ComplexZmanimCalendar {
         let calendar = Calendar.current
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
-        let tzaitRTInDegrees = sunsetOffset(byDegrees:90 + 16.0)
+        let tzaitRTInDegrees = sunsetOffset(byDegrees:90 + 16.01)
         let numberOfSeconds = (tzaitRTInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
@@ -1519,7 +1567,7 @@ public extension ComplexZmanimCalendar {
     }
     
     func tzaitShabbatAmudeiHoraah() -> Date? {
-        return sunsetOffset(byDegrees: 90 + 7.18)
+        return sunsetOffset(byDegrees: 90 + 7.14)
     }
     
     func tzaitShabbatAmudeiHoraahLesserThan40() -> Date? {
@@ -2065,6 +2113,19 @@ public extension JewishCalendar {
         }
         let hours = tekufa - 6
         let minutes = Int((hours - Double(Int(hours))) * 60)
+        return cal.date(from: DateComponents(calendar: cal, timeZone: yerushalayimStandardTZ, year: workingDateComponents.year, month: workingDateComponents.month, day: workingDateComponents.day, hour: Int(hours), minute: minutes, second: 0, nanosecond: 0))
+    }
+    
+    func getAmudeiHoraahTekufaAsDate() -> Date? {
+        let yerushalayimStandardTZ = TimeZone(identifier: "GMT+2")!
+        let cal = Calendar(identifier: .gregorian)
+        let workingDateComponents = cal.dateComponents([.year, .month, .day], from: workingDate)
+        guard let tekufa = getTekufa() else {
+            return nil
+        }
+        let hours = tekufa - 6
+        var minutes = Int((hours - Double(Int(hours))) * 60)
+        minutes -= 21
         return cal.date(from: DateComponents(calendar: cal, timeZone: yerushalayimStandardTZ, year: workingDateComponents.year, month: workingDateComponents.month, day: workingDateComponents.day, hour: Int(hours), minute: minutes, second: 0, nanosecond: 0))
     }
 

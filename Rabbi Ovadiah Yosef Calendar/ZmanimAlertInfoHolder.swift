@@ -302,7 +302,10 @@ struct ZmanimAlertInfoHolder {
             "The Achronim write that a person should not drink water when the seasons change. Rabbi Ovadiah Yosef Z\"TL writes " +
             "(in Halichot Olam, Chelek 7, Page 183, Halacha 8) that a person should not drink water from a half hour before this time " +
             "till a half hour after this time unless there is a piece of iron in the water.\n\nNOTE: This only applies to water, not " +
-            "to other drinks."
+            "to other drinks." + "\n\n" +
+            "Both the Ohr HaChaim and the Amudei Horaah calendars use the above method to get the time for the tekufa. However, the " +
+            "Amudei Horaah calendar differs from the Ohr HaChaim calendar by using the local midday time of Israel. Which causes a 21 minute difference. " +
+            "Therefore, the Amudei Horaah calendar will always end with 9 minutes and the Ohr HaChaim calendar will always end with 0"
         }
         if title.contains("Tachanun") || title.contains("צדקתך") {
             return "Here is a list of days with no tachanun:\n\n" +

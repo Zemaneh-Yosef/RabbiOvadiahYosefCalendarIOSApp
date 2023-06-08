@@ -10,6 +10,9 @@ import UIKit
 class ZmanimSettingsViewController: UITableViewController {
     
     let defaults = UserDefaults.standard
+    let candleLightingRow = 2
+    let minutesForShabbatEndRow = 4
+    let endShabbatOpinionRow = 5
 
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true)
@@ -25,7 +28,7 @@ class ZmanimSettingsViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
 
     
@@ -44,17 +47,20 @@ class ZmanimSettingsViewController: UITableViewController {
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
         case 1:
+            content.text = "Tekufa Opinion"
+            content.secondaryText = "Choose which opinion to use for the time for the tekufas"
+        case candleLightingRow:
             content.text = "Candle Lighting Time"
             content.secondaryText = "Enter the amount of minutes for candle lighting"
-        case 2:
+        case 3:
             content.text = "The settings below only apply if you do not use the Luach Amudei Horaah setting above"
             content.secondaryText = ""
             content.textProperties.color = .systemBlue
             content.textProperties.alignment = .center
-        case 3:
+        case minutesForShabbatEndRow:
             content.text = "Minutes till shabbat ends"
             content.secondaryText = "Enter the amount of minutes to add to sunset for shabbat/chag to end"
-        case 4:
+        case endShabbatOpinionRow:
             content.text = "End shabbat opinion"
             content.secondaryText = "Choose which opinion to use for the time for when shabbat/chag ends"
         default:
@@ -68,7 +74,7 @@ class ZmanimSettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.row == 1 {
+        if indexPath.row == candleLightingRow {
             let alertController = UIAlertController(title: "Candle lighting time", message:"Set how many minutes before sunset is candle lighting", preferredStyle: .alert)
             
             alertController.addTextField { (textField) in
@@ -85,7 +91,28 @@ class ZmanimSettingsViewController: UITableViewController {
             present(alertController, animated: true, completion: nil)
         }
         
-        if indexPath.row == 3 {
+        if indexPath.row == 1 {
+            let alertController = UIAlertController(title: "Tekufa Opinion", message:"Choose which opinion to use for the time for the tekufas", preferredStyle: .alert)
+
+            let regularAction = UIAlertAction(title: "Regular 6PM start time (Ohr Hachaim)", style: .default) { (_) in
+                self.defaults.set(1, forKey: "tekufaOpinion")
+            }
+            alertController.addAction(regularAction)
+            
+            let degreeAction = UIAlertAction(title: "11:39AM start time (Amudei Horaah)", style: .default) { (_) in
+                self.defaults.set(2, forKey: "tekufaOpinion")
+            }
+            alertController.addAction(degreeAction)
+            
+            let lesserAction = UIAlertAction(title: "Show Both", style: .default) { (_) in
+                self.defaults.set(3, forKey: "tekufaOpinion")
+            }
+            alertController.addAction(lesserAction)
+
+            present(alertController, animated: true, completion: nil)
+        }
+        
+        if indexPath.row == minutesForShabbatEndRow {
             let alertController = UIAlertController(title: "Shabbat/Chag End time", message:"Set how many minutes after sunset for shabbat/chag to end", preferredStyle: .alert)
             
             alertController.addTextField { (textField) in
@@ -102,7 +129,7 @@ class ZmanimSettingsViewController: UITableViewController {
             present(alertController, animated: true, completion: nil)
         }
         
-        if indexPath.row == 4 {
+        if indexPath.row == endShabbatOpinionRow {
             let alertController = UIAlertController(title: "Shabbat/Chag End Opinion", message:"Choose which opinion to use for the end of shabbat/chag", preferredStyle: .alert)
 
             let regularAction = UIAlertAction(title: "Regular Minutes", style: .default) { (_) in
@@ -110,7 +137,7 @@ class ZmanimSettingsViewController: UITableViewController {
             }
             alertController.addAction(regularAction)
             
-            let degreeAction = UIAlertAction(title: "7.18 Degrees", style: .default) { (_) in
+            let degreeAction = UIAlertAction(title: "7.14 Degrees", style: .default) { (_) in
                 self.defaults.set(2, forKey: "endOfShabbatOpinion")
             }
             alertController.addAction(degreeAction)
