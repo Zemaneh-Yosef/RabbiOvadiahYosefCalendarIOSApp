@@ -86,7 +86,7 @@
                             <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         </stackView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
+                            <rect key="frame" x="0.0" y="156" width="430" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
@@ -110,7 +110,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
                                 <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
                                     <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="131.66666666666666" y="0.66666666666666785" width="166.99999999999997" height="44"/>
+                                        <rect key="frame" x="132" y="1" width="167" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" name="AccentColor"/>
@@ -275,7 +275,7 @@
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
                                 <rect key="frame" x="20" y="329" width="390" height="264"/>
-                                <mutableString key="text">Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. The Ohr HaChaim calendar uses elevation for all of it's zmanim since Israel is a mountainous region. In areas where they live close to the sea, elevation is usually not used. However, Rabbi Dahan has informed me that you can use elevation even at areas that are at sea level. Therefore, by default the app uses elevation, however, it is turned off for Amudei Horaah mode. You can specify a value for your current elevation below:</mutableString>
+                                <string key="text">Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. The Ohr HaChaim calendar uses elevation for all of it's zmanim since Israel is a mountainous region. In areas where they live close to the sea, elevation is usually not used. However, Rabbi Dahan has informed me that you can use elevation even at areas that are at sea level. Therefore, by default the app uses elevation, however, it is turned off for Amudei Horaah mode. You can specify a value for your current elevation below:</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -441,7 +441,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GlM-kr-0dg">
-                                <rect key="frame" x="16" y="300.66666666666669" width="394" height="555.33333333333348"/>
+                                <rect key="frame" x="16" y="300.66666666666669" width="394" height="555.33333333333326"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pto-w5-0Pb">
                                         <rect key="frame" x="0.0" y="0.0" width="126" height="555.33333333333337"/>

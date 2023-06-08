@@ -587,10 +587,8 @@
 - (nullable NSDate *)solarMidnight {
     KCComplexZmanimCalendar *clonedCalendar = [self copy];
     [clonedCalendar setWorkingDate:[self dateByAddingDays:1 toDate:clonedCalendar.workingDate]];
-    NSDate *sunset = [self sunset];
-    NSDate *sunrise = [clonedCalendar sunrise];
-    
-    return [[self sunset] dateByAddingTimeInterval:[self temporalHourFromSunrise:sunset toSunset:sunrise] *6];
+        
+    return [[self chatzos] dateByAddingTimeInterval:clonedCalendar.chatzos.timeIntervalSince1970 - [self chatzos].timeIntervalSince1970 / 2];
 }
 
 //implement copy method:

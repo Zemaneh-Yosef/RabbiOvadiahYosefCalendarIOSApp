@@ -129,34 +129,66 @@ class ZmanListViewController: UITableViewController {
             content.textProperties.numberOfLines = 1
             
             if zmanimList[indexPath.row].isZman {
-                if zman == nil {
-                    content.text = zmanimList[indexPath.row].title
-                    content.secondaryText = "N/A"
-                } else {
-                    content.text = zmanimList[indexPath.row].title
-                    if zman == nextUpcomingZman {
-                        let arrow = "➤"
-                        if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
-                            zman = zman?.advanced(by: 60)
-                            let roundedFormat = DateFormatter()
-                            roundedFormat.dateFormat = "h:mm aa"
-                            content.secondaryText = arrow + roundedFormat.string(from: zman!)
-                        } else {
-                            content.secondaryText = arrow + dateFormatterForZmanim.string(from: zman!)
-                        }
+                if defaults.bool(forKey: "isZmanimInHebrew") {
+                    if zman == nil {
+                        content.secondaryText = zmanimList[indexPath.row].title
+                        content.text = "N/A"
                     } else {
-                        if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
-                            zman = zman?.advanced(by: 60)
-                            let roundedFormat = DateFormatter()
-                            roundedFormat.dateFormat = "h:mm aa"
-                            content.secondaryText = roundedFormat.string(from: zman!)
+                        content.secondaryText = zmanimList[indexPath.row].title
+                        if zman == nextUpcomingZman {
+                            let arrow = "←"
+                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                                zman = zman?.advanced(by: 60)
+                                let roundedFormat = DateFormatter()
+                                roundedFormat.dateFormat = "h:mm aa"
+                                content.text = roundedFormat.string(from: zman!) + arrow
+                            } else {
+                                content.text = dateFormatterForZmanim.string(from: zman!) + arrow
+                            }
                         } else {
-                            content.secondaryText = dateFormatterForZmanim.string(from: zman!)
-                        }                    }
+                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                                zman = zman?.advanced(by: 60)
+                                let roundedFormat = DateFormatter()
+                                roundedFormat.dateFormat = "h:mm aa"
+                                content.text = roundedFormat.string(from: zman!)
+                            } else {
+                                content.text = dateFormatterForZmanim.string(from: zman!)
+                            }
+                        }
+                    }
+                    content.textProperties.font = .boldSystemFont(ofSize: 20)
+                    content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
+                    content.prefersSideBySideTextAndSecondaryText = true
+                } else {
+                    if zman == nil {
+                        content.text = zmanimList[indexPath.row].title
+                        content.secondaryText = "N/A"
+                    } else {
+                        content.text = zmanimList[indexPath.row].title
+                        if zman == nextUpcomingZman {
+                            let arrow = "➤"
+                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                                zman = zman?.advanced(by: 60)
+                                let roundedFormat = DateFormatter()
+                                roundedFormat.dateFormat = "h:mm aa"
+                                content.secondaryText = arrow + roundedFormat.string(from: zman!)
+                            } else {
+                                content.secondaryText = arrow + dateFormatterForZmanim.string(from: zman!)
+                            }
+                        } else {
+                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                                zman = zman?.advanced(by: 60)
+                                let roundedFormat = DateFormatter()
+                                roundedFormat.dateFormat = "h:mm aa"
+                                content.secondaryText = roundedFormat.string(from: zman!)
+                            } else {
+                                content.secondaryText = dateFormatterForZmanim.string(from: zman!)
+                            }                    }
+                    }
+                    content.textProperties.font = .boldSystemFont(ofSize: 20)
+                    content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
+                    content.prefersSideBySideTextAndSecondaryText = true
                 }
-                content.textProperties.font = .boldSystemFont(ofSize: 20)
-                content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
-                content.prefersSideBySideTextAndSecondaryText = true
             } else {
                 content.textProperties.alignment = .center
                 content.text = zmanimList[indexPath.row].title
@@ -197,7 +229,7 @@ class ZmanListViewController: UITableViewController {
             alertController.addAction(elevationAction)
         }
 
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .default) { (_) in }
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { (_) in }
         alertController.addAction(dismissAction)
 
         if !zmanimInfo.getFullMessage().isEmpty || indexPath.row == 0 {
@@ -609,7 +641,7 @@ class ZmanListViewController: UITableViewController {
         setShabbatBannerColors(isFirstTime:true)
         ShabbatModeBanner.isHidden = false
         startBackgroundScrollingThread()
-        scheduleTimer()
+        scheduleTimer()//to update zmanim
         UIApplication.shared.isIdleTimerDisabled = true
     }
     
@@ -2255,7 +2287,7 @@ public extension Daf {
         let names = ["ברכות"
                      , "פיאה"
                      , "דמאי"
-                     , "כלאיים"
+                     , "כלאים"
                      , "שביעית"
                      , "תרומות"
                      , "מעשרות"
