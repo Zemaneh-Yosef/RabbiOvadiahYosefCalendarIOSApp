@@ -23,6 +23,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         }
         defaults.set(sender.isOn, forKey: sender.param)
         tableView.reloadData()
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
 
     override func viewDidLoad() {

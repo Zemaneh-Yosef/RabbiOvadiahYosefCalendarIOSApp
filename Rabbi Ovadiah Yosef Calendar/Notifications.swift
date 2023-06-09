@@ -152,7 +152,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             
             let tekufaTrigger2 = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa2?.addingTimeInterval(-1800) ?? Date()), repeats: false)
             
-            let tekufaRequest2 = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent2, trigger: tekufaTrigger2)
+            let tekufaRequest2 = UNNotificationRequest(identifier: "TekufaNotification2", content: tekufaContent2, trigger: tekufaTrigger2)
             notificationCenter.add(tekufaRequest2)
             amountOfNotificationsSet+=1
         }

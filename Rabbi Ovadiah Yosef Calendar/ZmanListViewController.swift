@@ -421,6 +421,11 @@ class ZmanListViewController: UITableViewController {
         defaults.set(locationName, forKey: "lastKnownLocation")
         checkIfUserIsInIsrael()
         createBackgroundThreadForNextUpcomingZman()
+        if !Calendar.current.isDate(userChosenDate, inSameDayAs: Date()) && userChosenDate.timeIntervalSinceNow < 7200 {//2 hours
+            refreshTable()
+        } else {
+            updateZmanimList()
+        }
     }
     
     @objc func labelTapped() {
@@ -673,16 +678,19 @@ class ZmanListViewController: UITableViewController {
                 for row in 0..<self.zmanimList.count {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
+                            Thread.sleep(forTimeInterval: 0.2)
                             let indexPath = IndexPath(row: row, section: 0)
                             self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
                         }
                     }
                     
-                    Thread.sleep(forTimeInterval: 0.5)
+                    Thread.sleep(forTimeInterval: 0.2)
                 }
+                
                 for row in (0..<self.zmanimList.count).reversed() {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
+                            Thread.sleep(forTimeInterval: 0.2)
                             let indexPath = IndexPath(row: row, section: 0)
                             self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
                         }
@@ -1202,7 +1210,7 @@ class ZmanListViewController: UITableViewController {
     
     func showZipcodeAlert() {
         let alert = UIAlertController(title: "Location or Search a place?",
-                                      message: "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results.", preferredStyle: .alert)
+                                      message: "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results and it will automatically update your location.", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.placeholder = "Zipcode/Address"
         }

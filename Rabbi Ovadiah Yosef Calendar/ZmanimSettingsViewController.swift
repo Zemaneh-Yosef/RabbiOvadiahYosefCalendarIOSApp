@@ -20,7 +20,9 @@ class ZmanimSettingsViewController: UITableViewController {
     @IBAction func toggle(_ sender: SwitchWithParam) {
         defaults.set(sender.isOn, forKey: sender.param)
         tableView.reloadData()
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
