@@ -17,7 +17,7 @@ The goal of this app is to recreate the "Luach HaMaor Ohr HaChaim" calendar that
 <img src="https://i.imgur.com/QqGAtTB.jpg" height="750">
 
 In order to recreate the calendar, I needed an API that would give me the times for sunrise and sunset everyday (since all the other zmanim are based on these times). I was recommended the well known [KosherJava](https://github.com/KosherJava/zmanim) Package, and that is the basis for all of the app's zmanim (time) calculations.
-KosherJava was made for Java applications which made it perfect for the android app. however, IOS runs on swift/objective-c. Moshe Berman created an objective-c port called [KosherCocoa](https://github.com/MosheBerman/KosherCocoa) which is the basis for this app's zmanim. The problem I ran into with KosherCocoa was that many classes and methods were missing from the package.
+KosherJava was made for Java applications which made it perfect for the android app. However, IOS runs on swift/objective-c. Moshe Berman created an objective-c port called [KosherCocoa](https://github.com/MosheBerman/KosherCocoa) which is the basis for this app's zmanim. The problem I ran into with KosherCocoa was that many classes and methods were missing from the package.
 Making it increasingly difficult to port the app over to IOS as every method I wanted past the basic ones needed to be coded again. Not to mention the package also used the outdated SunTimes calculator and not the NOAA calculator (which I also needed to implement).
 It was painful, but this app is finally complete and open-source!
 
