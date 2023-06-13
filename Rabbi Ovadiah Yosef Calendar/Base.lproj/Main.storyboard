@@ -3,10 +3,11 @@
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -127,7 +128,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="f4h-hk-AdI"/>
                                 <barButtonItem style="plain" id="6zE-hv-i2U">
                                     <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Z4d-1n-mPD">
-                                        <rect key="frame" x="376" y="5" width="34" height="35"/>
+                                        <rect key="frame" x="375" y="5" width="35" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <color key="tintColor" name="AccentColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -248,6 +249,13 @@
                                     <action selector="cancelButton:" destination="iDZ-ow-Cfz" eventType="touchUpInside" id="eqi-gj-ppQ"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
+                                <rect key="frame" x="20" y="329" width="390" height="264"/>
+                                <string key="text">Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. The Ohr HaChaim calendar uses elevation for all of it's zmanim since Israel is a mountainous region. In areas where they live close to the sea, elevation is usually not used. However, Rabbi Dahan has informed me that you can use elevation even at areas that are at sea level. Therefore, by default the app uses elevation, however, it is turned off for Amudei Horaah mode. You can specify a value for your current elevation below:</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="97x-l7-W7Z">
                                 <rect key="frame" x="131" y="746" width="168.33333333333337" height="116"/>
                                 <subviews>
@@ -273,13 +281,6 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
-                                <rect key="frame" x="20" y="329" width="390" height="264"/>
-                                <string key="text">Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. The Ohr HaChaim calendar uses elevation for all of it's zmanim since Israel is a mountainous region. In areas where they live close to the sea, elevation is usually not used. However, Rabbi Dahan has informed me that you can use elevation even at areas that are at sea level. Therefore, by default the app uses elevation, however, it is turned off for Amudei Horaah mode. You can specify a value for your current elevation below:</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gge-SS-bwx"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -287,6 +288,7 @@
                             <constraint firstItem="MOS-JY-Lk2" firstAttribute="centerX" secondItem="KQZ-V7-vNC" secondAttribute="centerX" id="Dwx-5b-fGH"/>
                             <constraint firstItem="97x-l7-W7Z" firstAttribute="centerX" secondItem="KQZ-V7-vNC" secondAttribute="centerX" id="GjU-jG-wIz"/>
                             <constraint firstItem="IFS-q7-s7V" firstAttribute="top" secondItem="KQZ-V7-vNC" secondAttribute="top" constant="20" id="Hj9-7v-5uW"/>
+                            <constraint firstItem="gge-SS-bwx" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IFS-q7-s7V" secondAttribute="trailing" symbolic="YES" id="L7p-E1-qzm"/>
                             <constraint firstItem="MOS-JY-Lk2" firstAttribute="leading" secondItem="KQZ-V7-vNC" secondAttribute="leading" constant="20" id="Svi-6O-EOx"/>
                             <constraint firstItem="MOS-JY-Lk2" firstAttribute="centerY" secondItem="KQZ-V7-vNC" secondAttribute="centerY" id="eUc-Lj-xLk"/>
                             <constraint firstItem="gge-SS-bwx" firstAttribute="bottom" secondItem="97x-l7-W7Z" secondAttribute="bottom" constant="60" id="eeY-yN-M89"/>
@@ -366,7 +368,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Isn-DF-Hn8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="IM5-cj-VYL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-918.32061068702285" y="-54.225352112676056"/>
+            <point key="canvasLocation" x="-1439" y="-55"/>
         </scene>
         <!--Zmanim language-->
         <scene sceneID="JH7-CM-pzM">
@@ -509,7 +511,7 @@ etc...</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTi-TB-Uix" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-182.7906976744186" y="-54.721030042918457"/>
+            <point key="canvasLocation" x="-744" y="-55"/>
         </scene>
         <!--Molad-->
         <scene sceneID="phF-C6-Efr">
@@ -791,6 +793,97 @@ etc...</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2bN-OC-6nQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2069" y="612"/>
+        </scene>
+        <!--Choose Calendar-->
+        <scene sceneID="DUu-8d-2XX">
+            <objects>
+                <viewController storyboardIdentifier="calendarChooser" title="Choose Calendar" id="rLT-7O-XUP" customClass="CalendarViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uhv-lB-hXd">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5B-Kp-adr">
+                                <rect key="frame" x="25" y="86" width="57" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Skip"/>
+                                <connections>
+                                    <action selector="skip:" destination="rLT-7O-XUP" eventType="touchUpInside" id="4Bc-EZ-duC"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wny-zI-XsU">
+                                <rect key="frame" x="71" y="291.33333333333326" width="288" height="349.66666666666674"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose A Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yt8-iV-RXq">
+                                        <rect key="frame" x="18.333333333333329" y="0.0" width="251.33333333333337" height="33.666666666666664"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J96-88-Kya">
+                                        <rect key="frame" x="48" y="41.666666666666686" width="192" height="53"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Ohr Hachaim">
+                                            <color key="titleColor" name="Gold"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="ohrHachaim:" destination="rLT-7O-XUP" eventType="touchUpInside" id="rZH-vB-ubH"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Calendar in Israel used by Rabbi Ovadiah himself)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dK1-Lq-pZC">
+                                        <rect key="frame" x="0.0" y="102.66666666666669" width="288" height="75"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="288" id="EiQ-Mw-87r"/>
+                                            <constraint firstAttribute="height" constant="75" id="GIf-O9-xDM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s5C-wY-g6x">
+                                        <rect key="frame" x="30.666666666666686" y="185.66666666666669" width="227" height="53"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Amudei Horaah">
+                                            <color key="titleColor" red="0.87843137250000003" green="0.73333333329999995" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="amudeiHoraah:" destination="rLT-7O-XUP" eventType="touchUpInside" id="xQm-fr-UP6"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TxL-Vj-ggR">
+                                        <rect key="frame" x="0.0" y="246.66666666666669" width="288" height="103"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="288" id="L3s-97-G53"/>
+                                            <constraint firstAttribute="height" constant="103" id="bJ8-og-KJC"/>
+                                        </constraints>
+                                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                        <string key="text">(Calendar created by Rabbi Leeor Dahan with the zmanim skewed to your location and is also according to Rabbi Ovadiah. Not to be used in Israel)</string>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9wZ-5e-LJR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wny-zI-XsU" firstAttribute="centerY" secondItem="uhv-lB-hXd" secondAttribute="centerY" id="IQj-7e-Ygz"/>
+                            <constraint firstItem="wny-zI-XsU" firstAttribute="centerX" secondItem="uhv-lB-hXd" secondAttribute="centerX" id="Rov-NO-e1R"/>
+                            <constraint firstItem="z5B-Kp-adr" firstAttribute="leading" secondItem="9wZ-5e-LJR" secondAttribute="leading" constant="25" id="bmc-hQ-JNA"/>
+                            <constraint firstItem="9wZ-5e-LJR" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="z5B-Kp-adr" secondAttribute="trailing" symbolic="YES" id="nkS-cR-tra"/>
+                            <constraint firstItem="z5B-Kp-adr" firstAttribute="top" secondItem="9wZ-5e-LJR" secondAttribute="top" constant="27" id="zU6-gg-ww3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="amudeiHoraah" destination="s5C-wY-g6x" id="hzx-Ig-0jp"/>
+                        <outlet property="ohrHachaim" destination="J96-88-Kya" id="com-Hq-zZs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F4A-3f-973" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-84.375" y="-57.04225352112676"/>
         </scene>
     </scenes>
     <designables>

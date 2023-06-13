@@ -14,32 +14,30 @@ class ZmanimLanguageViewController: UIViewController {
     @IBAction func hebrew(_ sender: UIButton) {
         defaults.set(true, forKey: "isZmanimInHebrew")
         defaults.set(false, forKey: "isZmanimEnglishTranslated")
-        dismissAllViews()
+        showCalendarChooserView()
     }
     @IBAction func English(_ sender: UIButton) {
         defaults.set(false, forKey: "isZmanimInHebrew")
         defaults.set(false, forKey: "isZmanimEnglishTranslated")
-        dismissAllViews()
+        showCalendarChooserView()
     }
     @IBAction func translatedEnglish(_ sender: UIButton) {
         defaults.set(false, forKey: "isZmanimInHebrew")
         defaults.set(true, forKey: "isZmanimEnglishTranslated")
-        dismissAllViews()
+        showCalendarChooserView()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
-    func dismissAllViews() {
-        let inIsraelView = super.presentingViewController!
-        super.dismiss(animated: true) {//when this view is dismissed, dismiss the superview as well
-            inIsraelView.dismiss(animated: true)
-        }
+    func showCalendarChooserView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
+        self.present(newViewController, animated: true, completion: nil)
     }
 
     /*

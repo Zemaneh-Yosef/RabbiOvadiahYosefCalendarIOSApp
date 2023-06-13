@@ -28,6 +28,7 @@
 		5D7550B829FC555200894335 /* ZmanimSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */; };
 		5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */; };
 		5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */; };
+		5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D948C302A38205E0017A8B6 /* CalendarViewController.swift */; };
 		5D9B83912A04E07800C5EB2D /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048275069529BB376700AEC9 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimSettingsViewController.swift; sourceTree = "<group>"; };
 		5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimNotificationsSettingsViewController.swift; sourceTree = "<group>"; };
 		5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimAlertInfoHolder.swift; sourceTree = "<group>"; };
+		5D948C302A38205E0017A8B6 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		5D9B83942A04E13600C5EB2D /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D9B83962A04E13A00C5EB2D /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		747B14C1A73A4072A7CEE035 /* Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				5D1CA12D2A021CA100F24323 /* Notifications.swift */,
 				5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */,
 				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
+				5D948C302A38205E0017A8B6 /* CalendarViewController.swift */,
 				5D7550A229E3776700894335 /* ElevationViewController.swift */,
 				5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */,
 				5D7550A429EBC58200894335 /* MarqueeLabel.swift */,
@@ -277,6 +280,7 @@
 				5D7550AC29EF94C300894335 /* ZmanimLanguageViewController.swift in Sources */,
 				5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */,
 				5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */,
+				5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */,
 				5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */,
 				5D7550B129F2761300894335 /* MoladViewController.swift in Sources */,
 				5D1CA12E2A021CA100F24323 /* Notifications.swift in Sources */,
@@ -451,7 +455,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -490,7 +494,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
