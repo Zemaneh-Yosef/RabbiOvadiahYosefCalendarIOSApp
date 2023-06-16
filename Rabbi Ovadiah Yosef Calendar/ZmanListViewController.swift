@@ -1712,12 +1712,12 @@ public extension JewishCalendar {
         hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
         hebrewDateFormatter.dateFormat = "MMMM"
 
-        let hebrewMonth = hebrewDateFormatter.string(from: workingDate)
+        let nextHebrewMonth = hebrewDateFormatter.string(from: workingDate.advanced(by: 86400 * 3))// advance 3 days into the future, because Rosh Chodesh can be 2 days and we need to know what the next month is at most 3 days before
         
         if isRoshChodesh() {
-            result = "Rosh Chodesh " + hebrewMonth
+            result = "Rosh Chodesh " + nextHebrewMonth
         } else if isErevRoshChodesh() {
-            result = "Erev Rosh Chodesh " + hebrewDateFormatter.string(from: workingDate.advanced(by: 86400))
+            result = "Erev Rosh Chodesh " + nextHebrewMonth
         }
         
         return result
