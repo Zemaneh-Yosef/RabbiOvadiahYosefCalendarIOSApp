@@ -98,7 +98,7 @@ struct ZmanimAlertInfoHolder {
             "This time is calculated as 72 zmaniyot/seasonal minutes (according to the GR\"A) before sunrise. Both sunrise and sunset " +
             "have elevation included.\n\n" +
             "In Luach Amudei Horaah mode, this time is calculated by finding out how many minutes " +
-            "are between sunrise and 72 minutes as degrees (16.1) before sunrise on a equal day with sunrise and sunset set around 12 " +
+            "are between sunrise and 72 minutes as degrees (16.04) before sunrise on a equal day with sunrise and sunset set around 12 " +
             "hours apart. Then we take those minutes and make them zmaniyot according to the GR\"A and we subtract that time from " +
             "sunrise to get the time for Alot Hashachar. This is according to the Halacha Berurah and this should only be done outside of Israel in more northern or southern areas."
         }
@@ -111,7 +111,7 @@ struct ZmanimAlertInfoHolder {
             "Note: This time is only for people who need to go to work or leave early in the morning to travel, however, normally a " +
             "person should put on his talit/tefilin 60 regular minutes (and in the winter 50 regular minutes) before sunrise.\n\n" +
             "In Luach Amudei Horaah mode, this time is calculated by finding out how many minutes " +
-            "are between sunrise and 72 minutes as degrees (16.1) before sunrise on a equal day with sunrise and sunset set around 12 " +
+            "are between sunrise and 72 minutes as degrees (16.04) before sunrise on a equal day with sunrise and sunset set around 12 " +
             "hours apart. Then we take those minutes and make them zmaniyot according to the GR\"A and we subtract 5/6 of that time from " +
             "sunrise to get the time for Misheyakir. This is according to the Halacha Berurah and this should only be done outside of " +
             "Israel in more northern or southern areas. The Halacha Berurah writes to do this because it is more according to the nature " +
@@ -237,9 +237,9 @@ struct ZmanimAlertInfoHolder {
             "This time is calculated as 13 and a half zmaniyot/seasonal minutes after sunset (elevation included).\n\n" +
             "The GR\"A calculates a zmaniyot/seasonal hour by taking the time between sunrise and sunset (elevation included) and " +
             "divides it into 12 equal parts. Then we divide one of those 12 parts into 60 to get a zmaniyot/seasonal minute.\n\n" +
-            "In Luach Amudei Horaah mode, this time is calculated by finding out the the amount of minutes between sunset and 3.86 " +
+            "In Luach Amudei Horaah mode, this time is calculated by finding out the the amount of minutes between sunset and 3.75 " +
             "degrees below the horizon on a equal day, then we add that amount of zmaniyot minutes to sunset to get the time of " +
-            "Tzeit/Nightfall. We use 3.86 degrees below the horizon because that is the time when it is 13.5 minutes after sunset in Israel."
+            "Tzeit/Nightfall. We use 3.75 degrees below the horizon because that is the time when it is 13.5 minutes after sunset in Israel."
         }
         if title.contains(zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString()) {
             return "This is a more stringent time that the fast/taanit ends. This time is according to the opinion of Chacham Ben Zion Abba" +
@@ -261,7 +261,7 @@ struct ZmanimAlertInfoHolder {
             "included), however, you can change the time in the settings.\n\n" +
             "This time is calculated as " + " 40 " +
             "regular minutes after sunset (elevation included).\n\n" +
-            "In Luach Amudei Horaah mode, this time is calculated by using a degree of 7.18. We use this degree because " +
+            "In Luach Amudei Horaah mode, this time is calculated by using a degree of 7.14. We use this degree because " +
             "Rabbi Ovadiah Yosef ZT\"L ruled that regarding Motzeh Shabbat the listed time should be set as 30 fixed minutes after " +
             "sunset. This degree is interpreted as 30 minutes after sunset all year round in Israel."
         }

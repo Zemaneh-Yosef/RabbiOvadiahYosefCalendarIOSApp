@@ -13,6 +13,8 @@ class ZmanimSettingsViewController: UITableViewController {
     let candleLightingRow = 2
     let minutesForShabbatEndRow = 4
     let endShabbatOpinionRow = 5
+    let plagOpinionRow = 6
+    let alwaysShowTzeitLChumraRow = 7
 
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true)
@@ -54,6 +56,8 @@ class ZmanimSettingsViewController: UITableViewController {
         case candleLightingRow:
             content.text = "Candle Lighting Time"
             content.secondaryText = "Enter the amount of minutes for candle lighting"
+        
+        //These setting only apply to the regular mode i.e. Ohr HaChaim calendar
         case 3:
             content.text = "The settings below only apply if you do not use the Luach Amudei Horaah setting above"
             content.secondaryText = ""
@@ -65,6 +69,17 @@ class ZmanimSettingsViewController: UITableViewController {
         case endShabbatOpinionRow:
             content.text = "End shabbat opinion"
             content.secondaryText = "Choose which opinion to use for the time for when shabbat/chag ends"
+        case plagOpinionRow:
+            content.text = "Plag hamincha opinion"
+            content.secondaryText = "Choose which opinion to show for plag hamincha"
+        case alwaysShowTzeitLChumraRow:
+            content.text = "Always show Tzeit L'Chumra (Stringent)"
+            content.secondaryText = "Choose whether or not to show the more stringent tzeit hacochavim everyday"
+            let switchView = SwitchWithParam(frame: .zero)
+            switchView.isOn = defaults.bool(forKey: "showTzeitLChumra")
+            switchView.param = "showTzeitLChumra"
+            switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
+            cell.accessoryView = switchView
         default:
             break
         }
@@ -146,6 +161,27 @@ class ZmanimSettingsViewController: UITableViewController {
             
             let lesserAction = UIAlertAction(title: "Lesser of the two", style: .default) { (_) in
                 self.defaults.set(3, forKey: "endOfShabbatOpinion")
+            }
+            alertController.addAction(lesserAction)
+
+            present(alertController, animated: true, completion: nil)
+        }
+        
+        if indexPath.row == plagOpinionRow {
+            let alertController = UIAlertController(title: "Plag HaMincha Opinion", message:"Choose which opinion to use for the time for Plag HaMincha", preferredStyle: .alert)
+
+            let regularAction = UIAlertAction(title: "1 hour and 15 minutes before tzeit (Yalkut Yosef)", style: .default) { (_) in
+                self.defaults.set(1, forKey: "plagOpinion")
+            }
+            alertController.addAction(regularAction)
+            
+            let degreeAction = UIAlertAction(title: "1 hour and 15 minutes before sunset (Halacha Berurah)", style: .default) { (_) in
+                self.defaults.set(2, forKey: "plagOpinion")
+            }
+            alertController.addAction(degreeAction)
+            
+            let lesserAction = UIAlertAction(title: "Show Both", style: .default) { (_) in
+                self.defaults.set(3, forKey: "plagOpinion")
             }
             alertController.addAction(lesserAction)
 

@@ -362,8 +362,21 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         if defaults.bool(forKey: "NotifyMincha Ketana") {
             temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman:zmanimCalendar.minchaKetana(), isZman: true))
         }
-        if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
-            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+        if defaults.integer(forKey: "plagOpinion") == 1 || defaults.object(forKey: "plagOpinion") == nil {
+            if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+            }
+        } else if defaults.integer(forKey: "plagOpinion") == 2 {
+            if defaults.bool(forKey: "NotifyPlag HaMincha Halacha Berurah") {
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+            }
+        } else {
+            if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+            }
+            if defaults.bool(forKey: "NotifyPlag HaMincha Halacha Berurah") {
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+            }
         }
         if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.currentDayOfTheWeek() == 6 {
             zmanimCalendar.candleLightingOffset = 20
@@ -380,6 +393,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         if defaults.bool(forKey: "NotifyTzeit Hacochavim") {
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.tzeit(), isZman: true))
         }
+        if defaults.bool(forKey: "showTzeitLChumra") && defaults.bool(forKey: "NotifyTzeit Hacochavim (Stringent)") {
+           temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getLChumraString(), zman: zmanimCalendar.tzeitTaanit(), isZman: true))
+       }
         if jewishCalendar.isTaanis() && jewishCalendar.yomTovIndex() != kYomKippur.rawValue {
             if defaults.bool(forKey: "NotifyFast Ends") {
                 temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzeitTaanit(), isZman: true, isNoteworthyZman: true))

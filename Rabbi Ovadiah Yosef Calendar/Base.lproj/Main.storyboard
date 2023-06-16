@@ -87,7 +87,7 @@
                             <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         </stackView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="156" width="430" height="45"/>
+                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
@@ -111,7 +111,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
                                 <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
                                     <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="132" y="1" width="167" height="44"/>
+                                        <rect key="frame" x="131.66666666666666" y="0.66666666666666785" width="166.99999999999997" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" name="AccentColor"/>
@@ -865,6 +865,13 @@ etc...</string>
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Gs-BG-VXX">
+                                <rect key="frame" x="360.33333333333331" y="86" width="49.666666666666686" height="34.333333333333343"/>
+                                <buttonConfiguration key="configuration" style="plain" image="info.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="info:" destination="rLT-7O-XUP" eventType="touchUpInside" id="K0u-Gb-G6P"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9wZ-5e-LJR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -872,7 +879,9 @@ etc...</string>
                             <constraint firstItem="wny-zI-XsU" firstAttribute="centerY" secondItem="uhv-lB-hXd" secondAttribute="centerY" id="IQj-7e-Ygz"/>
                             <constraint firstItem="wny-zI-XsU" firstAttribute="centerX" secondItem="uhv-lB-hXd" secondAttribute="centerX" id="Rov-NO-e1R"/>
                             <constraint firstItem="z5B-Kp-adr" firstAttribute="leading" secondItem="9wZ-5e-LJR" secondAttribute="leading" constant="25" id="bmc-hQ-JNA"/>
+                            <constraint firstItem="9wZ-5e-LJR" firstAttribute="trailing" secondItem="7Gs-BG-VXX" secondAttribute="trailing" constant="20" id="n0y-PE-b50"/>
                             <constraint firstItem="9wZ-5e-LJR" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="z5B-Kp-adr" secondAttribute="trailing" symbolic="YES" id="nkS-cR-tra"/>
+                            <constraint firstItem="7Gs-BG-VXX" firstAttribute="top" secondItem="9wZ-5e-LJR" secondAttribute="top" constant="27" id="tgs-eM-3Nh"/>
                             <constraint firstItem="z5B-Kp-adr" firstAttribute="top" secondItem="9wZ-5e-LJR" secondAttribute="top" constant="27" id="zU6-gg-ww3"/>
                         </constraints>
                     </view>
@@ -896,6 +905,7 @@ etc...</string>
         <image name="arrowtriangle.right.fill" catalog="system" width="128" height="113"/>
         <image name="calendar" catalog="system" width="128" height="107"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
+        <image name="info.circle" catalog="system" width="128" height="123"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

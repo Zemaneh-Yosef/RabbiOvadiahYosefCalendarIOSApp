@@ -50,7 +50,9 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
         super.viewDidLoad()
         if !defaults.bool(forKey: "LuachAmudeiHoraah") {
             editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Halacha Berurah")!)
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Tzeit Hacochavim (Stringent)")!)
+            if !defaults.bool(forKey: "showTzeitLChumra") {
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Tzeit Hacochavim (Stringent)")!)
+            }
         } else {
             editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends")!)
             editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends (Stringent)")!)

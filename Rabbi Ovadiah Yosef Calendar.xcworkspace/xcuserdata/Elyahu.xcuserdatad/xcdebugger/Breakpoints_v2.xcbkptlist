@@ -78,8 +78,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1446"
-            endingLineNumber = "1446"
+            startingLineNumber = "1557"
+            endingLineNumber = "1557"
             landmarkName = "tzaitAmudeiHoraah()"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1336"
-            endingLineNumber = "1336"
+            startingLineNumber = "1447"
+            endingLineNumber = "1447"
             landmarkName = "shaahZmanisGra()"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1382"
-            endingLineNumber = "1382"
+            startingLineNumber = "1493"
+            endingLineNumber = "1493"
             landmarkName = "alotAmudeiHoraah()"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,9 +126,41 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1486"
-            endingLineNumber = "1486"
+            startingLineNumber = "1597"
+            endingLineNumber = "1597"
             landmarkName = "tzait72ZmanitAmudeiHoraah()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9539415A-1BFE-48A2-BAC2-C29CEA1DBDA5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/KosherCocoa/KCNOAACalculator.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "-getJulianDay:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88555A20-DD35-4C77-8D00-A2FD3F813720"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/KosherCocoa/KCNOAACalculator.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-getJulianDay:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

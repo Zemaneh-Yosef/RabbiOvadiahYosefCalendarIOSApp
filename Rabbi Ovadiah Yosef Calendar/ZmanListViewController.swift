@@ -861,7 +861,14 @@ class ZmanListViewController: UITableViewController {
         temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.chatzos(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.minchaGedolaGreaterThan30(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman:zmanimCalendar.minchaKetana(), isZman: true))
-        temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+        if defaults.integer(forKey: "plagOpinion") == 1 || defaults.object(forKey: "plagOpinion") == nil {
+            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+        } else if defaults.integer(forKey: "plagOpinion") == 2 {
+            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+        } else {
+            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedYalkutYosefString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+        }
         if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.currentDayOfTheWeek() == 6 {
             zmanimCalendar.candleLightingOffset = 20
             if defaults.object(forKey: "candleLightingOffset") != nil {
@@ -903,6 +910,8 @@ class ZmanListViewController: UITableViewController {
         if jewishCalendar.isTaanis() && jewishCalendar.yomTovIndex() != kYomKippur.rawValue {
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzeitTaanit(), isZman: true, isNoteworthyZman: true))
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.tzeitTaanitLChumra(), isZman: true, isNoteworthyZman: true))
+        } else if defaults.bool(forKey: "showTzeitLChumra") {
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getLChumraString(), zman: zmanimCalendar.tzeitTaanit(), isZman: true))
         }
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
             zmanimCalendar.ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40
@@ -1238,11 +1247,15 @@ class ZmanListViewController: UITableViewController {
             let geoCoder = CLGeocoder()
             geoCoder.geocodeAddressString((textField?.text)!, completionHandler: { i, j in
                 var name = ""
-                if let locality = i?.first?.locality {
-                    name += locality
+                if i?.first?.locality != nil {
+                    if let locality = i?.first?.locality {
+                        name += locality
+                    }
                 }
-                if let adminRegion = i?.first?.administrativeArea {
-                    name += ", \(adminRegion)"
+                if i?.first?.administrativeArea != nil {
+                    if let adminRegion = i?.first?.administrativeArea {
+                        name += ", \(adminRegion)"
+                    }
                 }
                 if name.isEmpty {
                     name = "No location name info"
