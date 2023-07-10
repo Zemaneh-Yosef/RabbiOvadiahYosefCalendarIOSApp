@@ -111,7 +111,7 @@ class ZmanimSettingsViewController: UITableViewController {
         if indexPath.row == 1 {
             let alertController = UIAlertController(title: "Tekufa Opinion", message:"Choose which opinion to use for the time for the tekufas", preferredStyle: .alert)
 
-            let regularAction = UIAlertAction(title: "Regular 6PM start time (Ohr Hachaim)", style: .default) { (_) in
+            let regularAction = UIAlertAction(title: "6PM start time (Ohr Hachaim)", style: .default) { (_) in
                 self.defaults.set(1, forKey: "tekufaOpinion")
             }
             alertController.addAction(regularAction)

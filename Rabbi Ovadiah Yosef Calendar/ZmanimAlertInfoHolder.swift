@@ -82,6 +82,9 @@ struct ZmanimAlertInfoHolder {
         if title.contains("Tekufa") {
             return "Tekufa - Season"
         }
+        if title.contains("Three Weeks") || title.contains("Nine Days") || title.contains("Shevuah Shechal Bo") {
+            return title
+        }
         
         return ""
     }
@@ -114,9 +117,8 @@ struct ZmanimAlertInfoHolder {
             "are between sunrise and 72 minutes as degrees (16.04) before sunrise on a equal day with sunrise and sunset set around 12 " +
             "hours apart. Then we take those minutes and make them zmaniyot according to the GR\"A and we subtract 5/6 of that time from " +
             "sunrise to get the time for Misheyakir. This is according to the Halacha Berurah and this should only be done outside of " +
-            "Israel in more northern or southern areas. The Halacha Berurah writes to do this because it is more according to the nature " +
-            "of the world, however, it does not seem like Rabbi Ovadiah Yosef ZT\"L or the Yalkut Yosef agrees with this opinion. " +
-            "Elevation is not included in Luach Amudei Horaah mode.\n\n"
+            "Israel in more northern or southern areas. " +
+            "Elevation is not included in Luach Amudei Horaah mode."
         }
         if title.contains(zmanimNames.getHaNetzString()) {
             return "This is the earliest time when all mitzvot (commandments) that are to be done during the daytime are allowed to be " +
@@ -128,7 +130,7 @@ struct ZmanimAlertInfoHolder {
             "the sun is VISIBLE to say shacharit. In Israel, the Ohr HaChaim calendar uses a table of sunrise times from the " +
             "luach/calendar 'לוח ביכורי יוסף' (Luach Bechoray Yosef) each year. These times were made by Chaim Keller, creator of the " +
             "ChaiTables website. Ideally, you should download these VISIBLE sunrise times from his website with the capability of " +
-            "this app by pressing the button below. However, if you did not download the times, you will see 'Mishor' or 'Sea Level' " +
+            "this app by pressing the button below (Feature coming soon). However, if you did not download the times, you will see 'Mishor' or 'Sea Level' " +
             "sunrise instead."
         }
         if title.contains(zmanimNames.getAchilatChametzString()) {
@@ -206,18 +208,20 @@ struct ZmanimAlertInfoHolder {
             "2 and a half hours before sunset, Plag is half of that at an hour and 15 minutes before sunset.\n" +
             "You can start saying arvit/maariv by this time according to Rabbi Yehudah in (ברכות כ'ו ע'א).\n\n" +
             "A person should not accept shabbat before this time as well.\n\n" +
-            "The Halacha Berurah says to calculate this time by subtracting an hour and 15 zmaniyot minutes from sunrise, however, the " +
-            "yalkut yosef says to calculate it as 1 hour and 15 zmaniyot/seasonal minutes before tzeit (13.5 zmaniyot minutes). \n\n" +
-            "In Luach Amudei Horaah mode, both ways to calculate this zman are shown. The only difference is that the tzait of the " +
+            "The Halacha Berurah says to calculate this time by subtracting an hour and 15 zmaniyot minutes from sunset, however, the " +
+            "Yalkut Yosef says to calculate it as 1 hour and 15 zmaniyot/seasonal minutes before tzeit (13.5 zmaniyot minutes). \n\n" +
+            "In Luach Amudei Horaah mode, both ways to calculate this zman are shown. The only difference is that the tzeit of the " +
             "Amudei Horaah is used instead of the regular 13.5 zmaniyot minutes.\n\n" +
             "The GR\"A calculates a zmaniyot/seasonal hour by taking the time between sunrise and sunset (elevation included) and " +
             "divides it into 12 equal parts. Then we divide one of those 12 parts into 60 to get a zmaniyot/seasonal minute."
         }
         if title.contains(zmanimNames.getCandleLightingString()) {
-            return "This is the ideal time for a person to light the candles before shabbat/chag starts.\n" +
+            return "This is the ideal time for a person to light the candles before shabbat/chag starts.\n\n" +
             "When there is candle lighting on a day that is Yom tov/Shabbat before another day that is Yom tov, " +
             "the candles are lit after Tzeit/Nightfall. However, if the next day is Shabbat, the candles are lit at their usual time.\n\n" +
-            "This time is calculated as 20 regular minutes before sunset (elevation included).\n\n You can change the amount in the settings."
+            "This time is calculated as 20 " +
+            "regular minutes before sunset (elevation included).\n\n" +
+            "The Ohr HaChaim calendar always shows the candle lighting time as 20 and 40 minutes before sunset."
         }
         if title.contains(zmanimNames.getSunsetString()) {
             return "This is the time of the day that the day starts to transition into the next day according to halacha.\n\n" +
@@ -230,10 +234,19 @@ struct ZmanimAlertInfoHolder {
             "and not before Tzeit/Nightfall.\n\n" +
             "Most mitzvot that are to be done during the day should ideally be done before this time."
         }
+        if title.contains(zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString()) {
+            return "This time is calculated as 20 minutes after sunset (elevation included).\n\n" +
+            "This time is important for fast days and deciding when to do a brit milah. Otherwise, it should not be used for anything else like the latest time for mincha.\n\n" +
+            "This time is shown in gray on shabbat and yom tov (as advised by my rabbeim) in order to not let people think that shabbat/yom tov ends at this time.\n\n" +
+            "In Luach Amudei Horaah mode, this time is calculated by finding out the the amount of minutes between sunset and 5.3 " +
+            "degrees below the horizon on a equal day, then we add that amount of zmaniyot minutes to sunset to get the time of " +
+            "Tzeit/Nightfall. We use 5.3 degrees below the horizon because that is the time when it is 20 minutes after sunset in Israel."
+        }
         if title.contains(zmanimNames.getTzaitHacochavimString()) {
             return "Tzeit/Nightfall is the time when the next halachic day starts after Bein Hashmashot/twilight finishes.\n\n" +
             "This is the latest time a person can say Mincha according Rav Ovadiah Yosef Z\"TL. A person should start mincha at " +
             "least 2 minutes before this time.\n\n" +
+            "This time is shown in gray on shabbat and yom tov (as advised by my rabbeim) in order to not let people think that shabbat/yom tov ends at this time.\n\n" +
             "This time is calculated as 13 and a half zmaniyot/seasonal minutes after sunset (elevation included).\n\n" +
             "The GR\"A calculates a zmaniyot/seasonal hour by taking the time between sunrise and sunset (elevation included) and " +
             "divides it into 12 equal parts. Then we divide one of those 12 parts into 60 to get a zmaniyot/seasonal minute.\n\n" +
@@ -251,16 +264,22 @@ struct ZmanimAlertInfoHolder {
             "This time is calculated as 20 regular minutes after sunset (elevation included).\n\n" +
             "It is brought down in Halacha Berurah that Rabbi Ovadiah Yosef Z\"TL was once traveling in New York and he said to his son, " +
             "Rabbi David Yosef Shlita, that the fast ends 13.5 zmaniyot minutes after sunset. However, in his sefer Chazon Ovadiah, he " +
-            "writes that the fast ends 20 regular minutes after sunset.\n\n" +
-            "If a person wants to end the fast at 13.5 minutes after sunset, he has the rite to do so. However, if a person wants to " +
+            "writes that the fast ends 20 minutes after sunset.\n\n" +
+            "In the Ohr HaChaim calendar, they write that the fast ends at Tzait Hacochavim. I asked Rabbi Benizri if this meant that " +
+            "the fast ends at 13.5 zmaniyot minutes after sunset and he said, \"Not necessarily, the calendar just says that the fast ends " +
+            "at Tzait Hacochavim, a person can end the fast at 20 minutes " +
+            "after sunset if he wants to be stringent.\" I then asked him if those 20 minutes are zmaniyot minutes or regular minutes " +
+            "and he said, \"Regular minutes.\"\n\n" +
+            "To summarize: If a person wants to end the fast at 13.5 zmaniyot minutes after sunset, he has the right to do so. However, if a person wants to " +
             "be stringent, he can end the fast at 20 minutes after sunset."
         }
         if title.contains("Shabbat") || title.contains("Chag") || title.contains("\u{05E9}\u{05D1}\u{05EA}") || title.contains("\u{05D7}\u{05D2}") {
             return "This is the time that Shabbat/Chag ends.\n\n" +
             "Note that there are many customs on when shabbat ends, by default, it is set to 40 regular minutes after sunset (elevation " +
-            "included), however, you can change the time in the settings.\n\n" +
-            "This time is calculated as " + " 40 " +
-            "regular minutes after sunset (elevation included).\n\n" +
+            "included) outside of Israel and 30 regular minutes after sunset inside Israel. I used 40 minutes because Rabbi Meir Gavriel " +
+            "Elbaz Shlita has told me that anywhere outside of Israel, " +
+            "if you wait 40 regular minutes after sunset, that is enough time to end shabbat." +
+            "You can change this time in the settings to accommodate your communities minhag.\n\n" +
             "In Luach Amudei Horaah mode, this time is calculated by using a degree of 7.14. We use this degree because " +
             "Rabbi Ovadiah Yosef ZT\"L ruled that regarding Motzeh Shabbat the listed time should be set as 30 fixed minutes after " +
             "sunset. This degree is interpreted as 30 minutes after sunset all year round in Israel."
@@ -291,7 +310,7 @@ struct ZmanimAlertInfoHolder {
             return "This is the middle of the halachic night, when the sun is exactly in the middle of the sky beneath us.\n\n" +
             "This time is calculated as 6 zmaniyot/seasonal hours after sunset. " +
             "The GR\"A calculates a zmaniyot/seasonal hour by taking the time between sunrise and sunset (elevation included) and " +
-            "divides it into 12 equal parts.\n\n"
+            "divides it into 12 equal parts."
         }
         if title.contains("וּלְכַפָּרַת פֶּשַׁע") {
             return "When Rosh Chodesh happens during a leap year, we add the words, \"וּלְכַפָּרַת פֶּשַׁע\" during Musaf. We only add these words from Tishri until the second month of Adar. However, for the rest of the year and during non leap years we do not say it."
@@ -301,11 +320,12 @@ struct ZmanimAlertInfoHolder {
             "Nissan (spring), and Tammuz (summer). Each Tekufa happens 91.3125 (365.25 / 4) days after the previous Tekufa.\n\n" +
             "The Achronim write that a person should not drink water when the seasons change. Rabbi Ovadiah Yosef Z\"TL writes " +
             "(in Halichot Olam, Chelek 7, Page 183, Halacha 8) that a person should not drink water from a half hour before this time " +
-            "till a half hour after this time unless there is a piece of iron in the water.\n\nNOTE: This only applies to water, not " +
+            "till a half hour after this time unless there is a slim piece of iron in the water.\n\nNOTE: This only applies to water, not " +
             "to other drinks." + "\n\n" +
             "Both the Ohr HaChaim and the Amudei Horaah calendars use the above method to get the time for the tekufa. However, the " +
-            "Amudei Horaah calendar differs from the Ohr HaChaim calendar by using the local midday time of Israel. Which causes a 21 minute difference. " +
-            "Therefore, the Amudei Horaah calendar will always end with 9 minutes and the Ohr HaChaim calendar will always end with 0"
+            "Amudei Horaah calendar differs from the Ohr HaChaim calendar, by using the local midday time of Israel. Which causes a 21 " +
+            "minute difference. " +
+            "Therefore, the Amudei Horaah calendar time for the tekufa will always be 21 minutes before the Ohr HaChaim's time."
         }
         if title.contains("Tachanun") || title.contains("צדקתך") {
             return "Here is a list of days with no tachanun:\n\n" +
@@ -331,7 +351,30 @@ struct ZmanimAlertInfoHolder {
             "Pesach Sheni\n" +
             "Yom Yerushalayim but not Yom Ha'atzmaut (according to the minhag of Rabbi Ovadiah ZT\"L)\n\n" +
             "Note that there are other times you should not say tachanun, but this list is only for days with no tachanun. Sometimes " +
-            "you can skip tachanun if there are mourners making up majority of the minyan or if there is a simcha (joyous occasion) or for various other reasons."
+            "you can skip tachanun if there are mourners making up majority of the minyan or if there is a simcha (joyous occasion)."
+        }
+        if title.contains("Three Weeks") || title.contains("Nine Days") || title.contains("Shevuah Shechal Bo") {
+            return "During the time of the three weeks/nine days/shevuah shechal bo " +
+            "certain restrictions apply:\n\n" +
+            "Three Weeks:\n" +
+            "No listening to music\n\n" +
+            "Nine Days:\n" +
+            "No listening to music\n" +
+            "No weddings\n" +
+            "No purchasing new clothing\n" +
+            "No consumption of meat or wine\n" +
+            "No wearing new clothing\n\n" +
+            "Shevuah Shechal Bo:\n" +
+            "No taking haircuts\n" +
+            "No listening to music\n" +
+            "No weddings\n" +
+            "No purchasing new clothing\n" +
+            "No swimming\n" +
+            "No construction\n" +
+            "No consumption of meat or wine\n" +
+            "No showering with hot water\n" +
+            "No laundry or wearing freshly laundered clothing\n" +
+            "No wearing new clothing"
         }
         
         return ""

@@ -10,9 +10,10 @@ import Foundation
 struct ZmanListEntry {
     var title: String // Name of zman or information of the day
     var zman: Date? = nil // Date time of zman
-    var isZman: Bool = false
-    var isNoteworthyZman: Bool = false
-    var isRTZman: Bool = false
+    var isZman: Bool = false // Whether or not this object is a zman or just some text
+    var isNoteworthyZman: Bool = false // For weekly view
+    var isRTZman: Bool = false // To know whether to round up
+    var shouldBeDimmed: Bool = false // For Tzeit on Shabbat/Yom Tov
 }
 
 #if DEBUG

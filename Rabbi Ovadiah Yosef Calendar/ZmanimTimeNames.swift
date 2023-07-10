@@ -56,7 +56,7 @@ struct ZmanimTimeNames {
     
     public func getLChumraString() -> String {
         if (mIsZmanimInHebrew) {
-            return "לחומרה";
+            return "לחומרא";
         } else if (mIsZmanimEnglishTranslated) {
             return "(Stringent)";
         } else {

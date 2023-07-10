@@ -67,7 +67,7 @@ class ZmanListViewController: UITableViewController {
             if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
                 self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
             } else {//we have never been here before, get the elevation from online
-                if self.defaults.bool(forKey: "useElevation") {
+                if self.defaults.bool(forKey: "useElevation")  && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
                     self.getElevationFromOnline()
                 } else {
                     self.elevation = 0//undo any previous values
@@ -159,7 +159,7 @@ class ZmanListViewController: UITableViewController {
                     content.textProperties.font = .boldSystemFont(ofSize: 20)
                     content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
                     content.prefersSideBySideTextAndSecondaryText = true
-                } else {
+                } else {//english
                     if zman == nil {
                         content.text = zmanimList[indexPath.row].title
                         content.secondaryText = "N/A"
@@ -193,6 +193,11 @@ class ZmanListViewController: UITableViewController {
                 content.textProperties.alignment = .center
                 content.text = zmanimList[indexPath.row].title
             }
+        
+        if zmanimList[indexPath.row].shouldBeDimmed {
+            content.textProperties.color = .lightGray
+            content.secondaryTextProperties.color = .lightGray
+        }
         
         cell.contentConfiguration = content
         return cell
@@ -395,7 +400,7 @@ class ZmanListViewController: UITableViewController {
                 if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
                     self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
                 } else {//we have never been here before, get the elevation from online
-                    if self.defaults.bool(forKey: "useElevation") {
+                    if self.defaults.bool(forKey: "useElevation") && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
                         self.getElevationFromOnline()
                     } else {
                         self.elevation = 0//undo any previous values
@@ -926,6 +931,15 @@ class ZmanListViewController: UITableViewController {
                 temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
             }
             temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.tzait72Zmanit(), isZman: true, isNoteworthyZman: true, isRTZman: true))
+            var index = 0
+            for var zman in temp {
+                if zman.title == zmanimNames.getTzaitHacochavimString() || zman.title == zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString() {
+                    zman.shouldBeDimmed = true
+                    temp.remove(at: index)
+                    temp.insert(zman, at: index)
+                }
+                index+=1
+            }
         }
         if defaults.bool(forKey: "alwaysShowRT") {
             if !(jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting()) {
@@ -988,6 +1002,15 @@ class ZmanListViewController: UITableViewController {
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
             temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.tzait72ZmanitAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true))
+            var index = 0
+            for var zman in temp {
+                if zman.title == zmanimNames.getTzaitHacochavimString() || zman.title == zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString() {
+                    zman.shouldBeDimmed = true
+                    temp.remove(at: index)
+                    temp.insert(zman, at: index)
+                }
+                index+=1
+            }
         }
         if defaults.bool(forKey: "alwaysShowRT") {
             if !(jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting()) {
@@ -1015,7 +1038,7 @@ class ZmanListViewController: UITableViewController {
                     if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
                         self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
                     } else {//we have never been here before, get the elevation from online
-                        if self.defaults.bool(forKey: "useElevation") {
+                        if self.defaults.bool(forKey: "useElevation") && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
                             self.getElevationFromOnline()
                         } else {
                             self.elevation = 0//undo any previous values
@@ -1093,6 +1116,17 @@ class ZmanListViewController: UITableViewController {
         let specialDay = jewishCalendar.getSpecialDay()
         if !specialDay.isEmpty {
             zmanimList.append(ZmanListEntry(title:specialDay))
+        }
+        if jewishCalendar.is3Weeks() {
+            if jewishCalendar.is9Days() {
+                if jewishCalendar.isShevuahShechalBo() {
+                    zmanimList.append(ZmanListEntry(title: "Shevuah Shechal Bo"))
+                } else {
+                    zmanimList.append(ZmanListEntry(title: "Nine Days"))
+                }
+            } else {
+                zmanimList.append(ZmanListEntry(title: "Three Weeks"))
+            }
         }
         let music = jewishCalendar.isOKToListenToMusic()
         if !music.isEmpty {
@@ -1274,7 +1308,9 @@ class ZmanListViewController: UITableViewController {
                     }
                     self.elevation = 0//undo any previous values
                 }
-                self.timezone = (i?.first?.timeZone)!
+                if i?.first?.timeZone != nil {
+                    self.timezone = (i?.first?.timeZone)!
+                }
                 self.recreateZmanimCalendar()
                 self.defaults.set(name, forKey: "locationName")
                 self.defaults.set(self.lat, forKey: "lat")
@@ -1296,9 +1332,11 @@ class ZmanListViewController: UITableViewController {
     }
     
     @objc func didGetNotification(_ notification: Notification) {
-        let amount = notification.object as! String
-        elevation = NumberFormatter().number(from: amount)!.doubleValue
-        defaults.set(elevation, forKey: "elevation" + locationName)
+        if notification.object != nil {
+            let amount = notification.object as! String
+            elevation = NumberFormatter().number(from: amount)!.doubleValue
+            defaults.set(elevation, forKey: "elevation" + locationName)
+        }
         recreateZmanimCalendar()
     }
     
@@ -1946,6 +1984,49 @@ public extension JewishCalendar {
             }
         }
         return "";
+    }
+    
+    func is3Weeks() -> Bool {
+        if currentHebrewMonth() == HebrewMonth.tammuz.rawValue {
+            return currentHebrewDayOfMonth() >= 17
+        } else if currentHebrewMonth() == HebrewMonth.av.rawValue {
+            return currentHebrewDayOfMonth() < 9
+        }
+        return false
+    }
+    
+    func is9Days() -> Bool {
+        if currentHebrewMonth() == HebrewMonth.av.rawValue {
+            return currentHebrewDayOfMonth() < 9
+        }
+        return false
+    }
+    
+    func isShevuahShechalBo() -> Bool {
+        if currentHebrewMonth() != HebrewMonth.av.rawValue {
+            return false
+        }
+        
+        let backup = workingDate
+        
+        workingDate = Calendar(identifier: .hebrew).date(bySetting: .day, value: 9, of: workingDate)!
+        
+        if currentDayOfTheWeek() == 1 || currentDayOfTheWeek() == 7 {
+            return false
+        }
+        workingDate = backup// reset
+        
+        let tishaBeav = Calendar(identifier: .hebrew).date(bySetting: .day, value: 8, of: workingDate)!
+        let jewishCal = JewishCalendar()
+        jewishCal.workingDate = tishaBeav
+        
+        var daysOfShevuahShechalBo = Array<Int>()
+        
+        while jewishCal.currentDayOfTheWeek() != 7 {
+            daysOfShevuahShechalBo.append(jewishCal.currentHebrewDayOfMonth())
+            jewishCal.workingDate = jewishCal.workingDate.advanced(by: -86400)
+        }
+        return daysOfShevuahShechalBo.contains(currentHebrewDayOfMonth())
     }
     
     func isBirkasHachamah() -> Bool {
