@@ -8,9 +8,13 @@
 
 <a href="https://play.google.com/store/apps/details?id=com.EJ.ROvadiahYosefCalendar&amp;pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="250px"></a><a href="https://github.com/Elyahu41/RabbiOvadiahYosefCalendarApp"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="62px"></a>
 
-<b>Website and source code:</b>
+<b>Website (official) and source code:</b>
 
-<a href="https://elyahu41.github.io/RabbiOvadiahYosefCalendar/"><img src="https://www.kindpng.com/picc/m/36-363991_www-icon-png-transparent-background-website-icon-png.png" width="124px"></a> <a href="https://github.com/Elyahu41/Elyahu41.github.io/tree/master/RabbiOvadiahYosefCalendar"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="62px"></a>
+<a href="https://royzmanim.com/"><img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="124px"></a> <a href="https://github.com/Elyahu41/royzmanimwebsite"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="62px"></a>
+
+<b>Website (unofficial) and source code:</b>
+
+<a href="https://elyahu41.github.io/RabbiOvadiahYosefCalendar/"><img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="124px"></a> <a href="https://github.com/Elyahu41/Elyahu41.github.io/tree/master/RabbiOvadiahYosefCalendar"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="62px"></a>
 
 The goal of this app is to recreate the "Luach HaMaor Ohr HaChaim" calendar that is widespread in Israel. This calendar is special because Rabbi Ovadiah Yosef ZT"L oversaw it's creation and used the calendar himself until he passed:
 
