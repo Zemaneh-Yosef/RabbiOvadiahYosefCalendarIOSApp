@@ -45,14 +45,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
-        var trigger: UNCalendarNotificationTrigger
-        if zmanimCalendar.sunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {//if after sunrise
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)//set to next day's sunrise
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunrise() ?? Date()), repeats: false)
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)//reset
-        } else {//set to upcoming sunrise
-            trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunrise() ?? Date()), repeats: false)
-        }
+        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.seaLevelSunriseOnly() ?? Date()), repeats: false)
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         if content.body != "Today is " {//avoid scheduling notifications that are not going to be displayed
@@ -64,10 +57,14 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     func scheduleSunriseNotifications() {
         amountOfNotificationsSet = 0
         notificationCenter.removeAllPendingNotificationRequests()//always start from scratch...
+        
+        if zmanimCalendar.sunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+            addOneDayToCalendars()
+        }
+
         for _ in 1...14 {
             scheduleDailyNotification()
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
-            jewishCalendar.workingDate = zmanimCalendar.workingDate
+            addOneDayToCalendars()
         }
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
@@ -173,21 +170,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         var trigger: UNCalendarNotificationTrigger
 
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            if zmanimCalendar.tzaitAmudeiHoraah()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
-                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
                 trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzaitAmudeiHoraah() ?? Date()), repeats: false)
-                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
-            } else {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzaitAmudeiHoraah() ?? Date()), repeats: false)
-            }
         } else {
-            if zmanimCalendar.tzeit()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
-                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
                 trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
-                zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
-            } else {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
-            }
         }
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
@@ -197,18 +182,33 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
+    fileprivate func addOneDayToCalendars() {
+        zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
+        jewishCalendar.workingDate = zmanimCalendar.workingDate
+    }
+    
     func scheduleSunsetNotifications() {
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            if zmanimCalendar.tzaitAmudeiHoraah()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
+                addOneDayToCalendars()
+            }
+        } else {
+            if zmanimCalendar.tzeit()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
+                addOneDayToCalendars()
+            }
+        }
+        
         for _ in 1...14 {
             scheduleOmerNotifications()
-            zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
-            jewishCalendar.workingDate = zmanimCalendar.workingDate
+            addOneDayToCalendars()
         }
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
         
         while jewishCalendar.isVeseinBerachaRecited() {
             jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
-        }//now that the jewish date is set to the date where we change to Barech Aleinu, make a notification for sunset
+        }//now that the jewish date is set to the date where we change to Barech Aleinu in the morning, make a notification for sunset the day before
+        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(-86400)
         zmanimCalendar.workingDate = jewishCalendar.workingDate
         let contentBarech = UNMutableNotificationContent()
         contentBarech.title = "Barech Aleinu Tonight!"
@@ -229,13 +229,15 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     func scheduleZmanimNotifications() {
         if !defaults.bool(forKey: "zmanim_notifications") {
             //if zmanim notifications are off, we can use the other local notifications for daily notifications which are the most important in my opinion
+            if zmanimCalendar.sunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+                addOneDayToCalendars()
+            }
+            //we already scheduled for 14 days, so advance the dates 15/16 days
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400 * 15)
             jewishCalendar.workingDate = zmanimCalendar.workingDate
-            //we already scheduled for 14 days, so advance the dates 15 days
             while amountOfNotificationsSet != amountOfPossibleNotifications {
                 scheduleDailyNotification()
-                zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
-                jewishCalendar.workingDate = zmanimCalendar.workingDate
+                addOneDayToCalendars()
             }
             return
         }
@@ -543,6 +545,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             jewishCalendar = JewishCalendar(location: zmanimCalendar.geoLocation)
             jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
             jewishCalendar.returnsModernHolidays = true
+            self.scheduleSunriseNotifications()
+            self.scheduleSunsetNotifications()
+            self.scheduleZmanimNotifications()
+            self.notificationsAreBeingSet = false
         } else {
             LocationManager.shared.getUserLocation {
                 location in DispatchQueue.main.async { [self] in
