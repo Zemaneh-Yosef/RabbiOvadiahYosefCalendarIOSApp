@@ -357,16 +357,19 @@ struct ZmanimAlertInfoHolder {
             return "During the time of the three weeks/nine days/shevuah shechal bo " +
             "certain restrictions apply:\n\n" +
             "Three Weeks:\n" +
-            "No listening to music\n\n" +
+            "No listening to music\n" +
+            "No shehechiyanu on new clothes\n\n" +
             "Nine Days:\n" +
             "No listening to music\n" +
+            "No shehechiyanu on new clothes\n" +
             "No weddings\n" +
             "No purchasing new clothing\n" +
-            "No consumption of meat or wine\n" +
+            "No consumption of meat or wine (excludes Rosh Chodesh and Shabbat)\n" +
             "No wearing new clothing\n\n" +
             "Shevuah Shechal Bo:\n" +
-            "No taking haircuts\n" +
+            "No taking haircuts (Men Only)\n" +
             "No listening to music\n" +
+            "No shehechiyanu on new clothes\n" +
             "No weddings\n" +
             "No purchasing new clothing\n" +
             "No swimming\n" +

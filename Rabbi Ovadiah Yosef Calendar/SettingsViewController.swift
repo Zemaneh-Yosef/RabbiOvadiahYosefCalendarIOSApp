@@ -160,7 +160,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print(indexPath.row)
 
         if indexPath.row == 2 && defaults.bool(forKey: "zmanim_notifications") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
