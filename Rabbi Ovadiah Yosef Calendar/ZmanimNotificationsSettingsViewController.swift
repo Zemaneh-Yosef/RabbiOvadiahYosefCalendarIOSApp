@@ -49,7 +49,12 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if !defaults.bool(forKey: "LuachAmudeiHoraah") {
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Halacha Berurah")!)
+            if defaults.integer(forKey: "plagOpinion") == 1 {
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Halacha Berurah")!)
+            }
+            if defaults.integer(forKey: "plagOpinion") == 2 {
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Yalkut Yosef")!)
+            }
             if !defaults.bool(forKey: "showTzeitLChumra") {
                 editableZmanim.remove(at: editableZmanim.firstIndex(of: "Tzeit Hacochavim (Stringent)")!)
             }
@@ -90,7 +95,7 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
                 content.secondaryTextProperties.color = .gray
                 cell.selectionStyle = .none
             }
-            if !defaults.bool(forKey: "LuachAmudeiHoraah") {
+            if !defaults.bool(forKey: "LuachAmudeiHoraah") && defaults.integer(forKey: "plagOpinion") == 1 {
                 content.text = editableZmanim[indexPath.row-2].replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Plag HaMincha")
             } else {
                 content.text = editableZmanim[indexPath.row-2]
