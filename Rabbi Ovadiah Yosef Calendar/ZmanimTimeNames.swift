@@ -74,6 +74,14 @@ struct ZmanimTimeNames {
         }
     }
     
+    public func getStartsString() -> String {
+         if (mIsZmanimInHebrew) {
+             return " מתחיל";
+         } else {
+             return " Starts";
+         }
+     }
+    
     public func getTzaitHacochavimString() -> String {
         if (mIsZmanimInHebrew) {
             return "צאת הכוכבים";

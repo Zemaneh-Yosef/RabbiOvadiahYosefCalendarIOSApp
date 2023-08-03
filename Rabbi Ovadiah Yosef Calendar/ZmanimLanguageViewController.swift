@@ -35,9 +35,17 @@ class ZmanimLanguageViewController: UIViewController {
     }
     
     func showCalendarChooserView() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
-        self.present(newViewController, animated: true, completion: nil)
+        if !defaults.bool(forKey: "inIsrael") {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
+            self.present(newViewController, animated: true, completion: nil)
+        } else {
+            let inIsraelView = super.presentingViewController?.presentingViewController!
+            
+            super.dismiss(animated: true) {//when this view is dismissed, dismiss the superview as well
+                inIsraelView?.dismiss(animated: true)
+            }
+        }
     }
 
     /*
