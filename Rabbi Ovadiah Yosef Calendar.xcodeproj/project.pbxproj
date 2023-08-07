@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 52119EE22A7F954800661D63 /* SwiftSoup */; };
 		5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5292D1B72A6E537E00857241 /* ChaiTablesCountries.swift */; };
 		5292D1BA2A6E556400857241 /* ChaiTablesOptionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5292D1B92A6E556400857241 /* ChaiTablesOptionsList.swift */; };
 		5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */; };
@@ -76,12 +77,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D9B83912A04E07800C5EB2D /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework in Frameworks */,
+				52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52119EE02A7F8C5100661D63 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5D19D36429A3687900F8033D /* ZmanListViewController.swift */,
+				5D948C302A38205E0017A8B6 /* CalendarViewController.swift */,
+				5D7550A229E3776700894335 /* ElevationViewController.swift */,
+				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
+				5D7550B329F8FE6100894335 /* SettingsViewController.swift */,
+				5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */,
+				5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */,
+				5D7550AB29EF94C300894335 /* ZmanimLanguageViewController.swift */,
+				5D7550B029F2761300894335 /* MoladViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		5D0D7DAF29A8AA23003B6E43 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,28 +129,20 @@
 		5D19D35F29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				52119EE02A7F8C5100661D63 /* ViewControllers */,
 				5D0D7DAF29A8AA23003B6E43 /* Models */,
 				5D19D37629A36DB200F8033D /* LSGeoLookup.swift */,
 				5D19D37A29A36DB300F8033D /* LocationManager.swift */,
 				5D19D37429A36DB200F8033D /* Constants.swift */,
 				5D19D36029A3687900F8033D /* AppDelegate.swift */,
 				5D19D36229A3687900F8033D /* SceneDelegate.swift */,
-				5D19D36429A3687900F8033D /* ZmanListViewController.swift */,
 				5292D1B92A6E556400857241 /* ChaiTablesOptionsList.swift */,
 				5D1CA12D2A021CA100F24323 /* Notifications.swift */,
 				5292D1B72A6E537E00857241 /* ChaiTablesCountries.swift */,
 				5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */,
-				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
-				5D948C302A38205E0017A8B6 /* CalendarViewController.swift */,
-				5D7550A229E3776700894335 /* ElevationViewController.swift */,
 				5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */,
 				5D7550A429EBC58200894335 /* MarqueeLabel.swift */,
 				5D19D36629A3687900F8033D /* Main.storyboard */,
-				5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */,
-				5D7550B329F8FE6100894335 /* SettingsViewController.swift */,
-				5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */,
-				5D7550B029F2761300894335 /* MoladViewController.swift */,
-				5D7550AB29EF94C300894335 /* ZmanimLanguageViewController.swift */,
 				5D19D36929A3687B00F8033D /* Assets.xcassets */,
 				5D19D36B29A3687B00F8033D /* LaunchScreen.storyboard */,
 				5D19D36E29A3687B00F8033D /* Info.plist */,
@@ -179,6 +189,9 @@
 			dependencies = (
 			);
 			name = "Rabbi Ovadiah Yosef Calendar";
+			packageProductDependencies = (
+				52119EE22A7F954800661D63 /* SwiftSoup */,
+			);
 			productName = "Rabbi Ovadiah Yosef Calendar";
 			productReference = 5D19D35D29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar.app */;
 			productType = "com.apple.product-type.application";
@@ -208,6 +221,9 @@
 				Base,
 			);
 			mainGroup = 5D19D35429A3687900F8033D;
+			packageReferences = (
+				52119EE12A7F954800661D63 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			productRefGroup = 5D19D35E29A3687900F8033D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -536,6 +552,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		52119EE12A7F954800661D63 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		52119EE22A7F954800661D63 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52119EE12A7F954800661D63 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5D19D35529A3687900F8033D /* Project object */;
 }

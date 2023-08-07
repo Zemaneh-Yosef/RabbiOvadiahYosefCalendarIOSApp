@@ -206,7 +206,8 @@ class ZmanListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if shabbatMode || !defaults.bool(forKey: "showZmanDialogs"){
+        if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
+            endShabbatMode()
             return//do not show the dialogs
         }
         
@@ -372,9 +373,9 @@ class ZmanListViewController: UITableViewController {
         tableView.addGestureRecognizer(swipeGestureRecognizer)
         tableView.addGestureRecognizer(swipeLeftGestureRecognizer)
         createMenu()
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+        let hideBannerGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         ShabbatModeBanner.isUserInteractionEnabled = true
-        ShabbatModeBanner.addGestureRecognizer(tapGestureRecognizer)
+        ShabbatModeBanner.addGestureRecognizer(hideBannerGestureRecognizer)
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             titleLabel.textAlignment = .natural
         }
@@ -437,7 +438,6 @@ class ZmanListViewController: UITableViewController {
         } else {
             updateZmanimList()
         }
-        
     }
     
     @objc func labelTapped() {
@@ -685,30 +685,31 @@ class ZmanListViewController: UITableViewController {
     }
     
     func startBackgroundScrollingThread() {
+        let max = self.tableView.contentSize.height - self.tableView.frame.height
+        print(max)
+        var height = CGFloat(exactly: 0)
         DispatchQueue.global(qos: .background).async {
             while self.shabbatMode {
-                for row in 0..<self.zmanimList.count {
+                while self.shabbatMode && height! < max {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
-                            Thread.sleep(forTimeInterval: 0.2)
-                            let indexPath = IndexPath(row: row, section: 0)
-                            self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+                            self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
+                            height! += 1
+                            print(height!)
                         }
                     }
-                    
-                    Thread.sleep(forTimeInterval: 0.2)
+                    Thread.sleep(forTimeInterval: 0.01)
                 }
                 
-                for row in (0..<self.zmanimList.count).reversed() {
+                while self.shabbatMode && height! >= 0 {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
-                            Thread.sleep(forTimeInterval: 0.2)
-                            let indexPath = IndexPath(row: row, section: 0)
-                            self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+                            self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
+                            height! -= 1
+                            print(height!)
                         }
                     }
-                    
-                    Thread.sleep(forTimeInterval: 0.5)
+                    Thread.sleep(forTimeInterval: 0.01)
                 }
             }
         }
@@ -1091,12 +1092,14 @@ class ZmanListViewController: UITableViewController {
     }
     
     @objc func handleSwipe(_ gestureRecognizer: UISwipeGestureRecognizer) {
-        if gestureRecognizer.state == .ended {
-            if gestureRecognizer.direction == .left {
-                nextDayButton((Any).self)
-            }
-            if gestureRecognizer.direction == .right {
-                prevDayButton((Any).self)
+        if !shabbatMode {
+            if gestureRecognizer.state == .ended {
+                if gestureRecognizer.direction == .left {
+                    nextDayButton((Any).self)
+                }
+                if gestureRecognizer.direction == .right {
+                    prevDayButton((Any).self)
+                }
             }
         }
     }
