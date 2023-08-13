@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ChaiTablesOptionsList {
+class ChaiTablesLinkGenerator {
     
     let countries: [String] = [
         "Argentina", "Australia", "Austria", "Belgium", "Brazil",

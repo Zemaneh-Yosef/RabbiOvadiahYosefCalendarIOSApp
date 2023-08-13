@@ -866,7 +866,16 @@ class ZmanListViewController: UITableViewController {
         }
         temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.alos72Zmanis(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.talitTefilin(), isZman: true))
-        temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+        let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
+        let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
+        if visibleSurise != nil {
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true))
+        } else {
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+        }
+        if visibleSurise != nil && defaults.bool(forKey: "alwaysShowMishorSunrise") {
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+        }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.sofZmanShmaMGA72MinutesZmanis(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.sofZmanShmaGra(), isZman: true))
         if jewishCalendar.yomTovIndex() == kErevPesach.rawValue {
@@ -978,7 +987,16 @@ class ZmanListViewController: UITableViewController {
         }
         temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.alotAmudeiHoraah(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.talitTefilinAmudeiHoraah(), isZman: true))
-        temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+        let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
+        let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
+        if visibleSurise != nil {
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true))
+        } else {
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+        }
+        if visibleSurise != nil && defaults.bool(forKey: "alwaysShowMishorSunrise") {
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+        }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.shmaMGAAmudeiHoraah(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.sofZmanShmaGra(), isZman: true))
         if jewishCalendar.yomTovIndex() == kErevPesach.rawValue {
@@ -1086,6 +1104,16 @@ class ZmanListViewController: UITableViewController {
                     updateZmanimList()
                     NotificationManager.instance.requestAuthorization()
                     NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                    
+                    let chaitables = ChaiTablesLinkGenerator()
+                    var array = chaitables.selectCountry(country: ChaiTablesCountries.USA)
+                    chaitables.selectMetropolitanArea(metropolitanArea: array.remove(at: array.firstIndex(of: "Denver_area_CO")!))
+                    let link = chaitables.getChaiTablesLink(lat: lat, long: long, timezone: -5, searchRadius: 8, type: 0, year: jewishCalendar.currentHebrewYear(), userId: 10000)
+                    let scraper = ChaiTablesScraper(link: link, locationName: locationName ?? "", jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
+                    //scraper.scrape()
+                    print(link)
+                    let chai = ChaiTables(locationName: self.locationName, jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
+                    chai.getVisibleSurise(forDate: userChosenDate)
                 }
             }
         }
