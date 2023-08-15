@@ -11,6 +11,7 @@ import MessageUI
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     let defaults = UserDefaults.standard
+    let length = 15 //increment this every time you want to add...
 
     @IBAction func backButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
@@ -32,7 +33,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 14 //increment this every time...
+        return length
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -137,6 +138,14 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 cell.accessoryView = switchView
             }
         case 11:
+            content.text = "Always show mishor sunrise?"
+            content.secondaryText = "Choose whether or not to display sea level sunrise if visible sunrise is setup as well"
+            let switchView = SwitchWithParam(frame: .zero)
+            switchView.isOn = defaults.bool(forKey: "alwaysShowMishorSunrise")
+            switchView.param = "alwaysShowMishorSunrise"
+            switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
+            cell.accessoryView = switchView
+        case 12:
             content.text = "Set elevation to last known location?"
             content.secondaryText = "Choose whether or not to set the elevation to the last known location when the app is opened offline"
             let switchView = SwitchWithParam(frame: .zero)
@@ -144,10 +153,10 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             switchView.param = "setElevationToLastKnownLocation"
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
-        case 12:
+        case 13:
             content.text = "Have questions or feature requests?"
             content.secondaryText = "Contact the developer"
-        case 13:
+        case 14:
             content.text = "Need help?"
             content.secondaryText = "Watch a video guide"
         default:
