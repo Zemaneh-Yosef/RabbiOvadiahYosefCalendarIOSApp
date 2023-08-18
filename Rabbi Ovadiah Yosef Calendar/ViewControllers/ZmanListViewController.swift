@@ -240,6 +240,16 @@ class ZmanListViewController: UITableViewController {
                 alertController.addAction(elevationAction)
             }
         }
+        
+        if zmanimList[indexPath.row].title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
+            let setupSunriseAction = UIAlertAction(title: "Setup Visible Sunrise", style: .default) { [self] (_) in
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "SetupChooser") as! SetupChooserViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
+            }
+            alertController.addAction(setupSunriseAction)
+        }
 
         let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { (_) in }
         alertController.addAction(dismissAction)
@@ -686,7 +696,6 @@ class ZmanListViewController: UITableViewController {
     
     func startBackgroundScrollingThread() {
         let max = self.tableView.contentSize.height - self.tableView.frame.height
-        print(max)
         var height = CGFloat(exactly: 0)
         DispatchQueue.global(qos: .background).async {
             while self.shabbatMode {
@@ -695,7 +704,6 @@ class ZmanListViewController: UITableViewController {
                         if self.shabbatMode {
                             self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
                             height! += 1
-                            print(height!)
                         }
                     }
                     Thread.sleep(forTimeInterval: 0.01)
@@ -706,7 +714,6 @@ class ZmanListViewController: UITableViewController {
                         if self.shabbatMode {
                             self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
                             height! -= 1
-                            print(height!)
                         }
                     }
                     Thread.sleep(forTimeInterval: 0.01)
@@ -1104,16 +1111,6 @@ class ZmanListViewController: UITableViewController {
                     updateZmanimList()
                     NotificationManager.instance.requestAuthorization()
                     NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-                    
-                    let chaitables = ChaiTablesLinkGenerator()
-                    var array = chaitables.selectCountry(country: ChaiTablesCountries.USA)
-                    chaitables.selectMetropolitanArea(metropolitanArea: array.remove(at: array.firstIndex(of: "Denver_area_CO")!))
-                    let link = chaitables.getChaiTablesLink(lat: lat, long: long, timezone: -5, searchRadius: 8, type: 0, year: jewishCalendar.currentHebrewYear(), userId: 10000)
-                    let scraper = ChaiTablesScraper(link: link, locationName: locationName ?? "", jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
-                    //scraper.scrape()
-                    print(link)
-                    let chai = ChaiTables(locationName: self.locationName, jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
-                    chai.getVisibleSurise(forDate: userChosenDate)
                 }
             }
         }
@@ -1400,6 +1397,7 @@ class ZmanListViewController: UITableViewController {
     
     public func recreateZmanimCalendar() {
         zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(name: locationName, andLatitude: lat, andLongitude: long, andElevation: elevation, andTimeZone: timezone))
+        GlobalStruct.geoLocation = zmanimCalendar.geoLocation
     }
     
     public func getHebrewDay(day:Int) -> String {
@@ -1436,6 +1434,7 @@ class ZmanListViewController: UITableViewController {
 
 struct GlobalStruct {
     static var useElevation = false
+    static var geoLocation = GeoLocation()
 }
 
 public extension ComplexZmanimCalendar {

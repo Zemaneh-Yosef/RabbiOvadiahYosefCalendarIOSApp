@@ -139,7 +139,6 @@ class ChaiTablesLinkGenerator {
         if metropolitanAreas.isEmpty {
             return
         }
-        
         selectedMetropolitanArea = metropolitanArea
     }
     

@@ -24,7 +24,7 @@ class ChaiTablesScraper {
         self.errored = false
     }
     
-    func scrape() {
+    func scrape(completion: @escaping () -> Void) {
         DispatchQueue.global().async { [self] in
             let url2 = URL(string:link)
             do {
@@ -32,6 +32,9 @@ class ChaiTablesScraper {
                 let doc: Document = try SwiftSoup.parse(html)
                 if try doc.text().contains("You can increase the search radius and try again") {
                     errored = true
+                    DispatchQueue.main.async {
+                        completion()
+                    }
                     return
                 }
                 
@@ -40,6 +43,9 @@ class ChaiTablesScraper {
                 guard tables.count >= 5 else {
                     print("No table found")
                     errored = true
+                    DispatchQueue.main.async {
+                        completion()
+                    }
                     return
                 }
                 
@@ -61,8 +67,14 @@ class ChaiTablesScraper {
                 }
                 
                 defaults.set(csv, forKey: "visibleSunriseTable\(locationName)\(jewishYear)")
+                DispatchQueue.main.async {
+                    completion()
+                }
             } catch {
                 errored = true
+                DispatchQueue.main.async {
+                    completion()
+                }
                 print("Error:", error.localizedDescription)
             }
         }

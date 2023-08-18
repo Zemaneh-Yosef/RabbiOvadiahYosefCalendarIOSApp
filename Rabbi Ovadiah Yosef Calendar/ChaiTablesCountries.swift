@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ChaiTablesCountries: String {
+enum ChaiTablesCountries: String, CaseIterable {
     case ARGENTINA = "Argentina"
     case AUSTRALIA = "Australia"
     case AUSTRIA = "Austria"
@@ -46,4 +46,6 @@ enum ChaiTablesCountries: String {
     var label: String {
         return self.rawValue
     }
+    
+    static var count: Int { return 34}
 }

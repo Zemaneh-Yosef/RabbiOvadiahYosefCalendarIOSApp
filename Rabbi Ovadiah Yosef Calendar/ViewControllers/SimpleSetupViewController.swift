@@ -1,0 +1,182 @@
+//
+//  SimpleSetupViewController.swift
+//  Rabbi Ovadiah Yosef Calendar
+//
+//  Created by Macbook Pro on 8/15/23.
+//
+
+import UIKit
+import KosherCocoa
+
+class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    @IBOutlet weak var country: UITextField!
+    @IBOutlet weak var state: UITextField!
+    @IBOutlet weak var metroArea: UITextField!
+    @IBOutlet weak var locationName: UILabel!
+    @IBOutlet weak var downloadButton: UIButton!
+    
+    @IBAction func back(_ sender: UIButton) {
+        super.dismiss(animated: true)
+    }
+    
+    @IBAction func download(_ sender: UIButton) {
+        let link = chaitables.getChaiTablesLink(
+            lat: GlobalStruct.geoLocation.latitude,
+            long: GlobalStruct.geoLocation.longitude,
+            timezone: -5,
+            searchRadius: 8,
+            type: 0,
+            year: JewishCalendar().currentHebrewYear(),
+            userId: 10000)
+                
+        let scraper = ChaiTablesScraper(link: link,
+                                        locationName: GlobalStruct.geoLocation.locationName ?? "",
+                                        jewishYear: JewishCalendar().currentHebrewYear(),
+                                        defaults: UserDefaults.standard)
+        scraper.scrape() {
+            if scraper.errored {
+                self.downloadButton.setTitle("Error, did you choose the right location?", for: .normal)
+            } else {
+                super.dismiss(animated: true) {
+                    super.presentingViewController?.dismiss(animated: true)
+                }
+            }
+        }
+    }
+    
+    var countryPickerView = UIPickerView()
+    var statePickerView = UIPickerView()
+    var metroPickerView = UIPickerView()
+    
+    let chaitables = ChaiTablesLinkGenerator()
+    var countries = ChaiTablesCountries.allCases
+    var states = Array<String>()
+    var metros = Array<String>()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if #available(iOS 15.0, *) {
+            downloadButton.configuration = .filled()
+        }
+        locationName.text = GlobalStruct.geoLocation.locationName
+        
+        country.inputView = countryPickerView
+        state.inputView = statePickerView
+        metroArea.inputView = metroPickerView
+        
+        country.placeholder = "Select Country"
+        state.placeholder = "Select State"
+        metroArea.placeholder = "Select Metro Area"
+        
+        country.textAlignment = .center
+        state.textAlignment = .center
+        metroArea.textAlignment = .center
+        
+        country.tintColor = .clear
+        state.tintColor = .clear
+        metroArea.tintColor = .clear
+        
+        countryPickerView.delegate = self
+        countryPickerView.dataSource = self
+        countryPickerView.tag = 1
+        statePickerView.delegate = self
+        statePickerView.dataSource = self
+        statePickerView.tag = 2
+        metroPickerView.delegate = self
+        metroPickerView.dataSource = self
+        metroPickerView.tag = 3
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch pickerView.tag {
+        case 1:
+            return countries.count
+        case 2:
+            return states.count
+        case 3:
+            return metros.count
+        default:
+            return 1
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerView.tag {
+        case 1:
+            return countries[row].label
+        case 2:
+            return states[row]
+        case 3:
+            return metros[row]
+        default:
+            return "----------"
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        downloadButton.setTitle("Download", for: .normal)
+        switch pickerView.tag {
+        case 1:
+            if countries.isEmpty {
+                return
+            }
+            country.text = countries[row].label
+            state.text = ""
+            metroArea.text = ""
+            metros = chaitables.selectCountry(country: ChaiTablesCountries(rawValue: countries[row].rawValue)!)
+            if countries[row] == ChaiTablesCountries.USA {
+                state.isHidden = false
+                for area in metros {
+                    let state = String(area.suffix(2))
+                    if !states.contains(state) {
+                        states.append(state)
+                    }
+                    states.sort()
+                }
+            } else {
+                state.isHidden = true
+            }
+            country.resignFirstResponder()
+        case 2:
+            if states.isEmpty {
+                return
+            }
+            state.text = states[row]
+            metroArea.text = ""
+            let temp = ChaiTablesLinkGenerator().selectCountry(country: ChaiTablesCountries.USA)
+            metros = []
+            for area in temp {
+                if area.contains(states[row]) {
+                    metros.append(area)
+                }
+            }
+            state.resignFirstResponder()
+        case 3:
+            if metros.isEmpty {
+                return
+            }
+            metroArea.text = metros[row]
+            chaitables.selectMetropolitanArea(metropolitanArea: metros[row])
+            metroArea.resignFirstResponder()
+        default:
+            return
+        }
+    }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

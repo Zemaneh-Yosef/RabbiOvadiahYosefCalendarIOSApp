@@ -9,9 +9,12 @@
 /* Begin PBXBuildFile section */
 		52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 52119EE22A7F954800661D63 /* SwiftSoup */; };
 		522122202A844A9000942C23 /* ChaiTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5221221F2A844A9000942C23 /* ChaiTables.swift */; };
+		52237D322A8C9B1400497D9E /* SimpleSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52237D312A8C9B1400497D9E /* SimpleSetupViewController.swift */; };
+		52237D342A8C9BC800497D9E /* AdvancedSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52237D332A8C9BC800497D9E /* AdvancedSetupViewController.swift */; };
 		524A18362A80D38E00ACCBF8 /* ChaiTablesScraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524A18352A80D38E00ACCBF8 /* ChaiTablesScraper.swift */; };
 		5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5292D1B72A6E537E00857241 /* ChaiTablesCountries.swift */; };
 		5292D1BA2A6E556400857241 /* ChaiTablesLinkGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5292D1B92A6E556400857241 /* ChaiTablesLinkGenerator.swift */; };
+		52A2A8B62A8B4CF500E2A463 /* SetupChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A2A8B52A8B4CF500E2A463 /* SetupChooserViewController.swift */; };
 		5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */; };
 		5D19D36129A3687900F8033D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D36029A3687900F8033D /* AppDelegate.swift */; };
 		5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D36229A3687900F8033D /* SceneDelegate.swift */; };
@@ -40,9 +43,12 @@
 /* Begin PBXFileReference section */
 		048275069529BB376700AEC9 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rabbi_Ovadiah_Yosef_Calendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5221221F2A844A9000942C23 /* ChaiTables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChaiTables.swift; path = "Rabbi Ovadiah Yosef Calendar/ChaiTables.swift"; sourceTree = SOURCE_ROOT; };
+		52237D312A8C9B1400497D9E /* SimpleSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSetupViewController.swift; sourceTree = "<group>"; };
+		52237D332A8C9BC800497D9E /* AdvancedSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSetupViewController.swift; sourceTree = "<group>"; };
 		524A18352A80D38E00ACCBF8 /* ChaiTablesScraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaiTablesScraper.swift; sourceTree = "<group>"; };
 		5292D1B72A6E537E00857241 /* ChaiTablesCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaiTablesCountries.swift; sourceTree = "<group>"; };
 		5292D1B92A6E556400857241 /* ChaiTablesLinkGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaiTablesLinkGenerator.swift; sourceTree = "<group>"; };
+		52A2A8B52A8B4CF500E2A463 /* SetupChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupChooserViewController.swift; sourceTree = "<group>"; };
 		5D0D7D9E29A374C5003B6E43 /* Rabbi Ovadiah Yosef Calendar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rabbi Ovadiah Yosef Calendar-Bridging-Header.h"; sourceTree = "<group>"; };
 		5D0D7DA929A6156C003B6E43 /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanListEntry.swift; sourceTree = "<group>"; };
@@ -95,6 +101,9 @@
 				5D948C302A38205E0017A8B6 /* CalendarViewController.swift */,
 				5D7550A229E3776700894335 /* ElevationViewController.swift */,
 				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
+				52A2A8B52A8B4CF500E2A463 /* SetupChooserViewController.swift */,
+				52237D312A8C9B1400497D9E /* SimpleSetupViewController.swift */,
+				52237D332A8C9BC800497D9E /* AdvancedSetupViewController.swift */,
 				5D7550B329F8FE6100894335 /* SettingsViewController.swift */,
 				5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */,
 				5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */,
@@ -310,6 +319,7 @@
 				5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */,
 				5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */,
 				5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */,
+				52A2A8B62A8B4CF500E2A463 /* SetupChooserViewController.swift in Sources */,
 				5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */,
 				5D7550B129F2761300894335 /* MoladViewController.swift in Sources */,
 				5292D1BA2A6E556400857241 /* ChaiTablesLinkGenerator.swift in Sources */,
@@ -317,6 +327,8 @@
 				5D1CA12E2A021CA100F24323 /* Notifications.swift in Sources */,
 				5D7550B429F8FE6100894335 /* SettingsViewController.swift in Sources */,
 				5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */,
+				52237D342A8C9BC800497D9E /* AdvancedSetupViewController.swift in Sources */,
+				52237D322A8C9B1400497D9E /* SimpleSetupViewController.swift in Sources */,
 				5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */,
 				5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */,
 				5D19D36529A3687900F8033D /* ZmanListViewController.swift in Sources */,
