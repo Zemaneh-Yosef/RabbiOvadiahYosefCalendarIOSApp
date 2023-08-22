@@ -87,7 +87,7 @@
                             <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         </stackView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="156" width="430" height="45"/>
+                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
@@ -111,7 +111,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
                                 <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
                                     <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="147" y="1" width="137" height="44"/>
+                                        <rect key="frame" x="146.66666666666666" y="0.66666666666666785" width="136.99999999999997" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" name="AccentColor"/>
@@ -522,7 +522,7 @@ etc...</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWe-dq-8Cy">
-                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="47"/>
+                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="43"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -538,11 +538,11 @@ etc...</string>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" image="yy_quote" adjustsImageSizeForAccessibilityContentSizeCategory="YES" id="rvU-XZ-RAW">
-                                <rect key="frame" x="18" y="120" width="388" height="452"/>
+                                <rect key="frame" x="17" y="116" width="387" height="454"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="pkv-Tg-xR0">
-                                <rect key="frame" x="62" y="580" width="306.33333333333331" height="303"/>
+                                <rect key="frame" x="62" y="578" width="306.33333333333331" height="303"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Press the button below to download the visible sunrise times from ChaiTables.com" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ui-VF-Ls8">
                                         <rect key="frame" x="0.0" y="0.0" width="306.33333333333331" height="192"/>
@@ -554,7 +554,7 @@ etc...</string>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Exg-AR-j5L">
+                                    <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Exg-AR-j5L">
                                         <rect key="frame" x="39.666666666666686" y="206" width="227" height="53"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -701,20 +701,70 @@ etc...</string>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aP0-Mg-91S">
                                 <rect key="frame" x="20" y="59" width="61.666666666666657" height="34.333333333333343"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Back"/>
                                 <connections>
+                                    <action selector="back:" destination="urP-wA-mla" eventType="touchUpInside" id="8od-cK-hUZ"/>
                                     <action selector="skip:" destination="rLT-7O-XUP" eventType="touchUpInside" id="qgh-d3-9oi"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="81" translatesAutoresizingMaskIntoConstraints="NO" id="JKg-yv-DaK">
+                                <rect key="frame" x="135.66666666666666" y="234.66666666666663" width="158.99999999999997" height="463"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provide a link below:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdg-vR-aD0">
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="20.333333333333332"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Chaitables link" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mgc-fE-yGf">
+                                        <rect key="frame" x="0.0" y="101.33333333333334" width="159" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jNG-p2-w76">
+                                        <rect key="frame" x="0.0" y="216.33333333333334" width="159" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Download"/>
+                                        <connections>
+                                            <action selector="dowloadTFlink:" destination="urP-wA-mla" eventType="touchUpInside" id="ple-zv-cwP"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or go to the website:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w66-c4-4qk">
+                                        <rect key="frame" x="0.0" y="331.66666666666674" width="159" height="20.333333333333314"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="01b-rw-5yM">
+                                        <rect key="frame" x="0.0" y="433" width="159" height="30"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Go to Chaitables.com"/>
+                                        <connections>
+                                            <action selector="websiteButton:" destination="urP-wA-mla" eventType="touchUpInside" id="wL6-zg-zz9"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="U5t-oM-lga"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JKg-yv-DaK" firstAttribute="centerX" secondItem="OYH-jk-vHj" secondAttribute="centerX" id="02f-Pk-17A"/>
+                            <constraint firstItem="JKg-yv-DaK" firstAttribute="centerY" secondItem="OYH-jk-vHj" secondAttribute="centerY" id="YDy-lg-wbm"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="back" destination="aP0-Mg-91S" id="Jxk-MQ-S6g"/>
+                        <outlet property="download" destination="jNG-p2-w76" id="jgu-fE-5uO"/>
+                        <outlet property="linkTextField" destination="mgc-fE-yGf" id="pTq-az-UVG"/>
+                        <outlet property="topLabel" destination="pdg-vR-aD0" id="d5O-uk-1J6"/>
+                        <outlet property="websiteButton" destination="01b-rw-5yM" id="i93-7r-frm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kCh-C6-44p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3636" y="-709"/>
+            <point key="canvasLocation" x="3634.8837209302324" y="-709.44206008583694"/>
         </scene>
         <!--Molad-->
         <scene sceneID="phF-C6-Efr">

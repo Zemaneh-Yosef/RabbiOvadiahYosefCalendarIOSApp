@@ -26,9 +26,9 @@ class ChaiTablesScraper {
     
     func scrape(completion: @escaping () -> Void) {
         DispatchQueue.global().async { [self] in
-            let url2 = URL(string:link)
+            let url = URL(string:link)
             do {
-                let html = try String(contentsOf: url2!)
+                let html = try String(contentsOf: url!)
                 let doc: Document = try SwiftSoup.parse(html)
                 if try doc.text().contains("You can increase the search radius and try again") {
                     errored = true
@@ -67,6 +67,7 @@ class ChaiTablesScraper {
                 }
                 
                 defaults.set(csv, forKey: "visibleSunriseTable\(locationName)\(jewishYear)")
+                defaults.set(link, forKey: "chaitablesLink" + locationName)
                 DispatchQueue.main.async {
                     completion()
                 }

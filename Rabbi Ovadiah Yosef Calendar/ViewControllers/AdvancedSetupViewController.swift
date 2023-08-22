@@ -6,24 +6,109 @@
 //
 
 import UIKit
+import KosherCocoa
+import WebKit
 
-class AdvancedSetupViewController: UIViewController {
+class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 
+    @IBOutlet weak var download: UIButton!
+    @IBOutlet weak var linkTextField: UITextField!
+    @IBAction func dowloadTFlink(_ sender: UIButton) {
+        
+        let presentingView = super.presentingViewController
+        
+        if linkTextField.text == nil || linkTextField.text == "" {
+            return
+        }
+        
+        let chaitables = ChaiTablesScraper(
+            link: linkTextField.text!,
+            locationName: GlobalStruct.geoLocation.locationName ?? "",
+            jewishYear: JewishCalendar().currentHebrewYear(),
+            defaults: UserDefaults.standard)
+        
+        chaitables.scrape {
+            chaitables.jewishYear = chaitables.jewishYear + 1
+            chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear() + 1)))
+            chaitables.scrape {}
+            super.dismiss(animated: true) {
+                presentingView?.dismiss(animated: true)
+            }
+        }
+    }
+    @IBOutlet weak var websiteButton: UIButton!
+    @IBAction func back(_ sender: UIButton) {
+        super.dismiss(animated: true)
+    }
+    @IBAction func chaitablesLinkTF(_ sender: UITextField) {
+        
+    }
+    @IBAction func websiteButton(_ sender: UIButton) {
+        let webView = WKWebView()
+        webView.load(URLRequest(url: URL(string: "https://bit.ly/3rhS55b")!))
+        webView.navigationDelegate = self
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(webView)
+        webView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        webView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        webView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        webView.uiDelegate = self
+        webView.allowsBackForwardNavigationGestures = true
+        webView.allowsLinkPreview = true
+        webView.navigationDelegate = self
+        let alert = UIAlertController(title: "How to get info from chaitables.com", message: "(I recommend you visit the website first.) \n\n Choose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables. \n\n Just make sure your search radius is big enough and the app will do the rest.", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK!", style: .default)
+        alert.addAction(alertAction)
+        present(alert, animated: true)
+    }
+    @IBOutlet weak var topLabel: UILabel!
+    @IBOutlet weak var back: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 15.0, *) {
+            websiteButton.configuration = .filled()
+            websiteButton.tintColor = .init(named: "Gold")
+            websiteButton.setTitleColor(.black, for: .normal)
+            download.configuration = .filled()
+            download.tintColor = .init(named: "Gold")
+            download.setTitleColor(.black, for: .normal)
 
-        // Do any additional setup after loading the view.
+        }
+        topLabel.text = "Provide a link below for \(GlobalStruct.geoLocation.locationName ?? "")"
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        if (webView.url?.absoluteString.starts(with: "http://chaitables.com/cgi-bin/") == true) {
+            let presentingView = super.presentingViewController
+            let url = assertCorrectURL(url: webView.url!.absoluteString)
+            let chaitables = ChaiTablesScraper(link: url, locationName: GlobalStruct.geoLocation.locationName ?? "", jewishYear: JewishCalendar().currentHebrewYear(), defaults: UserDefaults.standard)
+            chaitables.scrape() {
+                chaitables.jewishYear = chaitables.jewishYear + 1
+                chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear() + 1)))
+                chaitables.scrape {}
+                super.dismiss(animated: true) {
+                    presentingView?.dismiss(animated: true)
+                }
+            }
+        }
     }
-    */
-
+    
+    func assertCorrectURL(url: String) -> String {
+        var url = url
+        if (url.contains("&cgi_types=0")) {
+             url = url.replacingOccurrences(of: "&cgi_types=0", with: "&cgi_types=0");
+         } else if (url.contains("&cgi_types=1")) {
+             url = url.replacingOccurrences(of: "&cgi_types=1", with: "&cgi_types=0");
+         } else if (url.contains("&cgi_types=2")) {
+             url = url.replacingOccurrences(of: "&cgi_types=2", with: "&cgi_types=0");
+         } else if (url.contains("&cgi_types=3")) {
+             url = url.replacingOccurrences(of: "&cgi_types=3", with: "&cgi_types=0");
+         } else if (url.contains("&cgi_types=4")) {
+             url = url.replacingOccurrences(of: "&cgi_types=4", with: "&cgi_types=0");
+         } else if (url.contains("&cgi_types=-1")) {
+             url = url.replacingOccurrences(of: "&cgi_types=-1", with: "&cgi_types=0");
+         }
+        return url
+    }
 }

@@ -109,17 +109,17 @@
 
 - (NSDate *)minchaGedola
 {
-    return [[self seaLevelSunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*6.5];
+    return [[self chatzos] dateByAddingTimeInterval:[self shaahZmanisGra]*0.5];
 }
 
 - (NSDate *)minchaKetana
 {
-    return [[self seaLevelSunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*9.5];    
+    return [[self sunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*9.5];
 }
 
 - (NSDate *)plagHamincha
 {
-        return [[self seaLevelSunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*10.75];
+        return [[self sunrise] dateByAddingTimeInterval:[self shaahZmanisGra]*10.75];
 }
 
 - (double)shaahZmanisGra

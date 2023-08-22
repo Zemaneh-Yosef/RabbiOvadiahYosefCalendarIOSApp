@@ -27,12 +27,15 @@ class ZmanListViewController: UITableViewController {
     var timerForShabbatMode: Timer?
     var timerForNextZman: Timer?
     var currentIndex = 0
+    var shouldScroll = true
+    var askedToUpdateTablesAlready = false
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBAction func prevDayButton(_ sender: Any) {
         userChosenDate = userChosenDate.advanced(by: -86400)
         syncCalendarDates()
         updateZmanimList()
+        checkIfTablesNeedToBeUpdated()
     }
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var prevDayButton: UIButton!
@@ -44,6 +47,7 @@ class ZmanListViewController: UITableViewController {
         userChosenDate = userChosenDate.advanced(by: 86400)
         syncCalendarDates()
         updateZmanimList()
+        checkIfTablesNeedToBeUpdated()
     }
     @IBOutlet weak var ShabbatModeBanner: MarqueeLabel!
     @IBOutlet weak var menuButton: UIButton!
@@ -309,6 +313,7 @@ class ZmanListViewController: UITableViewController {
         let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in
             self.syncCalendarDates()
             self.updateZmanimList()
+            self.checkIfTablesNeedToBeUpdated()
         }
 
         alertController.addAction(doneAction)
@@ -349,6 +354,7 @@ class ZmanListViewController: UITableViewController {
         let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in
             self.syncCalendarDates()
             self.updateZmanimList()
+            self.checkIfTablesNeedToBeUpdated()
         }
 
         alertController.addAction(doneAction)
@@ -442,6 +448,7 @@ class ZmanListViewController: UITableViewController {
         }
         defaults.set(locationName, forKey: "lastKnownLocation")
         checkIfUserIsInIsrael()
+        checkIfTablesNeedToBeUpdated()
         createBackgroundThreadForNextUpcomingZman()
         if !Calendar.current.isDate(userChosenDate, inSameDayAs: Date()) && userChosenDate.timeIntervalSinceNow < 7200 {//2 hours
             refreshTable()
@@ -581,6 +588,37 @@ class ZmanListViewController: UITableViewController {
         }
     }
     
+    func checkIfTablesNeedToBeUpdated() {
+        if defaults.object(forKey: "chaitablesLink" + locationName) == nil || askedToUpdateTablesAlready {
+            return
+        }
+        let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
+        if chaitables.getVisibleSurise(forDate: userChosenDate) == nil {
+            let alert = UIAlertController(title: "Chaitables out of date", message: "The current hebrew year is out of scope for the visible sunrise times that were downloaded from Chaitables. Would you like to download the tables for this hebrew year?", preferredStyle: .alert)
+            
+            let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { [weak alert] (_) in
+                let oldLink = self.defaults.string(forKey: "chaitablesLink" + self.locationName)
+                let hebrewYear = String(self.jewishCalendar.currentHebrewYear())
+                let pattern = "&cgi_yrheb=\\d{4}"
+                let newLink = oldLink?.replacingOccurrences(of: pattern, with: "&cgi_yrheb=" + hebrewYear, options: .regularExpression)
+                let scraper = ChaiTablesScraper(link: newLink ?? "", locationName: self.locationName, jewishYear: self.jewishCalendar.currentHebrewYear(), defaults: self.defaults)
+                scraper.scrape {
+                    self.updateZmanimList()
+                    alert?.dismiss(animated: true)
+                }
+            })
+            
+            let noAction = UIAlertAction(title: "No", style: .cancel, handler: { [weak alert] (_) in
+                alert?.dismiss(animated: true)
+            })
+            
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
+            present(alert, animated: true)
+            askedToUpdateTablesAlready = true
+        }
+    }
+    
     func showSetup() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "inIsrael") as! InIsraelViewController
@@ -697,9 +735,12 @@ class ZmanListViewController: UITableViewController {
     func startBackgroundScrollingThread() {
         let max = self.tableView.contentSize.height - self.tableView.frame.height
         var height = CGFloat(exactly: 0)
+        
+        shouldScroll = true  // Flag to control scrolling
+        
         DispatchQueue.global(qos: .background).async {
             while self.shabbatMode {
-                while self.shabbatMode && height! < max {
+                while self.shabbatMode && height! < max && self.shouldScroll {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
                             self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
@@ -709,7 +750,7 @@ class ZmanListViewController: UITableViewController {
                     Thread.sleep(forTimeInterval: 0.01)
                 }
                 
-                while self.shabbatMode && height! >= 0 {
+                while self.shabbatMode && height! >= 0 && self.shouldScroll {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
                             self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
@@ -1046,7 +1087,7 @@ class ZmanListViewController: UITableViewController {
             temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.sunset(), isZman: true))
         }
         jewishCalendar.workingDate = jewishCalendar.workingDate.advanced(by: -86400)
-        temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.sunset(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.seaLevelSunset(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.tzaitAmudeiHoraah(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.tzaitAmudeiHoraahLChumra(), isZman: true))
         if (jewishCalendar.hasCandleLighting() && jewishCalendar.isAssurBemelacha()) && jewishCalendar.currentDayOfTheWeek() != 6 {
@@ -1116,6 +1157,15 @@ class ZmanListViewController: UITableViewController {
         }
     }
     
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if shabbatMode {
+            shouldScroll = false  // Pause scrolling
+            Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
+                self.shouldScroll = true
+            }
+        }
+    }
+    
     @objc func handleSwipe(_ gestureRecognizer: UISwipeGestureRecognizer) {
         if !shabbatMode {
             if gestureRecognizer.state == .ended {
@@ -1126,6 +1176,8 @@ class ZmanListViewController: UITableViewController {
                     prevDayButton((Any).self)
                 }
             }
+        } else {
+            shouldScroll = false
         }
     }
     
@@ -1282,9 +1334,9 @@ class ZmanListViewController: UITableViewController {
                 print("The target date is before Feb 2, 1980.")
             } else if comparisonResult == .orderedAscending {
                 if yerushalmiYomi != nil {
-                    zmanimList.append(ZmanListEntry(title:"Daf Yomi Yerushalmi: " +  yerushalmiYomi!.nameYerushalmi() + " " + yerushalmiYomi!.pageNumber.formatHebrew()))
+                    zmanimList.append(ZmanListEntry(title:"Yerushalmi Vilna Yomi: " +  yerushalmiYomi!.nameYerushalmi() + " " + yerushalmiYomi!.pageNumber.formatHebrew()))
                 } else {
-                    zmanimList.append(ZmanListEntry(title:"No Daf Yomi Yerushalmi"))
+                    zmanimList.append(ZmanListEntry(title:"No Yerushalmi Vilna Yomi"))
                 }
             }
         }
@@ -1292,7 +1344,11 @@ class ZmanListViewController: UITableViewController {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
-        zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanisGra())) ?? "N/A") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanis72MinutesZmanis())) ?? "N/A")))
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanisGra())) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.temporalHour(fromSunrise: zmanimCalendar.alotAmudeiHoraah() ?? Date(), toSunset: zmanimCalendar.tzait72ZmanitAmudeiHoraah() ?? Date()))) ?? "XX:XX")))
+        } else {
+            zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanisGra())) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanis72MinutesZmanis())) ?? "XX:XX")))
+        }
         tableView.reloadData()
     }
     
@@ -1396,7 +1452,11 @@ class ZmanListViewController: UITableViewController {
     }
     
     public func recreateZmanimCalendar() {
-        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(name: locationName, andLatitude: lat, andLongitude: long, andElevation: elevation, andTimeZone: timezone))
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(name: locationName, andLatitude: lat, andLongitude: long, andTimeZone: timezone))
+        } else {
+            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(name: locationName, andLatitude: lat, andLongitude: long, andElevation: elevation, andTimeZone: timezone))
+        }
         GlobalStruct.geoLocation = zmanimCalendar.geoLocation
     }
     
@@ -1476,11 +1536,15 @@ public extension ComplexZmanimCalendar {
         return super.seaLevelSunset()
     }
     
-    override func seaLevelSunset() -> Date? {
+    override func sunrise() -> Date? {
         if GlobalStruct.useElevation {
-            return super.sunset()
+            return super.sunrise()
         }
-        return super.seaLevelSunset()
+        return super.seaLevelSunrise()
+    }
+    
+    func seaLevelSunriseOnly() -> Date? {
+        return super.seaLevelSunrise()
     }
     
     override func plagHamincha() -> Date? {
@@ -1503,24 +1567,6 @@ public extension ComplexZmanimCalendar {
         return alos72Zmanis()?.addingTimeInterval(5 * shaahZmanit)
     }
     
-    override func sunrise() -> Date? {
-        if GlobalStruct.useElevation {
-            return super.sunrise()
-        }
-        return super.seaLevelSunrise()
-    }
-    
-    override func seaLevelSunrise() -> Date? {
-        if GlobalStruct.useElevation {
-            return super.sunrise()
-        }
-        return super.seaLevelSunrise()
-    }
-    
-    func seaLevelSunriseOnly() -> Date? {
-        return super.seaLevelSunrise()
-    }
-    
     func talitTefilin() -> Date? {
         let shaahZmanit = shaahZmanisGra()
         
@@ -1534,8 +1580,12 @@ public extension ComplexZmanimCalendar {
     }
     
     override func shaahZmanisGra() -> Double {
-        let sunrise = sunrise()
-        let sunset = sunset()
+        var sunrise = seaLevelSunrise()
+        var sunset = seaLevelSunset()
+        if GlobalStruct.useElevation {
+            sunrise = self.sunrise()
+            sunset = self.sunset()
+        }
         if sunrise == nil || sunset == nil {
             return .leastNormalMagnitude
         }
@@ -1582,7 +1632,7 @@ public extension ComplexZmanimCalendar {
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
         let alotBy16Degrees = sunriseOffset(byDegrees:90 + 16.04)
-        let numberOfSeconds = ((sunrise()!.timeIntervalSince1970 - alotBy16Degrees!.timeIntervalSince1970))
+        let numberOfSeconds = ((seaLevelSunrise()!.timeIntervalSince1970 - alotBy16Degrees!.timeIntervalSince1970))
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1594,7 +1644,7 @@ public extension ComplexZmanimCalendar {
         let dakahZmanit = shaahZmanit / 60
         let secondsZmanit = dakahZmanit / 60
         
-        return seaLevelSunriseOnly()?.addingTimeInterval(-(numberOfSeconds * secondsZmanit));
+        return seaLevelSunrise()?.addingTimeInterval(-(numberOfSeconds * secondsZmanit));
     }
     
     func talitTefilinAmudeiHoraah() -> Date? {
@@ -1602,7 +1652,7 @@ public extension ComplexZmanimCalendar {
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
         let alotBy16Degrees = sunriseOffset(byDegrees:90 + 16.04)
-        let numberOfSeconds = ((sunrise()!.timeIntervalSince1970 - alotBy16Degrees!.timeIntervalSince1970))
+        let numberOfSeconds = ((seaLevelSunrise()!.timeIntervalSince1970 - alotBy16Degrees!.timeIntervalSince1970))
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1614,7 +1664,7 @@ public extension ComplexZmanimCalendar {
         let dakahZmanit = shaahZmanit / 60
         let secondsZmanit = dakahZmanit / 60
         
-        return seaLevelSunriseOnly()?.addingTimeInterval(-(numberOfSeconds * secondsZmanit * 5 / 6));
+        return seaLevelSunrise()?.addingTimeInterval(-(numberOfSeconds * secondsZmanit * 5 / 6));
     }
     
     func shmaMGAAmudeiHoraah() -> Date? {
@@ -1637,7 +1687,7 @@ public extension ComplexZmanimCalendar {
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
         let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 3.77)
-        let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
+        let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - seaLevelSunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1657,7 +1707,7 @@ public extension ComplexZmanimCalendar {
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
         let tzaitGeonimInDegrees = sunsetOffset(byDegrees:90 + 5.135)
-        let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
+        let numberOfSeconds = (tzaitGeonimInDegrees!.timeIntervalSince1970 - seaLevelSunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()
@@ -1677,7 +1727,7 @@ public extension ComplexZmanimCalendar {
         let temp = workingDate
         workingDate = calendar.date(from: DateComponents(year: calendar.component(.year, from: workingDate), month: 3, day: 17))!
         let tzaitRTInDegrees = sunsetOffset(byDegrees:90 + 16.01)
-        let numberOfSeconds = (tzaitRTInDegrees!.timeIntervalSince1970 - sunset()!.timeIntervalSince1970)
+        let numberOfSeconds = (tzaitRTInDegrees!.timeIntervalSince1970 - seaLevelSunset()!.timeIntervalSince1970)
         workingDate = temp//reset
         
         let shaahZmanit = shaahZmanisGra()

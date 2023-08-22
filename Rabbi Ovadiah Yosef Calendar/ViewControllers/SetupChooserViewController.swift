@@ -33,7 +33,7 @@ class SetupChooserViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "SimpleSetup") as! SimpleSetupViewController
         newViewController.modalPresentationStyle = .fullScreen
-        self.present(newViewController, animated: true)
+        self.present(newViewController, animated: true, completion: nil)
     }
     
     @IBAction func startAdvancedSetup(_ sender: UIButton) {
@@ -51,12 +51,12 @@ class SetupChooserViewController: UIViewController {
             info.setTitleColor(.white, for: .normal)
             
             simpleSetup.configuration = .filled()
-            simpleSetup.configuration?.background.backgroundColor = .yellow
+            simpleSetup.configuration?.background.backgroundColor = .init(named: "Gold")
             simpleSetup.setTitleColor(.black, for: .normal)
             
             advancedSetup.configuration = .filled()
             advancedSetup.configuration?.background.backgroundColor = .gray
-            advancedSetup.setTitleColor(.black, for: .normal)
+            advancedSetup.setTitleColor(.white, for: .normal)
         }
     }
     

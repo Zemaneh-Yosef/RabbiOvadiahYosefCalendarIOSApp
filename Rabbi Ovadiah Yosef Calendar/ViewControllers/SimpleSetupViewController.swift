@@ -21,6 +21,15 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
     
     @IBAction func download(_ sender: UIButton) {
+        let presentingViewController = super.presentingViewController
+        
+        if chaitables.selectedCountry == "" || chaitables.selectedMetropolitanArea == "" {
+            self.downloadButton.setTitle("Error, did you choose the right location?", for: .normal)
+            self.downloadButton.setTitleColor(.white, for: .normal)
+            self.downloadButton.tintColor = .red
+            return
+        }
+        
         let link = chaitables.getChaiTablesLink(
             lat: GlobalStruct.geoLocation.latitude,
             long: GlobalStruct.geoLocation.longitude,
@@ -28,6 +37,15 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
             searchRadius: 8,
             type: 0,
             year: JewishCalendar().currentHebrewYear(),
+            userId: 10000)
+        
+        let linkYr2 = chaitables.getChaiTablesLink(
+            lat: GlobalStruct.geoLocation.latitude,
+            long: GlobalStruct.geoLocation.longitude,
+            timezone: -5,
+            searchRadius: 8,
+            type: 0,
+            year: JewishCalendar().currentHebrewYear() + 1,
             userId: 10000)
                 
         let scraper = ChaiTablesScraper(link: link,
@@ -37,9 +55,14 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
         scraper.scrape() {
             if scraper.errored {
                 self.downloadButton.setTitle("Error, did you choose the right location?", for: .normal)
+                self.downloadButton.setTitleColor(.white, for: .normal)
+                self.downloadButton.tintColor = .red
             } else {
+                scraper.jewishYear = scraper.jewishYear + 1
+                scraper.link = linkYr2
+                scraper.scrape {} // we do not care if there is an error since the first year was succesful
                 super.dismiss(animated: true) {
-                    super.presentingViewController?.dismiss(animated: true)
+                    presentingViewController?.dismiss(animated: true)
                 }
             }
         }
@@ -53,12 +76,15 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
     var countries = ChaiTablesCountries.allCases
     var states = Array<String>()
     var metros = Array<String>()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 15.0, *) {
             downloadButton.configuration = .filled()
+            downloadButton.tintColor = .init(named: "Gold")
+            downloadButton.setTitleColor(.black, for: .normal)
         }
+                
         locationName.text = GlobalStruct.geoLocation.locationName
         
         country.inputView = countryPickerView
@@ -120,6 +146,8 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         downloadButton.setTitle("Download", for: .normal)
+        downloadButton.tintColor = .init(named: "Gold")
+        downloadButton.setTitleColor(.black, for: .normal)
         switch pickerView.tag {
         case 1:
             if countries.isEmpty {
@@ -167,16 +195,4 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
             return
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
