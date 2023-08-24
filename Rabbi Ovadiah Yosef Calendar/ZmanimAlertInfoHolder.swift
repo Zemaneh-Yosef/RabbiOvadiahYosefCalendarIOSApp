@@ -308,9 +308,10 @@ struct ZmanimAlertInfoHolder {
         }
         if title.contains(zmanimNames.getChatzotLaylaString()) {
             return "This is the middle of the halachic night, when the sun is exactly in the middle of the sky beneath us.\n\n" +
+            "It is best to have Melaveh Malka before this time.\n\n" +
             "This time is calculated as 6 zmaniyot/seasonal hours after sunset. " +
             "The GR\"A calculates a zmaniyot/seasonal hour by taking the time between sunrise and sunset (elevation included) and " +
-            "divides it into 12 equal parts."
+            "divides it into 12 equal parts.\n\n"
         }
         if title.contains("וּלְכַפָּרַת פֶּשַׁע") {
             return "When Rosh Chodesh happens during a leap year, we add the words, \"וּלְכַפָּרַת פֶּשַׁע\" during Musaf. We only add these words from Tishri until the second month of Adar. However, for the rest of the year and during non leap years we do not say it."
@@ -325,7 +326,8 @@ struct ZmanimAlertInfoHolder {
             "Both the Ohr HaChaim and the Amudei Horaah calendars use the above method to get the time for the tekufa. However, the " +
             "Amudei Horaah calendar differs from the Ohr HaChaim calendar, by using the local midday time of Israel. Which causes a 21 " +
             "minute difference. " +
-            "Therefore, the Amudei Horaah calendar time for the tekufa will always be 21 minutes before the Ohr HaChaim's time."
+            "Therefore, the Amudei Horaah calendar time for the tekufa will always be 21 minutes before the Ohr HaChaim's time.\n\n" +
+            "In practice, it is recommended to keep both times if possible as it is only adding an additional 21 minutes."
         }
         if title.contains("Tachanun") || title.contains("צדקתך") {
             return "Here is a list of days with no tachanun:\n\n" +
@@ -354,30 +356,32 @@ struct ZmanimAlertInfoHolder {
             "you can skip tachanun if there are mourners making up majority of the minyan or if there is a simcha (joyous occasion)."
         }
         if title.contains("Three Weeks") || title.contains("Nine Days") || title.contains("Shevuah Shechal Bo") {
-            return "During the time of the three weeks/nine days/shevuah shechal bo " +
+            return "During the time of the Three weeks/Nine days/Shevuah shechal bo " +
             "certain restrictions apply:\n\n" +
             "Three Weeks:\n" +
             "No listening to music\n" +
-            "No shehechiyanu on new clothes\n\n" +
+            "Better to delay shehechiyanu\n\n" +
             "Nine Days:\n" +
             "No listening to music\n" +
-            "No shehechiyanu on new clothes\n" +
+            "Better to delay shehechiyanu\n" +
+            "Better to delay any construction\n" +
             "No weddings\n" +
-            "No purchasing new clothing\n" +
+            "No purchasing new clothing (unless there is great need ex: a sale)\n" +
             "No consumption of meat or wine (excludes Rosh Chodesh and Shabbat)\n" +
-            "No wearing new clothing\n\n" +
+            "No wearing brand new clothing\n\n" +
             "Shevuah Shechal Bo:\n" +
-            "No taking haircuts (Men Only)\n" +
             "No listening to music\n" +
-            "No shehechiyanu on new clothes\n" +
-            "No weddings\n" +
-            "No purchasing new clothing\n" +
-            "No swimming\n" +
+            "Better to delay shehechiyanu\n" +
             "No construction\n" +
+            "No weddings\n" +
+            "No purchasing new clothing (unless there is great need ex: a sale)\n" +
             "No consumption of meat or wine\n" +
-            "No showering with hot water\n" +
-            "No laundry or wearing freshly laundered clothing\n" +
-            "No wearing new clothing"
+            "No wearing brand new clothing\n" +
+            "No taking haircuts or shaving (Men Only)\n" +
+            "No swimming\n" +
+            "No showering (with hot water)\n" +
+            "No laundry\n" +
+            "No wearing freshly laundered clothing (excludes undergarments)\n"
         }
         
         return ""

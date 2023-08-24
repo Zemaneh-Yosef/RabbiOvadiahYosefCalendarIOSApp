@@ -92,7 +92,7 @@
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
                                     <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="yOt-wi-GTu">
-                                        <rect key="frame" x="20" y="5" width="30" height="35"/>
+                                        <rect key="frame" x="20" y="5" width="23" height="35"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -128,7 +128,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="f4h-hk-AdI"/>
                                 <barButtonItem style="plain" id="6zE-hv-i2U">
                                     <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Z4d-1n-mPD">
-                                        <rect key="frame" x="380" y="5" width="30" height="35"/>
+                                        <rect key="frame" x="387" y="5" width="23" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <color key="tintColor" name="AccentColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -538,11 +538,11 @@ etc...</string>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" image="yy_quote" adjustsImageSizeForAccessibilityContentSizeCategory="YES" id="rvU-XZ-RAW">
-                                <rect key="frame" x="17" y="116" width="387" height="454"/>
+                                <rect key="frame" x="16" y="116" width="386" height="453"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="pkv-Tg-xR0">
-                                <rect key="frame" x="62" y="578" width="306.33333333333331" height="303"/>
+                                <rect key="frame" x="62" y="577" width="306.33333333333331" height="303"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Press the button below to download the visible sunrise times from ChaiTables.com" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ui-VF-Ls8">
                                         <rect key="frame" x="0.0" y="0.0" width="306.33333333333331" height="192"/>

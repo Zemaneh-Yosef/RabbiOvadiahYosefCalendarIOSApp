@@ -566,6 +566,10 @@ class ZmanListViewController: UITableViewController {
                 self.defaults.set(false, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = false
                 self.updateZmanimList()
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "SetupChooser") as! CalendarViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
             }
 
             alertController.addAction(yesAction)
