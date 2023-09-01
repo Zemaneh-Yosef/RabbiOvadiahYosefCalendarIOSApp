@@ -20,7 +20,7 @@ class ElevationViewController: UIViewController {
         let group = DispatchGroup()
         group.enter()
         let geocoder = LSGeoLookup(withUserID: "Elyahu41")
-        geocoder.findElevationGtopo30(latitude: SharedData.shared.lat, longitude: SharedData.shared.long) {
+        geocoder.findElevationGtopo30(latitude: GlobalStruct.geoLocation.latitude, longitude: GlobalStruct.geoLocation.longitude) {
             elevation in
             if let elevation = elevation {
                 e1 = Int(truncating: elevation)
@@ -28,7 +28,7 @@ class ElevationViewController: UIViewController {
             group.leave()
         }
         group.enter()
-        geocoder.findElevationSRTM3(latitude: SharedData.shared.lat, longitude: SharedData.shared.long) {
+        geocoder.findElevationSRTM3(latitude: GlobalStruct.geoLocation.latitude, longitude: GlobalStruct.geoLocation.longitude) {
             elevation in
             if let elevation = elevation {
                 e2 = Int(truncating: elevation)
@@ -36,7 +36,7 @@ class ElevationViewController: UIViewController {
             group.leave()
         }
         group.enter()
-        geocoder.findElevationAstergdem(latitude: SharedData.shared.lat, longitude: SharedData.shared.long) {
+        geocoder.findElevationAstergdem(latitude: GlobalStruct.geoLocation.latitude, longitude: GlobalStruct.geoLocation.longitude) {
             elevation in
             if let elevation = elevation {
                 e3 = Int(truncating: elevation)

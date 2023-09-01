@@ -10,7 +10,7 @@ import MessageUI
 
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
-    let defaults = UserDefaults.standard
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     let length = 15 //increment this every time you want to add...
 
     @IBAction func backButton(_ sender: UIBarButtonItem) {

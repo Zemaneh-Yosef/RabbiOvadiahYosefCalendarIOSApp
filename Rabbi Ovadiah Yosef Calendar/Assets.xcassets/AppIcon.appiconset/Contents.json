@@ -1,112 +1,112 @@
 {
   "images" : [
     {
-      "filename" : "ic_launcher-playstore-20@2x.png",
+      "filename" : "icon_40.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "ic_launcher-playstore-20@3x.png",
+      "filename" : "icon_60.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "ic_launcher-playstore-29@2x.png",
+      "filename" : "icon_58.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "ic_launcher-playstore-29@3x.png",
+      "filename" : "icon_87.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "ic_launcher-playstore-76.png",
+      "filename" : "icon_76.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "38x38"
     },
     {
-      "filename" : "ic_launcher-playstore-60@2x 1.png",
+      "filename" : "icon_1024 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",
       "size" : "38x38"
     },
     {
-      "filename" : "ic_launcher-playstore-40@2x.png",
+      "filename" : "icon_80.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "ic_launcher-playstore-40@3x.png",
+      "filename" : "icon_120 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "ic_launcher-playstore-60@2x.png",
+      "filename" : "icon_120 2.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "ic_launcher-playstore-60@3x.png",
+      "filename" : "icon_180.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "ic_launcher-playstore-128.png",
+      "filename" : "icon_167 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "64x64"
     },
     {
-      "filename" : "ic_launcher-playstore-1024 1.png",
+      "filename" : "icon_180 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",
       "size" : "64x64"
     },
     {
-      "filename" : "ic_launcher-playstore-1024 2.png",
+      "filename" : "icon_152 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "68x68"
     },
     {
-      "filename" : "ic_launcher-playstore-76@2x.png",
+      "filename" : "icon_152.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
-      "filename" : "ic_launcher-playstore-83.5@2x.png",
+      "filename" : "icon_167.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "83.5x83.5"
     },
     {
-      "filename" : "ic_launcher-playstore-1024.png",
+      "filename" : "icon_1024.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

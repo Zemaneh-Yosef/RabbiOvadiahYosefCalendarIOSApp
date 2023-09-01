@@ -21,7 +21,7 @@ class ZmanListViewController: UITableViewController {
     var nextUpcomingZman: Date? = nil
     var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
     var jewishCalendar: JewishCalendar = JewishCalendar()
-    let defaults = UserDefaults.standard
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var zmanimList = Array<ZmanListEntry>()
     let dateFormatterForZmanim = DateFormatter()
     var timerForShabbatMode: Timer?
@@ -268,8 +268,6 @@ class ZmanListViewController: UITableViewController {
             locationName = defaults.string(forKey: "locationName") ?? ""
             lat = defaults.double(forKey: "lat")
             long = defaults.double(forKey: "long")
-            SharedData.shared.lat = lat
-            SharedData.shared.long = long
             elevation = defaults.double(forKey: "elevation" + locationName)
             timezone = TimeZone.init(identifier: defaults.string(forKey: "timezone")!)!
             recreateZmanimCalendar()
@@ -408,6 +406,7 @@ class ZmanListViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {//this method happens last
         super.viewDidAppear(animated)
+        syncOldDefaults()
         if !defaults.bool(forKey: "isSetup") {
             if !defaults.bool(forKey: "setupShown") {
                 showSetup()
@@ -418,8 +417,6 @@ class ZmanListViewController: UITableViewController {
                 locationName = defaults.string(forKey: "locationName") ?? ""
                 lat = defaults.double(forKey: "lat")
                 long = defaults.double(forKey: "long")
-                SharedData.shared.lat = lat
-                SharedData.shared.long = long
                 if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
                     self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
                 } else {//we have never been here before, get the elevation from online
@@ -455,6 +452,22 @@ class ZmanListViewController: UITableViewController {
         } else {
             updateZmanimList()
         }
+    }
+    
+    func syncOldDefaults() {
+        let oldDefaults = UserDefaults.standard
+
+        if oldDefaults.bool(forKey: "hasBeenSynced") {
+            return
+        }
+        
+        if oldDefaults.object(forKey: "isSetup") != nil {
+            for (key, value) in oldDefaults.dictionaryRepresentation() {
+                defaults.set(value, forKey: key)
+            }
+        }
+        
+        oldDefaults.bool(forKey: "hasBeenSynced")
     }
     
     @objc func labelTapped() {
@@ -1124,8 +1137,6 @@ class ZmanListViewController: UITableViewController {
             location in DispatchQueue.main.async { [self] in
                 self.lat = location.coordinate.latitude
                 self.long = location.coordinate.longitude
-                SharedData.shared.lat = lat
-                SharedData.shared.long = long
                 self.timezone = TimeZone.current
                 self.recreateZmanimCalendar()
                 self.defaults.set(timezone.identifier, forKey: "timezone")
@@ -1413,8 +1424,6 @@ class ZmanListViewController: UITableViewController {
                 let coordinates = i?.first?.location?.coordinate
                 self.lat = coordinates?.latitude ?? 0
                 self.long = coordinates?.longitude ?? 0
-                SharedData.shared.lat = self.lat
-                SharedData.shared.long = self.long
                 if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
                     self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
                 } else {//we have never been here before, get the elevation from online
@@ -2628,14 +2637,6 @@ public extension Daf {
 
         return names[tractateIndex]
     }
-}
-
-
-class SharedData {
-    static let shared = SharedData()
-    var lat: Double = 0.0
-    var long: Double = 0.0
-    private init() {}
 }
 
 extension Int {

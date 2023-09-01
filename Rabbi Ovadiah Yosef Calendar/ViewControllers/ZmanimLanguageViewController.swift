@@ -9,7 +9,7 @@ import UIKit
 
 class ZmanimLanguageViewController: UIViewController {
     
-    let defaults = UserDefaults.standard
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 
     @IBAction func hebrew(_ sender: UIButton) {
         defaults.set(true, forKey: "isZmanimInHebrew")
@@ -36,14 +36,20 @@ class ZmanimLanguageViewController: UIViewController {
     
     func showCalendarChooserView() {
         if !defaults.bool(forKey: "inIsrael") {
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.type = CATransitionType.push
+            transition.subtype = CATransitionSubtype.fromRight
+            transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+            view.window!.layer.add(transition, forKey: kCATransition)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
-            self.present(newViewController, animated: true, completion: nil)
+            self.present(newViewController, animated: false, completion: nil)
         } else {
             let inIsraelView = super.presentingViewController?.presentingViewController!
             
-            super.dismiss(animated: true) {//when this view is dismissed, dismiss the superview as well
-                inIsraelView?.dismiss(animated: true)
+            super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
+                inIsraelView?.dismiss(animated: false)
             }
         }
     }

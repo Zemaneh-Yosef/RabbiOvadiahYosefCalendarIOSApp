@@ -25,14 +25,15 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
             link: linkTextField.text!,
             locationName: GlobalStruct.geoLocation.locationName ?? "",
             jewishYear: JewishCalendar().currentHebrewYear(),
-            defaults: UserDefaults.standard)
+            defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+)
         
         chaitables.scrape {
             chaitables.jewishYear = chaitables.jewishYear + 1
             chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear() + 1)))
             chaitables.scrape {}
-            super.dismiss(animated: true) {
-                presentingView?.dismiss(animated: true)
+            super.dismiss(animated: false) {
+                presentingView?.dismiss(animated: false)
             }
         }
     }
@@ -82,13 +83,14 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
         if (webView.url?.absoluteString.starts(with: "http://chaitables.com/cgi-bin/") == true) {
             let presentingView = super.presentingViewController
             let url = assertCorrectURL(url: webView.url!.absoluteString)
-            let chaitables = ChaiTablesScraper(link: url, locationName: GlobalStruct.geoLocation.locationName ?? "", jewishYear: JewishCalendar().currentHebrewYear(), defaults: UserDefaults.standard)
+            let chaitables = ChaiTablesScraper(link: url, locationName: GlobalStruct.geoLocation.locationName ?? "", jewishYear: JewishCalendar().currentHebrewYear(), defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+)
             chaitables.scrape() {
                 chaitables.jewishYear = chaitables.jewishYear + 1
                 chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear() + 1)))
                 chaitables.scrape {}
-                super.dismiss(animated: true) {
-                    presentingView?.dismiss(animated: true)
+                super.dismiss(animated: false) {
+                    presentingView?.dismiss(animated: false)
                 }
             }
         }

@@ -9,7 +9,7 @@ import UIKit
 
 class ZmanimSettingsViewController: UITableViewController {
     
-    let defaults = UserDefaults.standard
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     let candleLightingRow = 2
     let minutesForShabbatEndRow = 4
     let endShabbatOpinionRow = 5

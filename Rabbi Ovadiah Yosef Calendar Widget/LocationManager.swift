@@ -1,8 +1,8 @@
 //
 //  LocationManager.swift
-//  Rabbeinu Tam
+//  Rabbi Ovadiah Yosef Calendar WidgetExtension
 //
-//  Created by Elyahu on 1/22/22.
+//  Created by Macbook Pro on 8/30/23.
 //
 
 import Foundation
@@ -28,10 +28,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         completion?(location)
         manager.stopUpdatingLocation()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
     }
     
     public func resolveLocationName(with location: CLLocation, completion: @escaping ((String?) -> Void)) {

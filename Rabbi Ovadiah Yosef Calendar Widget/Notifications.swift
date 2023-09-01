@@ -1,8 +1,8 @@
 //
 //  Notifications.swift
-//  Rabbi Ovadiah Yosef Calendar
+//  Rabbi Ovadiah Yosef Calendar WidgetExtension
 //
-//  Created by Elyahu on 5/3/23.
+//  Created by Macbook Pro on 8/30/23.
 //
 
 import Foundation
@@ -42,7 +42,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         } else {
             content.body = "Today is " + jewishCalendar.getSpecialDayWithoutOmer()
         }
-        content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.seaLevelSunriseOnly() ?? Date()), repeats: false)
@@ -85,7 +84,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let tekufa = jewishCalendar.getTekufaAsDate()
             tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
             jewishCalendar.workingDate = backup
-            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
             
@@ -106,7 +104,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let tekufa = jewishCalendar.getAmudeiHoraahTekufaAsDate()
             tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
             jewishCalendar.workingDate = backup
-            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
             
@@ -127,7 +124,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let tekufa = jewishCalendar.getTekufaAsDate()
             tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
             jewishCalendar.workingDate = backup
-            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
             
@@ -145,7 +141,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let tekufa2 = jewishCalendar.getAmudeiHoraahTekufaAsDate()
             tekufaContent2.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa2!) + ". Do not drink water half an hour before or after this time."
             jewishCalendar.workingDate = backup
-            tekufaContent2.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
             
             let tekufaTrigger2 = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa2?.addingTimeInterval(-1800) ?? Date()), repeats: false)
             
@@ -164,7 +159,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         let formatter = NumberFormatter()
         formatter.numberStyle = .ordinal
         content.body = "Tonight is the " + formatter.string(from: dayOfOmer as NSNumber)! + " day of the Omer"
-        content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         //same issue as described in scheduleDailyNotifications()
         var trigger: UNCalendarNotificationTrigger
@@ -215,7 +209,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         contentBarech.sound = .default
         contentBarech.subtitle = locationName
         contentBarech.body = "Tonight we start saying Barech Aleinu!"
-        contentBarech.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunset() ?? Date()), repeats: false)
         
@@ -298,7 +291,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     } else {
                         zmanContent.body = zmanEntry.title + " is at " + zmanTimeFormatter.string(from: zman ?? Date())
                     }
-                    zmanContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
                     
                     if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
                         //no notification
@@ -323,6 +315,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
             return addAmudeiHoraahZmanim(list:list)
         }
+        GlobalStruct.useElevation = true
         var temp = list
         let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         if defaults.bool(forKey: "NotifyAlot Hashachar") {
@@ -431,6 +424,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     }
     
     func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
+        GlobalStruct.useElevation = false
         var temp = list
         let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         if defaults.bool(forKey: "NotifyAlot Hashachar") {

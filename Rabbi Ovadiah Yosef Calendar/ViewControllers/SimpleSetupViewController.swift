@@ -51,7 +51,8 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let scraper = ChaiTablesScraper(link: link,
                                         locationName: GlobalStruct.geoLocation.locationName ?? "",
                                         jewishYear: JewishCalendar().currentHebrewYear(),
-                                        defaults: UserDefaults.standard)
+                                        defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+)
         scraper.scrape() {
             if scraper.errored {
                 self.downloadButton.setTitle("Error, did you choose the right location?", for: .normal)
@@ -61,8 +62,8 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
                 scraper.jewishYear = scraper.jewishYear + 1
                 scraper.link = linkYr2
                 scraper.scrape {} // we do not care if there is an error since the first year was succesful
-                super.dismiss(animated: true) {
-                    presentingViewController?.dismiss(animated: true)
+                super.dismiss(animated: false) {
+                    presentingViewController?.dismiss(animated: false)
                 }
             }
         }

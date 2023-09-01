@@ -9,8 +9,8 @@ import UIKit
 
 class CalendarViewController: UIViewController {
     
-    let defaults = UserDefaults.standard
-    
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+
     @IBAction func info(_ sender: UIButton) {
         let longInfoMessage = "This app has the capability to display two separate calendars. In 1990, Rabbi Ovadiah Yosef ZT\"L started a project to create a zmanim calendar according to his halachot and minhagim. Therefore, Rabbi Ovadiah sat down with Rabbi Shlomo Benizri and Rabbi Asher Darshan and created a zmanim calendar called \"Luach HaMaor Ohr HaChaim\". Rabbi Ovadiah himself oversaw this calendar's creation and used it until he passed. The code for that calendar is not available to the public, however, they explain how to do the calculations in their introduction and this app has reverse engineered all the zmanim of the Ohr Hachaim calendar and confirmed that they are accurate.\n\nThere is also an option to use the Amudei Horaah calendar created by Rabbi Leeor Dahan Shlita. Rabbi Leeor Dahan is the author of the popular sefer \"Amudei Horaah\", and as he lives in America, he has set out to create his own calendar according to Rabbi Ovadiah's views. His calendar is similar to the Ohr HaChaim calendar with minor differences, however, based on the Halacha Berurah, he adjusts Alot and Tzeit based on the degrees of the location of the user. In depth explanation is available in the app. The only zmanim that are shown in the Amudei Horaah calendar but are not shown in the Ohr HaChaim calendar are plag hamincha according to the Halacha Berurah and tzeit l'chumra. I assume the Halacha Berurah was not shown in the Ohr HaChaim calendar because the Halacha Berurah was fairly new at the time. Tzeit l'chumra is 20 zmaniyot minutes translated as degrees and is used in certain scenarios like for when a fast ends. Rabbi Benizri has told me that this zman is 20 regular minutes after sunset. I asked Rabbi Benizri why there was no mention of this stringent tzeit in the Ohr HaChaim calendar and he answered that the calendar just says that the fasts end at tzeit and it can refer to both times.\n\nIt should be noted that both calendars will use the latitude and longitude you provide to calculate the zmanim. There is just a difference of a few minutes between the two calendars because of the additional degrees added. Also, Rabbi Dahan agrees that you should be using the Ohr HaChaim calendar IN ISRAEL. The Amudei Horaah calendar is only to be used outside of israel. Rabbi Shlomo Benizri Shlita however holds that the Ohr HaChaim calendar CAN be used outside Israel as well as Rabbi Ovadiah never differentiated."
         
@@ -56,9 +56,9 @@ class CalendarViewController: UIViewController {
         let inIsraelView = super.presentingViewController?.presentingViewController!
         let zmanimLanguagesView = super.presentingViewController!
         
-        super.dismiss(animated: true) {//when this view is dismissed, dismiss the superview as well
-            zmanimLanguagesView.dismiss(animated: true) {
-                inIsraelView?.dismiss(animated: true)
+        super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
+            zmanimLanguagesView.dismiss(animated: false) {
+                inIsraelView?.dismiss(animated: false)
             }
         }
     }

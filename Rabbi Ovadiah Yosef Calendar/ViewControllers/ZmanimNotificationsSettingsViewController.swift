@@ -9,8 +9,8 @@ import UIKit
 
 class ZmanimNotificationsSettingsViewController: UITableViewController {
     
-    let defaults = UserDefaults.standard
-    
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+
     var editableZmanim = ["Alot Hashachar",
                           "Talit And Tefilin",
                           "Sunrise",
