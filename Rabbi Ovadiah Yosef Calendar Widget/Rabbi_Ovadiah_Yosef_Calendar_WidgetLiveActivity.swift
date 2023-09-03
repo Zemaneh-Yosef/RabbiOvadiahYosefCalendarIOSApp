@@ -19,6 +19,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes: ActivityAttributes {
     var name: String
 }
 
+@available(iOSApplicationExtension 16.1, *)
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.self) { context in
@@ -56,6 +57,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
     }
 }
 
+@available(iOSApplicationExtension 16.2, *)
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity_Previews: PreviewProvider {
     static let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(name: "Me")
     static let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.ContentState(value: 3)

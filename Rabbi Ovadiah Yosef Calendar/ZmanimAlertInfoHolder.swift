@@ -130,7 +130,7 @@ struct ZmanimAlertInfoHolder {
             "the sun is VISIBLE to say shacharit. In Israel, the Ohr HaChaim calendar uses a table of sunrise times from the " +
             "luach/calendar 'לוח ביכורי יוסף' (Luach Bechoray Yosef) each year. These times were made by Chaim Keller, creator of the " +
             "ChaiTables website. Ideally, you should download these VISIBLE sunrise times from his website with the capability of " +
-            "this app by pressing the button below (Feature coming soon). However, if you did not download the times, you will see 'Mishor' or 'Sea Level' " +
+            "this app by pressing the button below. However, if you did not download the times, you will see 'Mishor' or 'Sea Level' " +
             "sunrise instead."
         }
         if title.contains(zmanimNames.getAchilatChametzString()) {

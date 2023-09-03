@@ -12,6 +12,8 @@ import SwiftUI
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle: WidgetBundle {
     var body: some Widget {
         Rabbi_Ovadiah_Yosef_Calendar_Widget()
-        Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity()
+        if #available(iOSApplicationExtension 16.1, *) {
+            Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity()
+        }
     }
 }
