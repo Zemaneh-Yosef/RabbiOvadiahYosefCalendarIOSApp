@@ -8,7 +8,7 @@
  *
  */
 
-#import "math.h"
+#import <math.h>
 
 /*
  *  A utility function for converting degrees to radians

@@ -10,10 +10,10 @@
 
 @import Foundation;
 
-#import "KCGeoLocation.h"
-#import "KCAstronomicalCalculator.h"
-#import "KCSunriseAndSunsetCalculator.h"
-#import "KCNOAACalculator.h"
+#import <KCGeoLocation.h>
+#import <KCAstronomicalCalculator.h>
+#import <KCSunriseAndSunsetCalculator.h>
+#import <KCNOAACalculator.h>
 
 /** 
  A class that calculates various sunrise and sunset values. 

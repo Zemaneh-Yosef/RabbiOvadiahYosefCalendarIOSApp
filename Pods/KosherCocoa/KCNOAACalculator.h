@@ -6,9 +6,9 @@
 //
 
 @import Foundation;
-#import "KCGeoLocation.h"
-#import "KCConstants.h"
-#import "KCAstronomicalCalculator.h"
+#import <KCGeoLocation.h>
+#import <KCConstants.h>
+#import <KCAstronomicalCalculator.h>
 
 /** A class that uses the US National Oceanicnand Atmospheric Administration Algorithm to calculate sunrise and sunset. */
 

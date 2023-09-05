@@ -8,7 +8,7 @@
  *  Use of KosherCocoa 3 is governed by the LGPL 2.1 License.
  */
 
-#import "KCAstronomicalCalendar.h"
+#import <KCAstronomicalCalendar.h>
 
 /**
  *  These method prototypes allow us to compile.

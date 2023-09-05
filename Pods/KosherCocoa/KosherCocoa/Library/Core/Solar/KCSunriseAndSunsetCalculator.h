@@ -9,9 +9,9 @@
  */
 
 @import Foundation;
-#import "KCGeoLocation.h"
-#import "KCConstants.h"
-#import "KCAstronomicalCalculator.h"
+#import <KCGeoLocation.h>
+#import <KCConstants.h>
+#import <KCAstronomicalCalculator.h>
 
 /** A class that uses the United States Naval Almanac Algorithm to calculate sunrise and sunset. */
 

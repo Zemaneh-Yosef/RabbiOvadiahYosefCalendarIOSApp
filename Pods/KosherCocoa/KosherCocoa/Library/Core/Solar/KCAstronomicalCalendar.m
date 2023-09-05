@@ -212,7 +212,6 @@
 
 - (NSDate *)dateFromTime:(double)time
 {
-    
     return [self dateFromTime:time inTimeZone:[NSTimeZone localTimeZone] onDate:self.workingDate];
 }
 

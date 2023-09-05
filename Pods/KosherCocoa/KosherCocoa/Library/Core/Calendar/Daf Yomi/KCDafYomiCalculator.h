@@ -9,7 +9,7 @@
  */
 
 @import Foundation;
-#import "KCDaf.h"
+#import <KCDaf.h>
 
 /**
  This class calculates the current Daf Yomi being studied.

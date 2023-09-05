@@ -127,6 +127,7 @@ class ZmanListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ZmanEntry", for: indexPath)
         var zman = zmanimList[indexPath.row].zman
+        dateFormatterForZmanim.timeZone = timezone
         
         var content = cell.defaultContentConfiguration()
             content.textProperties.adjustsFontSizeToFitWidth = true

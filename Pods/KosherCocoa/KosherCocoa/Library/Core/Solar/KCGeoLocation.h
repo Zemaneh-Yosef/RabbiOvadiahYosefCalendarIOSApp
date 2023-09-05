@@ -10,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 #import <math.h>
-#import "KCConstants.h"
+#import <KCConstants.h>
 
 /** A class that represents a location and a timezone. */
 NS_SWIFT_NAME(GeoLocation)

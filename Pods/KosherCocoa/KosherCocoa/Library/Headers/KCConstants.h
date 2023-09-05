@@ -11,11 +11,11 @@
  */
 
 
-#import "KCAstronomical.h"
-#import "KCBearing.h"
-#import "KCHebrewYear.h"
-#import "KCJewishHolidays.h"
-#import "KCMolad.h"
-#import "KCSunCalculationTypes.h"
-#import "KCZenith.h"
-#import "KCZenithExtended.h"
+#import <KCAstronomical.h>
+#import <KCBearing.h>
+#import <KCHebrewYear.h>
+#import <KCJewishHolidays.h>
+#import <KCMolad.h>
+#import <KCSunCalculationTypes.h>
+#import <KCZenith.h>
+#import <KCZenithExtended.h>

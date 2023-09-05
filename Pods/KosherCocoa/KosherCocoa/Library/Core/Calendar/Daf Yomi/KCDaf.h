@@ -10,8 +10,8 @@
 
 @import Foundation;
 
-#import "KCConstants.h"
-#import "KCTractates.h"
+#import <KCConstants.h>
+#import <KCTractates.h>
 
 /**
  This class represents a folio of the talmud.
