@@ -273,7 +273,7 @@ struct ZmanimAlertInfoHolder {
             "To summarize: If a person wants to end the fast at 13.5 zmaniyot minutes after sunset, he has the right to do so. However, if a person wants to " +
             "be stringent, he can end the fast at 20 minutes after sunset."
         }
-        if title.contains("Shabbat") || title.contains("Chag") || title.contains("\u{05E9}\u{05D1}\u{05EA}") || title.contains("\u{05D7}\u{05D2}") {
+        if title.contains("Shabbat Ends") || title.contains("Chag Ends") || title.contains("Tzait Shabbat") || title.contains("Tzait Chag") || title.contains("צאת שבת/חג") || title.contains("צאת שבת") || title.contains("צאת חג") {
             return "This is the time that Shabbat/Chag ends.\n\n" +
             "Note that there are many customs on when shabbat ends, by default, it is set to 40 regular minutes after sunset (elevation " +
             "included) outside of Israel and 30 regular minutes after sunset inside Israel. I used 40 minutes because Rabbi Meir Gavriel " +

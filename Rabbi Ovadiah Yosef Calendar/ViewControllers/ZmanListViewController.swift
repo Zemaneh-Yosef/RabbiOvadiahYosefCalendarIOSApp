@@ -1272,6 +1272,7 @@ class ZmanListViewController: UITableViewController {
             zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today"))
         }
         dateFormatter.dateFormat = "h:mm aa"
+        dateFormatter.timeZone = timezone
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
         if tekufaSetting == 1 {
             let tekufa = jewishCalendar.getTekufaAsDate()
