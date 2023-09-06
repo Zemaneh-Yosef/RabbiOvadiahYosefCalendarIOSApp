@@ -12,12 +12,7 @@ import KosherCocoa
 
 struct Provider: IntentTimelineProvider {
     
-    func placeholder(in context: Context) -> SimpleEntry {
-        let hebrewDateFormatter = DateFormatter()
-        hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
-        hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
-        let hebrewDate = hebrewDateFormatter.string(from: Date())
-        
+    func placeholder(in context: Context) -> SimpleEntry {        
         var daf = ""
         
         let dafYomi = JewishCalendar().dafYomiBavli()
@@ -28,7 +23,7 @@ struct Provider: IntentTimelineProvider {
         let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: ComplexZmanimCalendar())
         
         let entry = SimpleEntry(
-            hebrewDate: hebrewDate,
+            hebrewDate: getHebrewDate(),
             parasha: getParshah(jewishCalendar: getJewishCalendar()),
             upcomingZman: upcomingZman.title,
             date: upcomingZman.zman!,
@@ -40,10 +35,6 @@ struct Provider: IntentTimelineProvider {
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let hebrewDateFormatter = DateFormatter()
-        hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
-        hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
-        let hebrewDate = hebrewDateFormatter.string(from: Date())
         
         var daf = ""
         
@@ -56,7 +47,7 @@ struct Provider: IntentTimelineProvider {
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
             
             let entry = SimpleEntry(
-                hebrewDate: hebrewDate,
+                hebrewDate: getHebrewDate(),
                 parasha: getParshah(jewishCalendar: getJewishCalendar()),
                 upcomingZman: upcomingZman.title,
                 date: upcomingZman.zman!,
@@ -71,11 +62,6 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
         
-        let hebrewDateFormatter = DateFormatter()
-        hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
-        hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
-        let hebrewDate = hebrewDateFormatter.string(from: Date())
-        
         var daf = ""
         
         let dafYomi = JewishCalendar().dafYomiBavli()
@@ -88,7 +74,7 @@ struct Provider: IntentTimelineProvider {
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
             
             let entry = SimpleEntry(
-                hebrewDate: hebrewDate,
+                hebrewDate: getHebrewDate(),
                 parasha: getParshah(jewishCalendar: getJewishCalendar()),
                 upcomingZman: upcomingZman.title,
                 date: upcomingZman.zman!,
@@ -191,12 +177,6 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget: Widget {
 
 struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
     static var previews: some View {
-        
-        let hebrewDateFormatter = DateFormatter()
-        hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
-        hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
-        let hebrewDate = hebrewDateFormatter.string(from: Date())
-        
         var daf = ""
         
         let dafYomi = JewishCalendar().dafYomiBavli()
@@ -213,7 +193,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
         let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: cal)
         
         let entry = SimpleEntry(
-            hebrewDate: hebrewDate,
+            hebrewDate: getHebrewDate(),
             parasha: getParshah(jewishCalendar: getJewishCalendar()),
             upcomingZman: upcomingZman.title,
             date: upcomingZman.zman!,
@@ -224,6 +204,13 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
         return Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
+}
+
+func getHebrewDate() -> String {
+    let hebrewDateFormatter = DateFormatter()
+    hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
+    hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
+    return hebrewDateFormatter.string(from: Date())
 }
 
 func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {

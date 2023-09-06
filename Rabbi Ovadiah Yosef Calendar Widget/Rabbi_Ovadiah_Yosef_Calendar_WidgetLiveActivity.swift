@@ -12,11 +12,11 @@ import SwiftUI
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
         // Dynamic stateful properties about your activity go here!
-        var value: Int
+        var endTime: Date
     }
 
     // Fixed non-changing properties about your activity go here!
-    var name: String
+    var zmanName: String
 }
 
 @available(iOSApplicationExtension 16.1, *)
@@ -25,33 +25,39 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
         ActivityConfiguration(for: Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.self) { context in
             // Lock screen/banner UI goes here
             VStack {
-                Text("Hello")
+                HStack {
+                    Text(context.attributes.zmanName).font(.headline)
+                    Text(" : ")
+                    Spacer()
+                    Text(context.state.endTime, style: .timer)
+                }//TODO instead of timer counting up, say "Zman has passed!"
+                ProgressView(timerInterval: .init(uncheckedBounds: (Date(), context.state.endTime)))
             }
-            .activityBackgroundTint(Color.cyan)
-            .activitySystemActionForegroundColor(Color.black)
-
+            .padding(.all)
         } dynamicIsland: { context in
             DynamicIsland {
                 // Expanded UI goes here.  Compose the expanded UI through
                 // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+                    Text(getHebrewDate())
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    Text(getParshah(jewishCalendar:getJewishCalendar()))
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom")
-                    // more content
+                    HStack {
+                        Text(context.attributes.zmanName).font(.headline).padding()
+                        Text(" is in: ").padding()
+                        Text(context.state.endTime, style: .timer).padding()
+                    }.padding(.top)
                 }
             } compactLeading: {
-                Text("15 Elul, 5773")
+                Text(context.attributes.zmanName)
             } compactTrailing: {
-                Text("Ki Tavo")
+                Text(context.state.endTime, style: .timer).padding(.leading)
             } minimal: {
-                Text("Min")
+                Text("⏱️")
             }
-            .widgetURL(URL(string: "http://www.apple.com"))
             .keylineTint(Color.red)
         }
     }
@@ -59,8 +65,8 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
 
 @available(iOSApplicationExtension 16.2, *)
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity_Previews: PreviewProvider {
-    static let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(name: "Me")
-    static let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.ContentState(value: 3)
+    static let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: "Alot Hashachar")
+    static let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.ContentState(endTime: Date())
 
     static var previews: some View {
         attributes

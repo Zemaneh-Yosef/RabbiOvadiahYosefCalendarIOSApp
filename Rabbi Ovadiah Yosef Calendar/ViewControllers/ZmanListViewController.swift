@@ -8,6 +8,7 @@
 import UIKit
 import KosherCocoa
 import CoreLocation
+import ActivityKit
 
 class ZmanListViewController: UITableViewController {
     
@@ -254,6 +255,19 @@ class ZmanListViewController: UITableViewController {
                 self.present(newViewController, animated: true)
             }
             alertController.addAction(setupSunriseAction)
+        }
+        
+        if #available(iOS 16.2, *) {
+            if zmanimList[indexPath.row].isZman
+                && (zmanimList[indexPath.row].zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
+                && zmanimList[indexPath.row].zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
+                let activityAction = UIAlertAction(title: "Keep track of this zman with a Live Activity?", style: .default) {_ in 
+                    let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: self.zmanimList[indexPath.row].title)
+                    let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.TimerStatus(endTime: self.zmanimList[indexPath.row].zman ?? Date())
+                    _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
+                }
+                alertController.addAction(activityAction)
+            }
         }
 
         let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { (_) in }
@@ -2671,4 +2685,14 @@ extension Int {
     }
 }
 
+struct Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes: ActivityAttributes {
+    public typealias TimerStatus = ContentState
+    
+    public struct ContentState: Codable, Hashable {
+        // Dynamic stateful properties about your activity go here!
+        var endTime: Date
+    }
 
+    // Fixed non-changing properties about your activity go here!
+    var zmanName: String
+}
