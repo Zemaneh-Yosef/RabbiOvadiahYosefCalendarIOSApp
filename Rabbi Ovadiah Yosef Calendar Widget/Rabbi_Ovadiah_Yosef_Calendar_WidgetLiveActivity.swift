@@ -28,7 +28,6 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
                 HStack {
                     Text(context.attributes.zmanName).font(.headline)
                     Text(" : ")
-                    Spacer()
                     Text(context.state.endTime, style: .timer)
                 }//TODO instead of timer counting up, say "Zman has passed!"
                 ProgressView(timerInterval: .init(uncheckedBounds: (Date(), context.state.endTime)))
@@ -47,14 +46,16 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.bottom) {
                     HStack {
                         Text(context.attributes.zmanName).font(.headline).padding()
-                        Text(" is in: ").padding()
-                        Text(context.state.endTime, style: .timer).padding()
+                        Spacer()
+                        Text(" is in: ").padding(.leading).padding(.leading).padding(.leading).padding(.leading)
+                        Spacer()
+                        Text(context.state.endTime, style: .timer).multilineTextAlignment(.trailing)
                     }.padding(.top)
                 }
             } compactLeading: {
                 Text(context.attributes.zmanName)
             } compactTrailing: {
-                Text(context.state.endTime, style: .timer).padding(.leading)
+                Text(context.state.endTime, style: .timer).multilineTextAlignment(.trailing)
             } minimal: {
                 Text("⏱️")
             }
