@@ -2053,6 +2053,9 @@ public extension JewishCalendar {
             || currentHebrewMonth() == HebrewMonth.nissan.rawValue
             || (currentHebrewMonth() == HebrewMonth.sivan.rawValue && currentHebrewDayOfMonth() <= 12)
             || (currentHebrewMonth() == HebrewMonth.tishrei.rawValue && currentHebrewDayOfMonth() >= 11) {
+            if yomTovIndex == kRoshHashana.rawValue && currentDayOfTheWeek() == 7 {
+                return "צדקתך"
+            }
             return "There is no Tachanun today"
         }
         let yomTovIndexForNextDay = getYomTovIndexForNextDay()
