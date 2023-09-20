@@ -11,7 +11,7 @@ import MessageUI
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-    let length = 15 //increment this every time you want to add...
+    let length = 16 //increment this every time you want to add...
 
     @IBAction func backButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
@@ -157,6 +157,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             content.text = "Have questions or feature requests?"
             content.secondaryText = "Contact the developer"
         case 14:
+            content.text = "Haskamot"
+            content.secondaryText = "See haskamot rabbanim have given for this app!"
+        case 15:
             content.text = "Need help?"
             content.secondaryText = "Watch a video guide"
         default:
@@ -205,8 +208,22 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             
             present(mailComposer, animated: true, completion: nil)
         }
-        if indexPath.row == 13 {
-            if let url = URL(string: "https://youtu.be/JM_aN3FZD64/") {
+        if indexPath.row == 14 {
+            let alert = UIAlertController(title: "Choose a haskama to view", message: "Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Rabbi Elbaz (English)", style: .default) { (_) in
+                if let url = URL(string: "https://royzmanim.com/assets/Haskamah.pdf") {
+                        UIApplication.shared.open(url)
+                }
+            })
+            alert.addAction(UIAlertAction(title: "Rabbi Dahan (Hebrew)", style: .default) { (_) in
+                if let url = URL(string: "https://royzmanim.com/assets/%D7%94%D7%A1%D7%9B%D7%9E%D7%94.pdf") {
+                        UIApplication.shared.open(url)
+                }
+            })
+            present(alert, animated: true)
+        }
+        if indexPath.row == 15 {
+            if let url = URL(string: "https://youtu.be/NP1_4kMA-Vs") {
                     UIApplication.shared.open(url)
             }
         }

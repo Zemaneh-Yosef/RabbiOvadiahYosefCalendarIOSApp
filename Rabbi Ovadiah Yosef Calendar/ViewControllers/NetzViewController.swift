@@ -19,6 +19,24 @@ class NetzViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Create a swipe gesture recognizer
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+
+        swipeGesture.direction = .down
+        swipeGesture.numberOfTouchesRequired = 1
+
+        self.view.addGestureRecognizer(swipeGesture)
+        
+        getNextNetzAndStartCountdown()
+    }
+    
+    @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.state == .ended {
+            getNextNetzAndStartCountdown()
+        }
+    }
+    
+    func getNextNetzAndStartCountdown() {
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.geoLocation.altitude = 0 // just in case
         let jewishCalendar = JewishCalendar()
@@ -57,7 +75,7 @@ class NetzViewController: UIViewController {
                 secondsRemaining -= 1
             } else {
                 Timer.invalidate()
-                self.viewDidLoad()
+                self.content.text = "Netz/Sunrise has passed. Swipe down to countdown again."
             }
         }
     }

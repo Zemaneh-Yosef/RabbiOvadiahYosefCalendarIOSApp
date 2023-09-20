@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9gp-gB-zWg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9gp-gB-zWg">
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -87,12 +87,12 @@
                             <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         </stackView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="156" width="430" height="45"/>
+                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
                                     <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="yOt-wi-GTu">
-                                        <rect key="frame" x="20" y="5" width="23" height="35"/>
+                                        <rect key="frame" x="20" y="5" width="28" height="35"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -111,7 +111,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
                                 <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
                                     <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="147" y="1" width="137" height="44"/>
+                                        <rect key="frame" x="146.66666666666666" y="0.66666666666666785" width="136.99999999999997" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" name="AccentColor"/>
@@ -128,7 +128,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="f4h-hk-AdI"/>
                                 <barButtonItem style="plain" id="6zE-hv-i2U">
                                     <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Z4d-1n-mPD">
-                                        <rect key="frame" x="387" y="5" width="23" height="35"/>
+                                        <rect key="frame" x="380" y="5" width="30" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <color key="tintColor" name="AccentColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -237,7 +237,7 @@
             <objects>
                 <viewController id="Zmu-tz-OkC" customClass="ElevationViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KQZ-V7-vNC">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="863"/>
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="922"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFS-q7-s7V">
@@ -250,14 +250,14 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
-                                <rect key="frame" x="20" y="299.66666666666669" width="390" height="264.00000000000006"/>
+                                <rect key="frame" x="20" y="329" width="390" height="264"/>
                                 <string key="text">Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. The Ohr HaChaim calendar uses elevation for all of it's zmanim since Israel is a mountainous region. In areas where they live close to the sea, elevation is usually not used. However, Rabbi Dahan has informed me that you can use elevation even at areas that are at sea level. Therefore, by default the app uses elevation, however, it is turned off for Amudei Horaah mode. You can specify a value for your current elevation below:</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="97x-l7-W7Z">
-                                <rect key="frame" x="131" y="687" width="168.33333333333337" height="116"/>
+                                <rect key="frame" x="131" y="746" width="168.33333333333337" height="116"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter elevation in meters" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="LMX-jL-QP8">
                                         <rect key="frame" x="0.0" y="0.0" width="168.33333333333334" height="34"/>
@@ -306,6 +306,177 @@
                 <exit id="iDZ-ow-Cfz" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1338.75" y="-54.929577464788736"/>
+        </scene>
+        <!--Siddur Chooser View Controller-->
+        <scene sceneID="pBE-DR-WFe">
+            <objects>
+                <viewController storyboardIdentifier="SiddurChooser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ghR-fU-7xL" customClass="SiddurChooserViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hYX-9A-Y0Y">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gc1-YU-aPn">
+                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <connections>
+                                    <action selector="back:" destination="ghR-fU-7xL" eventType="touchUpInside" id="8vN-N5-ZtA"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="52" translatesAutoresizingMaskIntoConstraints="NO" id="RIL-HI-hY9">
+                                <rect key="frame" x="185.66666666666666" y="363" width="59" height="206"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SWm-ir-5UC">
+                                        <rect key="frame" x="0.0" y="0.0" width="59" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="סליחות"/>
+                                        <connections>
+                                            <action selector="selichot:" destination="ghR-fU-7xL" eventType="touchUpInside" id="Mdz-1m-bSN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B53-v5-Jdk">
+                                        <rect key="frame" x="0.0" y="0.0" width="59" height="34"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="שחרית"/>
+                                        <connections>
+                                            <action selector="shacharit:" destination="ghR-fU-7xL" eventType="touchUpInside" id="4ae-JE-J5A"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9T-IS-7dM">
+                                        <rect key="frame" x="0.0" y="60" width="59" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="מוסף"/>
+                                        <connections>
+                                            <action selector="mussaf:" destination="ghR-fU-7xL" eventType="touchUpInside" id="pee-PR-aMd"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ucE-TT-3Tk">
+                                        <rect key="frame" x="0.0" y="86" width="59" height="34"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="מנחה"/>
+                                        <connections>
+                                            <action selector="mincha:" destination="ghR-fU-7xL" eventType="touchUpInside" id="ePp-0S-95X"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfJ-3M-Z9b">
+                                        <rect key="frame" x="0.0" y="146" width="59" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="נעילה"/>
+                                        <connections>
+                                            <action selector="neilah:" destination="ghR-fU-7xL" eventType="touchUpInside" id="jQk-WS-ue2"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pX-p5-1X1">
+                                        <rect key="frame" x="0.0" y="172" width="59" height="34"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="ערבית"/>
+                                        <connections>
+                                            <action selector="arvit:" destination="ghR-fU-7xL" eventType="touchUpInside" id="23g-KF-JV2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Tl5-je-v2J"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Tl5-je-v2J" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Gc1-YU-aPn" secondAttribute="trailing" symbolic="YES" id="9Kz-dt-7hM"/>
+                            <constraint firstItem="RIL-HI-hY9" firstAttribute="centerX" secondItem="hYX-9A-Y0Y" secondAttribute="centerX" id="UXT-MT-hao"/>
+                            <constraint firstItem="Gc1-YU-aPn" firstAttribute="leading" secondItem="Tl5-je-v2J" secondAttribute="leading" constant="20" id="Y84-hd-GVc"/>
+                            <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="fTX-eV-TOW"/>
+                            <constraint firstItem="Gc1-YU-aPn" firstAttribute="leading" secondItem="hYX-9A-Y0Y" secondAttribute="leadingMargin" id="gaw-hb-cEw"/>
+                            <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="hyk-jj-0uB"/>
+                            <constraint firstItem="RIL-HI-hY9" firstAttribute="centerY" secondItem="hYX-9A-Y0Y" secondAttribute="centerY" id="ou9-d4-zYa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="arvit" destination="0pX-p5-1X1" id="kxy-fT-pGP"/>
+                        <outlet property="mincha" destination="ucE-TT-3Tk" id="GJT-ol-o65"/>
+                        <outlet property="mussaf" destination="E9T-IS-7dM" id="V6b-cD-zkb"/>
+                        <outlet property="neilah" destination="wfJ-3M-Z9b" id="NdX-Tc-CmK"/>
+                        <outlet property="selichot" destination="SWm-ir-5UC" id="w54-md-Xgu"/>
+                        <outlet property="shacharit" destination="B53-v5-Jdk" id="CgE-q8-ybP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vvz-Pd-4m2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2060" y="-57"/>
+        </scene>
+        <!--Siddur-->
+        <scene sceneID="r95-Wr-ebw">
+            <objects>
+                <viewController storyboardIdentifier="Siddur" title="Siddur" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jkM-M4-JT4" customClass="SiddurViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vQM-sm-aZq">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CX0-0v-Es4">
+                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="713"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Back"/>
+                                <connections>
+                                    <action selector="back:" destination="jkM-M4-JT4" eventType="touchUpInside" id="PYq-4I-mRO"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-Ys-jRf">
+                                <rect key="frame" x="0.0" y="780" width="430" height="152"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="p25-pA-HwP">
+                                        <rect key="frame" x="0.0" y="0.0" width="430" height="152"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="JCh-xB-oex">
+                                                <rect key="frame" x="0.0" y="0.0" width="430" height="152"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="JCh-xB-oex" firstAttribute="top" secondItem="p25-pA-HwP" secondAttribute="top" id="8Q8-ZQ-4yS"/>
+                                            <constraint firstAttribute="bottom" secondItem="JCh-xB-oex" secondAttribute="bottom" id="8Vy-QF-c6b"/>
+                                            <constraint firstItem="JCh-xB-oex" firstAttribute="leading" secondItem="p25-pA-HwP" secondAttribute="leading" id="aCS-2W-r3K"/>
+                                            <constraint firstAttribute="trailing" secondItem="JCh-xB-oex" secondAttribute="trailing" id="sFD-xZ-cgq"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="p25-pA-HwP" firstAttribute="top" secondItem="0ca-Ys-jRf" secondAttribute="top" id="Bgx-cD-qcc"/>
+                                    <constraint firstItem="p25-pA-HwP" firstAttribute="centerX" secondItem="0ca-Ys-jRf" secondAttribute="centerX" id="SAb-Am-hFg"/>
+                                    <constraint firstAttribute="trailing" secondItem="p25-pA-HwP" secondAttribute="trailing" id="Sgy-Uw-gEV"/>
+                                    <constraint firstAttribute="bottom" secondItem="p25-pA-HwP" secondAttribute="bottom" id="b4j-Ze-EGq"/>
+                                    <constraint firstItem="p25-pA-HwP" firstAttribute="bottom" secondItem="4jj-Te-c8X" secondAttribute="bottom" id="llA-ls-vmh"/>
+                                    <constraint firstItem="p25-pA-HwP" firstAttribute="leading" secondItem="0ca-Ys-jRf" secondAttribute="leading" id="nBe-oW-Kjt"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="zx1-t6-5VT"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="4jj-Te-c8X"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="2oc-gD-oWg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="0ca-Ys-jRf" secondAttribute="bottom" id="0zb-wV-yAZ"/>
+                            <constraint firstItem="CX0-0v-Es4" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="20" id="1D9-9P-j7X"/>
+                            <constraint firstItem="0ca-Ys-jRf" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" id="QJt-h1-7hx"/>
+                            <constraint firstItem="0ca-Ys-jRf" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" constant="8" symbolic="YES" id="bH8-Qg-yl4"/>
+                            <constraint firstItem="CX0-0v-Es4" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="fG1-D5-3tv"/>
+                            <constraint firstAttribute="trailing" secondItem="0ca-Ys-jRf" secondAttribute="trailing" id="kaz-YW-BWu"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="stackview" destination="p25-pA-HwP" id="MhE-mf-cV7"/>
+                        <outlet property="textView" destination="JCh-xB-oex" id="sll-Xv-QpW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LRS-sw-0b2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2836.7441860465115" y="-57.296137339055797"/>
         </scene>
         <!--In Israel?-->
         <scene sceneID="poe-ZF-0DP">
@@ -953,8 +1124,8 @@ etc...</string>
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="etQ-08-FeZ">
-                                <rect key="frame" x="20" y="466" width="390" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="etQ-08-FeZ">
+                                <rect key="frame" x="20" y="435" width="390" height="62.333333333333314"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="52"/>
                                 <color key="textColor" red="0.79505818160538821" green="0.61058326305863431" blue="0.002093639398883814" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1207,6 +1378,9 @@ etc...</string>
         <namedColor name="Gold">
             <color red="0.87800002098083496" green="0.73299998044967651" blue="0.25900000333786011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="quaternarySystemFillColor">
             <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -88,16 +88,16 @@
                                   @"Ha'azinu",
                                   @"Vezot Haberacha",
                                   
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week",
-                                  @"No Parasha this week"];
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha",
+                                  @"No Weekly Parasha"];
         
         _names = @[@"בראשית",
                    @"נח",
@@ -166,16 +166,16 @@
                    @"האזינו",
                    @"וזאת הברכה",
                    
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week",
-                   @"No Parasha this week"];
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha",
+                   @"No Weekly Parasha"];
     }
     return self;
 }

@@ -19,6 +19,7 @@ class ZmanListViewController: UITableViewController {
     var timezone: TimeZone = TimeZone.current
     var shabbatMode: Bool = false
     var userChosenDate: Date = Date()
+    var lastTimeUserWasInApp: Date = Date()
     var nextUpcomingZman: Date? = nil
     var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
     var jewishCalendar: JewishCalendar = JewishCalendar()
@@ -30,6 +31,7 @@ class ZmanListViewController: UITableViewController {
     var currentIndex = 0
     var shouldScroll = true
     var askedToUpdateTablesAlready = false
+    var areAllZmanimTheSame = true
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBAction func prevDayButton(_ sender: Any) {
@@ -138,74 +140,81 @@ class ZmanListViewController: UITableViewController {
         dateFormatterForZmanim.timeZone = timezone
         
         var content = cell.defaultContentConfiguration()
-            content.textProperties.adjustsFontSizeToFitWidth = true
-            content.textProperties.numberOfLines = 1
-            
-            if zmanimList[indexPath.row].isZman {
-                if defaults.bool(forKey: "isZmanimInHebrew") {
-                    if zman == nil {
-                        content.secondaryText = zmanimList[indexPath.row].title
-                        content.text = "XX:XX"
-                    } else {
-                        content.secondaryText = zmanimList[indexPath.row].title
-                        if zman == nextUpcomingZman {
-                            let arrow = "←"
-                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
-                                zman = zman?.advanced(by: 60)
-                                let roundedFormat = DateFormatter()
-                                roundedFormat.dateFormat = "h:mm aa"
-                                content.text = roundedFormat.string(from: zman!) + arrow
-                            } else {
-                                content.text = dateFormatterForZmanim.string(from: zman!) + arrow
-                            }
+        content.textProperties.adjustsFontSizeToFitWidth = true
+        content.textProperties.numberOfLines = 1
+        
+        if zmanimList[indexPath.row].isZman {
+            if defaults.bool(forKey: "isZmanimInHebrew") {
+                if zman == nil {
+                    content.secondaryText = zmanimList[indexPath.row].title
+                    content.text = "XX:XX"
+                } else {
+                    content.secondaryText = zmanimList[indexPath.row].title
+                    if zman == nextUpcomingZman {
+                        let arrow = "←"
+                        if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                            zman = zman?.advanced(by: 60)
+                            let roundedFormat = DateFormatter()
+                            roundedFormat.dateFormat = "h:mm aa"
+                            content.text = roundedFormat.string(from: zman!) + arrow
                         } else {
-                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
-                                zman = zman?.advanced(by: 60)
-                                let roundedFormat = DateFormatter()
-                                roundedFormat.dateFormat = "h:mm aa"
-                                content.text = roundedFormat.string(from: zman!)
-                            } else {
-                                content.text = dateFormatterForZmanim.string(from: zman!)
-                            }
+                            content.text = dateFormatterForZmanim.string(from: zman!) + arrow
+                        }
+                    } else {
+                        if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                            zman = zman?.advanced(by: 60)
+                            let roundedFormat = DateFormatter()
+                            roundedFormat.dateFormat = "h:mm aa"
+                            content.text = roundedFormat.string(from: zman!)
+                        } else {
+                            content.text = dateFormatterForZmanim.string(from: zman!)
                         }
                     }
-                    content.textProperties.font = .boldSystemFont(ofSize: 20)
-                    content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
-                    content.prefersSideBySideTextAndSecondaryText = true
-                } else {//english
-                    if zman == nil {
-                        content.text = zmanimList[indexPath.row].title
-                        content.secondaryText = "XX:XX"
-                    } else {
-                        content.text = zmanimList[indexPath.row].title
-                        if zman == nextUpcomingZman {
-                            let arrow = "➤"
-                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
-                                zman = zman?.advanced(by: 60)
-                                let roundedFormat = DateFormatter()
-                                roundedFormat.dateFormat = "h:mm aa"
-                                content.secondaryText = arrow + roundedFormat.string(from: zman!)
-                            } else {
-                                content.secondaryText = arrow + dateFormatterForZmanim.string(from: zman!)
-                            }
-                        } else {
-                            if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
-                                zman = zman?.advanced(by: 60)
-                                let roundedFormat = DateFormatter()
-                                roundedFormat.dateFormat = "h:mm aa"
-                                content.secondaryText = roundedFormat.string(from: zman!)
-                            } else {
-                                content.secondaryText = dateFormatterForZmanim.string(from: zman!)
-                            }                    }
-                    }
-                    content.textProperties.font = .boldSystemFont(ofSize: 20)
-                    content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
-                    content.prefersSideBySideTextAndSecondaryText = true
                 }
-            } else {
-                content.textProperties.alignment = .center
-                content.text = zmanimList[indexPath.row].title
+                if areAllZmanimTheSame {
+                    content.text = "Loading..."
+                }
+                content.textProperties.font = .boldSystemFont(ofSize: 20)
+                content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
+                content.prefersSideBySideTextAndSecondaryText = true
+            } else {//english
+                if zman == nil {
+                    content.text = zmanimList[indexPath.row].title
+                    content.secondaryText = "XX:XX"
+                } else {
+                    content.text = zmanimList[indexPath.row].title
+                    if zman == nextUpcomingZman {
+                        let arrow = "➤"
+                        if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                            zman = zman?.advanced(by: 60)
+                            let roundedFormat = DateFormatter()
+                            roundedFormat.dateFormat = "h:mm aa"
+                            content.secondaryText = arrow + roundedFormat.string(from: zman!)
+                        } else {
+                            content.secondaryText = arrow + dateFormatterForZmanim.string(from: zman!)
+                        }
+                    } else {
+                        if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
+                            zman = zman?.advanced(by: 60)
+                            let roundedFormat = DateFormatter()
+                            roundedFormat.dateFormat = "h:mm aa"
+                            content.secondaryText = roundedFormat.string(from: zman!)
+                        } else {
+                            content.secondaryText = dateFormatterForZmanim.string(from: zman!)
+                        }
+                    }
+                }
+                if areAllZmanimTheSame {
+                    content.secondaryText = "Loading..."
+                }
+                content.textProperties.font = .boldSystemFont(ofSize: 20)
+                content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
+                content.prefersSideBySideTextAndSecondaryText = true
             }
+        } else {
+            content.textProperties.alignment = .center
+            content.text = zmanimList[indexPath.row].title
+        }
         
         if zmanimList[indexPath.row].shouldBeDimmed {
             content.textProperties.color = .lightGray
@@ -262,6 +271,14 @@ class ZmanListViewController: UITableViewController {
                 self.present(newViewController, animated: true)
             }
             alertController.addAction(setupSunriseAction)
+        }
+        
+        if zmanimList[indexPath.row].title == "Daily Siddur" {
+            GlobalStruct.jewishCalendar = jewishCalendar
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyboard.instantiateViewController(withIdentifier: "SiddurChooser") as! SiddurChooserViewController
+            newViewController.modalPresentationStyle = .fullScreen
+            self.present(newViewController, animated: true)
         }
         
         if #available(iOS 16.2, *) {
@@ -469,11 +486,12 @@ class ZmanListViewController: UITableViewController {
         checkIfUserIsInIsrael()
         checkIfTablesNeedToBeUpdated()
         createBackgroundThreadForNextUpcomingZman()
-        if !Calendar.current.isDate(userChosenDate, inSameDayAs: Date()) && userChosenDate.timeIntervalSinceNow < 7200 {//2 hours
+        if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
             refreshTable()
         } else {
             updateZmanimList()
         }
+        lastTimeUserWasInApp = Date()
     }
     
     func syncOldDefaults() {
@@ -489,7 +507,7 @@ class ZmanListViewController: UITableViewController {
             }
         }
         
-        oldDefaults.bool(forKey: "hasBeenSynced")
+        oldDefaults.setValue(true, forKey: "hasBeenSynced")
     }
     
     @objc func labelTapped() {
@@ -733,10 +751,10 @@ class ZmanListViewController: UITableViewController {
     }
     
     func startShabbatMode() {
+        shabbatMode = true
         userChosenDate = Date()
         syncCalendarDates()
         updateZmanimList()
-        shabbatMode = true
         prevDayButton.isEnabled = false
         calendarButton.isEnabled = false
         nextDayButton.isEnabled = false
@@ -1397,6 +1415,9 @@ class ZmanListViewController: UITableViewController {
             }
         }
         zmanimList.append(ZmanListEntry(title:jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()))
+        if !shabbatMode {
+            zmanimList.append(ZmanListEntry(title: "Daily Siddur"))
+        }
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
@@ -1404,6 +1425,9 @@ class ZmanListViewController: UITableViewController {
             zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanisGra())) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.temporalHour(fromSunrise: zmanimCalendar.alotAmudeiHoraah() ?? Date(), toSunset: zmanimCalendar.tzait72ZmanitAmudeiHoraah() ?? Date()))) ?? "XX:XX")))
         } else {
             zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanisGra())) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanis72MinutesZmanis())) ?? "XX:XX")))
+        }
+        if zmanimCalendar.sunrise()?.timeIntervalSince1970 != zmanimCalendar.sunset()?.timeIntervalSince1970 {
+            areAllZmanimTheSame = false
         }
         tableView.reloadData()
     }
@@ -1549,6 +1573,8 @@ class ZmanListViewController: UITableViewController {
 struct GlobalStruct {
     static var useElevation = false
     static var geoLocation = GeoLocation()
+    static var jewishCalendar = JewishCalendar()
+    static var chosenPrayer = ""
 }
 
 public extension ComplexZmanimCalendar {
@@ -1996,34 +2022,64 @@ public extension JewishCalendar {
         }
         return ""
     }
-
+    
     func getSpecialParasha() -> String {
-        if currentDayOfTheWeek() == 7 {
-            if (currentHebrewMonth() == kHebrewMonth.shevat.rawValue && !isCurrentlyHebrewLeapYear()) || (currentHebrewMonth() == kHebrewMonth.adar.rawValue && isCurrentlyHebrewLeapYear()) {
-                if [25, 27, 29].contains(currentHebrewDayOfMonth()) {
-        return "שקלים"
-        }
-        }
-            if (currentHebrewMonth() == kHebrewMonth.adar.rawValue && !isCurrentlyHebrewLeapYear()) || currentHebrewMonth() == kHebrewMonth.adar_II.rawValue {
-        if currentHebrewDayOfMonth() == 1 {
-        return "שקלים"
-        }
-        if [8, 9, 11, 13].contains(currentHebrewDayOfMonth()) {
-        return "זכור"
-        }
-        if [18, 20, 22, 23].contains(currentHebrewDayOfMonth()) {
-        return "פרה"
-        }
-        if [25, 27, 29].contains(currentHebrewDayOfMonth()) {
-        return "החדש"
-        }
-        }
-        if currentHebrewMonth() == kHebrewMonth.nissan.rawValue && currentHebrewDayOfMonth() == 1 {
-        return "החדש"
-        }
+        let dayOfWeek = currentDayOfTheWeek()
+        let jewishMonth = currentHebrewMonth()
+        let jewishDayOfMonth = currentHebrewDayOfMonth()
+        let isLeapYear = isCurrentlyHebrewLeapYear()
+        
+        if dayOfWeek == 7 {
+            if (jewishMonth == kHebrewMonth.shevat.rawValue && !isLeapYear) || (jewishMonth == kHebrewMonth.adar.rawValue && isLeapYear) {
+                if [25, 27, 29].contains(jewishDayOfMonth) {
+                    return "שקלים"
+                }
+            }
+            if (jewishMonth == kHebrewMonth.adar.rawValue && !isLeapYear) || jewishMonth == kHebrewMonth.adar_II.rawValue {
+                if jewishDayOfMonth == 1 {
+                    return "שקלים"
+                }
+                if [8, 9, 11, 13].contains(jewishDayOfMonth) {
+                    return "זכור"
+                }
+                if [18, 20, 22, 23].contains(jewishDayOfMonth) {
+                    return "פרה"
+                }
+                if [25, 27, 29].contains(jewishDayOfMonth) {
+                    return "החדש"
+                }
+            }
+            if jewishMonth == kHebrewMonth.nissan.rawValue {
+                if jewishDayOfMonth == 1 || (jewishDayOfMonth >= 8 && jewishDayOfMonth <= 14) {
+                    return "הגדול"
+                }
+            }
+            if jewishMonth == kHebrewMonth.av.rawValue {
+                if jewishDayOfMonth >= 4 && jewishDayOfMonth <= 9 {
+                    return "חזון"
+                }
+                if jewishDayOfMonth >= 10 && jewishDayOfMonth <= 16 {
+                    return "נחמו"
+                }
+            }
+            if jewishMonth == kHebrewMonth.tishrei.rawValue {
+                if jewishDayOfMonth >= 3 && jewishDayOfMonth <= 8 {
+                    return "שובה"
+                }
+            }
+            if inIsrael {
+                if ParashatHashavuaCalculator().parashaInIsrael(for: workingDate).name() == "בשלח" {
+                    return "שירה"
+                }
+            } else {
+                if ParashatHashavuaCalculator().parashaInDiaspora(for: workingDate).name() == "בשלח" {
+                    return "שירה"
+                }
+            }
         }
         return ""
     }
+
                 
     func isTaanisBechoros() -> Bool {
         let day = currentHebrewDayOfMonth()
@@ -2148,6 +2204,19 @@ public extension JewishCalendar {
             }
         }
         return "";
+    }
+    
+    func isAseresYemeiTeshuva() -> Bool {
+        return currentHebrewMonth() == HebrewMonth.tishrei.rawValue && currentHebrewDayOfMonth() <= 10;
+    }
+    
+    func isSelichotSaid() -> Bool {
+        if currentHebrewMonth() == HebrewMonth.elul.rawValue {
+            if !isRoshChodesh() {
+                return true;
+            }
+        }
+        return isAseresYemeiTeshuva();
     }
     
     func is3Weeks() -> Bool {
@@ -2554,7 +2623,7 @@ public extension DafYomiCalculator {
         }
         
         // Get the number of days from cycle start until request.
-        let dafNo = getDiffBetweenDays(start: dateCreator.date(from: prevCycle)!, end: calendar.workingDate)
+        let dafNo = getDiffBetweenDays(start: dateCreator.date(from: prevCycle)!, end: calendar.workingDate.addingTimeInterval(-86400))// this should be a temporary solution. Not sure why the dates are one day off
         
         // Get the number of special day to subtract
         let specialDays = getNumOfSpecialDays(startDate: dateCreator.date(from: prevCycle)!, endDate: calendar.workingDate)
@@ -2566,8 +2635,8 @@ public extension DafYomiCalculator {
                 dafYomi = Daf(tractateIndex: masechta, andPageNumber: total + 1)
                 break
             }
-            masechta += 1
             total -= BLATT_PER_MASSECTA[j]
+            masechta += 1
         }
         
         return dafYomi

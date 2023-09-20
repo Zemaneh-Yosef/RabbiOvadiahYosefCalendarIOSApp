@@ -57,6 +57,9 @@
 		5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */; };
 		5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D948C302A38205E0017A8B6 /* CalendarViewController.swift */; };
 		8F86AA6AF9025C64C05D8FAC /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A4726B266F71E8A54B4B15 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */; };
+		CE2B0B752AC54BC700F07CCD /* SiddurViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */; };
+		CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */; };
+		CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +149,9 @@
 		9EC2BE2F67118FB9A441A170 /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
 		9F98DABA7C2D19ECC10D30CE /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDE7717C93EDA0BC8484CD8C /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurViewController.swift; sourceTree = "<group>"; };
+		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
+		CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurChooserViewController.swift; sourceTree = "<group>"; };
 		D3A4726B266F71E8A54B4B15 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rabbi_Ovadiah_Yosef_Calendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4DF2E9E18B826B6F0054932 /* Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -189,6 +195,8 @@
 				5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */,
 				5D7550AB29EF94C300894335 /* ZmanimLanguageViewController.swift */,
 				5D7550B029F2761300894335 /* MoladViewController.swift */,
+				CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */,
+				CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -262,6 +270,7 @@
 				5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */,
 				5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */,
 				5D7550A429EBC58200894335 /* MarqueeLabel.swift */,
+				CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */,
 				5D19D36629A3687900F8033D /* Main.storyboard */,
 				5D19D36929A3687B00F8033D /* Assets.xcassets */,
 				5D19D36B29A3687B00F8033D /* LaunchScreen.storyboard */,
@@ -494,6 +503,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE2B0B752AC54BC700F07CCD /* SiddurViewController.swift in Sources */,
 				5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */,
 				5D19D37D29A36DB300F8033D /* Constants.swift in Sources */,
 				5D19D36129A3687900F8033D /* AppDelegate.swift in Sources */,
@@ -521,7 +531,9 @@
 				5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */,
 				5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */,
 				5D19D36529A3687900F8033D /* ZmanListViewController.swift in Sources */,
+				CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */,
 				5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */,
+				CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +763,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7L3824N5VJ;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Rabbi Ovadiah Yosef Calendar/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Rabbi Ovadia Yosef Calendar";
@@ -768,7 +781,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5;
+				MARKETING_VERSION = 2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -809,7 +822,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5;
+				MARKETING_VERSION = 2.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
