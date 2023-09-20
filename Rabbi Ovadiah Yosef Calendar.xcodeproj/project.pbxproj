@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B5A313CB53A00AF6496651D /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F98DABA7C2D19ECC10D30CE /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework */; };
+		520D973A2ABA8D17004B9014 /* NetzViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520D97392ABA8D17004B9014 /* NetzViewController.swift */; };
 		52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 52119EE22A7F954800661D63 /* SwiftSoup */; };
 		522122202A844A9000942C23 /* ChaiTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5221221F2A844A9000942C23 /* ChaiTables.swift */; };
 		52237D322A8C9B1400497D9E /* SimpleSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52237D312A8C9B1400497D9E /* SimpleSetupViewController.swift */; };
@@ -84,6 +85,7 @@
 
 /* Begin PBXFileReference section */
 		17A1D36F4259B45CB46F603F /* Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; sourceTree = "<group>"; };
+		520D97392ABA8D17004B9014 /* NetzViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetzViewController.swift; sourceTree = "<group>"; };
 		5221221F2A844A9000942C23 /* ChaiTables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChaiTables.swift; path = "Rabbi Ovadiah Yosef Calendar/ChaiTables.swift"; sourceTree = SOURCE_ROOT; };
 		52237D312A8C9B1400497D9E /* SimpleSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSetupViewController.swift; sourceTree = "<group>"; };
 		52237D332A8C9BC800497D9E /* AdvancedSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSetupViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				5D19D36429A3687900F8033D /* ZmanListViewController.swift */,
+				520D97392ABA8D17004B9014 /* NetzViewController.swift */,
 				5D948C302A38205E0017A8B6 /* CalendarViewController.swift */,
 				5D7550A229E3776700894335 /* ElevationViewController.swift */,
 				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
@@ -502,6 +505,7 @@
 				5D7550AC29EF94C300894335 /* ZmanimLanguageViewController.swift in Sources */,
 				5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */,
 				525950A32A9B3AE700872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */,
+				520D973A2ABA8D17004B9014 /* NetzViewController.swift in Sources */,
 				5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */,
 				5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */,
 				52A2A8B62A8B4CF500E2A463 /* SetupChooserViewController.swift in Sources */,
@@ -576,7 +580,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -611,7 +615,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -764,7 +768,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -805,7 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.5;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";

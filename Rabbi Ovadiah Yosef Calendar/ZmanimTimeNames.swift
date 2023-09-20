@@ -257,6 +257,14 @@ struct ZmanimTimeNames {
             return "HaNetz"
         }
     }
+    
+    public func getIsInString() -> String {
+        if (mIsZmanimInHebrew) {
+            return " ב... "
+        } else {
+            return " is in... "
+        }
+    }
 
     public func getTalitTefilinString() -> String {
         if (mIsZmanimInHebrew) {

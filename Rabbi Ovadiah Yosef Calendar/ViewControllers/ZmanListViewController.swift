@@ -84,6 +84,13 @@ class ZmanListViewController: UITableViewController {
             self.updateZmanimList()
         })
         
+        topMenu.append(UIAction(title: "Netz Countdown", identifier: nil) { _ in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyboard.instantiateViewController(withIdentifier: "Netz") as! NetzViewController
+            newViewController.modalPresentationStyle = .fullScreen
+            self.present(newViewController, animated: true)
+        })
+        
         topMenu.append(UIAction(title: "Molad Calculator", identifier: nil) { _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "Molad") as! MoladViewController

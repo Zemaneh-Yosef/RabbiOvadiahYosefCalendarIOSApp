@@ -87,7 +87,7 @@
                             <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         </stackView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
+                            <rect key="frame" x="0.0" y="156" width="430" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
@@ -111,7 +111,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
                                 <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
                                     <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="146.66666666666666" y="0.66666666666666785" width="136.99999999999997" height="44"/>
+                                        <rect key="frame" x="147" y="1" width="137" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" name="AccentColor"/>
@@ -944,6 +944,48 @@ etc...</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jMb-cC-bnH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="579.375" y="-708.80281690140851"/>
+        </scene>
+        <!--Netz Countdown-->
+        <scene sceneID="7MF-ii-ALv">
+            <objects>
+                <viewController storyboardIdentifier="Netz" title="Netz Countdown" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dd1-Sa-3GC" customClass="NetzViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KBc-5t-iyY">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="etQ-08-FeZ">
+                                <rect key="frame" x="20" y="466" width="390" height="0.0"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="52"/>
+                                <color key="textColor" red="0.79505818160538821" green="0.61058326305863431" blue="0.002093639398883814" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fj1-hW-5PJ">
+                                <rect key="frame" x="20" y="59" width="56" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Quit"/>
+                                <connections>
+                                    <action selector="quit:" destination="dd1-Sa-3GC" eventType="touchUpInside" id="TRa-NZ-vhl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vYi-KR-VqZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="etQ-08-FeZ" firstAttribute="centerX" secondItem="KBc-5t-iyY" secondAttribute="centerX" id="Hhu-ct-uIA"/>
+                            <constraint firstItem="Fj1-hW-5PJ" firstAttribute="top" secondItem="vYi-KR-VqZ" secondAttribute="top" id="MF7-SX-o4g"/>
+                            <constraint firstAttribute="trailing" secondItem="etQ-08-FeZ" secondAttribute="trailing" constant="20" symbolic="YES" id="iTj-3D-9CR"/>
+                            <constraint firstItem="etQ-08-FeZ" firstAttribute="centerY" secondItem="KBc-5t-iyY" secondAttribute="centerY" id="k66-UF-EtY"/>
+                            <constraint firstItem="Fj1-hW-5PJ" firstAttribute="leading" secondItem="vYi-KR-VqZ" secondAttribute="leading" constant="20" id="oAc-CI-t4c"/>
+                            <constraint firstItem="etQ-08-FeZ" firstAttribute="leading" secondItem="KBc-5t-iyY" secondAttribute="leading" constant="20" symbolic="YES" id="sPN-PK-dv4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="content" destination="etQ-08-FeZ" id="TYc-aV-NVl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qqa-Ga-8Az" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="582" y="-1376"/>
         </scene>
         <!--Zmanim Settings View Controller-->
         <scene sceneID="zCK-aH-4l1">
