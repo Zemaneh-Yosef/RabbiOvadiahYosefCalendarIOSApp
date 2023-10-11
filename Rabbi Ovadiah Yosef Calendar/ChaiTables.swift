@@ -38,12 +38,12 @@ class ChaiTables {
             return nil
         }
         
-        let visibleSunnrise = parsedTable[day + 1][month]
+        let visibleSunrise = parsedTable[day + 1][month]
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss"
 
-        guard let currentTime = dateFormatter.date(from: visibleSunnrise) else {
+        guard let currentTime = dateFormatter.date(from: visibleSunrise) else {
             return nil // Unable to parse the time string
         }
 

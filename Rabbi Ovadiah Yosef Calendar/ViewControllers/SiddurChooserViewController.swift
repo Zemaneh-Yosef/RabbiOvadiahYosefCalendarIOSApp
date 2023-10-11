@@ -61,7 +61,7 @@ class SiddurChooserViewController: UIViewController {
         }
         
 //        if GlobalStruct.jewishCalendar.yomTovIndex() == kYomKippur.rawValue {
-//            mussaf.isHidden = false
+//            neilah.isHidden = false
 //        }
         
         if #available(iOS 15.0, *) {

@@ -31,7 +31,7 @@ class ZmanListViewController: UITableViewController {
     var currentIndex = 0
     var shouldScroll = true
     var askedToUpdateTablesAlready = false
-    var areAllZmanimTheSame = true
+    var allZmanimAreTheSame = true
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBAction func prevDayButton(_ sender: Any) {
@@ -155,8 +155,13 @@ class ZmanListViewController: UITableViewController {
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
+                            roundedFormat.timeZone = timezone
                             roundedFormat.dateFormat = "h:mm aa"
                             content.text = roundedFormat.string(from: zman!) + arrow
+                        } else if zmanimList[indexPath.row].isVisibleSunriseZman {
+                            let secondsFormat = DateFormatter()
+                            secondsFormat.dateFormat = "h:mm:ss aa"
+                            content.text = secondsFormat.string(from: zman!) + arrow
                         } else {
                             content.text = dateFormatterForZmanim.string(from: zman!) + arrow
                         }
@@ -164,15 +169,20 @@ class ZmanListViewController: UITableViewController {
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
+                            roundedFormat.timeZone = timezone
                             roundedFormat.dateFormat = "h:mm aa"
                             content.text = roundedFormat.string(from: zman!)
-                        } else {
+                        } else if zmanimList[indexPath.row].isVisibleSunriseZman {
+                            let secondsFormat = DateFormatter()
+                            secondsFormat.dateFormat = "h:mm:ss aa"
+                            content.text = secondsFormat.string(from: zman!)
+                        }  else {
                             content.text = dateFormatterForZmanim.string(from: zman!)
                         }
                     }
                 }
-                if areAllZmanimTheSame {
-                    content.text = "Loading..."
+                if allZmanimAreTheSame {
+                    content.text = "..."
                 }
                 content.textProperties.font = .boldSystemFont(ofSize: 20)
                 content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
@@ -188,8 +198,13 @@ class ZmanListViewController: UITableViewController {
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
+                            roundedFormat.timeZone = timezone
                             roundedFormat.dateFormat = "h:mm aa"
                             content.secondaryText = arrow + roundedFormat.string(from: zman!)
+                        } else if zmanimList[indexPath.row].isVisibleSunriseZman {
+                            let secondsFormat = DateFormatter()
+                            secondsFormat.dateFormat = "h:mm:ss aa"
+                            content.secondaryText = secondsFormat.string(from: zman!) + arrow
                         } else {
                             content.secondaryText = arrow + dateFormatterForZmanim.string(from: zman!)
                         }
@@ -197,15 +212,20 @@ class ZmanListViewController: UITableViewController {
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
+                            roundedFormat.timeZone = timezone
                             roundedFormat.dateFormat = "h:mm aa"
                             content.secondaryText = roundedFormat.string(from: zman!)
+                        } else if zmanimList[indexPath.row].isVisibleSunriseZman {
+                            let secondsFormat = DateFormatter()
+                            secondsFormat.dateFormat = "h:mm:ss aa"
+                            content.secondaryText = secondsFormat.string(from: zman!)
                         } else {
                             content.secondaryText = dateFormatterForZmanim.string(from: zman!)
                         }
                     }
                 }
-                if areAllZmanimTheSame {
-                    content.secondaryText = "Loading..."
+                if allZmanimAreTheSame {
+                    content.secondaryText = "..."
                 }
                 content.textProperties.font = .boldSystemFont(ofSize: 20)
                 content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
@@ -974,7 +994,7 @@ class ZmanListViewController: UITableViewController {
         let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
         let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
         if visibleSurise != nil {
-            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isVisibleSunriseZman: true))
         } else {
             temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
         }
@@ -1109,7 +1129,7 @@ class ZmanListViewController: UITableViewController {
         let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults)
         let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
         if visibleSurise != nil {
-            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isVisibleSunriseZman: true))
         } else {
             temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
         }
@@ -1427,7 +1447,7 @@ class ZmanListViewController: UITableViewController {
             zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanisGra())) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.shaahZmanis72MinutesZmanis())) ?? "XX:XX")))
         }
         if zmanimCalendar.sunrise()?.timeIntervalSince1970 != zmanimCalendar.sunset()?.timeIntervalSince1970 {
-            areAllZmanimTheSame = false
+            allZmanimAreTheSame = false
         }
         tableView.reloadData()
     }
@@ -2006,6 +2026,8 @@ public extension JewishCalendar {
             return "Lag Ba'Omer"
         } else if index == 34 {
             return "Shushan Purim Katan"
+        } else if index == 35 {
+            return "Isru Chag"
         } else if index != -1 {
             let yomtov = JewishHoliday(index: index).nameTransliterated()
             if yomtov.contains("Shemini Atzeret") {

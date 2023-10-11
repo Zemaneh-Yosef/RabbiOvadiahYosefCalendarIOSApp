@@ -75,7 +75,21 @@ class NetzViewController: UIViewController {
                 secondsRemaining -= 1
             } else {
                 Timer.invalidate()
-                self.content.text = "Netz/Sunrise has passed. Swipe down to countdown again."
+                self.content.text = "Netz/Sunrise has passed. Count will automatically restart at sunset. Swipe down to countdown again."
+                self.setTimerForSunset()
+            }
+        }
+    }
+    
+    func setTimerForSunset() {
+        let sunset = ComplexZmanimCalendar(location: GlobalStruct.geoLocation).sunset()
+        var sunsetTimeLeft = sunset?.timeIntervalSinceNow
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
+            if sunsetTimeLeft ?? 0 > 0 {
+                sunsetTimeLeft! -= 1
+            } else {
+                Timer.invalidate()
+                self.getNextNetzAndStartCountdown()
             }
         }
     }

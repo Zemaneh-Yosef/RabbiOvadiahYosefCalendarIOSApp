@@ -14,6 +14,7 @@ struct ZmanListEntry {
     var isNoteworthyZman: Bool = false // For weekly view
     var isRTZman: Bool = false // To know whether to round up
     var shouldBeDimmed: Bool = false // For Tzeit on Shabbat/Yom Tov
+    var isVisibleSunriseZman = false;
 }
 
 #if DEBUG

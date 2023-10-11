@@ -56,6 +56,9 @@
             {
                 return kCholHamoedPesach;
             }
+            if ((day == 22 && inIsrael) || (day == 23 && !inIsrael)) {
+                return 35;// Isru Chag
+            }
             if (useModernHolidays
                 && ((day == 26 && dayOfWeek == 5)
                     || (day == 28 && dayOfWeek == 2)
@@ -100,6 +103,9 @@
             else if (day == 6 || (day == 7 && !inIsrael))
             {
                 return kShavuos;
+            }
+            if ((day == 7 && inIsrael) || (day == 8 && !inIsrael)) {
+                return 35;// Isru Chag
             }
             break;
         case KCHebrewMonthTammuz:
@@ -168,6 +174,9 @@
             if (day == 23 && !inIsrael)
             {
                 return kSimchasTorah;
+            }
+            if ((day == 23 && inIsrael) || (day == 24 && !inIsrael)) {
+                return 35;// Isru Chag
             }
             break;
         case KCHebrewMonthCheshvan:
