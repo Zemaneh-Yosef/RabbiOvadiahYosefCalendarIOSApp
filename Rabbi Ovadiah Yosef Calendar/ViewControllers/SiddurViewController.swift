@@ -50,9 +50,17 @@ class SiddurViewController: UIViewController {
             label.numberOfLines = 0
             label.textAlignment = .right
             label.text = text.string
+            label.font = .boldSystemFont(ofSize: 16)
             if text.shouldBeHighlighted {
                 label.textColor = .black
                 label.backgroundColor = .yellow
+            }
+            if text.string == "Mussaf is said here, press here to go to Mussaf" {
+                //add an onclick here
+            }
+            if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
+                "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
+                //add a compass here
             }
             stackview.addArrangedSubview(label)
         }

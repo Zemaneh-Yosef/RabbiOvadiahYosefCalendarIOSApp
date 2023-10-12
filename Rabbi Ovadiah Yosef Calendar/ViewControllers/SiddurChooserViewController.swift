@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import KosherCocoa
 
 class SiddurChooserViewController: UIViewController {
 
@@ -52,7 +53,7 @@ class SiddurChooserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() {
+        if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() || GlobalStruct.jewishCalendar.yomTovIndex() == kHoshanaRabba.rawValue {
             mussaf.isHidden = false
         }
         
