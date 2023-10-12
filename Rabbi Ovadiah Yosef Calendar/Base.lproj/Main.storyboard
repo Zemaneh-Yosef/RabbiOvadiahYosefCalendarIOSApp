@@ -417,61 +417,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CX0-0v-Es4">
-                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="713"/>
+                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
                                     <action selector="back:" destination="jkM-M4-JT4" eventType="touchUpInside" id="PYq-4I-mRO"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ca-Ys-jRf">
-                                <rect key="frame" x="0.0" y="780" width="430" height="152"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="p25-pA-HwP">
-                                        <rect key="frame" x="0.0" y="0.0" width="430" height="152"/>
-                                        <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="JCh-xB-oex">
-                                                <rect key="frame" x="0.0" y="0.0" width="430" height="152"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <color key="textColor" systemColor="labelColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                            </textView>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="JCh-xB-oex" firstAttribute="top" secondItem="p25-pA-HwP" secondAttribute="top" id="8Q8-ZQ-4yS"/>
-                                            <constraint firstAttribute="bottom" secondItem="JCh-xB-oex" secondAttribute="bottom" id="8Vy-QF-c6b"/>
-                                            <constraint firstItem="JCh-xB-oex" firstAttribute="leading" secondItem="p25-pA-HwP" secondAttribute="leading" id="aCS-2W-r3K"/>
-                                            <constraint firstAttribute="trailing" secondItem="JCh-xB-oex" secondAttribute="trailing" id="sFD-xZ-cgq"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="p25-pA-HwP" firstAttribute="top" secondItem="0ca-Ys-jRf" secondAttribute="top" id="Bgx-cD-qcc"/>
-                                    <constraint firstItem="p25-pA-HwP" firstAttribute="centerX" secondItem="0ca-Ys-jRf" secondAttribute="centerX" id="SAb-Am-hFg"/>
-                                    <constraint firstAttribute="trailing" secondItem="p25-pA-HwP" secondAttribute="trailing" id="Sgy-Uw-gEV"/>
-                                    <constraint firstAttribute="bottom" secondItem="p25-pA-HwP" secondAttribute="bottom" id="b4j-Ze-EGq"/>
-                                    <constraint firstItem="p25-pA-HwP" firstAttribute="bottom" secondItem="4jj-Te-c8X" secondAttribute="bottom" id="llA-ls-vmh"/>
-                                    <constraint firstItem="p25-pA-HwP" firstAttribute="leading" secondItem="0ca-Ys-jRf" secondAttribute="leading" id="nBe-oW-Kjt"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="zx1-t6-5VT"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="4jj-Te-c8X"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mH8-8g-pX0">
+                                <rect key="frame" x="0.0" y="101" width="430" height="831"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2oc-gD-oWg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="0ca-Ys-jRf" secondAttribute="bottom" id="0zb-wV-yAZ"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="20" id="1D9-9P-j7X"/>
-                            <constraint firstItem="0ca-Ys-jRf" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" id="QJt-h1-7hx"/>
-                            <constraint firstItem="0ca-Ys-jRf" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" constant="8" symbolic="YES" id="bH8-Qg-yl4"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="centerX" secondItem="vQM-sm-aZq" secondAttribute="centerX" id="3pU-JU-333"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" id="Qic-oE-wAk"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="bottom" secondItem="vQM-sm-aZq" secondAttribute="bottom" id="Y34-pB-RZM"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" constant="7.6666666666666572" id="bAJ-Iz-7Ny"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="trailing" secondItem="vQM-sm-aZq" secondAttribute="trailing" id="erH-hS-ZVa"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="fG1-D5-3tv"/>
-                            <constraint firstAttribute="trailing" secondItem="0ca-Ys-jRf" secondAttribute="trailing" id="kaz-YW-BWu"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="stackview" destination="p25-pA-HwP" id="MhE-mf-cV7"/>
-                        <outlet property="textView" destination="JCh-xB-oex" id="sll-Xv-QpW"/>
+                        <outlet property="scrollView" destination="mH8-8g-pX0" id="mgD-Tq-4Mr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRS-sw-0b2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1378,9 +1348,6 @@ etc...</string>
         <namedColor name="Gold">
             <color red="0.87800002098083496" green="0.73299998044967651" blue="0.25900000333786011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="quaternarySystemFillColor">
             <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

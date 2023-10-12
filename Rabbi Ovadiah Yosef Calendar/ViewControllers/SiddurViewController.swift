@@ -13,8 +13,7 @@ class SiddurViewController: UIViewController {
         super.dismiss(animated: true)
     }
     
-    @IBOutlet weak var stackview: UIStackView!
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
         var listOfTexts = Array<HighlightString>()
@@ -38,13 +37,34 @@ class SiddurViewController: UIViewController {
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getArvitPrayers()
         }
         
-        var fullText = ""
-        
+        let stackview = UIStackView()
+        stackview.axis = .vertical
+        stackview.spacing = 12
+                
+        stackview.translatesAutoresizingMaskIntoConstraints = false
+                
+        scrollView.addSubview(stackview)
+                
         for text in listOfTexts {
-            fullText += text.string
-            fullText += "\n\n"
+            let label = UILabel()
+            label.numberOfLines = 0
+            label.textAlignment = .right
+            label.text = text.string
+            if text.shouldBeHighlighted {
+                label.textColor = .black
+                label.backgroundColor = .yellow
+            }
+            stackview.addArrangedSubview(label)
         }
-        textView.text = fullText
+        
+        NSLayoutConstraint.activate([
+            stackview.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackview.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            stackview.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            stackview.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            
+            stackview.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+        ])
     }
     
 
