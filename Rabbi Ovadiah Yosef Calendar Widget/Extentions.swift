@@ -557,7 +557,7 @@ public extension JewishCalendar {
         if isRoshChodesh() {
             if isHebrewLeapYear(currentHebrewYear()) {
                 let month = currentHebrewMonth()
-                if month == HebrewMonth.cheshvan.rawValue || month == HebrewMonth.kislev.rawValue || month == HebrewMonth.teves.rawValue || month == HebrewMonth.shevat.rawValue || month == HebrewMonth.adar.rawValue || month == HebrewMonth.adar_II.rawValue {
+                if month == HebrewMonth.tishrei.rawValue || month == HebrewMonth.cheshvan.rawValue || month == HebrewMonth.kislev.rawValue || month == HebrewMonth.teves.rawValue || month == HebrewMonth.shevat.rawValue || month == HebrewMonth.adar.rawValue || month == HebrewMonth.adar_II.rawValue {
                     return "Say וּלְכַפָּרַת פֶּשַׁע";
                 } else {
                     return "Do not say וּלְכַפָּרַת פֶּשַׁע";
