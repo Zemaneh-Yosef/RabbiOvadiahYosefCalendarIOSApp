@@ -348,7 +348,9 @@ public extension JewishCalendar {
         hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
         hebrewDateFormatter.dateFormat = "MMMM"
 
-        let nextHebrewMonth = hebrewDateFormatter.string(from: workingDate.advanced(by: 86400 * 3))// advance 3 days into the future, because Rosh Chodesh can be 2 days and we need to know what the next month is at most 3 days before
+        let nextHebrewMonth = hebrewDateFormatter.string(from: workingDate.advanced(by: 86400 * 3))
+            .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+            .replacingOccurrences(of: "Tamuz", with: "Tammuz")// advance 3 days into the future, because Rosh Chodesh can be 2 days and we need to know what the next month is at most 3 days before
         
         if isRoshChodesh() {
             result = "Rosh Chodesh " + nextHebrewMonth
@@ -435,29 +437,61 @@ public extension JewishCalendar {
     }
 
     func getSpecialParasha() -> String {
-        if currentDayOfTheWeek() == 7 {
-            if (currentHebrewMonth() == kHebrewMonth.shevat.rawValue && !isCurrentlyHebrewLeapYear()) || (currentHebrewMonth() == kHebrewMonth.adar.rawValue && isCurrentlyHebrewLeapYear()) {
-                if [25, 27, 29].contains(currentHebrewDayOfMonth()) {
-        return "שקלים"
-        }
-        }
-            if (currentHebrewMonth() == kHebrewMonth.adar.rawValue && !isCurrentlyHebrewLeapYear()) || currentHebrewMonth() == kHebrewMonth.adar_II.rawValue {
-        if currentHebrewDayOfMonth() == 1 {
-        return "שקלים"
-        }
-        if [8, 9, 11, 13].contains(currentHebrewDayOfMonth()) {
-        return "זכור"
-        }
-        if [18, 20, 22, 23].contains(currentHebrewDayOfMonth()) {
-        return "פרה"
-        }
-        if [25, 27, 29].contains(currentHebrewDayOfMonth()) {
-        return "החדש"
-        }
-        }
-        if currentHebrewMonth() == kHebrewMonth.nissan.rawValue && currentHebrewDayOfMonth() == 1 {
-        return "החדש"
-        }
+        let dayOfWeek = currentDayOfTheWeek()
+        let jewishMonth = currentHebrewMonth()
+        let jewishDayOfMonth = currentHebrewDayOfMonth()
+        let isLeapYear = isCurrentlyHebrewLeapYear()
+        
+        if dayOfWeek == 7 {
+            if (jewishMonth == kHebrewMonth.shevat.rawValue && !isLeapYear) || (jewishMonth == kHebrewMonth.adar.rawValue && isLeapYear) {
+                if [25, 27, 29].contains(jewishDayOfMonth) {
+                    return "שקלים"
+                }
+            }
+            if (jewishMonth == kHebrewMonth.adar.rawValue && !isLeapYear) || jewishMonth == kHebrewMonth.adar_II.rawValue {
+                if jewishDayOfMonth == 1 {
+                    return "שקלים"
+                }
+                if [8, 9, 11, 13].contains(jewishDayOfMonth) {
+                    return "זכור"
+                }
+                if [18, 20, 22, 23].contains(jewishDayOfMonth) {
+                    return "פרה"
+                }
+                if [25, 27, 29].contains(jewishDayOfMonth) {
+                    return "החדש"
+                }
+            }
+            if jewishMonth == kHebrewMonth.nissan.rawValue {
+                if jewishDayOfMonth == 1 || (jewishDayOfMonth >= 8 && jewishDayOfMonth <= 14) {
+                    return "הגדול"
+                }
+            }
+            if jewishMonth == kHebrewMonth.av.rawValue {
+                if jewishDayOfMonth >= 4 && jewishDayOfMonth <= 9 {
+                    return "חזון"
+                }
+                if jewishDayOfMonth >= 10 && jewishDayOfMonth <= 16 {
+                    return "נחמו"
+                }
+            }
+            if jewishMonth == kHebrewMonth.tishrei.rawValue {
+                if jewishDayOfMonth >= 3 && jewishDayOfMonth <= 8 {
+                    return "שובה"
+                }
+            }
+            if ParashatHashavuaCalculator().parashaInDiaspora(for: workingDate).name() == "בשלח" {
+                return "שירה"
+            }
+            /* if inIsrael {
+                if ParashatHashavuaCalculator().parashaInIsrael(for: workingDate).name() == "בשלח" {
+                    return "שירה"
+                }
+            } else {
+                if ParashatHashavuaCalculator().parashaInDiaspora(for: workingDate).name() == "בשלח" {
+                    return "שירה"
+                }
+            } */
         }
         return ""
     }

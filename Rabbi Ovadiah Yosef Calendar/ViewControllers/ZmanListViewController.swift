@@ -151,7 +151,7 @@ class ZmanListViewController: UITableViewController {
                 } else {
                     content.secondaryText = zmanimList[indexPath.row].title
                     if zman == nextUpcomingZman {
-                        let arrow = "←"
+                        let arrow = "◄"
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
@@ -1286,6 +1286,8 @@ class ZmanListViewController: UITableViewController {
         hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
         hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
         let hebrewDate = hebrewDateFormatter.string(from: userChosenDate)
+            .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+            .replacingOccurrences(of: "Tamuz", with: "Tammuz")
         
         if Calendar.current.isDateInToday(userChosenDate) {
             date += "   ▼   " + hebrewDate
@@ -1933,7 +1935,9 @@ public extension JewishCalendar {
         hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
         hebrewDateFormatter.dateFormat = "MMMM"
 
-        let nextHebrewMonth = hebrewDateFormatter.string(from: workingDate.advanced(by: 86400 * 3))// advance 3 days into the future, because Rosh Chodesh can be 2 days and we need to know what the next month is at most 3 days before
+        let nextHebrewMonth = hebrewDateFormatter.string(from: workingDate.advanced(by: 86400 * 3))
+            .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+            .replacingOccurrences(of: "Tamuz", with: "Tammuz")// advance 3 days into the future, because Rosh Chodesh can be 2 days and we need to know what the next month is at most 3 days before
         
         if isRoshChodesh() {
             result = "Rosh Chodesh " + nextHebrewMonth

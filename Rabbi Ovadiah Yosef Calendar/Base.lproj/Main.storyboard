@@ -87,7 +87,7 @@
                             <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                         </stackView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="156" width="430" height="45"/>
+                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                             <items>
                                 <barButtonItem style="plain" id="Saa-7M-wAS">
@@ -111,7 +111,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
                                 <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
                                     <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="147" y="1" width="137" height="44"/>
+                                        <rect key="frame" x="146.66666666666666" y="0.66666666666666785" width="136.99999999999997" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="tintColor" name="AccentColor"/>
@@ -324,10 +324,16 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="52" translatesAutoresizingMaskIntoConstraints="NO" id="RIL-HI-hY9">
-                                <rect key="frame" x="185.66666666666666" y="363" width="59" height="206"/>
+                                <rect key="frame" x="185.66666666666666" y="237" width="59" height="458"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g5x-c2-wbH">
+                                        <rect key="frame" x="0.0" y="0.0" width="59" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SWm-ir-5UC">
-                                        <rect key="frame" x="0.0" y="0.0" width="59" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="76" width="59" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="סליחות"/>
@@ -336,7 +342,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B53-v5-Jdk">
-                                        <rect key="frame" x="0.0" y="0.0" width="59" height="34"/>
+                                        <rect key="frame" x="0.0" y="102" width="59" height="50"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="שחרית"/>
@@ -345,7 +351,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9T-IS-7dM">
-                                        <rect key="frame" x="0.0" y="60" width="59" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="178" width="59" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="מוסף"/>
@@ -354,7 +360,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ucE-TT-3Tk">
-                                        <rect key="frame" x="0.0" y="86" width="59" height="34"/>
+                                        <rect key="frame" x="0.0" y="204" width="59" height="50"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="מנחה"/>
@@ -363,7 +369,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfJ-3M-Z9b">
-                                        <rect key="frame" x="0.0" y="146" width="59" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="280" width="59" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="נעילה"/>
@@ -372,7 +378,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pX-p5-1X1">
-                                        <rect key="frame" x="0.0" y="172" width="59" height="34"/>
+                                        <rect key="frame" x="0.0" y="306" width="59" height="50"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="ערבית"/>
@@ -380,6 +386,12 @@
                                             <action selector="arvit:" destination="ghR-fU-7xL" eventType="touchUpInside" id="23g-KF-JV2"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfx-LJ-ddF">
+                                        <rect key="frame" x="0.0" y="408" width="59" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -397,11 +409,13 @@
                     </view>
                     <connections>
                         <outlet property="arvit" destination="0pX-p5-1X1" id="kxy-fT-pGP"/>
+                        <outlet property="disclaimer" destination="Rfx-LJ-ddF" id="OTM-hB-nqn"/>
                         <outlet property="mincha" destination="ucE-TT-3Tk" id="GJT-ol-o65"/>
                         <outlet property="mussaf" destination="E9T-IS-7dM" id="V6b-cD-zkb"/>
                         <outlet property="neilah" destination="wfJ-3M-Z9b" id="NdX-Tc-CmK"/>
                         <outlet property="selichot" destination="SWm-ir-5UC" id="w54-md-Xgu"/>
                         <outlet property="shacharit" destination="B53-v5-Jdk" id="CgE-q8-ybP"/>
+                        <outlet property="specialDay" destination="g5x-c2-wbH" id="csH-hF-8gI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vvz-Pd-4m2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

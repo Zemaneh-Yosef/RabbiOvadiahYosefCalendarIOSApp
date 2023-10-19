@@ -56,11 +56,16 @@ class SiddurViewController: UIViewController {
                 label.backgroundColor = .yellow
             }
             if text.string == "Mussaf is said here, press here to go to Mussaf" {
-                //add an onclick here
+                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+                label.isUserInteractionEnabled = true
+                label.addGestureRecognizer(tap)
             }
             if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
                 "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
-                //add a compass here
+//                let compassImageView = UIImageView(image: UIImage(named: "compass"))
+//                compassImageView.contentMode = .scaleAspectFit // Adjust the content mode as needed
+//                stackview.addArrangedSubview(compassImageView)//TODO
+                label.text = ""
             }
             stackview.addArrangedSubview(label)
         }
@@ -73,6 +78,15 @@ class SiddurViewController: UIViewController {
             
             stackview.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
         ])
+    }
+    
+    @IBAction func tapFunction(sender: UITapGestureRecognizer) {
+        GlobalStruct.chosenPrayer = "Mussaf"
+        super.dismiss(animated: false)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
+        newViewController.modalPresentationStyle = .fullScreen
+        self.presentingViewController?.present(newViewController, animated: false)
     }
     
 
