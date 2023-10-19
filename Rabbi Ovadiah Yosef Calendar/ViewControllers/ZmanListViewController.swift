@@ -1313,7 +1313,7 @@ class ZmanListViewController: UITableViewController {
         syncCalendarDates()//reset
         dateFormatter.dateFormat = "EEEE"
         zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + getHebrewDay(day: jewishCalendar.currentDayOfTheWeek())))
-        let specialDay = jewishCalendar.getSpecialDay(true)
+        let specialDay = jewishCalendar.getSpecialDay(addOmer:true)
         if !specialDay.isEmpty {
             zmanimList.append(ZmanListEntry(title:specialDay))
         }
