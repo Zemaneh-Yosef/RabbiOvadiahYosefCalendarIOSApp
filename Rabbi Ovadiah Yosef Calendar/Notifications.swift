@@ -38,9 +38,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         content.title = "Jewish Special Day"
         content.sound = .default
         if defaults.bool(forKey: "showDayOfOmer") {
-            content.body = "Today is " + jewishCalendar.getSpecialDay(true)
+            content.body = "Today is " + jewishCalendar.getSpecialDay(addOmer:true)
         } else {
-            content.body = "Today is " + jewishCalendar.getSpecialDay(false)
+            content.body = "Today is " + jewishCalendar.getSpecialDay(addOmer:false)
         }
         content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
