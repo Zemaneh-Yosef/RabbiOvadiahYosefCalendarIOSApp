@@ -281,7 +281,7 @@ public extension ComplexZmanimCalendar {
 
 public extension JewishCalendar {
     
-    func getSpecialDay() -> String {
+    func getSpecialDay(addOmer: Bool) -> String {
         var result = Array<String>()
         
         let index = yomTovIndex()
@@ -304,35 +304,11 @@ public extension JewishCalendar {
         
         result = addTaanitBechorot(result: result)
         result = addRoshChodesh(result: result)
-        result = addDayOfOmer(result: result)
-        result = replaceChanukahWithDayOfChanukah(result: result)
 
-        return result.joined(separator: " / ")
-    }
-    
-    func getSpecialDayWithoutOmer() -> String {
-        var result = Array<String>()
-        
-        let index = yomTovIndex()
-        let indexNextDay = getYomTovIndexForNextDay()
-        
-        let yomTovOfToday = yomTovAsString(index:index)
-        let yomTovOfNextDay = yomTovAsString(index:indexNextDay)
-        
-        if yomTovOfToday.isEmpty && yomTovOfNextDay.isEmpty {
-            //Do nothing
-        } else if yomTovOfToday.isEmpty && !yomTovOfNextDay.hasPrefix("Erev") {
-            result.append("Erev " + yomTovOfNextDay)
-        } else if !(yomTovOfNextDay.isEmpty) && !yomTovOfNextDay.hasPrefix("Erev") && !yomTovOfToday.hasSuffix(yomTovOfNextDay) {
-            result.append(yomTovOfToday + " / Erev " + yomTovOfNextDay)
-        } else {
-            if !yomTovOfToday.isEmpty {
-                result.append(yomTovOfToday)
-            }
+        if addOmer {
+            result = addDayOfOmer(result: result)
         }
-        
-        result = addTaanitBechorot(result: result)
-        result = addRoshChodesh(result: result)
+
         result = replaceChanukahWithDayOfChanukah(result: result)
 
         return result.joined(separator: " / ")
@@ -581,7 +557,7 @@ public extension JewishCalendar {
         if isRoshChodesh() {
             if isHebrewLeapYear(currentHebrewYear()) {
                 let month = currentHebrewMonth()
-                if month == HebrewMonth.cheshvan.rawValue || month == HebrewMonth.kislev.rawValue || month == HebrewMonth.teves.rawValue || month == HebrewMonth.shevat.rawValue || month == HebrewMonth.adar.rawValue || month == HebrewMonth.adar_II.rawValue {
+                if month == HebrewMonth.tishrei.rawValue || month == HebrewMonth.cheshvan.rawValue || month == HebrewMonth.kislev.rawValue || month == HebrewMonth.teves.rawValue || month == HebrewMonth.shevat.rawValue || month == HebrewMonth.adar.rawValue || month == HebrewMonth.adar_II.rawValue {
                     return "Say וּלְכַפָּרַת פֶּשַׁע";
                 } else {
                     return "Do not say וּלְכַפָּרַת פֶּשַׁע";

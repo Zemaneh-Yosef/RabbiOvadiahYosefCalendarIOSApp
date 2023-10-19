@@ -38,9 +38,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         content.title = "Jewish Special Day"
         content.sound = .default
         if defaults.bool(forKey: "showDayOfOmer") {
-            content.body = "Today is " + jewishCalendar.getSpecialDay()
+            content.body = "Today is " + jewishCalendar.getSpecialDay(true)
         } else {
-            content.body = "Today is " + jewishCalendar.getSpecialDayWithoutOmer()
+            content.body = "Today is " + jewishCalendar.getSpecialDay(false)
         }
         
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
