@@ -8,11 +8,22 @@
 import UIKit
 
 class SiddurViewController: UIViewController {
+    
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    var views: Array<UILabel> = []
 
+    @IBOutlet weak var slider: UISlider!
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
     
+    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
+        let newSize = sender.value
+        defaults.set(newSize, forKey: "textSize")
+        for l in views {
+            l.font = .boldSystemFont(ofSize: CGFloat(newSize) + 16)
+        }
+    }
     @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,19 +50,23 @@ class SiddurViewController: UIViewController {
         
         let stackview = UIStackView()
         stackview.axis = .vertical
-        stackview.spacing = 12
+        stackview.spacing = 0
                 
         stackview.translatesAutoresizingMaskIntoConstraints = false
                 
         scrollView.addSubview(stackview)
+        
+        slider.setValue(defaults.float(forKey: "textSize"), animated: true)
                 
         for text in listOfTexts {
             let label = UILabel()
             label.numberOfLines = 0
             label.textAlignment = .right
             label.text = text.string
-            label.font = .boldSystemFont(ofSize: 16)
+            var textSize = CGFloat(defaults.float(forKey: "textSize"))
+            label.font = .boldSystemFont(ofSize: textSize + 16)
             if text.shouldBeHighlighted {
+                label.text = "\n".appending(text.string)
                 label.textColor = .black
                 label.backgroundColor = .yellow
             }
@@ -67,6 +82,8 @@ class SiddurViewController: UIViewController {
 //                stackview.addArrangedSubview(compassImageView)//TODO
                 label.text = ""
             }
+            label.text! += "\n"
+            views.append(label)
             stackview.addArrangedSubview(label)
         }
         

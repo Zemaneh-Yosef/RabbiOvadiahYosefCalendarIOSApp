@@ -439,23 +439,32 @@
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mH8-8g-pX0">
-                                <rect key="frame" x="0.0" y="101" width="430" height="831"/>
+                                <rect key="frame" x="8" y="101" width="414" height="766"/>
                             </scrollView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="iJK-zD-5p9">
+                                <rect key="frame" x="18" y="867" width="394" height="31"/>
+                                <connections>
+                                    <action selector="slider:forEvent:" destination="jkM-M4-JT4" eventType="valueChanged" id="iOf-Sy-emW"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2oc-gD-oWg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="20" id="1D9-9P-j7X"/>
-                            <constraint firstItem="mH8-8g-pX0" firstAttribute="centerX" secondItem="vQM-sm-aZq" secondAttribute="centerX" id="3pU-JU-333"/>
-                            <constraint firstItem="mH8-8g-pX0" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" id="Qic-oE-wAk"/>
-                            <constraint firstItem="mH8-8g-pX0" firstAttribute="bottom" secondItem="vQM-sm-aZq" secondAttribute="bottom" id="Y34-pB-RZM"/>
+                            <constraint firstItem="iJK-zD-5p9" firstAttribute="centerX" secondItem="mH8-8g-pX0" secondAttribute="centerX" id="6Yy-jz-hSD"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" constant="8" id="Qic-oE-wAk"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="bottom" secondItem="iJK-zD-5p9" secondAttribute="top" id="Y34-pB-RZM"/>
                             <constraint firstItem="mH8-8g-pX0" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" constant="7.6666666666666572" id="bAJ-Iz-7Ny"/>
-                            <constraint firstItem="mH8-8g-pX0" firstAttribute="trailing" secondItem="vQM-sm-aZq" secondAttribute="trailing" id="erH-hS-ZVa"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="trailing" secondItem="vQM-sm-aZq" secondAttribute="trailing" constant="-8" id="erH-hS-ZVa"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="fG1-D5-3tv"/>
+                            <constraint firstItem="iJK-zD-5p9" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" constant="20" id="ouu-W1-Hsj"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="iJK-zD-5p9" secondAttribute="bottom" constant="1" id="yxh-ZY-bfd"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="scrollView" destination="mH8-8g-pX0" id="mgD-Tq-4Mr"/>
+                        <outlet property="slider" destination="iJK-zD-5p9" id="eC3-KQ-wQp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRS-sw-0b2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
