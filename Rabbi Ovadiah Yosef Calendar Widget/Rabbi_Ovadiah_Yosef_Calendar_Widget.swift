@@ -211,6 +211,8 @@ func getHebrewDate() -> String {
     hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
     hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
     return hebrewDateFormatter.string(from: Date())
+        .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+        .replacingOccurrences(of: "Tamuz", with: "Tammuz")
 }
 
 func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {

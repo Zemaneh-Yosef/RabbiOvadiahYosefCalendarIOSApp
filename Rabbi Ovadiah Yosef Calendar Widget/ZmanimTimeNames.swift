@@ -46,7 +46,7 @@ struct ZmanimTimeNames {
     
     public func getChatzotLaylaString() -> String {
         if (mIsZmanimInHebrew) {
-            return "חצות לילה";
+            return "חצות הלילה";
         } else if (mIsZmanimEnglishTranslated) {
             return "Midnight";
         } else {
