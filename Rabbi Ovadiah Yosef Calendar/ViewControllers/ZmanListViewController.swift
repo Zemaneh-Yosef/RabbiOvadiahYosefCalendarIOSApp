@@ -111,7 +111,7 @@ class ZmanListViewController: UITableViewController {
         bottomMenu.append(UIAction(title: "Website", identifier: nil) { _ in
             if let url = URL(string: "https://royzmanim.com/") {
                     UIApplication.shared.open(url)
-                }
+            }
         })
         
         bottomMenu.append(UIAction(title: "Settings", identifier: nil) { _ in
@@ -2117,7 +2117,7 @@ public extension JewishCalendar {
             if yomTovIndex == kRoshHashana.rawValue && currentDayOfTheWeek() == 7 {
                 return "צדקתך"
             }
-            return "There is no Tachanun today"
+            return "No Tachanun today"
         }
         let yomTovIndexForNextDay = getYomTovIndexForNextDay()
         if currentDayOfTheWeek() == 6 //Friday
@@ -2130,9 +2130,9 @@ public extension JewishCalendar {
             || yomTovIndexForNextDay == kPurimKatan.rawValue
             || isErevRoshChodesh() {
             if currentDayOfTheWeek() == 7 {
-                return "There is no Tachanun today"
+                return "No Tachanun today"
             }
-            return "There is only Tachanun in the morning"
+            return "Tachanun only in the morning"
         }
         if currentDayOfTheWeek() == 7 {
             return "צדקתך"

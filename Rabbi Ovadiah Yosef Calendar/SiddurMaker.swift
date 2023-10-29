@@ -750,10 +750,10 @@ public class SiddurMaker {
         
         var isTachanunSaid = false
         
-        if (jewishCalendar.getTachanun() == "There is only Tachanun in the morning"
-            || jewishCalendar.getTachanun() == "תחנון נאמר רק בבוקר"
+        if (jewishCalendar.getTachanun() == "Tachanun only in the morning"
+            || jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
             || jewishCalendar.getTachanun() == "There is Tachanun today"
-            || jewishCalendar.getTachanun() == "יש תחנון") {
+            || jewishCalendar.getTachanun() == "אומרים תחנון") {
             isTachanunSaid = true
             addTachanun()
             if (jewishCalendar.isTaanis() && jewishCalendar.yomTovIndex() != kYomKippur.rawValue) {
@@ -2683,7 +2683,7 @@ public class SiddurMaker {
                 addAvinuMalkeinu()// If Aseret Ymei Tshuvah
 
                 if (jewishCalendar.getTachanun() == "There is Tachanun today"
-                        || jewishCalendar.getTachanun() == "יש תחנון") {
+                        || jewishCalendar.getTachanun() == "אומרים תחנון") {
                     addTachanun()
                 } else {
                     addToSiddurHighlighted(s:

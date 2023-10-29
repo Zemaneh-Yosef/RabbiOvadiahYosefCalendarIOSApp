@@ -73,8 +73,13 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                 label.textColor = .black
                 label.backgroundColor = .yellow
             }
+            if text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
+                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionSefaria))
+                label.isUserInteractionEnabled = true
+                label.addGestureRecognizer(tap)
+            }
             if text.string == "Mussaf is said here, press here to go to Mussaf" {
-                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunction))
+                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionMussaf))
                 label.isUserInteractionEnabled = true
                 label.addGestureRecognizer(tap)
             }
@@ -116,13 +121,19 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         ])
     }
     
-    @IBAction func tapFunction(sender: UITapGestureRecognizer) {
+    @IBAction func tapFunctionMussaf(sender: UITapGestureRecognizer) {
         GlobalStruct.chosenPrayer = "Mussaf"
         super.dismiss(animated: false)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
         newViewController.modalPresentationStyle = .fullScreen
         self.presentingViewController?.present(newViewController, animated: false)
+    }
+    
+    @IBAction func tapFunctionSefaria(sender: UITapGestureRecognizer) {
+        if let url = URL(string: "https://www.sefaria.org/Siddur_Edot_HaMizrach") {
+                UIApplication.shared.open(url)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
