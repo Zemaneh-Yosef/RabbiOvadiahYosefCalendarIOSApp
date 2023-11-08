@@ -1,17 +1,50 @@
 {
   "images" : [
     {
-      "filename" : "menorah.jpeg",
+      "filename" : "menorah.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "menorah 1.jpeg",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "menorah 3.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "menorah 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "menorah 2.jpeg",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "menorah 4.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "menorah 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "menorah 5.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
