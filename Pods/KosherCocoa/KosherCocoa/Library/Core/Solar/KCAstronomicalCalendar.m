@@ -231,7 +231,7 @@
     //  Return nil if the time is NAN
     //
     
-    if (time == NAN)
+    if (isnan(time))
     {
         NSLog(@"<Uh-Oh:> Received an invalid number. I can't do anything with that...");
         return nil;
@@ -307,11 +307,13 @@
     
     if (time + offsetFromGMT > 24)
     {
-        returnDate = [self dateBySubtractingDays:1 fromDate:returnDate];
+        //returnDate = [self dateBySubtractingDays:1 fromDate:returnDate];
+        returnDate = [NSDate dateWithTimeInterval:-86400 sinceDate:returnDate];
     }
     else if(time + offsetFromGMT < 0)
     {
-        returnDate = [self dateByAddingDays:1 toDate:returnDate];
+        //returnDate = [self dateByAddingDays:1 toDate:returnDate];
+        returnDate = [NSDate dateWithTimeInterval:86400 sinceDate:returnDate];
     }
     
     return returnDate; 
