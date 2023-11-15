@@ -10,7 +10,7 @@ import KosherCocoa
 import CoreLocation
 import ActivityKit
 
-class ZmanListViewController: UITableViewController {
+class ZmanListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var locationName: String = ""
     var lat: Double = 0
@@ -39,6 +39,7 @@ class ZmanListViewController: UITableViewController {
         syncCalendarDates()
         updateZmanimList()
         checkIfTablesNeedToBeUpdated()
+        zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
     }
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var prevDayButton: UIButton!
@@ -51,6 +52,7 @@ class ZmanListViewController: UITableViewController {
         syncCalendarDates()
         updateZmanimList()
         checkIfTablesNeedToBeUpdated()
+        zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
     }
     @IBOutlet weak var ShabbatModeBanner: MarqueeLabel!
     @IBOutlet weak var menuButton: UIButton!
@@ -130,11 +132,11 @@ class ZmanListViewController: UITableViewController {
     }
     @IBOutlet weak var zmanimTableView: UITableView!
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return zmanimList.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ZmanEntry", for: indexPath)
         var zman = zmanimList[indexPath.row].zman
         dateFormatterForZmanim.timeZone = timezone
@@ -245,7 +247,7 @@ class ZmanListViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
@@ -336,7 +338,7 @@ class ZmanListViewController: UITableViewController {
         userChosenDate = Date()
         syncCalendarDates()
         updateZmanimList()
-        tableView.refreshControl?.endRefreshing()
+        zmanimTableView.refreshControl?.endRefreshing()
     }
     
     @objc func showDatePicker() {
@@ -371,6 +373,7 @@ class ZmanListViewController: UITableViewController {
             self.syncCalendarDates()
             self.updateZmanimList()
             self.checkIfTablesNeedToBeUpdated()
+            self.zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
         }
 
         alertController.addAction(doneAction)
@@ -412,6 +415,7 @@ class ZmanListViewController: UITableViewController {
             self.syncCalendarDates()
             self.updateZmanimList()
             self.checkIfTablesNeedToBeUpdated()
+            self.zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
         }
 
         alertController.addAction(doneAction)
@@ -431,7 +435,7 @@ class ZmanListViewController: UITableViewController {
         zmanimTableView.delegate = self
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
-        tableView.refreshControl = refreshControl
+        zmanimTableView.refreshControl = refreshControl
         if !defaults.bool(forKey: "isSetup") {
             defaults.set(true, forKey: "useElevation")
             defaults.set(true, forKey: "showZmanDialogs")
@@ -443,8 +447,8 @@ class ZmanListViewController: UITableViewController {
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeGestureRecognizer.direction = .right
         swipeLeftGestureRecognizer.direction = .left
-        tableView.addGestureRecognizer(swipeGestureRecognizer)
-        tableView.addGestureRecognizer(swipeLeftGestureRecognizer)
+        zmanimTableView.addGestureRecognizer(swipeGestureRecognizer)
+        zmanimTableView.addGestureRecognizer(swipeLeftGestureRecognizer)
         createMenu()
         let hideBannerGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
         ShabbatModeBanner.isUserInteractionEnabled = true
@@ -810,7 +814,7 @@ class ZmanListViewController: UITableViewController {
     }
     
     func startBackgroundScrollingThread() {
-        let max = self.tableView.contentSize.height - self.tableView.frame.height
+        let max = self.zmanimTableView.contentSize.height - self.zmanimTableView.frame.height
         var height = CGFloat(exactly: 0)
         
         shouldScroll = true  // Flag to control scrolling
@@ -820,7 +824,7 @@ class ZmanListViewController: UITableViewController {
                 while self.shabbatMode && height! < max && self.shouldScroll {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
-                            self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
+                            self.zmanimTableView.contentOffset = CGPoint(x: self.zmanimTableView.contentOffset.x, y: height!)
                             height! += 1
                         }
                     }
@@ -830,7 +834,7 @@ class ZmanListViewController: UITableViewController {
                 while self.shabbatMode && height! >= 0 && self.shouldScroll {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
-                            self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: height!)
+                            self.zmanimTableView.contentOffset = CGPoint(x: self.zmanimTableView.contentOffset.x, y: height!)
                             height! -= 1
                         }
                     }
@@ -1250,7 +1254,7 @@ class ZmanListViewController: UITableViewController {
         }
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if shabbatMode {
             shouldScroll = false  // Pause scrolling
             Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
@@ -1451,7 +1455,7 @@ class ZmanListViewController: UITableViewController {
         if zmanimCalendar.sunrise()?.timeIntervalSince1970 != zmanimCalendar.sunset()?.timeIntervalSince1970 {
             allZmanimAreTheSame = false
         }
-        tableView.reloadData()
+        zmanimTableView.reloadData()
     }
     
     func getShabbatAndOrChag() -> String {

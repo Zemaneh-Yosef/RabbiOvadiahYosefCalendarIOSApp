@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9gp-gB-zWg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7ii-ZM-nWk">
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -13,173 +13,186 @@
     </dependencies>
     <scenes>
         <!--Zman List View Controller-->
-        <scene sceneID="8wA-ia-IfB">
+        <scene sceneID="Pj8-ZS-gf4">
             <objects>
-                <tableViewController definesPresentationContext="YES" id="9gp-gB-zWg" customClass="ZmanListViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="v5K-rG-DUN">
+                <viewController id="7ii-ZM-nWk" customClass="ZmanListViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VVx-vA-6km">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <stackView key="tableHeaderView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" distribution="fillProportionally" alignment="center" spacing="8" id="pJJ-yX-F9D">
-                            <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                            <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fie-R8-61o">
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="mbi-j7-2n7">
+                                <rect key="frame" x="0.0" y="0.0" width="430" height="853"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <stackView key="tableHeaderView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" distribution="fillProportionally" alignment="center" spacing="8" id="ZZU-JE-xac">
                                     <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TiG-Nr-Ykr">
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Zak-8N-HfH">
                                             <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VOV-VE-3mS">
-                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WBX-QX-pvO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dvf-vd-jDC">
+                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hfU-wB-FJT">
+                                                            <rect key="frame" x="8" y="0.0" width="0.0" height="34"/>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nqp-mf-4WN">
+                                                            <rect key="frame" x="16" y="0.0" width="0.0" height="34"/>
+                                                        </stackView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rabbi Ovadiah Yosef Calendar" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPe-fN-4ce">
+                                                            <rect key="frame" x="24" y="0.0" width="324.33333333333331" height="34"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                            <color key="textColor" name="AccentColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <size key="shadowOffset" width="0.0" height="0.0"/>
+                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="soL-dF-9Qy">
+                                                            <rect key="frame" x="356.33333333333331" y="0.0" width="0.0" height="34"/>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rXu-6C-f9P">
+                                                            <rect key="frame" x="364.33333333333331" y="0.0" width="0.0" height="34"/>
+                                                        </stackView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsg-MQ-ksN">
+                                                            <rect key="frame" x="372.33333333333331" y="0.0" width="0.0" height="34"/>
+                                                        </stackView>
+                                                        <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoO-lv-hFH">
+                                                            <rect key="frame" x="380.33333333333331" y="0.0" width="49.666666666666686" height="34"/>
+                                                            <accessibility key="accessibilityConfiguration">
+                                                                <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                                            </accessibility>
+                                                            <color key="tintColor" name="AccentColor"/>
+                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                            <state key="normal" image="ellipsis" catalog="system">
+                                                                <color key="titleColor" name="AccentColor"/>
+                                                                <color key="titleShadowColor" name="AccentColor"/>
+                                                            </state>
+                                                        </button>
+                                                    </subviews>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WQo-lI-vAU">
-                                                    <rect key="frame" x="8" y="0.0" width="0.0" height="34"/>
-                                                </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vJO-ER-77H">
-                                                    <rect key="frame" x="16" y="0.0" width="0.0" height="34"/>
-                                                </stackView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rabbi Ovadiah Yosef Calendar" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="itn-HC-bF5">
-                                                    <rect key="frame" x="24" y="0.0" width="324.33333333333331" height="34"/>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOf-Ik-LpQ" customClass="MarqueeLabel" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="430" height="0.0"/>
+                                                    <color key="backgroundColor" red="0.062745098040000002" green="0.1176470588" blue="0.58823529409999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <string key="text">Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          </string>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" name="AccentColor"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <size key="shadowOffset" width="0.0" height="0.0"/>
                                                 </label>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3H-V5-LRb">
-                                                    <rect key="frame" x="356.33333333333331" y="0.0" width="0.0" height="34"/>
-                                                </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="da3-l2-epj">
-                                                    <rect key="frame" x="364.33333333333331" y="0.0" width="0.0" height="34"/>
-                                                </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ny-oB-I0A">
-                                                    <rect key="frame" x="372.33333333333331" y="0.0" width="0.0" height="34"/>
-                                                </stackView>
-                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="20g-Vz-vLe">
-                                                    <rect key="frame" x="380.33333333333331" y="0.0" width="49.666666666666686" height="34"/>
-                                                    <accessibility key="accessibilityConfiguration">
-                                                        <accessibilityTraits key="traits" button="YES" image="YES"/>
-                                                    </accessibility>
-                                                    <color key="tintColor" name="AccentColor"/>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="ellipsis" catalog="system">
-                                                        <color key="titleColor" name="AccentColor"/>
-                                                        <color key="titleShadowColor" name="AccentColor"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="menuButton:" destination="9gp-gB-zWg" eventType="touchUpInside" id="hf7-2a-elQ"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                         </stackView>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2g-Bw-1jh" customClass="MarqueeLabel" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="430" height="0.0"/>
-                                            <color key="backgroundColor" red="0.062745098039215685" green="0.11764705882352941" blue="0.58823529411764708" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <string key="text">Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          </string>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
+                                    <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                                    <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                                 </stackView>
-                            </subviews>
-                            <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
-                            <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
-                        </stackView>
-                        <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="rNv-q9-gME">
-                            <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                            <items>
-                                <barButtonItem style="plain" id="Saa-7M-wAS">
-                                    <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="yOt-wi-GTu">
-                                        <rect key="frame" x="20" y="5" width="28" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
-                                        </accessibility>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                        <color key="tintColor" name="AccentColor"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="arrowtriangle.left.fill" catalog="system" symbolScale="large"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="prevDayButton:" destination="9gp-gB-zWg" eventType="touchUpInside" id="WCT-fT-M7M"/>
-                                        </connections>
-                                    </button>
-                                </barButtonItem>
-                                <barButtonItem style="plain" systemItem="flexibleSpace" id="MTS-Og-MgD"/>
-                                <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jnW-YT-FyU">
-                                    <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="1sD-u7-FjL">
-                                        <rect key="frame" x="146.66666666666666" y="0.66666666666666785" width="136.99999999999997" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="tintColor" name="AccentColor"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal">
-                                            <color key="titleColor" name="AccentColor"/>
-                                            <imageReference key="image" image="calendar" catalog="system" symbolScale="large"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="calendarButton:" destination="9gp-gB-zWg" eventType="touchUpInside" id="8Dr-O7-a9R"/>
-                                        </connections>
-                                    </button>
-                                </barButtonItem>
-                                <barButtonItem style="plain" systemItem="flexibleSpace" id="f4h-hk-AdI"/>
-                                <barButtonItem style="plain" id="6zE-hv-i2U">
-                                    <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Z4d-1n-mPD">
-                                        <rect key="frame" x="380" y="5" width="30" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="tintColor" name="AccentColor"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="arrowtriangle.right.fill" catalog="system"/>
-                                        <connections>
-                                            <action selector="nextDayButton:" destination="9gp-gB-zWg" eventType="touchUpInside" id="qKs-IA-I3Y"/>
-                                        </connections>
-                                    </button>
-                                </barButtonItem>
-                            </items>
-                            <toolbarAppearance key="standardAppearance"/>
-                        </toolbar>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZmanEntry" textLabel="sY6-iq-P5q" style="IBUITableViewCellStyleDefault" id="qkt-V7-kQR">
-                                <rect key="frame" x="0.0" y="84" width="430" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qkt-V7-kQR" id="00M-d6-zG8">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sY6-iq-P5q">
-                                            <rect key="frame" x="20" y="0.0" width="390" height="43.666667938232422"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZmanEntry" textLabel="BBo-Yh-1Gw" style="IBUITableViewCellStyleDefault" id="W60-C1-g81">
+                                        <rect key="frame" x="0.0" y="84" width="430" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W60-C1-g81" id="ubM-57-XUd">
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                    </tableView>
-                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Fn8-65-pOc">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <attributedString key="attributedTitle"/>
-                    </refreshControl>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BBo-Yh-1Gw">
+                                                    <rect key="frame" x="20" y="0.0" width="390" height="43.666667938232422"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fan-G1-gN0">
+                                <rect key="frame" x="0.0" y="861" width="430" height="37"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="p6d-hw-eWa">
+                                        <rect key="frame" x="0.0" y="-8" width="430" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <items>
+                                            <barButtonItem style="plain" id="rG5-bN-AQY">
+                                                <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="zlI-bE-XCz">
+                                                    <rect key="frame" x="20" y="12" width="23" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
+                                                    </accessibility>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal">
+                                                        <imageReference key="image" image="arrowtriangle.left.fill" catalog="system" symbolScale="large"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="prevDayButton:" destination="7ii-ZM-nWk" eventType="touchUpInside" id="8cp-7p-BKf"/>
+                                                    </connections>
+                                                </button>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="GJQ-ga-VxD"/>
+                                            <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="wwV-jQ-nNv">
+                                                <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
+                                                    <rect key="frame" x="202" y="11" width="27" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" name="AccentColor"/>
+                                                        <imageReference key="image" image="calendar" catalog="system" symbolScale="large"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="calendarButton:" destination="7ii-ZM-nWk" eventType="touchUpInside" id="qCK-uz-Thp"/>
+                                                    </connections>
+                                                </button>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="mhP-BS-hm9"/>
+                                            <barButtonItem style="plain" id="gnu-AP-jR0">
+                                                <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="aum-JY-kxk">
+                                                    <rect key="frame" x="387" y="12" width="23" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal" image="arrowtriangle.right.fill" catalog="system"/>
+                                                    <connections>
+                                                        <action selector="nextDayButton:" destination="7ii-ZM-nWk" eventType="touchUpInside" id="9cd-Hi-IS4"/>
+                                                    </connections>
+                                                </button>
+                                            </barButtonItem>
+                                        </items>
+                                        <toolbarAppearance key="standardAppearance"/>
+                                    </toolbar>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="C9d-zF-DcP"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Fan-G1-gN0" firstAttribute="centerX" secondItem="VVx-vA-6km" secondAttribute="centerX" id="Ru3-yS-rpN"/>
+                            <constraint firstItem="Fan-G1-gN0" firstAttribute="trailing" secondItem="C9d-zF-DcP" secondAttribute="trailing" id="bbj-Z7-xei"/>
+                            <constraint firstItem="Fan-G1-gN0" firstAttribute="top" secondItem="mbi-j7-2n7" secondAttribute="bottom" constant="8" symbolic="YES" id="end-wb-e11"/>
+                            <constraint firstItem="C9d-zF-DcP" firstAttribute="bottom" secondItem="Fan-G1-gN0" secondAttribute="bottom" id="hLi-Qf-bQB"/>
+                            <constraint firstItem="Fan-G1-gN0" firstAttribute="leading" secondItem="C9d-zF-DcP" secondAttribute="leading" id="nAL-3S-qy5"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <outlet property="ShabbatModeBanner" destination="e2g-Bw-1jh" id="ces-M9-5rG"/>
-                        <outlet property="calendarButton" destination="1sD-u7-FjL" id="jz3-F4-emj"/>
-                        <outlet property="menuButton" destination="20g-Vz-vLe" id="ZyH-cW-glL"/>
-                        <outlet property="nextDayButton" destination="Z4d-1n-mPD" id="ZE8-CQ-kl2"/>
-                        <outlet property="prevDayButton" destination="yOt-wi-GTu" id="7cW-nw-eiR"/>
-                        <outlet property="titleLabel" destination="itn-HC-bF5" id="4Xj-Bb-1Xj"/>
-                        <outlet property="zmanimTableView" destination="v5K-rG-DUN" id="r6D-vR-3Sc"/>
-                        <segue destination="Zmu-tz-OkC" kind="show" identifier="elevationSegue" id="bH2-TS-yNP"/>
+                        <outlet property="ShabbatModeBanner" destination="UOf-Ik-LpQ" id="jIK-7i-HLV"/>
+                        <outlet property="calendarButton" destination="Em7-lB-APX" id="c7o-CU-6yM"/>
+                        <outlet property="menuButton" destination="eoO-lv-hFH" id="K1b-iz-ldd"/>
+                        <outlet property="nextDayButton" destination="aum-JY-kxk" id="lH5-6r-SQg"/>
+                        <outlet property="prevDayButton" destination="zlI-bE-XCz" id="yxl-8Y-nuV"/>
+                        <outlet property="titleLabel" destination="vPe-fN-4ce" id="dFy-gh-I7u"/>
+                        <outlet property="zmanimTableView" destination="mbi-j7-2n7" id="D5y-jQ-iRt"/>
+                        <segue destination="Zmu-tz-OkC" kind="show" identifier="elevationSegue" id="xwK-fw-QH3"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Du2-Xi-mKV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VuF-db-QJM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="581.8604651162791" y="-54.077253218884124"/>
+            <point key="canvasLocation" x="582" y="-55"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="MpG-Qv-hsv">
@@ -402,7 +415,6 @@
                             <constraint firstItem="RIL-HI-hY9" firstAttribute="centerX" secondItem="hYX-9A-Y0Y" secondAttribute="centerX" id="UXT-MT-hao"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="leading" secondItem="Tl5-je-v2J" secondAttribute="leading" constant="20" id="Y84-hd-GVc"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="fTX-eV-TOW"/>
-                            <constraint firstItem="Gc1-YU-aPn" firstAttribute="leading" secondItem="hYX-9A-Y0Y" secondAttribute="leadingMargin" id="gaw-hb-cEw"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="hyk-jj-0uB"/>
                             <constraint firstItem="RIL-HI-hY9" firstAttribute="centerY" secondItem="hYX-9A-Y0Y" secondAttribute="centerY" id="ou9-d4-zYa"/>
                         </constraints>
@@ -431,7 +443,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CX0-0v-Es4">
-                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="34.333333333333343"/>
+                                <rect key="frame" x="20" y="59" width="62" height="34.666666666666657"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -439,7 +451,7 @@
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mH8-8g-pX0">
-                                <rect key="frame" x="8" y="101" width="414" height="766"/>
+                                <rect key="frame" x="8" y="101.33333333333331" width="414" height="765.66666666666674"/>
                             </scrollView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="iJK-zD-5p9">
                                 <rect key="frame" x="18" y="867" width="394" height="31"/>
@@ -1349,12 +1361,148 @@ etc...</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F4A-3f-973" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="uio-Ql-OFK">
+                    <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <stackView key="tableHeaderView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" distribution="fillProportionally" alignment="center" spacing="8" id="D9a-Kt-0Tg">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="edA-R6-kxy">
+                                <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Uvd-IW-cLZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6hs-Hu-dRp">
+                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joj-zO-es6">
+                                                <rect key="frame" x="8" y="0.0" width="0.0" height="34"/>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rsl-9N-eHw">
+                                                <rect key="frame" x="16" y="0.0" width="0.0" height="34"/>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rabbi Ovadiah Yosef Calendar" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TaC-NL-jSM">
+                                                <rect key="frame" x="24" y="0.0" width="324.33333333333331" height="34"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <color key="textColor" name="AccentColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JG0-SX-bjv">
+                                                <rect key="frame" x="356.33333333333331" y="0.0" width="0.0" height="34"/>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gje-pA-m7P">
+                                                <rect key="frame" x="364.33333333333331" y="0.0" width="0.0" height="34"/>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DIx-3Z-6xW">
+                                                <rect key="frame" x="372.33333333333331" y="0.0" width="0.0" height="34"/>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONO-W1-pfc">
+                                                <rect key="frame" x="380.33333333333331" y="0.0" width="49.666666666666686" height="34"/>
+                                                <accessibility key="accessibilityConfiguration">
+                                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                                </accessibility>
+                                                <color key="tintColor" name="AccentColor"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="ellipsis" catalog="system">
+                                                    <color key="titleColor" name="AccentColor"/>
+                                                    <color key="titleShadowColor" name="AccentColor"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BrH-gd-Gjx" customClass="MarqueeLabel" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="430" height="0.0"/>
+                                        <color key="backgroundColor" red="0.062745098040000002" green="0.1176470588" blue="0.58823529409999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <string key="text">Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          </string>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                        <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
+                    </stackView>
+                    <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="wRf-o2-fKS">
+                        <rect key="frame" x="0.0" y="156" width="430" height="45"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                        <items>
+                            <barButtonItem style="plain" id="ejY-DH-Jzc">
+                                <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="0qT-eV-KWQ">
+                                    <rect key="frame" x="20" y="5" width="28" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                    <accessibility key="accessibilityConfiguration">
+                                        <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
+                                    </accessibility>
+                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                    <color key="tintColor" name="AccentColor"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="arrowtriangle.left.fill" catalog="system" symbolScale="large"/>
+                                    </state>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" systemItem="flexibleSpace" id="18x-1I-0CE"/>
+                            <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jc9-pd-5q8">
+                                <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="JHX-TR-9BY">
+                                    <rect key="frame" x="147" y="1" width="137" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="tintColor" name="AccentColor"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal">
+                                        <color key="titleColor" name="AccentColor"/>
+                                        <imageReference key="image" image="calendar" catalog="system" symbolScale="large"/>
+                                    </state>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" systemItem="flexibleSpace" id="Ki0-iI-0yl"/>
+                            <barButtonItem style="plain" id="62E-al-ybP">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="8cU-kW-QNg">
+                                    <rect key="frame" x="380" y="5" width="30" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="tintColor" name="AccentColor"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" image="arrowtriangle.right.fill" catalog="system"/>
+                                </button>
+                            </barButtonItem>
+                        </items>
+                        <toolbarAppearance key="standardAppearance"/>
+                    </toolbar>
+                    <prototypes>
+                        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZmanEntry" textLabel="uWa-Ye-ur0" style="IBUITableViewCellStyleDefault" id="VNh-Kr-Mir">
+                            <rect key="frame" x="0.0" y="84" width="430" height="43.666667938232422"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VNh-Kr-Mir" id="Z2m-lf-vtB">
+                                <rect key="frame" x="0.0" y="0.0" width="430" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uWa-Ye-ur0">
+                                        <rect key="frame" x="20" y="0.0" width="390" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </tableViewCellContentView>
+                        </tableViewCell>
+                    </prototypes>
+                </tableView>
             </objects>
             <point key="canvasLocation" x="-84.375" y="-57.04225352112676"/>
         </scene>
     </scenes>
     <designables>
-        <designable name="e2g-Bw-1jh">
+        <designable name="BrH-gd-Gjx">
+            <size key="intrinsicContentSize" width="1892.6666666666667" height="20.333333333333332"/>
+        </designable>
+        <designable name="UOf-Ik-LpQ">
             <size key="intrinsicContentSize" width="1892.6666666666667" height="20.333333333333332"/>
         </designable>
     </designables>
