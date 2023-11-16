@@ -39,7 +39,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         syncCalendarDates()
         updateZmanimList()
         checkIfTablesNeedToBeUpdated()
-        zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
+        zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: false)
     }
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var prevDayButton: UIButton!
@@ -52,7 +52,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         syncCalendarDates()
         updateZmanimList()
         checkIfTablesNeedToBeUpdated()
-        zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
+        zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: false)
     }
     @IBOutlet weak var ShabbatModeBanner: MarqueeLabel!
     @IBOutlet weak var menuButton: UIButton!
@@ -373,7 +373,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.syncCalendarDates()
             self.updateZmanimList()
             self.checkIfTablesNeedToBeUpdated()
-            self.zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
+            self.zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: false)
         }
 
         alertController.addAction(doneAction)
@@ -415,7 +415,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.syncCalendarDates()
             self.updateZmanimList()
             self.checkIfTablesNeedToBeUpdated()
-            self.zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: false)
+            self.zmanimTableView.scrollToRow(at: .init(row: 0, section: 0), at: .bottom, animated: false)
         }
 
         alertController.addAction(doneAction)
