@@ -190,7 +190,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             alert.addAction(UIAlertAction(title: "I understand", style: .default))
             present(alert, animated: true)
         }
-        if indexPath.row == 12 {
+        if indexPath.row == 13 {
             let recipient = "elyahujacobi@gmail.com"
             
             // Check if the user's device can send email

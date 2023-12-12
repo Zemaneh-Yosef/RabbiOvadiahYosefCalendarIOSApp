@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1420"
+   LastUpgradeVersion = "1500"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "161CA7C84726A5A6D3B03CD390809042"
-               BuildableName = "Pods_Rabbi_Ovadiah_Yosef_Calendar.framework"
-               BlueprintName = "Pods-Rabbi Ovadiah Yosef Calendar"
+               BlueprintIdentifier = "3C3B6F1EE1C85EF09BB845723EE68C2D"
+               BuildableName = "Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework"
+               BlueprintName = "Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

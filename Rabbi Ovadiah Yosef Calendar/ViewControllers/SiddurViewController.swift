@@ -73,6 +73,13 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                 label.textColor = .black
                 label.backgroundColor = .yellow
             }
+            if text.string == "[break here]" {
+                label.text = ""
+                                
+                let lineView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.width, height: 2))
+                lineView.backgroundColor = label.textColor
+                label.addSubview(lineView)
+            }
             if text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
                 let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionSefaria))
                 label.isUserInteractionEnabled = true

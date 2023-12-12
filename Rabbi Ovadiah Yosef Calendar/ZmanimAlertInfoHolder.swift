@@ -123,7 +123,7 @@ struct ZmanimAlertInfoHolder {
         if title.contains(zmanimNames.getHaNetzString()) {
             return "This is the earliest time when all mitzvot (commandments) that are to be done during the daytime are allowed to be " +
             "performed L'chatchila (optimally). Halachic sunrise is defined as the moment when the top edge of the sun appears on the " +
-            "horizon while rising. Whereas, the gentiles define sunrise as the moment when the sun is halfway through the horizon. " +
+            "horizon while rising. " +
             "This halachic sunrise is called mishor (sea level) sunrise and it is what many jews rely on when praying for Netz.\n\n" +
             "However, it should be noted that the Shulchan Aruch writes in Orach Chayim 89:1, \"The mitzvah of shacharit starts at " +
             "Netz, like it says in the pasuk/verse, 'יראוך עם שמש'\". Based on this, the poskim write that a person should wait until " +

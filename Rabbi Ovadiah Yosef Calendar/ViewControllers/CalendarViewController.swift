@@ -53,12 +53,16 @@ class CalendarViewController: UIViewController {
     }
     
     func dismissAllViews() {
-        let inIsraelView = super.presentingViewController?.presentingViewController!
-        let zmanimLanguagesView = super.presentingViewController!
+        let inIsraelView = super.presentingViewController?.presentingViewController
+        let zmanimLanguagesView = super.presentingViewController
         
         super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
-            zmanimLanguagesView.dismiss(animated: false) {
-                inIsraelView?.dismiss(animated: false)
+            if zmanimLanguagesView != nil {
+                zmanimLanguagesView?.dismiss(animated: false) {
+                    if inIsraelView != nil {
+                        inIsraelView?.dismiss(animated: false)
+                    }
+                }
             }
         }
     }

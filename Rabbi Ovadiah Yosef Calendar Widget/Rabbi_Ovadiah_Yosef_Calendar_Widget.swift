@@ -19,14 +19,12 @@ struct Provider: IntentTimelineProvider {
         if dafYomi != nil {
             daf = daf.appending(dafYomi!.name()).appending(" ").appending(dafYomi!.pageNumber.formatHebrew())
         }
-
-        let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: ComplexZmanimCalendar())
         
         let entry = SimpleEntry(
             hebrewDate: getHebrewDate(),
             parasha: getParshah(jewishCalendar: getJewishCalendar()),
-            upcomingZman: upcomingZman.title,
-            date: upcomingZman.zman!,
+            upcomingZman: "Zman",
+            date: Date(),
             tachanun: getJewishCalendar().getTachanun(),
             daf: daf,
             configuration: ConfigurationIntent())
@@ -137,19 +135,37 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                         .bold()
                         .padding(.bottom, .leastNormalMagnitude)
                     Text(entry.parasha)
-                }.padding()
+                }
                 VStack {
                     Text(entry.upcomingZman)
                         .padding(.bottom, .leastNormalMagnitude)
                     Text(entry.date, style: .time).bold()
-                }.padding()
+                }
                 VStack {
                     Text(entry.tachanun
                         .replacingOccurrences(of: "There is Tachanun today", with: "Tachanun")
                         .replacingOccurrences(of: "There is only Tachanun in the morning", with: "Tachanun Morning Only"))
                         .padding(.bottom, .leastNormalMagnitude)
                     Text(entry.daf)
-                }.padding()
+                }
+            }
+        case .systemLarge:
+            HStack {
+                VStack {
+                    Text(entry.hebrewDate)
+                        .bold().padding()
+                    Text(entry.parasha)
+                        .padding()
+                    Text(entry.tachanun
+                        .replacingOccurrences(of: "There is Tachanun today", with: "Tachanun")
+                        .replacingOccurrences(of: "There is only Tachanun in the morning", with: "Tachanun Morning Only"))
+                    .padding()
+                    Text(entry.daf)
+                }
+                VStack {
+                    Text(entry.upcomingZman).padding()
+                    Text(entry.date, style: .time).bold()
+                }
             }
         default:
             VStack {
@@ -171,7 +187,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget: Widget {
         }
         .configurationDisplayName("Rabbi Ovadiah Yosef Calendar Widget")
         .description("This is a widget that will show relevant zmanim.")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
 

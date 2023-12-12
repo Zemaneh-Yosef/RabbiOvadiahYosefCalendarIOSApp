@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 let NamesResultsKey : String = "NamesResultsKey"
 let TotalResultsCountKey : String = "TotalResultsCountKey"
 let AdminCode1Key : String = "AdminCode1Key"

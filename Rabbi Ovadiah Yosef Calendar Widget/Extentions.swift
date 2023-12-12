@@ -529,6 +529,7 @@ public extension JewishCalendar {
         let yomTovIndexForNextDay = getYomTovIndexForNextDay()
         if currentDayOfTheWeek() == 6 //Friday
             || yomTovIndex == kFastOfEsther.rawValue
+            || yomTovIndexForNextDay == kChanukah.rawValue
             || yomTovIndexForNextDay == kTishaBeav.rawValue
             || yomTovIndexForNextDay == kTuBeav.rawValue
             || yomTovIndexForNextDay == kTuBeshvat.rawValue

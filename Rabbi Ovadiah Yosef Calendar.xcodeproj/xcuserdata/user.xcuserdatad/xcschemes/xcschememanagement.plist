@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Rabbi Ovadiah Yosef Calendar watchOS Watch App.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
 		<key>Rabbi Ovadiah Yosef Calendar.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +28,11 @@
 			<true/>
 		</dict>
 		<key>5D19D35C29A3687900F8033D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CED163552B07031700E05876</key>
 		<dict>
 			<key>primary</key>
 			<true/>

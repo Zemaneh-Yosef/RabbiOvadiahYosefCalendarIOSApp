@@ -9,8 +9,9 @@ import UIKit
 import KosherCocoa
 import CoreLocation
 import ActivityKit
+import WatchConnectivity
 
-class ZmanListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ZmanListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, WCSessionDelegate {
     
     var locationName: String = ""
     var lat: Double = 0
@@ -32,6 +33,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     var shouldScroll = true
     var askedToUpdateTablesAlready = false
     var allZmanimAreTheSame = true
+    var wcSession : WCSession! = nil
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBAction func prevDayButton(_ sender: Any) {
@@ -428,6 +430,48 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         userChosenDate = sender.date
     }
     
+    func getSettingsDictionary() -> [String : Any] {
+        return ["useElevation" : defaults.bool(forKey: "useElevation"),
+                "showSeconds" : defaults.bool(forKey: "showSeconds"),
+                "inIsrael" : defaults.bool(forKey: "inIsrael"),
+                "tekufaOpinion" : defaults.integer(forKey: "tekufaOpinion"),
+                "LuachAmudeiHoraah" : defaults.bool(forKey: "LuachAmudeiHoraah"),
+                "isZmanimInHebrew" : defaults.bool(forKey: "isZmanimInHebrew"),
+                "isZmanimEnglishTranslated" : defaults.bool(forKey: "isZmanimEnglishTranslated"),
+                "visibleSunriseTable\(locationName)\(jewishCalendar.currentHebrewYear())" : defaults.string(forKey: "visibleSunriseTable\(locationName)\(jewishCalendar.currentHebrewYear())") ?? "",
+                "alwaysShowMishorSunrise" : defaults.bool(forKey: "alwaysShowMishorSunrise"),
+                "plagOpinion" : defaults.integer(forKey: "plagOpinion"),
+                "candleLightingOffset" : defaults.integer(forKey: "candleLightingOffset"),
+                "showWhenShabbatChagEnds" : defaults.bool(forKey: "showWhenShabbatChagEnds"),
+                "showRegularWhenShabbatChagEnds" : defaults.bool(forKey: "showRegularWhenShabbatChagEnds"),
+                "shabbatOffset" : defaults.integer(forKey: "shabbatOffset"),
+                "endOfShabbatOpinion" : defaults.integer(forKey: "endOfShabbatOpinion"),
+                "showRTWhenShabbatChagEnds" : defaults.bool(forKey: "showRTWhenShabbatChagEnds"),
+                "showTzeitLChumra" : defaults.bool(forKey: "showTzeitLChumra"),
+                "alwaysShowRT" : defaults.bool(forKey: "alwaysShowRT"),
+                "useZipcode" : defaults.string(forKey: "useZipcode") ?? "",
+                "locationName" : defaults.string(forKey: "locationName") ?? "",
+                "lat" : defaults.double(forKey: "lat"),
+                "long" : defaults.double(forKey: "long"),
+                "elevation" + locationName : defaults.double(forKey: "elevation" + locationName),
+                "setElevationToLastKnownLocation" : defaults.bool(forKey: "setElevationToLastKnownLocation"),
+                "lastKnownLocation" : defaults.string(forKey: "lastKnownLocation") ?? "",
+                "timezone" : defaults.string(forKey: "timezone") ?? ""
+               ]
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        if wcSession.isPaired {
+            if wcSession.isWatchAppInstalled {
+                wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+            }
+        }
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {}
+    
+    func sessionDidDeactivate(_ session: WCSession) {}
+    
     override func viewDidLoad() {//first this happens
         super.viewDidLoad()
         UIApplication.shared.isIdleTimerDisabled = true
@@ -455,6 +499,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         ShabbatModeBanner.addGestureRecognizer(hideBannerGestureRecognizer)
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             titleLabel.textAlignment = .natural
+        }
+        if WCSession.isSupported() {
+            wcSession = WCSession.default
+            wcSession.delegate = self
         }
     }
     
@@ -516,6 +564,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             updateZmanimList()
         }
         lastTimeUserWasInApp = Date()
+        if WCSession.isSupported() && !(wcSession.activationState == .activated) {
+            wcSession.activate()
+        }
     }
     
     func syncOldDefaults() {
@@ -623,6 +674,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.defaults.set(false, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = false
                 self.updateZmanimList()
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
             }
 
             alertController.addAction(noAction)
@@ -637,14 +692,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         if defaults.bool(forKey: "inIsrael") && timezone.identifier != "Asia/Jerusalem" {
-            let alertController = UIAlertController(title: "Have you left Israel?", message: "If you have left  Israel, please confirm below.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Have you left Israel?", message: "If you have left Israel, please confirm below.", preferredStyle: .alert)
 
             let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
                 self.defaults.set(false, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = false
                 self.updateZmanimList()
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyboard.instantiateViewController(withIdentifier: "SetupChooser") as! CalendarViewController
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
                 newViewController.modalPresentationStyle = .fullScreen
                 self.present(newViewController, animated: true)
             }
@@ -1043,11 +1098,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                             zmanimCalendar.ateretTorahSunsetOffset = Int32(defaults.integer(forKey: "shabbatOffset"))
                         }
                         if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
-                            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(zmanimCalendar.ateretTorahSunsetOffset) + ")", zman:zmanimCalendar.tzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
+                            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(zmanimCalendar.ateretTorahSunsetOffset) + ")" + zmanimNames.getMacharString(), zman:zmanimCalendar.tzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
                         } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + zmanimNames.getMacharString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
                         } else {
-                            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
+                            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + zmanimNames.getMacharString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
                         }
                     }
                     if defaults.bool(forKey: "showRTWhenShabbatChagEnds") {
@@ -1249,6 +1304,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     updateZmanimList()
                     NotificationManager.instance.requestAuthorization()
                     NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                    if self.wcSession.isPaired {
+                        if self.wcSession.isWatchAppInstalled {
+                            self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                        }
+                    }
                 }
             }
         }
@@ -1333,6 +1393,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             } else {
                 zmanimList.append(ZmanListEntry(title: "Three Weeks"))
             }
+        }
+        if jewishCalendar.yomTovIndex() == kRoshHashana.rawValue && jewishCalendar.isShmitaYear() {
+            zmanimList.append(ZmanListEntry(title: "This year is a shmita year"))
         }
         let music = jewishCalendar.isOKToListenToMusic()
         if !music.isEmpty {
@@ -1527,6 +1590,8 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     self.timezone = (i?.first?.timeZone)!
                 }
                 self.recreateZmanimCalendar()
+                self.setNextUpcomingZman()
+                self.updateZmanimList()
                 self.defaults.set(name, forKey: "locationName")
                 self.defaults.set(self.lat, forKey: "lat")
                 self.defaults.set(self.long, forKey: "long")
@@ -1534,6 +1599,12 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.defaults.set(true, forKey: "useZipcode")
                 self.defaults.set(self.timezone.identifier, forKey: "timezone")
                 NotificationManager.instance.requestAuthorization()
+                NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                if self.wcSession.isPaired {
+                    if self.wcSession.isWatchAppInstalled {
+                        self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                    }
+                }
             })
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { UIAlertAction in
@@ -1553,6 +1624,8 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             defaults.set(elevation, forKey: "elevation" + locationName)
         }
         recreateZmanimCalendar()
+        setNextUpcomingZman()
+        updateZmanimList()
     }
     
     public func recreateZmanimCalendar() {
@@ -1582,7 +1655,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             dayHebrew += "חמישי"
         }
         if day == 6 {
-            dayHebrew += "ששי"
+            dayHebrew += "שישי"
         }
         if day == 7 {
             dayHebrew += "שבת"
@@ -1872,6 +1945,10 @@ public extension ComplexZmanimCalendar {
 
 public extension JewishCalendar {
     
+    func isShmitaYear() -> Bool {
+        return (currentHebrewYear() % 7) == 0
+    }
+    
     func getSpecialDay(addOmer: Bool) -> String {
         var result = Array<String>()
         
@@ -2126,6 +2203,7 @@ public extension JewishCalendar {
         let yomTovIndexForNextDay = getYomTovIndexForNextDay()
         if currentDayOfTheWeek() == 6 //Friday
             || yomTovIndex == kFastOfEsther.rawValue
+            || yomTovIndexForNextDay == kChanukah.rawValue
             || yomTovIndexForNextDay == kTishaBeav.rawValue
             || yomTovIndexForNextDay == kTuBeav.rawValue
             || yomTovIndexForNextDay == kTuBeshvat.rawValue

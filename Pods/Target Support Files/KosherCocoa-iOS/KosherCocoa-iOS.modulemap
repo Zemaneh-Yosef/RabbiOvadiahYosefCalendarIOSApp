@@ -1,5 +1,5 @@
 framework module KosherCocoa {
-  umbrella header "KosherCocoa-umbrella.h"
+  umbrella header "KosherCocoa-iOS-umbrella.h"
 
   export *
   module * { export * }
