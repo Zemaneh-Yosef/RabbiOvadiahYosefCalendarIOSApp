@@ -419,6 +419,8 @@ public extension JewishCalendar {
             return "Lag Ba'Omer"
         } else if index == 34 {
             return "Shushan Purim Katan"
+        } else if index == 35 {
+            return "Isru Chag"
         } else if index != -1 {
             let yomtov = JewishHoliday(index: index).nameTransliterated()
             if yomtov.contains("Shemini Atzeret") {

@@ -66,7 +66,7 @@
               @{@"en_US" : @"Tu Be'Av", @"he_IL" :  @"ט״ו באב"},
               @{@"en_US" : @"Erev Rosh Hashana", @"he_IL" :  @"ערב ראש השנה"},
               @{@"en_US" : @"Rosh Hashana", @"he_IL" :  @"ראש השנה"},
-              @{@"en_US" : @"Fast of Gedalya", @"he_IL" :  @"צום גדלי-ה"},
+              @{@"en_US" : @"Fast of Gedalya", @"he_IL" :  @"צום גדליה"},
               @{@"en_US" : @"Erev Yom Kippur", @"he_IL" :  @"ערב יום כיפור"},
               @{@"en_US" : @"Yom Kippur", @"he_IL" :  @"יום כיפור"},
               @{@"en_US" : @"Erev Sukkot", @"he_IL" :  @"ערב סוכות"},
