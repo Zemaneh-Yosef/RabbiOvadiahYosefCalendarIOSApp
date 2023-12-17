@@ -11,7 +11,17 @@ import SwiftUI
 struct Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if #available(watchOS 10.0, *) {
+                ContentView()
+            } else {
+                ContentViewNotSupported()
+            }
         }
+    }
+}
+
+struct ContentViewNotSupported: View {
+    var body: some View {
+        Text("This requires watchOS version 10.0 and higher")
     }
 }
