@@ -674,20 +674,20 @@ public extension JewishCalendar {
     }
     
     func getBirchatLevanaStatus() -> String {
-        let CHALKIM_PER_DAY = 25920
+        let CHALKIM_PER_DAY: Int64 = 25920
         let chalakim = getChalakimSinceMoladTohu(year: currentHebrewYear(), month: currentHebrewMonth())
         let moladToAbsDate = (chalakim / CHALKIM_PER_DAY) + (-1373429)
         var year = moladToAbsDate / 366
-        while (moladToAbsDate >= gregorianDateToAbsDate(year: year+1,month: 1,dayOfMonth: 1)) {
+        while (moladToAbsDate >= gregorianDateToAbsDate(year: Int(year)+1,month: 1,dayOfMonth: 1)) {
             year+=1
         }
         var month = 1
-        while (moladToAbsDate > gregorianDateToAbsDate(year: year, month: month, dayOfMonth: getLastDayOfGregorianMonth(month: month, year: year))) {
+        while (moladToAbsDate > gregorianDateToAbsDate(year: Int(year), month: month, dayOfMonth: getLastDayOfGregorianMonth(month: month, year: Int(year)))) {
             month+=1
         }
-        var dayOfMonth = moladToAbsDate - gregorianDateToAbsDate(year: year, month: month, dayOfMonth: 1) + 1
-        if dayOfMonth > getLastDayOfGregorianMonth(month: month, year: year) {
-            dayOfMonth = getLastDayOfGregorianMonth(month: month, year: year)
+        var dayOfMonth = Int(moladToAbsDate) - gregorianDateToAbsDate(year: Int(year), month: month, dayOfMonth: 1) + 1
+        if dayOfMonth > getLastDayOfGregorianMonth(month: month, year: Int(year)) {
+            dayOfMonth = getLastDayOfGregorianMonth(month: month, year: Int(year))
         }
         let conjunctionDay = chalakim / CHALKIM_PER_DAY
         let conjunctionParts = chalakim - conjunctionDay * CHALKIM_PER_DAY
@@ -704,14 +704,14 @@ public extension JewishCalendar {
         var calendar = Calendar.init(identifier: .gregorian)
         calendar.timeZone = Calendar.current.timeZone
         
-        var moladDay = DateComponents(calendar: calendar, timeZone: TimeZone(identifier: "GMT+2")!, year: year, month: month, day: dayOfMonth, hour: moladHours, minute: moladMinutes, second: Int(moladSeconds))
+        var moladDay = DateComponents(calendar: calendar, timeZone: TimeZone(identifier: "GMT+2")!, year: Int(year), month: Int(month), day: Int(dayOfMonth), hour: Int(moladHours), minute: Int(moladMinutes), second: Int(moladSeconds))
         
         var molad:Date? = nil
         
         if moladHours > 6 {
             moladHours = (moladHours + 18) % 24
             moladDay.day! += 1
-            moladDay.setValue(moladHours, for: .hour)
+            moladDay.setValue(Int(moladHours), for: .hour)
             molad = calendar.date(from: moladDay)
         } else {
             molad = calendar.date(from: moladDay)
@@ -933,20 +933,20 @@ public extension JewishCalendar {
 
     func getJewishCalendarElapsedDays(jewishYear: Int) -> Int {
         // The number of chalakim (25,920) in a 24 hour day.
-        let CHALAKIM_PER_DAY: Int = 25920 // 24 * 1080
+        let CHALAKIM_PER_DAY: Int64 = 25920 // 24 * 1080
         let chalakimSince = getChalakimSinceMoladTohu(year: jewishYear, month: Int(HebrewMonth.tishrei.rawValue))
-        let moladDay = Int(chalakimSince / CHALAKIM_PER_DAY)
-        let moladParts = Int(chalakimSince - chalakimSince / CHALAKIM_PER_DAY * CHALAKIM_PER_DAY)
+        let moladDay = Int64(chalakimSince / CHALAKIM_PER_DAY)
+        let moladParts = Int64(chalakimSince - chalakimSince / CHALAKIM_PER_DAY * CHALAKIM_PER_DAY)
         // delay Rosh Hashana for the 4 dechiyos
-        return addDechiyos(year: jewishYear, moladDay: moladDay, moladParts: moladParts)
+        return addDechiyos(year: jewishYear, moladDay: Int(moladDay), moladParts: Int(moladParts))
     }
     
-    func getChalakimSinceMoladTohu(year: Int, month: Int) -> Int {
+    func getChalakimSinceMoladTohu(year: Int, month: Int) -> Int64 {
         // The number  of chalakim in an average Jewish month. A month has 29 days, 12 hours and 793 chalakim (44 minutes and 3.3 seconds) for a total of 765,433 chalakim
-        let CHALAKIM_PER_MONTH: Int = 765433 // (29 * 24 + 12) * 1080 + 793
+        let CHALAKIM_PER_MONTH: Int64 = 765433 // (29 * 24 + 12) * 1080 + 793
 
         // Days from the beginning of Sunday till molad BaHaRaD. Calculated as 1 day, 5 hours and 204 chalakim = (24 + 5) * 1080 + 204 = 31524
-        let CHALAKIM_MOLAD_TOHU: Int = 31524
+        let CHALAKIM_MOLAD_TOHU: Int64 = 31524
         // Jewish lunar month = 29 days, 12 hours and 793 chalakim
         // chalakim since Molad Tohu BeHaRaD - 1 day, 5 hours and 204 chalakim
         var monthOfYear = month
@@ -958,7 +958,7 @@ public extension JewishCalendar {
         monthsElapsed = monthsElapsed + ((7 * ((year - 1) % 19) + 1) / 19)
         monthsElapsed = monthsElapsed + (monthOfYear - 1)
         // return chalakim prior to BeHaRaD + number of chalakim since
-        return Int(CHALAKIM_MOLAD_TOHU + (CHALAKIM_PER_MONTH * Int(monthsElapsed)))
+        return Int64(CHALAKIM_MOLAD_TOHU + (CHALAKIM_PER_MONTH * Int64(monthsElapsed)))
     }
     
     func addDechiyos(year: Int, moladDay: Int, moladParts: Int) -> Int {

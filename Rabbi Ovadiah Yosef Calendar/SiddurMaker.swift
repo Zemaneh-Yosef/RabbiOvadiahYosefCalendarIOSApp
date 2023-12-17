@@ -746,7 +746,7 @@ public class SiddurMaker {
             return siddur// Early return statement
         }
         
-        var isTachanunSaid = jewishCalendar.getTachanun() == "Tachanun only in the morning"
+        let isTachanunSaid = jewishCalendar.getTachanun() == "Tachanun only in the morning"
         || jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
         || jewishCalendar.getTachanun() == "There is Tachanun today"
         || jewishCalendar.getTachanun() == "אומרים תחנון"
