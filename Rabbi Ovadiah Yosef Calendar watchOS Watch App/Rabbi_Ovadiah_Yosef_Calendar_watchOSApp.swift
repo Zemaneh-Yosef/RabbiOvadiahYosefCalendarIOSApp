@@ -22,6 +22,6 @@ struct Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_AppApp: App {
 
 struct ContentViewNotSupported: View {
     var body: some View {
-        Text("This requires watchOS version 10.0 and higher")
+        Text("This app requires watchOS version 10.0 and higher")
     }
 }
