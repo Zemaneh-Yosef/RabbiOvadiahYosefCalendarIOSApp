@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "kosherswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Elyahu41/KosherSwift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f403df8e569ab5a81be2ce6f325e09a6f1eb58de"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "8b6cf29eead8841a1fa7822481cb3af4ddaadba6",
+        "version" : "2.6.1"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
+        "version" : "5.0.1"
+      }
+    }
+  ],
+  "version" : 2
+}

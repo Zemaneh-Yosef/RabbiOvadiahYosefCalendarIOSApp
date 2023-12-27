@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import KosherCocoa
+import KosherSwift
 
 class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -36,7 +36,7 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
             timezone: -5,
             searchRadius: 8,
             type: 0,
-            year: JewishCalendar().currentHebrewYear(),
+            year: JewishCalendar().getJewishYear(),
             userId: 10000)
         
         let linkYr2 = chaitables.getChaiTablesLink(
@@ -45,12 +45,12 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
             timezone: -5,
             searchRadius: 8,
             type: 0,
-            year: JewishCalendar().currentHebrewYear() + 1,
+            year: JewishCalendar().getJewishYear() + 1,
             userId: 10000)
                 
         let scraper = ChaiTablesScraper(link: link,
-                                        locationName: GlobalStruct.geoLocation.locationName ?? "",
-                                        jewishYear: JewishCalendar().currentHebrewYear(),
+                                        locationName: GlobalStruct.geoLocation.locationName,
+                                        jewishYear: JewishCalendar().getJewishYear(),
                                         defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 )
         scraper.scrape() {

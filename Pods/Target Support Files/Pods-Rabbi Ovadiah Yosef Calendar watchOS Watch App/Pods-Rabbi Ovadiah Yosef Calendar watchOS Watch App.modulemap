@@ -1,6 +1,0 @@
-framework module Pods_Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_App {
-  umbrella header "Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App-umbrella.h"
-
-  export *
-  module * { export * }
-}

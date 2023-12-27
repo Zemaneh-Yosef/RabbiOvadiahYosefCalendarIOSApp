@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import KosherCocoa
+import KosherSwift
 
 class SiddurChooserViewController: UIViewController {
 
@@ -61,7 +61,7 @@ class SiddurChooserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() || GlobalStruct.jewishCalendar.yomTovIndex() == kHoshanaRabba.rawValue {
+        if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.HOSHANA_RABBA {
             mussaf.isHidden = false
         }
         
@@ -69,7 +69,7 @@ class SiddurChooserViewController: UIViewController {
             selichot.isHidden = false
         }
         
-//        if GlobalStruct.jewishCalendar.yomTovIndex() == kYomKippur.rawValue {
+//        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.YOM_KIPPUR {
 //            neilah.isHidden = false
 //        }
         
@@ -77,11 +77,11 @@ class SiddurChooserViewController: UIViewController {
             specialDay.text = GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false)
         }
         
-        if GlobalStruct.jewishCalendar.yomTovIndex() == kShushanPurim.rawValue {
+        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM {
             disclaimer.text = "Purim prayers will show on the 14th (yesterday)"
         }
         
-        if GlobalStruct.jewishCalendar.yomTovIndex() == kTuBeshvat.rawValue {
+        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
             disclaimer.text = "Prayer for etrog"
             disclaimer.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(openEtrogPrayerLink))

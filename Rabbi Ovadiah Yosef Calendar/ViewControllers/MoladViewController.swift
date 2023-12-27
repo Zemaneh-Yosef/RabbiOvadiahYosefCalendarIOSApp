@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import KosherCocoa
+import KosherSwift
 
 class MoladViewController: UIViewController {
     
@@ -49,50 +49,11 @@ class MoladViewController: UIViewController {
     }
     
     func setLabelTexts() {
-        let CHALKIM_PER_DAY = 25920
-        let chalakim = jewishCalendar.getChalakimSinceMoladTohu(year: jewishCalendar.currentHebrewYear(), month: jewishCalendar.currentHebrewMonth())
-        let moladToAbsDate = (chalakim / CHALKIM_PER_DAY) + (-1373429)
-        var year = moladToAbsDate / 366
-        while (moladToAbsDate >= jewishCalendar.gregorianDateToAbsDate(year: year+1,month: 1,dayOfMonth: 1)) {
-            year+=1
-        }
-        var month = 1
-        while (moladToAbsDate > jewishCalendar.gregorianDateToAbsDate(year: year, month: month, dayOfMonth: jewishCalendar.getLastDayOfGregorianMonth(month: month, year: year))) {
-            month+=1
-        }
-        var dayOfMonth = moladToAbsDate - jewishCalendar.gregorianDateToAbsDate(year: year, month: month, dayOfMonth: 1) + 1
-        if dayOfMonth > jewishCalendar.getLastDayOfGregorianMonth(month: month, year: year) {
-            dayOfMonth = jewishCalendar.getLastDayOfGregorianMonth(month: month, year: year)
-        }
-        let conjunctionDay = chalakim / CHALKIM_PER_DAY
-        let conjunctionParts = chalakim - conjunctionDay * CHALKIM_PER_DAY
+        let calendar = Calendar.init(identifier: .gregorian)
         
-        var moladHours = conjunctionParts / 1080
-        let moladRemainingChalakim = conjunctionParts - moladHours * 1080
-        let moladMinutesOG = moladRemainingChalakim / 18
-        let moladChalakimOG = moladRemainingChalakim - moladMinutesOG * 18
-        var moladSeconds = Double(moladChalakimOG * 10 / 3)
+        let moladDate = jewishCalendar.getMoladAsDate()
         
-        let moladMinutes = moladMinutesOG - 20//to get to Standard Time
-        moladSeconds = moladSeconds - 56.496//to get to Standard Time
-        
-        var calendar = Calendar.init(identifier: .gregorian)
-        calendar.timeZone = Calendar.current.timeZone
-        
-        var moladDay = DateComponents(calendar: calendar, timeZone: TimeZone(identifier: "GMT+2")!, year: year, month: month, day: dayOfMonth, hour: moladHours, minute: moladMinutes, second: Int(moladSeconds))
-        
-        var moladDate:Date? = nil//made it nil to copy java but probably can be refactored
-        
-        if moladHours > 6 {
-            moladHours = (moladHours + 18) % 24
-            moladDay.day! += 1
-            moladDay.setValue(moladHours, for: .hour)
-            moladDate = calendar.date(from: moladDay)
-        } else {
-            moladDate = calendar.date(from: moladDay)
-        }
-        
-        let sevenDays = calendar.date(byAdding: .day, value: 7, to: moladDate!)!
+        let sevenDays = calendar.date(byAdding: .day, value: 7, to: moladDate)!
         
         let formatter = DateFormatter()
         formatter.dateFormat = "E MMM d h:mm:ss a"
@@ -104,8 +65,9 @@ class MoladViewController: UIViewController {
         hebrewMonthFormatter.dateFormat = "MMMM yyyy"
         
         chosenMonth.text = monthFormatter.string(from: jewishCalendar.workingDate) + " / " + hebrewMonthFormatter.string(from: jewishCalendar.workingDate)
-        moladChalakim.text = String(moladHours) + "h:" + String(moladMinutesOG) + "m and " + String(moladChalakimOG) + " Chalakim"
-        molad.text = formatter.string(from: moladDate!)
+        jewishCalendar.calculateMolad()
+        moladChalakim.text = String(jewishCalendar.moladHours) + "h:" + String(jewishCalendar.moladMinutes) + "m and " + String(jewishCalendar.moladChalakim) + " Chalakim"
+        molad.text = formatter.string(from: moladDate)
         earliestBL.text = formatter.string(from: sevenDays)
     }
     

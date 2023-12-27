@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import KosherCocoa
+import KosherSwift
 import WebKit
 
 class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
@@ -23,14 +23,14 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
         
         let chaitables = ChaiTablesScraper(
             link: linkTextField.text!,
-            locationName: GlobalStruct.geoLocation.locationName ?? "",
-            jewishYear: JewishCalendar().currentHebrewYear(),
+            locationName: GlobalStruct.geoLocation.locationName,
+            jewishYear: JewishCalendar().getJewishYear(),
             defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 )
         
         chaitables.scrape {
             chaitables.jewishYear = chaitables.jewishYear + 1
-            chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear() + 1)))
+            chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().getJewishYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().getJewishYear() + 1)))
             chaitables.scrape {}
             super.dismiss(animated: false) {
                 presentingView?.dismiss(animated: false)
@@ -76,18 +76,18 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
             download.setTitleColor(.black, for: .normal)
 
         }
-        topLabel.text = "Provide a link below for \(GlobalStruct.geoLocation.locationName ?? "")"
+        topLabel.text = "Provide a link below for \(GlobalStruct.geoLocation.locationName)"
     }
     
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         if (webView.url?.absoluteString.starts(with: "http://chaitables.com/cgi-bin/") == true) {
             let presentingView = super.presentingViewController
             let url = assertCorrectURL(url: webView.url!.absoluteString)
-            let chaitables = ChaiTablesScraper(link: url, locationName: GlobalStruct.geoLocation.locationName ?? "", jewishYear: JewishCalendar().currentHebrewYear(), defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+            let chaitables = ChaiTablesScraper(link: url, locationName: GlobalStruct.geoLocation.locationName, jewishYear: JewishCalendar().getJewishYear(), defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 )
             chaitables.scrape() {
                 chaitables.jewishYear = chaitables.jewishYear + 1
-                chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().currentHebrewYear() + 1)))
+                chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().getJewishYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().getJewishYear() + 1)))
                 chaitables.scrape {}
                 super.dismiss(animated: false) {
                     presentingView?.dismiss(animated: false)

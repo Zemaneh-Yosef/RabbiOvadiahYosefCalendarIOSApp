@@ -7,14 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23A663C32E4E2FC49D86DE3C /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13266E49C41E89B7120803E2 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */; };
-		2EE2783196EBFA9139D7557E /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F912BDE72F9E0FD93BF12B /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework */; };
 		520D973A2ABA8D17004B9014 /* NetzViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520D97392ABA8D17004B9014 /* NetzViewController.swift */; };
 		52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 52119EE22A7F954800661D63 /* SwiftSoup */; };
 		522122202A844A9000942C23 /* ChaiTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5221221F2A844A9000942C23 /* ChaiTables.swift */; };
 		52237D322A8C9B1400497D9E /* SimpleSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52237D312A8C9B1400497D9E /* SimpleSetupViewController.swift */; };
 		52237D342A8C9BC800497D9E /* AdvancedSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52237D332A8C9BC800497D9E /* AdvancedSetupViewController.swift */; };
-		523C45352A9DB0F600AA6D2A /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C45342A9DB0F600AA6D2A /* Extentions.swift */; };
 		524A18362A80D38E00ACCBF8 /* ChaiTablesScraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524A18352A80D38E00ACCBF8 /* ChaiTablesScraper.swift */; };
 		525950942A9B3AE500872955 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525950932A9B3AE500872955 /* WidgetKit.framework */; };
 		525950962A9B3AE500872955 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 525950952A9B3AE500872955 /* SwiftUI.framework */; };
@@ -35,7 +32,6 @@
 		52F905BC2A9F1B5E003E3C55 /* LSGeoLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F905BB2A9F1B5E003E3C55 /* LSGeoLookup.swift */; };
 		52F905BE2A9F1B9C003E3C55 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F905BD2A9F1B9C003E3C55 /* Constants.swift */; };
 		52F905C02A9F22D3003E3C55 /* ChaiTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F905BF2A9F22D3003E3C55 /* ChaiTables.swift */; };
-		553B91593895FB180B3C1A10 /* Pods_Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B55D0AFA96DEAFCF2526845 /* Pods_Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_App.framework */; };
 		5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */; };
 		5D19D36129A3687900F8033D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D36029A3687900F8033D /* AppDelegate.swift */; };
 		5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D36229A3687900F8033D /* SceneDelegate.swift */; };
@@ -58,7 +54,6 @@
 		5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */; };
 		5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */; };
 		5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D948C302A38205E0017A8B6 /* CalendarViewController.swift */; };
-		CE0CEBB82B0704EF00BFD068 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBB72B0704EF00BFD068 /* Extensions.swift */; };
 		CE0CEBBA2B07054E00BFD068 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBB92B07054E00BFD068 /* LocationManager.swift */; };
 		CE0CEBBC2B07057C00BFD068 /* ZmanListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBBB2B07057C00BFD068 /* ZmanListEntry.swift */; };
 		CE0CEBBE2B0705A700BFD068 /* ZmanimTimeNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBBD2B0705A700BFD068 /* ZmanimTimeNames.swift */; };
@@ -67,6 +62,13 @@
 		CE0CEBC42B07061D00BFD068 /* ChaiTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBC32B07061D00BFD068 /* ChaiTables.swift */; };
 		CE0CEBF42B07085100BFD068 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBF32B07085100BFD068 /* ContentView.swift */; };
 		CE2B0B752AC54BC700F07CCD /* SiddurViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */; };
+		CE3244292B3BB66D00EEF29C /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE3244282B3BB66D00EEF29C /* KosherSwift */; };
+		CE32442B2B3BB67700EEF29C /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE32442A2B3BB67700EEF29C /* KosherSwift */; };
+		CE32442D2B3BE66F00EEF29C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32442C2B3BE66F00EEF29C /* Extensions.swift */; };
+		CE32442E2B3BE66F00EEF29C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32442C2B3BE66F00EEF29C /* Extensions.swift */; };
+		CE32442F2B3BE66F00EEF29C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32442C2B3BE66F00EEF29C /* Extensions.swift */; };
+		CE6309522B3BAA500020939B /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309512B3BAA500020939B /* KosherSwift */; };
+		CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309542B3BB5040020939B /* SwiftyJSON */; };
 		CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */; };
 		CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */; };
 		CEB1BBA82B26A30300E58773 /* WatchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1BBA72B26A30300E58773 /* WatchInterface.swift */; };
@@ -119,14 +121,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13266E49C41E89B7120803E2 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rabbi_Ovadiah_Yosef_Calendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		329A83CECEEC34AB71A9687C /* Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.debug.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.debug.xcconfig"; sourceTree = "<group>"; };
-		3DEC44DE2E32CF5FC5FDC3BD /* Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.release.xcconfig"; sourceTree = "<group>"; };
 		520D97392ABA8D17004B9014 /* NetzViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetzViewController.swift; sourceTree = "<group>"; };
 		5221221F2A844A9000942C23 /* ChaiTables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChaiTables.swift; path = "Rabbi Ovadiah Yosef Calendar/ChaiTables.swift"; sourceTree = SOURCE_ROOT; };
 		52237D312A8C9B1400497D9E /* SimpleSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSetupViewController.swift; sourceTree = "<group>"; };
 		52237D332A8C9BC800497D9E /* AdvancedSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSetupViewController.swift; sourceTree = "<group>"; };
-		523C45342A9DB0F600AA6D2A /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		524A18352A80D38E00ACCBF8 /* ChaiTablesScraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaiTablesScraper.swift; sourceTree = "<group>"; };
 		525950922A9B3AE500872955 /* Rabbi Ovadiah Yosef Calendar WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Rabbi Ovadiah Yosef Calendar WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		525950932A9B3AE500872955 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -180,10 +178,6 @@
 		5D948C302A38205E0017A8B6 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		5D9B83942A04E13600C5EB2D /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D9B83962A04E13A00C5EB2D /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B55D0AFA96DEAFCF2526845 /* Pods_Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7424E0FCE25A180E751D2D6C /* Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig"; sourceTree = "<group>"; };
-		A20F5B72CCF6B16DE1C10650 /* Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig"; sourceTree = "<group>"; };
-		CE0CEBB72B0704EF00BFD068 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CE0CEBB92B07054E00BFD068 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE0CEBBB2B07057C00BFD068 /* ZmanListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanListEntry.swift; sourceTree = "<group>"; };
 		CE0CEBBD2B0705A700BFD068 /* ZmanimTimeNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimTimeNames.swift; sourceTree = "<group>"; };
@@ -193,6 +187,7 @@
 		CE0CEBF32B07085100BFD068 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE0CEBF52B070AD400BFD068 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements"; sourceTree = "<group>"; };
 		CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurViewController.swift; sourceTree = "<group>"; };
+		CE32442C2B3BE66F00EEF29C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CE502A8F2B0DEC23008E716C /* Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
 		CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurChooserViewController.swift; sourceTree = "<group>"; };
@@ -201,9 +196,6 @@
 		CED163582B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift; sourceTree = "<group>"; };
 		CED1635C2B07031800E05876 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CED1635F2B07031800E05876 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E8F912BDE72F9E0FD93BF12B /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA813353CA3B881758A3368E /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
-		EE22299254D81F79409DD552 /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig"; path = "Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,8 +204,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				525950962A9B3AE500872955 /* SwiftUI.framework in Frameworks */,
+				CE3244292B3BB66D00EEF29C /* KosherSwift in Frameworks */,
 				525950942A9B3AE500872955 /* WidgetKit.framework in Frameworks */,
-				2EE2783196EBFA9139D7557E /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +214,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */,
-				23A663C32E4E2FC49D86DE3C /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework in Frameworks */,
+				CE6309522B3BAA500020939B /* KosherSwift in Frameworks */,
+				CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +223,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				553B91593895FB180B3C1A10 /* Pods_Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_App.framework in Frameworks */,
+				CE32442B2B3BB67700EEF29C /* KosherSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +261,6 @@
 				5259509E2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */,
 				5259509F2A9B3AE700872955 /* Assets.xcassets */,
 				525950A12A9B3AE700872955 /* Info.plist */,
-				523C45342A9DB0F600AA6D2A /* Extentions.swift */,
 				52F905B32A9F199C003E3C55 /* LocationManager.swift */,
 				52F905B52A9F1AA0003E3C55 /* Notifications.swift */,
 				52F905B72A9F1B06003E3C55 /* ZmanListEntry.swift */,
@@ -336,6 +328,7 @@
 				5D19D36B29A3687B00F8033D /* LaunchScreen.storyboard */,
 				5D19D36E29A3687B00F8033D /* Info.plist */,
 				5D0D7D9E29A374C5003B6E43 /* Rabbi Ovadiah Yosef Calendar-Bridging-Header.h */,
+				CE32442C2B3BE66F00EEF29C /* Extensions.swift */,
 			);
 			path = "Rabbi Ovadiah Yosef Calendar";
 			sourceTree = "<group>";
@@ -343,12 +336,6 @@
 		AC38429A268065996B88B624 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7424E0FCE25A180E751D2D6C /* Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig */,
-				A20F5B72CCF6B16DE1C10650 /* Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig */,
-				EA813353CA3B881758A3368E /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig */,
-				EE22299254D81F79409DD552 /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig */,
-				329A83CECEEC34AB71A9687C /* Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.debug.xcconfig */,
-				3DEC44DE2E32CF5FC5FDC3BD /* Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -364,9 +351,6 @@
 				5D0D7DA929A6156C003B6E43 /* KosherCocoa.framework */,
 				525950932A9B3AE500872955 /* WidgetKit.framework */,
 				525950952A9B3AE500872955 /* SwiftUI.framework */,
-				13266E49C41E89B7120803E2 /* Pods_Rabbi_Ovadiah_Yosef_Calendar.framework */,
-				E8F912BDE72F9E0FD93BF12B /* Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.framework */,
-				6B55D0AFA96DEAFCF2526845 /* Pods_Rabbi_Ovadiah_Yosef_Calendar_watchOS_Watch_App.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -379,7 +363,6 @@
 				CED163582B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift */,
 				CED1635C2B07031800E05876 /* Assets.xcassets */,
 				CED1635E2B07031800E05876 /* Preview Content */,
-				CE0CEBB72B0704EF00BFD068 /* Extensions.swift */,
 				CE0CEBB92B07054E00BFD068 /* LocationManager.swift */,
 				CE0CEBBB2B07057C00BFD068 /* ZmanListEntry.swift */,
 				CE0CEBBD2B0705A700BFD068 /* ZmanimTimeNames.swift */,
@@ -407,7 +390,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 525950AA2A9B3AE700872955 /* Build configuration list for PBXNativeTarget "Rabbi Ovadiah Yosef Calendar WidgetExtension" */;
 			buildPhases = (
-				1C97B014E378CDB28BFA4771 /* [CP] Check Pods Manifest.lock */,
 				5259508E2A9B3AE500872955 /* Sources */,
 				5259508F2A9B3AE500872955 /* Frameworks */,
 				525950902A9B3AE500872955 /* Resources */,
@@ -417,6 +399,9 @@
 			dependencies = (
 			);
 			name = "Rabbi Ovadiah Yosef Calendar WidgetExtension";
+			packageProductDependencies = (
+				CE3244282B3BB66D00EEF29C /* KosherSwift */,
+			);
 			productName = "Rabbi Ovadiah Yosef Calendar WidgetExtension";
 			productReference = 525950922A9B3AE500872955 /* Rabbi Ovadiah Yosef Calendar WidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -425,13 +410,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D19D37129A3687B00F8033D /* Build configuration list for PBXNativeTarget "Rabbi Ovadiah Yosef Calendar" */;
 			buildPhases = (
-				22F1F2BDDA800595EE36062D /* [CP] Check Pods Manifest.lock */,
 				5D19D35929A3687900F8033D /* Sources */,
 				5D19D35A29A3687900F8033D /* Frameworks */,
 				5D19D35B29A3687900F8033D /* Resources */,
 				525950A72A9B3AE700872955 /* Embed Foundation Extensions */,
 				CED163642B07031800E05876 /* Embed Watch Content */,
-				EE12769979781CE7DD9D4923 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -442,6 +425,8 @@
 			name = "Rabbi Ovadiah Yosef Calendar";
 			packageProductDependencies = (
 				52119EE22A7F954800661D63 /* SwiftSoup */,
+				CE6309512B3BAA500020939B /* KosherSwift */,
+				CE6309542B3BB5040020939B /* SwiftyJSON */,
 			);
 			productName = "Rabbi Ovadiah Yosef Calendar";
 			productReference = 5D19D35D29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar.app */;
@@ -451,17 +436,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CED163672B07031800E05876 /* Build configuration list for PBXNativeTarget "Rabbi Ovadiah Yosef Calendar watchOS Watch App" */;
 			buildPhases = (
-				D4718CD419279266C3B4E775 /* [CP] Check Pods Manifest.lock */,
 				CED163522B07031700E05876 /* Sources */,
 				CED163532B07031700E05876 /* Frameworks */,
 				CED163542B07031700E05876 /* Resources */,
-				5887B333A11D582E3496EC03 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Rabbi Ovadiah Yosef Calendar watchOS Watch App";
+			packageProductDependencies = (
+				CE32442A2B3BB67700EEF29C /* KosherSwift */,
+			);
 			productName = "Rabbi Ovadiah Yosef Calendar watchOS Watch App";
 			productReference = CED163562B07031700E05876 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -499,6 +485,8 @@
 			mainGroup = 5D19D35429A3687900F8033D;
 			packageReferences = (
 				52119EE12A7F954800661D63 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				CE6309502B3BAA500020939B /* XCRemoteSwiftPackageReference "KosherSwift" */,
+				CE6309532B3BB5040020939B /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = 5D19D35E29A3687900F8033D /* Products */;
 			projectDirPath = "";
@@ -541,109 +529,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		1C97B014E378CDB28BFA4771 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		22F1F2BDDA800595EE36062D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Rabbi Ovadiah Yosef Calendar-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5887B333A11D582E3496EC03 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D4718CD419279266C3B4E775 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EE12769979781CE7DD9D4923 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Rabbi Ovadiah Yosef Calendar/Pods-Rabbi Ovadiah Yosef Calendar-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		5259508E2A9B3AE500872955 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -656,8 +541,8 @@
 				525950A22A9B3AE700872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */,
 				52F905B42A9F199C003E3C55 /* LocationManager.swift in Sources */,
 				52F905BA2A9F1B32003E3C55 /* ZmanimTimeNames.swift in Sources */,
+				CE32442E2B3BE66F00EEF29C /* Extensions.swift in Sources */,
 				52F905BC2A9F1B5E003E3C55 /* LSGeoLookup.swift in Sources */,
-				523C45352A9DB0F600AA6D2A /* Extentions.swift in Sources */,
 				5259509B2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity.swift in Sources */,
 				5259509D2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.swift in Sources */,
 				52F905C02A9F22D3003E3C55 /* ChaiTables.swift in Sources */,
@@ -695,6 +580,7 @@
 				52237D322A8C9B1400497D9E /* SimpleSetupViewController.swift in Sources */,
 				5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */,
 				5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */,
+				CE32442D2B3BE66F00EEF29C /* Extensions.swift in Sources */,
 				5D19D36529A3687900F8033D /* ZmanListViewController.swift in Sources */,
 				CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */,
 				5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */,
@@ -707,11 +593,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE0CEBBA2B07054E00BFD068 /* LocationManager.swift in Sources */,
-				CE0CEBB82B0704EF00BFD068 /* Extensions.swift in Sources */,
 				CE0CEBC02B0705CE00BFD068 /* LSGeoLookup.swift in Sources */,
 				CE0CEBBC2B07057C00BFD068 /* ZmanListEntry.swift in Sources */,
 				CE0CEBC42B07061D00BFD068 /* ChaiTables.swift in Sources */,
 				CEB1BBA82B26A30300E58773 /* WatchInterface.swift in Sources */,
+				CE32442F2B3BE66F00EEF29C /* Extensions.swift in Sources */,
 				CE0CEBF42B07085100BFD068 /* ContentView.swift in Sources */,
 				CED163592B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift in Sources */,
 				CE0CEBBE2B0705A700BFD068 /* ZmanimTimeNames.swift in Sources */,
@@ -756,7 +642,6 @@
 /* Begin XCBuildConfiguration section */
 		525950A82A9B3AE700872955 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA813353CA3B881758A3368E /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -791,7 +676,6 @@
 		};
 		525950A92A9B3AE700872955 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE22299254D81F79409DD552 /* Pods-Rabbi Ovadiah Yosef Calendar WidgetExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -940,7 +824,6 @@
 		};
 		5D19D37229A3687B00F8033D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7424E0FCE25A180E751D2D6C /* Pods-Rabbi Ovadiah Yosef Calendar.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -983,7 +866,6 @@
 		};
 		5D19D37329A3687B00F8033D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A20F5B72CCF6B16DE1C10650 /* Pods-Rabbi Ovadiah Yosef Calendar.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1025,7 +907,6 @@
 		};
 		CED163652B07031800E05876 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 329A83CECEEC34AB71A9687C /* Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1066,7 +947,6 @@
 		};
 		CED163662B07031800E05876 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3DEC44DE2E32CF5FC5FDC3BD /* Pods-Rabbi Ovadiah Yosef Calendar watchOS Watch App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1154,6 +1034,22 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		CE6309502B3BAA500020939B /* XCRemoteSwiftPackageReference "KosherSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Elyahu41/KosherSwift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		CE6309532B3BB5040020939B /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1161,6 +1057,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 52119EE12A7F954800661D63 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		CE3244282B3BB66D00EEF29C /* KosherSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE6309502B3BAA500020939B /* XCRemoteSwiftPackageReference "KosherSwift" */;
+			productName = KosherSwift;
+		};
+		CE32442A2B3BB67700EEF29C /* KosherSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE6309502B3BAA500020939B /* XCRemoteSwiftPackageReference "KosherSwift" */;
+			productName = KosherSwift;
+		};
+		CE6309512B3BAA500020939B /* KosherSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE6309502B3BAA500020939B /* XCRemoteSwiftPackageReference "KosherSwift" */;
+			productName = KosherSwift;
+		};
+		CE6309542B3BB5040020939B /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE6309532B3BB5040020939B /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

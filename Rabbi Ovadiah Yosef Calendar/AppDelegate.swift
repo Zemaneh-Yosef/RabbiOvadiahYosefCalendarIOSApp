@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import KosherCocoa
+import KosherSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {

@@ -1,5 +1,0 @@
-#import <Foundation/Foundation.h>
-@interface PodsDummy_Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension : NSObject
-@end
-@implementation PodsDummy_Pods_Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension
-@end

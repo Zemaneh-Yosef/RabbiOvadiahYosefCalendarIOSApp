@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import KosherCocoa
+import KosherSwift
 
 class NetzViewController: UIViewController {
     
@@ -38,22 +38,22 @@ class NetzViewController: UIViewController {
     
     func getNextNetzAndStartCountdown() {
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
-        zmanimCalendar.geoLocation.altitude = 0 // just in case
+        zmanimCalendar.geoLocation.elevation = 0 // just in case
         let jewishCalendar = JewishCalendar()
         
-        var netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName ?? "", jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
+        var netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
         
         if netz == nil {
-            netz = zmanimCalendar.seaLevelSunriseOnly()
+            netz = zmanimCalendar.getSeaLevelSunrise()
         }
         
         if netz?.timeIntervalSinceNow ?? 0 < 0 {// if date is before now
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
             jewishCalendar.workingDate = zmanimCalendar.workingDate
             
-            netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName ?? "", jewishYear: jewishCalendar.currentHebrewYear(), defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
+            netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
             if netz == nil {
-                netz = zmanimCalendar.seaLevelSunriseOnly()
+                netz = zmanimCalendar.getSeaLevelSunrise()
             }
         }
         
@@ -82,7 +82,7 @@ class NetzViewController: UIViewController {
     }
     
     func setTimerForSunset() {
-        let sunset = ComplexZmanimCalendar(location: GlobalStruct.geoLocation).sunset()
+        let sunset = ComplexZmanimCalendar(location: GlobalStruct.geoLocation).getSunset()
         var sunsetTimeLeft = sunset?.timeIntervalSinceNow
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
             if sunsetTimeLeft ?? 0 > 0 {

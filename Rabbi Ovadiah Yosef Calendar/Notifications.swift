@@ -6,8 +6,9 @@
 //
 
 import Foundation
-import KosherCocoa
+import KosherSwift
 import UserNotifications
+import UIKit
 
 class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
@@ -45,7 +46,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
-        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.seaLevelSunriseOnly() ?? Date()), repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getSeaLevelSunrise() ?? Date()), repeats: false)
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         if content.body != "Today is " {//avoid scheduling notifications that are not going to be displayed
@@ -58,7 +59,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         amountOfNotificationsSet = 0
         notificationCenter.removeAllPendingNotificationRequests()//always start from scratch...
         
-        if zmanimCalendar.sunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+        if zmanimCalendar.getSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
             addOneDayToCalendars()
         }
 
@@ -100,10 +101,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h:mm aa"
             let backup = jewishCalendar.workingDate
-            while jewishCalendar.getAmudeiHoraahTekufaAsDate() == nil {
+            while jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true) == nil {
                 jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
             }
-            let tekufa = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
             jewishCalendar.workingDate = backup
             tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
@@ -139,10 +140,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             tekufaContent2.title = "Tekufa / Season Changes"
             tekufaContent2.sound = .default
             
-            while jewishCalendar.getAmudeiHoraahTekufaAsDate() == nil {
+            while jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true) == nil {
                 jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
             }
-            let tekufa2 = jewishCalendar.getAmudeiHoraahTekufaAsDate()
+            let tekufa2 = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             tekufaContent2.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa2!) + ". Do not drink water half an hour before or after this time."
             jewishCalendar.workingDate = backup
             tekufaContent2.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
@@ -170,9 +171,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         var trigger: UNCalendarNotificationTrigger
 
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzaitAmudeiHoraah() ?? Date()), repeats: false)
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()), repeats: false)
         } else {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.tzeit() ?? Date()), repeats: false)
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date()), repeats: false)
         }
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
@@ -189,11 +190,11 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     func scheduleSunsetNotifications() {
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            if zmanimCalendar.tzaitAmudeiHoraah()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
+            if zmanimCalendar.getTzaisAmudeiHoraah()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
                 addOneDayToCalendars()
             }
         } else {
-            if zmanimCalendar.tzeit()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
+            if zmanimCalendar.getTzais13Point5MinutesZmanis()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
                 addOneDayToCalendars()
             }
         }
@@ -205,10 +206,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
         
-        while jewishCalendar.isVeseinBerachaRecited() {
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        while TefilaRules().isVeseinBerachaRecited(jewishCalendar: jewishCalendar) {
+            jewishCalendar.forward()
         }//now that the jewish date is set to the date where we change to Barech Aleinu in the morning, make a notification for sunset the day before
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(-86400)
+        jewishCalendar.back()
         zmanimCalendar.workingDate = jewishCalendar.workingDate
         let contentBarech = UNMutableNotificationContent()
         contentBarech.title = "Barech Aleinu Tonight!"
@@ -217,7 +218,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         contentBarech.body = "Tonight we start saying Barech Aleinu!"
         contentBarech.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
-        let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.sunset() ?? Date()), repeats: false)
+        let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getSunset() ?? Date()), repeats: false)
         
         let request = UNNotificationRequest(identifier: "BarechAleinuNotification", content: contentBarech, trigger: triggerBarech)
         notificationCenter.add(request)
@@ -229,7 +230,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     func scheduleZmanimNotifications() {
         if !defaults.bool(forKey: "zmanim_notifications") {
             //if zmanim notifications are off, we can use the other local notifications for daily notifications which are the most important in my opinion
-            if zmanimCalendar.sunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+            if zmanimCalendar.getSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
                 addOneDayToCalendars()
             }
             //we already scheduled for 14 days, so advance the dates 15/16 days
@@ -326,106 +327,106 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         var temp = list
         let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         if defaults.bool(forKey: "NotifyAlot Hashachar") {
-            temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.alos72Zmanis(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyTalit And Tefilin") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.talitTefilin(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakir66MinutesZmanit(), isZman: true))
         }
         if defaults.bool(forKey: "NotifySunrise") {
-            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.getSeaLevelSunrise(), isZman: true))
         }
         if defaults.bool(forKey: "NotifySof Zman Shma MGA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.sofZmanShmaMGA72MinutesZmanis(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanis(), isZman: true))
         }
         if defaults.bool(forKey: "NotifySof Zman Shma GRA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.sofZmanShmaGra(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
         }
-        if jewishCalendar.yomTovIndex() == kErevPesach.rawValue {
+        if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
             if defaults.bool(forKey: "NotifyAchilat Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.sofZmanTfilaMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.getSofZmanTfilaMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
             }
             if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.sofZmanTfilaGra(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
             }
             if defaults.bool(forKey: "NotifyBiur Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.sofZmanBiurChametzMGA(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.getSofZmanBiurChametzMGA72Minutes(), isZman: true, isNoteworthyZman: true))
             }
         } else {
             if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.sofZmanTfilaGra(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
             }
         }
         if defaults.bool(forKey: "NotifyChatzot") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.chatzos(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.getChatzosIfHalfDayNil(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyMincha Gedolah") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.minchaGedolaGreaterThan30(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.getMinchaGedolaGreaterThan30(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyMincha Ketana") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman:zmanimCalendar.minchaKetana(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman:zmanimCalendar.getMinchaKetana(), isZman: true))
         }
         if defaults.integer(forKey: "plagOpinion") == 1 || defaults.object(forKey: "plagOpinion") == nil {
             if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
-                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.getPlagHaminchaYalkutYosef(), isZman: true))
             }
         } else if defaults.integer(forKey: "plagOpinion") == 2 {
             if defaults.bool(forKey: "NotifyPlag HaMincha Halacha Berurah") {
-                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.getPlagHamincha(), isZman: true))
             }
         } else {
             if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
-                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.plagHamincha(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), zman:zmanimCalendar.getPlagHaminchaYalkutYosef(), isZman: true))
             }
             if defaults.bool(forKey: "NotifyPlag HaMincha Halacha Berurah") {
-                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.getPlagHamincha(), isZman: true))
             }
         }
-        if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.currentDayOfTheWeek() == 6 {
+        if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.getDayOfWeek() == 6 {
             zmanimCalendar.candleLightingOffset = 20
             if defaults.object(forKey: "candleLightingOffset") != nil {
                 zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
             }
             if defaults.bool(forKey: "NotifyCandle Lighting") {
-                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", zman:zmanimCalendar.candleLighting(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(Int(zmanimCalendar.candleLightingOffset)) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
             }
         }
         if defaults.bool(forKey: "NotifySunset") {
-            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.sunset(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSunset(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyTzeit Hacochavim") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.tzeit(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.getTzais13Point5MinutesZmanis(), isZman: true))
         }
         if defaults.bool(forKey: "showTzeitLChumra") && defaults.bool(forKey: "NotifyTzeit Hacochavim (Stringent)") {
-           temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getLChumraString(), zman: zmanimCalendar.tzeitTaanit(), isZman: true))
+           temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getLChumraString(), zman: zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true))
        }
-        if jewishCalendar.isTaanis() && jewishCalendar.yomTovIndex() != kYomKippur.rawValue {
+        if jewishCalendar.isTaanis() && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
             if defaults.bool(forKey: "NotifyFast Ends") {
-                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzeitTaanit(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true, isNoteworthyZman: true))
             }
             if defaults.bool(forKey: "NotifyFast Ends (Stringent)") {
-                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.tzeitTaanitLChumra(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.getTzaisAteretTorah(minutes: 30), isZman: true, isNoteworthyZman: true))
             }
         }
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
             zmanimCalendar.ateretTorahSunsetOffset = 40
             if defaults.object(forKey: "shabbatOffset") != nil {
-                zmanimCalendar.ateretTorahSunsetOffset = Int32(defaults.integer(forKey: "shabbatOffset"))
+                zmanimCalendar.ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
             }
             if defaults.bool(forKey: "NotifyShabbat Ends") {
                 if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(zmanimCalendar.ateretTorahSunsetOffset) + ")", zman:zmanimCalendar.tzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", zman:zmanimCalendar.getTzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
                 } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
                 } else {
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
                 }
             }
         }
         if defaults.bool(forKey: "NotifyRabbeinu Tam") {
-            temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.tzait72Zmanit(), isZman: true, isNoteworthyZman: true, isRTZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72Zmanis(), isZman: true, isNoteworthyZman: true, isRTZman: true))
         }
         if defaults.bool(forKey: "NotifyChatzot Layla") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.solarMidnight(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
         }
         return temp
     }
@@ -434,82 +435,82 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         var temp = list
         let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         if defaults.bool(forKey: "NotifyAlot Hashachar") {
-            temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.alotAmudeiHoraah(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlosAmudeiHoraah(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyTalit And Tefilin") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.talitTefilinAmudeiHoraah(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakirAmudeiHoraah(), isZman: true))
         }
         if defaults.bool(forKey: "NotifySunrise") {
-            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.seaLevelSunriseOnly(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.getSeaLevelSunrise(), isZman: true))
         }
         if defaults.bool(forKey: "NotifySof Zman Shma MGA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.shmaMGAAmudeiHoraah(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanisAmudeiHoraah(), isZman: true))
         }
         if defaults.bool(forKey: "NotifySof Zman Shma GRA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.sofZmanShmaGra(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
         }
-        if jewishCalendar.yomTovIndex() == kErevPesach.rawValue {
+        if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
             if defaults.bool(forKey: "NotifyAchilat Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.achilatChametzAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.getSofZmanAchilatChametzAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
             }
             if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.sofZmanTfilaGra(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
             }
             if defaults.bool(forKey: "NotifyBiur Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.biurChametzAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.getSofZmanBiurChametzMGAAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
             }
         } else {
             if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.sofZmanTfilaGra(), isZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
             }
         }
         if defaults.bool(forKey: "NotifyChatzot") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.chatzos(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), zman:zmanimCalendar.getChatzosIfHalfDayNil(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyMincha Gedolah") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.minchaGedolaGreaterThan30(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman:zmanimCalendar.getMinchaGedolaGreaterThan30(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyMincha Ketana") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman:zmanimCalendar.minchaKetana(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman:zmanimCalendar.getMinchaKetana(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyPlag HaMincha Halacha Berurah") {
-            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.plagHaminchaHalachaBerurah(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), zman:zmanimCalendar.getPlagHamincha(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
-            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedYalkutYosefString(), zman:zmanimCalendar.plagHaminchaYalkutYosefAmudeiHoraah(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedYalkutYosefString(), zman:zmanimCalendar.getPlagHaminchaYalkutYosefAmudeiHoraah(), isZman: true))
         }
-        if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.currentDayOfTheWeek() == 6 {
+        if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.getDayOfWeek() == 6 {
             zmanimCalendar.candleLightingOffset = 20
             if defaults.object(forKey: "candleLightingOffset") != nil {
                 zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
             }
             if defaults.bool(forKey: "NotifyCandle Lighting") {
-                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", zman:zmanimCalendar.candleLighting(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(Int(zmanimCalendar.candleLightingOffset)) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
             }
         }
         if defaults.bool(forKey: "NotifySunset") {
-            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.sunset(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSunset(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyTzeit Hacochavim") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.tzaitAmudeiHoraah(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.getTzaisAmudeiHoraah(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyTzeit Hacochavim (Stringent)") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.tzaitAmudeiHoraahLChumra(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.getTzaisAmudeiHoraahLChumra(), isZman: true))
         }
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
             zmanimCalendar.ateretTorahSunsetOffset = 40
             if defaults.object(forKey: "shabbatOffset") != nil {
-                zmanimCalendar.ateretTorahSunsetOffset = Int32(defaults.integer(forKey: "shabbatOffset"))
+                zmanimCalendar.ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
             }
             if defaults.bool(forKey: "NotifyShabbat Ends") {
-                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.tzaitShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
             }
         }
         if defaults.bool(forKey: "NotifyRabbeinu Tam") {
-            temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.tzait72ZmanitAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true))
         }
         if defaults.bool(forKey: "NotifyChatzot Layla") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.solarMidnight(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
         }
         return temp
     }
@@ -541,10 +542,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                 }
             }
             timezone = TimeZone.init(identifier: defaults.string(forKey: "timezone")!)!
-            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(latitude: lat, andLongitude: long, elevation: elevation, andTimeZone: timezone))
-            jewishCalendar = JewishCalendar(location: zmanimCalendar.geoLocation)
+            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+            jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
             jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-            jewishCalendar.returnsModernHolidays = true
+            jewishCalendar.useModernHolidays = true
             self.scheduleSunriseNotifications()
             self.scheduleSunsetNotifications()
             self.scheduleZmanimNotifications()
@@ -555,7 +556,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     self.lat = location.coordinate.latitude
                     self.long = location.coordinate.longitude
                     self.timezone = TimeZone.current
-                    zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(latitude: lat, andLongitude: long, elevation: elevation, andTimeZone: timezone))
+                    zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
                     LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
                         self.locationName = locationName ?? ""
                         if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
@@ -573,10 +574,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                                 self.elevation = self.defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
                             }
                         }
-                        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(latitude: lat, andLongitude: long, elevation: elevation, andTimeZone: timezone))
-                        jewishCalendar = JewishCalendar(location: zmanimCalendar.geoLocation)
+                        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+                        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
                         jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-                        jewishCalendar.returnsModernHolidays = true
+                        jewishCalendar.useModernHolidays = true
                         self.scheduleSunriseNotifications()
                         self.scheduleSunsetNotifications()
                         self.scheduleZmanimNotifications()
@@ -589,17 +590,17 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     func getShabbatAndOrChag() -> String {
         if (defaults.bool(forKey: "isZmanimInHebrew")) {
-            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.currentDayOfTheWeek() == 7 {
+            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
                 return "\u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
-            } else if jewishCalendar.currentDayOfTheWeek() == 7 {
+            } else if jewishCalendar.getDayOfWeek() == 7 {
                 return "\u{05E9}\u{05D1}\u{05EA}"
             } else {
                 return "\u{05D7}\u{05D2}"
             }
         } else {
-            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.currentDayOfTheWeek() == 7 {
+            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
                 return "Shabbat/Chag";
-            } else if jewishCalendar.currentDayOfTheWeek() == 7 {
+            } else if jewishCalendar.getDayOfWeek() == 7 {
                 return "Shabbat";
             } else {
                 return "Chag";
