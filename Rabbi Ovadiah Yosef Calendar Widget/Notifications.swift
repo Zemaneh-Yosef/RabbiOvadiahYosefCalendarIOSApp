@@ -57,7 +57,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         amountOfNotificationsSet = 0
         notificationCenter.removeAllPendingNotificationRequests()//always start from scratch...
         
-        if zmanimCalendar.getSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+        if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
             addOneDayToCalendars()
         }
 
@@ -210,7 +210,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         contentBarech.subtitle = locationName
         contentBarech.body = "Tonight we start saying Barech Aleinu!"
         
-        let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getSunset() ?? Date()), repeats: false)
+        let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()), repeats: false)
         
         let request = UNNotificationRequest(identifier: "BarechAleinuNotification", content: contentBarech, trigger: triggerBarech)
         notificationCenter.add(request)
@@ -222,7 +222,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     func scheduleZmanimNotifications() {
         if !defaults.bool(forKey: "zmanim_notifications") {
             //if zmanim notifications are off, we can use the other local notifications for daily notifications which are the most important in my opinion
-            if zmanimCalendar.getSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+            if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
                 addOneDayToCalendars()
             }
             //we already scheduled for 14 days, so advance the dates 15/16 days
@@ -383,7 +383,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             }
         }
         if defaults.bool(forKey: "NotifySunset") {
-            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSunset(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyTzeit Hacochavim") {
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.getTzais13Point5MinutesZmanis(), isZman: true))
@@ -418,7 +418,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72Zmanis(), isZman: true, isNoteworthyZman: true, isRTZman: true))
         }
         if defaults.bool(forKey: "NotifyChatzot Layla") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
         }
         return temp
     }
@@ -482,7 +482,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             }
         }
         if defaults.bool(forKey: "NotifySunset") {
-            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSunset(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
         }
         if defaults.bool(forKey: "NotifyTzeit Hacochavim") {
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.getTzaisAmudeiHoraah(), isZman: true))
@@ -503,7 +503,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true))
         }
         if defaults.bool(forKey: "NotifyChatzot Layla") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
         }
         return temp
     }

@@ -341,3 +341,22 @@ public extension JewishCalendar {
         }
     }
 }
+
+public extension AstronomicalCalendar {
+    func getSolarMidnightIfSunTransitNil() -> Date? {
+        let sunTransit = getSunTransit(startOfDay: getSunrise(), endOfDay: getSunset())
+        workingDate = workingDate.addingTimeInterval(86400)
+        let sunTransitTomorrow = getSunTransit(startOfDay: getSunrise(), endOfDay: getSunset())
+        workingDate = workingDate.addingTimeInterval(-86400)
+        
+        if sunTransit == nil || sunTransitTomorrow == nil {
+            return getSolarMidnight()
+        }
+        
+        let offset = ((sunTransitTomorrow!.timeIntervalSince1970 - sunTransit!.timeIntervalSince1970) / 2) * 1000
+        
+        return AstronomicalCalendar.getTimeOffset(
+            time: sunTransit,
+            offset: offset)
+    }
+}

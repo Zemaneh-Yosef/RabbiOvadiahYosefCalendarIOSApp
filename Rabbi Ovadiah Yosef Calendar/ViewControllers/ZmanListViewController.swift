@@ -1115,10 +1115,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         jewishCalendar.forward()
         if jewishCalendar.getYomTovIndex() == JewishCalendar.TISHA_BEAV {
-            temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getSunset(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
         }
         jewishCalendar.back()
-        temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSunset(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.getTzais13Point5MinutesZmanis(), isZman: true))
         if (jewishCalendar.hasCandleLighting() && jewishCalendar.isAssurBemelacha()) && jewishCalendar.getDayOfWeek() != 6 {
             if jewishCalendar.getDayOfWeek() == 7 {
@@ -1171,7 +1171,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72Zmanis(), isZman: true, isNoteworthyZman: true, isRTZman: true))
             }
         }
-        temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
         return temp
     }
     
@@ -1234,7 +1234,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         jewishCalendar.forward()
         if jewishCalendar.getYomTovIndex() == JewishCalendar.TISHA_BEAV {
-            temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getSunset(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
         }
         jewishCalendar.back()
         temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSeaLevelSunset(), isZman: true))
@@ -1265,7 +1265,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true))
             }
         }
-        temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
         return temp
     }
     
@@ -1520,7 +1520,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
         }
-        if zmanimCalendar.getSunrise()?.timeIntervalSince1970 != zmanimCalendar.getSunset()?.timeIntervalSince1970 {
+        if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 != zmanimCalendar.getElevationAdjustedSunset()?.timeIntervalSince1970 {
             allZmanimAreTheSame = false
         }
         zmanimTableView.reloadData()

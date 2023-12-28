@@ -135,12 +135,9 @@
 		5259509E2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition; sourceTree = "<group>"; };
 		5259509F2A9B3AE700872955 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		525950A12A9B3AE700872955 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5291C5BF2A9C8BE200ACC84C /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5292D1B72A6E537E00857241 /* ChaiTablesCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaiTablesCountries.swift; sourceTree = "<group>"; };
 		5292D1B92A6E556400857241 /* ChaiTablesLinkGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaiTablesLinkGenerator.swift; sourceTree = "<group>"; };
 		52A2A8B52A8B4CF500E2A463 /* SetupChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupChooserViewController.swift; sourceTree = "<group>"; };
-		52D08E512A9C3A1400C793AF /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		52D08E552A9C3A7400C793AF /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F905B12A9F0A5A003E3C55 /* Rabbi Ovadiah Yosef Calendar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar.entitlements"; sourceTree = "<group>"; };
 		52F905B22A9F0AE4003E3C55 /* Rabbi Ovadiah Yosef Calendar WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar WidgetExtension.entitlements"; sourceTree = "<group>"; };
 		52F905B32A9F199C003E3C55 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -151,7 +148,6 @@
 		52F905BD2A9F1B9C003E3C55 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		52F905BF2A9F22D3003E3C55 /* ChaiTables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaiTables.swift; sourceTree = "<group>"; };
 		5D0D7D9E29A374C5003B6E43 /* Rabbi Ovadiah Yosef Calendar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rabbi Ovadiah Yosef Calendar-Bridging-Header.h"; sourceTree = "<group>"; };
-		5D0D7DA929A6156C003B6E43 /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanListEntry.swift; sourceTree = "<group>"; };
 		5D19D35D29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rabbi Ovadiah Yosef Calendar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D19D36029A3687900F8033D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -176,8 +172,6 @@
 		5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimNotificationsSettingsViewController.swift; sourceTree = "<group>"; };
 		5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimAlertInfoHolder.swift; sourceTree = "<group>"; };
 		5D948C302A38205E0017A8B6 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		5D9B83942A04E13600C5EB2D /* KosherCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KosherCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D9B83962A04E13A00C5EB2D /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE0CEBB92B07054E00BFD068 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE0CEBBB2B07057C00BFD068 /* ZmanListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanListEntry.swift; sourceTree = "<group>"; };
 		CE0CEBBD2B0705A700BFD068 /* ZmanimTimeNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimTimeNames.swift; sourceTree = "<group>"; };
@@ -288,7 +282,6 @@
 				525950972A9B3AE500872955 /* Rabbi Ovadiah Yosef Calendar Widget */,
 				CED163572B07031800E05876 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App */,
 				5D19D35E29A3687900F8033D /* Products */,
-				AC38429A268065996B88B624 /* Pods */,
 				BFC12B5BBA41C790170091B5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -333,22 +326,9 @@
 			path = "Rabbi Ovadiah Yosef Calendar";
 			sourceTree = "<group>";
 		};
-		AC38429A268065996B88B624 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		BFC12B5BBA41C790170091B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5291C5BF2A9C8BE200ACC84C /* KosherCocoa.framework */,
-				52D08E552A9C3A7400C793AF /* KosherCocoa.framework */,
-				52D08E512A9C3A1400C793AF /* KosherCocoa.framework */,
-				5D9B83962A04E13A00C5EB2D /* SwiftyJSON.framework */,
-				5D9B83942A04E13600C5EB2D /* KosherCocoa.framework */,
-				5D0D7DA929A6156C003B6E43 /* KosherCocoa.framework */,
 				525950932A9B3AE500872955 /* WidgetKit.framework */,
 				525950952A9B3AE500872955 /* SwiftUI.framework */,
 			);

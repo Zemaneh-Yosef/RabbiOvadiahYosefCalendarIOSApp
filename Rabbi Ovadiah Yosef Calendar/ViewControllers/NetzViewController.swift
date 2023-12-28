@@ -82,7 +82,7 @@ class NetzViewController: UIViewController {
     }
     
     func setTimerForSunset() {
-        let sunset = ComplexZmanimCalendar(location: GlobalStruct.geoLocation).getSunset()
+        let sunset = ComplexZmanimCalendar(location: GlobalStruct.geoLocation).getElevationAdjustedSunset()
         var sunsetTimeLeft = sunset?.timeIntervalSinceNow
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
             if sunsetTimeLeft ?? 0 > 0 {

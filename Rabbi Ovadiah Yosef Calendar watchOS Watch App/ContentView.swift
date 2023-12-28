@@ -47,14 +47,26 @@ struct ContentView: View {
                                     Spacer()
                                 }
                             } else {
-                                if zmanTime.zman == nextUpcomingZman {
-                                    Text(zmanTime.title).bold().underline()
-                                    Spacer()
-                                    Text(dateFormatterForZmanim.string(from: zmanTime.zman!)).bold().underline()
+                                if defaults.bool(forKey: "isZmanimInHebrew") {
+                                    if zmanTime.zman == nextUpcomingZman {
+                                        Text(dateFormatterForZmanim.string(from:zmanTime.zman!)).bold().underline()
+                                        Spacer()
+                                        Text(zmanTime.title).bold().underline()
+                                    } else {
+                                        Text(dateFormatterForZmanim.string(from:zmanTime.zman!))
+                                        Spacer()
+                                        Text(zmanTime.title)
+                                    }
                                 } else {
-                                    Text(zmanTime.title)
-                                    Spacer()
-                                    Text(dateFormatterForZmanim.string(from: zmanTime.zman!))
+                                    if zmanTime.zman == nextUpcomingZman {
+                                        Text(zmanTime.title).bold().underline()
+                                        Spacer()
+                                        Text(dateFormatterForZmanim.string(from: zmanTime.zman!)).bold().underline()
+                                    } else {
+                                        Text(zmanTime.title)
+                                        Spacer()
+                                        Text(dateFormatterForZmanim.string(from: zmanTime.zman!))
+                                    }
                                 }
                             }
                         }
@@ -148,6 +160,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         jewishCalendar.forward()
     }
     let hebrewDateFormatter = HebrewDateFormatter()
+    hebrewDateFormatter.hebrewFormat = true
     //now that we are on saturday, check the parasha
     let specialParasha = hebrewDateFormatter.formatSpecialParsha(jewishCalendar: jewishCalendar)
     var parasha = hebrewDateFormatter.formatParsha(parsha: jewishCalendar.getParshah())
@@ -160,6 +173,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     } else {
         zmanimList.append(ZmanListEntry(title:"No Weekly Parasha"))
     }
+    hebrewDateFormatter.hebrewFormat = false
     syncCalendarDates()//reset
     dateFormatter.dateFormat = "EEEE"
     zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + getHebrewDay(day: jewishCalendar.getDayOfWeek())))
@@ -265,9 +279,11 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     
     zmanimList = addZmanim(list: zmanimList)
     
+    hebrewDateFormatter.hebrewFormat = true
+    hebrewDateFormatter.useGershGershayim = false
     let dafYomi = jewishCalendar.getDafYomiBavli()
     if dafYomi != nil {
-        zmanimList.append(ZmanListEntry(title:"Daf Yomi: " + ((dafYomi!.getMasechta())) + " " + hebrewDateFormatter.formatDafYomiBavli(daf: dafYomi!)))
+        zmanimList.append(ZmanListEntry(title:"Daf Yomi: " + hebrewDateFormatter.formatDafYomiBavli(daf: dafYomi!)))
     }
     let dateString = "1980-02-02"//Yerushalmi start date
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -278,7 +294,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
             print("The target date is before Feb 2, 1980.")
         } else if comparisonResult == .orderedAscending {
             if yerushalmiYomi != nil {
-                zmanimList.append(ZmanListEntry(title:"Yerushalmi Vilna Yomi: " +  yerushalmiYomi!.getYerushalmiMasechta() + " " + hebrewDateFormatter.formatDafYomiYerushalmi(daf: yerushalmiYomi)))
+                zmanimList.append(ZmanListEntry(title:"Yerushalmi Vilna Yomi: " + hebrewDateFormatter.formatDafYomiYerushalmi(daf: yerushalmiYomi)))
             } else {
                 zmanimList.append(ZmanListEntry(title:"No Yerushalmi Vilna Yomi"))
             }
@@ -365,10 +381,10 @@ func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
     }
     jewishCalendar.forward()
     if jewishCalendar.getYomTovIndex() == JewishCalendar.TISHA_BEAV {
-        temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getSunset(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
     }
     jewishCalendar.back()
-    temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSunset(), isZman: true))
+    temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.getTzais13Point5MinutesZmanis(), isZman: true))
     if (jewishCalendar.hasCandleLighting() && jewishCalendar.isAssurBemelacha()) && jewishCalendar.getDayOfWeek() != 6 {
         if jewishCalendar.getDayOfWeek() == 7 {
@@ -421,7 +437,7 @@ func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
             temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72Zmanis(), isZman: true, isNoteworthyZman: true, isRTZman: true))
         }
     }
-    temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
+    temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
     return temp
 }
 
@@ -484,7 +500,7 @@ func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
     }
     jewishCalendar.forward()
     if jewishCalendar.getYomTovIndex() == JewishCalendar.TISHA_BEAV {
-        temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getSunset(), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(), zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
     }
     jewishCalendar.back()
     temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSeaLevelSunset(), isZman: true))
@@ -515,7 +531,7 @@ func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
             temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true))
         }
     }
-    temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnight(), isZman: true))
+    temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
     return temp
 }
 
