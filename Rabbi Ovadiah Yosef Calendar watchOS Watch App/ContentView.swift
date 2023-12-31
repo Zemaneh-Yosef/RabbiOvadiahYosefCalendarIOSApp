@@ -331,7 +331,7 @@ func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
     if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
         temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.getSofZmanTfilaMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
-        temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.getSofZmanBiurChametzMGA72Minutes(), isZman: true, isNoteworthyZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.getSofZmanBiurChametzMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
     } else {
         temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
     }
@@ -351,7 +351,7 @@ func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
         if defaults.object(forKey: "candleLightingOffset") != nil {
             zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
         }
-        temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(Int(zmanimCalendar.candleLightingOffset)) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
     }
     if defaults.bool(forKey: "showWhenShabbatChagEnds") {
         if jewishCalendar.getDayOfWeek() == 6 || jewishCalendar.isErevYomTov() || jewishCalendar.isErevYomTovSheni() {
@@ -480,7 +480,7 @@ func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
         if defaults.object(forKey: "candleLightingOffset") != nil {
             zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
         }
-        temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(Int(zmanimCalendar.candleLightingOffset)) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
     }
     if defaults.bool(forKey: "showWhenShabbatChagEnds") {
         if jewishCalendar.getDayOfWeek() == 6 || jewishCalendar.isErevYomTov() || jewishCalendar.isErevYomTovSheni() {

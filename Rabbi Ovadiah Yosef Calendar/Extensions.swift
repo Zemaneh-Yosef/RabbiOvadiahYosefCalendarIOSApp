@@ -343,6 +343,7 @@ public extension JewishCalendar {
 }
 
 public extension AstronomicalCalendar {
+    
     func getSolarMidnightIfSunTransitNil() -> Date? {
         let sunTransit = getSunTransit(startOfDay: getSunrise(), endOfDay: getSunset())
         workingDate = workingDate.addingTimeInterval(86400)
@@ -358,5 +359,26 @@ public extension AstronomicalCalendar {
         return AstronomicalCalendar.getTimeOffset(
             time: sunTransit,
             offset: offset)
+    }
+}
+
+public extension ZmanimCalendar {
+    func getCandleLighting() -> Date? {
+        return ZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: -Double(getCandleLightingOffset()) * ZmanimCalendar.MINUTE_MILLIS);
+    }
+}
+
+public extension ComplexZmanimCalendar {
+    func getShaahZmanisMGAZmanis() -> Int64 {
+        return getTemporalHour(startOfDay: getAlos72Zmanis(), endOfDay: getTzais72Zmanis());
+    }
+    
+    func getSofZmanBiurChametzMGA72MinutesZmanis() -> Date? {
+        let jewishCalendar = JewishCalendar(workingDate: workingDate, timezone: geoLocation.timeZone)
+        if (jewishCalendar.getJewishMonth() == JewishCalendar.NISSAN && jewishCalendar.getJewishDayOfMonth() == 14) {
+            return ComplexZmanimCalendar.getTimeOffset(time: getAlos72Zmanis(), offset: getShaahZmanisMGAZmanis() * 5);
+        } else {
+            return nil;
+        }
     }
 }

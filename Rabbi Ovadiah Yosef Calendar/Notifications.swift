@@ -349,7 +349,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                 temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
             }
             if defaults.bool(forKey: "NotifyBiur Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.getSofZmanBiurChametzMGA72Minutes(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), zman:zmanimCalendar.getSofZmanBiurChametzMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
             }
         } else {
             if defaults.bool(forKey: "NotifySof Zman Tefila") {
@@ -387,7 +387,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                 zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
             }
             if defaults.bool(forKey: "NotifyCandle Lighting") {
-                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(Int(zmanimCalendar.candleLightingOffset)) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
             }
         }
         if defaults.bool(forKey: "NotifySunset") {
@@ -485,7 +485,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                 zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
             }
             if defaults.bool(forKey: "NotifyCandle Lighting") {
-                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(Int(zmanimCalendar.candleLightingOffset)) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
             }
         }
         if defaults.bool(forKey: "NotifySunset") {

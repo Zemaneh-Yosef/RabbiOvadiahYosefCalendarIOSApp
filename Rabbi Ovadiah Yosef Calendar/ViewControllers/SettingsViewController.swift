@@ -220,6 +220,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                         UIApplication.shared.open(url)
                 }
             })
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
             present(alert, animated: true)
         }
         if indexPath.row == 15 {
