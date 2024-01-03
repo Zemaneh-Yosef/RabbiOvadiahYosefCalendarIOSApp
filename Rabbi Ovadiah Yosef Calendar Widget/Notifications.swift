@@ -2,8 +2,9 @@
 //  Notifications.swift
 //  Rabbi Ovadiah Yosef Calendar WidgetExtension
 //
-//  Created by Macbook Pro on 8/30/23.
+//  Created by Elyahu Jacobi on 8/30/23.
 //
+// We need a separate notifications.swift file for the widget because we cannot access UIApplication.shared for the badge icon in the widget target membership
 
 import Foundation
 import KosherSwift

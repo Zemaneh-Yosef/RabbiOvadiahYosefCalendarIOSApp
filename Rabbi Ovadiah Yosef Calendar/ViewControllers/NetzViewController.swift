@@ -2,7 +2,7 @@
 //  NetzViewController.swift
 //  Rabbi Ovadiah Yosef Calendar
 //
-//  Created by Macbook Pro on 9/19/23.
+//  Created by Elyahu Jacobi on 9/19/23.
 //
 
 import UIKit
@@ -41,7 +41,7 @@ class NetzViewController: UIViewController {
         zmanimCalendar.geoLocation.elevation = 0 // just in case
         let jewishCalendar = JewishCalendar()
         
-        var netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
+        var netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName, jewishCalendar: jewishCalendar, defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
         
         if netz == nil {
             netz = zmanimCalendar.getSeaLevelSunrise()
@@ -51,7 +51,7 @@ class NetzViewController: UIViewController {
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
             jewishCalendar.workingDate = zmanimCalendar.workingDate
             
-            netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
+            netz = ChaiTables(locationName: GlobalStruct.geoLocation.locationName, jewishCalendar: jewishCalendar, defaults: defaults).getVisibleSurise(forDate: zmanimCalendar.workingDate)
             if netz == nil {
                 netz = zmanimCalendar.getSeaLevelSunrise()
             }

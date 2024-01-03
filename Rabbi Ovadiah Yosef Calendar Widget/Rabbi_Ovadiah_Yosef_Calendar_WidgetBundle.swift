@@ -2,7 +2,7 @@
 //  Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle.swift
 //  Rabbi Ovadiah Yosef Calendar Widget
 //
-//  Created by Macbook Pro on 8/27/23.
+//  Created by Elyahu Jacobi on 8/27/23.
 //
 
 import WidgetKit

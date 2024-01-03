@@ -2,7 +2,7 @@
 //  Rabbi_Ovadiah_Yosef_Calendar_Widget.swift
 //  Rabbi Ovadiah Yosef Calendar Widget
 //
-//  Created by Macbook Pro on 8/27/23.
+//  Created by Elyahu Jacobi on 8/27/23.
 //
 
 import WidgetKit
@@ -326,7 +326,7 @@ func addZmanim(list:Array<ZmanListEntry>, jewishCalendar: JewishCalendar, zmanim
     }
     temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakir66MinutesZmanit(), isZman: true))
-    let chaitables = ChaiTables(locationName: zmanimCalendar.geoLocation.locationName , jewishYear: jewishCalendar.getJewishYear(), defaults: defaults)
+    let chaitables = ChaiTables(locationName: zmanimCalendar.geoLocation.locationName , jewishCalendar: jewishCalendar, defaults: defaults)
     let visibleSurise = chaitables.getVisibleSurise(forDate: zmanimCalendar.workingDate)
     if visibleSurise != nil {
         temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true))
@@ -459,7 +459,7 @@ func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>, jewishCalendar: JewishCale
     }
     temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlosAmudeiHoraah(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakirAmudeiHoraah(), isZman: true))
-    let chaitables = ChaiTables(locationName: zmanimCalendar.geoLocation.locationName , jewishYear: jewishCalendar.getJewishYear(), defaults: defaults)
+    let chaitables = ChaiTables(locationName: zmanimCalendar.geoLocation.locationName , jewishCalendar: jewishCalendar, defaults: defaults)
     let visibleSurise = chaitables.getVisibleSurise(forDate: zmanimCalendar.workingDate)
     if visibleSurise != nil {
         temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true))

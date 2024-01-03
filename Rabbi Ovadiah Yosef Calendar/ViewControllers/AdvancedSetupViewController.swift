@@ -2,7 +2,7 @@
 //  AdvancedSetupViewController.swift
 //  Rabbi Ovadiah Yosef Calendar
 //
-//  Created by Macbook Pro on 8/15/23.
+//  Created by Elyahu Jacobi on 8/15/23.
 //
 
 import UIKit

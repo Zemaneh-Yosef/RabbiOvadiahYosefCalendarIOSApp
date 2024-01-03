@@ -315,7 +315,7 @@ func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
     }
     temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakir66MinutesZmanit(), isZman: true))
-    let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults)
+    let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
     let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
     if visibleSurise != nil {
         temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isVisibleSunriseZman: true))
@@ -450,7 +450,7 @@ func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
     }
     temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlosAmudeiHoraah(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakirAmudeiHoraah(), isZman: true))
-    let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults)
+    let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
     let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
     if visibleSurise != nil {
         temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isVisibleSunriseZman: true))

@@ -728,7 +728,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if defaults.object(forKey: "chaitablesLink" + locationName) == nil || askedToUpdateTablesAlready {
             return
         }
-        let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults)
+        let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
         if chaitables.getVisibleSurise(forDate: userChosenDate) == nil {
             let alert = UIAlertController(title: "Chaitables out of date", message: "The current hebrew year is out of scope for the visible sunrise times that were downloaded from Chaitables. Would you like to download the tables for this hebrew year?", preferredStyle: .alert)
             
@@ -1050,7 +1050,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakir66MinutesZmanit(), isZman: true))
-        let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults)
+        let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
         let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
         if visibleSurise != nil {
             temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isVisibleSunriseZman: true))
@@ -1185,7 +1185,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlosAmudeiHoraah(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakirAmudeiHoraah(), isZman: true))
-        let chaitables = ChaiTables(locationName: locationName, jewishYear: jewishCalendar.getJewishYear(), defaults: defaults)
+        let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
         let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
         if visibleSurise != nil {
             temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isVisibleSunriseZman: true))

@@ -2,26 +2,30 @@
 //  ChaiTables.swift
 //  Rabbi Ovadiah Yosef Calendar
 //
-//  Created by Macbook Pro on 8/9/23.
+//  Created by Elyahu Jacobi on 8/9/23.
 //
 
 import Foundation
+import KosherSwift
 
 class ChaiTables {
     
     var chaitableVisibleSunrise: String
+    var jewishCalendar = JewishCalendar()
     
-    init(locationName: String, jewishYear: Int, defaults: UserDefaults) {
-        chaitableVisibleSunrise = defaults.string(forKey: "visibleSunriseTable\(locationName)\(jewishYear)") ?? ""
+    init(locationName: String, jewishCalendar: JewishCalendar, defaults: UserDefaults) {
+        chaitableVisibleSunrise = defaults.string(forKey: "visibleSunriseTable\(locationName)\(jewishCalendar.getJewishYear())") ?? ""
+        self.jewishCalendar = jewishCalendar
     }
     
     func getVisibleSurise(forDate: Date) -> Date? {
-        let hebrewCal = Calendar(identifier: .hebrew)
+        var hebrewCal = Calendar(identifier: .hebrew)
+        hebrewCal.timeZone = jewishCalendar.timeZone
         
         let components = hebrewCal.dateComponents([.month, .day], from: forDate)
             
         var month = components.month ?? 0
-        if month >= 7 {
+        if !jewishCalendar.isJewishLeapYear() && month >= 7 {
             month = month - 1
         }
         let day = components.day ?? 0
