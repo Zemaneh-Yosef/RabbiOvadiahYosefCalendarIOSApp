@@ -94,7 +94,6 @@ struct ContentView: View {
                         }
                     }
                 }
-                .padding()
             }.navigationTitle(settings.description)
         }.onChange(of: settings.hash, {
             getZmanimCalendarWithLocation { complexZmanimCalendar in
