@@ -231,25 +231,43 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
     var elevation = 0.0
     var timezone = TimeZone.current
     
-    if defaults.bool(forKey: "useZipcode") {
+    if defaults.bool(forKey: "useAdvanced") {
+        locationName = defaults.string(forKey: "advancedLN") ?? ""
+        lat = defaults.double(forKey: "advancedLat")
+        long = defaults.double(forKey: "advancedLong")
+        timezone = TimeZone(identifier: defaults.string(forKey: "advancedTimezone") ?? "") ?? TimeZone.current
+    } else if defaults.bool(forKey: "useLocation1") {
+        locationName = defaults.string(forKey: "location1") ?? ""
+        lat = defaults.double(forKey: "location1Lat")
+        long = defaults.double(forKey: "location1Long")
+        timezone = TimeZone(identifier: defaults.string(forKey: "location1Timezone") ?? "") ?? TimeZone.current
+    } else if defaults.bool(forKey: "useLocation2") {
+        locationName = defaults.string(forKey: "location2") ?? ""
+        lat = defaults.double(forKey: "location2Lat")
+        long = defaults.double(forKey: "location2Long")
+        timezone = TimeZone(identifier: defaults.string(forKey: "location2Timezone") ?? "") ?? TimeZone.current
+    } else if defaults.bool(forKey: "useLocation3") {
+        locationName = defaults.string(forKey: "location3") ?? ""
+        lat = defaults.double(forKey: "location3Lat")
+        long = defaults.double(forKey: "location3Long")
+        timezone = TimeZone(identifier: defaults.string(forKey: "location3Timezone") ?? "") ?? TimeZone.current
+    } else if defaults.bool(forKey: "useLocation4") {
+        locationName = defaults.string(forKey: "location4") ?? ""
+        lat = defaults.double(forKey: "location4Lat")
+        long = defaults.double(forKey: "location4Long")
+        timezone = TimeZone(identifier: defaults.string(forKey: "location4Timezone") ?? "") ?? TimeZone.current
+    } else if defaults.bool(forKey: "useLocation5") {
+        locationName = defaults.string(forKey: "location5") ?? ""
+        lat = defaults.double(forKey: "location5Lat")
+        long = defaults.double(forKey: "location5Long")
+        timezone = TimeZone(identifier: defaults.string(forKey: "location5Timezone") ?? "") ?? TimeZone.current
+    } else if defaults.bool(forKey: "useZipcode") {
         locationName = defaults.string(forKey: "locationName") ?? ""
         lat = defaults.double(forKey: "lat")
         long = defaults.double(forKey: "long")
-        if defaults.object(forKey: "elevation" + locationName) != nil {//if we have been here before, use the elevation saved for this location
-            elevation = defaults.double(forKey: "elevation" + locationName)
-        } else {//we have never been here before, get the elevation from online
-                elevation = 0//undo any previous values
-        }
-        if locationName.isEmpty {
-            locationName = "Lat: " + String(lat) + " Long: " + String(long)
-            if defaults.bool(forKey: "setElevationToLastKnownLocation") {
-                elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
-            }
-        }
         timezone = TimeZone.init(identifier: defaults.string(forKey: "timezone")!)!
-        completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)))
     } else {
-        LocationManager.shared.getUserLocation {
+        return LocationManager.shared.getUserLocation {
             location in DispatchQueue.main.async {
                 lat = location.coordinate.latitude
                 long = location.coordinate.longitude
@@ -272,6 +290,18 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
             }
         }
     }
+    if defaults.object(forKey: "elevation" + locationName) != nil {//if we have been here before, use the elevation saved for this location
+        elevation = defaults.double(forKey: "elevation" + locationName)
+    } else {//we have never been here before, get the elevation from online
+            elevation = 0//undo any previous values
+    }
+    if locationName.isEmpty {
+        locationName = "Lat: " + String(lat) + " Long: " + String(long)
+        if defaults.bool(forKey: "setElevationToLastKnownLocation") {
+            elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
+        }
+    }
+    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)))
 }
 
 func getNextUpcomingZman(forTime: Date, zmanimCalendar: ComplexZmanimCalendar) -> ZmanListEntry {

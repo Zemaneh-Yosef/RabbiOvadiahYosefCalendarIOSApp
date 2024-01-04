@@ -75,15 +75,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         topMenu.append(UIAction(title: "Use Elevation", identifier: nil, state: self.defaults.bool(forKey: "useElevation") ? .on : .off) { _ in
             self.defaults.set(!self.defaults.bool(forKey: "useElevation"), forKey: "useElevation")
             GlobalStruct.useElevation = self.defaults.bool(forKey: "useElevation")
-            if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-                self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
-            } else {//we have never been here before, get the elevation from online
-                if self.defaults.bool(forKey: "useElevation")  && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
-                    self.getElevationFromOnline()
-                } else {
-                    self.elevation = 0//undo any previous values
-                }
-            }
+            self.resolveElevation()
             self.createMenu()
             self.recreateZmanimCalendar()
             self.setNextUpcomingZman()
@@ -327,13 +319,20 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @objc func refreshTable() {
-        if defaults.bool(forKey: "useZipcode") {
-            locationName = defaults.string(forKey: "locationName") ?? ""
-            lat = defaults.double(forKey: "lat")
-            long = defaults.double(forKey: "long")
-            elevation = defaults.double(forKey: "elevation" + locationName)
-            timezone = TimeZone.init(identifier: defaults.string(forKey: "timezone")!)!
-            recreateZmanimCalendar()
+        if defaults.bool(forKey: "useAdvanced") {
+            setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+        } else if defaults.bool(forKey: "useLocation1") {
+            setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+        } else if defaults.bool(forKey: "useLocation2") {
+            setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+        } else if defaults.bool(forKey: "useLocation3") {
+            setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+        } else if defaults.bool(forKey: "useLocation4") {
+            setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+        } else if defaults.bool(forKey: "useLocation5") {
+            setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+        } else if defaults.bool(forKey: "useZipcode") {
+            setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
         } else {
             getUserLocation()
         }
@@ -456,7 +455,37 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 "elevation" + locationName : defaults.double(forKey: "elevation" + locationName),
                 "setElevationToLastKnownLocation" : defaults.bool(forKey: "setElevationToLastKnownLocation"),
                 "lastKnownLocation" : defaults.string(forKey: "lastKnownLocation") ?? "",
-                "timezone" : defaults.string(forKey: "timezone") ?? ""
+                "timezone" : defaults.string(forKey: "timezone") ?? "",
+                "useAdvanced" : defaults.bool(forKey: "useAdvanced"),
+                "advancedLN" : defaults.string(forKey: "advancedLN") ?? "",
+                "advancedLat" : defaults.double(forKey: "advancedLat"),
+                "advancedLong" : defaults.double(forKey: "advancedLong"),
+                "advancedTimezone" : defaults.string(forKey: "advancedTimezone") ?? "",
+                "useLocation1" : defaults.bool(forKey: "useLocation1"),
+                "useLocation2" : defaults.bool(forKey: "useLocation2"),
+                "useLocation3" : defaults.bool(forKey: "useLocation3"),
+                "useLocation4" : defaults.bool(forKey: "useLocation4"),
+                "useLocation5" : defaults.bool(forKey: "useLocation5"),
+                "location1" : defaults.string(forKey: "location1") ?? "",
+                "location1Lat" : defaults.double(forKey: "location1Lat"),
+                "location1Long" : defaults.double(forKey: "location1Long"),
+                "location1Timezone" : defaults.string(forKey: "location1Timezone") ?? "",
+                "location2" : defaults.string(forKey: "location2") ?? "",
+                "location2Lat" : defaults.double(forKey: "location2Lat"),
+                "location2Long" : defaults.double(forKey: "location2Long"),
+                "location2Timezone" : defaults.string(forKey: "location2Timezone") ?? "",
+                "location3" : defaults.string(forKey: "location3") ?? "",
+                "location3Lat" : defaults.double(forKey: "location3Lat"),
+                "location3Long" : defaults.double(forKey: "location3Long"),
+                "location3Timezone" : defaults.string(forKey: "location3Timezone") ?? "",
+                "location4" : defaults.string(forKey: "location4") ?? "",
+                "location4Lat" : defaults.double(forKey: "location4Lat"),
+                "location4Long" : defaults.double(forKey: "location4Long"),
+                "locatio4Timezone" : defaults.string(forKey: "location4Timezone") ?? "",
+                "location5" : defaults.string(forKey: "location5") ?? "",
+                "location5Lat" : defaults.double(forKey: "location5Lat"),
+                "location5Long" : defaults.double(forKey: "location5Long"),
+                "location5Timezone" : defaults.string(forKey: "location5Timezone") ?? "",
                ]
     }
     
@@ -523,33 +552,21 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 showSetup()
             }
             showZipcodeAlert()
-        } else {//not first run
-            if defaults.bool(forKey: "useZipcode") {
-                locationName = defaults.string(forKey: "locationName") ?? ""
-                lat = defaults.double(forKey: "lat")
-                long = defaults.double(forKey: "long")
-                if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-                    self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
-                } else {//we have never been here before, get the elevation from online
-                    if self.defaults.bool(forKey: "useElevation") && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
-                        self.getElevationFromOnline()
-                    } else {
-                        self.elevation = 0//undo any previous values
-                    }
-                }
-                if locationName.isEmpty {
-                    locationName = "Lat: " + String(lat) + " Long: " + String(long)
-                    if defaults.bool(forKey: "setElevationToLastKnownLocation") {
-                        self.elevation = self.defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
-                    }
-                }
-                timezone = TimeZone.init(identifier: defaults.string(forKey: "timezone")!)!
-                recreateZmanimCalendar()
-                jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
-                jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-                jewishCalendar.useModernHolidays = true
-                setNextUpcomingZman()
-                updateZmanimList()
+        } else { //not first run
+            if defaults.bool(forKey: "useAdvanced") {
+                setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+            } else if defaults.bool(forKey: "useLocation1") {
+                setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+            } else if defaults.bool(forKey: "useLocation2") {
+                setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+            } else if defaults.bool(forKey: "useLocation3") {
+                setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+            } else if defaults.bool(forKey: "useLocation4") {
+                setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+            } else if defaults.bool(forKey: "useLocation5") {
+                setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+            } else if defaults.bool(forKey: "useZipcode") {
+                setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
             } else {
                 getUserLocation()
             }
@@ -563,9 +580,43 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             updateZmanimList()
         }
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
         lastTimeUserWasInApp = Date()
         if WCSession.isSupported() && !(wcSession.activationState == .activated) {
             wcSession.activate()
+        }
+    }
+    
+    func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {
+        locationName = defaults.string(forKey: defaultsLN) ?? ""
+        lat = defaults.double(forKey: defaultsLat)
+        long = defaults.double(forKey: defaultsLong)
+        resolveElevation()
+        timezone = TimeZone.init(identifier: defaults.string(forKey: defaultsTimezone)!)!
+        recreateZmanimCalendar()
+        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
+        jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
+        jewishCalendar.useModernHolidays = true
+        GlobalStruct.jewishCalendar = jewishCalendar
+        setNextUpcomingZman()
+        updateZmanimList()
+    }
+    
+    func resolveElevation() {
+        if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
+            self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
+        } else {//we have never been here before, get the elevation from online
+            if self.defaults.bool(forKey: "useElevation") && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
+                self.getElevationFromOnline()
+            } else {
+                self.elevation = 0//undo any previous values
+            }
+        }
+        if locationName.isEmpty {
+            locationName = "Lat: " + String(lat) + " Long: " + String(long)
+            if defaults.bool(forKey: "setElevationToLastKnownLocation") {
+                self.elevation = self.defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
+            }
         }
     }
     
@@ -665,6 +716,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.defaults.set(true, forKey: "inIsrael")
                 self.defaults.set(false, forKey: "LuachAmudeiHoraah")
                 self.jewishCalendar.inIsrael = true
+                GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
                 self.updateZmanimList()
             }
 
@@ -673,6 +725,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let noAction = UIAlertAction(title: "No", style: .default) { (_) in
                 self.defaults.set(false, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = false
+                GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
                 self.updateZmanimList()
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
@@ -697,6 +750,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
                 self.defaults.set(false, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = false
+                GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
                 self.updateZmanimList()
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
@@ -709,6 +763,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let noAction = UIAlertAction(title: "No", style: .default) { (_) in
                 self.defaults.set(true, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = true
+                GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
                 self.updateZmanimList()
             }
 
@@ -1279,27 +1334,16 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.defaults.set(timezone.identifier, forKey: "timezone")
                 self.defaults.set(true, forKey: "isSetup")
                 self.defaults.set(false, forKey: "useZipcode")
+                self.defaults.set(false, forKey: "useAdvanced")
+                self.useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
                 LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
                     self.locationName = locationName ?? ""
-                    if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-                        self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
-                    } else {//we have never been here before, get the elevation from online
-                        if self.defaults.bool(forKey: "useElevation") && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
-                            self.getElevationFromOnline()
-                        } else {
-                            self.elevation = 0//undo any previous values
-                        }
-                    }
-                    if self.locationName.isEmpty {
-                        self.locationName = "Lat: " + String(lat) + " Long: " + String(long)
-                        if defaults.bool(forKey: "setElevationToLastKnownLocation") {
-                            self.elevation = self.defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
-                        }
-                    }
+                    resolveElevation()
                     self.recreateZmanimCalendar()
                     jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
                     jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                     jewishCalendar.useModernHolidays = true
+                    GlobalStruct.jewishCalendar = jewishCalendar
                     setNextUpcomingZman()
                     updateZmanimList()
                     NotificationManager.instance.requestAuthorization()
@@ -1312,6 +1356,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 }
             }
         }
+    }
+    
+    func useLocation(location1:Bool, location2:Bool, location3:Bool, location4:Bool, location5:Bool) {
+        defaults.setValue(location1, forKey: "useLocation1")
+        defaults.setValue(location2, forKey: "useLocation2")
+        defaults.setValue(location3, forKey: "useLocation3")
+        defaults.setValue(location4, forKey: "useLocation4")
+        defaults.setValue(location5, forKey: "useLocation5")
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -1547,6 +1599,55 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func showZipcodeAlert() {
+        let advancedAlert = UIAlertController(title: "Advanced",
+                                      message: "Enter your location's name, latitude, longitude, elevation, and timezone.", preferredStyle: .alert)
+        advancedAlert.addTextField { (textField) in
+            textField.placeholder = "Location Name"
+        }
+        advancedAlert.addTextField { (textField) in
+            textField.placeholder = "Latitude"
+        }
+        advancedAlert.addTextField { (textField) in
+            textField.placeholder = "Longitude"
+        }
+        advancedAlert.addTextField { (textField) in
+            textField.placeholder = "Elevation"
+        }
+        advancedAlert.addTextField { (textField) in
+            textField.placeholder = "Timezone e.g. America/New_York"
+        }
+        advancedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [self] UIAlertAction in
+            defaults.setValue(true, forKey: "useAdvanced")
+            defaults.setValue(false, forKey: "useZipcode")
+            useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
+            
+            let locationName = advancedAlert.textFields![0].text
+            let latitude = Double(advancedAlert.textFields![1].text ?? "")
+            let longitude = Double(advancedAlert.textFields![2].text ?? "")
+            let elevation = Double(advancedAlert.textFields![3].text ?? "")
+            let timezone = advancedAlert.textFields![4].text
+
+            if timezone == nil { // don't do anything if the timezone was never filled in
+                return
+            } else {
+                defaults.setValue(locationName, forKey: "advancedLN")
+                defaults.setValue(latitude, forKey: "advancedLat")
+                defaults.setValue(latitude, forKey: "advancedLong")
+                defaults.setValue(elevation, forKey: "elevation".appending(locationName ?? ""))
+                defaults.setValue(timezone, forKey: "advancedTimezone")
+            }
+            setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+            NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+            if wcSession.isPaired {
+                if wcSession.isWatchAppInstalled {
+                    wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+                }
+            }
+        }))
+        advancedAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { UIAlertAction in
+            self.dismiss(animated: true)
+        }))
+        
         let alert = UIAlertController(title: "Location or Search a place?",
                                       message: "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results and it will automatically update your location.", preferredStyle: .alert)
         alert.addTextField { (textField) in
@@ -1583,14 +1684,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 let coordinates = i?.first?.location?.coordinate
                 self.lat = coordinates?.latitude ?? 0
                 self.long = coordinates?.longitude ?? 0
-                if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-                    self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
-                } else {//we have never been here before, get the elevation from online
-                    if self.defaults.bool(forKey: "useElevation") {
-                        self.getElevationFromOnline()
-                    }
-                    self.elevation = 0//undo any previous values
-                }
+                self.resolveElevation()
                 if i?.first?.timeZone != nil {
                     self.timezone = (i?.first?.timeZone)!
                 }
@@ -1602,7 +1696,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.defaults.set(self.long, forKey: "long")
                 self.defaults.set(true, forKey: "isSetup")
                 self.defaults.set(true, forKey: "useZipcode")
+                self.defaults.set(false, forKey: "useAdvanced")
+                self.useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
                 self.defaults.set(self.timezone.identifier, forKey: "timezone")
+                self.saveLocation()
                 NotificationManager.instance.requestAuthorization()
                 NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
                 if self.wcSession.isPaired {
@@ -1612,14 +1709,94 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 }
             })
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { UIAlertAction in
-            alert.dismiss(animated: true)
-        }))
+        if defaults.string(forKey: "location1") ?? "" != "" {
+            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location1"), style: .default, handler: { UIAlertAction in
+                self.useLocation(location1: true, location2: false, location3: false, location4: false, location5: false)
+                self.setLocationAndDisperse(locationName: "location1")
+            }))
+        }
+        if defaults.string(forKey: "location2") ?? "" != "" {
+            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location2"), style: .default, handler: { UIAlertAction in
+                self.useLocation(location1: false, location2: true, location3: false, location4: false, location5: false)
+                self.setLocationAndDisperse(locationName: "location2")
+            }))
+        }
+        if defaults.string(forKey: "location3") ?? "" != "" {
+            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location3"), style: .default, handler: { UIAlertAction in
+                self.useLocation(location1: false, location2: false, location3: true, location4: false, location5: false)
+                self.setLocationAndDisperse(locationName: "location3")
+            }))
+        }
+        if defaults.string(forKey: "location4") ?? "" != "" {
+            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location4"), style: .default, handler: { UIAlertAction in
+                self.useLocation(location1: false, location2: false, location3: false, location4: true, location5: false)
+                self.setLocationAndDisperse(locationName: "location4")
+            }))
+        }
+        if defaults.string(forKey: "location5") ?? "" != "" {
+            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location5"), style: .default, handler: { UIAlertAction in
+                self.useLocation(location1: false, location2: false, location3: false, location4: false, location5: true)
+                self.setLocationAndDisperse(locationName: "location5")
+            }))
+        }
         alert.addAction(UIAlertAction(title: "Use Location", style: .default, handler: { UIAlertAction in
             self.getUserLocation()
             self.defaults.set(true, forKey: "isSetup")
         }))
+        alert.addAction(UIAlertAction(title: "Advanced", style: .default, handler: { UIAlertAction in
+            self.present(advancedAlert, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { UIAlertAction in
+            alert.dismiss(animated: true)
+        }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func saveLocation() {
+        var setOfLocationNames = Set<String>()
+        
+        setOfLocationNames.insert(defaults.string(forKey: "location1") ?? "")
+        setOfLocationNames.insert(defaults.string(forKey: "location2") ?? "")
+        setOfLocationNames.insert(defaults.string(forKey: "location3") ?? "")
+        setOfLocationNames.insert(defaults.string(forKey: "location4") ?? "")
+        setOfLocationNames.insert(defaults.string(forKey: "location5") ?? "")
+        
+        if !locationName.isEmpty && !setOfLocationNames.contains(locationName) {
+            defaults.setValue(defaults.string(forKey: "location4") ?? "", forKey: "location5")
+            defaults.setValue(defaults.double(forKey: "location4Lat"), forKey: "location5Lat")
+            defaults.setValue(defaults.double(forKey: "location4Long"), forKey: "location5Long")
+            defaults.setValue(defaults.string(forKey: "location4Timezone"), forKey: "location5Timezone")
+            
+            defaults.setValue(defaults.string(forKey: "location3") ?? "", forKey: "location4")
+            defaults.setValue(defaults.double(forKey: "location3Lat"), forKey: "location4Lat")
+            defaults.setValue(defaults.double(forKey: "location3Long"), forKey: "location4Long")
+            defaults.setValue(defaults.string(forKey: "location3Timezone"), forKey: "location4Timezone")
+            
+            defaults.setValue(defaults.string(forKey: "location2") ?? "", forKey: "location3")
+            defaults.setValue(defaults.double(forKey: "location2Lat"), forKey: "location3Lat")
+            defaults.setValue(defaults.double(forKey: "location2Long"), forKey: "location3Long")
+            defaults.setValue(defaults.string(forKey: "location2Timezone"), forKey: "location3Timezone")
+
+            defaults.setValue(defaults.string(forKey: "location1") ?? "", forKey: "location2")
+            defaults.setValue(defaults.double(forKey: "location1Lat"), forKey: "location2Lat")
+            defaults.setValue(defaults.double(forKey: "location1Long"), forKey: "location2Long")
+            defaults.setValue(defaults.string(forKey: "location1Timezone"), forKey: "location2Timezone")
+
+            defaults.setValue(locationName, forKey: "location1")
+            defaults.setValue(lat, forKey: "location1Lat")
+            defaults.setValue(long, forKey: "location1Long")
+            defaults.setValue(timezone.identifier, forKey: "location1Timezone")
+        }
+    }
+    
+    func setLocationAndDisperse(locationName:String) {
+        setLocation(defaultsLN: locationName, defaultsLat: locationName.appending("Lat"), defaultsLong: locationName.appending("Long"), defaultsTimezone: locationName.appending("Timezone"))
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+        if wcSession.isPaired {
+            if wcSession.isWatchAppInstalled {
+                wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+            }
+        }
     }
     
     @objc func didGetNotification(_ notification: Notification) {
@@ -1647,6 +1824,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     public func syncCalendarDates() {//with userChosenDate
         zmanimCalendar.workingDate = userChosenDate
         jewishCalendar.workingDate = userChosenDate
+        GlobalStruct.jewishCalendar.workingDate = userChosenDate
     }
 }
 

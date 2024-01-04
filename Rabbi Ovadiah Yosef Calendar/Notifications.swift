@@ -43,6 +43,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         } else {
             content.body = "Today is " + jewishCalendar.getSpecialDay(addOmer:false)
         }
+        if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {
+            content.body = content.body.appending(" / Last notification until the app is opened again.")
+        }
         content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
@@ -299,6 +302,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     } else {
                         zmanContent.body = zmanEntry.title + " is at " + zmanTimeFormatter.string(from: zman ?? Date())
                     }
+                    if amountOfNotificationsSet == amountOfPossibleNotifications {
+                        zmanContent.body = zmanContent.body.appending(" / Last notification until the app is opened again.")
+                    }
                     zmanContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
                     
                     if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
@@ -522,34 +528,20 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             return
         }
         notificationsAreBeingSet = true
-        if defaults.bool(forKey: "useZipcode") {
-            locationName = defaults.string(forKey: "locationName") ?? ""
-            lat = defaults.double(forKey: "lat")
-            long = defaults.double(forKey: "long")
-            if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-                self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
-            } else {//we have never been here before, get the elevation from online
-                if self.defaults.bool(forKey: "useElevation") {
-                    self.getElevationFromOnline()
-                } else {
-                    self.elevation = 0//undo any previous values
-                }
-            }
-            if locationName.isEmpty {
-                locationName = "Lat: " + String(lat) + " Long: " + String(long)
-                if defaults.bool(forKey: "setElevationToLastKnownLocation") {
-                    self.elevation = self.defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
-                }
-            }
-            timezone = TimeZone.init(identifier: defaults.string(forKey: "timezone")!)!
-            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
-            jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
-            jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-            jewishCalendar.useModernHolidays = true
-            self.scheduleSunriseNotifications()
-            self.scheduleSunsetNotifications()
-            self.scheduleZmanimNotifications()
-            self.notificationsAreBeingSet = false
+        if defaults.bool(forKey: "useAdvanced") {
+            setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+        } else if defaults.bool(forKey: "useLocation1") {
+            setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+        } else if defaults.bool(forKey: "useLocation2") {
+            setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+        } else if defaults.bool(forKey: "useLocation3") {
+            setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+        } else if defaults.bool(forKey: "useLocation4") {
+            setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+        } else if defaults.bool(forKey: "useLocation5") {
+            setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+        } else if defaults.bool(forKey: "useZipcode") {
+            setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
         } else {
             LocationManager.shared.getUserLocation {
                 location in DispatchQueue.main.async { [self] in
@@ -559,21 +551,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
                     LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
                         self.locationName = locationName ?? ""
-                        if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-                            self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
-                        } else {//we have never been here before, get the elevation from online
-                            if self.defaults.bool(forKey: "useElevation") {
-                                self.getElevationFromOnline()
-                            } else {
-                                self.elevation = 0//undo any previous values
-                            }
-                        }
-                        if self.locationName.isEmpty {
-                            self.locationName = "Lat: " + String(lat) + " Long: " + String(long)
-                            if defaults.bool(forKey: "setElevationToLastKnownLocation") {
-                                self.elevation = self.defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
-                            }
-                        }
+                        resolveElevation()
                         zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
                         jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
                         jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
@@ -585,8 +563,45 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     }
                 }
             }
+            return // prevent the code at the bottom from running since it will happen in the above callback
+        }
+        resolveElevation()
+        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+        self.scheduleSunriseNotifications()
+        self.scheduleSunsetNotifications()
+        self.scheduleZmanimNotifications()
+        self.notificationsAreBeingSet = false
+    }
+    
+    func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {
+        locationName = defaults.string(forKey: defaultsLN) ?? ""
+        lat = defaults.double(forKey: defaultsLat)
+        long = defaults.double(forKey: defaultsLong)
+        resolveElevation()
+        timezone = TimeZone.init(identifier: defaults.string(forKey: defaultsTimezone)!)!
+        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
+        jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
+        jewishCalendar.useModernHolidays = true
+    }
+    
+    func resolveElevation() {
+        if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
+            self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
+        } else {//we have never been here before, get the elevation from online
+            if self.defaults.bool(forKey: "useElevation") && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
+                self.getElevationFromOnline()
+            } else {
+                self.elevation = 0//undo any previous values
+            }
+        }
+        if locationName.isEmpty {
+            locationName = "Lat: " + String(lat) + " Long: " + String(long)
+            if defaults.bool(forKey: "setElevationToLastKnownLocation") {
+                self.elevation = self.defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
+            }
         }
     }
+ 
     
     func getShabbatAndOrChag() -> String {
         if (defaults.bool(forKey: "isZmanimInHebrew")) {
