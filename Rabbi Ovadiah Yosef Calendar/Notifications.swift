@@ -46,7 +46,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {
             content.body = content.body.appending(" / Last notification until the app is opened again.")
         }
-        content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getSeaLevelSunrise() ?? Date()), repeats: false)
@@ -84,12 +83,13 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             dateFormatter.dateFormat = "h:mm aa"
             let backup = jewishCalendar.workingDate
             while jewishCalendar.getTekufaAsDate() == nil {
-                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+                jewishCalendar.forward()
             }
             let tekufa = jewishCalendar.getTekufaAsDate()
-            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
+            let beginTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1800) // half hour before earlier time
+            let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
+            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until " + dateFormatter.string(from: endTime)
             jewishCalendar.workingDate = backup
-            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
             
@@ -105,12 +105,13 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             dateFormatter.dateFormat = "h:mm aa"
             let backup = jewishCalendar.workingDate
             while jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true) == nil {
-                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+                jewishCalendar.forward()
             }
             let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
-            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
+            let beginTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1800) // half hour before earlier time
+            let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
+            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until " + dateFormatter.string(from: endTime)
             jewishCalendar.workingDate = backup
-            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
             
@@ -126,35 +127,19 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             dateFormatter.dateFormat = "h:mm aa"
             let backup = jewishCalendar.workingDate
             while jewishCalendar.getTekufaAsDate() == nil {
-                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+                jewishCalendar.forward()
             }
             let tekufa = jewishCalendar.getTekufaAsDate()
-            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water half an hour before or after this time."
+            let AHTekufa = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1260) // 21 minutes in seconds
+            let beginTime = Date(timeIntervalSince1970: AHTekufa.timeIntervalSince1970 - 1800) // half hour before earlier time
+            let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
+            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: AHTekufa) + "/" + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until " + dateFormatter.string(from: endTime)
             jewishCalendar.workingDate = backup
-            tekufaContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
             
-            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
+            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: AHTekufa.addingTimeInterval(-1800)), repeats: false)
             
             let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
             notificationCenter.add(tekufaRequest)
-            amountOfNotificationsSet+=1
-            
-            let tekufaContent2 = UNMutableNotificationContent()
-            tekufaContent2.title = "Tekufa / Season Changes"
-            tekufaContent2.sound = .default
-            
-            while jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true) == nil {
-                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
-            }
-            let tekufa2 = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
-            tekufaContent2.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa2!) + ". Do not drink water half an hour before or after this time."
-            jewishCalendar.workingDate = backup
-            tekufaContent2.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
-            
-            let tekufaTrigger2 = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa2?.addingTimeInterval(-1800) ?? Date()), repeats: false)
-            
-            let tekufaRequest2 = UNNotificationRequest(identifier: "TekufaNotification2", content: tekufaContent2, trigger: tekufaTrigger2)
-            notificationCenter.add(tekufaRequest2)
             amountOfNotificationsSet+=1
         }
     }
@@ -168,7 +153,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         let formatter = NumberFormatter()
         formatter.numberStyle = .ordinal
         content.body = "Tonight is the " + formatter.string(from: dayOfOmer as NSNumber)! + " day of the Omer"
-        content.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         //same issue as described in scheduleDailyNotifications()
         var trigger: UNCalendarNotificationTrigger
@@ -219,7 +203,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         contentBarech.sound = .default
         contentBarech.subtitle = locationName
         contentBarech.body = "Tonight we start saying Barech Aleinu!"
-        contentBarech.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
         
         let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()), repeats: false)
         
@@ -305,7 +288,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     if amountOfNotificationsSet == amountOfPossibleNotifications {
                         zmanContent.body = zmanContent.body.appending(" / Last notification until the app is opened again.")
                     }
-                    zmanContent.badge = (UIApplication.shared.applicationIconBadgeNumber + 1) as NSNumber
                     
                     if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
                         //no notification

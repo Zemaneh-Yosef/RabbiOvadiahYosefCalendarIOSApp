@@ -25,7 +25,6 @@
 		5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5292D1B72A6E537E00857241 /* ChaiTablesCountries.swift */; };
 		5292D1BA2A6E556400857241 /* ChaiTablesLinkGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5292D1B92A6E556400857241 /* ChaiTablesLinkGenerator.swift */; };
 		52A2A8B62A8B4CF500E2A463 /* SetupChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A2A8B52A8B4CF500E2A463 /* SetupChooserViewController.swift */; };
-		52F905B62A9F1AA0003E3C55 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F905B52A9F1AA0003E3C55 /* Notifications.swift */; };
 		5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */; };
 		5D19D36129A3687900F8033D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D36029A3687900F8033D /* AppDelegate.swift */; };
 		5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D36229A3687900F8033D /* SceneDelegate.swift */; };
@@ -48,6 +47,8 @@
 		5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */; };
 		5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */; };
 		5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D948C302A38205E0017A8B6 /* CalendarViewController.swift */; };
+		CE0CE7D62B4B6ABF00913F40 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CA12D2A021CA100F24323 /* Notifications.swift */; };
+		CE0CE7D72B4B6AC000913F40 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CA12D2A021CA100F24323 /* Notifications.swift */; };
 		CE0CEBF42B07085100BFD068 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBF32B07085100BFD068 /* ContentView.swift */; };
 		CE1035492B4553F600193D1E /* ZmanListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */; };
 		CE10354A2B4553F600193D1E /* ZmanListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */; };
@@ -140,7 +141,6 @@
 		52A2A8B52A8B4CF500E2A463 /* SetupChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupChooserViewController.swift; sourceTree = "<group>"; };
 		52F905B12A9F0A5A003E3C55 /* Rabbi Ovadiah Yosef Calendar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar.entitlements"; sourceTree = "<group>"; };
 		52F905B22A9F0AE4003E3C55 /* Rabbi Ovadiah Yosef Calendar WidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar WidgetExtension.entitlements"; sourceTree = "<group>"; };
-		52F905B52A9F1AA0003E3C55 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		5D0D7D9E29A374C5003B6E43 /* Rabbi Ovadiah Yosef Calendar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rabbi Ovadiah Yosef Calendar-Bridging-Header.h"; sourceTree = "<group>"; };
 		5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanListEntry.swift; sourceTree = "<group>"; };
 		5D19D35D29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rabbi Ovadiah Yosef Calendar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,7 +243,6 @@
 				5259509E2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */,
 				5259509F2A9B3AE700872955 /* Assets.xcassets */,
 				525950A12A9B3AE700872955 /* Info.plist */,
-				52F905B52A9F1AA0003E3C55 /* Notifications.swift */,
 			);
 			path = "Rabbi Ovadiah Yosef Calendar Widget";
 			sourceTree = "<group>";
@@ -490,8 +489,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE0CE7D62B4B6ABF00913F40 /* Notifications.swift in Sources */,
 				525950992A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle.swift in Sources */,
-				52F905B62A9F1AA0003E3C55 /* Notifications.swift in Sources */,
 				525950A22A9B3AE700872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */,
 				CE10354D2B45547900193D1E /* LSGeoLookup.swift in Sources */,
 				CE1035492B4553F600193D1E /* ZmanListEntry.swift in Sources */,
@@ -550,6 +549,7 @@
 			files = (
 				CE1035502B45548B00193D1E /* Constants.swift in Sources */,
 				CEB1BBA82B26A30300E58773 /* WatchInterface.swift in Sources */,
+				CE0CE7D72B4B6AC000913F40 /* Notifications.swift in Sources */,
 				CE1035542B4554F700193D1E /* LocationManager.swift in Sources */,
 				CE1035522B4554AC00193D1E /* ZmanimTimeNames.swift in Sources */,
 				CE32442F2B3BE66F00EEF29C /* Extensions.swift in Sources */,

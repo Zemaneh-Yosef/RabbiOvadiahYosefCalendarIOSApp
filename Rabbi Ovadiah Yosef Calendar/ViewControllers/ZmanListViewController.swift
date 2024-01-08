@@ -32,7 +32,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     var currentIndex = 0
     var shouldScroll = true
     var askedToUpdateTablesAlready = false
-    var allZmanimAreTheSame = true
     var wcSession : WCSession! = nil
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -177,9 +176,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                         }
                     }
                 }
-                if allZmanimAreTheSame {
-                    content.text = "..."
-                }
                 content.textProperties.font = .boldSystemFont(ofSize: 20)
                 content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
                 content.prefersSideBySideTextAndSecondaryText = true
@@ -219,9 +215,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                             content.secondaryText = dateFormatterForZmanim.string(from: zman!)
                         }
                     }
-                }
-                if allZmanimAreTheSame {
-                    content.secondaryText = "..."
                 }
                 content.textProperties.font = .boldSystemFont(ofSize: 20)
                 content.secondaryTextProperties.font = .boldSystemFont(ofSize: 20)
@@ -1482,7 +1475,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
                 }
             }
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            jewishCalendar.forward()
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
@@ -1497,7 +1490,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
                 }
             }
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            jewishCalendar.forward()
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
@@ -1512,7 +1505,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
                 }
             }
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            jewishCalendar.forward()
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
@@ -1527,7 +1520,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufaAH!)))
                 }
             }
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            jewishCalendar.forward()
             let checkTomorrowForAHTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForAHTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: userChosenDate) {
@@ -1571,9 +1564,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
             zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
-        }
-        if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 != zmanimCalendar.getElevationAdjustedSunset()?.timeIntervalSince1970 {
-            allZmanimAreTheSame = false
         }
         zmanimTableView.reloadData()
     }
@@ -1632,7 +1622,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             } else {
                 defaults.setValue(locationName, forKey: "advancedLN")
                 defaults.setValue(latitude, forKey: "advancedLat")
-                defaults.setValue(latitude, forKey: "advancedLong")
+                defaults.setValue(longitude, forKey: "advancedLong")
                 defaults.setValue(elevation, forKey: "elevation".appending(locationName ?? ""))
                 defaults.setValue(timezone, forKey: "advancedTimezone")
             }

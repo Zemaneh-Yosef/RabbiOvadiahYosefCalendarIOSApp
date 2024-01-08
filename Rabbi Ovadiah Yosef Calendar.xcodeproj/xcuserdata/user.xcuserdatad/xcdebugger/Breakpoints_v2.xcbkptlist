@@ -14,8 +14,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1241"
-            endingLineNumber = "1241"
+            startingLineNumber = "1234"
+            endingLineNumber = "1234"
             landmarkName = "addAmudeiHoraahZmanim(list:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1477"
-            endingLineNumber = "1477"
+            startingLineNumber = "1470"
+            endingLineNumber = "1470"
             landmarkName = "updateZmanimList()"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1479"
-            endingLineNumber = "1479"
+            startingLineNumber = "1472"
+            endingLineNumber = "1472"
             landmarkName = "updateZmanimList()"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/ZmanListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1509"
-            endingLineNumber = "1509"
+            startingLineNumber = "1502"
+            endingLineNumber = "1502"
             landmarkName = "updateZmanimList()"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/Notifications.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "scheduleZmanimNotifications()"
             landmarkType = "7">
          </BreakpointContent>
@@ -285,8 +285,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/Notifications.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "568"
-            endingLineNumber = "568"
+            startingLineNumber = "550"
+            endingLineNumber = "550"
             landmarkName = "initializeLocationObjectsAndSetNotifications()"
             landmarkType = "7">
          </BreakpointContent>
