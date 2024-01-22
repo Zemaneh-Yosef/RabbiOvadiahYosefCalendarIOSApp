@@ -204,6 +204,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             
             let mailComposer = MFMailComposeViewController()
             mailComposer.mailComposeDelegate = self
+            mailComposer.setSubject("Zmanei Yosef (IOS)")
             mailComposer.setToRecipients([recipient])
             
             present(mailComposer, animated: true, completion: nil)

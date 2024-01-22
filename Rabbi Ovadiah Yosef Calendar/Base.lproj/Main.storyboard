@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7ii-ZM-nWk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7ii-ZM-nWk">
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -116,7 +116,7 @@
                                         <items>
                                             <barButtonItem style="plain" id="rG5-bN-AQY">
                                                 <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="zlI-bE-XCz">
-                                                    <rect key="frame" x="20" y="12" width="23" height="21"/>
+                                                    <rect key="frame" x="20" y="12" width="22" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -135,7 +135,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="GJQ-ga-VxD"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="wwV-jQ-nNv">
                                                 <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
-                                                    <rect key="frame" x="202" y="11" width="27" height="24"/>
+                                                    <rect key="frame" x="201" y="11" width="27" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -443,7 +443,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CX0-0v-Es4">
-                                <rect key="frame" x="20" y="59" width="62" height="34.666666666666657"/>
+                                <rect key="frame" x="20" y="59" width="62" height="36.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -451,32 +451,35 @@
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mH8-8g-pX0">
-                                <rect key="frame" x="8" y="101.33333333333331" width="414" height="765.66666666666674"/>
+                                <rect key="frame" x="8" y="103" width="414" height="795"/>
                             </scrollView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="iJK-zD-5p9">
-                                <rect key="frame" x="18" y="867" width="394" height="31"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UB-WQ-jz2">
+                                <rect key="frame" x="327" y="59.666666666666657" width="91" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Text size"/>
                                 <connections>
-                                    <action selector="slider:forEvent:" destination="jkM-M4-JT4" eventType="valueChanged" id="iOf-Sy-emW"/>
+                                    <action selector="changeTextSize:" destination="jkM-M4-JT4" eventType="touchUpInside" id="MhS-n6-5eC"/>
                                 </connections>
-                            </slider>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2oc-gD-oWg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="20" id="1D9-9P-j7X"/>
-                            <constraint firstItem="iJK-zD-5p9" firstAttribute="centerX" secondItem="mH8-8g-pX0" secondAttribute="centerX" id="6Yy-jz-hSD"/>
+                            <constraint firstItem="8UB-WQ-jz2" firstAttribute="centerY" secondItem="CX0-0v-Es4" secondAttribute="centerY" id="GPx-nf-ISq"/>
+                            <constraint firstItem="mH8-8g-pX0" firstAttribute="top" secondItem="8UB-WQ-jz2" secondAttribute="bottom" constant="8.3333333333333144" id="Jp5-3n-A9b"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="mH8-8g-pX0" secondAttribute="bottom" id="Oa6-Md-iqb"/>
                             <constraint firstItem="mH8-8g-pX0" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" constant="8" id="Qic-oE-wAk"/>
-                            <constraint firstItem="mH8-8g-pX0" firstAttribute="bottom" secondItem="iJK-zD-5p9" secondAttribute="top" id="Y34-pB-RZM"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="8UB-WQ-jz2" secondAttribute="trailing" constant="12" id="TEm-ae-Ihc"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="8UB-WQ-jz2" secondAttribute="trailing" constant="12" id="Xgr-7o-hEZ"/>
                             <constraint firstItem="mH8-8g-pX0" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" constant="7.6666666666666572" id="bAJ-Iz-7Ny"/>
+                            <constraint firstItem="8UB-WQ-jz2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CX0-0v-Es4" secondAttribute="trailing" constant="8" symbolic="YES" id="dok-I2-TkE"/>
                             <constraint firstItem="mH8-8g-pX0" firstAttribute="trailing" secondItem="vQM-sm-aZq" secondAttribute="trailing" constant="-8" id="erH-hS-ZVa"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="fG1-D5-3tv"/>
-                            <constraint firstItem="iJK-zD-5p9" firstAttribute="leading" secondItem="vQM-sm-aZq" secondAttribute="leading" constant="20" id="ouu-W1-Hsj"/>
-                            <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="iJK-zD-5p9" secondAttribute="bottom" constant="1" id="yxh-ZY-bfd"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="scrollView" destination="mH8-8g-pX0" id="mgD-Tq-4Mr"/>
-                        <outlet property="slider" destination="iJK-zD-5p9" id="eC3-KQ-wQp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRS-sw-0b2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1429,7 +1432,7 @@ etc...</string>
                         <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
                     </stackView>
                     <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="wRf-o2-fKS">
-                        <rect key="frame" x="0.0" y="156" width="430" height="45"/>
+                        <rect key="frame" x="0.0" y="155.66666793823242" width="430" height="45"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <items>
                             <barButtonItem style="plain" id="ejY-DH-Jzc">
@@ -1450,7 +1453,7 @@ etc...</string>
                             <barButtonItem style="plain" systemItem="flexibleSpace" id="18x-1I-0CE"/>
                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="jc9-pd-5q8">
                                 <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="JHX-TR-9BY">
-                                    <rect key="frame" x="147" y="1" width="137" height="44"/>
+                                    <rect key="frame" x="146.66666666666666" y="0.66666666666666785" width="136.99999999999997" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="tintColor" name="AccentColor"/>
@@ -1514,7 +1517,7 @@ etc...</string>
         <image name="info.circle" catalog="system" width="128" height="123"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Gold">
             <color red="0.87800002098083496" green="0.73299998044967651" blue="0.25900000333786011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

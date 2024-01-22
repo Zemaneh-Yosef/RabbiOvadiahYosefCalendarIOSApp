@@ -257,6 +257,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             message += "\nCurrent Longitude: " + String(self.long)
             message += "\nElevation: " + String(self.elevation) + " meters"
             message += "\nCurrent Time Zone: " + self.timezone.identifier
+            if let marketingVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                message += "\nVersion: \(marketingVersion)"
+            } else {
+                print("Marketing version number not found.")
+            }
             
             alertController.title = "Location info for: " + self.locationName
             alertController.message = message
@@ -1318,21 +1323,23 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func getUserLocation() {
+        let concurrentQueue = DispatchQueue(label: "mainApp", attributes: .concurrent)
+
         LocationManager.shared.getUserLocation {
-            location in DispatchQueue.main.async { [self] in
-                self.lat = location.coordinate.latitude
-                self.long = location.coordinate.longitude
-                self.timezone = TimeZone.current
-                self.recreateZmanimCalendar()
-                self.defaults.set(timezone.identifier, forKey: "timezone")
-                self.defaults.set(true, forKey: "isSetup")
-                self.defaults.set(false, forKey: "useZipcode")
-                self.defaults.set(false, forKey: "useAdvanced")
-                self.useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
+            location in concurrentQueue.async { [self] in
+                lat = location.coordinate.latitude
+                long = location.coordinate.longitude
+                timezone = TimeZone.current
+                recreateZmanimCalendar()
+                defaults.set(timezone.identifier, forKey: "timezone")
+                defaults.set(true, forKey: "isSetup")
+                defaults.set(false, forKey: "useZipcode")
+                defaults.set(false, forKey: "useAdvanced")
+                useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
                 LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
                     self.locationName = locationName ?? ""
                     resolveElevation()
-                    self.recreateZmanimCalendar()
+                    recreateZmanimCalendar()
                     jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
                     jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                     jewishCalendar.useModernHolidays = true

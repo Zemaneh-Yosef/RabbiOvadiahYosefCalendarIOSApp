@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Markdown
 import UIKit
 
 struct ZmanimAlertInfoHolder {
@@ -317,17 +318,18 @@ struct ZmanimAlertInfoHolder {
             return "When Rosh Chodesh happens during a leap year, we add the words, \"וּלְכַפָּרַת פֶּשַׁע\" during Musaf. We only add these words from Tishri until the second month of Adar. However, for the rest of the year and during non leap years we do not say it."
         }
         if title.contains("Tekufa") {
-            return "This is the time that the tekufa (season) changes.\n\nThere are 4 tekufas every year: Tishri (autumn), Tevet (winter), " +
-            "Nissan (spring), and Tammuz (summer). Each Tekufa happens 91.3125 (365.25 / 4) days after the previous Tekufa.\n\n" +
-            "The Achronim write that a person should not drink water when the seasons change. Rabbi Ovadiah Yosef Z\"TL writes " +
-            "(in Halichot Olam, Chelek 7, Page 183, Halacha 8) that a person should not drink water from a half hour before this time " +
-            "till a half hour after this time unless there is a slim piece of iron in the water.\n\nNOTE: This only applies to water, not " +
-            "to other drinks." + "\n\n" +
-            "Both the Ohr HaChaim and the Amudei Horaah calendars use the above method to get the time for the tekufa. However, the " +
-            "Amudei Horaah calendar differs from the Ohr HaChaim calendar, by using the local midday time of Israel. Which causes a 21 " +
-            "minute difference. " +
-            "Therefore, the Amudei Horaah calendar time for the tekufa will always be 21 minutes before the Ohr HaChaim's time.\n\n" +
-            "In practice, it is recommended to keep both times if possible as it is only adding an additional 21 minutes."
+            return Document(parsing:"""
+Tekufot are the Halachic equivalents of the yearly seasons, which we have four of yearly; Nissan/Spring, Tammuz/Summer, Tishri/Fall & Tevet/Winter. These are based on the solar year, due to being astronomical in nature.
+
+- There is a Kabalistic warning not to drink water during the time of the Tekufah switch itself, as written down by the Rama (Yoreh De'ah 116:5). Although the Djerban minhag was to extend this for an hour and a half prior and following this time (רמ"ך בברית כהונה - חלק אורח חיים מערכת ת' אותיות כ"א-כ"ה), Maran zt"l writes (Halichot Olam, Chelek 7, Page 183) one need only wait one third of that time (half an hour following and prior)
+- 60 days after Tekufat Tishri, outside of Israel, we switch the text of the Shemoneh Esreh's 9th Beracha (ברך עלינו). In the Gregorian calendar, this matches to December 4th or December 5th.
+
+---
+
+To determine when the next Tekufah is, get the known date of the previous Tekufah and add the length of the year divided by the amount of seasons (4). The length of a year, according to Shemuel in Bavli Eruvin, 56a, is a rounded up version of the astronomical length of a year, for the sake of being easier to keep track of (Hazon Ish - OC Siman 138, se’if katan 4). Thereby, since his length of a year is 365.25 days, dividing it by 4 gives us 91 days, 7 hours and 30 minutes.
+
+A further Makhloket is whether the first Tekufah used a fixed clock time of 12:00 PM or used local Israel Hatzot. Although the Ohr Hachaim calendar uses the fixed clock time like Rav Tuchanski does in his calendar, the תנובות שדה (Rav Aharon Boron) takes issue with this due to the arbitrary nature of a 12:00 midpoint. As such, the עמודי הוראה calendar (as well with the unofficial לוח ילקוט יוסף) uses the local Israel Hatzot time of 11:39 AM, which is only a -21 minute difference. For the water warning above, it is possible to accommodate both by starting from half an hour before R Boron's time and finishing half an hour after the time listed in the Ohr Hachaim calendar.
+""").format()
         }
         if title.contains("Tachanun") || title.contains("צדקתך") {
             return "Here is a list of days with no tachanun:\n\n" +

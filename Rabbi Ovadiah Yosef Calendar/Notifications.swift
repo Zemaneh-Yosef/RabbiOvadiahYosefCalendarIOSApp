@@ -525,8 +525,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         } else if defaults.bool(forKey: "useZipcode") {
             setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
         } else {
+            let concurrentQueue = DispatchQueue(label: "notifiications", attributes: .concurrent)
             LocationManager.shared.getUserLocation {
-                location in DispatchQueue.main.async { [self] in
+                location in concurrentQueue.async { [self] in
                     self.lat = location.coordinate.latitude
                     self.long = location.coordinate.longitude
                     self.timezone = TimeZone.current

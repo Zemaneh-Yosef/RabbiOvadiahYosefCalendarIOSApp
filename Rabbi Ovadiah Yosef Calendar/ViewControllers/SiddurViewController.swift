@@ -14,19 +14,56 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var views: Array<UILabel> = []
     var compassImageView = UIImageView(image: UIImage(named: "compass"))
+    let _acceptableCharacters = "0123456789."
 
-    @IBOutlet weak var slider: UISlider!
+    @IBAction func changeTextSize(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Set text size",
+                                      message: "You can set the size of your text in the text box below. The default size is 16.", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Size (12.0 - 78.0)"
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [self, weak alert] (_) in
+            let textField = alert?.textFields![0].text
+            //if text is empty, display a message notifying the user:
+            if textField == nil || textField == "" || !CharacterSet(charactersIn: _acceptableCharacters).isSuperset(of: CharacterSet(charactersIn: textField ?? "")) {
+                let alert = UIAlertController(title: "Error", message: "Please enter a valid number.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
+                    alert.dismiss(animated: true) // just dismiss the dialog
+                }))
+                self.present(alert, animated: true)
+                return
+            } else {
+                var newSize = Float(textField ?? "16")
+                if newSize! <= 11 {
+                    newSize = 12.0
+                }
+                if newSize! >= 78.0 {
+                    newSize = 78
+                }
+                print(newSize!)
+                self.defaults.set(newSize, forKey: "textSize")
+                for l in views {
+                    l.font = .boldSystemFont(ofSize: CGFloat(newSize ?? 16))
+                }
+            }
+        }))
+        present(alert, animated: true)
+    }
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
-    
-    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
-        let newSize = sender.value
-        defaults.set(newSize, forKey: "textSize")
-        for l in views {
-            l.font = .boldSystemFont(ofSize: CGFloat(newSize) + 16)
-        }
-    }
+    //    @IBOutlet weak var slider: UISlider!
+//    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
+//        sender.isEnabled = false
+//        let newSize = sender.value
+//        print(newSize)
+//        defaults.set(newSize, forKey: "textSize")
+//        for l in views {
+//            l.font = .boldSystemFont(ofSize: CGFloat(newSize) + 16)
+//        }
+//        sender.isEnabled = true
+//    }
     @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,15 +96,18 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                 
         scrollView.addSubview(stackview)
         
-        slider.setValue(defaults.float(forKey: "textSize"), animated: true)
+        //slider.setValue(defaults.float(forKey: "textSize"), animated: true)
                 
         for text in listOfTexts {
             let label = UILabel()
             label.numberOfLines = 0
             label.textAlignment = .right
             label.text = text.string
-            let textSize = CGFloat(defaults.float(forKey: "textSize"))
-            label.font = .boldSystemFont(ofSize: textSize + 16)
+            var textSize = CGFloat(defaults.float(forKey: "textSize"))
+            if textSize == 0 {
+                textSize = 16
+            }
+            label.font = .boldSystemFont(ofSize: textSize)
             if text.shouldBeHighlighted {
                 label.text = "\n".appending(text.string)
                 label.textColor = .black

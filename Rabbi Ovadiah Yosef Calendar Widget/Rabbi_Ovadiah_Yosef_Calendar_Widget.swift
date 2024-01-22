@@ -267,8 +267,10 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
         long = defaults.double(forKey: "long")
         timezone = TimeZone.init(identifier: defaults.string(forKey: "timezone")!)!
     } else {
+        let concurrentQueue = DispatchQueue(label: "widget", attributes: .concurrent)
+
         return LocationManager.shared.getUserLocation {
-            location in DispatchQueue.main.async {
+            location in concurrentQueue.async {
                 lat = location.coordinate.latitude
                 long = location.coordinate.longitude
                 timezone = TimeZone.current
