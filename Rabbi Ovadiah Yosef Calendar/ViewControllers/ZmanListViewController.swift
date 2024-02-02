@@ -479,7 +479,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 "location4" : defaults.string(forKey: "location4") ?? "",
                 "location4Lat" : defaults.double(forKey: "location4Lat"),
                 "location4Long" : defaults.double(forKey: "location4Long"),
-                "locatio4Timezone" : defaults.string(forKey: "location4Timezone") ?? "",
+                "location4Timezone" : defaults.string(forKey: "location4Timezone") ?? "",
                 "location5" : defaults.string(forKey: "location5") ?? "",
                 "location5Lat" : defaults.double(forKey: "location5Lat"),
                 "location5Long" : defaults.double(forKey: "location5Long"),

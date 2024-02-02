@@ -193,7 +193,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
         
-        while TefilaRules().isVeseinBerachaRecited(jewishCalendar: jewishCalendar) {
+        while !TefilaRules().isVeseinTalUmatarStartDate(jewishCalendar: jewishCalendar) {
             jewishCalendar.forward()
         }//now that the jewish date is set to the date where we change to Barech Aleinu in the morning, make a notification for sunset the day before
         jewishCalendar.back()
@@ -532,6 +532,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     self.long = location.coordinate.longitude
                     self.timezone = TimeZone.current
                     zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+                    zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
                     LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
                         self.locationName = locationName ?? ""
                         resolveElevation()
@@ -550,6 +551,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         resolveElevation()
         zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+        zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
         self.scheduleSunriseNotifications()
         self.scheduleSunsetNotifications()
         self.scheduleZmanimNotifications()
