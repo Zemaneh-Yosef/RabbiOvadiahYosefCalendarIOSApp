@@ -287,7 +287,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             alertController.addAction(setupSunriseAction)
         }
         
-        if zmanimList[indexPath.row].title == "Daily Siddur" {
+        if zmanimList[indexPath.row].title == "Daily Siddur" || zmanimList[indexPath.row].title == "Daily Siddur*" {
             GlobalStruct.jewishCalendar = jewishCalendar
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "SiddurChooser") as! SiddurChooserViewController
@@ -1431,7 +1431,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         syncCalendarDates()//reset
         dateFormatter.dateFormat = "EEEE"
-        hebrewDateFormatter.setLongWeekFormat(longWeekFormat: true)//remove this
+        hebrewDateFormatter.setLongWeekFormat(longWeekFormat: true)
         zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + "יום " + hebrewDateFormatter.formatDayOfWeek(jewishCalendar: jewishCalendar)))
         hebrewDateFormatter.hebrewFormat = false
         let specialDay = jewishCalendar.getSpecialDay(addOmer:true)
@@ -1562,7 +1562,13 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         zmanimList.append(ZmanListEntry(title:jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()))
         if !shabbatMode {
-            zmanimList.append(ZmanListEntry(title: "Daily Siddur"))
+            var siddurEntry = ZmanListEntry(title: "Daily Siddur")
+            if (jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT ||
+                                (jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH &&
+                                 jewishCalendar.getDayOfWeek() == 3)) {// if disclaimers will be shown in siddur
+                siddurEntry.title = siddurEntry.title.appending("*")
+            }
+            zmanimList.append(siddurEntry)
         }
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]

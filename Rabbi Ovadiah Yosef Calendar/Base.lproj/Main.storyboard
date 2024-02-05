@@ -336,17 +336,17 @@
                                     <action selector="back:" destination="ghR-fU-7xL" eventType="touchUpInside" id="8vN-N5-ZtA"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="52" translatesAutoresizingMaskIntoConstraints="NO" id="RIL-HI-hY9">
-                                <rect key="frame" x="185.66666666666666" y="237" width="59" height="458"/>
+                            <stackView opaque="NO" contentMode="center" axis="vertical" distribution="fillEqually" alignment="center" spacing="52" translatesAutoresizingMaskIntoConstraints="NO" id="RIL-HI-hY9">
+                                <rect key="frame" x="8" y="237" width="414" height="458"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g5x-c2-wbH">
-                                        <rect key="frame" x="0.0" y="0.0" width="59" height="50"/>
+                                        <rect key="frame" x="177.33333333333334" y="0.0" width="59.333333333333343" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SWm-ir-5UC">
-                                        <rect key="frame" x="0.0" y="76" width="59" height="0.0"/>
+                                        <rect key="frame" x="8" y="76" width="398" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="סליחות"/>
@@ -355,7 +355,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B53-v5-Jdk">
-                                        <rect key="frame" x="0.0" y="102" width="59" height="50"/>
+                                        <rect key="frame" x="8" y="102" width="398" height="50"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="שחרית"/>
@@ -364,7 +364,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E9T-IS-7dM">
-                                        <rect key="frame" x="0.0" y="178" width="59" height="0.0"/>
+                                        <rect key="frame" x="8" y="178" width="398" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="מוסף"/>
@@ -373,7 +373,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ucE-TT-3Tk">
-                                        <rect key="frame" x="0.0" y="204" width="59" height="50"/>
+                                        <rect key="frame" x="8" y="204" width="398" height="50"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="מנחה"/>
@@ -382,7 +382,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfJ-3M-Z9b">
-                                        <rect key="frame" x="0.0" y="280" width="59" height="0.0"/>
+                                        <rect key="frame" x="8" y="280" width="398" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="נעילה"/>
@@ -391,7 +391,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pX-p5-1X1">
-                                        <rect key="frame" x="0.0" y="306" width="59" height="50"/>
+                                        <rect key="frame" x="8" y="306" width="398" height="50"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="ערבית"/>
@@ -399,24 +399,41 @@
                                             <action selector="arvit:" destination="ghR-fU-7xL" eventType="touchUpInside" id="23g-KF-JV2"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfx-LJ-ddF">
-                                        <rect key="frame" x="0.0" y="408" width="59" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfx-LJ-ddF">
+                                        <rect key="frame" x="8" y="408" width="398" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="E9T-IS-7dM" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="1nH-lt-IY4"/>
+                                    <constraint firstItem="wfJ-3M-Z9b" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="2Gn-sb-IQ5"/>
+                                    <constraint firstItem="Rfx-LJ-ddF" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="8UR-8N-LDp"/>
+                                    <constraint firstAttribute="trailing" secondItem="B53-v5-Jdk" secondAttribute="trailing" constant="8" id="EoB-ZE-q4n"/>
+                                    <constraint firstAttribute="trailing" secondItem="SWm-ir-5UC" secondAttribute="trailing" constant="8" id="Hjl-Lg-eXs"/>
+                                    <constraint firstItem="SWm-ir-5UC" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="IXw-nw-4XV"/>
+                                    <constraint firstItem="0pX-p5-1X1" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="Iwj-Qb-hhN"/>
+                                    <constraint firstAttribute="trailing" secondItem="wfJ-3M-Z9b" secondAttribute="trailing" constant="8" id="Jek-ns-VR7"/>
+                                    <constraint firstAttribute="trailing" secondItem="0pX-p5-1X1" secondAttribute="trailing" constant="8" id="Kwl-i3-Wq9"/>
+                                    <constraint firstAttribute="trailing" secondItem="ucE-TT-3Tk" secondAttribute="trailing" constant="8" id="OHt-Z3-Q9v"/>
+                                    <constraint firstItem="ucE-TT-3Tk" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="PDJ-Mw-5nV"/>
+                                    <constraint firstAttribute="trailing" secondItem="E9T-IS-7dM" secondAttribute="trailing" constant="8" id="d6X-b8-dTf"/>
+                                    <constraint firstItem="B53-v5-Jdk" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="esK-rD-Ckj"/>
+                                    <constraint firstAttribute="trailing" secondItem="Rfx-LJ-ddF" secondAttribute="trailing" constant="8" id="h5E-Xj-Zih"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tl5-je-v2J"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="RIL-HI-hY9" firstAttribute="leading" secondItem="Tl5-je-v2J" secondAttribute="leading" constant="8" id="2nD-b7-cVV"/>
                             <constraint firstItem="Tl5-je-v2J" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Gc1-YU-aPn" secondAttribute="trailing" symbolic="YES" id="9Kz-dt-7hM"/>
-                            <constraint firstItem="RIL-HI-hY9" firstAttribute="centerX" secondItem="hYX-9A-Y0Y" secondAttribute="centerX" id="UXT-MT-hao"/>
+                            <constraint firstItem="RIL-HI-hY9" firstAttribute="centerY" secondItem="hYX-9A-Y0Y" secondAttribute="centerY" id="J6m-X5-Rc3"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="leading" secondItem="Tl5-je-v2J" secondAttribute="leading" constant="20" id="Y84-hd-GVc"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="fTX-eV-TOW"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="hyk-jj-0uB"/>
-                            <constraint firstItem="RIL-HI-hY9" firstAttribute="centerY" secondItem="hYX-9A-Y0Y" secondAttribute="centerY" id="ou9-d4-zYa"/>
+                            <constraint firstItem="Tl5-je-v2J" firstAttribute="trailing" secondItem="RIL-HI-hY9" secondAttribute="trailing" constant="8" id="x1k-Q6-Ttf"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1517,7 +1534,7 @@ etc...</string>
         <image name="info.circle" catalog="system" width="128" height="123"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Gold">
             <color red="0.87800002098083496" green="0.73299998044967651" blue="0.25900000333786011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

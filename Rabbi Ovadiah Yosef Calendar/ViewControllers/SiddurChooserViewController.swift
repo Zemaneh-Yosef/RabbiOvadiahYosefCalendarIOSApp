@@ -82,7 +82,15 @@ class SiddurChooserViewController: UIViewController {
         }
         
         if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
-            disclaimer.text = "Prayer for etrog"
+            disclaimer.text = "It is good to say this prayer on Tu'Beshvat:\n\n Prayer for Etrog"
+            disclaimer.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(openEtrogPrayerLink))
+            disclaimer.addGestureRecognizer(tap)
+        }
+        
+        if GlobalStruct.jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH &&
+            GlobalStruct.jewishCalendar.getDayOfWeek() == 3 {
+            disclaimer.text = "It is good to say this prayer today:\n\n Parshat Haman"
             disclaimer.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(openEtrogPrayerLink))
             disclaimer.addGestureRecognizer(tap)
@@ -118,6 +126,14 @@ class SiddurChooserViewController: UIViewController {
     
     @objc func openEtrogPrayerLink() {
         if let openLink = URL(string: "https://elyahu41.github.io/Prayer%20for%20an%20Etrog.pdf") {
+            if UIApplication.shared.canOpenURL(openLink) {
+                UIApplication.shared.open(openLink, options: [:])
+            }
+        }
+    }
+    
+    @objc func openParshatHamanPrayerLink() {
+        if let openLink = URL(string: "https://www.tefillos.com/Parshas-Haman-3.pdf") {
             if UIApplication.shared.canOpenURL(openLink) {
                 UIApplication.shared.open(openLink, options: [:])
             }
