@@ -16,14 +16,14 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var specialDay: UILabel!
     @IBAction func selichot(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Selichot"
-        selichot.setTitle("Loading...", for: .normal)
+        selichot.setTitle("Loading...".localized(), for: .normal)
         openSiddur()
     }
     @IBOutlet weak var selichot: UIButton!
     
     @IBAction func shacharit(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Shacharit"
-        shacharit.setTitle("Loading...", for: .normal)
+        shacharit.setTitle("Loading...".localized(), for: .normal)
         openSiddur()
     }
     @IBOutlet weak var shacharit: UIButton!
@@ -31,13 +31,13 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var mussaf: UIButton!
     @IBAction func mussaf(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Mussaf"
-        mussaf.setTitle("Loading...", for: .normal)
+        mussaf.setTitle("Loading...".localized(), for: .normal)
         openSiddur()
     }
     
     @IBAction func mincha(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Mincha"
-        mincha.setTitle("Loading...", for: .normal)
+        mincha.setTitle("Loading...".localized(), for: .normal)
         openSiddur()
     }
     @IBOutlet weak var mincha: UIButton!
@@ -45,13 +45,13 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var neilah: UIButton!
     @IBAction func neilah(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Neilah"
-        neilah.setTitle("Loading...", for: .normal)
+        neilah.setTitle("Loading...".localized(), for: .normal)
         openSiddur()
     }// future proof
     
     @IBAction func arvit(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Arvit"
-        arvit.setTitle("Loading...", for: .normal)
+        arvit.setTitle("Loading...".localized(), for: .normal)
         openSiddur()
     }
     @IBOutlet weak var arvit: UIButton!
@@ -78,11 +78,11 @@ class SiddurChooserViewController: UIViewController {
         }
         
         if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM {
-            disclaimer.text = "Purim prayers will show on the 14th (yesterday)"
+            disclaimer.text = "Purim prayers will show on the 14th (yesterday)".localized()
         }
         
         if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
-            disclaimer.text = "It is good to say this prayer on Tu'Beshvat:\n\n Prayer for Etrog"
+            disclaimer.text = "It is good to say this prayer on Tu'Beshvat:".localized().appending("\n\n").appending("Prayer for Etrog".localized())
             disclaimer.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(openEtrogPrayerLink))
             disclaimer.addGestureRecognizer(tap)
@@ -90,7 +90,7 @@ class SiddurChooserViewController: UIViewController {
         
         if GlobalStruct.jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH &&
             GlobalStruct.jewishCalendar.getDayOfWeek() == 3 {
-            disclaimer.text = "It is good to say this prayer today:\n\n Parshat Haman"
+            disclaimer.text = "It is good to say this prayer today:".localized().appending("\n\n").appending("Parshat Haman".localized())
             disclaimer.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(openEtrogPrayerLink))
             disclaimer.addGestureRecognizer(tap)

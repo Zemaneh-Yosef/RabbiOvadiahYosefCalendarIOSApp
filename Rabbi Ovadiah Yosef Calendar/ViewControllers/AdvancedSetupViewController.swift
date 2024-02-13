@@ -58,8 +58,12 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
         webView.allowsBackForwardNavigationGestures = true
         webView.allowsLinkPreview = true
         webView.navigationDelegate = self
-        let alert = UIAlertController(title: "How to get info from chaitables.com", message: "(I recommend you visit the website first.) \n\n Choose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables. \n\n Just make sure your search radius is big enough and the app will do the rest.", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK!", style: .default)
+        var message = "(I recommend you visit the website first.) \n\n Choose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables. \n\n Just make sure your search radius is big enough and the app will do the rest."
+        if Locale.isHebrewLocale() {
+            message = "(אני ממליץ לך לבקר קודם באתר.) בחר את האזור שלך ובעמוד הבא כל מה שאתה צריך לעשות הוא למלא את שלבים 1 ו-2, וללחוץ על הכפתור כדי לחשב את הטבלאות בתחתית העמוד .ודא שרדיוס החיפוש שלך גדול מספיק ועזוב את השנה היהודית בשקט. האפליקציה תעשה את השאר."
+        }
+        let alert = UIAlertController(title: "How to get info from chaitables.com".localized(), message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK".localized(), style: .default)
         alert.addAction(alertAction)
         present(alert, animated: true)
     }
@@ -76,7 +80,7 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
             download.setTitleColor(.black, for: .normal)
 
         }
-        topLabel.text = "Provide a link below for \(GlobalStruct.geoLocation.locationName)"
+        topLabel.text = "Provide a link below for ".localized().appending("\(GlobalStruct.geoLocation.locationName)")
     }
     
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {

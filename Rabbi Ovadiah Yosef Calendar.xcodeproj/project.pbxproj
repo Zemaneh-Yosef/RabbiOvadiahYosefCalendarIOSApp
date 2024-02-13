@@ -73,6 +73,12 @@
 		CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309542B3BB5040020939B /* SwiftyJSON */; };
 		CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */; };
 		CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */; };
+		CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
+		CE9641B62B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
+		CE9641B72B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
+		CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */; };
+		CE9641BA2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */; };
+		CE9641BB2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */; };
 		CEB1BBA82B26A30300E58773 /* WatchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1BBA72B26A30300E58773 /* WatchInterface.swift */; };
 		CED163592B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED163582B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift */; };
 		CED1635D2B07031800E05876 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED1635C2B07031800E05876 /* Assets.xcassets */; };
@@ -175,6 +181,10 @@
 		CE502A8F2B0DEC23008E716C /* Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
 		CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurChooserViewController.swift; sourceTree = "<group>"; };
+		CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		CE9641BD2B75A1AE00BA7BC7 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Main.strings; sourceTree = "<group>"; };
+		CE9641BF2B75A1B500BA7BC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		CEB1BBA72B26A30300E58773 /* WatchInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchInterface.swift; sourceTree = "<group>"; };
 		CED163562B07031700E05876 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED163582B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift; sourceTree = "<group>"; };
@@ -282,6 +292,8 @@
 		5D19D35F29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */,
+				CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */,
 				52F905B12A9F0A5A003E3C55 /* Rabbi Ovadiah Yosef Calendar.entitlements */,
 				52119EE02A7F8C5100661D63 /* ViewControllers */,
 				5D0D7DAF29A8AA23003B6E43 /* Models */,
@@ -439,6 +451,7 @@
 			knownRegions = (
 				en,
 				Base,
+				he,
 			);
 			mainGroup = 5D19D35429A3687900F8033D;
 			packageReferences = (
@@ -462,6 +475,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE9641BA2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
+				CE9641B62B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 				525950A02A9B3AE700872955 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,7 +486,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D19D36D29A3687B00F8033D /* LaunchScreen.storyboard in Resources */,
+				CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
 				5D19D36A29A3687B00F8033D /* Assets.xcassets in Resources */,
+				CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 				5D19D36829A3687900F8033D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,6 +499,8 @@
 			files = (
 				CED163602B07031800E05876 /* Preview Assets.xcassets in Resources */,
 				CED1635D2B07031800E05876 /* Assets.xcassets in Resources */,
+				CE9641BB2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
+				CE9641B72B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,6 +604,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				5D19D36729A3687900F8033D /* Base */,
+				CE9641BD2B75A1AE00BA7BC7 /* he */,
+				CE9641BF2B75A1B500BA7BC7 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

@@ -17,18 +17,18 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     let _acceptableCharacters = "0123456789."
 
     @IBAction func changeTextSize(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Set text size",
-                                      message: "You can set the size of your text in the text box below. The default size is 16.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Set text size".localized(),
+                                      message: "You can set the size of your text in the text box below. The default size is 16.".localized(), preferredStyle: .alert)
         alert.addTextField { (textField) in
-            textField.placeholder = "Size (12.0 - 78.0)"
+            textField.placeholder = "Size (12.0 - 78.0)".localized()
         }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [self, weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel))
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self, weak alert] (_) in
             let textField = alert?.textFields![0].text
             //if text is empty, display a message notifying the user:
             if textField == nil || textField == "" || !CharacterSet(charactersIn: _acceptableCharacters).isSuperset(of: CharacterSet(charactersIn: textField ?? "")) {
-                let alert = UIAlertController(title: "Error", message: "Please enter a valid number.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
+                let alert = UIAlertController(title: "Error".localized(), message: "Please enter a valid number.".localized(), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: {_ in
                     alert.dismiss(animated: true) // just dismiss the dialog
                 }))
                 self.present(alert, animated: true)

@@ -24,7 +24,7 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let presentingViewController = super.presentingViewController
         
         if chaitables.selectedCountry == "" || chaitables.selectedMetropolitanArea == "" {
-            self.downloadButton.setTitle("Error, did you choose the right location?", for: .normal)
+            self.downloadButton.setTitle("Error, did you choose the right location?".localized(), for: .normal)
             self.downloadButton.setTitleColor(.white, for: .normal)
             self.downloadButton.tintColor = .red
             return
@@ -55,7 +55,7 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
 )
         scraper.scrape() {
             if scraper.errored {
-                self.downloadButton.setTitle("Error, did you choose the right location?", for: .normal)
+                self.downloadButton.setTitle("Error, did you choose the right location?".localized(), for: .normal)
                 self.downloadButton.setTitleColor(.white, for: .normal)
                 self.downloadButton.tintColor = .red
             } else {
@@ -92,9 +92,9 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
         state.inputView = statePickerView
         metroArea.inputView = metroPickerView
         
-        country.placeholder = "Select Country"
-        state.placeholder = "Select State"
-        metroArea.placeholder = "Select Metro Area"
+        country.placeholder = "Select Country".localized()
+        state.placeholder = "Select State".localized()
+        metroArea.placeholder = "Select Metro Area".localized()
         
         country.textAlignment = .center
         state.textAlignment = .center
@@ -146,7 +146,7 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        downloadButton.setTitle("Download", for: .normal)
+        downloadButton.setTitle("Download".localized(), for: .normal)
         downloadButton.tintColor = .init(named: "Gold")
         downloadButton.setTitleColor(.black, for: .normal)
         switch pickerView.tag {

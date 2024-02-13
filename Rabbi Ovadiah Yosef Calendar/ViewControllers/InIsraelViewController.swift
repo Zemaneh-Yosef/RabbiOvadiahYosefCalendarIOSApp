@@ -15,13 +15,13 @@ class InIsraelViewController: UIViewController {
     @IBOutlet weak var yes: UIButton!
     @IBAction func yesButton(_ sender: UIButton) {
         defaults.setValue(true, forKey: "inIsrael")
-        presentZmanimLanguages()
+        presentZmanimLanguages(inIsrael: true)
     }
     @IBAction func noButton(_ sender: UIButton) {
         defaults.setValue(false, forKey: "inIsrael")
-        presentZmanimLanguages()
+        presentZmanimLanguages(inIsrael: false)
     }
-    func presentZmanimLanguages() {
+    func presentZmanimLanguages(inIsrael:Bool) {
         let transition = CATransition()
         transition.duration = 0.5
         transition.type = CATransitionType.push
@@ -29,8 +29,18 @@ class InIsraelViewController: UIViewController {
         transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         view.window!.layer.add(transition, forKey: kCATransition)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "zmanim languages") as! ZmanimLanguageViewController
-        self.present(newViewController, animated: false, completion: nil)
+        var newViewController: UIViewController
+        if Locale.isHebrewLocale() {// if person speaks hebrew, skip language chooser
+            if inIsrael {// if in israel, skip calendar chooser as well
+                self.dismiss(animated: false)
+            } else {
+                newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
+                self.present(newViewController, animated: false, completion: nil)
+            }
+        } else {
+            newViewController = storyboard.instantiateViewController(withIdentifier: "zmanim languages") as! ZmanimLanguageViewController
+            self.present(newViewController, animated: false, completion: nil)
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()

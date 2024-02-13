@@ -56,7 +56,11 @@ class MoladViewController: UIViewController {
         let sevenDays = calendar.date(byAdding: .day, value: 7, to: moladDate)!
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "E MMM d h:mm:ss a"
+        if Locale.isHebrewLocale() {
+            formatter.dateFormat = "E MMM d H:mm:ss"
+        } else {
+            formatter.dateFormat = "E MMM d h:mm:ss a"
+        }
         
         let monthFormatter = DateFormatter()
         monthFormatter.dateFormat = "MMMM yyyy"
@@ -66,16 +70,16 @@ class MoladViewController: UIViewController {
         
         chosenMonth.text = monthFormatter.string(from: jewishCalendar.workingDate) + " / " + hebrewMonthFormatter.string(from: jewishCalendar.workingDate)
         jewishCalendar.calculateMolad()
-        moladChalakim.text = String(jewishCalendar.moladHours) + "h:" + String(jewishCalendar.moladMinutes) + "m and " + String(jewishCalendar.moladChalakim) + " Chalakim"
+        moladChalakim.text = String(jewishCalendar.moladHours) + "h:".localized() + String(jewishCalendar.moladMinutes) + "m and ".localized() + String(jewishCalendar.moladChalakim) + " Chalakim".localized()
         molad.text = formatter.string(from: moladDate)
         earliestBL.text = formatter.string(from: sevenDays)
     }
     
     @objc func showDatePicker() {
-        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
 
         if (UIDevice.current.userInterfaceIdiom == .pad) {
-            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+            alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
         
         let datePicker = UIDatePicker()
@@ -92,13 +96,13 @@ class MoladViewController: UIViewController {
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
         
-        let changeCalendarAction = UIAlertAction(title: "Switch Calendar", style: .default) { (_) in
+        let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.showHebrewDatePicker()
         }
 
         alertController.addAction(changeCalendarAction)
 
-        let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in
+        let doneAction = UIAlertAction(title: "Done".localized(), style: .default) { (_) in
             self.setLabelTexts()
         }
 
@@ -108,10 +112,10 @@ class MoladViewController: UIViewController {
     }
     
     @objc func showHebrewDatePicker() {
-        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
         
         if (UIDevice.current.userInterfaceIdiom == .pad) {
-            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+            alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
 
         let datePicker = UIDatePicker()
@@ -130,13 +134,13 @@ class MoladViewController: UIViewController {
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
         
-        let changeCalendarAction = UIAlertAction(title: "Switch Calendar", style: .default) { (_) in
+        let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.showDatePicker()
         }
 
         alertController.addAction(changeCalendarAction)
 
-        let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in
+        let doneAction = UIAlertAction(title: "Done".localized(), style: .default) { (_) in
             self.setLabelTexts()
         }
 

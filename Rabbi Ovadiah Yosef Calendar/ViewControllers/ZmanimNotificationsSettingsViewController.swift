@@ -22,8 +22,8 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
                           "Chatzot",
                           "Mincha Gedolah",
                           "Mincha Ketana",
-                          "Plag HaMincha Yalkut Yosef",
                           "Plag HaMincha Halacha Berurah",
+                          "Plag HaMincha Yalkut Yosef",
                           "Candle Lighting",
                           "Sunset",
                           "Tzeit Hacochavim",
@@ -77,16 +77,16 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
         var content = cell.defaultContentConfiguration()
         switch indexPath.row {
         case 0:
-            content.text = "Zmanim Notifications on Shabbat and Yom Tov"
-            content.secondaryText = "Receive zmanim notifications on shabbat and yom tov"
+            content.text = "Zmanim Notifications on Shabbat and Yom Tov".localized()
+            content.secondaryText = "Receive zmanim notifications on shabbat and yom tov".localized()
             let switchView = SwitchWithParam(frame: .zero)
             switchView.isOn = defaults.bool(forKey: "zmanim_notifications_on_shabbat")
             switchView.param = "zmanim_notifications_on_shabbat"
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
         case 1:
-            content.text = "Minutes before the zman for notifications"
-            content.secondaryText = "Select on the row of the zman to change the amount of minutes"
+            content.text = "Minutes before the zman for notifications".localized()
+            content.secondaryText = "Select on the row of the zman to change the amount of minutes".localized()
             content.textProperties.alignment = .center
             content.secondaryTextProperties.alignment = .center
         case 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23:
@@ -96,20 +96,20 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
                 cell.selectionStyle = .none
             }
             if !defaults.bool(forKey: "LuachAmudeiHoraah") && defaults.integer(forKey: "plagOpinion") == 1 {
-                content.text = editableZmanim[indexPath.row-2].replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Plag HaMincha")
+                content.text = editableZmanim[indexPath.row-2].replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Plag HaMincha").localized()
             } else {
-                content.text = editableZmanim[indexPath.row-2]
+                content.text = editableZmanim[indexPath.row-2].localized()
             }
             let minutesBefore = defaults.integer(forKey: editableZmanim[indexPath.row-2])
             if minutesBefore >= 1 {
-                content.secondaryText = "Notify " + String(minutesBefore) + " minutes before"
+                content.secondaryText = "Notify ".localized() + String(minutesBefore) + " minutes before".localized()
             } else if minutesBefore == 0 {
-                content.secondaryText = "Notify at the time of the zman"
+                content.secondaryText = "Notify at the time of the zman".localized()
             } else {
-                content.secondaryText = "Off"
+                content.secondaryText = "Off".localized()
             }
             if !defaults.bool(forKey: "Notify" + editableZmanim[indexPath.row-2]) {
-                content.secondaryText = "Off"
+                content.secondaryText = "Off".localized()
             }
             let switchView = SwitchWithParam(frame: .zero)
             switchView.isOn = defaults.bool(forKey: "Notify" + editableZmanim[indexPath.row-2])
@@ -129,13 +129,13 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
                 
         if indexPath.row >= 2 && self.defaults.bool(forKey: "Notify" + editableZmanim[indexPath.row-2]) {
-            let alertController = UIAlertController(title: editableZmanim[indexPath.row-2], message:"Enter how many minutes before you would like to be notified for " + editableZmanim[indexPath.row-2], preferredStyle: .alert)
+            let alertController = UIAlertController(title: editableZmanim[indexPath.row-2].localized(), message:"Enter how many minutes before you would like to be notified for ".localized() + editableZmanim[indexPath.row-2].localized(), preferredStyle: .alert)
             
             alertController.addTextField { (textField) in
-                textField.placeholder = "Minutes"
+                textField.placeholder = "Minutes".localized()
             }
 
-            let saveAction = UIAlertAction(title: "Save", style: .default) { [weak alertController] (_) in
+            let saveAction = UIAlertAction(title: "Save".localized(), style: .default) { [weak alertController] (_) in
                 let textField = alertController?.textFields![0]
                 self.defaults.set(Int(textField?.text ?? "0"), forKey: self.editableZmanim[indexPath.row-2])
                 self.tableView.reloadData()

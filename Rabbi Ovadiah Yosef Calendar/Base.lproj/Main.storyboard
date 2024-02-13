@@ -20,7 +20,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="mbi-j7-2n7">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="mbi-j7-2n7">
                                 <rect key="frame" x="0.0" y="0.0" width="430" height="853"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -31,7 +31,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Zak-8N-HfH">
                                             <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WBX-QX-pvO">
+                                                <stackView opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WBX-QX-pvO">
                                                     <rect key="frame" x="0.0" y="0.0" width="430" height="34"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dvf-vd-jDC">
@@ -107,15 +107,15 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fan-G1-gN0">
+                            <view contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" translatesAutoresizingMaskIntoConstraints="NO" id="Fan-G1-gN0">
                                 <rect key="frame" x="0.0" y="861" width="430" height="37"/>
                                 <subviews>
-                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="p6d-hw-eWa">
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" semanticContentAttribute="forceLeftToRight" id="p6d-hw-eWa">
                                         <rect key="frame" x="0.0" y="-8" width="430" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <items>
                                             <barButtonItem style="plain" id="rG5-bN-AQY">
-                                                <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="zlI-bE-XCz">
+                                                <button key="customView" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="zlI-bE-XCz">
                                                     <rect key="frame" x="20" y="12" width="22" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
@@ -125,7 +125,7 @@
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal">
-                                                        <imageReference key="image" image="arrowtriangle.left.fill" catalog="system" symbolScale="large"/>
+                                                        <imageReference key="image" image="arrowtriangle.backward.fill" catalog="system" symbolScale="large"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="prevDayButton:" destination="7ii-ZM-nWk" eventType="touchUpInside" id="8cp-7p-BKf"/>
@@ -134,7 +134,7 @@
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="GJQ-ga-VxD"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="wwV-jQ-nNv">
-                                                <button key="customView" opaque="NO" contentMode="center" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
+                                                <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
                                                     <rect key="frame" x="201" y="11" width="27" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -151,12 +151,12 @@
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="mhP-BS-hm9"/>
                                             <barButtonItem style="plain" id="gnu-AP-jR0">
-                                                <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="aum-JY-kxk">
+                                                <button key="customView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="aum-JY-kxk">
                                                     <rect key="frame" x="387" y="12" width="23" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="arrowtriangle.right.fill" catalog="system"/>
+                                                    <state key="normal" image="arrowtriangle.forward.fill" catalog="system"/>
                                                     <connections>
                                                         <action selector="nextDayButton:" destination="7ii-ZM-nWk" eventType="touchUpInside" id="9cd-Hi-IS4"/>
                                                     </connections>
@@ -186,6 +186,7 @@
                         <outlet property="nextDayButton" destination="aum-JY-kxk" id="lH5-6r-SQg"/>
                         <outlet property="prevDayButton" destination="zlI-bE-XCz" id="yxl-8Y-nuV"/>
                         <outlet property="titleLabel" destination="vPe-fN-4ce" id="dFy-gh-I7u"/>
+                        <outlet property="toolbar" destination="p6d-hw-eWa" id="6Lj-zV-MZC"/>
                         <outlet property="zmanimTableView" destination="mbi-j7-2n7" id="D5y-jQ-iRt"/>
                         <segue destination="Zmu-tz-OkC" kind="show" identifier="elevationSegue" id="xwK-fw-QH3"/>
                     </connections>
@@ -262,9 +263,8 @@
                                     <action selector="cancelButton:" destination="iDZ-ow-Cfz" eventType="touchUpInside" id="eqi-gj-ppQ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
-                                <rect key="frame" x="20" y="329" width="390" height="264"/>
-                                <string key="text">Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. The Ohr HaChaim calendar uses elevation for all of it's zmanim since Israel is a mountainous region. In areas where they live close to the sea, elevation is usually not used. However, Rabbi Dahan has informed me that you can use elevation even at areas that are at sea level. Therefore, by default the app uses elevation, however, it is turned off for Amudei Horaah mode. You can specify a value for your current elevation below:</string>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
+                                <rect key="frame" x="20" y="461" width="390" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -311,6 +311,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="EXU-FW-x0R"/>
                     <connections>
+                        <outlet property="desc" destination="MOS-JY-Lk2" id="H4U-0X-YXR"/>
                         <outlet property="getFromOnlineButton" destination="KSW-zN-ULJ" id="pf7-Jc-apJ"/>
                         <outlet property="textfield" destination="LMX-jL-QP8" id="xr2-NO-5ir"/>
                     </connections>
@@ -329,7 +330,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gc1-YU-aPn">
-                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="34.333333333333343"/>
+                                <rect key="frame" x="20" y="59" width="61.666666666666657" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -718,7 +719,7 @@ etc...</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWe-dq-8Cy">
-                                <rect key="frame" x="19.999999999999996" y="59" width="61.666666666666657" height="43"/>
+                                <rect key="frame" x="20" y="59" width="61.666666666666657" height="43"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
@@ -998,7 +999,7 @@ etc...</string>
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waq-mI-XcQ">
-                                <rect key="frame" x="15.999999999999996" y="59" width="61.666666666666657" height="34.333333333333343"/>
+                                <rect key="frame" x="16" y="59" width="61.666666666666657" height="34.333333333333343"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
@@ -1454,7 +1455,7 @@ etc...</string>
                         <items>
                             <barButtonItem style="plain" id="ejY-DH-Jzc">
                                 <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="0qT-eV-KWQ">
-                                    <rect key="frame" x="20" y="5" width="28" height="35"/>
+                                    <rect key="frame" x="20" y="5" width="26" height="35"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                     <accessibility key="accessibilityConfiguration">
                                         <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -1484,7 +1485,7 @@ etc...</string>
                             <barButtonItem style="plain" systemItem="flexibleSpace" id="Ki0-iI-0yl"/>
                             <barButtonItem style="plain" id="62E-al-ybP">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="8cU-kW-QNg">
-                                    <rect key="frame" x="380" y="5" width="30" height="35"/>
+                                    <rect key="frame" x="378" y="5" width="32" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                     <color key="tintColor" name="AccentColor"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -1527,6 +1528,8 @@ etc...</string>
         </designable>
     </designables>
     <resources>
+        <image name="arrowtriangle.backward.fill" catalog="system" width="128" height="113"/>
+        <image name="arrowtriangle.forward.fill" catalog="system" width="128" height="113"/>
         <image name="arrowtriangle.left.fill" catalog="system" width="128" height="113"/>
         <image name="arrowtriangle.right.fill" catalog="system" width="128" height="113"/>
         <image name="calendar" catalog="system" width="128" height="107"/>
@@ -1534,7 +1537,7 @@ etc...</string>
         <image name="info.circle" catalog="system" width="128" height="123"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Gold">
             <color red="0.87800002098083496" green="0.73299998044967651" blue="0.25900000333786011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

@@ -535,9 +535,15 @@ public class SiddurMaker {
         
         addAmidahToSiddur(isMincha: false, isArvit: false)
         
+        let isTachanunSaid = jewishCalendar.getTachanun() == "Tachanun only in the morning"
+        || jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
+        || jewishCalendar.getTachanun() == "There is Tachanun today"
+        || jewishCalendar.getTachanun() == "אומרים תחנון"
+        
         if (jewishCalendar.isRoshChodesh()
             || jewishCalendar.isCholHamoed()
             || jewishCalendar.isChanukah()) {
+            addAvinuMalkeinu(isTachanunSaid: isTachanunSaid)
             addHallel()
             
             if ((jewishCalendar.isCholHamoedSuccos())) {
@@ -645,14 +651,16 @@ public class SiddurMaker {
                 }
                 addHalfKaddish(highlighted:false)
                 
-                if (/*Locale.getDefault().getDisplayLanguage(new Locale("en","US")) == ("Hebrew")*/false) {
-                    addToSiddurHighlighted(s:
-                                            "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף"
-                    )
+                if (Locale.isHebrewLocale()) {
+                    if (jewishCalendar.isRoshChodesh()) {
+                        addToSiddurHighlighted(s: "הסרת תפילין כאן");
+                    }
+                    addToSiddurHighlighted(s: "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף")
                 } else {
-                    addToSiddurHighlighted(s:
-                                            "Mussaf is said here, press here to go to Mussaf"
-                    )
+                    if (jewishCalendar.isRoshChodesh()) {
+                        addToSiddurHighlighted(s: "Remove your tefilin here");
+                    }
+                    addToSiddurHighlighted(s: "Mussaf is said here, press here to go to Mussaf")
                 }
             } else if (jewishCalendar.isChanukah()) {
                 addKaddishYeheShelama()
@@ -673,11 +681,6 @@ public class SiddurMaker {
             }
             return siddur// Early return statement
         }
-        
-        let isTachanunSaid = jewishCalendar.getTachanun() == "Tachanun only in the morning"
-        || jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
-        || jewishCalendar.getTachanun() == "There is Tachanun today"
-        || jewishCalendar.getTachanun() == "אומרים תחנון"
         
         addAvinuMalkeinu(isTachanunSaid: isTachanunSaid)
         
@@ -2113,25 +2116,25 @@ public class SiddurMaker {
         )
 
         if (isArvit) {
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(-86400)
+            jewishCalendar.back()
             if (jewishCalendar.isAssurBemelacha()) {
-                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+                jewishCalendar.forward()
 
                 if (!jewishCalendar.isAssurBemelacha()) {
                     addToSiddurHighlighted(s:
                             "אַתָּה חוֹנַנְתָּנוּ יְהֹוָה אֱלֹהֵינוּ מַדָּע וְהַשְׂכֵּל, אַתָּה אָמַרְתָּ לְהַבְדִּיל בֵּין קֹדֶשׁ לְחֹל וּבֵין אוֹר לְחֹשֶׁךְ וּבֵין יִשְׂרָאֵל לָעַמִּים, וּבֵין יוֹם הַשְּׁבִיעִי לְשֵׁשֶׁת יְמֵי הַמַּעֲשֶׂה. כְּשֵׁם שֶׁהִבְדַּלְתָּנוּ יְהֹוָה אֱלֹהֵינוּ מֵעַמֵּי הָאֲרָצוֹת וּמִמִּשְׁפְּחוֹת הָאֲדָמָה, כָּךְ פְּדֵנוּ וְהַצִּילֵנוּ מִשָּׂטָן רָע וּמִפֶּגַע רָע, וּמִכָּל גְּזֵרוֹת קָשׁוֹת וְרָעוֹת הַמִּתְרַגְּשׁוֹת לָבֹא בָעוֹלָם."
                     )
                 }
-                jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(-86400)
+                jewishCalendar.back()
             }
-            jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+            jewishCalendar.forward()
         }
 
         addToSiddur(s:
                         "וְחָנֵּֽנוּ מֵאִתְּךָ חָכְמָה בִּינָה וָדָֽעַת: בָּרוּךְ אַתָּה יַהַוַהַ, חוֹנֵן הַדָּֽעַת: \n\n" +
                         "הֲשִׁיבֵֽנוּ אָבִֽינוּ לְתֽוֹרָתֶֽךָ, וְקָֽרְבֵֽנוּ מַלְכֵּֽנוּ לַֽעֲבֽוֹדָתֶֽךָ, וְהַֽחֲזִירֵֽנוּ בִּתְשׁוּבָה שְׁלֵמָה לְפָנֶֽיךָ: בָּרוּךְ אַתָּה יֵהֵוֵהֵ, הָרוֹצֶה בִּתְשׁוּבָה: \n\n" +
                         "סְלַח לָֽנוּ אָבִֽינוּ כִּי חָטָֽאנוּ, מְחוֹל לָֽנוּ מַלְכֵּֽנוּ כִּי פָשָֽׁעְנוּ, כִּי אֵל טוֹב וְסַלָּח אָֽתָּה: בָּרוּךְ אַתָּה יֶהֶוֶהֶ, חַנּוּן הַמַּרְבֶּה לִסְלֹחַ: \n\n" +
-                        "רְאֵה נָא בְעָנְיֵֽנוּ, וְרִיבָֽה רִיבֵֽנוּ, וּמַהֵר לְגָאֳלֵֽנוּ גְאוּלָּה שְׁלֵמָה לְמַֽעַן שְׁמֶֽךָ, כִּי אֵל גּוֹאֵל חָזָק אָֽתָּה: בָּרוּךְ אַתָּה יְהְוְהְ, גּוֹאֵל יִשְׂרָאֵל:"
+                        "רְאֵה נָא בְעָנְיֵֽנוּ, וְרִיבָֽה רִיבֵֽנוּ, וּמַהֵר לְגָאֳלֵֽנוּ גְּאוּלָּה שְׁלֵמָה לְמַֽעַן שְׁמֶֽךָ, כִּי אֵל גּוֹאֵל חָזָק אָֽתָּה: בָּרוּךְ אַתָּה יְהְוְהְ, גּוֹאֵל יִשְׂרָאֵל:"
         )
 
         if (jewishCalendar.isTaanis()

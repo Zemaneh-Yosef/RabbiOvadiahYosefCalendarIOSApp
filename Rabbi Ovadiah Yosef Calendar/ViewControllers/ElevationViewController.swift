@@ -11,6 +11,7 @@ class ElevationViewController: UIViewController {
     
     let _acceptableCharacters = "0123456789."
     
+    @IBOutlet weak var desc: UILabel!
     @IBOutlet weak var getFromOnlineButton: UIButton!
     @IBAction func getFromOnline(_ sender: Any) {
         var intArray: [Int] = []
@@ -79,8 +80,8 @@ class ElevationViewController: UIViewController {
                 NotificationCenter.default.post(name: NSNotification.Name("elevation"), object: text)
                 self.dismiss(animated: true)
             } else {
-                let alert = UIAlertController(title: "Invalid input", message: "Please only enter numbers and decimals! For example: 30.0", preferredStyle: .alert)
-                let alertAction = UIAlertAction(title: "OK!", style: .default) { (UIAlertAction) -> Void in
+                let alert = UIAlertController(title: "Invalid input".localized(), message: "Please only enter numbers and decimals! For example: 30.0".localized(), preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "OK".localized().appending("!"), style: .default) { (UIAlertAction) -> Void in
                 }
                 alert.addAction(alertAction)
                 present(alert, animated: true)
@@ -91,6 +92,11 @@ class ElevationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.textfield.addTarget(self, action: #selector(onReturn), for: UIControl.Event.editingDidEndOnExit)
+        if Locale.isHebrewLocale() {
+            desc.text = "קיימות דעות שמחזיקות כי השקיעה האמיתית שצריך להשתמש בה לחישוב זמני היום היא כאשר השקיעה נראית בנקודה הגבוהה ביותר בעיר. עם זאת, יש מי שאינם מחזיקים בדעה זו. לוח אור החיים משתמש בגובה לכל זמניו מאחר וישראל היא אזור הררי. באזורים בהם הם גרים קרוב לים, בדרך כלל לא משתמשים בגובה. עם זאת, רב דהאן עדכן אותי כי אפשר להשתמש בגובה גם באזורים שנמצאים בפני הים. לכן, כברירת מחדל, האפליקציה משתמשת בגובה, אך זה מופעל באופן ברירת מחדל עבור מצב עמודי הוראה. ניתן לציין ערך עבור הגובה הנוכחי שלך למטה:"
+        } else {
+            desc.text = "Some opinions hold that the actual sunset that should be used for calculating zmanim is when sunset is seen at the highest point in the city. However, some do not hold of this opinion. The Ohr HaChaim calendar uses elevation for all of it's zmanim since Israel is a mountainous region. In areas where they live close to the sea, elevation is usually not used. However, Rabbi Dahan has informed me that you can use elevation even at areas that are at sea level. Therefore, by default the app uses elevation, however, it is turned off for Amudei Horaah mode. You can specify a value for your current elevation below:"
+        }
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         if #available(iOS 15.0, *) {

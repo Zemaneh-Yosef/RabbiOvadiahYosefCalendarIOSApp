@@ -75,7 +75,7 @@ class NetzViewController: UIViewController {
                 secondsRemaining -= 1
             } else {
                 Timer.invalidate()
-                self.content.text = "Netz/Sunrise has passed. Count will automatically restart at sunset. Swipe down to countdown again."
+                self.content.text = "Netz/Sunrise has passed. Count will automatically restart at sunset. Swipe down to countdown again.".localized()
                 self.setTimerForSunset()
             }
         }

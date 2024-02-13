@@ -621,6 +621,6 @@ func getParshah(jewishCalendar:JewishCalendar) -> String {
     if !parasha.isEmpty {
         return parasha
     } else {
-        return "No Weekly Parasha"
+        return "No Weekly Parasha".localized()
     }
 }

@@ -1,0 +1,267 @@
+
+/* Class = "UIButton"; normalTitle = "Go to Chaitables.com"; ObjectID = "01b-rw-5yM"; */
+"01b-rw-5yM.normalTitle" = "Go to Chaitables.com";
+
+/* Class = "UIButton"; normalTitle = "ערבית"; ObjectID = "0pX-p5-1X1"; */
+"0pX-p5-1X1.normalTitle" = "ערבית";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "397-eh-kl7"; */
+"397-eh-kl7.text" = "Label";
+
+/* Class = "UILabel"; text = "Press the button below to download the visible sunrise times from ChaiTables.com"; ObjectID = "3Ui-VF-Ls8"; */
+"3Ui-VF-Ls8.text" = "Press the button below to download the visible sunrise times from ChaiTables.com";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "4U0-fd-Cu6"; */
+"4U0-fd-Cu6.title" = "Back";
+
+/* Class = "UIViewController"; title = "Molad"; ObjectID = "4xR-v4-sWZ"; */
+"4xR-v4-sWZ.title" = "Molad";
+
+/* Class = "UIViewController"; title = "Simple Setup"; ObjectID = "76o-ol-odN"; */
+"76o-ol-odN.title" = "Simple Setup";
+
+/* Class = "UIButton"; normalTitle = "Advanced"; ObjectID = "7pN-lc-bXm"; */
+"7pN-lc-bXm.normalTitle" = "Advanced";
+
+/* Class = "UIViewController"; title = "Setup Chooser"; ObjectID = "8Bt-3k-w3g"; */
+"8Bt-3k-w3g.title" = "Setup Chooser";
+
+/* Class = "UIButton"; configuration.title = "Text size"; ObjectID = "8UB-WQ-jz2"; */
+"8UB-WQ-jz2.configuration.title" = "Text size";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "8UB-WQ-jz2"; */
+"8UB-WQ-jz2.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "9a2-tM-uOe"; */
+"9a2-tM-uOe.text" = "Label";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "AjL-mn-45w"; */
+"AjL-mn-45w.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "שחרית"; ObjectID = "B53-v5-Jdk"; */
+"B53-v5-Jdk.normalTitle" = "שחרית";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "BBo-Yh-1Gw"; */
+"BBo-Yh-1Gw.text" = "Title";
+
+/* Class = "UILabel"; text = "Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          "; ObjectID = "BrH-gd-Gjx"; */
+"BrH-gd-Gjx.text" = "Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          ";
+
+/* Class = "UIButton"; configuration.title = "Back"; ObjectID = "CX0-0v-Es4"; */
+"CX0-0v-Es4.configuration.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "CX0-0v-Es4"; */
+"CX0-0v-Es4.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Hebrew"; ObjectID = "E0v-2T-Cbu"; */
+"E0v-2T-Cbu.normalTitle" = "Hebrew";
+
+/* Class = "UIButton"; normalTitle = "מוסף"; ObjectID = "E9T-IS-7dM"; */
+"E9T-IS-7dM.normalTitle" = "מוסף";
+
+/* Class = "UILabel"; text = "OR"; ObjectID = "EAN-Ba-4dx"; */
+"EAN-Ba-4dx.text" = "OR";
+
+/* Class = "UIButton"; normalTitle = "Setup your city!"; ObjectID = "Exg-AR-j5L"; */
+"Exg-AR-j5L.normalTitle" = "Setup your city!";
+
+/* Class = "UIButton"; normalTitle = "No"; ObjectID = "Fdj-7I-wX1"; */
+"Fdj-7I-wX1.normalTitle" = "No";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "FeS-4f-X1R"; */
+"FeS-4f-X1R.text" = "Title";
+
+/* Class = "UILabel"; text = "Earliest Birchat Halevanah (7 days):"; ObjectID = "FfB-wK-SJ1"; */
+"FfB-wK-SJ1.text" = "Earliest Birchat Halevanah (7 days):";
+
+/* Class = "UIButton"; configuration.title = "Quit"; ObjectID = "Fj1-hW-5PJ"; */
+"Fj1-hW-5PJ.configuration.title" = "Quit";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Fj1-hW-5PJ"; */
+"Fj1-hW-5PJ.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Back"; ObjectID = "Gc1-YU-aPn"; */
+"Gc1-YU-aPn.configuration.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Gc1-YU-aPn"; */
+"Gc1-YU-aPn.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Latest Birchat Halevanah (15 days):"; ObjectID = "Gw7-10-IO9"; */
+"Gw7-10-IO9.text" = "Latest Birchat Halevanah (15 days):";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "HlN-b5-DKJ"; */
+"HlN-b5-DKJ.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "IFS-q7-s7V"; */
+"IFS-q7-s7V.normalTitle" = "Cancel";
+
+/* Class = "UIButton"; normalTitle = "Ohr Hachaim"; ObjectID = "J96-88-Kya"; */
+"J96-88-Kya.normalTitle" = "Ohr Hachaim";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "K3E-29-Jrz"; */
+"K3E-29-Jrz.title" = "Settings";
+
+/* Class = "UIButton"; normalTitle = "Get from Online"; ObjectID = "KSW-zN-ULJ"; */
+"KSW-zN-ULJ.normalTitle" = "Get from Online";
+
+/* Class = "UITextField"; placeholder = "Enter elevation in meters"; ObjectID = "LMX-jL-QP8"; */
+"LMX-jL-QP8.placeholder" = "Enter elevation in meters";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Mg1-pN-exZ"; */
+"Mg1-pN-exZ.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "English"; ObjectID = "PQF-QN-64C"; */
+"PQF-QN-64C.normalTitle" = "English";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "PR6-Ei-Lbp"; */
+"PR6-Ei-Lbp.text" = "Title";
+
+/* Class = "UILabel"; text = "Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later."; ObjectID = "PyY-kt-uCg"; */
+"PyY-kt-uCg.text" = "Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later.";
+
+/* Class = "UINavigationItem"; title = "Notification Settings"; ObjectID = "Qyu-WG-Roh"; */
+"Qyu-WG-Roh.title" = "Notification Settings";
+
+/* Class = "UIButton"; normalTitle = "סליחות"; ObjectID = "SWm-ir-5UC"; */
+"SWm-ir-5UC.normalTitle" = "סליחות";
+
+/* Class = "UILabel"; text = "Rabbi Ovadiah Yosef Calendar"; ObjectID = "TaC-NL-jSM"; */
+"TaC-NL-jSM.text" = "Rabbi Ovadiah Yosef Calendar";
+
+/* Class = "UILabel"; text = "(Calendar with the zmanim adjusted based on location in accordance to Rabbi Ovadiah. For locations outside of Israel.)"; ObjectID = "TxL-Vj-ggR"; */
+"TxL-Vj-ggR.text" = "(Calendar with the zmanim adjusted based on location in accordance to Rabbi Ovadiah. For locations outside of Israel.)";
+
+/* Class = "UILabel"; text = "Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          "; ObjectID = "UOf-Ik-LpQ"; */
+"UOf-Ik-LpQ.text" = "Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          ";
+
+/* Class = "UILabel"; text = "What language would you like the zmanim to be in?"; ObjectID = "WnI-hR-Igp"; */
+"WnI-hR-Igp.text" = "What language would you like the zmanim to be in?";
+
+/* Class = "UILabel"; text = "The molad time announced:"; ObjectID = "Xox-Mi-AGY"; */
+"Xox-Mi-AGY.text" = "The molad time announced:";
+
+/* Class = "UILabel"; text = "LocationName"; ObjectID = "Zxk-hv-VvT"; */
+"Zxk-hv-VvT.text" = "LocationName";
+
+/* Class = "UIButton"; normalTitle = "Back"; ObjectID = "aP0-Mg-91S"; */
+"aP0-Mg-91S.normalTitle" = "Back";
+
+/* Class = "UILabel"; text = "(Calendar in Israel used by Rabbi Ovadiah himself)"; ObjectID = "dK1-Lq-pZC"; */
+"dK1-Lq-pZC.text" = "(Calendar in Israel used by Rabbi Ovadiah himself)";
+
+/* Class = "UIViewController"; title = "Netz Countdown"; ObjectID = "dd1-Sa-3GC"; */
+"dd1-Sa-3GC.title" = "Netz Countdown";
+
+/* Class = "UIButton"; configuration.title = "Change Date"; ObjectID = "dqr-bm-4gl"; */
+"dqr-bm-4gl.configuration.title" = "Change Date";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "dqr-bm-4gl"; */
+"dqr-bm-4gl.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Loading..."; ObjectID = "etQ-08-FeZ"; */
+"etQ-08-FeZ.text" = "Loading...";
+
+/* Class = "UILabel"; text = "Alot Hashachar\nEarliest Talit/Tefilin\nHaNetz\nSof Zman Shma Mg'a\nSof Zman Shma Gr'a\nSof Zman Brachot Shma\nChatzot\netc..."; ObjectID = "fBv-t8-Yqx"; */
+"fBv-t8-Yqx.text" = "Alot Hashachar\nEarliest Talit/Tefilin\nHaNetz\nSof Zman Shma Mg'a\nSof Zman Shma Gr'a\nSof Zman Brachot Shma\nChatzot\netc...";
+
+/* Class = "UILabel"; text = "Are you in Israel?"; ObjectID = "h4z-vQ-WJh"; */
+"h4z-vQ-WJh.text" = "Are you in Israel?";
+
+/* Class = "UILabel"; text = "The entire night of the 15th day of the Hebrew month"; ObjectID = "h5W-g4-P5A"; */
+"h5W-g4-P5A.text" = "The entire night of the 15th day of the Hebrew month";
+
+/* Class = "UIButton"; normalTitle = "Translated"; ObjectID = "iq2-uo-yuZ"; */
+"iq2-uo-yuZ.normalTitle" = "Translated";
+
+/* Class = "UINavigationItem"; title = "Zmanim Settings"; ObjectID = "irM-BL-jQL"; */
+"irM-BL-jQL.title" = "Zmanim Settings";
+
+/* Class = "UIButton"; configuration.title = "Download"; ObjectID = "jNG-p2-w76"; */
+"jNG-p2-w76.configuration.title" = "Download";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "jNG-p2-w76"; */
+"jNG-p2-w76.normalTitle" = "Button";
+
+/* Class = "UIViewController"; title = "Siddur"; ObjectID = "jkM-M4-JT4"; */
+"jkM-M4-JT4.title" = "Siddur";
+
+/* Class = "UIButton"; normalTitle = "Yes"; ObjectID = "lrT-Bz-BXD"; */
+"lrT-Bz-BXD.normalTitle" = "Yes";
+
+/* Class = "UITextField"; placeholder = "Chaitables link"; ObjectID = "mgc-fE-yGf"; */
+"mgc-fE-yGf.placeholder" = "Chaitables link";
+
+/* Class = "UIButton"; normalTitle = "Download"; ObjectID = "nVu-3O-dWw"; */
+"nVu-3O-dWw.normalTitle" = "Download";
+
+/* Class = "UIViewController"; title = "Zmanim language"; ObjectID = "nYK-wy-b7l"; */
+"nYK-wy-b7l.title" = "Zmanim language";
+
+/* Class = "UIButton"; configuration.title = "Back"; ObjectID = "pWe-dq-8Cy"; */
+"pWe-dq-8Cy.configuration.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "pWe-dq-8Cy"; */
+"pWe-dq-8Cy.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Provide a link below:"; ObjectID = "pdg-vR-aD0"; */
+"pdg-vR-aD0.text" = "Provide a link below:";
+
+/* Class = "UILabel"; text = "עלות השחר\nתלית ותפילין\nהנץ\nסוף זמן שמע מג\"א\nסוף זמן שמע גר\"א\nסוף זמן ברכות שמע\nחצות\nוגו׳..."; ObjectID = "pto-w5-0Pb"; */
+"pto-w5-0Pb.text" = "עלות השחר\nתלית ותפילין\nהנץ\nסוף זמן שמע מג\"א\nסוף זמן שמע גר\"א\nסוף זמן ברכות שמע\nחצות\nוגו׳...";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "qF8-a3-lyM"; */
+"qF8-a3-lyM.text" = "Title";
+
+/* Class = "UIViewController"; title = "In Israel?"; ObjectID = "rGY-aZ-2MU"; */
+"rGY-aZ-2MU.title" = "In Israel?";
+
+/* Class = "UIViewController"; title = "Choose Calendar"; ObjectID = "rLT-7O-XUP"; */
+"rLT-7O-XUP.title" = "Choose Calendar";
+
+/* Class = "UILabel"; text = "The molad for this month in your timezone:"; ObjectID = "rs8-o5-gK9"; */
+"rs8-o5-gK9.text" = "The molad for this month in your timezone:";
+
+/* Class = "UIButton"; normalTitle = "Amudei Horaah"; ObjectID = "s5C-wY-g6x"; */
+"s5C-wY-g6x.normalTitle" = "Amudei Horaah";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "uWa-Ye-ur0"; */
+"uWa-Ye-ur0.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "מנחה"; ObjectID = "ucE-TT-3Tk"; */
+"ucE-TT-3Tk.normalTitle" = "מנחה";
+
+/* Class = "UILabel"; text = "Rabbi Ovadiah Yosef Calendar"; ObjectID = "vPe-fN-4ce"; */
+"vPe-fN-4ce.text" = "Rabbi Ovadiah Yosef Calendar";
+
+/* Class = "UILabel"; text = "Or go to the website:"; ObjectID = "w66-c4-4qk"; */
+"w66-c4-4qk.text" = "Or go to the website:";
+
+/* Class = "UIButton"; configuration.title = "Back"; ObjectID = "waq-mI-XcQ"; */
+"waq-mI-XcQ.configuration.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "waq-mI-XcQ"; */
+"waq-mI-XcQ.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "נעילה"; ObjectID = "wfJ-3M-Z9b"; */
+"wfJ-3M-Z9b.normalTitle" = "נעילה";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "wje-0D-oIM"; */
+"wje-0D-oIM.text" = "Label";
+
+/* Class = "UIButton"; configuration.title = "Back"; ObjectID = "xJd-zE-p1H"; */
+"xJd-zE-p1H.configuration.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "xJd-zE-p1H"; */
+"xJd-zE-p1H.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Dawn\nEarliest Talit/Tefilin\nSunrise\nLatest Shma Mg'a\nLatest Shma Gr'a\nLatest Brachot Shma\nMid-Day\netc..."; ObjectID = "ynM-EA-aMC"; */
+"ynM-EA-aMC.text" = "Dawn\nEarliest Talit/Tefilin\nSunrise\nLatest Shma Mg'a\nLatest Shma Gr'a\nLatest Brachot Shma\nMid-Day\netc...";
+
+/* Class = "UILabel"; text = "Choose A Calendar"; ObjectID = "yt8-iV-RXq"; */
+"yt8-iV-RXq.text" = "Choose A Calendar";
+
+/* Class = "UIButton"; configuration.title = "Skip"; ObjectID = "z5B-Kp-adr"; */
+"z5B-Kp-adr.configuration.title" = "Skip";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "z5B-Kp-adr"; */
+"z5B-Kp-adr.normalTitle" = "Button";

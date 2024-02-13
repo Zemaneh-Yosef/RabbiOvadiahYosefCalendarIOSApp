@@ -103,7 +103,7 @@ struct ContentView: View {
                 } else {
                     zmanimCalendar.useElevation = false
                 }
-                dateFormatterForZmanim.timeZone = timezone
+                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone
                 setNextUpcomingZman()
                 zmanimList = updateZmanimList()
             }
@@ -120,7 +120,7 @@ struct ContentView: View {
                 }
                 userChosenDate = Date()
                 syncCalendarDates()
-                dateFormatterForZmanim.timeZone = timezone
+                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone
                 setNextUpcomingZman()
                 zmanimList = updateZmanimList()
             }
@@ -132,12 +132,20 @@ struct ContentView: View {
 func updateZmanimList() -> Array<ZmanListEntry> {
     var zmanimList = Array<ZmanListEntry>()
     if !defaults.bool(forKey: "hasGottenDataFromApp") {
-        zmanimList.append(ZmanListEntry(title: "Settings not recieved from the Main App. Please open up the app on your phone."))
+        zmanimList.append(ZmanListEntry(title: "Settings not recieved from the Main App. Please open up the app on your phone.".localized()))
     }
-    if defaults.bool(forKey: "showSeconds") {
-        dateFormatterForZmanim.dateFormat = "h:mm:ss aa"
+    if Locale.isHebrewLocale() {
+        if defaults.bool(forKey: "showSeconds") {
+            dateFormatterForZmanim.dateFormat = "H:mm:ss"
+        } else {
+            dateFormatterForZmanim.dateFormat = "H:mm"
+        }
     } else {
-        dateFormatterForZmanim.dateFormat = "h:mm aa"
+        if defaults.bool(forKey: "showSeconds") {
+            dateFormatterForZmanim.dateFormat = "h:mm:ss aa"
+        } else {
+            dateFormatterForZmanim.dateFormat = "h:mm aa"
+        }
     }
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "d MMMM, yyyy"
@@ -170,12 +178,16 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     if !parasha.isEmpty {
         zmanimList.append(ZmanListEntry(title:parasha))
     } else {
-        zmanimList.append(ZmanListEntry(title:"No Weekly Parasha"))
+        zmanimList.append(ZmanListEntry(title:"No Weekly Parasha".localized()))
     }
     hebrewDateFormatter.hebrewFormat = false
     syncCalendarDates()//reset
     dateFormatter.dateFormat = "EEEE"
-    zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + getHebrewDay(day: jewishCalendar.getDayOfWeek())))
+    if Locale.isHebrewLocale() {
+        zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate)))
+    } else {
+        zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + getHebrewDay(day: jewishCalendar.getDayOfWeek())))
+    }
     let specialDay = jewishCalendar.getSpecialDay(addOmer:true)
     if !specialDay.isEmpty {
         zmanimList.append(ZmanListEntry(title:specialDay))
@@ -183,12 +195,12 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     if jewishCalendar.is3Weeks() {
         if jewishCalendar.is9Days() {
             if jewishCalendar.isShevuahShechalBo() {
-                zmanimList.append(ZmanListEntry(title: "Shevuah Shechal Bo"))
+                zmanimList.append(ZmanListEntry(title: "Shevuah Shechal Bo".localized()))
             } else {
-                zmanimList.append(ZmanListEntry(title: "Nine Days"))
+                zmanimList.append(ZmanListEntry(title: "Nine Days".localized()))
             }
         } else {
-            zmanimList.append(ZmanListEntry(title: "Three Weeks"))
+            zmanimList.append(ZmanListEntry(title: "Three Weeks".localized()))
         }
     }
     let music = jewishCalendar.isOKToListenToMusic()
@@ -209,23 +221,27 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         zmanimList.append(ZmanListEntry(title: bircatHelevana))
     }
     if jewishCalendar.isBirkasHachamah() {
-        zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today"))
+        zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today".localized()))
     }
-    dateFormatter.dateFormat = "h:mm aa"
+    if Locale.isHebrewLocale() {
+        dateFormatter.dateFormat = "H:mm"
+    } else {
+        dateFormatter.dateFormat = "h:mm aa"
+    }
     dateFormatter.timeZone = timezone
     let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
     if tekufaSetting == 0 {
         let tekufa = jewishCalendar.getTekufaAsDate()
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
             }
         }
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        jewishCalendar.forward()
         let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
         if checkTomorrowForTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
             }
         }
         jewishCalendar.workingDate = userChosenDate //reset
@@ -233,14 +249,14 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
             }
         }
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        jewishCalendar.forward()
         let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if checkTomorrowForTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
             }
         }
         jewishCalendar.workingDate = userChosenDate //reset
@@ -248,14 +264,14 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let tekufa = jewishCalendar.getTekufaAsDate()
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
             }
         }
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        jewishCalendar.forward()
         let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
         if checkTomorrowForTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
             }
         }
         jewishCalendar.workingDate = userChosenDate //reset
@@ -263,14 +279,14 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let tekufaAH = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if tekufaAH != nil {
             if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufaAH!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!)))
             }
         }
-        jewishCalendar.workingDate = jewishCalendar.workingDate.addingTimeInterval(86400)
+        jewishCalendar.forward()
         let checkTomorrowForAHTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if checkTomorrowForAHTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
             }
         }
         jewishCalendar.workingDate = userChosenDate //reset
@@ -282,7 +298,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     hebrewDateFormatter.useGershGershayim = false
     let dafYomi = jewishCalendar.getDafYomiBavli()
     if dafYomi != nil {
-        zmanimList.append(ZmanListEntry(title:"Daf Yomi: " + hebrewDateFormatter.formatDafYomiBavli(daf: dafYomi!)))
+        zmanimList.append(ZmanListEntry(title:"Daf Yomi: ".localized() + hebrewDateFormatter.formatDafYomiBavli(daf: dafYomi!)))
     }
     let dateString = "1980-02-02"//Yerushalmi start date
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -293,9 +309,9 @@ func updateZmanimList() -> Array<ZmanListEntry> {
             print("The target date is before Feb 2, 1980.")
         } else if comparisonResult == .orderedAscending {
             if yerushalmiYomi != nil {
-                zmanimList.append(ZmanListEntry(title:"Yerushalmi Vilna Yomi: " + hebrewDateFormatter.formatDafYomiYerushalmi(daf: yerushalmiYomi)))
+                zmanimList.append(ZmanListEntry(title:"Yerushalmi Vilna Yomi: ".localized() + hebrewDateFormatter.formatDafYomiYerushalmi(daf: yerushalmiYomi)))
             } else {
-                zmanimList.append(ZmanListEntry(title:"No Yerushalmi Vilna Yomi"))
+                zmanimList.append(ZmanListEntry(title:"No Yerushalmi Vilna Yomi".localized()))
             }
         }
     }

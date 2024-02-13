@@ -35,6 +35,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     var wcSession : WCSession! = nil
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var toolbar: UIToolbar!
     @IBAction func prevDayButton(_ sender: Any) {
         userChosenDate = userChosenDate.advanced(by: -86400)
         syncCalendarDates()
@@ -62,7 +63,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         var topMenu:[UIAction] = []
         var bottomMenu:[UIAction] = []
         
-        topMenu.append(UIAction(title: "Shabbat/Chag Mode", identifier: nil, state: self.shabbatMode ? .on : .off) { _ in
+        topMenu.append(UIAction(title: "Shabbat/Chag Mode".localized(), identifier: nil, state: self.shabbatMode ? .on : .off) { _ in
             if self.shabbatMode {
                 self.endShabbatMode()
             } else {
@@ -70,8 +71,8 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             self.createMenu()
         })
-        
-        topMenu.append(UIAction(title: "Use Elevation", identifier: nil, state: self.defaults.bool(forKey: "useElevation") ? .on : .off) { _ in
+                
+        topMenu.append(UIAction(title: "Use Elevation".localized(), identifier: nil, state: self.defaults.bool(forKey: "useElevation") ? .on : .off) { _ in
             self.defaults.set(!self.defaults.bool(forKey: "useElevation"), forKey: "useElevation")
             GlobalStruct.useElevation = self.defaults.bool(forKey: "useElevation")
             self.resolveElevation()
@@ -81,35 +82,35 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.updateZmanimList()
         })
         
-        topMenu.append(UIAction(title: "Netz Countdown", identifier: nil) { _ in
+        topMenu.append(UIAction(title: "Netz Countdown".localized(), identifier: nil) { _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "Netz") as! NetzViewController
             newViewController.modalPresentationStyle = .fullScreen
             self.present(newViewController, animated: true)
         })
         
-        topMenu.append(UIAction(title: "Molad Calculator", identifier: nil) { _ in
+        topMenu.append(UIAction(title: "Molad Calculator".localized(), identifier: nil) { _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "Molad") as! MoladViewController
             newViewController.modalPresentationStyle = .fullScreen
             self.present(newViewController, animated: true)
         })
         
-        bottomMenu.append(UIAction(title: "Setup", identifier: nil) { _ in
+        bottomMenu.append(UIAction(title: "Setup".localized(), identifier: nil) { _ in
             self.showSetup()
         })
         
-        bottomMenu.append(UIAction(title: "Search For A Place", identifier: nil) { _ in
+        bottomMenu.append(UIAction(title: "Search For A Place".localized(), identifier: nil) { _ in
             self.showZipcodeAlert()
         })
         
-        bottomMenu.append(UIAction(title: "Website", identifier: nil) { _ in
+        bottomMenu.append(UIAction(title: "Website".localized(), identifier: nil) { _ in
             if let url = URL(string: "https://royzmanim.com/") {
                     UIApplication.shared.open(url)
             }
         })
         
-        bottomMenu.append(UIAction(title: "Settings", identifier: nil) { _ in
+        bottomMenu.append(UIAction(title: "Settings".localized(), identifier: nil) { _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
             newViewController.modalPresentationStyle = .fullScreen
@@ -151,11 +152,19 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
                             roundedFormat.timeZone = timezone
-                            roundedFormat.dateFormat = "h:mm aa"
+                            if Locale.isHebrewLocale() {
+                                roundedFormat.dateFormat = "H:mm"
+                            } else {
+                                roundedFormat.dateFormat = "h:mm aa"
+                            }
                             content.text = roundedFormat.string(from: zman!) + arrow
                         } else if zmanimList[indexPath.row].isVisibleSunriseZman {
                             let secondsFormat = DateFormatter()
-                            secondsFormat.dateFormat = "h:mm:ss aa"
+                            if Locale.isHebrewLocale() {
+                                secondsFormat.dateFormat = "H:mm:ss"
+                            } else {
+                                secondsFormat.dateFormat = "h:mm:ss aa"
+                            }
                             content.text = secondsFormat.string(from: zman!) + arrow
                         } else {
                             content.text = dateFormatterForZmanim.string(from: zman!) + arrow
@@ -165,11 +174,19 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
                             roundedFormat.timeZone = timezone
-                            roundedFormat.dateFormat = "h:mm aa"
+                            if Locale.isHebrewLocale() {
+                                roundedFormat.dateFormat = "H:mm"
+                            } else {
+                                roundedFormat.dateFormat = "h:mm aa"
+                            }
                             content.text = roundedFormat.string(from: zman!)
                         } else if zmanimList[indexPath.row].isVisibleSunriseZman {
                             let secondsFormat = DateFormatter()
-                            secondsFormat.dateFormat = "h:mm:ss aa"
+                            if Locale.isHebrewLocale() {
+                                secondsFormat.dateFormat = "H:mm:ss"
+                            } else {
+                                secondsFormat.dateFormat = "h:mm:ss aa"
+                            }
                             content.text = secondsFormat.string(from: zman!)
                         }  else {
                             content.text = dateFormatterForZmanim.string(from: zman!)
@@ -244,10 +261,13 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         
         let zmanimInfo = ZmanimAlertInfoHolder.init(title: zmanimList[indexPath.row].title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         
-        var alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage(), preferredStyle: .actionSheet)
+        let candleLightingOffset = zmanimCalendar.candleLightingOffset
+        let shabbatOffset = zmanimCalendar.ateretTorahSunsetOffset
+        
+        var alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage().replacingOccurrences(of: "%c", with: String(candleLightingOffset)).replacingOccurrences(of: "%s", with: String(shabbatOffset)), preferredStyle: .actionSheet)
         
         if (UIDevice.current.userInterfaceIdiom == .pad) {
-            alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage(), preferredStyle: .alert)
+            alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage().replacingOccurrences(of: "%c", with: String(candleLightingOffset)).replacingOccurrences(of: "%s", with: String(shabbatOffset)), preferredStyle: .alert)
         }
         
         if indexPath.row == 0 {
@@ -265,12 +285,12 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             
             alertController.title = "Location info for: " + self.locationName
             alertController.message = message
-            let locationAction = UIAlertAction(title: "Change Location", style: .default) { [self] (_) in
+            let locationAction = UIAlertAction(title: "Change Location".localized(), style: .default) { [self] (_) in
                 self.showZipcodeAlert()
             }
             alertController.addAction(locationAction)
             if !defaults.bool(forKey: "LuachAmudeiHoraah") {
-                let elevationAction = UIAlertAction(title: "Set Elevation", style: .default) { [self] (_) in
+                let elevationAction = UIAlertAction(title: "Set Elevation".localized(), style: .default) { [self] (_) in
                     self.setupElevetion((Any).self)
                 }
                 alertController.addAction(elevationAction)
@@ -278,7 +298,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         if zmanimList[indexPath.row].title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
-            let setupSunriseAction = UIAlertAction(title: "Setup Visible Sunrise", style: .default) { [self] (_) in
+            let setupSunriseAction = UIAlertAction(title: "Setup Visible Sunrise".localized(), style: .default) { [self] (_) in
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let newViewController = storyboard.instantiateViewController(withIdentifier: "SetupChooser") as! SetupChooserViewController
                 newViewController.modalPresentationStyle = .fullScreen
@@ -287,7 +307,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             alertController.addAction(setupSunriseAction)
         }
         
-        if zmanimList[indexPath.row].title == "Daily Siddur" || zmanimList[indexPath.row].title == "Daily Siddur*" {
+        if zmanimList[indexPath.row].title == "Daily Siddur".localized() || zmanimList[indexPath.row].title == "Daily Siddur".localized().appending("*") {
             GlobalStruct.jewishCalendar = jewishCalendar
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "SiddurChooser") as! SiddurChooserViewController
@@ -299,7 +319,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             if zmanimList[indexPath.row].isZman
                 && (zmanimList[indexPath.row].zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
                 && zmanimList[indexPath.row].zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
-                let activityAction = UIAlertAction(title: "Keep track of this zman with a Live Activity?", style: .default) {_ in 
+                let activityAction = UIAlertAction(title: "Keep track of this zman with a Live Activity?".localized(), style: .default) {_ in 
                     let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: self.zmanimList[indexPath.row].title)
                     let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.TimerStatus(endTime: self.zmanimList[indexPath.row].zman ?? Date())
                     _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
@@ -308,7 +328,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
 
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { (_) in }
+        let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
         alertController.addAction(dismissAction)
 
         if !zmanimInfo.getFullMessage().isEmpty || indexPath.row == 0 {
@@ -341,10 +361,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @objc func showDatePicker() {
-        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
         
         if (UIDevice.current.userInterfaceIdiom == .pad) {
-            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+            alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
 
         let datePicker = UIDatePicker()
@@ -361,14 +381,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
         
-        let changeCalendarAction = UIAlertAction(title: "Switch Calendar", style: .default) { (_) in
+        let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.dismiss(animated: true)
             self.showHebrewDatePicker()
         }
 
         alertController.addAction(changeCalendarAction)
 
-        let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in
+        let doneAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
             self.syncCalendarDates()
             self.updateZmanimList()
             self.checkIfTablesNeedToBeUpdated()
@@ -381,10 +401,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @objc func showHebrewDatePicker() {
-        var alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .actionSheet)
+        var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
         
         if (UIDevice.current.userInterfaceIdiom == .pad) {
-            alertController = UIAlertController(title: "Select a date", message: nil, preferredStyle: .alert)
+            alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
 
         let datePicker = UIDatePicker()
@@ -403,14 +423,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
         
-        let changeCalendarAction = UIAlertAction(title: "Switch Calendar", style: .default) { (_) in
+        let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.dismiss(animated: true)
             self.showDatePicker()
         }
 
         alertController.addAction(changeCalendarAction)
 
-        let doneAction = UIAlertAction(title: "Done", style: .default) { (_) in
+        let doneAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
             self.syncCalendarDates()
             self.updateZmanimList()
             self.checkIfTablesNeedToBeUpdated()
@@ -527,6 +547,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             titleLabel.textAlignment = .natural
         }
+        if Locale.isHebrewLocale() {
+            titleLabel.text = "              זמני יוסף      "
+        }
+        toolbar.semanticContentAttribute = .forceLeftToRight
         if WCSession.isSupported() {
             wcSession = WCSession.default
             wcSession.delegate = self
@@ -535,10 +559,18 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {//this method happens 2nd
         super.viewWillAppear(animated)
-        if defaults.bool(forKey: "showSeconds") {
-            dateFormatterForZmanim.dateFormat = "h:mm:ss aa"
+        if Locale.isHebrewLocale() {
+            if defaults.bool(forKey: "showSeconds") {
+                dateFormatterForZmanim.dateFormat = "H:mm:ss"
+            } else {
+                dateFormatterForZmanim.dateFormat = "H:mm"
+            }
         } else {
-            dateFormatterForZmanim.dateFormat = "h:mm aa"
+            if defaults.bool(forKey: "showSeconds") {
+                dateFormatterForZmanim.dateFormat = "h:mm:ss aa"
+            } else {
+                dateFormatterForZmanim.dateFormat = "h:mm aa"
+            }
         }
     }
     
@@ -708,9 +740,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
         if !defaults.bool(forKey: "inIsrael") && timezone.identifier == "Asia/Jerusalem" {
-            let alertController = UIAlertController(title: "Are you in Israel now?", message: "If you are in Israel, please confirm below.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Are you in Israel now?".localized(), message: "If you are in Israel, please confirm below.".localized(), preferredStyle: .alert)
 
-            let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
+            let yesAction = UIAlertAction(title: "Yes".localized(), style: .default) { (_) in
                 self.defaults.set(true, forKey: "inIsrael")
                 self.defaults.set(false, forKey: "LuachAmudeiHoraah")
                 self.jewishCalendar.inIsrael = true
@@ -720,7 +752,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
 
             alertController.addAction(yesAction)
             
-            let noAction = UIAlertAction(title: "No", style: .default) { (_) in
+            let noAction = UIAlertAction(title: "No".localized(), style: .default) { (_) in
                 self.defaults.set(false, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = false
                 GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
@@ -733,7 +765,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
 
             alertController.addAction(noAction)
             
-            let noAskAction = UIAlertAction(title: "Do Not Ask Again", style: .default) { (_) in
+            let noAskAction = UIAlertAction(title: "Do Not Ask Again".localized(), style: .default) { (_) in
                 self.defaults.set(true, forKey: "neverAskInIsrael")
             }
 
@@ -743,9 +775,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         if defaults.bool(forKey: "inIsrael") && timezone.identifier != "Asia/Jerusalem" {
-            let alertController = UIAlertController(title: "Have you left Israel?", message: "If you have left Israel, please confirm below.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Have you left Israel?".localized(), message: "If you have left Israel, please confirm below.".localized(), preferredStyle: .alert)
 
-            let yesAction = UIAlertAction(title: "Yes", style: .default) { (_) in
+            let yesAction = UIAlertAction(title: "Yes".localized(), style: .default) { (_) in
                 self.defaults.set(false, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = false
                 GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
@@ -758,7 +790,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
 
             alertController.addAction(yesAction)
             
-            let noAction = UIAlertAction(title: "No", style: .default) { (_) in
+            let noAction = UIAlertAction(title: "No".localized(), style: .default) { (_) in
                 self.defaults.set(true, forKey: "inIsrael")
                 self.jewishCalendar.inIsrael = true
                 GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
@@ -767,7 +799,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
 
             alertController.addAction(noAction)
             
-            let noAskAction = UIAlertAction(title: "Do Not Ask Again", style: .default) { (_) in
+            let noAskAction = UIAlertAction(title: "Do Not Ask Again".localized(), style: .default) { (_) in
                 self.defaults.set(true, forKey: "neverAskInIsrael")
             }
 
@@ -783,9 +815,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
         if chaitables.getVisibleSurise(forDate: userChosenDate) == nil {
-            let alert = UIAlertController(title: "Chaitables out of date", message: "The current hebrew year is out of scope for the visible sunrise times that were downloaded from Chaitables. Would you like to download the tables for this hebrew year?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Chaitables out of date".localized(), message: "The current hebrew year is out of scope for the visible sunrise times that were downloaded from Chaitables. Would you like to download the tables for this hebrew year?".localized(), preferredStyle: .alert)
             
-            let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { [weak alert] (_) in
+            let yesAction = UIAlertAction(title: "Yes".localized(), style: .default, handler: { [weak alert] (_) in
                 let oldLink = self.defaults.string(forKey: "chaitablesLink" + self.locationName)
                 let hebrewYear = String(self.jewishCalendar.getJewishYear())
                 let pattern = "&cgi_yrheb=\\d{4}"
@@ -975,21 +1007,21 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         switch jewishCalendar.getYomTovIndex() {
         case JewishCalendar.PESACH:
             for _ in 0...4 {
-                bannerText += "PESACH"
+                bannerText += "PESACH".localized()
                 if isShabbat {
-                    bannerText += "/SHABBAT"
+                    bannerText += "/SHABBAT".localized()
                 }
-                bannerText += "MODE          "
+                bannerText += "MODE          ".localized()
             }
             ShabbatModeBanner.backgroundColor = .init(named:"light_yellow")
             ShabbatModeBanner.textColor = .black
         case JewishCalendar.SHAVUOS:
             for _ in 0...4 {
-                bannerText += "SHAVUOT"
+                bannerText += "SHAVUOT".localized()
                 if isShabbat {
-                    bannerText += "/SHABBAT"
+                    bannerText += "/SHABBAT".localized()
                 }
-                bannerText += "MODE          "
+                bannerText += "MODE          ".localized()
             }
             ShabbatModeBanner.backgroundColor = .systemBlue
             ShabbatModeBanner.textColor = .white
@@ -997,54 +1029,54 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             for _ in 0...4 {
                 bannerText += "SUCCOT"
                 if isShabbat {
-                    bannerText += "/SHABBAT"
+                    bannerText += "/SHABBAT".localized()
                 }
-                bannerText += "MODE          "
+                bannerText += "MODE          ".localized()
             }
             ShabbatModeBanner.backgroundColor = .systemGreen
             ShabbatModeBanner.textColor = .black
         case JewishCalendar.SHEMINI_ATZERES:
             for _ in 0...4 {
-                bannerText += "SHEMINI ATZERET"
+                bannerText += "SHEMINI ATZERET".localized()
                 if isShabbat {
-                    bannerText += "/SHABBAT"
+                    bannerText += "/SHABBAT".localized()
                 }
-                bannerText += "MODE          "
+                bannerText += "MODE          ".localized()
             }
             ShabbatModeBanner.backgroundColor = .systemGreen
             ShabbatModeBanner.textColor = .black
         case JewishCalendar.SIMCHAS_TORAH:
             for _ in 0...4 {
-                bannerText += "SIMCHAT TORAH"
+                bannerText += "SIMCHAT TORAH".localized()
                 if isShabbat {
-                    bannerText += "/SHABBAT"
+                    bannerText += "/SHABBAT".localized()
                 }
-                bannerText += "MODE          "
+                bannerText += "MODE          ".localized()
             }
             ShabbatModeBanner.backgroundColor = .green
             ShabbatModeBanner.textColor = .black
         case JewishCalendar.ROSH_HASHANA:
             for _ in 0...4 {
-                bannerText += "ROSH HASHANA"
+                bannerText += "ROSH HASHANA".localized()
                 if isShabbat {
-                    bannerText += "/SHABBAT"
+                    bannerText += "/SHABBAT".localized()
                 }
-                bannerText += "MODE          "
+                bannerText += "MODE          ".localized()
             }
             ShabbatModeBanner.backgroundColor = .red
             ShabbatModeBanner.textColor = .white
         case JewishCalendar.YOM_KIPPUR:
             for _ in 0...4 {
-                bannerText += "YOM KIPPUR"
+                bannerText += "YOM KIPPUR".localized()
                 if isShabbat {
-                    bannerText += "/SHABBAT"
+                    bannerText += "/SHABBAT".localized()
                 }
-                bannerText += "MODE          "
+                bannerText += "MODE          ".localized()
             }
             ShabbatModeBanner.backgroundColor = .white
             ShabbatModeBanner.textColor = .black
         default:
-            bannerText = "Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          "
+            bannerText = "Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          ".localized()
             ShabbatModeBanner.backgroundColor = .init(named:"dark_blue")
             ShabbatModeBanner.textColor = .white
         }
@@ -1401,9 +1433,15 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         let hDateFormatter = DateFormatter()
         hDateFormatter.calendar = Calendar(identifier: .hebrew)
         hDateFormatter.dateFormat = "d MMMM, yyyy"
-        let hebrewDate = hDateFormatter.string(from: userChosenDate)
+        var hebrewDate = hDateFormatter.string(from: userChosenDate)
             .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
+        
+        if Locale.isHebrewLocale() {
+            let hebrewDateFormatter = HebrewDateFormatter()
+            hebrewDateFormatter.hebrewFormat = true
+            hebrewDate = hebrewDateFormatter.format(jewishCalendar: jewishCalendar)
+        }
         
         if Calendar.current.isDateInToday(userChosenDate) {
             date += "   ▼   " + hebrewDate
@@ -1427,12 +1465,16 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if !parasha.isEmpty {
             zmanimList.append(ZmanListEntry(title:parasha))
         } else {
-            zmanimList.append(ZmanListEntry(title:"No Weekly Parasha"))
+            zmanimList.append(ZmanListEntry(title:"No Weekly Parasha".localized()))
         }
         syncCalendarDates()//reset
         dateFormatter.dateFormat = "EEEE"
         hebrewDateFormatter.setLongWeekFormat(longWeekFormat: true)
-        zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + "יום " + hebrewDateFormatter.formatDayOfWeek(jewishCalendar: jewishCalendar)))
+        if Locale.isHebrewLocale() {
+            zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate)))
+        } else {
+            zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + "יום " + hebrewDateFormatter.formatDayOfWeek(jewishCalendar: jewishCalendar)))
+        }
         hebrewDateFormatter.hebrewFormat = false
         let specialDay = jewishCalendar.getSpecialDay(addOmer:true)
         if !specialDay.isEmpty {
@@ -1441,16 +1483,16 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if jewishCalendar.is3Weeks() {
             if jewishCalendar.is9Days() {
                 if jewishCalendar.isShevuahShechalBo() {
-                    zmanimList.append(ZmanListEntry(title: "Shevuah Shechal Bo"))
+                    zmanimList.append(ZmanListEntry(title: "Shevuah Shechal Bo".localized()))
                 } else {
-                    zmanimList.append(ZmanListEntry(title: "Nine Days"))
+                    zmanimList.append(ZmanListEntry(title: "Nine Days".localized()))
                 }
             } else {
-                zmanimList.append(ZmanListEntry(title: "Three Weeks"))
+                zmanimList.append(ZmanListEntry(title: "Three Weeks".localized()))
             }
         }
         if jewishCalendar.getYomTovIndex() == JewishCalendar.ROSH_HASHANA && jewishCalendar.isShmitaYear() {
-            zmanimList.append(ZmanListEntry(title: "This year is a shmita year"))
+            zmanimList.append(ZmanListEntry(title: "This year is a shmita year".localized()))
         }
         let music = jewishCalendar.isOKToListenToMusic()
         if !music.isEmpty {
@@ -1470,23 +1512,27 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             zmanimList.append(ZmanListEntry(title: bircatHelevana))
         }
         if jewishCalendar.isBirkasHachamah() {
-            zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today"))
+            zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today".localized()))
         }
-        dateFormatter.dateFormat = "h:mm aa"
+        if Locale.isHebrewLocale() {
+            dateFormatter.dateFormat = "H:mm"
+        } else {
+            dateFormatter.dateFormat = "h:mm aa"
+        }
         dateFormatter.timeZone = timezone
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
         if tekufaSetting == 1 {
             let tekufa = jewishCalendar.getTekufaAsDate()
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
                 }
             }
             jewishCalendar.forward()
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
@@ -1494,14 +1540,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
                 }
             }
             jewishCalendar.forward()
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
@@ -1509,14 +1555,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let tekufa = jewishCalendar.getTekufaAsDate()
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
                 }
             }
             jewishCalendar.forward()
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
@@ -1524,14 +1570,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let tekufaAH = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufaAH != nil {
                 if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufaAH!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!)))
                 }
             }
             jewishCalendar.forward()
             let checkTomorrowForAHTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForAHTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
@@ -1543,7 +1589,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         hebrewDateFormatter.useGershGershayim = false
         let dafYomi = jewishCalendar.getDafYomiBavli()
         if dafYomi != nil {
-            zmanimList.append(ZmanListEntry(title:"Daf Yomi: " + hebrewDateFormatter.formatDafYomiBavli(daf: dafYomi!)))
+            zmanimList.append(ZmanListEntry(title:"Daf Yomi: ".localized() + hebrewDateFormatter.formatDafYomiBavli(daf: dafYomi!)))
         }
         let dateString = "1980-02-02"//Yerushalmi start date
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -1554,15 +1600,15 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 print("The target date is before Feb 2, 1980.")
             } else if comparisonResult == .orderedAscending {
                 if yerushalmiYomi != nil {
-                    zmanimList.append(ZmanListEntry(title:"Yerushalmi Vilna Yomi: " + hebrewDateFormatter.formatDafYomiYerushalmi(daf: yerushalmiYomi)))
+                    zmanimList.append(ZmanListEntry(title:"Yerushalmi Vilna Yomi: ".localized() + hebrewDateFormatter.formatDafYomiYerushalmi(daf: yerushalmiYomi)))
                 } else {
-                    zmanimList.append(ZmanListEntry(title:"No Yerushalmi Vilna Yomi"))
+                    zmanimList.append(ZmanListEntry(title:"No Yerushalmi Vilna Yomi".localized()))
                 }
             }
         }
         zmanimList.append(ZmanListEntry(title:jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()))
         if !shabbatMode {
-            var siddurEntry = ZmanListEntry(title: "Daily Siddur")
+            var siddurEntry = ZmanListEntry(title: "Daily Siddur".localized())
             if (jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT ||
                                 (jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH &&
                                  jewishCalendar.getDayOfWeek() == 3)) {// if disclaimers will be shown in siddur
@@ -1574,9 +1620,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
-            zmanimList.append(ZmanListEntry(title:"GRA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: " + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
         }
         zmanimTableView.reloadData()
     }
@@ -1602,24 +1648,24 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func showZipcodeAlert() {
-        let advancedAlert = UIAlertController(title: "Advanced",
-                                      message: "Enter your location's name, latitude, longitude, elevation, and timezone.", preferredStyle: .alert)
+        let advancedAlert = UIAlertController(title: "Advanced".localized(),
+                                              message: "Enter your location's name, latitude, longitude, elevation, and timezone.".localized(), preferredStyle: .alert)
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Location Name"
+            textField.placeholder = "Location Name".localized()
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Latitude"
+            textField.placeholder = "Latitude".localized()
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Longitude"
+            textField.placeholder = "Longitude".localized()
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Elevation"
+            textField.placeholder = "Elevation".localized()
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Timezone e.g. America/New_York"
+            textField.placeholder = "Timezone e.g. America/New_York"// not going to translate this, as the timezone needs to be in english
         }
-        advancedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [self] UIAlertAction in
+        advancedAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self] UIAlertAction in
             defaults.setValue(true, forKey: "useAdvanced")
             defaults.setValue(false, forKey: "useZipcode")
             useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
@@ -1647,28 +1693,28 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 }
             }
         }))
-        advancedAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { UIAlertAction in
+        advancedAlert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
             self.dismiss(animated: true)
         }))
         
-        let alert = UIAlertController(title: "Location or Search a place?",
-                                      message: "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results and it will automatically update your location.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Location or Search a place?".localized(),
+                                      message: "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results and it will automatically update your location.".localized(), preferredStyle: .alert)
         alert.addTextField { (textField) in
-            textField.placeholder = "Zipcode/Address"
+            textField.placeholder = "Zipcode/Address".localized()
         }
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
             //if text is empty, display a message notifying the user:
             if textField?.text == "" {
-                let alert = UIAlertController(title: "Error", message: "Please enter a valid zipcode or address.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
+                let alert = UIAlertController(title: "Error".localized(), message: "Please enter a valid zipcode or address.".localized(), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: {_ in
                     self.showZipcodeAlert()
                 }))
                 self.present(alert, animated: true)
                 return
             }
             let geoCoder = CLGeocoder()
-            geoCoder.geocodeAddressString((textField?.text)!, completionHandler: { i, j in
+            geoCoder.geocodeAddressString((textField?.text)!, in: nil, preferredLocale: .current, completionHandler: { i, j in
                 var name = ""
                 if i?.first?.locality != nil {
                     if let locality = i?.first?.locality {
@@ -1681,7 +1727,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     }
                 }
                 if name.isEmpty {
-                    name = "No location name info"
+                    name = "No location name info".localized()
                 }
                 self.locationName = name
                 let coordinates = i?.first?.location?.coordinate
@@ -1742,14 +1788,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.setLocationAndDisperse(locationName: "location5")
             }))
         }
-        alert.addAction(UIAlertAction(title: "Use Location", style: .default, handler: { UIAlertAction in
+        alert.addAction(UIAlertAction(title: "Use Location".localized(), style: .default, handler: { UIAlertAction in
             self.getUserLocation()
             self.defaults.set(true, forKey: "isSetup")
         }))
-        alert.addAction(UIAlertAction(title: "Advanced", style: .default, handler: { UIAlertAction in
+        alert.addAction(UIAlertAction(title: "Advanced".localized(), style: .default, handler: { UIAlertAction in
             self.present(advancedAlert, animated: true)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { UIAlertAction in
+        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
             alert.dismiss(animated: true)
         }))
         self.present(alert, animated: true, completion: nil)

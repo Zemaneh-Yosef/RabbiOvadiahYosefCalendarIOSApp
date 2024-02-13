@@ -36,22 +36,19 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     fileprivate func scheduleDailyNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "Jewish Special Day"
+        content.title = "Jewish Special Day".localized()
         content.sound = .default
-        if defaults.bool(forKey: "showDayOfOmer") {
-            content.body = "Today is " + jewishCalendar.getSpecialDay(addOmer:true)
-        } else {
-            content.body = "Today is " + jewishCalendar.getSpecialDay(addOmer:false)
-        }
-        if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {
-            content.body = content.body.appending(" / Last notification until the app is opened again.")
+        content.body = "Today is ".localized() + jewishCalendar.getSpecialDay(addOmer: defaults.bool(forKey: "showDayOfOmer"))
+        
+        if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {// if this is the last notification being set
+            content.body = content.body.appending(" / Last notification until the app is opened again.".localized())
         }
         
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getSeaLevelSunrise() ?? Date()), repeats: false)
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        if content.body != "Today is " {//avoid scheduling notifications that are not going to be displayed
+        if content.body != "Today is ".localized() {//avoid scheduling notifications that are not going to be displayed
             notificationCenter.add(request)
             amountOfNotificationsSet+=1
         }
@@ -76,11 +73,15 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
         if tekufaSetting == 1 {
             let tekufaContent = UNMutableNotificationContent()
-            tekufaContent.title = "Tekufa / Season Changes"
+            tekufaContent.title = "Tekufa / Season Changes".localized()
             tekufaContent.sound = .default
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "h:mm aa"
+            if Locale.isHebrewLocale() {
+                dateFormatter.dateFormat = "H:mm"
+            } else {
+                dateFormatter.dateFormat = "h:mm aa"
+            }
             let backup = jewishCalendar.workingDate
             while jewishCalendar.getTekufaAsDate() == nil {
                 jewishCalendar.forward()
@@ -88,7 +89,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let tekufa = jewishCalendar.getTekufaAsDate()
             let beginTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1800) // half hour before earlier time
             let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
-            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until " + dateFormatter.string(from: endTime)
+            tekufaContent.body = "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until ".localized() + dateFormatter.string(from: endTime)
             jewishCalendar.workingDate = backup
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
@@ -98,11 +99,15 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             amountOfNotificationsSet+=1
         } else if tekufaSetting == 2 {
             let tekufaContent = UNMutableNotificationContent()
-            tekufaContent.title = "Tekufa / Season Changes"
+            tekufaContent.title = "Tekufa / Season Changes".localized()
             tekufaContent.sound = .default
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "h:mm aa"
+            if Locale.isHebrewLocale() {
+                dateFormatter.dateFormat = "H:mm"
+            } else {
+                dateFormatter.dateFormat = "h:mm aa"
+            }
             let backup = jewishCalendar.workingDate
             while jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true) == nil {
                 jewishCalendar.forward()
@@ -110,7 +115,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             let beginTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1800) // half hour before earlier time
             let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
-            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until " + dateFormatter.string(from: endTime)
+            tekufaContent.body = "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!) + ". Do not drink water from ".localized() + dateFormatter.string(from: beginTime) + " until ".localized() + dateFormatter.string(from: endTime)
             jewishCalendar.workingDate = backup
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
@@ -120,11 +125,15 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             amountOfNotificationsSet+=1
         } else {
             let tekufaContent = UNMutableNotificationContent()
-            tekufaContent.title = "Tekufa / Season Changes"
+            tekufaContent.title = "Tekufa / Season Changes".localized()
             tekufaContent.sound = .default
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "h:mm aa"
+            if Locale.isHebrewLocale() {
+                dateFormatter.dateFormat = "H:mm"
+            } else {
+                dateFormatter.dateFormat = "h:mm aa"
+            }
             let backup = jewishCalendar.workingDate
             while jewishCalendar.getTekufaAsDate() == nil {
                 jewishCalendar.forward()
@@ -133,7 +142,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let AHTekufa = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1260) // 21 minutes in seconds
             let beginTime = Date(timeIntervalSince1970: AHTekufa.timeIntervalSince1970 - 1800) // half hour before earlier time
             let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
-            tekufaContent.body = "Tekufa " + jewishCalendar.getTekufaName() + " is today at " + dateFormatter.string(from: AHTekufa) + "/" + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until " + dateFormatter.string(from: endTime)
+            tekufaContent.body = "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: AHTekufa) + "/" + dateFormatter.string(from: tekufa!) + ". Do not drink water from ".localized() + dateFormatter.string(from: beginTime) + " until ".localized() + dateFormatter.string(from: endTime)
             jewishCalendar.workingDate = backup
             
             let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: AHTekufa.addingTimeInterval(-1800)), repeats: false)
@@ -145,14 +154,62 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     }
     
     fileprivate func scheduleOmerNotifications() {
+        let omerList = ["הַיּוֹם יוֹם אֶחָד לָעֹמֶר:",
+                        "הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר:",
+                        "הַיּוֹם שְׁלֹשָׁה יָמִים לָעֹמֶר:",
+                        "הַיּוֹם אַרְבָּעָה יָמִים לָעֹמֶר:",
+                        "הַיּוֹם חֲמִשָּׁה יָמִים לָעֹמֶר:",
+                        "הַיּוֹם שִׁשָּׁה יָמִים לָעֹמֶר:",
+                        "הַיּוֹם שִׁבְעָה יָמִים לָעֹמֶר, שֶׁהֵם שָׁבוּעַ אֶחָד:",
+                        "הַיּוֹם שְׁמוֹנָה יָמִים לָעֹמֶר, שֶׁהֵם שָׁבוּעַ אֶחָד וְיוֹם אֶחָד:",
+                        "הַיּוֹם תִּשְׁעָה יָמִים לָעֹמֶר, שֶׁהֵם שָׁבוּעַ אֶחָד וּשְׁנֵי יָמִים:",
+                        "הַיּוֹם עֲשָׂרָה יָמִים לָעֹמֶר, שֶׁהֵם שָׁבוּעַ אֶחָד וּשְׁלֹשָׁה יָמִים:",
+                        "אַחַד עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שָׁבוּעַ אֶחָד וְאַרְבָּעָה יָמִים:",
+                        "הַיּוֹם שְׁנֵים עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שָׁבוּעַ אֶחָד וַחֲמִשָּׁה יָמִים:",
+                        "הַיּוֹם שְׁלֹשָׁה עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שָׁבוּעַ אֶחָד וְשִׁשָּׁה יָמִים:",
+                        "הַיּוֹם אַרְבָּעָה עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת:",
+                        "חֲמִשָּׁה עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת ויוֹם אֶחָד:",
+                        "הַיּוֹם שִׁשָּׁה עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וּשְׁנֵי יָמִים:",
+                        "הַיּוֹם שִׁבְעָה עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים:",
+                        "הַיּוֹם שְׁמוֹנָה עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וְאַרְבָּעָה יָמִים:",
+                        "הַיּוֹם תִּשְׁעָה עָשָׂר יוֹם לָעֹמֶר, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
+                        "הַיּוֹם עֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
+                        "הַיּוֹם אֶחָד וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת:",
+                        "הַיּוֹם שְׁנַיִם וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וְיוֹם אֶחָד:",
+                        "הַיּוֹם שְׁלֹשָׁה וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וּשְׁנֵי יָמִים:",
+                        "הַיּוֹם אַרְבָּעָה וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים:",
+                        "הַיּוֹם חֲמִשָּׁה וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים:",
+                        "הַיּוֹם שִׁשָּׁה וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
+                        "הַיּוֹם שִׁבְעָה וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
+                        "הַיּוֹם שְׁמוֹנָה וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת:",
+                        "הַיּוֹם תִּשְׁעָה וְעֶשְׂרִים יוֹם לָעֹמֶר, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וְיוֹם אֶחָד:",
+                        "הַיּוֹם שְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וּשְׁנֵי יָמִים:",
+                        "הַיּוֹם אֶחָד וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים:",
+                        "הַיּוֹם שְׁנַיִם וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים:",
+                        "הַיּוֹם שְׁלֹשָׁה וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
+                        "הַיּוֹם אַרְבָּעָה וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
+                        "הַיּוֹם חֲמִשָּׁה וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת:",
+                        "הַיּוֹם שִׁשָּׁה וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וְיוֹם אֶחָד:",
+                        "הַיּוֹם שִׁבְעָה וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וּשְׁנֵי יָמִים:",
+                        "הַיּוֹם שְׁמוֹנָה וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים:",
+                        "הַיּוֹם תִּשְׁעָה וּשְׁלֹשִׁים יוֹם לָעֹמֶר, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים:",
+                        "הַיּוֹם אַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
+                        "הַיּוֹם אֶחָד וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
+                        "הַיּוֹם שְׁנַיִם וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת:",
+                        "הַיּוֹם שְׁלֹשָׁה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְיוֹם אֶחָד:",
+                        "הַיּוֹם אַרְבָּעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וּשְׁנֵי יָמִים:",
+                        "הַיּוֹם חֲמִשָּׁה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים:",
+                        "הַיּוֹם שִׁשָּׁה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים:",
+                        "הַיּוֹם שִׁבְעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
+                        "הַיּוֹם שְׁמוֹנָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
+                        "הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת:"]
+        
         let content = UNMutableNotificationContent()
-        content.title = "Day of Omer"
+        content.title = "Day of Omer".localized()
         content.sound = .default
-        content.subtitle = "Don't forget to count!"
+        content.subtitle = "Don't forget to count!".localized()
         let dayOfOmer = jewishCalendar.getDayOfOmer()
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .ordinal
-        content.body = "Tonight is the " + formatter.string(from: dayOfOmer as NSNumber)! + " day of the Omer"
+        content.body = omerList[dayOfOmer + 1]
         
         //same issue as described in scheduleDailyNotifications()
         var trigger: UNCalendarNotificationTrigger
@@ -164,7 +221,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        if dayOfOmer != -1 {
+        if dayOfOmer != -1 && dayOfOmer != 49 {//we don't want to send a notification right before shavuot I.E. 49 + 1
             notificationCenter.add(request)
             amountOfNotificationsSet+=1
         }
@@ -199,10 +256,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         jewishCalendar.back()
         zmanimCalendar.workingDate = jewishCalendar.workingDate
         let contentBarech = UNMutableNotificationContent()
-        contentBarech.title = "Barech Aleinu Tonight!"
+        contentBarech.title = "Barech Aleinu Tonight!".localized()
         contentBarech.sound = .default
         contentBarech.subtitle = locationName
-        contentBarech.body = "Tonight we start saying Barech Aleinu!"
+        contentBarech.body = "Tonight we start saying Barech Aleinu!".localized()
         
         let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()), repeats: false)
         
@@ -230,10 +287,18 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         while amountOfNotificationsSet <= amountOfPossibleNotifications {
             let zmanTimeFormatter = DateFormatter()
-            if defaults.bool(forKey: "showSeconds") {
-                zmanTimeFormatter.dateFormat = "h:mm:ss aa"
+            if Locale.isHebrewLocale() {
+                if defaults.bool(forKey: "showSeconds") {
+                    zmanTimeFormatter.dateFormat = "H:mm:ss"
+                } else {
+                    zmanTimeFormatter.dateFormat = "H:mm"
+                }
             } else {
-                zmanTimeFormatter.dateFormat = "h:mm aa"
+                if defaults.bool(forKey: "showSeconds") {
+                    zmanTimeFormatter.dateFormat = "h:mm:ss aa"
+                } else {
+                    zmanTimeFormatter.dateFormat = "h:mm aa"
+                }
             }
             var editableZmanim = ["Alot Hashachar",
                                   "Talit And Tefilin",
@@ -246,8 +311,8 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                                   "Chatzot",
                                   "Mincha Gedolah",
                                   "Mincha Ketana",
-                                  "Plag HaMincha Yalkut Yosef",
                                   "Plag HaMincha Halacha Berurah",
+                                  "Plag HaMincha Yalkut Yosef",
                                   "Candle Lighting",
                                   "Sunset",
                                   "Tzeit Hacochavim",
@@ -285,8 +350,8 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     } else {
                         zmanContent.body = zmanEntry.title + " is at " + zmanTimeFormatter.string(from: zman ?? Date())
                     }
-                    if amountOfNotificationsSet == amountOfPossibleNotifications {
-                        zmanContent.body = zmanContent.body.appending(" / Last notification until the app is opened again.")
+                    if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {// if this is the last notification being set
+                        zmanContent.body = zmanContent.body.appending(" / Last notification until the app is opened again.".localized())
                     }
                     
                     if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
