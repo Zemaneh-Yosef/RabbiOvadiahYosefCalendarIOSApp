@@ -117,7 +117,32 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.present(newViewController, animated: true)
         })
         
-        let menu = UIMenu(options: .displayInline, children: [UIMenu(title: "", options: .displayInline, children: topMenu), UIMenu(options: .displayInline, children:[UIMenu(title: "", options: .displayInline, children: bottomMenu)])])
+        var menu: UIMenu
+        menu = UIMenu(options: .displayInline, children: [UIMenu(title: "", options: .displayInline, children: topMenu), UIMenu(options: .displayInline, children:[UIMenu(title: "", options: .displayInline, children: bottomMenu)])])
+        
+        if (UIDevice.current.userInterfaceIdiom == .pad) {// an actual iPad is okay with the above format, but for some reason, mac emulation does not handle the menu as well. 
+            topMenu.append(UIAction(title: "Setup".localized(), identifier: nil) { _ in
+                self.showSetup()
+            })
+            
+            topMenu.append(UIAction(title: "Search For A Place".localized(), identifier: nil) { _ in
+                self.showZipcodeAlert()
+            })
+            
+            topMenu.append(UIAction(title: "Website".localized(), identifier: nil) { _ in
+                if let url = URL(string: "https://royzmanim.com/") {
+                        UIApplication.shared.open(url)
+                }
+            })
+            
+            topMenu.append(UIAction(title: "Settings".localized(), identifier: nil) { _ in
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
+            })
+            menu = UIMenu(options: .displayInline, children: topMenu)
+        }
         menuButton.menu = menu
         menuButton.showsMenuAsPrimaryAction = true
     }
@@ -508,9 +533,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        if wcSession.isPaired {
-            if wcSession.isWatchAppInstalled {
-                wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+        if wcSession != nil {
+            if wcSession.isPaired {
+                if wcSession.isWatchAppInstalled {
+                    wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+                }
             }
         }
     }
@@ -1380,9 +1407,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     updateZmanimList()
                     NotificationManager.instance.requestAuthorization()
                     NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-                    if self.wcSession.isPaired {
-                        if self.wcSession.isWatchAppInstalled {
-                            self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                    if self.wcSession != nil {
+                        if self.wcSession.isPaired {
+                            if self.wcSession.isWatchAppInstalled {
+                                self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                            }
                         }
                     }
                 }
@@ -1687,9 +1716,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
             NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-            if wcSession.isPaired {
-                if wcSession.isWatchAppInstalled {
-                    wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+            if wcSession != nil {
+                if wcSession.isPaired {
+                    if wcSession.isWatchAppInstalled {
+                        wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+                    }
                 }
             }
         }))
@@ -1751,9 +1782,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.saveLocation()
                 NotificationManager.instance.requestAuthorization()
                 NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-                if self.wcSession.isPaired {
-                    if self.wcSession.isWatchAppInstalled {
-                        self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                if self.wcSession != nil {
+                    if self.wcSession.isPaired {
+                        if self.wcSession.isWatchAppInstalled {
+                            self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                        }
                     }
                 }
             })
@@ -1841,9 +1874,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     func setLocationAndDisperse(locationName:String) {
         setLocation(defaultsLN: locationName, defaultsLat: locationName.appending("Lat"), defaultsLong: locationName.appending("Long"), defaultsTimezone: locationName.appending("Timezone"))
         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-        if wcSession.isPaired {
-            if wcSession.isWatchAppInstalled {
-                wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+        if wcSession != nil {
+            if wcSession.isPaired {
+                if wcSession.isWatchAppInstalled {
+                    wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
+                }
             }
         }
     }

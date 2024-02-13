@@ -30,7 +30,7 @@
 "8UB-WQ-jz2.configuration.title" = "Text size";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "8UB-WQ-jz2"; */
-"8UB-WQ-jz2.normalTitle" = "Button";
+"8UB-WQ-jz2.normalTitle" = "Change Text Size";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "9a2-tM-uOe"; */
 "9a2-tM-uOe.text" = "Label";
@@ -51,7 +51,7 @@
 "CX0-0v-Es4.configuration.title" = "Back";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "CX0-0v-Es4"; */
-"CX0-0v-Es4.normalTitle" = "Button";
+"CX0-0v-Es4.normalTitle" = "Back";
 
 /* Class = "UIButton"; normalTitle = "Hebrew"; ObjectID = "E0v-2T-Cbu"; */
 "E0v-2T-Cbu.normalTitle" = "Hebrew";
@@ -78,13 +78,13 @@
 "Fj1-hW-5PJ.configuration.title" = "Quit";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Fj1-hW-5PJ"; */
-"Fj1-hW-5PJ.normalTitle" = "Button";
+"Fj1-hW-5PJ.normalTitle" = "Back";
 
 /* Class = "UIButton"; configuration.title = "Back"; ObjectID = "Gc1-YU-aPn"; */
 "Gc1-YU-aPn.configuration.title" = "Back";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Gc1-YU-aPn"; */
-"Gc1-YU-aPn.normalTitle" = "Button";
+"Gc1-YU-aPn.normalTitle" = "Back";
 
 /* Class = "UILabel"; text = "Latest Birchat Halevanah (15 days):"; ObjectID = "Gw7-10-IO9"; */
 "Gw7-10-IO9.text" = "Latest Birchat Halevanah (15 days):";
@@ -156,7 +156,7 @@
 "dqr-bm-4gl.configuration.title" = "Change Date";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "dqr-bm-4gl"; */
-"dqr-bm-4gl.normalTitle" = "Button";
+"dqr-bm-4gl.normalTitle" = "Change Date";
 
 /* Class = "UILabel"; text = "Loading..."; ObjectID = "etQ-08-FeZ"; */
 "etQ-08-FeZ.text" = "Loading...";
@@ -180,7 +180,7 @@
 "jNG-p2-w76.configuration.title" = "Download";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "jNG-p2-w76"; */
-"jNG-p2-w76.normalTitle" = "Button";
+"jNG-p2-w76.normalTitle" = "Download";
 
 /* Class = "UIViewController"; title = "Siddur"; ObjectID = "jkM-M4-JT4"; */
 "jkM-M4-JT4.title" = "Siddur";
@@ -201,13 +201,13 @@
 "pWe-dq-8Cy.configuration.title" = "Back";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "pWe-dq-8Cy"; */
-"pWe-dq-8Cy.normalTitle" = "Button";
+"pWe-dq-8Cy.normalTitle" = "Back";
 
 /* Class = "UILabel"; text = "Provide a link below:"; ObjectID = "pdg-vR-aD0"; */
 "pdg-vR-aD0.text" = "Provide a link below:";
 
 /* Class = "UILabel"; text = "עלות השחר\nתלית ותפילין\nהנץ\nסוף זמן שמע מג\"א\nסוף זמן שמע גר\"א\nסוף זמן ברכות שמע\nחצות\nוגו׳..."; ObjectID = "pto-w5-0Pb"; */
-"pto-w5-0Pb.text" = "עלות השחר\nתלית ותפילין\nהנץ\nסוף זמן שמע מג\"א\nסוף זמן שמע גר\"א\nסוף זמן ברכות שמע\nחצות\nוגו׳...";
+"pto-w5-0Pb.text" = "עלות השחר\nטלית ותפילין\nהנץ\nסוף זמן שמע מג\"א\nסוף זמן שמע גר\"א\nסוף זמן ברכות שמע\nחצות\nוגו׳...";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "qF8-a3-lyM"; */
 "qF8-a3-lyM.text" = "Title";
@@ -240,7 +240,7 @@
 "waq-mI-XcQ.configuration.title" = "Back";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "waq-mI-XcQ"; */
-"waq-mI-XcQ.normalTitle" = "Button";
+"waq-mI-XcQ.normalTitle" = "Back";
 
 /* Class = "UIButton"; normalTitle = "נעילה"; ObjectID = "wfJ-3M-Z9b"; */
 "wfJ-3M-Z9b.normalTitle" = "נעילה";
@@ -252,7 +252,7 @@
 "xJd-zE-p1H.configuration.title" = "Back";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "xJd-zE-p1H"; */
-"xJd-zE-p1H.normalTitle" = "Button";
+"xJd-zE-p1H.normalTitle" = "Back";
 
 /* Class = "UILabel"; text = "Dawn\nEarliest Talit/Tefilin\nSunrise\nLatest Shma Mg'a\nLatest Shma Gr'a\nLatest Brachot Shma\nMid-Day\netc..."; ObjectID = "ynM-EA-aMC"; */
 "ynM-EA-aMC.text" = "Dawn\nEarliest Talit/Tefilin\nSunrise\nLatest Shma Mg'a\nLatest Shma Gr'a\nLatest Brachot Shma\nMid-Day\netc...";
