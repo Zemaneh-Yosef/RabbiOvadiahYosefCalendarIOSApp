@@ -32,8 +32,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2412"
             endingLineNumber = "2412"
-            landmarkName = "getTekufaAsDate(shouldMinus21Minutes:)"
-            landmarkType = "7">
+            landmarkName = "JewishCalendar"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2404"
             endingLineNumber = "2404"
-            landmarkName = "getTekufaAsDate(shouldMinus21Minutes:)"
+            landmarkName = "isShmitaYear()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -64,8 +64,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2363"
             endingLineNumber = "2363"
-            landmarkName = "getTekufa()"
-            landmarkType = "7">
+            landmarkName = "JewishCalendar"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
