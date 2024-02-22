@@ -18,7 +18,7 @@ struct ZmanimTimeNames {
             return "Yalkut Yosef"
         }
     }
-
+    
     func getHalachaBerurahString() -> String {
         if (mIsZmanimInHebrew) {
             return "הלכה ברורה"
@@ -26,7 +26,7 @@ struct ZmanimTimeNames {
             return "Halacha Berurah"
         }
     }
-
+    
     func getAbbreviatedYalkutYosefString() -> String {
         if (mIsZmanimInHebrew) {
             return "י\"י"
@@ -34,7 +34,7 @@ struct ZmanimTimeNames {
             return "Y\"Y"
         }
     }
-
+    
     func getAbbreviatedHalachaBerurahString() -> String {
         if (mIsZmanimInHebrew) {
             return "ה\"ב"
@@ -42,7 +42,7 @@ struct ZmanimTimeNames {
             return "H\"B"
         }
     }
-
+    
     
     public func getChatzotLaylaString() -> String {
         if (mIsZmanimInHebrew) {
@@ -75,12 +75,12 @@ struct ZmanimTimeNames {
     }
     
     public func getStartsString() -> String {
-         if (mIsZmanimInHebrew) {
-             return " מתחיל";
-         } else {
-             return " Starts";
-         }
-     }
+        if (mIsZmanimInHebrew) {
+            return " מתחיל";
+        } else {
+            return " Starts";
+        }
+    }
     
     public func getTzaitHacochavimString() -> String {
         if (mIsZmanimInHebrew) {
@@ -145,91 +145,101 @@ struct ZmanimTimeNames {
     }
     
     public func getPlagHaminchaString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "פלג המנחה"
-    } else {
-    return "Plag HaMincha"
+        if (mIsZmanimInHebrew) {
+            return "פלג המנחה"
+        } else {
+            return "Plag HaMincha"
+        }
     }
-    }
-
+    
     public func getMinchaKetanaString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "מנחה קטנה"
-    } else {
-    return "Mincha Ketana"
+        if (mIsZmanimInHebrew) {
+            return "מנחה קטנה"
+        } else {
+            return "Mincha Ketana"
+        }
     }
-    }
-
+    
     public func getMinchaGedolaString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "מנחה גדולה"
-    } else if (mIsZmanimEnglishTranslated) {
-    return "Earliest Mincha"
-    } else {
-    return "Mincha Gedola"
+        if (mIsZmanimInHebrew) {
+            return "מנחה גדולה"
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Earliest Mincha"
+        } else {
+            return "Mincha Gedola"
+        }
     }
-    }
-
+    
     public func getChatzotString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "חצות"
-    } else if (mIsZmanimEnglishTranslated) {
-    return "Mid-day"
-    } else {
-    return "Chatzot"
+        if (mIsZmanimInHebrew) {
+            return "חצות"
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Mid-day"
+        } else {
+            return "Chatzot"
+        }
     }
-    }
-
+    
     public func getBiurChametzString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "סוף זמן ביעור חמץ"
-    } else if (mIsZmanimEnglishTranslated) {
-    return "Latest time to burn Chametz"
-    } else {
-    return "Sof Zman Biur Chametz"
+        if (mIsZmanimInHebrew) {
+            return "סוף זמן ביעור חמץ"
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Latest time to burn Chametz"
+        } else {
+            return "Sof Zman Biur Chametz"
+        }
     }
-    }
-
+    
     public func getBrachotShmaString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "סוף זמן ברכות שמע"
-    } else if (mIsZmanimEnglishTranslated) {
-    return "Latest Brachot Shma"
-    } else {
-    return "Sof Zman Brachot Shma"
+        if (mIsZmanimInHebrew) {
+            return "סוף זמן ברכות שמע"
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Latest Brachot Shma"
+        } else {
+            return "Sof Zman Brachot Shma"
+        }
     }
-    }
-
+    
     public func getAchilatChametzString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "סוף זמן אכילת חמץ"
-    } else if (mIsZmanimEnglishTranslated) {
-    return "Latest time to eat Chametz"
-    } else {
-    return "Sof Zman Achilat Chametz"
+        if (mIsZmanimInHebrew) {
+            return "סוף זמן אכילת חמץ"
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Latest time to eat Chametz"
+        } else {
+            return "Sof Zman Achilat Chametz"
+        }
     }
-    }
-
+    
     public func getShmaGraString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "סוף זמן שמע גר\"א"
-    } else if (mIsZmanimEnglishTranslated) {
-    return "Latest Shma GR\"A"
-    } else {
-    return "Sof Zman Shma GR\"A"
+        if (mIsZmanimInHebrew) {
+            return "סוף זמן שמע גר\"א"
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Latest Shma GR\"A"
+        } else {
+            return "Sof Zman Shma GR\"A"
+        }
     }
+    
+    public func getBirkatHachamaString() -> String {
+        if (mIsZmanimInHebrew) {
+            return "סוף זמן ברכת החמה";
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Latest Birchat HaChamah";
+        } else {
+            return "Sof Zman Birchat HaChamah";
+        }
     }
-
+    
     public func getShmaMgaString() -> String {
-    if (mIsZmanimInHebrew) {
-    return "סוף זמן שמע מג\"א"
-    } else if (mIsZmanimEnglishTranslated) {
-    return "Latest Shma MG\"A"
-    } else {
-    return "Sof Zman Shma MG\"A"
+        if (mIsZmanimInHebrew) {
+            return "סוף זמן שמע מג\"א"
+        } else if (mIsZmanimEnglishTranslated) {
+            return "Latest Shma MG\"A"
+        } else {
+            return "Sof Zman Shma MG\"A"
+        }
     }
-    }
-
+    
     public func getMishorString() -> String {
         if (mIsZmanimInHebrew) {
             return "מישור";
@@ -247,7 +257,7 @@ struct ZmanimTimeNames {
             return "(Elevated)"
         }
     }
-
+    
     public func getHaNetzString() -> String {
         if (mIsZmanimInHebrew) {
             return "הנץ"
@@ -265,7 +275,7 @@ struct ZmanimTimeNames {
             return " is in... "
         }
     }
-
+    
     public func getTalitTefilinString() -> String {
         if (mIsZmanimInHebrew) {
             return "טלית ותפילין"
@@ -273,7 +283,7 @@ struct ZmanimTimeNames {
             return "Earliest Talit/Tefilin"
         }
     }
-
+    
     public func getAlotString() -> String {
         if (mIsZmanimInHebrew) {
             return "עלות השחר"
@@ -283,6 +293,5 @@ struct ZmanimTimeNames {
             return "Alot Hashachar"
         }
     }
-
 }
 

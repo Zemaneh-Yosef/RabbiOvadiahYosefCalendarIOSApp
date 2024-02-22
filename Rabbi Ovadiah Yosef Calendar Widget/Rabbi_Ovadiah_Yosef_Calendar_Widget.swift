@@ -370,6 +370,10 @@ func addZmanim(list:Array<ZmanListEntry>, jewishCalendar: JewishCalendar, zmanim
     }
     temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanis(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
+    if (jewishCalendar.isBirkasHachamah()) {
+        //TODO make sure this is supposed to be calculated as 3 GRA hours
+        temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
+    }
     if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
         temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.getSofZmanTfilaMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
@@ -503,6 +507,10 @@ func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>, jewishCalendar: JewishCale
     }
     temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanisAmudeiHoraah(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
+    if (jewishCalendar.isBirkasHachamah()) {
+        //TODO make sure this is supposed to be calculated as 3 GRA hours
+        temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
+    }
     if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
         temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), zman:zmanimCalendar.getSofZmanAchilatChametzAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))

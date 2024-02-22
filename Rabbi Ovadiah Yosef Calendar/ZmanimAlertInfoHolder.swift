@@ -85,6 +85,9 @@ struct ZmanimAlertInfoHolder {
         if title.contains("Three Weeks") || title.contains("Nine Days") || title.contains("Shevuah Shechal Bo") {
             return title
         }
+        if title.contains("ברכת החמה") || title.contains("Birchat HaChamah") {
+            return "Latest Birchat HaChamah - סוף זמן ברכת החמה - Sof Zman Birchat HaChamah"
+        }
         
         return ""
     }
@@ -493,6 +496,12 @@ A further Makhloket is whether the first Tekufah used a fixed clock time of 12:0
                 "No laundry\n" +
                 "No wearing freshly laundered clothing (excludes undergarments)\n"
             }
+        }
+        if title.contains("ברכת החמה") || title.contains("Birchat HaChamah") {
+            if Locale.isHebrewLocale() {
+                return "ברכת החמה נאמרת היום! זהו אירוע המתרחש פעם אחת בכל 28 שנה, ואדם צריך להיות זהיר כדי לברך על השמש בשעות הראשונות של הבוקר ביום זה. לפי רוב הפוסקים, אפשר לברך על השמש כל יום, אך רב עובדיה יוסף זצ\"ל כותב בחזון עובדיה ברכות כי אדם צריך לנסות לברך על השמש עד לפחות 3 שעות זמניות לאחר תחילת היום. אם הזמן הזה עובר, הוא צריך לברך על השמש בלי שם השם. לכן, מנהג עם ישראל הוא להתעורר בבוקר מוקדם ולהתפלל בנץ ביום זה, ולאחר העמידה (קדיש תתקבל), הם יוצאים החוצה כדי לברך על השמש."
+            }
+            return "Birchat HaChamah is said today! This occurs once every 28 years, and a person should be careful to say the beracha on the sun early in the morning on this day.\n\nAccording to many poskim, you can say the beracha on the sun all day, however, Rabbi Ovadiah Yosef ZT\"L writes in Chazon Ovadiah Berachot that a person should try to say the beracha before 3 zmaniyot hours into the day. If this time passes, he should say the beracha without hashem\'s name.\n\n Therefore, the minhag of Am Yisrael is to wake up early and pray at Netz on this day and after the Amidah (Kadish Titkabal), they go outside to say the beracha."
         }
         
         return ""
