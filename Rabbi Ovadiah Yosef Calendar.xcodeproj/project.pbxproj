@@ -66,6 +66,9 @@
 		CE32442D2B3BE66F00EEF29C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32442C2B3BE66F00EEF29C /* Extensions.swift */; };
 		CE32442E2B3BE66F00EEF29C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32442C2B3BE66F00EEF29C /* Extensions.swift */; };
 		CE32442F2B3BE66F00EEF29C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE32442C2B3BE66F00EEF29C /* Extensions.swift */; };
+		CE341C3F2BA0255C00E8F4CB /* LocationManagerForNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */; };
+		CE341C402BA025AE00E8F4CB /* LocationManagerForNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */; };
+		CE341C412BA025EF00E8F4CB /* LocationManagerForNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */; };
 		CE44BC622B5DF3C60091501E /* WeeklyParashaReadings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44BC612B5DF3C60091501E /* WeeklyParashaReadings.swift */; };
 		CE6309522B3BAA500020939B /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309512B3BAA500020939B /* KosherSwift */; };
 		CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309542B3BB5040020939B /* SwiftyJSON */; };
@@ -176,6 +179,7 @@
 		CE0CEBF52B070AD400BFD068 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements"; sourceTree = "<group>"; };
 		CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurViewController.swift; sourceTree = "<group>"; };
 		CE32442C2B3BE66F00EEF29C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerForNotifications.swift; sourceTree = "<group>"; };
 		CE44BC612B5DF3C60091501E /* WeeklyParashaReadings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyParashaReadings.swift; sourceTree = "<group>"; };
 		CE502A8F2B0DEC23008E716C /* Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
@@ -302,6 +306,7 @@
 				5221221F2A844A9000942C23 /* ChaiTables.swift */,
 				524A18352A80D38E00ACCBF8 /* ChaiTablesScraper.swift */,
 				5D19D37A29A36DB300F8033D /* LocationManager.swift */,
+				CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */,
 				5D19D37429A36DB200F8033D /* Constants.swift */,
 				5D19D36029A3687900F8033D /* AppDelegate.swift */,
 				5D19D36229A3687900F8033D /* SceneDelegate.swift */,
@@ -431,7 +436,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					525950912A9B3AE500872955 = {
 						CreatedOnToolsVersion = 14.2;
@@ -520,6 +525,7 @@
 				CE10354F2B45548B00193D1E /* Constants.swift in Sources */,
 				CE32442E2B3BE66F00EEF29C /* Extensions.swift in Sources */,
 				CE10354B2B45545400193D1E /* ChaiTables.swift in Sources */,
+				CE341C402BA025AE00E8F4CB /* LocationManagerForNotifications.swift in Sources */,
 				CE1035532B4554F600193D1E /* LocationManager.swift in Sources */,
 				5259509B2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity.swift in Sources */,
 				5259509D2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.swift in Sources */,
@@ -562,6 +568,7 @@
 				CE32442D2B3BE66F00EEF29C /* Extensions.swift in Sources */,
 				5D19D36529A3687900F8033D /* ZmanListViewController.swift in Sources */,
 				CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */,
+				CE341C3F2BA0255C00E8F4CB /* LocationManagerForNotifications.swift in Sources */,
 				5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */,
 				CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */,
 			);
@@ -580,6 +587,7 @@
 				CE0CEBF42B07085100BFD068 /* ContentView.swift in Sources */,
 				CED163592B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift in Sources */,
 				CE10354C2B45545500193D1E /* ChaiTables.swift in Sources */,
+				CE341C412BA025EF00E8F4CB /* LocationManagerForNotifications.swift in Sources */,
 				CE10354E2B45547900193D1E /* LSGeoLookup.swift in Sources */,
 				CE10354A2B4553F600193D1E /* ZmanListEntry.swift in Sources */,
 			);
@@ -703,6 +711,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -763,6 +772,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

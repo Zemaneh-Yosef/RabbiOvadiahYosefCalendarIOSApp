@@ -591,7 +591,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
         } else {
             let concurrentQueue = DispatchQueue(label: "notifiications", attributes: .concurrent)
-            LocationManager.shared.getUserLocation {
+            LocationManagerForNotifications.shared.getUserLocationForNotifications {
                 location in concurrentQueue.async { [self] in
                     self.lat = location.coordinate.latitude
                     self.long = location.coordinate.longitude
