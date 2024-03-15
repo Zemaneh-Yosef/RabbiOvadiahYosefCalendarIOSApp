@@ -1257,7 +1257,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "אין שמיעת מוזיקה"
+            "value" : "לא שומעים מוזיקה"
           }
         }
       }
@@ -2293,7 +2293,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "זמנים לפי גובה?"
+            "value" : "זמנים לפי גובה"
           }
         }
       }

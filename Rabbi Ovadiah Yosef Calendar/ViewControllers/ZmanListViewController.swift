@@ -1360,6 +1360,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman:zmanimCalendar.getSeaLevelSunset(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman:zmanimCalendar.getTzaisAmudeiHoraah(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.getTzaisAmudeiHoraahLChumra(), isZman: true))
+        if jewishCalendar.isTaanis() && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisAmudeiHoraahLChumra(), isZman: true, isNoteworthyZman: true))
+        }
         if (jewishCalendar.hasCandleLighting() && jewishCalendar.isAssurBemelacha()) && jewishCalendar.getDayOfWeek() != 6 {
             if jewishCalendar.getDayOfWeek() == 7 {
                 temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
@@ -1392,7 +1395,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     func getUserLocation() {
         let concurrentQueue = DispatchQueue(label: "mainApp", attributes: .concurrent)
 
-        LocationManager.shared.getUserLocation {
+        LocationManager.shared.getUserLocation {//4.1 fixed the location issue (hopefully)
             location in concurrentQueue.async { [self] in
                 lat = location.coordinate.latitude
                 long = location.coordinate.longitude
@@ -1688,19 +1691,19 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         let advancedAlert = UIAlertController(title: "Advanced".localized(),
                                               message: "Enter your location's name, latitude, longitude, elevation, and timezone.".localized(), preferredStyle: .alert)
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Location Name".localized()
+            textField.placeholder = "ex: New York"
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Latitude".localized()
+            textField.placeholder = "ex: 73.09876543"
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Longitude".localized()
+            textField.placeholder = "ex: -103.098765"
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Elevation".localized()
+            textField.placeholder = "ex: 805"
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Timezone e.g. America/New_York"// not going to translate this, as the timezone needs to be in english
+            textField.placeholder = "Timezone e.g. America/New_York"
         }
         advancedAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self] UIAlertAction in
             defaults.setValue(true, forKey: "useAdvanced")
