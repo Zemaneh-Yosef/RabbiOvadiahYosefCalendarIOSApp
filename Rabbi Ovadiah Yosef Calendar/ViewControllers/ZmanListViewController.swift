@@ -297,11 +297,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         
         if indexPath.row == 0 {
             var message = ""
-            message += "Current Location: " + self.locationName
-            message += "\nCurrent Latitude: " + String(self.lat)
-            message += "\nCurrent Longitude: " + String(self.long)
+            message += "Location: " + self.locationName
+            message += "\nLatitude: " + String(self.lat)
+            message += "\nLongitude: " + String(self.long)
             message += "\nElevation: " + String(self.elevation) + " meters"
-            message += "\nCurrent Time Zone: " + self.timezone.identifier
+            message += "\nTime Zone: " + self.timezone.identifier
             if let marketingVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                 message += "\nVersion: \(marketingVersion)"
             } else {
