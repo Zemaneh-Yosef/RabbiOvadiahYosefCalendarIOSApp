@@ -613,7 +613,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="English">
+                                        <state key="normal" title="Default">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -630,7 +630,7 @@
                                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Translated">
+                                        <state key="normal" title="English">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                         <connections>
@@ -1322,7 +1322,7 @@ etc...</string>
                                             <action selector="ohrHachaim:" destination="rLT-7O-XUP" eventType="touchUpInside" id="rZH-vB-ubH"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Calendar in Israel used by Rabbi Ovadiah himself)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dK1-Lq-pZC">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Calendar in Israel created and used by Rabbi Ovadiah himself)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dK1-Lq-pZC">
                                         <rect key="frame" x="0.0" y="102.66666666666669" width="288" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="288" id="EiQ-Mw-87r"/>
@@ -1343,13 +1343,14 @@ etc...</string>
                                             <action selector="amudeiHoraah:" destination="rLT-7O-XUP" eventType="touchUpInside" id="xQm-fr-UP6"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Calendar with the zmanim adjusted based on location in accordance to Rabbi Ovadiah. For locations outside of Israel.)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TxL-Vj-ggR">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TxL-Vj-ggR">
                                         <rect key="frame" x="0.0" y="246.66666666666669" width="288" height="103"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="288" id="L3s-97-G53"/>
                                             <constraint firstAttribute="height" constant="103" id="bJ8-og-KJC"/>
                                         </constraints>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                        <string key="text">(Calendar with the zmanim adjusted based on location in accordance to Rabbi Ovadiah. Only applicable for locations outside of Israel.)</string>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1537,7 +1538,7 @@ etc...</string>
         <image name="info.circle" catalog="system" width="128" height="123"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Gold">
             <color red="0.87800002098083496" green="0.73299998044967651" blue="0.25900000333786011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

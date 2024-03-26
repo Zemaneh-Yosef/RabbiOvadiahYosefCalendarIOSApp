@@ -1395,7 +1395,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     func getUserLocation() {
         let concurrentQueue = DispatchQueue(label: "mainApp", attributes: .concurrent)
 
-        LocationManager.shared.getUserLocation {//4.1 fixed the location issue (hopefully)
+        LocationManager.shared.getUserLocation {//4.4 fixed the location issue
             location in concurrentQueue.async { [self] in
                 lat = location.coordinate.latitude
                 long = location.coordinate.longitude

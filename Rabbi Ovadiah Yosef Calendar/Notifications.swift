@@ -598,7 +598,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     self.timezone = TimeZone.current
                     zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
                     zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
-                    LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
+                    LocationManagerForNotifications.shared.resolveLocationNameForNotifications(with: location) { [self] locationName in
                         self.locationName = locationName ?? ""
                         resolveElevation()
                         zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))

@@ -34,7 +34,7 @@ class LocationManagerForNotifications: NSObject, CLLocationManagerDelegate {
         print(error)
     }
     
-    public func resolveLocationName(with location: CLLocation, completion: @escaping ((String?) -> Void)) {
+    public func resolveLocationNameForNotifications(with location: CLLocation, completion: @escaping ((String?) -> Void)) {
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location, preferredLocale: nil) { placemarks, error in
             guard let place = placemarks?.first, error == nil else {
