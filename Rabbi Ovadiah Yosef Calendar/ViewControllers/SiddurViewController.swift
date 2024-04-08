@@ -87,6 +87,14 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         if GlobalStruct.chosenPrayer == "Arvit" {
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getArvitPrayers()
         }
+        if GlobalStruct.chosenPrayer == "Birchat Hamazon" {
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
+        }
+        if GlobalStruct.chosenPrayer == "Birchat Hamazon+1" {
+            let jewishCal = GlobalStruct.jewishCalendar
+            jewishCal.forward()
+            listOfTexts = SiddurMaker(jewishCalendar: jewishCal).getBirchatHamazonPrayers()
+        }
         
         let stackview = UIStackView()
         stackview.axis = .vertical

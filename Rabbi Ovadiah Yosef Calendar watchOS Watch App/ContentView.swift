@@ -103,7 +103,7 @@ struct ContentView: View {
                 } else {
                     zmanimCalendar.useElevation = false
                 }
-                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone
+                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone.corrected()
                 setNextUpcomingZman()
                 zmanimList = updateZmanimList()
             }
@@ -120,7 +120,7 @@ struct ContentView: View {
                 }
                 userChosenDate = Date()
                 syncCalendarDates()
-                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone
+                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone.corrected()
                 setNextUpcomingZman()
                 zmanimList = updateZmanimList()
             }
@@ -709,7 +709,7 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
                             elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
                         }
                     }
-                    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)))
+                    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
                 }
             }
         }
@@ -725,7 +725,7 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
             elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
         }
     }
-    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)))
+    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
 }
 
 #Preview {

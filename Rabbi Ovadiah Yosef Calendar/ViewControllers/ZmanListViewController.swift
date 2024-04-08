@@ -158,7 +158,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ZmanEntry", for: indexPath)
         var zman = zmanimList[indexPath.row].zman
-        dateFormatterForZmanim.timeZone = timezone
+        dateFormatterForZmanim.timeZone = timezone.corrected()
         
         var content = cell.defaultContentConfiguration()
         content.textProperties.adjustsFontSizeToFitWidth = true
@@ -176,7 +176,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
-                            roundedFormat.timeZone = timezone
+                            roundedFormat.timeZone = timezone.corrected()
                             if Locale.isHebrewLocale() {
                                 roundedFormat.dateFormat = "H:mm"
                             } else {
@@ -198,7 +198,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
-                            roundedFormat.timeZone = timezone
+                            roundedFormat.timeZone = timezone.corrected()
                             if Locale.isHebrewLocale() {
                                 roundedFormat.dateFormat = "H:mm"
                             } else {
@@ -232,7 +232,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
-                            roundedFormat.timeZone = timezone
+                            roundedFormat.timeZone = timezone.corrected()
                             roundedFormat.dateFormat = "h:mm aa"
                             content.secondaryText = arrow + roundedFormat.string(from: zman!)
                         } else if zmanimList[indexPath.row].isVisibleSunriseZman {
@@ -246,7 +246,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                         if zmanimList[indexPath.row].isRTZman && defaults.bool(forKey: "roundUpRT") {
                             zman = zman?.advanced(by: 60)
                             let roundedFormat = DateFormatter()
-                            roundedFormat.timeZone = timezone
+                            roundedFormat.timeZone = timezone.corrected()
                             roundedFormat.dateFormat = "h:mm aa"
                             content.secondaryText = roundedFormat.string(from: zman!)
                         } else if zmanimList[indexPath.row].isVisibleSunriseZman {
@@ -301,7 +301,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             message += "\nLatitude: " + String(self.lat)
             message += "\nLongitude: " + String(self.long)
             message += "\nElevation: " + String(self.elevation) + " meters"
-            message += "\nTime Zone: " + self.timezone.identifier
+            message += "\nTime Zone: " + self.timezone.corrected().identifier
             if let marketingVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                 message += "\nVersion: \(marketingVersion)"
             } else {
@@ -766,7 +766,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if defaults.bool(forKey: "neverAskInIsrael") {
             return
         }
-        if !defaults.bool(forKey: "inIsrael") && timezone.identifier == "Asia/Jerusalem" {
+        if !defaults.bool(forKey: "inIsrael") && timezone.corrected().identifier == "Asia/Jerusalem" {
             let alertController = UIAlertController(title: "Are you in Israel now?".localized(), message: "If you are in Israel, please confirm below.".localized(), preferredStyle: .alert)
 
             let yesAction = UIAlertAction(title: "Yes".localized(), style: .default) { (_) in
@@ -801,7 +801,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             present(alertController, animated: true, completion: nil)
         }
         
-        if defaults.bool(forKey: "inIsrael") && timezone.identifier != "Asia/Jerusalem" {
+        if defaults.bool(forKey: "inIsrael") && timezone.corrected().identifier != "Asia/Jerusalem" {
             let alertController = UIAlertController(title: "Have you left Israel?".localized(), message: "If you have left Israel, please confirm below.".localized(), preferredStyle: .alert)
 
             let yesAction = UIAlertAction(title: "Yes".localized(), style: .default) { (_) in
@@ -1907,9 +1907,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     public func recreateZmanimCalendar() {
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, timeZone: timezone))
+            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, timeZone: timezone.corrected()))
         } else {
-            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+            zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected()))
         }
         zmanimCalendar.useElevation = GlobalStruct.useElevation
         zmanimCalendar.useAstronomicalChatzos = false

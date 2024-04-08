@@ -210,53 +210,6 @@
             endingLineNumber = "44"
             landmarkName = "scheduleDailyNotification()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "FBFD1206-6A99-4674-A283-B13A8A124EFA - 43e11469851bbced"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.NotificationManager.scheduleDailyNotification() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/Notifications.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "1472">
-               </Location>
-               <Location
-                  uuid = "FBFD1206-6A99-4674-A283-B13A8A124EFA - 43e11469851bbca3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.NotificationManager.scheduleDailyNotification() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/Notifications.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "1384">
-               </Location>
-               <Location
-                  uuid = "FBFD1206-6A99-4674-A283-B13A8A124EFA - 43e11469851bbca3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.NotificationManager.scheduleDailyNotification() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/Notifications.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "1432">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -289,38 +242,6 @@
             endingLineNumber = "272"
             landmarkName = "getZmanimCalendarWithLocation(completion:)"
             landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "661AE18F-37C3-4FF0-96A7-208E69878D9F - fae31c92ec5ce128"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.getZmanimCalendarWithLocation(completion: (KosherSwift.ComplexZmanimCalendar) -&gt; ()) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar WidgetExtension"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar%20Widget/Rabbi_Ovadiah_Yosef_Calendar_Widget.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "270"
-                  endingLineNumber = "270"
-                  offsetFromSymbolStart = "9036">
-               </Location>
-               <Location
-                  uuid = "661AE18F-37C3-4FF0-96A7-208E69878D9F - 93e64b4fae1e92a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar_WidgetExtension.getZmanimCalendarWithLocation(completion: (KosherSwift.ComplexZmanimCalendar) -&gt; ()) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar WidgetExtension"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar%20Widget/Rabbi_Ovadiah_Yosef_Calendar_Widget.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "229"
-                  endingLineNumber = "229"
-                  offsetFromSymbolStart = "248">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -385,98 +306,6 @@
             endingLineNumber = "1398"
             landmarkName = "getUserLocation()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6A59A6D2-3710-4133-8831-943169D5C601 - 4427e7035ccdb24b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1326"
-                  endingLineNumber = "1326"
-                  offsetFromSymbolStart = "28">
-               </Location>
-               <Location
-                  uuid = "6A59A6D2-3710-4133-8831-943169D5C601 - 7a6715c6ff79e3a0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1327"
-                  endingLineNumber = "1327"
-                  offsetFromSymbolStart = "168">
-               </Location>
-               <Location
-                  uuid = "6A59A6D2-3710-4133-8831-943169D5C601 - 4427e7035ccd8964"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1395"
-                  endingLineNumber = "1395"
-                  offsetFromSymbolStart = "292">
-               </Location>
-               <Location
-                  uuid = "6A59A6D2-3710-4133-8831-943169D5C601 - 7a6715c6ff79d8cd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1396"
-                  endingLineNumber = "1396"
-                  offsetFromSymbolStart = "184">
-               </Location>
-               <Location
-                  uuid = "6A59A6D2-3710-4133-8831-943169D5C601 - 4427e7035ccd8903"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1398"
-                  endingLineNumber = "1398"
-                  offsetFromSymbolStart = "292">
-               </Location>
-               <Location
-                  uuid = "6A59A6D2-3710-4133-8831-943169D5C601 - 7a6715c6ff79d968"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1399"
-                  endingLineNumber = "1399"
-                  offsetFromSymbolStart = "184">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -525,68 +354,6 @@
             endingLineNumber = "1400"
             landmarkName = "getUserLocation()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "24C044C7-07E5-4A40-9FB1-3D6E1078E2AA - cf4c6a8668ff458d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1328"
-                  endingLineNumber = "1328"
-                  offsetFromSymbolStart = "180">
-               </Location>
-               <Location
-                  uuid = "24C044C7-07E5-4A40-9FB1-3D6E1078E2AA - fa2efb3694fe5bdc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1328"
-                  endingLineNumber = "1328"
-                  offsetFromSymbolStart = "180">
-               </Location>
-               <Location
-                  uuid = "24C044C7-07E5-4A40-9FB1-3D6E1078E2AA - ebe191545fe0a791"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable () -&gt; () in closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1397"
-                  endingLineNumber = "1397"
-                  offsetFromSymbolStart = "180">
-               </Location>
-               <Location
-                  uuid = "24C044C7-07E5-4A40-9FB1-3D6E1078E2AA - ebe191545fe0a672"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable () -&gt; () in closure #1 (__C.CLLocation) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.ZmanListViewController.getUserLocation() -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/ZmanListViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1400"
-                  endingLineNumber = "1400"
-                  offsetFromSymbolStart = "180">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -635,68 +402,6 @@
             endingLineNumber = "27"
             landmarkName = "info(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "4736CD79-A014-489A-81AC-1D1B80CE8049 - 1ca1e50ccd6cceb6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.CalendarViewController.info(__C.UIButton) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/CalendarViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "19"
-                  endingLineNumber = "19"
-                  offsetFromSymbolStart = "88">
-               </Location>
-               <Location
-                  uuid = "4736CD79-A014-489A-81AC-1D1B80CE8049 - 1ca1e50ccd6ccf74"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.CalendarViewController.info(__C.UIButton) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/CalendarViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "292">
-               </Location>
-               <Location
-                  uuid = "4736CD79-A014-489A-81AC-1D1B80CE8049 - 1ca1e50ccd6ccf74"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.CalendarViewController.info(__C.UIButton) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/CalendarViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "104">
-               </Location>
-               <Location
-                  uuid = "4736CD79-A014-489A-81AC-1D1B80CE8049 - 1ca1e50ccd6ccf74"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Rabbi_Ovadiah_Yosef_Calendar.CalendarViewController.info(__C.UIButton) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/ViewControllers/CalendarViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "272">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -713,38 +418,22 @@
             endingLineNumber = "46"
             landmarkName = "resolveLocationName(with:completion:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8FEC0437-0D8A-406B-98EF-7763E78BFE54 - 110f4fd4de0d3200"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;__C.CLPlacemark&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.LocationManager.resolveLocationName(with: __C.CLLocation, completion: (Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/LocationManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "420">
-               </Location>
-               <Location
-                  uuid = "8FEC0437-0D8A-406B-98EF-7763E78BFE54 - 110f4fd4de0d3261"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;__C.CLPlacemark&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Rabbi_Ovadiah_Yosef_Calendar.LocationManager.resolveLocationName(with: __C.CLLocation, completion: (Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Rabbi Ovadiah Yosef Calendar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/user/Desktop/RabbiOvadiahYosefCalendarIOSApp/Rabbi%20Ovadiah%20Yosef%20Calendar/LocationManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "46"
-                  endingLineNumber = "46"
-                  offsetFromSymbolStart = "420">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0F7533BE-59C8-41A7-B8B7-CC64D852DDBE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SiddurMaker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "getShacharitPrayers()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

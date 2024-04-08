@@ -73,6 +73,9 @@
 		CE6309522B3BAA500020939B /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309512B3BAA500020939B /* KosherSwift */; };
 		CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309542B3BB5040020939B /* SwiftyJSON */; };
 		CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */; };
+		CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
+		CE7D2B5C2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
+		CE7D2B5D2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
 		CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */; };
 		CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
 		CE9641B62B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
@@ -183,6 +186,7 @@
 		CE44BC612B5DF3C60091501E /* WeeklyParashaReadings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyParashaReadings.swift; sourceTree = "<group>"; };
 		CE502A8F2B0DEC23008E716C /* Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
+		CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ViewControllers/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurChooserViewController.swift; sourceTree = "<group>"; };
 		CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -297,6 +301,7 @@
 		5D19D35F29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */,
 				CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */,
 				CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */,
 				52F905B12A9F0A5A003E3C55 /* Rabbi Ovadiah Yosef Calendar.entitlements */,
@@ -483,6 +488,7 @@
 			files = (
 				CE9641BA2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
 				CE9641B62B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
+				CE7D2B5C2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
 				525950A02A9B3AE700872955 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,6 +497,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
 				5D19D36D29A3687B00F8033D /* LaunchScreen.storyboard in Resources */,
 				CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
 				5D19D36A29A3687B00F8033D /* Assets.xcassets in Resources */,
@@ -506,6 +513,7 @@
 				CED163602B07031800E05876 /* Preview Assets.xcassets in Resources */,
 				CED1635D2B07031800E05876 /* Assets.xcassets in Resources */,
 				CE9641BB2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
+				CE7D2B5D2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
 				CE9641B72B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -663,7 +671,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.3;
+				MARKETING_VERSION = 4.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -697,7 +705,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.3;
+				MARKETING_VERSION = 4.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -853,7 +861,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.3;
+				MARKETING_VERSION = 4.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -894,7 +902,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.3;
+				MARKETING_VERSION = 4.4;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -933,7 +941,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -973,7 +981,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;

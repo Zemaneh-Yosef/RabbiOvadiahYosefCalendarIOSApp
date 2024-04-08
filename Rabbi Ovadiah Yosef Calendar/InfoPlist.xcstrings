@@ -50,12 +50,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "This app uses your location to calculate zmanim for your current location"
+            "value" : "Need your location to update the zmanim"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "האפליקציה משתמשת במיקומך כדי לחשב את זמני הזמנים למיקומך הנוכחי"
           }
         }
@@ -104,12 +104,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Please allow the app to see your location in order to calculate the zmanim/times."
+            "value" : "Need your location to update the zmanim"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "אנא אשר את האפליקציה לראות את המיקום שלך כדי לחשב את הזמנים."
           }
         }

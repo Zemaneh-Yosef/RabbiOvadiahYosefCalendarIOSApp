@@ -614,6 +614,17 @@
         }
       }
     },
+    "Did you start your meal during the day?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "האם התחלת את ארוחתך במהלך היום?"
+          }
+        }
+      }
+    },
     "Dismiss" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2327,6 +2338,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מעבר לאתר"
+          }
+        }
+      }
+    },
+    "When did you start your meal?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מתי התחלת את ארוחתך?"
           }
         }
       }

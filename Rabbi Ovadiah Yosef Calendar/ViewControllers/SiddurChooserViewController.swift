@@ -56,6 +56,25 @@ class SiddurChooserViewController: UIViewController {
     }
     @IBOutlet weak var arvit: UIButton!
     
+    @IBOutlet weak var birchatHamazon: UIButton!
+    @IBAction func birchatHamazon(_ sender: UIButton) {
+        GlobalStruct.chosenPrayer = "Birchat Hamazon"
+        birchatHamazon.setTitle("Loading...".localized(), for: .normal)
+        let alert = UIAlertController(title: "When did you start your meal?".localized(),
+                                              message: "Did you start your meal during the day?".localized(), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes".localized(), style: .default, handler: { UIAlertAction in
+            GlobalStruct.chosenPrayer = "Birchat Hamazon+1"
+            self.openSiddur()
+        }))
+        alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
+            self.openSiddur()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
+            self.dismiss(animated: true)
+            self.viewDidAppear(false)//to reset titles
+        }))
+        present(alert, animated: true)
+    }
     @IBOutlet weak var disclaimer: UILabel!
     
     override func viewDidLoad() {
@@ -121,6 +140,11 @@ class SiddurChooserViewController: UIViewController {
             arvit.configuration?.background.backgroundColor = .init(named: "Gold")
             arvit.setTitleColor(.black, for: .normal)
             arvit.titleLabel?.font = UIFont.boldSystemFont(ofSize: 26)
+            
+            birchatHamazon.configuration = .filled()
+            birchatHamazon.configuration?.background.backgroundColor = .init(named: "Gold")
+            birchatHamazon.setTitleColor(.black, for: .normal)
+            birchatHamazon.titleLabel?.font = UIFont.boldSystemFont(ofSize: 26)
         }
     }
     
@@ -148,6 +172,7 @@ class SiddurChooserViewController: UIViewController {
         mincha.setTitle("מנחה", for: .normal)
         neilah.setTitle("נעילה", for: .normal)
         arvit.setTitle("ערבית", for: .normal)
+        birchatHamazon.setTitle("ברכת המזון", for: .normal)
     }
     
     func openSiddur() {

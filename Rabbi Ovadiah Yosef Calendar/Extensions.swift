@@ -447,3 +447,13 @@ public extension Locale {
         return Locale.current.localizedString(forIdentifier: "he") == "עברית"
     }
 }
+
+public extension TimeZone {
+    func corrected() -> TimeZone {
+        var id = identifier
+        if identifier == "Asia/Gaza" || identifier == "Asia/Hebron" {
+            id = "Asia/Jerusalem"
+        }
+        return TimeZone(identifier: id) ?? TimeZone.current
+    }
+}
