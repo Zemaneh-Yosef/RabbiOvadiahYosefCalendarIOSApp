@@ -3345,8 +3345,9 @@ public class SiddurMaker {
                 );
 
                 if (jewishCalendar.isRoshChodesh()
-                        || (jewishCalendar.isAssurBemelacha() && !jewishCalendar.isYomKippur())
-                        || jewishCalendar.isPurim()) {// apparently milah and siyum masechet as well, but not going to include those
+                    || (jewishCalendar.isAssurBemelacha() && !jewishCalendar.isYomKippur())
+                    || jewishCalendar.isCholHamoed()
+                    || jewishCalendar.isPurim()) {// apparently milah and siyum masechet as well, but not going to include those
                     addToSiddurHighlighted(s:"מִגְדּ֖וֹל");
                 } else {
                     addToSiddur(s:"מַגְדִּיל");
