@@ -63,10 +63,10 @@ class SiddurChooserViewController: UIViewController {
         let alert = UIAlertController(title: "When did you start your meal?".localized(),
                                               message: "Did you start your meal during the day?".localized(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes".localized(), style: .default, handler: { UIAlertAction in
-            GlobalStruct.chosenPrayer = "Birchat Hamazon+1"
             self.openSiddur()
         }))
         alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
+            GlobalStruct.chosenPrayer = "Birchat Hamazon+1"
             self.openSiddur()
         }))
         alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in

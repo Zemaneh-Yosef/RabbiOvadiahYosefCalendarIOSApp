@@ -653,12 +653,12 @@ public class SiddurMaker {
                 
                 if (Locale.isHebrewLocale()) {
                     if (jewishCalendar.isRoshChodesh()) {
-                        addToSiddurHighlighted(s: "הסרת תפילין כאן");
+                        addToSiddur(s: "הסרת תפילין כאן");
                     }
                     addToSiddurHighlighted(s: "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף")
                 } else {
                     if (jewishCalendar.isRoshChodesh()) {
-                        addToSiddurHighlighted(s: "Remove your tefilin here");
+                        addToSiddur(s: "Remove your tefilin here");
                     }
                     addToSiddurHighlighted(s: "Mussaf is said here, press here to go to Mussaf")
                 }
@@ -1227,7 +1227,7 @@ public class SiddurMaker {
         addToSiddurHighlighted(s:
                                 "(יש אומרים פסוק זה אחר ההלל שלש פעמים/Some say this three times after Hallel) \n\n" +
                                "וְאַבְרָהָ֣ם זָקֵ֔ן בָּ֖א בַּיָּמִ֑ים וַֽיהֹוָ֛ה בֵּרַ֥ךְ אֶת־אַבְרָהָ֖ם בַּכֹּֽל׃ \n\n" +
-                               "(Have in mind/יכוין) זְבַדְיָה\n\n" +
+                               "זְבַדְיָה (יכוין/Have in mind) \n\n" +
                                "(ואחר כך יאמר/Then say) \n\n" +
                                "ה' יִשְׁמְרֵנִי וִיחַיֵנִי, כֵּן יְהִי רָצוֹן מִלְּפָנֶיךָ אֱלֹהִים חַיִּים וּמֶלֶךְ עוֹלָם אֲשֶׁר בְּיָדוֹ נֶפֶשׁ כָּל חַי אָמֵן כֵּן יְהִי רָצוֹן:"
         );
@@ -3222,9 +3222,8 @@ public class SiddurMaker {
                     );
                 }
 
-                if (jewishCalendar.isYomTovAssurBemelacha()
-                        && jewishCalendar.isRoshChodesh()
-                        && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR) {
+                if ((jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR)
+                        || jewishCalendar.isRoshChodesh()) {
 
                     addToSiddurHighlighted(s:
                             "אֱלֹהֵֽינוּ וֵאלֹהֵי אֲבוֹתֵֽינוּ, יַעֲלֶה וְיָבֹא, וְיַגִּֽיעַ וְיֵרָאֶה, וְיֵרָצֶה וְיִשָּׁמַע, וְיִפָּקֵד וְיִזָּכֵר, זִכְרוֹנֵֽנוּ וְזִכְרוֹן אֲבוֹתֵֽינוּ, זִכְרוֹן יְרוּשָׁלַֽיִם עִירָךְ, וְזִכְרוֹן מָשִֽׁיחַ בֶּן־דָּוִד עַבְדָּךְ, וְזִכְרוֹן כָּל־עַמְּךָ בֵּית יִשְׂרָאֵל לְפָנֶֽיךָ, לִפְלֵיטָה, לְטוֹבָה, לְחֵן, לְחֶֽסֶד וּלְרַחֲמִים, לְחַיִּים טוֹבִים וּלְשָׁלוֹם, בְּיוֹם"
