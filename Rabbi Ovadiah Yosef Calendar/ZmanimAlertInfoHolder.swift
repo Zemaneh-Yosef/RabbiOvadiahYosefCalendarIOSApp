@@ -16,73 +16,73 @@ struct ZmanimAlertInfoHolder {
     
     func getFullTitle() -> String {
         let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: mIsZmanimInHebrew, mIsZmanimEnglishTranslated: mIsZmanimEnglishTranslated)
-        if title.contains(zmanimNames.getAlotString()) {
+        if title == zmanimNames.getAlotString() {
             return "Dawn - Alot Hashachar - עלות השחר"
         }
-        if title.contains(zmanimNames.getTalitTefilinString()) {
+        if title == zmanimNames.getTalitTefilinString() {
             return "Earliest Talit/Tefilin - טלית ותפילין"
         }
         if title.contains(zmanimNames.getHaNetzString()) {
             return "Sunrise - HaNetz - הנץ"
         }
-        if title.contains(zmanimNames.getAchilatChametzString()) {
+        if title == zmanimNames.getAchilatChametzString() {
             return "Sof Zman Achilat Chametz - Latest time to eat Chametz - סוף זמן אכילת חמץ"
         }
-        if title.contains(zmanimNames.getBiurChametzString()) {
+        if title == zmanimNames.getBiurChametzString() {
             return "Latest time to burn Chametz - Sof Zman Biur Chametz - סוף זמן ביעור חמץ"
         }
-        if title.contains(zmanimNames.getShmaMgaString()) {
+        if title == zmanimNames.getShmaMgaString() {
             return "Latest Shma MG\"A - Sof Zman Shma MG\"A - סוף זמן שמע מג\"א"
         }
-        if title.contains(zmanimNames.getShmaGraString()) {
+        if title == zmanimNames.getShmaGraString() {
             return "Latest Shma GR\"A - Sof Zman Shma GR\"A - סוף זמן שמע גר\"א"
         }
-        if title.contains(zmanimNames.getBrachotShmaString()) {
+        if title == zmanimNames.getBrachotShmaString() {
             return "Latest Brachot Shma - Sof Zman Brachot Shma - סוף זמן ברכות שמע"
         }
-        if title.contains(zmanimNames.getChatzotString()) {
+        if title == zmanimNames.getChatzotString() {
             return "Mid-day - Chatzot - חצות"
         }
-        if title.contains(zmanimNames.getMinchaGedolaString()) {
+        if title == zmanimNames.getMinchaGedolaString() {
             return "Earliest Mincha - Mincha Gedola - מנחה גדולה"
         }
-        if title.contains(zmanimNames.getMinchaKetanaString()) {
+        if title == zmanimNames.getMinchaKetanaString() {
             return "Mincha Ketana - מנחה קטנה"
         }
-        if title.contains(zmanimNames.getPlagHaminchaString()) {
+        if title == zmanimNames.getPlagHaminchaString() {
             return "Plag HaMincha - פלג המנחה"
         }
-        if title.contains(zmanimNames.getCandleLightingString()) {
+        if title == zmanimNames.getCandleLightingString() {
             return "Candle Lighting - הדלקת נרות"
         }
-        if title.contains(zmanimNames.getSunsetString()) {
+        if title == zmanimNames.getSunsetString() {
             return "Sunset - Shkia - שקיעה"
         }
-        if title.contains(zmanimNames.getTzaitHacochavimString()) {
+        if title == zmanimNames.getTzaitHacochavimString() {
             return "Nightfall - Tzait Hacochavim - צאת הכוכבים"
         }
-        if title.contains(zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString()) {
+        if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString() {
             return "Fast Ends (Stringent) - Tzeit Taanit L'Chumra - צאת תענית לחומרה"
         }
-        if title.contains(zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString()) {
+        if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() {
             return "Fast Ends - Tzeit Taanit - צאת תענית"
         }
         if title.contains("Shabbat") || title.contains("Chag") || title.contains("\u{05E9}\u{05D1}\u{05EA}") || title.contains("\u{05D7}\u{05D2}") {
             return "Shabbat/Chag Ends - Tzeit Shabbat/Chag - צאת \u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
         }
-        if title.contains(zmanimNames.getRTString()) {
+        if title == zmanimNames.getRTString() {
             return "Rabbeinu Tam - רבינו תם"
         }
-        if title.contains(zmanimNames.getChatzotLaylaString()) {
-            return "Midnight - Chatzot Layla - חצות לילה"
+        if title == zmanimNames.getChatzotLaylaString() {
+            return "Midnight - Chatzot Layla - חצות הלילה"
         }
         if title.contains("וּלְכַפָּרַת פֶּשַׁע") {
             return "וּלְכַפָּרַת פֶּשַׁע"
         }
-        if title.contains("Tekufa") {
+        if title.contains("Tekufa".localized()) {
             return "Tekufa - Season"
         }
-        if title.contains("Three Weeks") || title.contains("Nine Days") || title.contains("Shevuah Shechal Bo") {
+        if title.contains("Three Weeks".localized()) || title.contains("Nine Days".localized()) || title.contains("Shevuah Shechal Bo".localized()) {
             return title
         }
         if title.contains("ברכת החמה") || title.contains("Birchat HaChamah") {
@@ -94,7 +94,7 @@ struct ZmanimAlertInfoHolder {
     
     func getFullMessage() -> String {//these strings were brought over from java. Hence all the concatenation
         let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: mIsZmanimInHebrew, mIsZmanimEnglishTranslated: mIsZmanimEnglishTranslated)
-        if title.contains(zmanimNames.getAlotString()) {
+        if title == zmanimNames.getAlotString() {
             if Locale.isHebrewLocale() {
                 return "בתנ\"ך, הזמן הזה נקרא \"עלות השחר\" (בראשית ל\"ב:כ\"ה), בעוד בגמרא הוא נקרא \"עמוד השחר\".  זהו הזמן בו מתחיל היום לפי ההלכה. רוב המצוות, דוגמת ערבית, שמתבצעות בלילה, אסורות להתבצע אחרי הזמן הזה. לאחריו, מצוות שחייבות להתבצע בזמן היום מותרות להתבצע בדיעבד או בשעת הדחק. אף על פי כן, יש לחכות עד לזריחה כדי לממש אותן לפי הלכה.  הזמן הזה נחשב ל-72 דקות זמניות (על פי הגר\"א) לפני הזריחה. גם הזריחה והשקיעה משתנות בהתעלות.  במצב לוח עמודי הוראה, הזמן הזה מחושב על ידי מציאת מספר הדקות שבין הזריחה ל-72 דקות כמות מעלות (16.04) לפני הזריחה ביום שווה עם הזריחה והשקיעה מוגדרים בתקופה של 12 שעות. לאחר מכן, אנחנו מעבירים את הדקות האלו לזמניות על פי הגר\"א ומחסרים אותו מהזמן של העלות השחר. זה על פי הלכה ברורה ועל המרצים לבצע זאת רק מחוץ לישראל באזורים צפוניים או דרומיים יותר."
             } else {
@@ -112,7 +112,7 @@ struct ZmanimAlertInfoHolder {
                 "sunrise to get the time for Alot Hashachar. This is according to the Halacha Berurah and this should only be done outside of Israel in more northern or southern areas."
             }
         }
-        if title.contains(zmanimNames.getTalitTefilinString()) {
+        if title == zmanimNames.getTalitTefilinString() {
             if Locale.isHebrewLocale() {
                 return "\"משייכיר\" (במשמעות הלמידי \"כאשר אתה מכיר\") הוא הזמן בו אדם יכול להבחין בין כחול ללבן. הגמרא (ברכות ט) מסבירה שכאשר אדם יכול להבחין בין החוטים הכחולים (תכלת) והחוטים הלבנים שבציציתו, זהו הזמן המוקדם ביותר בו אדם יכול ללבוש את הטלית והתפילין לשחרית.  זהו גם הזמן המוקדם ביותר בו אפשר לקרוא את שמע לפי הלכה לכתחילה.  הזמן הזה מחושב כ-6 דקות זמניות (על פי הגר\"א) לאחר \"עלות השחר\".  הערה: הזמן הזה הוא רק לאנשים שצריכים לצאת לעבודה או לנסוע בשעות הראשונות של הבוקר, אך בדרך כלל אדם צריך ללבוש את הטלית והתפילין שעה רגילה ובחורף 50 דקות רגילות לפני הזריחה.  במצב של \"לוח עמודי הוראה\", הזמן הזה מחושב על ידי מציאת מספר הדקות שבין הזריחה ל-72 דקות כמויות מעלות (16.04) לפני הזריחה ביום שווה עם הזריחה והשקיעה מוגדרות במרחק כשעתיים זמן ממוצע זה משתנה מדי. לאחר מכן, אנחנו ממירים את הדקות האלו לזמניות על פי הגר\"א ומחסרים 5/6 מהזמן הזה מהזמן של הזריחה כדי לקבוע את הזמן של \"משייכיר\". זה נעשה על פי הלכה ברורה ויש לעשות זאת רק מחוץ לישראל באזורים צפוניים או דרומיים יותר. כלולים בחישובים אלו לא הם התנועה של השמש."
             } else {
@@ -148,7 +148,7 @@ struct ZmanimAlertInfoHolder {
                 "sunrise instead."
             }
         }
-        if title.contains(zmanimNames.getAchilatChametzString()) {
+        if title == zmanimNames.getAchilatChametzString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן האחרון בו ניתן לאכול חמץ.  הזמן הזה מחושב כ-4 שעות זמניות, על פי המגן אברהם, לאחר זמן \"עלות השחר\" עם גובה. מאחר וחמץ הוא מצוות מן התורה, אנחנו מחמירים ואנחנו משתמשים בזמן של המגן אברהם כדי לחשב את הזמן האחרון שבו ניתן לאכול חמץ.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב באותו הדרך כמו שנמצא למעלה, רק שיש בשימוש בזמן המשולש של עלות/צאת בלוח עמודי הוראה, ואין כלל תפקוד גובה בחישובים."
             } else {
@@ -160,7 +160,7 @@ struct ZmanimAlertInfoHolder {
                 "Amudei Horaah calendar, and no elevation is included."
             }
         }
-        if title.contains(zmanimNames.getBiurChametzString()) {
+        if title == zmanimNames.getBiurChametzString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן האחרון בו ניתן לביעור חמץ לפני שהפסח מתחיל. יש להיפטר מכל חמץ שנמצא ברשותך עד לפני הזמן הזה.  הזמן הזה מחושב כ-5 שעות זמניות, על פי המגן אברהם, לאחר \"עלות השחר\" עם גובה.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב באותו הדרך כמו שנמצא למעלה, רק שיש בשימוש בזמן המשולש של עלות/צאת בלוח עמודי הוראה, ואין כלל תפקוד גובה בחישובים."
             } else {
@@ -172,7 +172,7 @@ struct ZmanimAlertInfoHolder {
                 "Amudei Horaah calendar, and no elevation is included."
             }
         }
-        if title.contains(zmanimNames.getShmaMgaString()) {
+        if title == zmanimNames.getShmaMgaString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן האחרון בו ניתן למלא את חובת קריאת שמע בכל יום, על פי המגן אברהם.  המגן אברהם/תרומת הדשן מחשבים את הזמן הזה כ-3 שעות זמניות לאחר \"עלות השחר\". הם מחלקים את הזמן בין עלות השחר וצאת הכוכבים של רבנו תם ל-12 חלקים שווים, וכך מתקבלת שעה זמנית אחת.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב באותו הדרך כמו שנמצא למעלה, רק שיש בשימוש בזמן המשולש של עלות/צאת בלוח עמודי הוראה, ואין כלל תפקוד גובה בחישובים."
             } else {
@@ -184,7 +184,7 @@ struct ZmanimAlertInfoHolder {
                 "Amudei Horaah calendar, and no elevation is included."
             }
         }
-        if title.contains(zmanimNames.getShmaGraString()) {
+        if title == zmanimNames.getShmaGraString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן האחרון בו ניתן למלא את חובת קריאת שמע בכל יום, על פי הגר\"א (הגאון רבנו אליהו).  הגר\"א מחשב את הזמן הזה כ-3 שעות זמניות לאחר הזריחה (עם גובה בחשבונות). הגר\"א מחלק את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ל-12 חלקים שווים, וכך מתקבלת שעה זמנית אחת.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב באותו הדרך כמו שנמצא למעלה, רק שאין כלל כל תפקוד גובה בחישובים."
             } else {
@@ -196,7 +196,7 @@ struct ZmanimAlertInfoHolder {
                 "In Luach Amudei Horaah mode, this time is calculated the same way as above except no elevation is included."
             }
         }
-        if title.contains(zmanimNames.getBrachotShmaString()) {
+        if title == zmanimNames.getBrachotShmaString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן האחרון בו ניתן לאומר ברכות שמע על פי הגר\"א (הגאון רבנו אליהו). בכל זאת, אדם עדיין יכול לאמר פסוקי דזמרה עד חצות.  הגר\"א מחשב את הזמן הזה כ-4 שעות זמניות לאחר הזריחה (עם גובה בחשבונות). הגר\"א מחלק את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ל-12 חלקים שווים, וכך מתקבלת שעה זמנית אחת.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב באותו הדרך כמו שנמצא למעלה, רק שאין כלל כל תפקוד גובה בחישובים."
             } else {
@@ -208,7 +208,7 @@ struct ZmanimAlertInfoHolder {
                 "In Luach Amudei Horaah mode, this time is calculated the same way as above except no elevation is included."
             }
         }
-        if title.contains(zmanimNames.getChatzotString()) {
+        if title == zmanimNames.getChatzotString() {
             if Locale.isHebrewLocale() {
                 return "זהו אמצע היום ההלכתי, כשהשמש נמצאת בדיוק באמצע השמיים ביחס לאורך היום. יש לשים לב שהשמש יכולה להיות ישירות מעל כל אדם רק בטרופי קרב ובטרופי גדי. בכל מקום אחר, השמש תהיה בזווית גם באמצע היום.  לאחר מהזמן הזה, אין ניתן לאמר עוד את עמידת שמונה עשרה של שחרית, וראוי לומר את תפילת מוסף בהעדפה לפני הזמן הזה.  הזמן הזה מחושב כ-6 שעות זמניות לאחר הזריחה. הגר\"א מחלק את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ל-12 חלקים שווים, וכך מתקבלת שעה זמנית אחת.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב באותו הדרך כמו שנמצא למעלה, רק שאין כלל כל תפקוד גובה בחישובים."
             } else {
@@ -224,7 +224,7 @@ struct ZmanimAlertInfoHolder {
                 "In Luach Amudei Horaah mode, this time is calculated the same way as above except no elevation is included."
             }
         }
-        if title.contains(zmanimNames.getMinchaGedolaString()) {
+        if title == zmanimNames.getMinchaGedolaString() {
             if Locale.isHebrewLocale() {
                 return "מנחה גדולה, ממשמעותה \"מנחה הגדולה\", היא הזמן המוקדם ביותר בו ניתן לאמר את תפילת מנחה. היא גם הזמן המועדף ביותר לאמר את תפילת מנחה לפי פוסקים שונים.  היא נקראת מנחה גדולה משום שישנה הרבה זמן נותר עד השקיעה.  יש להתחיל לאמר את הפסוקים של קרבנות לאחר מנחה גדולה לכתחילה.  הזמן הזה מחושב כ-30 דקות רגילות לאחר חצות. אך אם זמן זה יותר ארוך בזמניות, אנחנו משתמשים בזמן העונתי במחלוקת לחומרא. הגר\"א מחלק זמן עונתי כך: הוא לוקח את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ומחלק אותו ל-12 חלקים שווים. לאחר מכן, הוא מחלק אחד מתוך ה-12 ל-60 לקבלת דקה זמניות.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב באותו הדרך כמו שנמצא למעלה, רק שאין כלל כל תפקוד גובה בחישובים."
             } else {
@@ -239,7 +239,7 @@ struct ZmanimAlertInfoHolder {
                 "In Luach Amudei Horaah mode, this time is calculated the same way as above except no elevation is included."
             }
         }
-        if title.contains(zmanimNames.getMinchaKetanaString()) {
+        if title == zmanimNames.getMinchaKetanaString() {
             if Locale.isHebrewLocale() {
                 return "מנחה קטנה, ממשמעותה \"מנחה הקטנה\", היא הזמן המועדף ביותר לאמר את תפילת מנחה לפי פוסקים שונים.  היא נקראת מנחה קטנה משום שיש בה פחות זמן נותר עד השקיעה.  הזמן הזה מחושב כ-תשע זמניות שעות וחצי לאחר זריחה. הגר\"א מחלק זמן עונתי כך: הוא לוקח את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ומחלק אותו ל-12 חלקים שווים. לאחר מכן, הוא מחלק אחד מתוך ה-12 ל-60 לקבלת דקה זמניות."
             } else {
@@ -250,7 +250,7 @@ struct ZmanimAlertInfoHolder {
                 "divides it into 12 equal parts. Then we divide one of those 12 parts into 60 to get a zmaniyot/seasonal minute."
             }
         }
-        if title.contains(zmanimNames.getPlagHaminchaString()) {
+        if title == zmanimNames.getPlagHaminchaString() {
             if Locale.isHebrewLocale() {
                 return "פלג המנחה, משמעותה \"חצי מנחה\", היא נקודת האמצע בין מנחה קטנה לשקיעה. מאחר ומנחה קטנה היא שני שעות וחצי לפני השקיעה, פלג המנחה הוא החצי שבה, כלומר שעה ורבע לפני השקיעה.  לפי ההלכה, ניתן להתחיל לאמר את תפילת ערבית לפי דברי רבי יהודה במשמעו בפלג המנחה על פי (ברכות כ\'ו ע\'א).  אדם לא יכול לקבל שבת לפני פלג המנחה.  ההלכה ברורה אומרת לחשב את הזמן הזה על ידי חיסור שעה ו-15 דקות זמניות משקיעה, אך הילקוט יוסף אומר לחשב את זמן פלג המנחה כשעה ו-15 דקות זמניות לפני צאת הכוכבים (13.5 דקות זמניות).  במצב \"לוח עמודי הוראה\", מוצגות שני הדרכים לחישוב זמן פלג המנחה. ההבדל היחיד הוא שזמן צאת הכוכבים של לוח עמודי הוראה בשימוש במקום זמן ה-13.5 דקות זמניות הרגיל. הגר\"א מחלק זמן עונתי כך: הוא לוקח את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ומחלק אותו ל-12 חלקים שווים. לאחר מכן, הוא מחלק אחד מתוך ה-12 ל-60 לקבלת דקה זמניות."
             } else {
@@ -266,7 +266,7 @@ struct ZmanimAlertInfoHolder {
                 "divides it into 12 equal parts. Then we divide one of those 12 parts into 60 to get a zmaniyot/seasonal minute."
             }
         }
-        if title.contains(zmanimNames.getCandleLightingString()) {
+        if title == zmanimNames.getCandleLightingString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן האידיאלי להדלקת הנרות לפני שבת או חג מתחילים.  כאשר יש הדלקת נרות ביום שהוא יום טוב/שבת קודם ליום אחר שהוא יום טוב, הנרות מדליקים לאחר צאת הכוכבים. אך אם היום הבא הוא שבת, הנרות מדליקים בזמן הרגיל.  הזמן הזה מחושב כ-%c דקות רגילות לפני השקיעה (עם גובה בחשבונות).  לוח אור החיים תמיד מציג את זמן ההדלקה כ-20 דקות לפני השקיעה ו-40 דקות לפני השקיעה."
             } else {
@@ -278,7 +278,7 @@ struct ZmanimAlertInfoHolder {
                 "The Ohr HaChaim calendar always shows the candle lighting time as 20 and 40 minutes before sunset."
             }
         }
-        if title.contains(zmanimNames.getSunsetString()) {
+        if title == zmanimNames.getSunsetString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן ביום בו מתחיל עבר מיום ליום הבא, על פי הלכה.  השקיעה ההלכתית מוגדרת כרגע שקרקע השמש נעלם למעלה בקו האופק במהלך השקיעה (עם גובה בחשבונות).  מיד לאחר השקיעה בין השמשות מתחיל, כדאי לשים לב שזה לפי הגאונים.  אבל רבנו תם פוסקת שהשמש ממשיכה לשקוע עוד 58.5 דקות לאחר השקיעה, ורק לאחר מכן מתחיל בין השמשות לאורך עוד 13.5 דקות.  יש לשים לב כי אף על פי מרן זצ\"ל פוסק שיש לומר מנחה עד צאת הכוכבים, הרבה פוסקים, כמו המשנה ברורה, אומרים שיש לאדם לומר את תפילת מנחה לפני השקיעה ולא לפני צאת הכוכבים. רוב המצוות שחייבות להתבצע ביום כדאי לעשותן לפני זמן זה."
             } else {
@@ -292,7 +292,7 @@ struct ZmanimAlertInfoHolder {
                 "Most mitzvot that are to be done during the day should ideally be done before this time."
             }
         }
-        if title.contains(zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString()) {
+        if title == zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString() {
             if Locale.isHebrewLocale() {
                 return "זמן זה מחושב כ-20 דקות לאחר השקיעה (עם גובה בחשבונות).  זמן זה חשוב לימי צום ולקביעת הזמן לברית מילה. בערך מדובר בזמן אחרי שקיעה, אך זמן זה אינו יתר לאמירת תפילת מנחה.  זמן זה מוצג באפור בשבת וביום טוב (כפי בהוראת רבנים) כדי למנוע מאנשים לחשוב שהשבת/יום טוב מסתיימים בזמן זה.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב על ידי מציאת הכמות של דקות בין השקיעה ו-5.3 מעלות מתחת לאופק ביום שווה, ולאחר מכן אנחנו מוסיפים את מיניות הכמות ההיא לשקיעה כדי לקבוע את הזמן של צאת. אנחנו משתמשים ב-5.3 מעלות מתחת לאופק משום שזהו הזמן שבו מתוך 20 דקות לאחר השקיעה בארץ ישראל."
             } else {
@@ -304,7 +304,7 @@ struct ZmanimAlertInfoHolder {
                 "Tzeit/Nightfall. We use 5.3 degrees below the horizon because that is the time when it is 20 minutes after sunset in Israel."
             }
         }
-        if title.contains(zmanimNames.getTzaitHacochavimString()) {
+        if title == zmanimNames.getTzaitHacochavimString() {
             if Locale.isHebrewLocale() {
                 return "צאת הכוכבים היא הזמן שבו מתחיל היום ההלכתי הבא לאחר שעין השמש מסתיימת.  זהו הזמן האחרון שבו ניתן לאמר את תפילת מנחה לפי דעת רב עובדיה יוסף זצ\"ל. אדם צריך להתחיל את תפילת מנחה לפחות 2 דקות לפני זמן זה.  הזמן הזה מוצג באפור בשבת וביום טוב (כפי הוראת רבנים) כדי למנוע מאנשים לחשוב שהשבת/יום טוב מסתיימים בזמן זה.  הזמן הזה מחושב כ-13.5 דקות זמניות לאחר השקיעה (עם גובה בחשבונות).  הגר\"א מחלק זמן עונתי כך: הוא לוקח את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ומחלק אותו ל-12 חלקים שווים. לאחר מכן, הוא מחלק אחד מתוך ה-12 ל-60 לקבלת דקה זמניות.  במצב \"לוח עמודי הוראה\", הזמן הזה מחושב על ידי מציאת הכמות של דקות בין השקיעה ו-3.75 מעלות מתחת לאופק ביום שווה, ולאחר מכן אנחנו מוסיפים את מיניות הכמות ההיא לשקיעה כדי לקבוע את הזמן של צאת. אנחנו משתמשים ב-3.75 מעלות מתחת לאופק משום שזהו הזמן שבו מתוך 13.5 דקות לאחר השקיעה בארץ ישראל."
             } else {
@@ -320,7 +320,7 @@ struct ZmanimAlertInfoHolder {
                 "Tzeit/Nightfall. We use 3.75 degrees below the horizon because that is the time when it is 13.5 minutes after sunset in Israel."
             }
         }
-        if title.contains(zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString()) {
+        if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString() {
             if Locale.isHebrewLocale() {
                 return "זמן זה הוא זמן יותר מחמיר שבו מסתיימת התענית. זמן זה על פי דעת חכם בן ציון אבא שאול זצ\"ל.  זמן זה מחושב כ-30 דקות רגילות לאחר השקיעה (עם גובה בחשבונות)."
             } else {
@@ -329,7 +329,7 @@ struct ZmanimAlertInfoHolder {
                 "This time is calculated as 30 regular minutes after sunset (elevation included)."
             }
         }
-        if title.contains(zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString()) {
+        if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן בו מסתיימת התענית.  זמן זה מחושב כ-20 דקות רגילות לאחר השקיעה (עם גובה בחשבונות).  נכתב בהלכה ברורה שבאחת מהפעמים, הרב עובדיה יוסף זצ\"ל נסע לניו יורק ואמר לבנו, הרב דוד יוסף שליט\"א, שהתענית מסתיים 13.5 דקות זמניות לאחר השקיעה. אך בספרו \"חזון עובדיה\" כתב שהתענית מסתיים כ-20 דקות לאחר השקיעה.  בלוח אור החיים כתוב שהתענית מסתיים בצאת הכוכבים. שאלתי את הרב בניזרי אם זה אומר שהתענית מסתיים 13.5 דקות זמניות לאחר השקיעה והוא אמר, \"לא בהכרח, הלוח פשוט אומר שהתענית מסתיים בצאת הכוכבים, אדם יכול לסיים את התענית 20 דקות לאחר השקיעה אם הוא רוצה להחמיר.\" אני שאלתי אותו האם ה-20 דקות הם דקות זמניות או רגילות והוא אמר, \"דקות רגילות.\"  בסיכום: אם אדם רוצה לסיים את התענית 13.5 דקות זמניות לאחר השקיעה, יש לו את הזכות לעשות זאת. אך אם אדם רוצה להחמיר, הוא יכול לסיים את התענית 20 דקות לאחר השקיעה."
             } else {
@@ -362,7 +362,7 @@ struct ZmanimAlertInfoHolder {
                 "sunset. This degree is interpreted as 30 minutes after sunset all year round in Israel."
             }
         }
-        if title.contains(zmanimNames.getRTString()) {
+        if title == zmanimNames.getRTString() {
             if Locale.isHebrewLocale() {
                 return "זמן זה הוא זמן הצאת הכוכבים לפי רבינו תם.  צאת הכוכבים הוא הזמן בו מתחיל היום ההלכתי הבא לאחר הסיום של בין השמשות.  זמן זה מחושב כ-72 דקות זמניות לאחר השקיעה (עם גובה בחשבונות). לפי רבינו תם, אלו 72 דקות מורכבות משני חלקים. החלק הראשון הוא 58 וחצי דקות עד השקיעה השנייה (ראו פסחים 94א ותוספות שם). לאחר השקיעה השנייה ישנן 13.5 דקות נוספות עד הצאת הכוכבים.  הגר\"א מחשב דקה זמנית על ידי חלוקת הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ל-12 חלקים שווים. לאחר מכן אנו מחלקים את אחד מתוך 12 החלקים ל-60 דקות זמניות לצורך חישוב 72 דקות. אופן חישוב זה נעשה על מנת לחשב 72 דקות על פי השיטה הראשונה. אופן חישוב נוסף הוא על ידי חישוב מספר הדקות בין הזריחה והשקיעה, ולאחר מכן חלוקת התוצאה ב-10, והוספת התוצאה לשעת השקיעה. האפליקציה משתמשת בשיטה הראשונה.  במצב \"לוח עמודי הוראה\", זמן זה מחושב על ידי חישוב כמה דקות נמצאות בין השקיעה ל-72 דקות כמעלות (16.01) לאחר השקיעה ביום שאורך היום והלילה מוכרחים להיות שווים כאשר הזריחה והשקיעה מתרחשות בסביבות 12 שעות אחרי השעות האחרונות. לאחר מכן אנו מוסיפים את התוצאה הזו לשעת השקיעה כדי לקבוע את זמן רבינו תם. הזמן הוא על פי ההלכה בירושלים ובאזורים צפוניים או דרומיים יותר. הלכה ברורה מציינת שזו הדרך לחשב את הזמן בגלל שהיא טובה יותר על פי הטבע של העולם, אף שלא נראה שהרב עובדיה יוסף זצ\"ל או ילקוט יוסף מסכימים עם דעה זו. לא נכלל פה רמות הגובה.  שימו לב שהרב עובדיה יוסף זצ\"ל היה בעד להחמיר ולהחזיק בזמן רבינו תם בלכלל, בין אם זה היה קורה לפני או לאחר 72 דקות רגילות לאחר השקיעה. אך במצב \"לוח עמודי הוראה\", אנו משתמשים בזמן הפחות מבין השניים."
             } else {
@@ -388,7 +388,7 @@ struct ZmanimAlertInfoHolder {
                 "the two times."
             }
         }
-        if title.contains(zmanimNames.getChatzotLaylaString()) {
+        if title == zmanimNames.getChatzotLaylaString() {
             if Locale.isHebrewLocale() {
                 return "זהו זמן אמצע הלילה ההלכתי, כאשר השמש נמצאת בדיוק באמצע השמיים מתחת לנו.  מומלץ לסיים את מלווה מלכא לפני זמן זה.  זמן זה מחושב כ-6 שעות זמניות לאחר השקיעה. הגר\"א מחשב שעה זמנית על ידי חלוקת הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ל-12 חלקים שווים."
             } else {

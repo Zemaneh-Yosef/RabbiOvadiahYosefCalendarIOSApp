@@ -60,20 +60,39 @@ class SiddurChooserViewController: UIViewController {
     @IBAction func birchatHamazon(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Birchat Hamazon"
         birchatHamazon.setTitle("Loading...".localized(), for: .normal)
-        let alert = UIAlertController(title: "When did you start your meal?".localized(),
+        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
+        GlobalStruct.jewishCalendar.forward()
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
+        GlobalStruct.jewishCalendar.back()//reset
+        
+        if today.count != tomorrow.count {
+            var notEqual = false
+            // Check if all elements at corresponding indices are equal
+            for (element1, element2) in zip(today, tomorrow) {
+                if element1.string != element2.string {
+                    notEqual = true
+                }
+            }
+            
+            if notEqual {
+                let alert = UIAlertController(title: "When did you start your meal?".localized(),
                                               message: "Did you start your meal during the day?".localized(), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Yes".localized(), style: .default, handler: { UIAlertAction in
+                alert.addAction(UIAlertAction(title: "Yes".localized(), style: .default, handler: { UIAlertAction in
+                    self.openSiddur()
+                }))
+                alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
+                    GlobalStruct.chosenPrayer = "Birchat Hamazon+1"
+                    self.openSiddur()
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
+                    self.dismiss(animated: true)
+                    self.viewDidAppear(false)//to reset titles
+                }))
+                present(alert, animated: true)
+            }
+        } else {
             self.openSiddur()
-        }))
-        alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
-            GlobalStruct.chosenPrayer = "Birchat Hamazon+1"
-            self.openSiddur()
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-            self.dismiss(animated: true)
-            self.viewDidAppear(false)//to reset titles
-        }))
-        present(alert, animated: true)
+        }
     }
     @IBOutlet weak var disclaimer: UILabel!
     

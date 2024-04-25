@@ -209,7 +209,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         content.sound = .default
         content.subtitle = "Don't forget to count!".localized()
         let dayOfOmer = jewishCalendar.getDayOfOmer()
-        content.body = omerList[dayOfOmer + 1]
+        content.body = omerList[dayOfOmer]
         
         //same issue as described in scheduleDailyNotifications()
         var trigger: UNCalendarNotificationTrigger
@@ -233,16 +233,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     }
     
     func scheduleSunsetNotifications() {
-        if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            if zmanimCalendar.getTzaisAmudeiHoraah()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
-                addOneDayToCalendars()
-            }
-        } else {
-            if zmanimCalendar.getTzais13Point5MinutesZmanis()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {
-                addOneDayToCalendars()
-            }
-        }
-        
         for _ in 1...14 {
             scheduleOmerNotifications()
             addOneDayToCalendars()
@@ -602,6 +592,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                         self.locationName = locationName ?? ""
                         resolveElevation()
                         zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+                        zmanimCalendar.useElevation = self.defaults.bool(forKey: "useElevation")
                         jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
                         jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                         jewishCalendar.useModernHolidays = true
