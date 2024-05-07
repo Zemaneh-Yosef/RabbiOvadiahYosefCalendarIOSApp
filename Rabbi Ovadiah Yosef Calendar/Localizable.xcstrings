@@ -845,6 +845,17 @@
         }
       }
     },
+    "Find all the Zmanim on Zmanei Yosef" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מצא את כל הזמנים בזמני יוסף"
+          }
+        }
+      }
+    },
     "h:" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1933,6 +1944,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מצב שבת/חג"
+          }
+        }
+      }
+    },
+    "Share" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שתף"
           }
         }
       }

@@ -327,8 +327,20 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 }
                 alertController.addAction(elevationAction)
             }
-            alertController.addAction(UIAlertAction(title: "Share", style: .default) { [self] (_) in
+            alertController.addAction(UIAlertAction(title: "Share".localized(), style: .default) { [self] (_) in
+                let image = UIImage(named: "AppIcon")
+                let textToShare = "Find all the Zmanim on Zmanei Yosef".localized()
                 
+                if let myWebsite = URL(string: "https://royzmanim.com/calendar?locationName=\(locationName)&lat=\(lat)&long=\(long)&elevation=\(elevation)&timeZone=\(timezone.identifier)") {
+                    let objectsToShare = [textToShare, myWebsite, image ?? #imageLiteral(resourceName: "app-logo")] as [Any]
+                    let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+                    
+                    //Excluded Activities
+                    //activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+
+                    activityVC.popoverPresentationController?.sourceView = alertController.view
+                    self.present(activityVC, animated: true, completion: nil)
+                }
             })
         }
         
