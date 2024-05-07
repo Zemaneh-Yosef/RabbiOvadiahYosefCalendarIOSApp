@@ -1,12 +1,13 @@
 {
+  "originHash" : "44be99251b40511fccf2abf0798d6e793de4d685852b89572a2d5921cb2bc377",
   "pins" : [
     {
       "identity" : "kosherswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Elyahu41/KosherSwift",
       "state" : {
-        "revision" : "3ee0b742d4ae78415152bf2b0b91e65218f39ede",
-        "version" : "1.0.6"
+        "revision" : "bfe64d8bbcafbc5f4810ec3c178aeb5b1a48bab8",
+        "version" : "1.0.8"
       }
     },
     {
@@ -14,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "revision" : "1d39e56d364cba79ce43b341f9661b534cccb18d",
-        "version" : "2.7.1"
+        "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
+        "version" : "2.7.2"
       }
     },
     {
@@ -23,10 +24,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
       "state" : {
-        "revision" : "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
-        "version" : "5.0.1"
+        "revision" : "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+        "version" : "5.0.2"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

@@ -437,32 +437,9 @@ A further Makhloket is whether the first Tekufah used a fixed clock time of 12:0
         }
         if title.contains("Tachanun".localized()) || title.contains("צדקתך") {
             if Locale.isHebrewLocale() {
-                return "כאן רשימה של ימים בהם אין אומרים את התחנון:\n\n  ראש חודש חודש ניסן כולו\nפסח שני (י\"ד באייר) \nל\"ג בעומר \nראש חודש סיון עד ה-12 בסיון (כולל ה-12) \nתשעה באב \nט\"ו באב \nערב ראש השנה וראש השנה \nערב יום כיפור ויום כיפור \nמה-11 בתשרי עד סוף תשרי \nחנוכה כולה \nט\"ו בשבט \nי\"ד ו-ט\"ו באדר א\' ואדר ב\' (רק י\"ד באדר א\' בשנה מעוברת) \nכל שבת \nכל ערב ראש חודש \nתענית אסתר \nתשעה באב \nט\"ו בשבט \nל\"ג בעומר \nפסח שני \nיום ירושלים (אך לא יום העצמאות, לפי מנהג רבי עובדיה זצ\"ל). \n\nשימו לב שישנם גם זמנים נוספים בהם יש להחמיר ולא לאומר את התחנון, אך הרשימה הזו היא רק לימים בהם אין אומרים את התחנון בכלל. לפעמים ניתן לדלג על התחנון אם יש אבלים שמרכיבים רוב המניין או אם יש שמחה חשובה."
+                return "כאן רשימת הימים בהם אין לומר תחנון:\n\nראש חודש\nכל חודש ניסן\nפסח שני (י\"ד באייר)\nל\"ג בעומר\nראש חודש סיון עד י\"ב בסיון (כולל)\nתשעה באב\nט\"ו באב\nערב ראש השנה וראש השנה\nערב יום כיפור ויום כיפור\nמיום י\"א בתשרי עד סוף תשרי\nכל חנוכה\nט\"ו בשבט\nי\"ד וט\"ו באדר א\' ובאדר ב\'\nכל שבת\nכל ערב ראש חודש\nתענית אסתר\nתשעה באב\nט\"ו בשבט\nל\"ג בעומר\nפסח שני\n\nליום ירושלים ויום העצמאות, מכיוון שיש תחומים, פשוט רק שכתבנו שישנם אומרים שאין לומר תחנון וישנם שאומרים שיש. לפי הרב מאיר גבריאל אלבז, מנהגו של הרב עובדיה זצ\"ל היה לסקוט תחנון רק ביום ירושלים. לא ביום לפניו ולא ביום העצמאות.\n\nשימו לב כי יש עוד פעמים שלא נוהגים לומר תחנון, אך רשימה זו מתייחסת רק לימים בהם אין תחנון. במקרים מסוימים יש אפשרות לדלג על תחנון אם רוב המתפללים הם אבלים או אם יש שמחה."
             } else {
-                return "Here is a list of days with no tachanun:\n\n" +
-                "Rosh Chodesh\n" +
-                "The entire month of Nissan\n" +
-                "Pesach Sheni (14th of Iyar)\n" +
-                "Lag Ba'Omer\n" +
-                "Rosh Chodesh Sivan until the 12th of Sivan (12th included)\n" +
-                "9th of Av\n" +
-                "15th of Av\n" +
-                "Erev Rosh Hashanah and Rosh Hashanah\n" +
-                "Erev Yom Kippur and Yom Kippur\n" +
-                "From the 11th of Tishrei until the end of Tishrei\n" +
-                "All of Chanukah\n" +
-                "15th of Shevat\n" +
-                "14th and 15th of Adar I and Adar II (and only 14th of Adar I in a leap year)\n" +
-                "Every Shabbat\n" +
-                "Every Erev Rosh Chodesh\n" +
-                "Fast of Esther\n" +
-                "Tisha Be'av\n" +
-                "Tu Be'Shvat\n" +
-                "Lag Ba'Omer\n" +
-                "Pesach Sheni\n" +
-                "Yom Yerushalayim but not Yom Ha'atzmaut (according to the minhag of Rabbi Ovadiah ZT\"L)\n\n" +
-                "Note that there are other times you should not say tachanun, but this list is only for days with no tachanun. Sometimes " +
-                "you can skip tachanun if there are mourners making up majority of the minyan or if there is a simcha (joyous occasion)."
+                return "Here is a list of days with no tachanun:\n\nRosh Chodesh\nThe entire month of Nissan\nPesach Sheni (14th of Iyar)\nLag Ba\'Omer\nRosh Chodesh Sivan until the 12th of Sivan (12th included)\n9th of Av\n15th of Av\nErev Rosh Hashanah and Rosh Hashanah\nErev Yom Kippur and Yom Kippur\nFrom the 11th of Tishrei until the end of Tishrei\nAll of Chanukah\n15th of Shevat\n14th and 15th of Adar I and Adar II\nEvery Shabbat\nEvery Erev Rosh Chodesh\nFast of Esther\nTisha Be\'av\nTu Be\'Shvat\nLag Ba\'Omer\nPesach Sheni\n\nFor Yom Yerushalayim and Yom Ha\'atzmaut, since there is a debate, we simply wrote that some say tachanun and some don\'t. According to Rabbi Meir Gavriel Elbaz, the minhag of Rabbi Ovadiah ZT\"L was to only skip tachanun on the day of Yom Yerushalayim. Not the day before it or on Yom Ha\'atzmaut.\n\nNote that there are other times you should not say tachanun, but this list is only for days with no tachanun. Sometimes you can skip tachanun if there are mourners making up majority of the minyan or if there is a simcha (joyous occasion)."
             }
         }
         if title.contains("Three Weeks".localized()) || title.contains("Nine Days".localized()) || title.contains("Shevuah Shechal Bo".localized()) {

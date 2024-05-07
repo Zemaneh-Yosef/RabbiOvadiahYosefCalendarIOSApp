@@ -29,6 +29,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     var jewishCalendar = JewishCalendar()
     
     var notificationsAreBeingSet:Bool = false
+    var lastOmerNotification:Bool = false
     
     func requestAuthorization() {
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound, .carPlay]) {(success, error) in}
@@ -209,7 +210,21 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         content.sound = .default
         content.subtitle = "Don't forget to count!".localized()
         let dayOfOmer = jewishCalendar.getDayOfOmer()
-        content.body = omerList[dayOfOmer]
+        if lastOmerNotification {
+            content.body = omerList[dayOfOmer].appending(" / This is the last omer notification until you open the app".localized())
+        } else {
+            content.body = omerList[dayOfOmer]
+        }
+        
+        // Create a notification action
+        let action = UNNotificationAction(identifier: "omerAction", title: "See full text".localized(), options: [.foreground])
+        // Add the action to the notification content
+        content.categoryIdentifier = "omerCategory"
+        content.userInfo = ["omerAction": "showView"]
+        // Create a notification category
+        let category = UNNotificationCategory(identifier: "omerCategory", actions: [action], intentIdentifiers: [], options: [])
+        // Register the notification category
+        notificationCenter.setNotificationCategories([category])
         
         //same issue as described in scheduleDailyNotifications()
         var trigger: UNCalendarNotificationTrigger
@@ -233,10 +248,14 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     }
     
     func scheduleSunsetNotifications() {
-        for _ in 1...14 {
+        for _ in 1...13 {
             scheduleOmerNotifications()
             addOneDayToCalendars()
         }
+        lastOmerNotification = true
+        scheduleOmerNotifications()
+        lastOmerNotification = false // clean up for next run
+        
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
         

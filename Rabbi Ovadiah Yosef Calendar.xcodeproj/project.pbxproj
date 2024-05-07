@@ -60,6 +60,8 @@
 		CE1035522B4554AC00193D1E /* ZmanimTimeNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D226EFC29D3B1E500D45E34 /* ZmanimTimeNames.swift */; };
 		CE1035532B4554F600193D1E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37A29A36DB300F8033D /* LocationManager.swift */; };
 		CE1035542B4554F700193D1E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D19D37A29A36DB300F8033D /* LocationManager.swift */; };
+		CE14479F2BE99A3E00AA52C9 /* OmerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE14479E2BE99A3E00AA52C9 /* OmerViewController.swift */; };
+		CE1447A12BE9C38F00AA52C9 /* JerusalemDirectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1447A02BE9C38F00AA52C9 /* JerusalemDirectionViewController.swift */; };
 		CE2B0B752AC54BC700F07CCD /* SiddurViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */; };
 		CE3244292B3BB66D00EEF29C /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE3244282B3BB66D00EEF29C /* KosherSwift */; };
 		CE32442B2B3BB67700EEF29C /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE32442A2B3BB67700EEF29C /* KosherSwift */; };
@@ -180,6 +182,8 @@
 		5D948C302A38205E0017A8B6 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		CE0CEBF32B07085100BFD068 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE0CEBF52B070AD400BFD068 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements"; sourceTree = "<group>"; };
+		CE14479E2BE99A3E00AA52C9 /* OmerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmerViewController.swift; sourceTree = "<group>"; };
+		CE1447A02BE9C38F00AA52C9 /* JerusalemDirectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JerusalemDirectionViewController.swift; sourceTree = "<group>"; };
 		CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurViewController.swift; sourceTree = "<group>"; };
 		CE32442C2B3BE66F00EEF29C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerForNotifications.swift; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				5D19D36429A3687900F8033D /* ZmanListViewController.swift */,
+				CE14479E2BE99A3E00AA52C9 /* OmerViewController.swift */,
 				520D97392ABA8D17004B9014 /* NetzViewController.swift */,
 				5D948C302A38205E0017A8B6 /* CalendarViewController.swift */,
 				5D7550A229E3776700894335 /* ElevationViewController.swift */,
@@ -249,6 +254,7 @@
 				5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */,
 				5D7550AB29EF94C300894335 /* ZmanimLanguageViewController.swift */,
 				5D7550B029F2761300894335 /* MoladViewController.swift */,
+				CE1447A02BE9C38F00AA52C9 /* JerusalemDirectionViewController.swift */,
 				CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */,
 				CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */,
 			);
@@ -551,6 +557,7 @@
 				5D19D36129A3687900F8033D /* AppDelegate.swift in Sources */,
 				5D7550A929EF8B5800894335 /* InIsraelViewController.swift in Sources */,
 				5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */,
+				CE14479F2BE99A3E00AA52C9 /* OmerViewController.swift in Sources */,
 				5D7550A329E3776700894335 /* ElevationViewController.swift in Sources */,
 				524A18362A80D38E00ACCBF8 /* ChaiTablesScraper.swift in Sources */,
 				5D7550B829FC555200894335 /* ZmanimSettingsViewController.swift in Sources */,
@@ -573,6 +580,7 @@
 				52237D322A8C9B1400497D9E /* SimpleSetupViewController.swift in Sources */,
 				5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */,
 				5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */,
+				CE1447A12BE9C38F00AA52C9 /* JerusalemDirectionViewController.swift in Sources */,
 				CE32442D2B3BE66F00EEF29C /* Extensions.swift in Sources */,
 				5D19D36529A3687900F8033D /* ZmanListViewController.swift in Sources */,
 				CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */,

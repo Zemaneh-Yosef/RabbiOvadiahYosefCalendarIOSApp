@@ -216,6 +216,20 @@ public extension JewishCalendar {
             }
             return "Tachanun only in the morning";
         }
+        // According to Rabbi Meir Gavriel Elbaz, Rabbi Ovadiah would only skip tachanun on the day of Yom Yerushalayim itself as is the custom of the Yeshiva of Yechaveh Daat.
+         // He WOULD say tachanun on Erev Yom Yerushalayim and on Yom Ha'atmaut. However, since there are disagreements, it was recommended for the app to just say that "Some say tachanun" on both days.
+         if (yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndex == JewishCalendar.YOM_HAATZMAUT) {
+             if Locale.isHebrewLocale() {
+                 return "יש אומרים תחנון";
+             }
+             return "Some say Tachanun today";
+         }
+         if (yomTovIndexForNextDay == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndexForNextDay == JewishCalendar.YOM_HAATZMAUT) {
+             if Locale.isHebrewLocale() {
+                 return "יש אומרים תחנון רק בבוקר";
+             }
+             return "Some say Tachanun only in the morning";
+         }
         if (getDayOfWeek() == 7) {
             return "צדקתך";
         }
@@ -387,7 +401,7 @@ public extension JewishCalendar {
     }
     
     func getIsBarcheinuOrBarechAleinuSaid() -> String {
-        if (TefilaRules().isVeseinBerachaRecited(jewishCalendar: self)) {
+        if TefilaRules().isVeseinBerachaRecited(jewishCalendar: self) {
             return "ברכנו";
         } else {
             return "ברך עלינו";

@@ -39,6 +39,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+        if response.actionIdentifier == "omerAction" {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyboard.instantiateViewController(withIdentifier: "Omer") as! OmerViewController
+            newViewController.modalPresentationStyle = .fullScreen
+            
+            // Get the reference to the currently visible view controller
+            if let rootViewController = UIApplication.shared.windows.first?.rootViewController {
+                // Present the new view controller
+                rootViewController.present(newViewController, animated: true, completion: nil)
+            }
+        }
     }
 }
 

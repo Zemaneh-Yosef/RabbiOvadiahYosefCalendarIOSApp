@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -116,7 +117,7 @@
                                         <items>
                                             <barButtonItem style="plain" id="rG5-bN-AQY">
                                                 <button key="customView" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="zlI-bE-XCz">
-                                                    <rect key="frame" x="20" y="12" width="22" height="21"/>
+                                                    <rect key="frame" x="20" y="12" width="23" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -135,7 +136,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="GJQ-ga-VxD"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="wwV-jQ-nNv">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
-                                                    <rect key="frame" x="201" y="11" width="27" height="24"/>
+                                                    <rect key="frame" x="201.66666666666666" y="10.666666666666664" width="27" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -435,14 +436,24 @@
                                     <constraint firstItem="wQI-Og-EXA" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="vpp-GU-0ag"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ri-gZ-SgA">
+                                <rect key="frame" x="360.33333333333331" y="59" width="49.666666666666686" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="location.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="jerDirection:" destination="ghR-fU-7xL" eventType="touchUpInside" id="WEp-k0-19J"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tl5-je-v2J"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="RIL-HI-hY9" firstAttribute="leading" secondItem="Tl5-je-v2J" secondAttribute="leading" constant="8" id="2nD-b7-cVV"/>
                             <constraint firstItem="Tl5-je-v2J" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Gc1-YU-aPn" secondAttribute="trailing" symbolic="YES" id="9Kz-dt-7hM"/>
+                            <constraint firstItem="Tl5-je-v2J" firstAttribute="trailing" secondItem="4Ri-gZ-SgA" secondAttribute="trailing" constant="20" id="HW9-DT-nUM"/>
                             <constraint firstItem="RIL-HI-hY9" firstAttribute="centerY" secondItem="hYX-9A-Y0Y" secondAttribute="centerY" id="J6m-X5-Rc3"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="leading" secondItem="Tl5-je-v2J" secondAttribute="leading" constant="20" id="Y84-hd-GVc"/>
+                            <constraint firstItem="4Ri-gZ-SgA" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="ZRH-MV-JrP"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="fTX-eV-TOW"/>
                             <constraint firstItem="Gc1-YU-aPn" firstAttribute="top" secondItem="Tl5-je-v2J" secondAttribute="top" id="hyk-jj-0uB"/>
                             <constraint firstItem="Tl5-je-v2J" firstAttribute="trailing" secondItem="RIL-HI-hY9" secondAttribute="trailing" constant="8" id="x1k-Q6-Ttf"/>
@@ -1196,6 +1207,58 @@ etc...</string>
             </objects>
             <point key="canvasLocation" x="582" y="-1376"/>
         </scene>
+        <!--Jerusalem Direction View Controller-->
+        <scene sceneID="yBY-P3-3s8">
+            <objects>
+                <viewController storyboardIdentifier="jerDirection" useStoryboardIdentifierAsRestorationIdentifier="YES" id="B2g-jv-hNy" customClass="JerusalemDirectionViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6hq-hw-C2R">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ssp-c9-fVS">
+                                <rect key="frame" x="0.0" y="102" width="430" height="830"/>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q55-Dz-exE">
+                                <rect key="frame" x="20" y="59" width="56" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Quit"/>
+                                <connections>
+                                    <action selector="back:" destination="B2g-jv-hNy" eventType="touchUpInside" id="7hz-yP-WgY"/>
+                                    <action selector="back:" destination="1Ft-5U-NsO" eventType="touchUpInside" id="exI-LY-Ovb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BuO-RM-6bI">
+                                <rect key="frame" x="360" y="59" width="50" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="info.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="info:" destination="B2g-jv-hNy" eventType="touchUpInside" id="BdK-hr-ndZ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="46J-lD-7zj"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="q55-Dz-exE" firstAttribute="leading" secondItem="46J-lD-7zj" secondAttribute="leading" constant="20" id="8CZ-5Y-y0T"/>
+                            <constraint firstItem="Ssp-c9-fVS" firstAttribute="trailing" secondItem="46J-lD-7zj" secondAttribute="trailing" id="HB5-i8-XqN"/>
+                            <constraint firstItem="Ssp-c9-fVS" firstAttribute="leading" secondItem="46J-lD-7zj" secondAttribute="leading" id="KaP-uG-ZFV"/>
+                            <constraint firstAttribute="bottom" secondItem="Ssp-c9-fVS" secondAttribute="bottom" id="c6q-27-U9q"/>
+                            <constraint firstItem="q55-Dz-exE" firstAttribute="top" secondItem="46J-lD-7zj" secondAttribute="top" id="kYz-Hi-ejs"/>
+                            <constraint firstItem="BuO-RM-6bI" firstAttribute="top" secondItem="46J-lD-7zj" secondAttribute="top" id="mnQ-rN-7Oi"/>
+                            <constraint firstItem="Ssp-c9-fVS" firstAttribute="top" secondItem="q55-Dz-exE" secondAttribute="bottom" constant="8" symbolic="YES" id="uIk-uo-10H"/>
+                            <constraint firstItem="46J-lD-7zj" firstAttribute="trailing" secondItem="BuO-RM-6bI" secondAttribute="trailing" constant="20" id="zEk-3w-mld"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="map" destination="Ssp-c9-fVS" id="ar7-Rh-6eQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oUx-K1-LLe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="1Ft-5U-NsO" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1272.5581395348838" y="-1376.3948497854078"/>
+        </scene>
         <!--Zmanim Settings View Controller-->
         <scene sceneID="zCK-aH-4l1">
             <objects>
@@ -1531,6 +1594,45 @@ etc...</string>
             </objects>
             <point key="canvasLocation" x="-84.375" y="-57.04225352112676"/>
         </scene>
+        <!--Omer-->
+        <scene sceneID="xCt-PR-56W">
+            <objects>
+                <viewController storyboardIdentifier="Omer" title="Omer" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Sxj-jY-2M3" customClass="OmerViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="A0O-d6-UWt">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vZw-X1-WGR">
+                                <rect key="frame" x="20" y="59" width="56" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Quit"/>
+                                <connections>
+                                    <action selector="quit:" destination="Sxj-jY-2M3" eventType="touchUpInside" id="Fn7-BZ-v6c"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Tf-CF-YVq">
+                                <rect key="frame" x="8" y="101" width="414" height="797"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="7vI-nw-GMQ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vZw-X1-WGR" firstAttribute="leading" secondItem="7vI-nw-GMQ" secondAttribute="leading" constant="20" id="1Dg-HH-Cp1"/>
+                            <constraint firstItem="4Tf-CF-YVq" firstAttribute="top" secondItem="vZw-X1-WGR" secondAttribute="bottom" constant="7.6666666666666572" id="7If-E8-dYN"/>
+                            <constraint firstItem="4Tf-CF-YVq" firstAttribute="trailing" secondItem="A0O-d6-UWt" secondAttribute="trailing" constant="-8" id="E5f-FX-Ahl"/>
+                            <constraint firstItem="vZw-X1-WGR" firstAttribute="top" secondItem="7vI-nw-GMQ" secondAttribute="top" id="dbo-US-Wvr"/>
+                            <constraint firstItem="4Tf-CF-YVq" firstAttribute="leading" secondItem="A0O-d6-UWt" secondAttribute="leading" constant="8" id="v5P-tl-SsC"/>
+                            <constraint firstItem="7vI-nw-GMQ" firstAttribute="bottom" secondItem="4Tf-CF-YVq" secondAttribute="bottom" id="yWQ-jf-zAl"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="scrollview" destination="4Tf-CF-YVq" id="RRF-IS-VvI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q8W-SB-Am8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-85" y="-1376"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="BrH-gd-Gjx">
@@ -1548,6 +1650,7 @@ etc...</string>
         <image name="calendar" catalog="system" width="128" height="107"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="info.circle" catalog="system" width="128" height="123"/>
+        <image name="location.circle" catalog="system" width="128" height="123"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -12,11 +12,8 @@ class CalendarViewController: UIViewController {
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 
     @IBAction func info(_ sender: UIButton) {
-        
-        let language = Locale.current.localizedString(forIdentifier: "he") //עברית
-        
         var longInfoMessage: String
-        if language == "עברית" {
+        if Locale.isHebrewLocale() {
             longInfoMessage = "\n" +
             "האפליקציה יכולה להציג שני לוחות שנה נפרדים. בשנת 1990, רבי עובדיה יוסף זצ\"ל התחיל פרויקט ליצירת לוח זמנים על פי ההלכות והמנהגים שלו. יחד עם רבי שלמה בניזרי ורבי אשר דרשן, יצר לוח זמנים בשם \"לוח המאור אור החיים\". רבי עובדיה עצמו השגיח על יצירת הלוח והשתמש בו עד לפטירתו. האפליקציה עברה על כל זמני לוח אור החיים ואישרה את דיוקם.\n" +
             "\n" +

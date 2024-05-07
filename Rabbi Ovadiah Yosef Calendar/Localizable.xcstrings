@@ -22,6 +22,17 @@
         }
       }
     },
+    " / This is the last omer notification until you open the app" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " / זהו ההודעה האחרונה של ספירת העומר עד שתפתח את האפליקציה"
+          }
+        }
+      }
+    },
     " Chalakim" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -614,13 +625,13 @@
         }
       }
     },
-    "Did you start your meal during the day?" : {
+    "Did you start your meal before sunset?" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "האם התחלת את ארוחתך במהלך היום?"
+            "value" : "האם התחלת את ארוחתך לפני שקיעה?"
           }
         }
       }
@@ -878,6 +889,17 @@
         }
       }
     },
+    "Holy of Holies" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "קודש הקדשים"
+          }
+        }
+      }
+    },
     "How to get info from chaitables.com" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -940,6 +962,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "נכון לומר את התפילה הזו ביום ט\"ו בשבט:"
+          }
+        }
+      }
+    },
+    "Jerusalem" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ירושלים"
+          }
+        }
+      }
+    },
+    "Jerusalem Direction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "כיוון ירושלים"
+          }
+        }
+      }
+    },
+    "Jerusalem Direction Explained" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הסבר על כיוון ירושלים"
           }
         }
       }
@@ -1630,6 +1685,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שינוי מקום"
+          }
+        }
+      }
+    },
+    "See full text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ראה את הטקסט המלא"
           }
         }
       }

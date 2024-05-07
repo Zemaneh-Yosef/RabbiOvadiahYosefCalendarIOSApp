@@ -10,6 +10,12 @@ import KosherSwift
 
 class SiddurChooserViewController: UIViewController {
 
+    @IBAction func jerDirection(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyboard.instantiateViewController(withIdentifier: "jerDirection") as! JerusalemDirectionViewController
+        newViewController.modalPresentationStyle = .fullScreen
+        self.present(newViewController, animated: true)
+    }
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
@@ -76,7 +82,7 @@ class SiddurChooserViewController: UIViewController {
             
             if notEqual {
                 let alert = UIAlertController(title: "When did you start your meal?".localized(),
-                                              message: "Did you start your meal during the day?".localized(), preferredStyle: .alert)
+                                              message: "Did you start your meal before sunset?".localized(), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Yes".localized(), style: .default, handler: { UIAlertAction in
                     self.openSiddur()
                 }))

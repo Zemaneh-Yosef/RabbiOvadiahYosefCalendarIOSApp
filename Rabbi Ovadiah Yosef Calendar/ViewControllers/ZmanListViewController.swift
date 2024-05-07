@@ -96,6 +96,13 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.present(newViewController, animated: true)
         })
         
+        topMenu.append(UIAction(title: "Jerusalem Direction".localized(), identifier: nil) { _ in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyboard.instantiateViewController(withIdentifier: "jerDirection") as! JerusalemDirectionViewController
+            newViewController.modalPresentationStyle = .fullScreen
+            self.present(newViewController, animated: true)
+        })
+        
         bottomMenu.append(UIAction(title: "Setup".localized(), identifier: nil) { _ in
             self.showSetup()
         })
@@ -320,6 +327,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 }
                 alertController.addAction(elevationAction)
             }
+            alertController.addAction(UIAlertAction(title: "Share", style: .default) { [self] (_) in
+                
+            })
         }
         
         if zmanimList[indexPath.row].title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
