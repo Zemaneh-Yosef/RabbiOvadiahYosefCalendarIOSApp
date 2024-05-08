@@ -74,6 +74,7 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
         map.isScrollEnabled = false
         map.isZoomEnabled = false
         map.isPitchEnabled = false
+        map.isUserInteractionEnabled = false // if we want to enable map rotation, this needs to be implemented for the compass to turn green: https://stackoverflow.com/questions/26530546/track-mkmapview-rotation
         map.userTrackingMode = .none
         
         // Define Jerusalem coordinates
