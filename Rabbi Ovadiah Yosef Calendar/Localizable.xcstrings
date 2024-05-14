@@ -2267,6 +2267,28 @@
         }
       }
     },
+    "The application will keep requesting your location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "היישום ימשיך לבקש את מיקומך"
+          }
+        }
+      }
+    },
+    "The application will NOT track your location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "היישום לא יעקוב אחר מיקומך"
+          }
+        }
+      }
+    },
     "The current hebrew year is out of scope for the visible sunrise times that were downloaded from Chaitables. Would you like to download the tables for this hebrew year?" : {
       "extractionState" : "manual",
       "localizations" : {

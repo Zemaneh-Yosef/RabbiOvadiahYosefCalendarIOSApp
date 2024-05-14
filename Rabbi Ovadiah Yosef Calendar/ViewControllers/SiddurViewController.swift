@@ -155,7 +155,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                 
                 //Start heading updating.
                 if CLLocationManager.headingAvailable() {
-                    locationManager.headingFilter = 5
+                    locationManager.headingFilter = 1
                     locationManager.startUpdatingHeading()
                 }
             }

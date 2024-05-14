@@ -638,7 +638,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         lat = defaults.double(forKey: defaultsLat)
         long = defaults.double(forKey: defaultsLong)
         resolveElevation()
-        timezone = TimeZone.init(identifier: defaults.string(forKey: defaultsTimezone)!)!
+        timezone = TimeZone.init(identifier: defaults.string(forKey: defaultsTimezone) ?? TimeZone.current.identifier)!
         jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
         jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
         jewishCalendar.useModernHolidays = true

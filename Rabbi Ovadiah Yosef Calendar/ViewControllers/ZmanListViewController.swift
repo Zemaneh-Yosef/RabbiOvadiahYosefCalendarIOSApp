@@ -71,16 +71,18 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             self.createMenu()
         })
-                
-        topMenu.append(UIAction(title: "Use Elevation".localized(), identifier: nil, state: self.defaults.bool(forKey: "useElevation") ? .on : .off) { _ in
-            self.defaults.set(!self.defaults.bool(forKey: "useElevation"), forKey: "useElevation")
-            GlobalStruct.useElevation = self.defaults.bool(forKey: "useElevation")
-            self.resolveElevation()
-            self.createMenu()
-            self.recreateZmanimCalendar()
-            self.setNextUpcomingZman()
-            self.updateZmanimList()
-        })
+        
+        if !defaults.bool(forKey: "LuachAmudeiHoraah") {
+            topMenu.append(UIAction(title: "Use Elevation".localized(), identifier: nil, state: self.defaults.bool(forKey: "useElevation") ? .on : .off) { _ in
+                self.defaults.set(!self.defaults.bool(forKey: "useElevation"), forKey: "useElevation")
+                GlobalStruct.useElevation = self.defaults.bool(forKey: "useElevation")
+                self.resolveElevation()
+                self.createMenu()
+                self.recreateZmanimCalendar()
+                self.setNextUpcomingZman()
+                self.updateZmanimList()
+            })
+        }
         
         topMenu.append(UIAction(title: "Netz Countdown".localized(), identifier: nil) { _ in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -108,7 +110,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         })
         
         bottomMenu.append(UIAction(title: "Search For A Place".localized(), identifier: nil) { _ in
-            self.showZipcodeAlert()
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+            newViewController.modalPresentationStyle = .fullScreen
+            self.present(newViewController, animated: true)
         })
         
         bottomMenu.append(UIAction(title: "Website".localized(), identifier: nil) { _ in
@@ -133,7 +138,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             })
             
             topMenu.append(UIAction(title: "Search For A Place".localized(), identifier: nil) { _ in
-                self.showZipcodeAlert()
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
             })
             
             topMenu.append(UIAction(title: "Website".localized(), identifier: nil) { _ in
@@ -318,7 +326,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             alertController.title = "Location info for: " + self.locationName
             alertController.message = message
             let locationAction = UIAlertAction(title: "Change Location".localized(), style: .default) { [self] (_) in
-                self.showZipcodeAlert()
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
             }
             alertController.addAction(locationAction)
             if !defaults.bool(forKey: "LuachAmudeiHoraah") {
@@ -629,8 +640,12 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if !defaults.bool(forKey: "isSetup") {
             if !defaults.bool(forKey: "setupShown") {
                 showSetup()
+            } else {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
             }
-            showZipcodeAlert()
         } else { //not first run
             if defaults.bool(forKey: "useAdvanced") {
                 setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
@@ -671,11 +686,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         lat = defaults.double(forKey: defaultsLat)
         long = defaults.double(forKey: defaultsLong)
         resolveElevation()
-        timezone = TimeZone.init(identifier: defaults.string(forKey: defaultsTimezone)!)!
+        timezone = TimeZone(identifier: defaults.string(forKey: defaultsTimezone) ?? TimeZone.current.identifier) ?? TimeZone.current
         recreateZmanimCalendar()
-        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
-        jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-        jewishCalendar.useModernHolidays = true
+        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone, inIsrael: defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
         GlobalStruct.jewishCalendar = jewishCalendar
         setNextUpcomingZman()
         updateZmanimList()
@@ -878,7 +891,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 }
             })
             
-            let noAction = UIAlertAction(title: "No", style: .cancel, handler: { [weak alert] (_) in
+            let noAction = UIAlertAction(title: "No".localized(), style: .cancel, handler: { [weak alert] (_) in
                 alert?.dismiss(animated: true)
             })
             
@@ -955,9 +968,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.elevation = Double(text) ?? 0
             self.defaults.set(self.elevation, forKey: "elevation" + self.locationName)
             self.recreateZmanimCalendar()
-            self.jewishCalendar = JewishCalendar(workingDate: Date(), timezone: self.timezone)
-            self.jewishCalendar.inIsrael = self.defaults.bool(forKey: "inIsrael")
-            self.jewishCalendar.useModernHolidays = true
+            self.jewishCalendar = JewishCalendar(workingDate: Date(), timezone: self.timezone, inIsrael: self.defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
             self.setNextUpcomingZman()
             self.updateZmanimList()
         }
@@ -1176,7 +1187,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             return addAmudeiHoraahZmanim(list:list)
         }
         var temp = list
-        let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
+        let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         if jewishCalendar.isTaanis()
             && jewishCalendar.getYomTovIndex() != JewishCalendar.TISHA_BEAV
             && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
@@ -1196,7 +1207,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanis(), isZman: true))
         if (jewishCalendar.isBirkasHachamah()) {
-            //TODO make sure this is supposed to be calculated as 3 GRA hours
             temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
@@ -1315,7 +1325,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
         var temp = list
-        let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
+        let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         if jewishCalendar.isTaanis()
             && jewishCalendar.getYomTovIndex() != JewishCalendar.TISHA_BEAV
             && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
@@ -1335,7 +1345,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanisAmudeiHoraah(), isZman: true))
         if (jewishCalendar.isBirkasHachamah()) {
-            //TODO make sure this is supposed to be calculated as 3 GRA hours
             temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
@@ -1421,20 +1430,16 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             location in concurrentQueue.async { [self] in
                 lat = location.coordinate.latitude
                 long = location.coordinate.longitude
-                timezone = TimeZone.current
+                timezone = TimeZone.current.corrected()
                 recreateZmanimCalendar()
                 defaults.set(timezone.identifier, forKey: "timezone")
-                defaults.set(true, forKey: "isSetup")
                 defaults.set(false, forKey: "useZipcode")
                 defaults.set(false, forKey: "useAdvanced")
-                useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
                 LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
                     self.locationName = locationName ?? ""
                     resolveElevation()
                     recreateZmanimCalendar()
-                    jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
-                    jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-                    jewishCalendar.useModernHolidays = true
+                    jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone, inIsrael: defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
                     GlobalStruct.jewishCalendar = jewishCalendar
                     setNextUpcomingZman()
                     updateZmanimList()
@@ -1450,14 +1455,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 }
             }
         }
-    }
-    
-    func useLocation(location1:Bool, location2:Bool, location3:Bool, location4:Bool, location5:Bool) {
-        defaults.setValue(location1, forKey: "useLocation1")
-        defaults.setValue(location2, forKey: "useLocation2")
-        defaults.setValue(location3, forKey: "useLocation3")
-        defaults.setValue(location4, forKey: "useLocation4")
-        defaults.setValue(location5, forKey: "useLocation5")
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -1705,213 +1702,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 return "Shabbat";
             } else {
                 return "Chag";
-            }
-        }
-    }
-    
-    func showZipcodeAlert() {
-        let advancedAlert = UIAlertController(title: "Advanced".localized(),
-                                              message: "Enter your location's name, latitude, longitude, elevation, and timezone.".localized(), preferredStyle: .alert)
-        advancedAlert.addTextField { (textField) in
-            textField.placeholder = "ex: New York"
-        }
-        advancedAlert.addTextField { (textField) in
-            textField.placeholder = "ex: 73.09876543"
-        }
-        advancedAlert.addTextField { (textField) in
-            textField.placeholder = "ex: -103.098765"
-        }
-        advancedAlert.addTextField { (textField) in
-            textField.placeholder = "ex: 805"
-        }
-        advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Timezone e.g. America/New_York"
-        }
-        advancedAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self] UIAlertAction in
-            defaults.setValue(true, forKey: "useAdvanced")
-            defaults.setValue(false, forKey: "useZipcode")
-            useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
-            
-            let locationName = advancedAlert.textFields![0].text
-            let latitude = Double(advancedAlert.textFields![1].text ?? "")
-            let longitude = Double(advancedAlert.textFields![2].text ?? "")
-            let elevation = Double(advancedAlert.textFields![3].text ?? "")
-            let timezone = advancedAlert.textFields![4].text
-
-            if timezone == nil { // don't do anything if the timezone was never filled in
-                return
-            } else {
-                defaults.setValue(locationName, forKey: "advancedLN")
-                defaults.setValue(latitude, forKey: "advancedLat")
-                defaults.setValue(longitude, forKey: "advancedLong")
-                defaults.setValue(elevation, forKey: "elevation".appending(locationName ?? ""))
-                defaults.setValue(timezone, forKey: "advancedTimezone")
-            }
-            setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
-            NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-            if wcSession != nil {
-                if wcSession.isPaired {
-                    if wcSession.isWatchAppInstalled {
-                        wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
-                    }
-                }
-            }
-        }))
-        advancedAlert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-            self.dismiss(animated: true)
-        }))
-        
-        let alert = UIAlertController(title: "Location or Search a place?".localized(),
-                                      message: "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results and it will automatically update your location.".localized(), preferredStyle: .alert)
-        alert.addTextField { (textField) in
-            textField.placeholder = "Zipcode/Address".localized()
-        }
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [weak alert] (_) in
-            let textField = alert?.textFields![0]
-            //if text is empty, display a message notifying the user:
-            if textField?.text == "" {
-                let alert = UIAlertController(title: "Error".localized(), message: "Please enter a valid zipcode or address.".localized(), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: {_ in
-                    self.showZipcodeAlert()
-                }))
-                self.present(alert, animated: true)
-                return
-            }
-            let geoCoder = CLGeocoder()
-            geoCoder.geocodeAddressString((textField?.text)!, in: nil, preferredLocale: .current, completionHandler: { i, j in
-                var name = ""
-                if i?.first?.locality != nil {
-                    if let locality = i?.first?.locality {
-                        name += locality
-                    }
-                }
-                if i?.first?.administrativeArea != nil {
-                    if let adminRegion = i?.first?.administrativeArea {
-                        name += ", \(adminRegion)"
-                    }
-                }
-                if name.isEmpty {
-                    name = "No location name info".localized()
-                }
-                self.locationName = name
-                let coordinates = i?.first?.location?.coordinate
-                self.lat = coordinates?.latitude ?? 0
-                self.long = coordinates?.longitude ?? 0
-                self.resolveElevation()
-                if i?.first?.timeZone != nil {
-                    self.timezone = (i?.first?.timeZone)!
-                }
-                self.recreateZmanimCalendar()
-                self.setNextUpcomingZman()
-                self.updateZmanimList()
-                self.defaults.set(name, forKey: "locationName")
-                self.defaults.set(self.lat, forKey: "lat")
-                self.defaults.set(self.long, forKey: "long")
-                self.defaults.set(true, forKey: "isSetup")
-                self.defaults.set(true, forKey: "useZipcode")
-                self.defaults.set(false, forKey: "useAdvanced")
-                self.useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
-                self.defaults.set(self.timezone.identifier, forKey: "timezone")
-                self.saveLocation()
-                NotificationManager.instance.requestAuthorization()
-                NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-                if self.wcSession != nil {
-                    if self.wcSession.isPaired {
-                        if self.wcSession.isWatchAppInstalled {
-                            self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
-                        }
-                    }
-                }
-            })
-        }))
-        if defaults.string(forKey: "location1") ?? "" != "" {
-            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location1"), style: .default, handler: { UIAlertAction in
-                self.useLocation(location1: true, location2: false, location3: false, location4: false, location5: false)
-                self.setLocationAndDisperse(locationName: "location1")
-            }))
-        }
-        if defaults.string(forKey: "location2") ?? "" != "" {
-            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location2"), style: .default, handler: { UIAlertAction in
-                self.useLocation(location1: false, location2: true, location3: false, location4: false, location5: false)
-                self.setLocationAndDisperse(locationName: "location2")
-            }))
-        }
-        if defaults.string(forKey: "location3") ?? "" != "" {
-            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location3"), style: .default, handler: { UIAlertAction in
-                self.useLocation(location1: false, location2: false, location3: true, location4: false, location5: false)
-                self.setLocationAndDisperse(locationName: "location3")
-            }))
-        }
-        if defaults.string(forKey: "location4") ?? "" != "" {
-            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location4"), style: .default, handler: { UIAlertAction in
-                self.useLocation(location1: false, location2: false, location3: false, location4: true, location5: false)
-                self.setLocationAndDisperse(locationName: "location4")
-            }))
-        }
-        if defaults.string(forKey: "location5") ?? "" != "" {
-            alert.addAction(UIAlertAction(title: defaults.string(forKey: "location5"), style: .default, handler: { UIAlertAction in
-                self.useLocation(location1: false, location2: false, location3: false, location4: false, location5: true)
-                self.setLocationAndDisperse(locationName: "location5")
-            }))
-        }
-        alert.addAction(UIAlertAction(title: "Use Location".localized(), style: .default, handler: { UIAlertAction in
-            self.getUserLocation()
-            self.defaults.set(true, forKey: "isSetup")
-        }))
-        alert.addAction(UIAlertAction(title: "Advanced".localized(), style: .default, handler: { UIAlertAction in
-            self.present(advancedAlert, animated: true)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-            alert.dismiss(animated: true)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func saveLocation() {
-        var setOfLocationNames = Set<String>()
-        
-        setOfLocationNames.insert(defaults.string(forKey: "location1") ?? "")
-        setOfLocationNames.insert(defaults.string(forKey: "location2") ?? "")
-        setOfLocationNames.insert(defaults.string(forKey: "location3") ?? "")
-        setOfLocationNames.insert(defaults.string(forKey: "location4") ?? "")
-        setOfLocationNames.insert(defaults.string(forKey: "location5") ?? "")
-        
-        if !locationName.isEmpty && !setOfLocationNames.contains(locationName) {
-            defaults.setValue(defaults.string(forKey: "location4") ?? "", forKey: "location5")
-            defaults.setValue(defaults.double(forKey: "location4Lat"), forKey: "location5Lat")
-            defaults.setValue(defaults.double(forKey: "location4Long"), forKey: "location5Long")
-            defaults.setValue(defaults.string(forKey: "location4Timezone"), forKey: "location5Timezone")
-            
-            defaults.setValue(defaults.string(forKey: "location3") ?? "", forKey: "location4")
-            defaults.setValue(defaults.double(forKey: "location3Lat"), forKey: "location4Lat")
-            defaults.setValue(defaults.double(forKey: "location3Long"), forKey: "location4Long")
-            defaults.setValue(defaults.string(forKey: "location3Timezone"), forKey: "location4Timezone")
-            
-            defaults.setValue(defaults.string(forKey: "location2") ?? "", forKey: "location3")
-            defaults.setValue(defaults.double(forKey: "location2Lat"), forKey: "location3Lat")
-            defaults.setValue(defaults.double(forKey: "location2Long"), forKey: "location3Long")
-            defaults.setValue(defaults.string(forKey: "location2Timezone"), forKey: "location3Timezone")
-
-            defaults.setValue(defaults.string(forKey: "location1") ?? "", forKey: "location2")
-            defaults.setValue(defaults.double(forKey: "location1Lat"), forKey: "location2Lat")
-            defaults.setValue(defaults.double(forKey: "location1Long"), forKey: "location2Long")
-            defaults.setValue(defaults.string(forKey: "location1Timezone"), forKey: "location2Timezone")
-
-            defaults.setValue(locationName, forKey: "location1")
-            defaults.setValue(lat, forKey: "location1Lat")
-            defaults.setValue(long, forKey: "location1Long")
-            defaults.setValue(timezone.identifier, forKey: "location1Timezone")
-        }
-    }
-    
-    func setLocationAndDisperse(locationName:String) {
-        setLocation(defaultsLN: locationName, defaultsLat: locationName.appending("Lat"), defaultsLong: locationName.appending("Long"), defaultsTimezone: locationName.appending("Timezone"))
-        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-        if wcSession != nil {
-            if wcSession.isPaired {
-                if wcSession.isWatchAppInstalled {
-                    wcSession.sendMessage(getSettingsDictionary(), replyHandler: nil)
-                }
             }
         }
     }

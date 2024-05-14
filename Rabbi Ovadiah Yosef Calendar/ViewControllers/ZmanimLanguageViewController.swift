@@ -14,17 +14,17 @@ class ZmanimLanguageViewController: UIViewController {
     @IBAction func hebrew(_ sender: UIButton) {
         defaults.set(true, forKey: "isZmanimInHebrew")
         defaults.set(false, forKey: "isZmanimEnglishTranslated")
-        showCalendarChooserView()
+        showNextView()
     }
     @IBAction func English(_ sender: UIButton) {
         defaults.set(false, forKey: "isZmanimInHebrew")
         defaults.set(false, forKey: "isZmanimEnglishTranslated")
-        showCalendarChooserView()
+        showNextView()
     }
     @IBAction func translatedEnglish(_ sender: UIButton) {
         defaults.set(false, forKey: "isZmanimInHebrew")
         defaults.set(true, forKey: "isZmanimEnglishTranslated")
-        showCalendarChooserView()
+        showNextView()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,22 +34,34 @@ class ZmanimLanguageViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
-    func showCalendarChooserView() {
+    func showNextView() {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
         if !defaults.bool(forKey: "inIsrael") {
-            let transition = CATransition()
-            transition.duration = 0.5
-            transition.type = CATransitionType.push
-            transition.subtype = CATransitionSubtype.fromRight
-            transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-            view.window!.layer.add(transition, forKey: kCATransition)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
-            self.present(newViewController, animated: false, completion: nil)
+            if defaults.bool(forKey: "isSetup") {// We got location before
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
+                self.present(newViewController, animated: false)
+            } else {
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
+            }
         } else {
-            let inIsraelView = super.presentingViewController?.presentingViewController!
-            
-            super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
-                inIsraelView?.dismiss(animated: false)
+            if !defaults.bool(forKey: "isSetup") {// We did not get location before
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
+            } else {
+                let inIsraelView = super.presentingViewController?.presentingViewController!
+                super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
+                    inIsraelView?.dismiss(animated: false)
+                }
             }
         }
     }

@@ -17,7 +17,6 @@ class LocationManagerForNotifications: NSObject, CLLocationManagerDelegate {
     
     public func getUserLocationForNotifications(completion: @escaping ((CLLocation) -> Void)) {
         self.completion = completion
-        manager.requestAlwaysAuthorization()
         manager.delegate = self
         manager.startUpdatingLocation()
     }

@@ -1,5 +1,5 @@
 {
-  "originHash" : "44be99251b40511fccf2abf0798d6e793de4d685852b89572a2d5921cb2bc377",
+  "originHash" : "2864c005b3782fb67c41f2856aeec2547f7ef4e0d72dfb5ebe6dd4bd38c396d1",
   "pins" : [
     {
       "identity" : "kosherswift",
@@ -8,6 +8,24 @@
       "state" : {
         "revision" : "bfe64d8bbcafbc5f4810ec3c178aeb5b1a48bab8",
         "version" : "1.0.8"
+      }
+    },
+    {
+      "identity" : "snackbar.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ahmedAlmasri/SnackBar.swift",
+      "state" : {
+        "revision" : "9efa0f9d2a6ae35384a878a0d74dbafd5001a672",
+        "version" : "0.1.2"
+      }
+    },
+    {
+      "identity" : "snapkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SnapKit/SnapKit.git",
+      "state" : {
+        "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
+        "version" : "5.7.1"
       }
     },
     {

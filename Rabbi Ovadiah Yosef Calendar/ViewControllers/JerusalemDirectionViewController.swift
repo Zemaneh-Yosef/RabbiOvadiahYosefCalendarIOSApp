@@ -55,7 +55,7 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
         
         //Start heading updating.
         if CLLocationManager.headingAvailable() {
-            locationManager.headingFilter = 5
+            locationManager.headingFilter = 1
             locationManager.startUpdatingHeading()
         }
         
@@ -159,7 +159,7 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
             if (isCompassGreen) {
                 DispatchQueue.main.async { [self] in
                     annotationView.image = nil
-                    annotationView.image = UIImage(named: "compass")
+                    annotationView.image = UIImage(named: "compass_without_text")
                     isCompassGreen = false
                 }
             }
@@ -178,7 +178,7 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
 class CustomMarkerAnnotationView: MKAnnotationView {
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        self.image = UIImage(named: "compass") // start with regular compass
+        self.image = UIImage(named: "compass_without_text") // start with regular compass
     }
     
     required init?(coder aDecoder: NSCoder) {

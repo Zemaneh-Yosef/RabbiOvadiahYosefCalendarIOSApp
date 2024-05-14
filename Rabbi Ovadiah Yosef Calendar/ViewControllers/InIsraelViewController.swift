@@ -31,15 +31,27 @@ class InIsraelViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         var newViewController: UIViewController
         if Locale.isHebrewLocale() {// if person speaks hebrew, skip language chooser
+            defaults.setValue(true, forKey: "isZmanimInHebrew")
+            defaults.setValue(false, forKey: "isZmanimEnglishTranslated")
             if inIsrael {// if in israel, skip calendar chooser as well
-                self.dismiss(animated: false)
-            } else {
-                newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
-                self.present(newViewController, animated: false, completion: nil)
+                if defaults.bool(forKey: "isSetup") {
+                    self.dismiss(animated: false)
+                } else {// user has never setup the app before, needs location details
+                    newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+                    self.present(newViewController, animated: false)
+                }
+            } else {// Not in Israel
+                if defaults.bool(forKey: "isSetup") {
+                    newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
+                    self.present(newViewController, animated: false)
+                } else {// user has never setup the app before, needs location details
+                    newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+                    self.present(newViewController, animated: false)
+                }
             }
-        } else {
+        } else {// any other language
             newViewController = storyboard.instantiateViewController(withIdentifier: "zmanim languages") as! ZmanimLanguageViewController
-            self.present(newViewController, animated: false, completion: nil)
+            self.present(newViewController, animated: false)
         }
     }
     override func viewDidLoad() {
@@ -58,16 +70,4 @@ class InIsraelViewController: UIViewController {
             no.heightAnchor.constraint(equalToConstant: 100).isActive = true
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
