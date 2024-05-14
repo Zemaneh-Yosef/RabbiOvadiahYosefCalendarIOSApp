@@ -94,7 +94,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             zoomMapToPlaceAndAddAnnotation()
         }))
         advancedAlert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-            self.dismiss(animated: true)
+            advancedAlert.dismiss(animated: true)
         }))
         self.present(advancedAlert, animated: true)
     }
