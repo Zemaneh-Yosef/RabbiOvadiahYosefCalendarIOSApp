@@ -11,6 +11,14 @@ import KosherSwift
 
 class JerusalemDirectionViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
+    @IBAction func zoomIn(_ sender: UIButton) {
+        map.setCenter(CLLocationCoordinate2D(latitude: GlobalStruct.geoLocation.latitude, longitude: GlobalStruct.geoLocation.longitude), animated: false)
+        zoomIn()
+    }
+    @IBAction func zoomOut(_ sender: UIButton) {
+        map.setCenter(CLLocationCoordinate2D(latitude: GlobalStruct.geoLocation.latitude, longitude: GlobalStruct.geoLocation.longitude), animated: false)
+        zoomOut()
+    }
     @IBAction func info(_ sender: UIButton) {
         var longInfoMessage: String
         if Locale.isHebrewLocale() {
@@ -100,6 +108,24 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
         let userAnnotation = MKPointAnnotation()
         userAnnotation.coordinate = userLocationCoordinate
         map.addAnnotation(userAnnotation)
+    }
+    
+    func zoomIn() {
+        var region = map.region
+        region.span.latitudeDelta /= 2
+        region.span.longitudeDelta /= 2
+        map.setRegion(region, animated: true)
+    }
+    
+    func zoomOut() {
+        var region = map.region
+        let maxLatitudeDelta: CLLocationDegrees = 180
+        let maxLongitudeDelta: CLLocationDegrees = 180
+        
+        region.span.latitudeDelta = min(region.span.latitudeDelta * 2, maxLatitudeDelta)
+        region.span.longitudeDelta = min(region.span.longitudeDelta * 2, maxLongitudeDelta)
+        
+        map.setRegion(region, animated: true)
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
