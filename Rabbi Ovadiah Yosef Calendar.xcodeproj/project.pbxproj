@@ -687,7 +687,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.8;
+				MARKETING_VERSION = 4.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -721,7 +721,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.8;
+				MARKETING_VERSION = 4.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -877,7 +877,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.8;
+				MARKETING_VERSION = 4.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -918,7 +918,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.8;
+				MARKETING_VERSION = 4.9;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -957,7 +957,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.7;
+				MARKETING_VERSION = 2.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -997,7 +997,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.7;
+				MARKETING_VERSION = 2.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;

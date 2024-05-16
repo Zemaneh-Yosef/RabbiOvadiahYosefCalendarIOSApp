@@ -1535,9 +1535,13 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             zmanimList.append(ZmanListEntry(title:dateFormatter.string(from: zmanimCalendar.workingDate) + " / " + "יום " + hebrewDateFormatter.formatDayOfWeek(jewishCalendar: jewishCalendar)))
         }
         hebrewDateFormatter.hebrewFormat = false
-        let specialDay = jewishCalendar.getSpecialDay(addOmer:true)
+        let specialDay = jewishCalendar.getSpecialDay(addOmer:false)
         if !specialDay.isEmpty {
             zmanimList.append(ZmanListEntry(title:specialDay))
+        }
+        let omerDay = jewishCalendar.addDayOfOmer(result: Array())
+        if !omerDay[0].isEmpty {
+            zmanimList.append(ZmanListEntry(title:omerDay[0]))
         }
         if jewishCalendar.is3Weeks() {
             if jewishCalendar.is9Days() {

@@ -127,9 +127,9 @@ public extension JewishCalendar {
             if Locale.isHebrewLocale() {
                 let hebrewDateFormatter = HebrewDateFormatter()
                 hebrewDateFormatter.hebrewFormat = true
-                arr.append(hebrewDateFormatter.formatHebrewNumber(number: dayOfOmer).appending(" ימים לעומר"))
+                arr.append(hebrewDateFormatter.formatHebrewNumber(number: dayOfOmer).appending("ימים לעומר (לפני השקיעה)"))
             } else {
-                arr.append(formatter.string(from: dayOfOmer as NSNumber)! + " day of Omer")
+                arr.append(formatter.string(from: dayOfOmer as NSNumber)! + " day of Omer (before sunset)")
             }
         }
         return arr
