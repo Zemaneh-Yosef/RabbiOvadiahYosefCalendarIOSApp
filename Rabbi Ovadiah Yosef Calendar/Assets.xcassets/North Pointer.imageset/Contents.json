@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "north.png",
+      "filename" : "north_with_tzadi.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "north 1.png",
+      "filename" : "north_with_tzadi 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "north 2.png",
+      "filename" : "north_with_tzadi 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

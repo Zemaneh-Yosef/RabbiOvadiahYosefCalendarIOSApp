@@ -287,6 +287,12 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             content.secondaryTextProperties.color = .lightGray
         }
         
+        if zmanimList[indexPath.row].isBirchatHachamahZman {
+            cell.backgroundColor = UIColor(named: "Gold")
+            content.textProperties.color = .black
+            content.secondaryTextProperties.color = .black
+        }
+        
         cell.contentConfiguration = content
         return cell
     }
@@ -679,6 +685,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if WCSession.isSupported() && !(wcSession.activationState == .activated) {
             wcSession.activate()
         }
+        CheckUpdate.shared.showUpdate(withConfirmation: true)
     }
     
     func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {
@@ -1207,7 +1214,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanis(), isZman: true))
         if (jewishCalendar.isBirkasHachamah()) {
-            temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true, isBirchatHachamahZman: true))
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
         if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
@@ -1345,7 +1352,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanisAmudeiHoraah(), isZman: true))
         if (jewishCalendar.isBirkasHachamah()) {
-            temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getBirkatHachamaString(), zman: zmanimCalendar.getSofZmanShmaGRA(), isZman: true, isBirchatHachamahZman: true))
         }
         temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
         if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
