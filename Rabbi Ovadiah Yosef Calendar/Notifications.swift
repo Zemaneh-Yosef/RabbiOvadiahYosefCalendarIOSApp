@@ -203,40 +203,40 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                         "הַיּוֹם שִׁשָּׁה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים:",
                         "הַיּוֹם שִׁבְעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
                         "הַיּוֹם שְׁמוֹנָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
-                        "הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת:", ""]
+                        "הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת:"]
         
         let content = UNMutableNotificationContent()
         content.title = "Day of Omer".localized()
         content.sound = .default
         content.subtitle = "Don't forget to count!".localized()
         let dayOfOmer = jewishCalendar.getDayOfOmer()
-        if lastOmerNotification {
-            content.body = omerList[dayOfOmer].appending(" / This is the last omer notification until you open the app".localized())
-        } else {
-            content.body = omerList[dayOfOmer]
-        }
-        
-        // Create a notification action
-        let action = UNNotificationAction(identifier: "omerAction", title: "See full text".localized(), options: [.foreground])
-        // Add the action to the notification content
-        content.categoryIdentifier = "omerCategory"
-        content.userInfo = ["omerAction": "showView"]
-        // Create a notification category
-        let category = UNNotificationCategory(identifier: "omerCategory", actions: [action], intentIdentifiers: [], options: [])
-        // Register the notification category
-        notificationCenter.setNotificationCategories([category])
-        
-        //same issue as described in scheduleDailyNotifications()
-        var trigger: UNCalendarNotificationTrigger
-
-        if defaults.bool(forKey: "LuachAmudeiHoraah") {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()), repeats: false)
-        } else {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date()), repeats: false)
-        }
-        
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         if dayOfOmer != -1 && dayOfOmer != 49 {//we don't want to send a notification right before shavuot I.E. 49 + 1
+            if lastOmerNotification {
+                content.body = omerList[dayOfOmer].appending(" / This is the last omer notification until you open the app".localized())
+            } else {
+                content.body = omerList[dayOfOmer]
+            }
+            
+            // Create a notification action
+            let action = UNNotificationAction(identifier: "omerAction", title: "See full text".localized(), options: [.foreground])
+            // Add the action to the notification content
+            content.categoryIdentifier = "omerCategory"
+            content.userInfo = ["omerAction": "showView"]
+            // Create a notification category
+            let category = UNNotificationCategory(identifier: "omerCategory", actions: [action], intentIdentifiers: [], options: [])
+            // Register the notification category
+            notificationCenter.setNotificationCategories([category])
+            
+            //same issue as described in scheduleDailyNotifications()
+            var trigger: UNCalendarNotificationTrigger
+            
+            if defaults.bool(forKey: "LuachAmudeiHoraah") {
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()), repeats: false)
+            } else {
+                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date()), repeats: false)
+            }
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             notificationCenter.add(request)
             amountOfNotificationsSet+=1
         }

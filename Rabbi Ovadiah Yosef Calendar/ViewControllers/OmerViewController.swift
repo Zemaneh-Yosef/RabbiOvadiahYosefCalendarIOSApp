@@ -76,19 +76,23 @@ class OmerViewController: UIViewController {
         scrollview.addSubview(stackview)
         
         let beracha = "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ עַל סְפִירַת הָעֹמֶר:";
-
-        let firstString = beracha.appending("\n\n")
-            .appending(omerList[JewishCalendar().getDayOfOmer()])// omer day is 1 based, so it will always show the next day
-            .appending("\n\n")
-            .appending("הָרַחֲמָן הוּא יַחֲזִיר עֲבוֹדַת בֵּית הַמִּקְדָּשׁ לִמְקוֹמָהּ בִּמְהֵרָה בְיָמֵֽינוּ אָמֵן:")
         
-        let initialLabel = UILabel()
-        initialLabel.numberOfLines = 0
-        initialLabel.textAlignment = .right
-        initialLabel.text = firstString
-        initialLabel.font = .boldSystemFont(ofSize: 18)
-
-        stackview.addArrangedSubview(initialLabel)
+        let omerDay = JewishCalendar().getDayOfOmer()
+        
+        if omerDay != -1 {
+            let firstString = beracha.appending("\n\n")
+                .appending(omerList[omerDay])// omer day is 1 based, so it will always show the next day
+                .appending("\n\n")
+                .appending("הָרַחֲמָן הוּא יַחֲזִיר עֲבוֹדַת בֵּית הַמִּקְדָּשׁ לִמְקוֹמָהּ בִּמְהֵרָה בְיָמֵֽינוּ אָמֵן:")
+            
+            let initialLabel = UILabel()
+            initialLabel.numberOfLines = 0
+            initialLabel.textAlignment = .right
+            initialLabel.text = firstString
+            initialLabel.font = .boldSystemFont(ofSize: 18)
+            
+            stackview.addArrangedSubview(initialLabel)
+        }
         
         let menorahImageView = UIImageView(image: UIImage(named: "menorah"))
         menorahImageView.contentMode = .scaleAspectFit // Adjust the content mode as needed
