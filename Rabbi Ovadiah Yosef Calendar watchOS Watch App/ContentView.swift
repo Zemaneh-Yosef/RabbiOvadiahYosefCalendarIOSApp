@@ -181,6 +181,10 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         zmanimList.append(ZmanListEntry(title:"No Weekly Parasha".localized()))
     }
     hebrewDateFormatter.hebrewFormat = false
+    let haftorah = WeeklyHaftarahReading.getThisWeeksHaftarah(jewishCalendar: jewishCalendar)
+    if !haftorah.isEmpty {
+        zmanimList.append(ZmanListEntry(title: haftorah))
+    }
     syncCalendarDates()//reset
     dateFormatter.dateFormat = "EEEE"
     if Locale.isHebrewLocale() {
@@ -193,7 +197,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         zmanimList.append(ZmanListEntry(title:specialDay))
     }
     let omerDay = jewishCalendar.addDayOfOmer(result: Array())
-    if !omerDay[0].isEmpty {
+    if omerDay.count == 1 && !omerDay[0].isEmpty {
         zmanimList.append(ZmanListEntry(title:omerDay[0]))
     }
     if jewishCalendar.is3Weeks() {
