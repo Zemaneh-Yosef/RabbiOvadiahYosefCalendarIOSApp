@@ -531,6 +531,13 @@ public class SiddurMaker {
         || jewishCalendar.getTachanun() == "אומרים תחנון"
         || jewishCalendar.getTachanun() == "Some say Tachanun today"
         || jewishCalendar.getTachanun() == "יש אומרים תחנון"
+        || jewishCalendar.getTachanun() == "Some skip Tachanun by mincha"
+        || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה"
+        
+        if jewishCalendar.getTachanun() == "Some say Tachanun today"
+            || jewishCalendar.getTachanun() == "יש אומרים תחנון" {
+            addToSiddur(s: "[".appending(jewishCalendar.getTachanun()).appending("]") )
+        }
         
         if (jewishCalendar.isRoshChodesh()
             || jewishCalendar.isCholHamoed()
@@ -2819,6 +2826,15 @@ public class SiddurMaker {
         || jewishCalendar.getTachanun() == "אומרים תחנון"
         || jewishCalendar.getTachanun() == "Some say Tachanun today"
         || jewishCalendar.getTachanun() == "יש אומרים תחנון"
+        || jewishCalendar.getTachanun() == "Some skip Tachanun by mincha"
+        || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה"
+        
+        if jewishCalendar.getTachanun() == "Some skip Tachanun by mincha"
+            || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה" 
+            || jewishCalendar.getTachanun() == "Some say Tachanun today"
+            || jewishCalendar.getTachanun() == "יש אומרים תחנון" {
+            addToSiddur(s: "[".appending(jewishCalendar.getTachanun()).appending("]") )
+        }
         
         addAvinuMalkeinu(isTachanunSaid: isTachanunSaid)// If Aseret Ymei Tshuvah
         

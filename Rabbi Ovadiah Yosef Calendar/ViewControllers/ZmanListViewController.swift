@@ -680,7 +680,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             updateZmanimList()
         }
-        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
         lastTimeUserWasInApp = Date()
         if WCSession.isSupported() && !(wcSession.activationState == .activated) {
             wcSession.activate()
@@ -699,6 +698,8 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         GlobalStruct.jewishCalendar = jewishCalendar
         setNextUpcomingZman()
         updateZmanimList()
+        NotificationManager.instance.requestAuthorization()
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
     
     func resolveElevation() {

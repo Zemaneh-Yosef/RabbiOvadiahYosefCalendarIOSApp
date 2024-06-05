@@ -226,9 +226,9 @@ public extension JewishCalendar {
          }
          if (yomTovIndexForNextDay == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndexForNextDay == JewishCalendar.YOM_HAATZMAUT) {
              if Locale.isHebrewLocale() {
-                 return "יש אומרים תחנון רק בבוקר";
+                 return "יש מדלגים תחנון במנחה";
              }
-             return "Some say Tachanun only in the morning";
+             return "Some skip Tachanun by mincha";
          }
         if (getDayOfWeek() == 7) {
             return "צדקתך";
