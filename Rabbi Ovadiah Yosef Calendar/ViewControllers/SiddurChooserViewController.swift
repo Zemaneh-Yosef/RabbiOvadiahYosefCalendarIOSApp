@@ -100,6 +100,12 @@ class SiddurChooserViewController: UIViewController {
             self.openSiddur()
         }
     }
+    @IBOutlet weak var birchatHalevana: UIButton!
+    @IBAction func birchatHalevana(_ sender: UIButton) {
+        GlobalStruct.chosenPrayer = "Birchat Halevana"
+        birchatHalevana.setTitle("Loading...".localized(), for: .normal)
+        openSiddur()
+    }
     @IBOutlet weak var disclaimer: UILabel!
     
     override func viewDidLoad() {
@@ -119,6 +125,10 @@ class SiddurChooserViewController: UIViewController {
         
         if !GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false).isEmpty {
             specialDay.text = GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false)
+        }
+        
+        if !GlobalStruct.jewishCalendar.getBirchatLevanaStatus().isEmpty {
+            birchatHalevana.isHidden = false
         }
         
         if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM {
@@ -170,6 +180,11 @@ class SiddurChooserViewController: UIViewController {
             birchatHamazon.configuration?.background.backgroundColor = .init(named: "Gold")
             birchatHamazon.setTitleColor(.black, for: .normal)
             birchatHamazon.titleLabel?.font = UIFont.boldSystemFont(ofSize: 26)
+            
+            birchatHalevana.configuration = .filled()
+            birchatHalevana.configuration?.background.backgroundColor = .init(named: "Gold")
+            birchatHalevana.setTitleColor(.black, for: .normal)
+            birchatHalevana.titleLabel?.font = UIFont.boldSystemFont(ofSize: 26)
         }
     }
     
@@ -198,6 +213,7 @@ class SiddurChooserViewController: UIViewController {
         neilah.setTitle("נעילה", for: .normal)
         arvit.setTitle("ערבית", for: .normal)
         birchatHamazon.setTitle("ברכת המזון", for: .normal)
+        birchatHalevana.setTitle("ברכת הלבנה", for: .normal)
     }
     
     func openSiddur() {

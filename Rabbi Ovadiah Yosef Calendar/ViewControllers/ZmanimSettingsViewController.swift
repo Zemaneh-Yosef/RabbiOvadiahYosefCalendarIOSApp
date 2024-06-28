@@ -10,11 +10,17 @@ import UIKit
 class ZmanimSettingsViewController: UITableViewController {
     
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    
+    let amudeiHoraahRow = 0
+    let tekufaRow = 1
     let candleLightingRow = 2
+    let overrideTimeForShabbat = 3
     let minutesForShabbatEndRow = 4
     let endShabbatOpinionRow = 5
-    let plagOpinionRow = 6
-    let alwaysShowTzeitLChumraRow = 7
+    let plagOpinionRow = 7
+    let alwaysShowTzeitLChumraRow = 8 // last row
+    
+    let amountOfRows = 8 + 1 // it should be the last row + 1
 
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true)
@@ -32,7 +38,7 @@ class ZmanimSettingsViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return amountOfRows
     }
 
     
@@ -42,7 +48,7 @@ class ZmanimSettingsViewController: UITableViewController {
 
         var content = cell.defaultContentConfiguration()
         switch indexPath.row {
-        case 0:
+        case amudeiHoraahRow:
             content.text = "Luach Amudei Horaah".localized()
             content.secondaryText = "Make the zmanim like the Luach Amudei Horaah (Only use outside of Israel)".localized()
             let switchView = SwitchWithParam(frame: .zero)
@@ -50,25 +56,31 @@ class ZmanimSettingsViewController: UITableViewController {
             switchView.param = "LuachAmudeiHoraah"
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
-        case 1:
+        case tekufaRow:
             content.text = "Tekufa Opinion".localized()
             content.secondaryText = "Choose which opinion to use for the time for the tekufas".localized()
         case candleLightingRow:
             content.text = "Candle Lighting Time".localized()
             content.secondaryText = "Enter the amount of minutes for candle lighting".localized()
-        
-        //These settings only apply to the regular mode i.e. Ohr HaChaim calendar
-        case 3:
-            content.text = "The settings below only apply if you do not use the Luach Amudei Horaah setting above".localized()
-            content.secondaryText = ""
-            content.textProperties.color = .systemBlue
-            content.textProperties.alignment = .center
+        case overrideTimeForShabbat:
+            content.text = "Override the time for Shabbat End".localized()
+            content.secondaryText = "Override the time for when shabbat ends to use the below settings".localized()
+            let switchView = SwitchWithParam(frame: .zero)
+            switchView.isOn = defaults.bool(forKey: "overrideAHEndShabbatTime")
+            switchView.param = "overrideAHEndShabbatTime"
+            switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
+            cell.accessoryView = switchView
         case minutesForShabbatEndRow:
             content.text = "Minutes till shabbat ends".localized()
             content.secondaryText = "Enter the amount of minutes to add to sunset for shabbat/chag to end".localized()
         case endShabbatOpinionRow:
             content.text = "End shabbat opinion".localized()
             content.secondaryText = "Choose which opinion to use for the time for when shabbat/chag ends".localized()
+        case 6: //These settings only apply to the regular mode i.e. Ohr HaChaim calendar
+            content.text = "The settings below only apply if you do not use the Luach Amudei Horaah setting above".localized()
+            content.secondaryText = ""
+            content.textProperties.color = .systemBlue
+            content.textProperties.alignment = .center
         case plagOpinionRow:
             content.text = "Plag hamincha opinion".localized()
             content.secondaryText = "Choose which opinion to show for plag hamincha".localized()

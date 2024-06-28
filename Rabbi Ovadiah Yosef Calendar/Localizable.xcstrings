@@ -1148,7 +1148,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "הפוך את הזמנים כמו הלואך עמודי הוראה (רק מחוץ לישראל)"
+            "value" : "הפוך את הזמנים כמו הלוח עמודי הוראה (רק מחוץ לישראל)"
           }
         }
       }
@@ -1445,6 +1445,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "בסדר"
+          }
+        }
+      }
+    },
+    "Override the time for Shabbat End" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "עקוף את זמן סיום השבת"
+          }
+        }
+      }
+    },
+    "Override the time for when shabbat ends to use the below settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "עקוף את הזמן לסיום שבת והשתמש בהגדרות הבאות"
           }
         }
       }
@@ -2032,6 +2054,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג את שניהם"
+          }
+        }
+      }
+    },
+    "Show Full Text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצג טקסט מלא"
           }
         }
       }

@@ -3,7 +3,7 @@
     <device id="retina4_0" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -410,6 +410,15 @@
                                             <action selector="birchatHamazon:" destination="ghR-fU-7xL" eventType="touchUpInside" id="WvR-HC-wIX"/>
                                         </connections>
                                     </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GrG-fB-2cP">
+                                        <rect key="frame" x="8" y="484" width="288" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="ברכת הלבנה"/>
+                                        <connections>
+                                            <action selector="birchatHalevana:" destination="ghR-fU-7xL" eventType="touchUpInside" id="3zI-zb-X4u"/>
+                                        </connections>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfx-LJ-ddF">
                                         <rect key="frame" x="8" y="510" width="288" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -433,7 +442,9 @@
                                     <constraint firstAttribute="trailing" secondItem="E9T-IS-7dM" secondAttribute="trailing" constant="8" id="d6X-b8-dTf"/>
                                     <constraint firstItem="B53-v5-Jdk" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="esK-rD-Ckj"/>
                                     <constraint firstAttribute="trailing" secondItem="Rfx-LJ-ddF" secondAttribute="trailing" constant="8" id="h5E-Xj-Zih"/>
+                                    <constraint firstItem="GrG-fB-2cP" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="jM2-cY-Fnj"/>
                                     <constraint firstItem="wQI-Og-EXA" firstAttribute="leading" secondItem="RIL-HI-hY9" secondAttribute="leading" constant="8" id="vpp-GU-0ag"/>
+                                    <constraint firstAttribute="trailing" secondItem="GrG-fB-2cP" secondAttribute="trailing" constant="8" id="zOQ-f3-XfI"/>
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ri-gZ-SgA">
@@ -461,6 +472,7 @@
                     </view>
                     <connections>
                         <outlet property="arvit" destination="0pX-p5-1X1" id="kxy-fT-pGP"/>
+                        <outlet property="birchatHalevana" destination="GrG-fB-2cP" id="dBl-FL-8fW"/>
                         <outlet property="birchatHamazon" destination="wQI-Og-EXA" id="gEq-UF-Yet"/>
                         <outlet property="disclaimer" destination="Rfx-LJ-ddF" id="OTM-hB-nqn"/>
                         <outlet property="mincha" destination="ucE-TT-3Tk" id="GJT-ol-o65"/>

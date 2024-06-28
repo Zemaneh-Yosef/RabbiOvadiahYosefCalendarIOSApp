@@ -280,6 +280,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             content.textProperties.alignment = .center
             content.text = zmanimList[indexPath.row].title
+            
+            if zmanimList[indexPath.row].title.contains("Siddur") || zmanimList[indexPath.row].title.contains("סידור") || indexPath.row == 2 {
+                content.textProperties.font = .boldSystemFont(ofSize: 20)
+            }
         }
         
         if zmanimList[indexPath.row].shouldBeDimmed {
@@ -377,6 +381,17 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let newViewController = storyboard.instantiateViewController(withIdentifier: "SiddurChooser") as! SiddurChooserViewController
             newViewController.modalPresentationStyle = .fullScreen
             self.present(newViewController, animated: true)
+        }
+        
+        if zmanimList[indexPath.row].title.contains("Birchat HaLevana") || zmanimList[indexPath.row].title.contains("ברכת הלבנה") {
+            let fullTextAction = UIAlertAction(title: "Show Full Text".localized(), style: .default) { [self] (_) in
+                GlobalStruct.chosenPrayer = "Birchat Halevana"
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
+                newViewController.modalPresentationStyle = .fullScreen
+                self.present(newViewController, animated: true)
+            }
+            alertController.addAction(fullTextAction)
         }
         
         if #available(iOS 16.2, *) {
@@ -528,6 +543,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 "shabbatOffset" : defaults.integer(forKey: "shabbatOffset"),
                 "endOfShabbatOpinion" : defaults.integer(forKey: "endOfShabbatOpinion"),
                 "showRTWhenShabbatChagEnds" : defaults.bool(forKey: "showRTWhenShabbatChagEnds"),
+                "overrideAHEndShabbatTime" : defaults.bool(forKey: "overrideAHEndShabbatTime"),
                 "showTzeitLChumra" : defaults.bool(forKey: "showTzeitLChumra"),
                 "alwaysShowRT" : defaults.bool(forKey: "alwaysShowRT"),
                 "useZipcode" : defaults.string(forKey: "useZipcode") ?? "",
@@ -1307,7 +1323,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
                 temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", zman:zmanimCalendar.getTzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
             } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.14°)", zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
             } else {
                 temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
             }
@@ -1410,7 +1426,21 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+            if !defaults.bool(forKey: "overrideAHEndShabbatTime") {// default zman
+                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.14°)", zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+            } else {// if user wants to override
+                zmanimCalendar.ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40 // should never be used in Israel
+                if defaults.object(forKey: "shabbatOffset") != nil {
+                    zmanimCalendar.ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
+                }
+                if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", zman:zmanimCalendar.getTzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
+                } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.14°)", zman:zmanimCalendar.getTzaisShabbatAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                } else {
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbatAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
+                }
+            }
             temp.append(ZmanListEntry(title: zmanimNames.getRTString(), zman: zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true))
             var index = 0
             for var zman in temp {
