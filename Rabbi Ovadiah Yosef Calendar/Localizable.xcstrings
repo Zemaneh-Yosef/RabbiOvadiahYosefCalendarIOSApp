@@ -2311,6 +2311,17 @@
         }
       }
     },
+    "Tekufa Length: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "משך התקופה: "
+          }
+        }
+      }
+    },
     "Tekufa Opinion" : {
       "extractionState" : "manual",
       "localizations" : {

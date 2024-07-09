@@ -267,18 +267,18 @@ public extension JewishCalendar {
                 let month = getJewishMonth()
                 if month == JewishCalendar.TISHREI || month == JewishCalendar.CHESHVAN || month == JewishCalendar.KISLEV || month == JewishCalendar.TEVES || month == JewishCalendar.SHEVAT || month == JewishCalendar.ADAR || month == JewishCalendar.ADAR_II {
                     if Locale.isHebrewLocale() {
-                        return "אוֹמְרִים וּלְכַפָּרַת פֶּשַׁע";
+                        return "אומרים וּלְכַפָּרַת פֶּשַׁע";
                     }
                     return "Say וּלְכַפָּרַת פֶּשַׁע";
                 } else {
                     if Locale.isHebrewLocale() {
-                        return "לֹא אוֹמְרִים וּלְכַפָּרַת פֶּשַׁע";
+                        return "לא אומרים וּלְכַפָּרַת פֶּשַׁע";
                     }
                     return "Do not say וּלְכַפָּרַת פֶּשַׁע";
                 }
             } else {
                 if Locale.isHebrewLocale() {
-                    return "לֹא אוֹמְרִים וּלְכַפָּרַת פֶּשַׁע";
+                    return "לא אומרים וּלְכַפָּרַת פֶּשַׁע";
                 }
                 return "Do not say וּלְכַפָּרַת פֶּשַׁע";
             }

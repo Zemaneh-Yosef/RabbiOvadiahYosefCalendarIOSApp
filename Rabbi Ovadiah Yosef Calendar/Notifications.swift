@@ -72,7 +72,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         
         //Tekufa can happen whenever, so not neccesarily sunrise, but in my android app I check for tekufa at sunrise so it makes sense to put this code here
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
-        if tekufaSetting == 1 {
+        if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1  {
             let tekufaContent = UNMutableNotificationContent()
             tekufaContent.title = "Tekufa / Season Changes".localized()
             tekufaContent.sound = .default
@@ -98,7 +98,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
             notificationCenter.add(tekufaRequest)
             amountOfNotificationsSet+=1
-        } else if tekufaSetting == 2 {
+        } else if tekufaSetting == 2 || (tekufaSetting == 0 && defaults.bool(forKey: "LuachAmudeiHoraah")) {
             let tekufaContent = UNMutableNotificationContent()
             tekufaContent.title = "Tekufa / Season Changes".localized()
             tekufaContent.sound = .default

@@ -120,7 +120,7 @@ class ZmanimSettingsViewController: UITableViewController {
             present(alertController, animated: true, completion: nil)
         }
         
-        if indexPath.row == 1 {
+        if indexPath.row == tekufaRow {
             let alertController = UIAlertController(title: "Tekufa Opinion".localized(), message:"Choose which opinion to use for the time for the tekufas".localized(), preferredStyle: .alert)
 
             let regularAction = UIAlertAction(title: "12PM start time (Ohr Hachaim)".localized(), style: .default) { (_) in

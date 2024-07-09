@@ -1519,6 +1519,22 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    func addTekufaLength(_ tekufa: Date?, _ dateFormatter: DateFormatter) {
+        let halfHourBefore = tekufa!.addingTimeInterval(-1800)
+        let halfHourAfter = tekufa!.addingTimeInterval(1800)
+        if Locale.isHebrewLocale() {
+            zmanimList.append(ZmanListEntry(title: "Tekufa Length: ".localized()
+                .appending(dateFormatter.string(from: halfHourAfter))
+                .appending(" - ")
+                .appending(dateFormatter.string(from: halfHourBefore))))
+        } else {
+            zmanimList.append(ZmanListEntry(title: "Tekufa Length: ".localized()
+                .appending(dateFormatter.string(from: halfHourBefore))
+                .appending(" - ")
+                .appending(dateFormatter.string(from: halfHourAfter))))
+        }
+    }
+    
     func updateZmanimList() {
         zmanimList = []
         let dateFormatter = DateFormatter()
@@ -1626,11 +1642,12 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         dateFormatter.timeZone = timezone
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
-        if tekufaSetting == 1 {
+        if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1 { // 0 is default
             let tekufa = jewishCalendar.getTekufaAsDate()
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
                     zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                    addTekufaLength(tekufa, dateFormatter)
                 }
             }
             jewishCalendar.forward()
@@ -1638,14 +1655,16 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
                     zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    addTekufaLength(checkTomorrowForTekufa, dateFormatter)
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
-        } else if tekufaSetting == 2 {
+        } else if tekufaSetting == 2 || (tekufaSetting == 0 && defaults.bool(forKey: "LuachAmudeiHoraah")) {
             let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
                     zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                    addTekufaLength(tekufa, dateFormatter)
                 }
             }
             jewishCalendar.forward()
@@ -1653,6 +1672,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
                     zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    addTekufaLength(checkTomorrowForTekufa, dateFormatter)
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
@@ -1683,6 +1703,29 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             if checkTomorrowForAHTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: userChosenDate) {
                     zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
+                }
+            }
+            var earlierTekufa = tekufaAH
+            if earlierTekufa == nil {
+                earlierTekufa = checkTomorrowForAHTekufa
+            }
+            var laterTekufa = tekufa
+            if laterTekufa == nil {
+                laterTekufa = checkTomorrowForTekufa
+            }
+            if earlierTekufa != nil && laterTekufa != nil && Calendar.current.isDate(earlierTekufa!, inSameDayAs: userChosenDate) {
+                let halfHourBefore = earlierTekufa!.addingTimeInterval(-1800)
+                let halfHourAfter = laterTekufa!.addingTimeInterval(1800)
+                if Locale.isHebrewLocale() {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa Length: ".localized()
+                        .appending(dateFormatter.string(from: halfHourAfter))
+                        .appending(" - ")
+                        .appending(dateFormatter.string(from: halfHourBefore))))
+                } else {
+                    zmanimList.append(ZmanListEntry(title: "Tekufa Length: ".localized()
+                        .appending(dateFormatter.string(from: halfHourBefore))
+                        .appending(" - ")
+                        .appending(dateFormatter.string(from: halfHourAfter))))
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset

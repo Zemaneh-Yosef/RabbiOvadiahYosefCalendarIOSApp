@@ -238,7 +238,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     }
     dateFormatter.timeZone = timezone
     let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
-    if tekufaSetting == 0 {
+    if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1 {
         let tekufa = jewishCalendar.getTekufaAsDate()
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
@@ -253,7 +253,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
             }
         }
         jewishCalendar.workingDate = userChosenDate //reset
-    } else if tekufaSetting == 1 {
+    } else if tekufaSetting == 2 || (tekufaSetting == 0 && defaults.bool(forKey: "LuachAmudeiHoraah")) {
         let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
