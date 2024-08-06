@@ -436,6 +436,10 @@ public extension ZmanimCalendar {
 }
 
 public extension ComplexZmanimCalendar {
+    func getMisheyakir60MinutesZmanis() -> Date? {
+        return ComplexZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunrise(), offset: -getTemporalHour(startOfDay: getElevationAdjustedSunrise(), endOfDay: getElevationAdjustedSunset()))
+    }
+    
     func getShaahZmanisMGAZmanis() -> Int64 {
         return getTemporalHour(startOfDay: getAlos72Zmanis(), endOfDay: getTzais72Zmanis());
     }
@@ -447,6 +451,19 @@ public extension ComplexZmanimCalendar {
         } else {
             return nil;
         }
+    }
+    
+    func getTzaitShabbatAmudeiHoraah() -> Date? {
+        let tzait = getSunsetOffsetByDegrees(offsetZenith: ComplexZmanimCalendar.GEOMETRIC_ZENITH + 7.14);
+        if tzait != nil && getElevationAdjustedSunset() != nil {
+            if ComplexZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: Int64(1200000))!.timeIntervalSince1970 > tzait!.timeIntervalSince1970 { // if shabbat ends before 20 minutes after sunset, use 20 minutes
+                return ComplexZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: Int64(1200000));
+            }
+            if (getSolarMidnight()!.timeIntervalSince1970 < tzait!.timeIntervalSince1970) { // if chatzot is before when shabbat ends, just use chatzot
+                return getSolarMidnight();
+            }
+        }
+        return tzait;
     }
 }
 

@@ -684,6 +684,25 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             } else if defaults.bool(forKey: "useZipcode") {
                 setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
             } else {
+                DispatchQueue.global().async {
+                    let locationManager = CLLocationManager()
+                    if CLLocationManager.locationServicesEnabled() {
+                        switch locationManager.authorizationStatus {
+                        case .notDetermined, .restricted, .denied:
+                            self.showLocationServicesDisabledAlert()
+                            print("No access")
+                            break
+                        case .authorizedAlways, .authorizedWhenInUse:
+                            //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
+                            break
+                        @unknown default:
+                            break
+                        }
+                    } else {
+                        self.showLocationServicesDisabledAlert()
+                        print("No access")
+                    }
+                }
                 getUserLocation()
             }
         }
@@ -701,6 +720,21 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             wcSession.activate()
         }
         CheckUpdate.shared.showUpdate(withConfirmation: true)
+    }
+    
+    func showLocationServicesDisabledAlert() {
+        let alertController = UIAlertController(title: "Location Issues", message: "The application is having issues requesting your device's location. Location Services might be disabled or parental controls may be restricting the application. If you would like to use a zipcode instead, choose the \"Search For A Place\" option.".localized(), preferredStyle: .alert)
+        let searchAction = UIAlertAction(title: "Search For A Place".localized(), style: .default) { (_) in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
+            newViewController.modalPresentationStyle = .fullScreen
+            self.present(newViewController, animated: true)
+        }
+        alertController.addAction(searchAction)
+        let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
+        alertController.addAction(dismissAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {
