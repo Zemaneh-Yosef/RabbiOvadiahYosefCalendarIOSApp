@@ -72,11 +72,7 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 15.0, *) {
-            websiteButton.configuration = .filled()
-            websiteButton.tintColor = .init(named: "Gold")
             websiteButton.setTitleColor(.black, for: .normal)
-            download.configuration = .filled()
-            download.tintColor = .init(named: "Gold")
             download.setTitleColor(.black, for: .normal)
 
         }

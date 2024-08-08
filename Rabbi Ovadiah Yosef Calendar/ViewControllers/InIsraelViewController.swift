@@ -57,14 +57,10 @@ class InIsraelViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 15.0, *) {
-            yes.configuration = .filled()
-            yes.configuration?.background.backgroundColor = .systemBlue
             yes.setTitleColor(.white, for: .normal)
             yes.widthAnchor.constraint(equalToConstant: 100).isActive = true
             yes.heightAnchor.constraint(equalToConstant: 100).isActive = true
             
-            no.configuration = .filled()
-            no.configuration?.background.backgroundColor = .init(named: "Gold")
             no.setTitleColor(.black, for: .normal)
             no.widthAnchor.constraint(equalToConstant: 100).isActive = true
             no.heightAnchor.constraint(equalToConstant: 100).isActive = true

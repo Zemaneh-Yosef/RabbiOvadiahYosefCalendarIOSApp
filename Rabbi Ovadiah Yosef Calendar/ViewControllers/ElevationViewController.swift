@@ -100,8 +100,7 @@ class ElevationViewController: UIViewController {
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         if #available(iOS 15.0, *) {
-            getFromOnlineButton.configuration = .filled()
-            getFromOnlineButton.configuration?.background.backgroundColor = .systemBlue
+            getFromOnlineButton.setTitleColor(.black, for: .normal)
         }
     }
 

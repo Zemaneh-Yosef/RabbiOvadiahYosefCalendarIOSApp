@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import KosherSwift
 
 class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -91,12 +92,26 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
         }
         if GlobalStruct.chosenPrayer == "Birchat Hamazon+1" {
-            let jewishCal = GlobalStruct.jewishCalendar
-            jewishCal.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: jewishCal).getBirchatHamazonPrayers()
+            GlobalStruct.jewishCalendar.forward()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
+            GlobalStruct.jewishCalendar.back()
         }
         if GlobalStruct.chosenPrayer == "Birchat Halevana" {
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
+        }
+        if GlobalStruct.chosenPrayer == "Tikkun Chatzot (Day)" {
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
+        }
+        if GlobalStruct.chosenPrayer == "Tikkun Chatzot" {
+            GlobalStruct.jewishCalendar.forward()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
+            GlobalStruct.jewishCalendar.back()
+        }
+        if GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita" {
+            GlobalStruct.jewishCalendar.forward()
+            let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
+            GlobalStruct.jewishCalendar.back()
         }
         
         let stackview = UIStackView()

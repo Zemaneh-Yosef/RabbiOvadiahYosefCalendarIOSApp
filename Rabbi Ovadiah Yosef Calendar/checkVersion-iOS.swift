@@ -176,7 +176,7 @@ class CheckUpdate: NSObject {
 // MARK: - Show Alert
 extension UIViewController {
     @objc fileprivate func showAppUpdateAlert(version : String, force: Bool, appURL: String, isTestFlight: Bool) {
-        guard let appName = CheckUpdate.shared.getBundle(key: "CFBundleName") else { return } //Bundle.appName()
+        guard CheckUpdate.shared.getBundle(key: "CFBundleName") != nil else { return } //Bundle.appName()
 
         let alertTitle = "New version".localized()
         let alertMessage = "A new version of our app is available on the App Store. Update now!".localized()

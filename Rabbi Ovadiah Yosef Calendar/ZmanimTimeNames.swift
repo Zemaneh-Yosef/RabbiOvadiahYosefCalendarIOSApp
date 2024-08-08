@@ -250,6 +250,14 @@ struct ZmanimTimeNames {
         }
     }
     
+    public func getBetterString() -> String {
+         if (mIsZmanimInHebrew) {
+             return "(העדיף)";
+         } else {
+             return "(Better)";
+         }
+     }
+    
     public func getElevatedString() -> String {
         if (mIsZmanimInHebrew) {
             return "(גבוה)"

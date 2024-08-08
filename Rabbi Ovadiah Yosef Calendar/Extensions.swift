@@ -407,6 +407,51 @@ public extension JewishCalendar {
             return "ברך עלינו";
         }
     }
+    
+    func isNightTikkunChatzotSaid() -> Bool {
+        // These are all days that Tikkun Chatzot is not said at all, so we NOT it to know if Tikkun Chatzot IS said
+        return !(getDayOfWeek() == 7 ||
+                 isRoshHashana() ||
+                 isYomKippur() ||
+                 getYomTovIndex() == JewishCalendar.SUCCOS ||
+                 getYomTovIndex() == JewishCalendar.SHEMINI_ATZERES ||
+                 isPesach() || isShavuos());
+    }
+    
+    func isDayTikkunChatzotSaid() -> Bool {
+        // Tikkun Rachel is said during the daytime for the three weeks, but not in these cases. Tikkun Rachel IS said on Erev Tisha Beav
+        return !((isErevRoshChodesh() && getJewishMonth() == JewishCalendar.TAMMUZ) ||// Use tammuz to check for erev rosh chodesh Av
+                isRoshChodesh() ||
+                getDayOfWeek() == 6 ||
+                getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון");
+    }
+    
+    func isOnlyTikkunLeiaSaid(forNightTikkun: Bool, isTikkunChatzotSaid: Bool) -> Bool {
+        if (forNightTikkun) {
+            if (isTikkunChatzotSaid) {
+                // These are days where we ONLY say Tikkun Leia
+                let currentDate = workingDate
+                let currentHebrewMonth = getJewishMonth();
+                while (currentHebrewMonth == getJewishMonth()) {
+                    forward() // go forward until the next month
+                }
+                let molad = getMoladAsDate(); // now we can get the molad for the next month
+                let roshChodesh = workingDate
+                workingDate = currentDate // reset
+                let afterMoladBeforeRoshChodesh = molad.timeIntervalSince1970 < Date().timeIntervalSince1970 && roshChodesh.timeIntervalSince1970 > Date().timeIntervalSince1970 && !isRoshChodesh(); // Tikkun Leia (only) is said if it is after the molad but before Rosh Chodesh, this condition is time based even though all the other methods are date based
+                return (isAseresYemeiTeshuva() ||
+                        isCholHamoedSuccos() ||
+                        getDayOfOmer() != -1 ||
+                        (getInIsrael() && isShmitaYear()) ||
+                        getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון" ||
+                        afterMoladBeforeRoshChodesh);
+                // Tikkun Rachel is also skipped in the house of a Mourner, Chatan, or Brit Milah (Specifically the father of the boy)
+            }
+        } else { // for day tikkun, we do not say Tikkun Rachel if there is no tachanun
+            return getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון";
+        }
+        return false;
+    }
 }
 
 public extension AstronomicalCalendar {
@@ -436,9 +481,6 @@ public extension ZmanimCalendar {
 }
 
 public extension ComplexZmanimCalendar {
-    func getMisheyakir60MinutesZmanis() -> Date? {
-        return ComplexZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunrise(), offset: -getTemporalHour(startOfDay: getElevationAdjustedSunrise(), endOfDay: getElevationAdjustedSunset()))
-    }
     
     func getShaahZmanisMGAZmanis() -> Int64 {
         return getTemporalHour(startOfDay: getAlos72Zmanis(), endOfDay: getTzais72Zmanis());
@@ -456,8 +498,8 @@ public extension ComplexZmanimCalendar {
     func getTzaitShabbatAmudeiHoraah() -> Date? {
         let tzait = getSunsetOffsetByDegrees(offsetZenith: ComplexZmanimCalendar.GEOMETRIC_ZENITH + 7.14);
         if tzait != nil && getElevationAdjustedSunset() != nil {
-            if ComplexZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: Int64(1200000))!.timeIntervalSince1970 > tzait!.timeIntervalSince1970 { // if shabbat ends before 20 minutes after sunset, use 20 minutes
-                return ComplexZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: Int64(1200000));
+            if getTzaisAteretTorah(minutes: 20)!.timeIntervalSince1970 > tzait!.timeIntervalSince1970 { // if shabbat ends before 20 minutes after sunset, use 20 minutes
+                return getTzaisAteretTorah(minutes: 20);
             }
             if (getSolarMidnight()!.timeIntervalSince1970 < tzait!.timeIntervalSince1970) { // if chatzot is before when shabbat ends, just use chatzot
                 return getSolarMidnight();

@@ -52,12 +52,7 @@ class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 15.0, *) {
-            ohrHachaim.configuration = .filled()
-            ohrHachaim.configuration?.background.backgroundColor = .init(named: "Gold")
             ohrHachaim.setTitleColor(.black, for: .normal)
-            
-            amudeiHoraah.configuration = .filled()
-            amudeiHoraah.configuration?.background.backgroundColor = .init(named: "Gold")
             amudeiHoraah.setTitleColor(.black, for: .normal)
         }
     }

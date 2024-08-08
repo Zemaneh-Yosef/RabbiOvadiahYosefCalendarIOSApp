@@ -66,13 +66,7 @@ class SetupChooserViewController: UIViewController {
             info.configuration = .filled()
             info.configuration?.background.backgroundColor = .systemBlue
             info.setTitleColor(.white, for: .normal)
-            
-            simpleSetup.configuration = .filled()
-            simpleSetup.configuration?.background.backgroundColor = .init(named: "Gold")
             simpleSetup.setTitleColor(.black, for: .normal)
-            
-            advancedSetup.configuration = .filled()
-            advancedSetup.configuration?.background.backgroundColor = .gray
             advancedSetup.setTitleColor(.white, for: .normal)
         }
     }

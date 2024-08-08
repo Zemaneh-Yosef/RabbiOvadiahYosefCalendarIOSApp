@@ -98,6 +98,39 @@
         }
       }
     },
+    "(After Sunset)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(אחרי השקיעה)"
+          }
+        }
+      }
+    },
+    "(Amudei Horaah) " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(עמודי הוראה) "
+          }
+        }
+      }
+    },
+    "(Ohr HaChaim) " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(אור החיים) "
+          }
+        }
+      }
+    },
     "/SHABBAT" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -125,7 +158,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "שעה ו-15 דקות לפני השקיעה (הלכה בירורה)"
+            "value" : "שעה ו-15 דקות לפני השקיעה (הלכה ברורה)"
           }
         }
       }
@@ -236,6 +269,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הראו תמיד \"צאת לחומרא\""
+          }
+        }
+      }
+    },
+    "Amudei Horaah Mode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לוח עמודי הוראה"
+          }
+        }
+      }
+    },
+    "Apply a deviation to the zmanim like the Amudei Horaah calendar does (Only outside Israel)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הפוך את הזמנים כמו הלוח עמודי הוראה (רק מחוץ לישראל)"
           }
         }
       }
@@ -1087,6 +1142,17 @@
         }
       }
     },
+    "Location Issues" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בעיות מיקום"
+          }
+        }
+      }
+    },
     "Location Name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1120,17 +1186,6 @@
         }
       }
     },
-    "Luach Amudei Horaah" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "לוח עמודי הוראה"
-          }
-        }
-      }
-    },
     "m and " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1138,28 +1193,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ד ו"
-          }
-        }
-      }
-    },
-    "Make the zmanim like the Luach Amudei Horaah (Only use outside of Israel)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הפוך את הזמנים כמו הלוח עמודי הוראה (רק מחוץ לישראל)"
-          }
-        }
-      }
-    },
-    "MGA: " : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מג\"א: "
           }
         }
       }
@@ -1215,6 +1248,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "דקות עד צאת השבת"
+          }
+        }
+      }
+    },
+    "Misc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שונות"
           }
         }
       }
@@ -1942,6 +1986,17 @@
         }
       }
     },
+    "Shaah Zmanit MGA: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שעה זמנית מג\"א: "
+          }
+        }
+      }
+    },
     "Shabbat Ends" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2069,6 +2124,17 @@
         }
       }
     },
+    "Show Preferred Misheyakir Time" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצג זמן משיכיר מועדף"
+          }
+        }
+      }
+    },
     "Show Rabbeinu Tam" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2131,6 +2197,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצגת שניות"
+          }
+        }
+      }
+    },
+    "Show the ideal zman for Talit Tefilin (60 seasonal minutes before sunrise)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצג את הזמן העדיף לטלית ותפילין (60 דקות זמניות לפני הזריחה)"
           }
         }
       }
@@ -2344,6 +2421,17 @@
         }
       }
     },
+    "The application is having issues requesting your device's location. Location Services might be disabled or parental controls may be restricting the application. If you would like to use a zipcode/address instead, choose the \"Search For A Place\" option." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "האפליקציה נתקלת בבעיות בבקשת מיקום המכשיר שלך. ייתכן ששירותי מיקום מושבתים או שהגבלות הורים חוסמות את האפליקציה. אם ברצונך להשתמש במיקוד/כתובת במקום זאת, בחר באפשרות \"שינוי מקום\"."
+          }
+        }
+      }
+    },
     "The application will keep requesting your location" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2426,6 +2514,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שלושה שבועות"
+          }
+        }
+      }
+    },
+    "Tikkun Chatzot is not said today or tonight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תיקון חצות לא נאמר היום או הלילה"
+          }
+        }
+      }
+    },
+    "Tikkun Chatzot is not said today or tonight. Possible reasons for why it is not said: It is Friday/Friday night, No Tachanun is said today, Erev Rosh Chodesh AV, Rosh Chodesh, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תיקון חצות לא נאמר היום או הלילה. סיבות אפשריות לכך הן: זה יום שישי/ליל שישי, אין אומרים תחנון היום, ערב ראש חודש אב, ראש חודש, ראש השנה, יום כיפור, סוכות/שמיני עצרת, פסח או שבועות"
+          }
+        }
+      }
+    },
+    "Tikkun Chatzot is not said tonight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תיקון חצות לא נאמר הלילה"
+          }
+        }
+      }
+    },
+    "Tikkun Chatzot is not said tonight. Possible reasons for why it is not said: It is Friday night, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תיקון חצות לא נאמר הלילה. סיבות אפשריות לכך: זהו ליל שבת, ראש השנה, יום כיפור, סוכות/שמיני עצרת, פסח או שבועות"
           }
         }
       }

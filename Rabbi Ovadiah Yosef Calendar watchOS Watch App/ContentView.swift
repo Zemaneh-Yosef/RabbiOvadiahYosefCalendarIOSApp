@@ -339,6 +339,9 @@ func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
     }
     temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
     temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakir66MinutesZmanit(), isZman: true))
+    if defaults.bool(forKey: "showPreferredMisheyakirZman") {
+        temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString().appending(" ").appending(zmanimNames.getBetterString()), zman: zmanimCalendar.getMisheyakir60MinutesZmanit(), isZman: true))
+    }
     let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
     let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
     if visibleSurise != nil {

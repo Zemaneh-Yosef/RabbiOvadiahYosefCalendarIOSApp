@@ -81,8 +81,6 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 15.0, *) {
-            downloadButton.configuration = .filled()
-            downloadButton.tintColor = .init(named: "Gold")
             downloadButton.setTitleColor(.black, for: .normal)
         }
                 

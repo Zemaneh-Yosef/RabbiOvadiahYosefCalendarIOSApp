@@ -17,10 +17,10 @@ class ZmanimSettingsViewController: UITableViewController {
     let overrideTimeForShabbat = 3
     let minutesForShabbatEndRow = 4
     let endShabbatOpinionRow = 5
-    let plagOpinionRow = 7
-    let alwaysShowTzeitLChumraRow = 8 // last row
-    
-    let amountOfRows = 8 + 1 // it should be the last row + 1
+    let showPreferredMisheyakirRow = 7
+    let plagOpinionRow = 8
+    let alwaysShowTzeitLChumraRow = 9 // last row
+    let amountOfRows = 9 + 1 // it should be the last row + 1
 
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true)
@@ -49,8 +49,8 @@ class ZmanimSettingsViewController: UITableViewController {
         var content = cell.defaultContentConfiguration()
         switch indexPath.row {
         case amudeiHoraahRow:
-            content.text = "Luach Amudei Horaah".localized()
-            content.secondaryText = "Make the zmanim like the Luach Amudei Horaah (Only use outside of Israel)".localized()
+            content.text = "Amudei Horaah Mode".localized()
+            content.secondaryText = "Apply a deviation to the zmanim like the Amudei Horaah calendar does (Only outside Israel)".localized()
             let switchView = SwitchWithParam(frame: .zero)
             switchView.isOn = defaults.bool(forKey: "LuachAmudeiHoraah")
             switchView.param = "LuachAmudeiHoraah"
@@ -81,6 +81,14 @@ class ZmanimSettingsViewController: UITableViewController {
             content.secondaryText = ""
             content.textProperties.color = .systemBlue
             content.textProperties.alignment = .center
+        case showPreferredMisheyakirRow:
+            content.text = "Show Preferred Misheyakir Time".localized()
+            content.secondaryText = "Show the ideal zman for Talit Tefilin (60 seasonal minutes before sunrise)".localized()
+            let switchView = SwitchWithParam(frame: .zero)
+            switchView.isOn = defaults.bool(forKey: "showPreferredMisheyakirZman")
+            switchView.param = "showPreferredMisheyakirZman"
+            switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
+            cell.accessoryView = switchView
         case plagOpinionRow:
             content.text = "Plag hamincha opinion".localized()
             content.secondaryText = "Choose which opinion to show for plag hamincha".localized()

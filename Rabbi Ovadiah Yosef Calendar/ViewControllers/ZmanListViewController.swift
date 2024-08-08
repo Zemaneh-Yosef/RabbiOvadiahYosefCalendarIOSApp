@@ -536,6 +536,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 "isZmanimEnglishTranslated" : defaults.bool(forKey: "isZmanimEnglishTranslated"),
                 "visibleSunriseTable\(locationName)\(jewishCalendar.getJewishYear())" : defaults.string(forKey: "visibleSunriseTable\(locationName)\(jewishCalendar.getJewishYear())") ?? "",
                 "alwaysShowMishorSunrise" : defaults.bool(forKey: "alwaysShowMishorSunrise"),
+                "showPreferredMisheyakirZman" : defaults.bool(forKey: "showPreferredMisheyakirZman"),
                 "plagOpinion" : defaults.integer(forKey: "plagOpinion"),
                 "candleLightingOffset" : defaults.integer(forKey: "candleLightingOffset"),
                 "showWhenShabbatChagEnds" : defaults.bool(forKey: "showWhenShabbatChagEnds"),
@@ -685,11 +686,13 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
             } else {
                 DispatchQueue.global().async {
-                    let locationManager = CLLocationManager()
                     if CLLocationManager.locationServicesEnabled() {
+                        let locationManager = CLLocationManager()
                         switch locationManager.authorizationStatus {
                         case .notDetermined, .restricted, .denied:
-                            self.showLocationServicesDisabledAlert()
+                            DispatchQueue.main.async {
+                                self.showLocationServicesDisabledAlert()
+                            }
                             print("No access")
                             break
                         case .authorizedAlways, .authorizedWhenInUse:
@@ -723,7 +726,8 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func showLocationServicesDisabledAlert() {
-        let alertController = UIAlertController(title: "Location Issues", message: "The application is having issues requesting your device's location. Location Services might be disabled or parental controls may be restricting the application. If you would like to use a zipcode instead, choose the \"Search For A Place\" option.".localized(), preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Location Issues".localized(), message: "The application is having issues requesting your device's location. Location Services might be disabled or parental controls may be restricting the application. If you would like to use a zipcode/address instead, choose the \"Search For A Place\" option.".localized(), preferredStyle: .alert)
+        
         let searchAction = UIAlertAction(title: "Search For A Place".localized(), style: .default) { (_) in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
@@ -1083,20 +1087,20 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     DispatchQueue.main.async {
                         if self.shabbatMode {
                             self.zmanimTableView.contentOffset = CGPoint(x: self.zmanimTableView.contentOffset.x, y: height!)
-                            height! += 1
+                            height! += 0.25
                         }
                     }
-                    Thread.sleep(forTimeInterval: 0.01)
+                    Thread.sleep(forTimeInterval: 0.001)
                 }
                 
                 while self.shabbatMode && height! >= 0 && self.shouldScroll {
                     DispatchQueue.main.async {
                         if self.shabbatMode {
                             self.zmanimTableView.contentOffset = CGPoint(x: self.zmanimTableView.contentOffset.x, y: height!)
-                            height! -= 1
+                            height! -= 0.25
                         }
                     }
-                    Thread.sleep(forTimeInterval: 0.01)
+                    Thread.sleep(forTimeInterval: 0.001)
                 }
             }
         }
@@ -1253,6 +1257,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: zmanimCalendar.getMisheyakir66MinutesZmanit(), isZman: true))
+        if defaults.bool(forKey: "showPreferredMisheyakirZman") {
+            temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString().appending(" ").appending(zmanimNames.getBetterString()), zman: zmanimCalendar.getMisheyakir60MinutesZmanit(), isZman: true))
+        }
         let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
         let visibleSurise = chaitables.getVisibleSurise(forDate: userChosenDate)
         if visibleSurise != nil {
@@ -1802,9 +1809,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Amudei Horaah) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX") + " / " + "MGA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Ohr HaChaim) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
         }
         zmanimTableView.reloadData()
     }
