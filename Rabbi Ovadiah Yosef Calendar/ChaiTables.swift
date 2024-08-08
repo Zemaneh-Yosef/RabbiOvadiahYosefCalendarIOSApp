@@ -38,7 +38,7 @@ class ChaiTables {
             parsedTable.append(columns)
         }
         
-        if parsedTable.count == 1 {
+        if parsedTable.isEmpty || parsedTable.count == 1 {
             return nil
         }
         
