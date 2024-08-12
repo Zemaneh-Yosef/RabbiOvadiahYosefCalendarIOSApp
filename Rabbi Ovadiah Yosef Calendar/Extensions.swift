@@ -423,6 +423,7 @@ public extension JewishCalendar {
         return !((isErevRoshChodesh() && getJewishMonth() == JewishCalendar.TAMMUZ) ||// Use tammuz to check for erev rosh chodesh Av
                 isRoshChodesh() ||
                 getDayOfWeek() == 6 ||
+                getDayOfWeek() == 7 ||
                 getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון");
     }
     

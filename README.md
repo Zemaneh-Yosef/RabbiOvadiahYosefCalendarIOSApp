@@ -1,20 +1,41 @@
 # Rabbi Ovadiah Yosef Calendar IOS App
 
-<b>App Store:</b>
-
-<a href="https://apps.apple.com/app/rabbi-ovadiah-yosef-calendar/id6448838987"><img alt="Get it on the App Store" src="https://ci6.googleusercontent.com/proxy/HrtBTHlFE3VpRkzLfRwnYbJjCLtCpmKOIV__qk9k9mj7e7PSZF2X0L7mzR63nCIfqbnUujbn-dhiq-LwYUqdcpSLg_ItRhdEQJ0wP438309hcA=s0-d-e1-ft#https://static.licdn.com/aero-v1/sc/h/76yzkd0h5kiv27lrd4yaenylk" width="250px"></a>
-
-<b>Google Play Store and source code:</b>
-
-<a href="https://play.google.com/store/apps/details?id=com.EJ.ROvadiahYosefCalendar&amp;pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="250px"></a><a href="https://github.com/Elyahu41/RabbiOvadiahYosefCalendarApp"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="62px"></a>
-
-<b>Website (official) and source code:</b>
-
-<a href="https://royzmanim.com/"><img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="124px"></a> <a href="https://github.com/Elyahu41/royzmanimwebsite"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="62px"></a>
-
-<b>Website (unofficial) and source code:</b>
-
-<a href="https://elyahu41.github.io/RabbiOvadiahYosefCalendar/"><img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="124px"></a> <a href="https://github.com/Elyahu41/Elyahu41.github.io/tree/master/RabbiOvadiahYosefCalendar"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="62px"></a>
+<table>
+  <tr>
+    <td align="center" width="33%"><strong>App Store and source code:</strong></td>
+    <td align="center" width="33%"><strong>Google Play Store and source code:</strong></td>
+    <td align="center" width="33%"><strong>Website and source code:</strong></td>
+  </tr>
+  <tr>
+      <td align="center" width="33%">
+      <a href="https://apps.apple.com/app/rabbi-ovadiah-yosef-calendar/id6448838987">
+        <img alt="Get it on the App Store" src="https://ci6.googleusercontent.com/proxy/HrtBTHlFE3VpRkzLfRwnYbJjCLtCpmKOIV__qk9k9mj7e7PSZF2X0L7mzR63nCIfqbnUujbn-dhiq-LwYUqdcpSLg_ItRhdEQJ0wP438309hcA=s0-d-e1-ft#https://static.licdn.com/aero-v1/sc/h/76yzkd0h5kiv27lrd4yaenylk" width="200px">
+      </a>
+      <br>
+      <a href="https://github.com/Elyahu41/RabbiOvadiahYosefCalendarIOSApp">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50px" alt="GitHub">
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://play.google.com/store/apps/details?id=com.EJ.ROvadiahYosefCalendar&amp;pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+        <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="200px">
+      </a>
+      <br>
+      <a href="https://github.com/Elyahu41/RabbiOvadiahYosefCalendarApp">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50px" alt="GitHub">
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://royzmanim.com/">
+        <img src="https://cdn-icons-png.flaticon.com/512/5602/5602732.png" width="100px" alt="Website">
+      </a>
+      <br>
+      <a href="https://github.com/Elyahu41/royzmanimwebsite">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50px" alt="GitHub">
+      </a>
+    </td>
+  </tr>
+</table>
 
 The goal of this app is to recreate the "Luach HaMaor Ohr HaChaim" calendar that is widespread in Israel. This calendar is special because Rabbi Ovadiah Yosef ZT"L oversaw it's creation and used the calendar himself until he passed:
 

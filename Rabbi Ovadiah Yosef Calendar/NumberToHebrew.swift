@@ -97,7 +97,7 @@ class NumberToHebrew {
                 }
             }
         } else if num >= 10 {
-            if let hebrewUnit = hebrewUnits[num - 10] {
+            if hebrewUnits[num - 10] != nil {
                 hebrewSentence.append("עָשָׂרָה")
                 num = 0
             }
