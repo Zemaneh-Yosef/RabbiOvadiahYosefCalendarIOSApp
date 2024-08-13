@@ -689,7 +689,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                     if CLLocationManager.locationServicesEnabled() {
                         let locationManager = CLLocationManager()
                         switch locationManager.authorizationStatus {
-                        case .notDetermined, .restricted, .denied:
+                        case .restricted, .denied:
                             DispatchQueue.main.async {
                                 self.showLocationServicesDisabledAlert()
                             }
@@ -697,6 +697,8 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                             break
                         case .authorizedAlways, .authorizedWhenInUse:
                             //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
+                            break
+                        case .notDetermined:
                             break
                         @unknown default:
                             break
