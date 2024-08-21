@@ -11,6 +11,8 @@ import KosherSwift
 class SiddurChooserViewController: UIViewController {
     
     let dateFormatterForZmanim = DateFormatter()
+    var specialDayText = ""
+    var tonightText = ""
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBAction func jerDirection(_ sender: UIButton) {
@@ -23,9 +25,12 @@ class SiddurChooserViewController: UIViewController {
         super.dismiss(animated: true)
     }
     @IBOutlet weak var specialDay: UILabel!
+    var tonight: UILabel = UILabel()
+    var misc: UILabel = UILabel()
     @IBAction func selichot(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Selichot"
         selichot.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }
     @IBOutlet weak var selichot: UIButton!
@@ -33,6 +38,7 @@ class SiddurChooserViewController: UIViewController {
     @IBAction func shacharit(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Shacharit"
         shacharit.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }
     @IBOutlet weak var shacharit: UIButton!
@@ -41,12 +47,14 @@ class SiddurChooserViewController: UIViewController {
     @IBAction func mussaf(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Mussaf"
         mussaf.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }
     
     @IBAction func mincha(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Mincha"
         mincha.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }
     @IBOutlet weak var mincha: UIButton!
@@ -55,12 +63,14 @@ class SiddurChooserViewController: UIViewController {
     @IBAction func neilah(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Neilah"
         neilah.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }// future proof
     
     @IBAction func arvit(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Arvit"
         arvit.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }
     @IBOutlet weak var arvit: UIButton!
@@ -69,6 +79,7 @@ class SiddurChooserViewController: UIViewController {
     @IBAction func birchatHamazon(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Birchat Hamazon"
         birchatHamazon.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
         GlobalStruct.jewishCalendar.forward()
         let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
@@ -117,10 +128,12 @@ class SiddurChooserViewController: UIViewController {
     @IBAction func birchatHalevana(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Birchat Halevana"
         birchatHalevana.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }
     @IBAction func tikkunChatzot(_ sender: UIButton) {
         tikkunChatzot.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         
         if (GlobalStruct.jewishCalendar.is3Weeks()) {
             let isTachanunSaid = GlobalStruct.jewishCalendar.getTachanun() == "Tachanun only in the morning"
@@ -175,6 +188,7 @@ class SiddurChooserViewController: UIViewController {
     @IBAction func kriatShema(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Kriat Shema SheAl Hamita"
         kriatShema.setTitle("Loading...".localized(), for: .normal)
+        setLoading()
         openSiddur()
     }
     @IBOutlet weak var kriatShema: UIButton!
@@ -196,8 +210,9 @@ class SiddurChooserViewController: UIViewController {
                 .appending("\n")
                 .appending(GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false))
         }
+        specialDayText = specialDay.text ?? ""
         
-        let tonight = UILabel()
+        tonight = UILabel()
         tonight.numberOfLines = 6
         tonight.textAlignment = .center
         GlobalStruct.jewishCalendar.forward()
@@ -211,9 +226,10 @@ class SiddurChooserViewController: UIViewController {
                 .appending("\n")
                 .appending(GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false))
         }
+        tonightText = tonight.text ?? ""
         GlobalStruct.jewishCalendar.back()
         
-        let misc = UILabel()
+        misc = UILabel()
         misc.textAlignment = .center
         misc.text = "Misc".localized()
         
@@ -331,6 +347,16 @@ class SiddurChooserViewController: UIViewController {
         birchatHalevana.setTitle("ברכת הלבנה", for: .normal)
         kriatShema.setTitle("ק״ש שעל המיטה", for: .normal)
         tikkunChatzot.setTitle("תיקון חצות", for: .normal)
+        
+        specialDay.text = specialDayText
+        tonight.text = tonightText
+        misc.text = "Misc".localized()
+    }
+    
+    func setLoading() {
+        specialDay.text = "Loading...".localized()
+        tonight.text = "Loading...".localized()
+        misc.text = "Loading...".localized()
     }
     
     func openSiddur() {

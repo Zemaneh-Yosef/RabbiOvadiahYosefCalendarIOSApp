@@ -54,6 +54,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
+    @IBOutlet weak var stackviewContainer: UIStackView!
     //    @IBOutlet weak var slider: UISlider!
 //    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
 //        sender.isEnabled = false
@@ -66,6 +67,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
 //        sender.isEnabled = true
 //    }
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var categories: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
         var listOfTexts = Array<HighlightString>()
@@ -114,12 +116,43 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             GlobalStruct.jewishCalendar.back()
         }
         
+        let stackviewH = UIStackView()
+        stackviewH.axis = .horizontal
+        stackviewH.spacing = 2
+        stackviewH.translatesAutoresizingMaskIntoConstraints = false
+        categories.translatesAutoresizingMaskIntoConstraints = false
+        categories.showsHorizontalScrollIndicator = true
+        categories.showsVerticalScrollIndicator = false
+        categories.addSubview(stackviewH)
+        
+        for text in listOfTexts.reversed() {
+            if text.isCategory {
+                let label = UILabel()
+                label.numberOfLines = 0
+                label.textAlignment = .center
+                label.text = text.string
+                label.font = .boldSystemFont(ofSize: 18)
+                let tap = UITapGestureRecognizerWithParam(parameter: label, target: self, action: #selector(tapFunctionCategory))
+                tap.parameter = label
+                label.isUserInteractionEnabled = true
+                label.addGestureRecognizer(tap)
+                stackviewH.addArrangedSubview(label)
+            }
+        }
+        
+        NSLayoutConstraint.activate([
+            stackviewH.topAnchor.constraint(equalTo: categories.contentLayoutGuide.topAnchor),
+            stackviewH.leadingAnchor.constraint(equalTo: categories.contentLayoutGuide.leadingAnchor),
+            stackviewH.trailingAnchor.constraint(equalTo: categories.contentLayoutGuide.trailingAnchor),
+            stackviewH.bottomAnchor.constraint(equalTo: categories.contentLayoutGuide.bottomAnchor),
+            
+            stackviewH.trailingAnchor.constraint(greaterThanOrEqualTo: categories.frameLayoutGuide.trailingAnchor)
+        ])
+        
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.spacing = 0
-                
         stackview.translatesAutoresizingMaskIntoConstraints = false
-                
         scrollView.addSubview(stackview)
         
         //slider.setValue(defaults.float(forKey: "textSize"), animated: true)
@@ -151,7 +184,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                 label.isUserInteractionEnabled = true
                 label.addGestureRecognizer(tap)
             }
-            if text.string == "Mussaf is said here, press here to go to Mussaf" {
+            if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" {
                 let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionMussaf))
                 label.isUserInteractionEnabled = true
                 label.addGestureRecognizer(tap)
@@ -192,6 +225,21 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             
             stackview.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
         ])
+        
+        if stackviewH.arrangedSubviews.isEmpty {
+            categories.isHidden = true
+            NSLayoutConstraint.activate([scrollView.topAnchor.constraint(equalTo: stackviewContainer.topAnchor)])
+        }
+    }
+    
+    @objc func tapFunctionCategory(_ sender: UITapGestureRecognizerWithParam) {
+        for view in views {
+            if view.text?.replacingOccurrences(of: "\n", with: "") == sender.parameter.text {
+                let labelFrameInScrollView = view.convert(view.bounds, to: scrollView)
+                scrollView.scrollRectToVisible(labelFrameInScrollView, animated: false)
+                break
+            }
+        }
     }
     
     @IBAction func tapFunctionMussaf(sender: UITapGestureRecognizer) {
@@ -255,3 +303,13 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     */
 
 }
+
+class UITapGestureRecognizerWithParam: UITapGestureRecognizer {
+    var parameter: UILabel
+    
+    init(parameter: UILabel, target: Any?, action: Selector?) {
+        self.parameter = parameter
+        super.init(target: target, action: action)
+    }
+}
+
