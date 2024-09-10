@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Elyahu41/KosherSwift",
       "state" : {
-        "revision" : "bfe64d8bbcafbc5f4810ec3c178aeb5b1a48bab8",
-        "version" : "1.0.8"
+        "revision" : "ba52cc156110fd5287bfda6c9304d7900da1e322",
+        "version" : "1.0.9"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
-        "version" : "2.7.2"
+        "revision" : "3c2c7e1e72b8abd96eafbae80323c5c1e5317437",
+        "version" : "2.7.5"
       }
     },
     {

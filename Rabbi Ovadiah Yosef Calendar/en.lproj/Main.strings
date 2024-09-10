@@ -27,10 +27,10 @@
 "8Bt-3k-w3g.title" = "Setup Chooser";
 
 /* Class = "UIButton"; configuration.title = "Text size"; ObjectID = "8UB-WQ-jz2"; */
-"8UB-WQ-jz2.configuration.title" = "Text size";
+"8UB-WQ-jz2.configuration.title" = "Change Text";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "8UB-WQ-jz2"; */
-"8UB-WQ-jz2.normalTitle" = "Change Text Size";
+"8UB-WQ-jz2.normalTitle" = "Change Text";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "9a2-tM-uOe"; */
 "9a2-tM-uOe.text" = "Label";

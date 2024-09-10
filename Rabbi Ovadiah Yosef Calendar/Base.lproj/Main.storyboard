@@ -136,7 +136,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="GJQ-ga-VxD"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="wwV-jQ-nNv">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
-                                                    <rect key="frame" x="181.66666666666666" y="10.666666666666664" width="27" height="24"/>
+                                                    <rect key="frame" x="182" y="11" width="27" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -351,13 +351,13 @@
                                     <action selector="back:" destination="ghR-fU-7xL" eventType="touchUpInside" id="8vN-N5-ZtA"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MaK-V7-AkN">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MaK-V7-AkN">
                                 <rect key="frame" x="8" y="62" width="304" height="506"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="g9C-Bg-WFU"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="oLN-Ws-k8s"/>
                             </scrollView>
                             <stackView hidden="YES" opaque="NO" contentMode="center" fixedFrame="YES" axis="vertical" distribution="fillEqually" alignment="center" spacing="52" translatesAutoresizingMaskIntoConstraints="NO" id="RIL-HI-hY9">
-                                <rect key="frame" x="222" y="8" width="132" height="636"/>
+                                <rect key="frame" x="222" y="8" width="132" height="722"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g5x-c2-wbH">
                                         <rect key="frame" x="66" y="0.0" width="0.0" height="34"/>
@@ -519,8 +519,30 @@
                                             <action selector="birchatHamazon:" destination="ghR-fU-7xL" eventType="touchUpInside" id="WvR-HC-wIX"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WWh-qS-L6B" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
+                                        <rect key="frame" x="0.6666666666666714" y="430" width="131" height="34"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="ברכת מעין שלוש">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" name="Gold"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" name="Gold"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="middleColor">
+                                                <color key="value" name="GoldStart"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="birchatMeEyinShalosh:" destination="ghR-fU-7xL" eventType="touchUpInside" id="Sn8-rc-HRX"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XU0-Ga-yYE" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="430" width="132" height="34"/>
+                                        <rect key="frame" x="0.0" y="516" width="132" height="34"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="ק״ש שעל המיטה">
@@ -542,7 +564,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0HO-cJ-gCJ" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="22.666666666666671" y="516" width="87" height="34"/>
+                                        <rect key="frame" x="22.666666666666671" y="602" width="87" height="34"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="תיקון חצות">
@@ -564,7 +586,7 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GrG-fB-2cP" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="16.666666666666671" y="576" width="99" height="0.0"/>
+                                        <rect key="frame" x="16.666666666666671" y="662" width="99" height="0.0"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="ברכת הלבנה">
@@ -586,7 +608,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfx-LJ-ddF">
-                                        <rect key="frame" x="66" y="602" width="0.0" height="34"/>
+                                        <rect key="frame" x="66" y="688" width="0.0" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -621,6 +643,7 @@
                         <outlet property="arvit" destination="0pX-p5-1X1" id="kxy-fT-pGP"/>
                         <outlet property="birchatHalevana" destination="GrG-fB-2cP" id="dBl-FL-8fW"/>
                         <outlet property="birchatHamazon" destination="wQI-Og-EXA" id="gEq-UF-Yet"/>
+                        <outlet property="birchatMeEyinShalosh" destination="WWh-qS-L6B" id="uch-bR-xgo"/>
                         <outlet property="disclaimer" destination="Rfx-LJ-ddF" id="OTM-hB-nqn"/>
                         <outlet property="kriatShema" destination="XU0-Ga-yYE" id="k5I-cS-yEH"/>
                         <outlet property="mincha" destination="ucE-TT-3Tk" id="GJT-ol-o65"/>
@@ -654,9 +677,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UB-WQ-jz2">
-                                <rect key="frame" x="291.66666666666669" y="47" width="90.333333333333314" height="34.333333333333343"/>
+                                <rect key="frame" x="262.66666666666669" y="47" width="119.33333333333331" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Text size"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Change Text"/>
                                 <connections>
                                     <action selector="changeTextSize:" destination="jkM-M4-JT4" eventType="touchUpInside" id="MhS-n6-5eC"/>
                                 </connections>
@@ -1454,7 +1477,7 @@ etc...</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n3s-7X-uWg">
-                                <rect key="frame" x="0.0" y="144" width="390" height="615.66666666666663"/>
+                                <rect key="frame" x="0.0" y="144" width="390" height="616"/>
                                 <standardMapConfiguration key="preferredConfiguration" elevationStyle="realistic"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwT-kb-zHO">
@@ -2141,6 +2164,9 @@ etc...</string>
         <designable name="UOf-Ik-LpQ">
             <size key="intrinsicContentSize" width="1892.6666666666667" height="20.333333333333332"/>
         </designable>
+        <designable name="WWh-qS-L6B">
+            <size key="intrinsicContentSize" width="131" height="34"/>
+        </designable>
         <designable name="XU0-Ga-yYE">
             <size key="intrinsicContentSize" width="132" height="34"/>
         </designable>
@@ -2183,7 +2209,7 @@ etc...</string>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Gold">
             <color red="1" green="0.75686274509803919" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

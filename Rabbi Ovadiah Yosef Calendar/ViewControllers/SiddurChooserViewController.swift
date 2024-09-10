@@ -10,6 +10,8 @@ import KosherSwift
 
 class SiddurChooserViewController: UIViewController {
     
+    let progressHUD = ProgressHUD(text: "Loading...".localized())
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     let dateFormatterForZmanim = DateFormatter()
     var specialDayText = ""
     var tonightText = ""
@@ -29,16 +31,12 @@ class SiddurChooserViewController: UIViewController {
     var misc: UILabel = UILabel()
     @IBAction func selichot(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Selichot"
-        selichot.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }
-    @IBOutlet weak var selichot: UIButton!
+    @IBOutlet weak var selichot: GradientButton!
     
     @IBAction func shacharit(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Shacharit"
-        shacharit.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }
     @IBOutlet weak var shacharit: UIButton!
@@ -46,15 +44,11 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var mussaf: UIButton!
     @IBAction func mussaf(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Mussaf"
-        mussaf.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }
     
     @IBAction func mincha(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Mincha"
-        mincha.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }
     @IBOutlet weak var mincha: UIButton!
@@ -62,15 +56,11 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var neilah: UIButton!
     @IBAction func neilah(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Neilah"
-        neilah.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }// future proof
     
     @IBAction func arvit(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Arvit"
-        arvit.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }
     @IBOutlet weak var arvit: UIButton!
@@ -78,8 +68,6 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var birchatHamazon: UIButton!
     @IBAction func birchatHamazon(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Birchat Hamazon"
-        birchatHamazon.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
         GlobalStruct.jewishCalendar.forward()
         let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
@@ -106,7 +94,9 @@ class SiddurChooserViewController: UIViewController {
                 zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
                 
                 let alert = UIAlertController(title: "When did you start your meal?".localized(),
-                                              message: "Did you start your meal before sunset?".localized().appending(" ").appending(dateFormatterForZmanim.string(from: zmanimCalendar.getElevationAdjustedSunset() ?? Date())), preferredStyle: .alert)
+                                              message: "Did you start your meal before sunset?".localized()
+                    .appending(" ")
+                    .appending(dateFormatterForZmanim.string(from: zmanimCalendar.getElevationAdjustedSunset() ?? Date())), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Yes".localized(), style: .default, handler: { UIAlertAction in
                     self.openSiddur()
                 }))
@@ -115,8 +105,55 @@ class SiddurChooserViewController: UIViewController {
                     self.openSiddur()
                 }))
                 alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-                    self.dismiss(animated: true)
                     self.viewDidAppear(false)//to reset titles
+                }))
+                present(alert, animated: true)
+            }
+        } else {
+            self.openSiddur()
+        }
+    }
+    @IBOutlet weak var birchatMeEyinShalosh: UIButton!
+    @IBAction func birchatMeEyinShalosh(_ sender: UIButton) {
+        GlobalStruct.chosenPrayer = "Birchat MeEyin Shalosh"
+        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+        GlobalStruct.jewishCalendar.forward()
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+        GlobalStruct.jewishCalendar.back()//reset
+        
+        if today.count != tomorrow.count {
+            var notEqual = false
+            // Check if all elements at corresponding indices are equal
+            for (element1, element2) in zip(today, tomorrow) {
+                if element1.string != element2.string {
+                    notEqual = true
+                }
+            }
+            
+            if notEqual {
+                if Locale.isHebrewLocale() {
+                        dateFormatterForZmanim.dateFormat = "H:mm"
+                } else {
+                        dateFormatterForZmanim.dateFormat = "h:mm aa"
+                }
+                
+                let zmanimCalendar = ZmanimCalendar(location: GlobalStruct.geoLocation)
+                zmanimCalendar.useElevation = GlobalStruct.useElevation
+                zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
+                
+                let alert = UIAlertController(title: "When did you start your meal?".localized(),
+                                              message: "Did you start your meal before sunset?".localized()
+                    .appending(" ")
+                    .appending(dateFormatterForZmanim.string(from: zmanimCalendar.getElevationAdjustedSunset() ?? Date())), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Yes".localized(), style: .default, handler: { UIAlertAction in
+                    self.openSiddur()
+                }))
+                alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
+                    GlobalStruct.chosenPrayer = "Birchat MeEyin Shalosh+1"
+                    self.openSiddur()
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
+                    
                 }))
                 present(alert, animated: true)
             }
@@ -127,14 +164,9 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var birchatHalevana: UIButton!
     @IBAction func birchatHalevana(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Birchat Halevana"
-        birchatHalevana.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }
     @IBAction func tikkunChatzot(_ sender: UIButton) {
-        tikkunChatzot.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
-        
         if (GlobalStruct.jewishCalendar.is3Weeks()) {
             let isTachanunSaid = GlobalStruct.jewishCalendar.getTachanun() == "Tachanun only in the morning"
             || GlobalStruct.jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
@@ -187,8 +219,6 @@ class SiddurChooserViewController: UIViewController {
     @IBOutlet weak var tikkunChatzot: UIButton!
     @IBAction func kriatShema(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Kriat Shema SheAl Hamita"
-        kriatShema.setTitle("Loading...".localized(), for: .normal)
-        setLoading()
         openSiddur()
     }
     @IBOutlet weak var kriatShema: UIButton!
@@ -257,17 +287,33 @@ class SiddurChooserViewController: UIViewController {
             stackview.addArrangedSubview(tikkunChatzot)
         }
         stackview.addArrangedSubview(birchatHamazon)
+        stackview.addArrangedSubview(birchatMeEyinShalosh)
         stackview.addArrangedSubview(birchatHalevana)
         stackview.addArrangedSubview(disclaimer)
                 
         scrollView.addSubview(stackview)
         
-        if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.HOSHANA_RABBA {
+        if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() {
             mussaf.isHidden = false
         }
         
         if GlobalStruct.jewishCalendar.isSelichotSaid() {
             selichot.isHidden = false
+        }
+        let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.useElevation = GlobalStruct.useElevation
+        zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
+        var tzeit = Date()
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            tzeit = zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()
+        } else {
+            tzeit = zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date();
+        }
+        
+        if Date().compare(tzeit) == .orderedDescending && Date().compare(zmanimCalendar.getSolarMidnightIfSunTransitNil() ?? Date()) == .orderedAscending {
+            selichot.startColor = .gray
+            selichot.middleColor = .gray
+            selichot.endColor = .gray
         }
         
 //        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.YOM_KIPPUR {
@@ -336,34 +382,56 @@ class SiddurChooserViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //reset all titles that were changed
-        selichot.setTitle("סליחות", for: .normal)
-        shacharit.setTitle("שחרית", for: .normal)
-        mussaf.setTitle("מוסף", for: .normal)
-        mincha.setTitle("מנחה", for: .normal)
-        neilah.setTitle("נעילה", for: .normal)
-        arvit.setTitle("ערבית", for: .normal)
-        birchatHamazon.setTitle("ברכת המזון", for: .normal)
-        birchatHalevana.setTitle("ברכת הלבנה", for: .normal)
-        kriatShema.setTitle("ק״ש שעל המיטה", for: .normal)
-        tikkunChatzot.setTitle("תיקון חצות", for: .normal)
-        
-        specialDay.text = specialDayText
-        tonight.text = tonightText
-        misc.text = "Misc".localized()
-    }
-    
-    func setLoading() {
-        specialDay.text = "Loading...".localized()
-        tonight.text = "Loading...".localized()
-        misc.text = "Loading...".localized()
+        //reset anything that was changed
     }
     
     func openSiddur() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
         newViewController.modalPresentationStyle = .fullScreen
-        self.present(newViewController, animated: true)
+        
+        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && !(GlobalStruct.chosenPrayer == "Birchat Halevana" || GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") || GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita") {// if the prayer is dependant on isMukafChoma, we ask the user
+            let alert = UIAlertController(title: "Are you in a walled (Mukaf Choma) city?".localized(),
+                                          message:"Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?".localized(), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes (Jerusalem)".localized(), style: .default, handler: { UIAlertAction in
+                GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
+                GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
+                self.view.addSubview(self.progressHUD)
+                self.progressHUD.show()
+                self.present(newViewController, animated: false, completion: {
+                    self.progressHUD.hide()
+                })
+            }))
+            alert.addAction(UIAlertAction(title: "Doubt (Safek)".localized(), style: .default, handler: { UIAlertAction in
+                GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
+                GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: true)
+                self.view.addSubview(self.progressHUD)
+                self.progressHUD.show()
+                self.present(newViewController, animated: false, completion: {
+                    self.progressHUD.hide()
+                })
+            }))
+            alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
+                // Undo any previous settings
+                GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
+                GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
+                self.view.addSubview(self.progressHUD)
+                self.progressHUD.show()
+                self.present(newViewController, animated: false, completion: {
+                    self.progressHUD.hide()
+                })
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
+                
+            }))
+            present(alert, animated: true)
+        } else {
+            view.addSubview(progressHUD)
+            progressHUD.show()
+            self.present(newViewController, animated: false, completion: {
+                self.progressHUD.hide()
+            })
+        }
     }
     
 

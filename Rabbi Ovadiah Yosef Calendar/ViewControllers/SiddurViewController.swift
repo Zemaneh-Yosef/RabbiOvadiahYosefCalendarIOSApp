@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation
 import KosherSwift
+import SnackBar
 
 class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -24,6 +25,10 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             textField.placeholder = "Size (12.0 - 78.0)".localized()
         }
         alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel))
+        alert.addAction(UIAlertAction(title: defaults.bool(forKey: "JustifyText") ? "Right Align Text".localized() : "Justify".localized(), style: .default, handler: { [self] (_) in
+            defaults.set(!defaults.bool(forKey: "JustifyText"), forKey: "JustifyText")
+            SnackBar(contextView: view, message: "Please close and open the siddur.".localized(), duration: SnackBar.Duration.lengthShort).show()
+        }))
         alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self, weak alert] (_) in
             let textField = alert?.textFields![0].text
             //if text is empty, display a message notifying the user:
@@ -71,9 +76,12 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         var listOfTexts = Array<HighlightString>()
-        
+        let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
+
         if GlobalStruct.chosenPrayer == "Selichot" {
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0
+            && Date().timeIntervalSince1970 < (zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0) + 7200)
         }
         if GlobalStruct.chosenPrayer == "Shacharit" {
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getShacharitPrayers()
@@ -111,10 +119,18 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         }
         if GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita" {
             GlobalStruct.jewishCalendar.forward()
-            let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             GlobalStruct.jewishCalendar.back()
         }
+        if GlobalStruct.chosenPrayer == "Birchat MeEyin Shalosh" {
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+        }
+        if GlobalStruct.chosenPrayer == "Birchat MeEyin Shalosh+1" {
+            GlobalStruct.jewishCalendar.forward()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+            GlobalStruct.jewishCalendar.back()
+        }
+        listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
         
         let stackviewH = UIStackView()
         stackviewH.axis = .horizontal
@@ -125,7 +141,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         categories.showsVerticalScrollIndicator = false
         categories.addSubview(stackviewH)
         
-        for text in listOfTexts.reversed() {
+        for text in listOfTexts {
             if text.isCategory {
                 let label = UILabel()
                 label.numberOfLines = 0
@@ -160,8 +176,18 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         for text in listOfTexts {
             let label = UILabel()
             label.numberOfLines = 0
-            label.textAlignment = .right
+            label.textAlignment = defaults.bool(forKey: "JustifyText") ? .justified : .right
             label.text = text.string
+            if defaults.bool(forKey: "JustifyText") {
+                let text: NSMutableAttributedString = NSMutableAttributedString(string: text.string)
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = .justified
+                paragraphStyle.baseWritingDirection = .rightToLeft
+                paragraphStyle.lineBreakMode = .byWordWrapping
+                text.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, text.length))
+                label.attributedText = text
+            }
+
             var textSize = CGFloat(defaults.float(forKey: "textSize"))
             if textSize == 0 {
                 textSize = 16
@@ -289,6 +315,24 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
 //        } else if(heading >= 338 || heading <= 22){
 //            strDirection = "North";
 //        }
+    }
+    
+    func appendUnicodeForDuplicates(in array: Array<HighlightString>) -> Array<HighlightString> {
+        var counts = [String: Int]()  // Dictionary to track occurrences
+        var result = Array<HighlightString>()
+        
+        for str in array {
+            if let count = counts[str.string] {
+                counts[str.string] = count + 1  // Increment occurrence count
+                let modifiedString = str.string + String(repeating: "\u{200E}", count: count)  // Append an invisible char for each occurrence
+                result.append(HighlightString(modifiedString, shouldBeHighlighted: str.shouldBeHighlighted, isCategory: str.isCategory))
+            } else {
+                counts[str.string] = 1  // First occurrence
+                result.append(str)
+            }
+        }
+        
+        return result
     }
     
 

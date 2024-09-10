@@ -295,6 +295,17 @@
         }
       }
     },
+    "Are you in a walled (Mukaf Choma) city?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "האם אתה בעיר מוקפת חומה?"
+          }
+        }
+      }
+    },
     "Are you in Israel now?" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -302,6 +313,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אתה בישראל עכשיו?"
+          }
+        }
+      }
+    },
+    "Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "האם אתה נמצא בעיר מוקפת חומה מימי יהושע בן נון?"
           }
         }
       }
@@ -378,7 +400,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "לְבַטֵל"
+            "value" : "לבטל"
           }
         }
       }
@@ -768,6 +790,17 @@
         }
       }
     },
+    "Doubt (Safek)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ספק"
+          }
+        }
+      }
+    },
     "Download" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1083,6 +1116,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "יום מיוחד ביהדות"
+          }
+        }
+      }
+    },
+    "Justify" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "יישור טקסט"
           }
         }
       }
@@ -1592,6 +1636,17 @@
         }
       }
     },
+    "Please close and open the siddur." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בבקשה סגור ופתח את הסידור."
+          }
+        }
+      }
+    },
     "Please enter a valid number." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1740,6 +1795,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "דקות רגילות"
+          }
+        }
+      }
+    },
+    "Right Align Text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ישר לימין"
           }
         }
       }
@@ -2701,6 +2767,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כן"
+          }
+        }
+      }
+    },
+    "Yes (Jerusalem)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "כן (ירושלים)"
           }
         }
       }

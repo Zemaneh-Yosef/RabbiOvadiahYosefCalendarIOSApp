@@ -62,8 +62,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/SiddurViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "tapFunctionCategory(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/SiddurViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/SiddurViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/SiddurViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/SiddurViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
