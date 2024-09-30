@@ -16,6 +16,22 @@ class SiddurChooserViewController: UIViewController {
     var specialDayText = ""
     var tonightText = ""
 
+    @IBAction func nextDay(_ sender: UIButton) {
+        GlobalStruct.userChosenDate = GlobalStruct.userChosenDate.advanced(by: 86400)
+        GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
+        loadView()
+        viewDidLoad()
+    }
+    @IBAction func calendarButton(_ sender: UIButton) {
+        showDatePicker()
+    }
+    @IBAction func prevDay(_ sender: UIButton) {
+        GlobalStruct.userChosenDate = GlobalStruct.userChosenDate.advanced(by: -86400)
+        GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
+        loadView()
+        viewDidLoad()
+    }
+    @IBOutlet weak var viewContainingToolbar: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBAction func jerDirection(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -41,7 +57,7 @@ class SiddurChooserViewController: UIViewController {
     }
     @IBOutlet weak var shacharit: UIButton!
     
-    @IBOutlet weak var mussaf: UIButton!
+    @IBOutlet weak var mussaf: GradientButton!
     @IBAction func mussaf(_ sender: UIButton) {
         GlobalStruct.chosenPrayer = "Mussaf"
         openSiddur()
@@ -223,7 +239,7 @@ class SiddurChooserViewController: UIViewController {
     }
     @IBOutlet weak var kriatShema: UIButton!
     @IBOutlet weak var disclaimer: UILabel!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -290,15 +306,23 @@ class SiddurChooserViewController: UIViewController {
         stackview.addArrangedSubview(birchatMeEyinShalosh)
         stackview.addArrangedSubview(birchatHalevana)
         stackview.addArrangedSubview(disclaimer)
-                
+        
+        for view in scrollView.subviews {
+            view.removeFromSuperview()
+        }
         scrollView.addSubview(stackview)
+        scrollView.alwaysBounceHorizontal = false
         
         if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() {
             mussaf.isHidden = false
+        } else {
+            mussaf.isHidden = true
         }
         
         if GlobalStruct.jewishCalendar.isSelichotSaid() {
             selichot.isHidden = false
+        } else {
+            selichot.isHidden = true
         }
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.useElevation = GlobalStruct.useElevation
@@ -314,6 +338,10 @@ class SiddurChooserViewController: UIViewController {
             selichot.startColor = .gray
             selichot.middleColor = .gray
             selichot.endColor = .gray
+        } else {
+            selichot.startColor = .init(named: "Gold") ?? .clear
+            selichot.middleColor = .init(named: "GoldStart") ?? .clear
+            selichot.endColor = .init(named: "Gold") ?? .clear
         }
         
 //        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.YOM_KIPPUR {
@@ -322,10 +350,8 @@ class SiddurChooserViewController: UIViewController {
         
         if !GlobalStruct.jewishCalendar.getBirchatLevanaStatus().isEmpty {
             birchatHalevana.isHidden = false
-        }
-        
-        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM {
-            disclaimer.text = "Purim prayers will show on the 14th (yesterday)".localized()
+        } else {
+            birchatHalevana.isHidden = true
         }
         
         if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
@@ -341,18 +367,6 @@ class SiddurChooserViewController: UIViewController {
             disclaimer.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(openEtrogPrayerLink))
             disclaimer.addGestureRecognizer(tap)
-        }
-        
-        if #available(iOS 15.0, *) {
-            selichot.setTitleColor(.black, for: .normal)
-            shacharit.setTitleColor(.black, for: .normal)
-            mussaf.setTitleColor(.black, for: .normal)
-            mincha.setTitleColor(.black, for: .normal)
-            arvit.setTitleColor(.black, for: .normal)
-            birchatHamazon.setTitleColor(.black, for: .normal)
-            birchatHalevana.setTitleColor(.black, for: .normal)
-            kriatShema.setTitleColor(.black, for: .normal)
-            tikkunChatzot.setTitleColor(.black, for: .normal)
         }
         
         NSLayoutConstraint.activate([
@@ -382,7 +396,9 @@ class SiddurChooserViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //reset anything that was changed
+        super.viewDidAppear(animated)
+        loadView()
+        viewDidLoad()
     }
     
     func openSiddur() {
@@ -432,6 +448,90 @@ class SiddurChooserViewController: UIViewController {
                 self.progressHUD.hide()
             })
         }
+    }
+    
+    @objc func showDatePicker() {
+        var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
+        
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
+        }
+
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.date = GlobalStruct.userChosenDate
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        alertController.view.addSubview(datePicker)
+
+        // Add constraints to the date picker that pin it to the edges of the alert controller's view
+        datePicker.leadingAnchor.constraint(equalTo: alertController.view.leadingAnchor, constant: 32).isActive = true
+        datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
+        datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
+        datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
+        
+        let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
+            self.dismiss(animated: true)
+            self.showHebrewDatePicker()
+        }
+
+        alertController.addAction(changeCalendarAction)
+
+        let doneAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
+            self.loadView()
+            self.viewDidLoad()
+        }
+
+        alertController.addAction(doneAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func showHebrewDatePicker() {
+        var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
+        
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
+        }
+
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.calendar = Calendar(identifier: .hebrew)
+        datePicker.locale = Locale(identifier: "he")
+        datePicker.date = GlobalStruct.userChosenDate
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        alertController.view.addSubview(datePicker)
+
+        // Add constraints to the date picker that pin it to the edges of the alert controller's view
+        datePicker.leadingAnchor.constraint(equalTo: alertController.view.leadingAnchor, constant: 32).isActive = true
+        datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
+        datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
+        datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
+        
+        let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
+            self.dismiss(animated: true)
+            self.showDatePicker()
+        }
+
+        alertController.addAction(changeCalendarAction)
+
+        let doneAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
+            self.loadView()
+            self.viewDidLoad()
+        }
+
+        alertController.addAction(doneAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
+    // Function to handle changes to the date picker value
+    @objc func datePickerValueChanged(sender: UIDatePicker) {
+        GlobalStruct.userChosenDate = sender.date
+        GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
     }
     
 

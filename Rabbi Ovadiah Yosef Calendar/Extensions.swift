@@ -481,35 +481,6 @@ public extension ZmanimCalendar {
     }
 }
 
-public extension ComplexZmanimCalendar {
-    
-    func getShaahZmanisMGAZmanis() -> Int64 {
-        return getTemporalHour(startOfDay: getAlos72Zmanis(), endOfDay: getTzais72Zmanis());
-    }
-    
-    func getSofZmanBiurChametzMGA72MinutesZmanis() -> Date? {
-        let jewishCalendar = JewishCalendar(workingDate: workingDate, timezone: geoLocation.timeZone)
-        if (jewishCalendar.getJewishMonth() == JewishCalendar.NISSAN && jewishCalendar.getJewishDayOfMonth() == 14) {
-            return ComplexZmanimCalendar.getTimeOffset(time: getAlos72Zmanis(), offset: getShaahZmanisMGAZmanis() * 5);
-        } else {
-            return nil;
-        }
-    }
-    
-    func getTzaitShabbatAmudeiHoraah() -> Date? {
-        let tzait = getSunsetOffsetByDegrees(offsetZenith: ComplexZmanimCalendar.GEOMETRIC_ZENITH + 7.14);
-        if tzait != nil && getElevationAdjustedSunset() != nil {
-            if getTzaisAteretTorah(minutes: 20)!.timeIntervalSince1970 > tzait!.timeIntervalSince1970 { // if shabbat ends before 20 minutes after sunset, use 20 minutes
-                return getTzaisAteretTorah(minutes: 20);
-            }
-            if (getSolarMidnight()!.timeIntervalSince1970 < tzait!.timeIntervalSince1970) { // if chatzot is before when shabbat ends, just use chatzot
-                return getSolarMidnight();
-            }
-        }
-        return tzait;
-    }
-}
-
 public extension String {
     func localized() -> String {
         return NSLocalizedString(self, comment: self)

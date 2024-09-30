@@ -14,7 +14,7 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet weak var state: UITextField!
     @IBOutlet weak var metroArea: UITextField!
     @IBOutlet weak var locationName: UILabel!
-    @IBOutlet weak var downloadButton: UIButton!
+    @IBOutlet weak var downloadButton: GradientButton!
     
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
@@ -26,7 +26,9 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
         if chaitables.selectedCountry == "" || chaitables.selectedMetropolitanArea == "" {
             self.downloadButton.setTitle("Error, did you choose the right location?".localized(), for: .normal)
             self.downloadButton.setTitleColor(.white, for: .normal)
-            self.downloadButton.tintColor = .red
+            self.downloadButton.endColor = .red
+            self.downloadButton.middleColor = .red
+            self.downloadButton.startColor = .red
             return
         }
         
@@ -57,7 +59,9 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
             if scraper.errored {
                 self.downloadButton.setTitle("Error, did you choose the right location?".localized(), for: .normal)
                 self.downloadButton.setTitleColor(.white, for: .normal)
-                self.downloadButton.tintColor = .red
+                self.downloadButton.endColor = .red
+                self.downloadButton.middleColor = .red
+                self.downloadButton.startColor = .red
             } else {
                 scraper.jewishYear = scraper.jewishYear + 1
                 scraper.link = linkYr2
@@ -83,6 +87,7 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
         if #available(iOS 15.0, *) {
             downloadButton.setTitleColor(.black, for: .normal)
         }
+        downloadButton.titleLabel?.adjustsFontSizeToFitWidth = true
                 
         locationName.text = GlobalStruct.geoLocation.locationName
         
@@ -145,8 +150,10 @@ class SimpleSetupViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         downloadButton.setTitle("Download".localized(), for: .normal)
-        downloadButton.tintColor = .init(named: "Gold")
         downloadButton.setTitleColor(.black, for: .normal)
+        downloadButton.startColor = .init(named: "Gold") ?? .clear
+        downloadButton.middleColor = .init(named: "GoldStart") ?? .clear
+        downloadButton.endColor = .init(named: "Gold") ?? .clear
         switch pickerView.tag {
         case 1:
             if countries.isEmpty {

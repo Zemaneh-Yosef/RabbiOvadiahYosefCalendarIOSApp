@@ -19,7 +19,7 @@ struct ZmanimAlertInfoHolder {
         if title == zmanimNames.getAlotString() {
             return "Dawn - Alot Hashachar - עלות השחר"
         }
-        if title == zmanimNames.getTalitTefilinString() {
+        if title.contains(zmanimNames.getTalitTefilinString()) {
             return "Earliest Talit/Tefilin - טלית ותפילין"
         }
         if title.contains(zmanimNames.getHaNetzString()) {
@@ -49,10 +49,10 @@ struct ZmanimAlertInfoHolder {
         if title == zmanimNames.getMinchaKetanaString() {
             return "Mincha Ketana - מנחה קטנה"
         }
-        if title == zmanimNames.getPlagHaminchaString() {
+        if title.contains(zmanimNames.getPlagHaminchaString()) {
             return "Plag HaMincha - פלג המנחה"
         }
-        if title == zmanimNames.getCandleLightingString() {
+        if title.contains(zmanimNames.getCandleLightingString()) {
             return "Candle Lighting - הדלקת נרות"
         }
         if title == zmanimNames.getSunsetString() {
@@ -61,8 +61,11 @@ struct ZmanimAlertInfoHolder {
         if title == zmanimNames.getTzaitHacochavimString() {
             return "Nightfall - Tzait Hacochavim - צאת הכוכבים"
         }
+        if title == zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString() {
+            return "Nightfall (Stringent) - Tzait Hacochavim L'Chumra - צאת הכוכבים לחומרא"
+        }
         if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString() {
-            return "Fast Ends (Stringent) - Tzeit Taanit L'Chumra - צאת תענית לחומרה"
+            return "Fast Ends (Stringent) - Tzeit Taanit L'Chumra - צאת תענית לחומרא"
         }
         if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() {
             return "Fast Ends - Tzeit Taanit - צאת תענית"
@@ -253,7 +256,7 @@ struct ZmanimAlertInfoHolder {
                 "divides it into 12 equal parts. Then we divide one of those 12 parts into 60 to get a zmaniyot/seasonal minute."
             }
         }
-        if title == zmanimNames.getPlagHaminchaString() {
+        if title.contains(zmanimNames.getPlagHaminchaString()) {
             if Locale.isHebrewLocale() {
                 return "פלג המנחה, משמעותה \"חצי מנחה\", היא נקודת האמצע בין מנחה קטנה לשקיעה. מאחר ומנחה קטנה היא שני שעות וחצי לפני השקיעה, פלג המנחה הוא החצי שבה, כלומר שעה ורבע לפני השקיעה.  לפי ההלכה, ניתן להתחיל לאמר את תפילת ערבית לפי דברי רבי יהודה במשמעו בפלג המנחה על פי (ברכות כ\'ו ע\'א).  אדם לא יכול לקבל שבת לפני פלג המנחה.  ההלכה ברורה אומרת לחשב את הזמן הזה על ידי חיסור שעה ו-15 דקות זמניות משקיעה, אך הילקוט יוסף אומר לחשב את זמן פלג המנחה כשעה ו-15 דקות זמניות לפני צאת הכוכבים (13.5 דקות זמניות).  במצב \"לוח עמודי הוראה\", מוצגות שני הדרכים לחישוב זמן פלג המנחה. ההבדל היחיד הוא שזמן צאת הכוכבים של לוח עמודי הוראה בשימוש במקום זמן ה-13.5 דקות זמניות הרגיל. הגר\"א מחלק זמן עונתי כך: הוא לוקח את הזמן בין הזריחה והשקיעה (עם גובה בחשבונות) ומחלק אותו ל-12 חלקים שווים. לאחר מכן, הוא מחלק אחד מתוך ה-12 ל-60 לקבלת דקה זמניות."
             } else {
@@ -269,7 +272,7 @@ struct ZmanimAlertInfoHolder {
                 "divides it into 12 equal parts. Then we divide one of those 12 parts into 60 to get a zmaniyot/seasonal minute."
             }
         }
-        if title == zmanimNames.getCandleLightingString() {
+        if title.contains(zmanimNames.getCandleLightingString()) {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן האידיאלי להדלקת הנרות לפני שבת או חג מתחילים.  כאשר יש הדלקת נרות ביום שהוא יום טוב/שבת קודם ליום אחר שהוא יום טוב, הנרות מדליקים לאחר צאת הכוכבים. אך אם היום הבא הוא שבת, הנרות מדליקים בזמן הרגיל.  הזמן הזה מחושב כ-%c דקות רגילות לפני השקיעה (עם גובה בחשבונות).  לוח אור החיים תמיד מציג את זמן ההדלקה כ-20 דקות לפני השקיעה ו-40 דקות לפני השקיעה."
             } else {

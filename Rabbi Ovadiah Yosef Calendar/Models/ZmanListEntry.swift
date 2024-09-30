@@ -9,6 +9,7 @@ import Foundation
 
 struct ZmanListEntry {
     var title: String // Name of zman or information of the day
+    var src: String = "" // if this object is being used for limudim
     var zman: Date? = nil // Date time of zman
     var isZman: Bool = false // Whether or not this object is a zman or just some text
     var isNoteworthyZman: Bool = false // For weekly view

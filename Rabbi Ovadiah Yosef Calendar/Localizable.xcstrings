@@ -120,6 +120,17 @@
         }
       }
     },
+    "(Monthly)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(חודשי)"
+          }
+        }
+      }
+    },
     "(Ohr HaChaim) " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -127,6 +138,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "(אור החיים) "
+          }
+        }
+      }
+    },
+    "(Weekly)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(שבועי)"
           }
         }
       }
@@ -691,6 +713,17 @@
         }
       }
     },
+    "Daily Chafetz Chaim: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "חפץ חיים יומי: "
+          }
+        }
+      }
+    },
     "Daily Siddur" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -698,6 +731,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סידור יומי"
+          }
+        }
+      }
+    },
+    "Daily Tehilim " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תהילים יומי "
           }
         }
       }
@@ -999,6 +1043,17 @@
         }
       }
     },
+    "Hillulot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הילולות"
+          }
+        }
+      }
+    },
     "Holy of Holies" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1175,6 +1230,17 @@
         }
       }
     },
+    "Limudim" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לימודים"
+          }
+        }
+      }
+    },
     "Loading..." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1307,6 +1373,17 @@
         }
       }
     },
+    "Mishna Yomi: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "משנה יומי: "
+          }
+        }
+      }
+    },
     "MODE          " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1325,6 +1402,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "חישוב המולד"
+          }
+        }
+      }
+    },
+    "Moonrise: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "עליית הירח: "
+          }
+        }
+      }
+    },
+    "Moonset: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שקיעת הירח: "
           }
         }
       }
@@ -1533,6 +1632,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "בסדר"
+          }
+        }
+      }
+    },
+    "Open Sefaria Link for: " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "פתח קישור לספריה עבור: "
           }
         }
       }
@@ -2531,6 +2641,17 @@
         }
       }
     },
+    "The moon is up all night" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הירח זורח כל הלילה"
+          }
+        }
+      }
+    },
     "The settings below only apply if you do not use the Luach Amudei Horaah setting above" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2538,6 +2659,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הגדרות אלו חלות רק אם אינך משתמש בהגדרה \"לוח עמודי הוראה\"."
+          }
+        }
+      }
+    },
+    "There is no moon tonight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אין ירח הלילה"
           }
         }
       }
@@ -2558,6 +2690,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "זוהי יחידת גרסה שתציג זמנים רלוונטיים."
+          }
+        }
+      }
+    },
+    "This will open the Sefaria website or app in a new window with the page." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זה יפתח את האתר או האפליקציה של ספריא בחלון חדש עם העמוד המבוקש."
           }
         }
       }
