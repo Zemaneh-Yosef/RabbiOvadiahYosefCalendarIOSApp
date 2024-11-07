@@ -29,7 +29,6 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
                           "Tzeit Hacochavim",
                           "Tzeit Hacochavim (Stringent)",
                           "Fast Ends",
-                          "Fast Ends (Stringent)",
                           "Shabbat Ends",
                           "Rabbeinu Tam",
                           "Chatzot Layla"]
@@ -60,7 +59,6 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
             }
         } else {
             editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends")!)
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends (Stringent)")!)
         }
     }
 

@@ -559,6 +559,17 @@
         }
       }
     },
+    "Choose whether or not to display if shabbat mevarchim happens tomorrow on Friday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בחר אם להציג האם השבת היא שבת מברכים (ביום שישי)"
+          }
+        }
+      }
+    },
     "Choose whether or not to display sea level sunrise if visible sunrise is setup as well" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -988,6 +999,17 @@
         }
       }
     },
+    "Fifth year of Shmita" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה ה׳ של שמיטה"
+          }
+        }
+      }
+    },
     "Find all the Zmanim on Zmanei Yosef" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -995,6 +1017,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מצא את כל הזמנים בזמני יוסף"
+          }
+        }
+      }
+    },
+    "First year of Shmita" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה א׳ של שמיטה"
+          }
+        }
+      }
+    },
+    "Fourth year of Shmita" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה ד׳ של שמיטה"
           }
         }
       }
@@ -1237,6 +1281,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "לימודים"
+          }
+        }
+      }
+    },
+    "Limudim/Hillulot" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לימודים/הילולות"
           }
         }
       }
@@ -1866,6 +1920,16 @@
         }
       }
     },
+    "Rabbi Ovadiah Yosef Calendar" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זמני יוסף"
+          }
+        }
+      }
+    },
     "Rabbi Ovadiah Yosef Calendar Widget" : {
       "localizations" : {
         "he" : {
@@ -1971,6 +2035,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שינוי מקום"
+          }
+        }
+      }
+    },
+    "Second year of Shmita" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה ב׳ של שמיטה"
           }
         }
       }
@@ -2377,6 +2452,17 @@
         }
       }
     },
+    "Show Shabbat Mevarchim?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצגת שבת מברכים"
+          }
+        }
+      }
+    },
     "Show the ideal zman for Talit Tefilin (60 seasonal minutes before sunrise)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2384,6 +2470,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג את הזמן העדיף לטלית ותפילין (60 דקות זמניות לפני הזריחה)"
+          }
+        }
+      }
+    },
+    "Show the year of the shmita cycle or if the current year is a shmita year" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "להציג את השנה במחזור השמיטה או אם השנה הנוכחית היא שנת שמיטה"
           }
         }
       }
@@ -2399,6 +2496,17 @@
         }
       }
     },
+    "Show year of Shmita cycle?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "להציג את השנה במחזור השמיטה"
+          }
+        }
+      }
+    },
     "Show zman dialogs?" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2410,6 +2518,16 @@
         }
       }
     },
+    "Siddur" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "סדור"
+          }
+        }
+      }
+    },
     "SIMCHAT TORAH" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2417,6 +2535,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שמחת תורה"
+          }
+        }
+      }
+    },
+    "Sixth year of Shmita" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה ו׳ של שמיטה"
           }
         }
       }
@@ -2670,6 +2799,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אין ירח הלילה"
+          }
+        }
+      }
+    },
+    "Third year of Shmita" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה ג׳ של שמיטה"
           }
         }
       }
@@ -2976,6 +3116,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "זמני יוסף (IOS)"
+          }
+        }
+      }
+    },
+    "Zmanim" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זמנים"
           }
         }
       }

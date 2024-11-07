@@ -11,7 +11,7 @@ import MessageUI
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-    let length = 16 //increment this every time you want to add...
+    let length = 18 //increment this every time you want to add...
 
     @IBAction func backButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
@@ -146,6 +146,22 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
         case 12:
+            content.text = "Show year of Shmita cycle?".localized()
+            content.secondaryText = "Show the year of the shmita cycle or if the current year is a shmita year".localized()
+            let switchView = SwitchWithParam(frame: .zero)
+            switchView.isOn = defaults.bool(forKey: "showShmita")
+            switchView.param = "showShmita"
+            switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
+            cell.accessoryView = switchView
+        case 13:
+            content.text = "Show Shabbat Mevarchim?".localized()
+            content.secondaryText = "Choose whether or not to display if shabbat mevarchim happens tomorrow on Friday".localized()
+            let switchView = SwitchWithParam(frame: .zero)
+            switchView.isOn = defaults.bool(forKey: "showShabbatMevarchim")
+            switchView.param = "showShabbatMevarchim"
+            switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
+            cell.accessoryView = switchView
+        case 14:
             content.text = "Set elevation to last known location?".localized()
             content.secondaryText = "Choose whether or not to set the elevation to the last known location when the app is opened offline".localized()
             let switchView = SwitchWithParam(frame: .zero)
@@ -153,13 +169,13 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             switchView.param = "setElevationToLastKnownLocation"
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
-        case 13:
+        case 15:
             content.text = "Have questions or feature requests?".localized()
             content.secondaryText = "Contact the developer".localized()
-        case 14:
+        case 16:
             content.text = "Haskamot".localized()
             content.secondaryText = "See haskamot rabbanim have given for this app!".localized()
-        case 15:
+        case 17:
             content.text = "Need help?".localized()
             content.secondaryText = "Watch a video guide".localized()
         default:

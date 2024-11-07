@@ -453,6 +453,17 @@ public extension JewishCalendar {
         }
         return false;
     }
+    
+    /**
+     * This method returns which year of the shmita cycle is the current hebrew year in.
+     * 0 = Shmita, 1 = First Year, 2 = Second Year, 3 = Third Year, 4 = Fourth Year, 5 = Fifth Year, 6 = Sixth Year.
+     *
+     * @return an int indicating what year of the shmita cycle the current hebrew year is in.
+     * NOTE: Some Rishonim hold that the year of shmita is a year off.
+     */
+    func getYearOfShmitaCycle() -> Int {
+        return getJewishYear() % 7
+    }
 }
 
 public extension AstronomicalCalendar {

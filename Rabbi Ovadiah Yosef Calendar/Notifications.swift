@@ -465,9 +465,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             if defaults.bool(forKey: "NotifyFast Ends") {
                 temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true, isNoteworthyZman: true))
             }
-            if defaults.bool(forKey: "NotifyFast Ends (Stringent)") {
-                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.getTzaisAteretTorah(minutes: 30), isZman: true, isNoteworthyZman: true))
-            }
         }
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
             if defaults.bool(forKey: "NotifyShabbat Ends") {

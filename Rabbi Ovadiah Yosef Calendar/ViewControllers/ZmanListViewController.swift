@@ -11,6 +11,7 @@ import CoreLocation
 import ActivityKit
 import WatchConnectivity
 import SunCalc
+import SwiftUI
 
 class ZmanListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, WCSessionDelegate {
     
@@ -721,6 +722,12 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if WCSession.isSupported() && !(wcSession.activationState == .activated) {
             wcSession.activate()
         }
+//        if #available(iOS 16.0, *) {
+//            var rootViewController = UIHostingController(rootView: ContentView())
+//            rootViewController.modalPresentationStyle = .fullScreen
+//            present(rootViewController, animated: false)
+//        }
+        //TODO
     }
     
     func showLocationServicesDisabledAlert() {
@@ -820,7 +827,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         defaults.set(true, forKey: "NotifyTzeit Hacochavim")
         defaults.set(true, forKey: "NotifyTzeit Hacochavim (Stringent)")
         defaults.set(true, forKey: "NotifyFast Ends")
-        defaults.set(true, forKey: "NotifyFast Ends (Stringent)")
         defaults.set(false, forKey: "NotifyShabbat Ends")
         defaults.set(false, forKey: "NotifyRabbeinu Tam")
         defaults.set(false, forKey: "NotifyChatzot Layla")
@@ -843,7 +849,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         defaults.set(15, forKey: "Tzeit Hacochavim")
         defaults.set(15, forKey: "Tzeit Hacochavim (Stringent)")
         defaults.set(15, forKey: "Fast Ends")
-        defaults.set(15, forKey: "Fast Ends (Stringent)")
         defaults.set(-1, forKey: "Shabbat Ends")
         defaults.set(0, forKey: "Rabbeinu Tam")
         defaults.set(-1, forKey: "Chatzot Layla")
@@ -1350,7 +1355,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         if jewishCalendar.isTaanis() && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true, isNoteworthyZman: true))
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString(), zman:zmanimCalendar.getTzaisAteretTorah(minutes: 30), isZman: true, isNoteworthyZman: true))
         } else if defaults.bool(forKey: "showTzeitLChumra") {
             temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman: zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true))
         }
@@ -1624,6 +1628,13 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             zmanimList.append(ZmanListEntry(title: haftorah))
         }
         syncCalendarDates()//reset
+        if defaults.bool(forKey: "showShabbatMevarchim") {
+            jewishCalendar.forward()
+            if (jewishCalendar.isShabbosMevorchim()) {
+                zmanimList.append(ZmanListEntry(title: "שבת מברכים"))
+            }
+            jewishCalendar.back()
+        }
         dateFormatter.dateFormat = "EEEE"
         hebrewDateFormatter.setLongWeekFormat(longWeekFormat: true)
         if Locale.isHebrewLocale() {
@@ -1821,6 +1832,33 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
             zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Ohr HaChaim) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
         }
+        
+        if defaults.bool(forKey: "showShmita") {
+            switch (jewishCalendar.getYearOfShmitaCycle()) {
+                case 1:
+                zmanimList.append(ZmanListEntry(title: "First year of Shmita".localized()))
+                    break;
+                case 2:
+                zmanimList.append(ZmanListEntry(title: "Second year of Shmita".localized()))
+                    break;
+                case 3:
+                zmanimList.append(ZmanListEntry(title: "Third year of Shmita".localized()))
+                    break;
+                case 4:
+                zmanimList.append(ZmanListEntry(title: "Fourth year of Shmita".localized()))
+                    break;
+                case 5:
+                zmanimList.append(ZmanListEntry(title: "Fifth year of Shmita".localized()))
+                    break;
+                case 6:
+                zmanimList.append(ZmanListEntry(title: "Sixth year of Shmita".localized()))
+                    break;
+                default:
+                zmanimList.append(ZmanListEntry(title: "This year is a Shmita Year".localized()))
+                    break;
+            }
+        }
+        
         zmanimTableView.reloadData()
     }
     

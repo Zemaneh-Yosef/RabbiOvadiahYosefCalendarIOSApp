@@ -94,6 +94,9 @@ struct ZmanimAlertInfoHolder {
         if title.contains("ברכת הלבנה") || title.contains("Birchat HaLevana") {
             return "ברכת הלבנה - Birchat Halevana"
         }
+        if title.contains("שמיטה") || title.contains("Shmita") {
+            return "Shmita - שמיטה"
+        }
         
         return ""
     }
@@ -326,15 +329,6 @@ struct ZmanimAlertInfoHolder {
                 "Tzeit/Nightfall. We use 3.75 degrees below the horizon because that is the time when it is 13.5 minutes after sunset in Israel."
             }
         }
-        if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString() {
-            if Locale.isHebrewLocale() {
-                return "זמן זה הוא זמן יותר מחמיר שבו מסתיימת התענית. זמן זה על פי דעת חכם בן ציון אבא שאול זצ\"ל.  זמן זה מחושב כ-30 דקות רגילות לאחר השקיעה (עם גובה בחשבונות)."
-            } else {
-                return "This is a more stringent time that the fast/taanit ends. This time is according to the opinion of Chacham Ben Zion Abba" +
-                " Shaul.\n\n" +
-                "This time is calculated as 30 regular minutes after sunset (elevation included)."
-            }
-        }
         if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() {
             if Locale.isHebrewLocale() {
                 return "זהו הזמן בו מסתיימת התענית.  זמן זה מחושב כ-20 דקות רגילות לאחר השקיעה (עם גובה בחשבונות).  נכתב בהלכה ברורה שבאחת מהפעמים, הרב עובדיה יוסף זצ\"ל נסע לניו יורק ואמר לבנו, הרב דוד יוסף שליט\"א, שהתענית מסתיים 13.5 דקות זמניות לאחר השקיעה. אך בספרו \"חזון עובדיה\" כתב שהתענית מסתיים כ-20 דקות לאחר השקיעה.  בלוח אור החיים כתוב שהתענית מסתיים בצאת הכוכבים. שאלתי את הרב בניזרי אם זה אומר שהתענית מסתיים 13.5 דקות זמניות לאחר השקיעה והוא אמר, \"לא בהכרח, הלוח פשוט אומר שהתענית מסתיים בצאת הכוכבים, אדם יכול לסיים את התענית 20 דקות לאחר השקיעה אם הוא רוצה להחמיר.\" אני שאלתי אותו האם ה-20 דקות הם דקות זמניות או רגילות והוא אמר, \"דקות רגילות.\"  בסיכום: אם אדם רוצה לסיים את התענית 13.5 דקות זמניות לאחר השקיעה, יש לו את הזכות לעשות זאת. אך אם אדם רוצה להחמיר, הוא יכול לסיים את התענית 20 דקות לאחר השקיעה."
@@ -468,6 +462,13 @@ A further Makhloket is whether the first Tekufah used a fixed clock time of 12:0
                 return "Birchat Halevana, also known as Kiddush Levana and \"The blessing for the new moon\", is a beracha we say once a month on the moon a few days after it reaches it\'s new waning phase. (שולחן ערוך אורח חיים סימן תכו)\n\nIt is ideal to say this blessing with a minyan on Saturday night with a nice suit on. (מעם לועז בראשית א:יד)\n\nThe time period for this blessing starts from 3 days after the Molad (new moon), however, Rabbi Ovadiah Yosef ZT\"L (and sephardim in general) recommend to wait until 7 days after the molad to make the beracha. This time period ends on the 15th of every hebrew month according to Rabbi Ovadiah Yosef. (הליכות עולם חלק ה אות ט\"ז)"
             }
         }
+        if title.contains("שמיטה") || title.contains("Shmita") {
+            if Locale.isHebrewLocale() {
+                return "במהלך מחזור שש השנים שלפני השמיטה, יש חובה להפריש ולתת חלקים מגידולי השדה שלכם - תבואה, פירות וירקות שגודלו בארץ ישראל - למטרות שונות (במדבר י\"ח). מפרישים תרומה גדולה, מעשר ראשון ותרומת מעשר בכל שנה, אך מעשר שני מוחלף במעשר עני בשנה השלישית והשישית (דברים י\"ד:כ\"ח)."
+            }
+            return "During the six-year cycle prior to shmita, there is an obligation to separate and gift portions of your field's grains, fruits, and vegetables grown in Israel to various causes (Bamidbar 18). We separate Terumah Gedolah, Maaser Rishon, and Terumat Maaser every year, however, Maaser Sheni is replaced with Maaser Ani on the 3rd and 6th years (Devarim 14:28)."
+        }
+
         
         return ""
     }

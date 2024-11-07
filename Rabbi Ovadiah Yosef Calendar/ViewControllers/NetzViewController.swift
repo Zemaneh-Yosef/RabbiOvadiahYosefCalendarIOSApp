@@ -11,6 +11,7 @@ import KosherSwift
 class NetzViewController: UIViewController {
     
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    var countdownTimer: DispatchSourceTimer?
 
     @IBAction func quit(_ sender: UIButton) {
         super.dismiss(animated: true)
@@ -60,25 +61,43 @@ class NetzViewController: UIViewController {
         startCountdown(netz: netz ?? Date())
     }
     
-    func startCountdown(netz:Date) {
-        var secondsRemaining = netz.timeIntervalSinceNow
+    func startCountdown(netz: Date) {
+        // Cancel any existing timer
+        countdownTimer?.cancel()
+
         let netzNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.zeroFormattingBehavior = .dropLeading
         formatter.unitsStyle = .short
-                                        
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
-            if secondsRemaining > 0 {
-                let s = netzNames.getHaNetzString().appending(netzNames.getIsInString()).appending("\n\n").appending(formatter.string(from: secondsRemaining)!)
-                self.content.text = s
-                secondsRemaining -= 1
-            } else {
-                Timer.invalidate()
-                self.content.text = "Netz/Sunrise has passed. Count will automatically restart at sunset. Swipe down to countdown again.".localized()
-                self.setTimerForSunset()
+        
+        let targetTime = netz.timeIntervalSinceReferenceDate
+        let queue = DispatchQueue.global(qos: .background)
+
+        countdownTimer = DispatchSource.makeTimerSource(queue: queue)
+        countdownTimer?.schedule(deadline: .now(), repeating: 1.0)
+
+        countdownTimer?.setEventHandler { [weak self] in
+            let now = Date().timeIntervalSinceReferenceDate
+            let secondsRemaining = max(0, targetTime - now)
+
+            DispatchQueue.main.async {
+                if secondsRemaining > 0 {
+                    let countdownText = netzNames.getHaNetzString()
+                        .appending(netzNames.getIsInString())
+                        .appending("\n\n")
+                        .appending(formatter.string(from: secondsRemaining) ?? "")
+                    self?.content.text = countdownText
+                } else {
+                    self?.countdownTimer?.cancel()
+                    self?.countdownTimer = nil
+                    self?.content.text = "Netz/Sunrise has passed. Count will automatically restart at sunset. Swipe down to countdown again.".localized()
+                    self?.setTimerForSunset()
+                }
             }
         }
+
+        countdownTimer?.resume()
     }
     
     func setTimerForSunset() {
@@ -93,16 +112,4 @@ class NetzViewController: UIViewController {
             }
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
