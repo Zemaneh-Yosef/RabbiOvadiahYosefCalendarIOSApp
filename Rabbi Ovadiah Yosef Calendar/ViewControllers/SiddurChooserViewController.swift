@@ -442,11 +442,9 @@ class SiddurChooserViewController: UIViewController {
             }))
             present(alert, animated: true)
         } else {
-            view.addSubview(progressHUD)
-            progressHUD.show()
-            self.present(newViewController, animated: false, completion: {
-                self.progressHUD.hide()
-            })
+            //view.addSubview(progressHUD)
+            //progressHUD.show()
+            self.present(newViewController, animated: false, completion: nil)
         }
     }
     

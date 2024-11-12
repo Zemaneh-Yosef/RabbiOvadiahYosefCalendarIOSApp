@@ -9,9 +9,10 @@ import UIKit
 import CoreLocation
 import KosherSwift
 import SnackBar
+import WebKit
 
 class SiddurViewController: UIViewController, CLLocationManagerDelegate {
-    
+
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var locationManager = CLLocationManager()
     var views: Array<UILabel> = []
@@ -60,18 +61,14 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         super.dismiss(animated: true)
     }
     @IBOutlet weak var stackviewContainer: UIStackView!
-    //    @IBOutlet weak var slider: UISlider!
-//    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
-//        sender.isEnabled = false
-//        let newSize = sender.value
-//        print(newSize)
-//        defaults.set(newSize, forKey: "textSize")
-//        for l in views {
-//            l.font = .boldSystemFont(ofSize: CGFloat(newSize) + 16)
-//        }
-//        sender.isEnabled = true
-//    }
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var slider: UISlider!
+    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
+        let newSize = (sender.value / 16) * 100
+        print(newSize)
+        defaults.set(newSize, forKey: "textSize")
+        webView.evaluateJavaScript("document.documentElement.style.setProperty('-webkit-text-size-adjust', '\(newSize)%');")
+    }
+    @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var categories: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,60 +76,59 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
 
-        if GlobalStruct.chosenPrayer == "Selichot" {
+        switch GlobalStruct.chosenPrayer {
+        case "Selichot":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0
             && Date().timeIntervalSince1970 < (zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0) + 7200)
-        }
-        if GlobalStruct.chosenPrayer == "Shacharit" {
+        case "Shacharit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getShacharitPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Mussaf" {
+        case "Mussaf":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMusafPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Mincha" {
+        case "Mincha":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMinchaPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Neilah" {//will never show, but future proof it
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMusafPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Arvit" {
+        case "Arvit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getArvitPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat Hamazon" {
+        case "Birchat Hamazon":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat Hamazon+1" {
+        case "Birchat Hamazon+1":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
             GlobalStruct.jewishCalendar.back()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat Halevana" {
+        case "Birchat Halevana":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Tikkun Chatzot (Day)" {
+        case "Tikkun Chatzot (Day)":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
-        }
-        if GlobalStruct.chosenPrayer == "Tikkun Chatzot" {
+        case "Tikkun Chatzot":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
             GlobalStruct.jewishCalendar.back()
-        }
-        if GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita" {
+        case "Kriat Shema SheAl Hamita":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             GlobalStruct.jewishCalendar.back()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat MeEyin Shalosh" {
+        case "Birchat MeEyin Shalosh":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat MeEyin Shalosh+1" {
+        case "Birchat MeEyin Shalosh+1":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
             GlobalStruct.jewishCalendar.back()
+        default:
+            listOfTexts = [];
         }
         listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
-        
-        let stackviewH = UIStackView()
+
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><style>:root{color-scheme: light dark;}</style>"
+        for text in listOfTexts {
+            let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>")
+            if text.shouldBeHighlighted {
+                webstring += "<p style='color: black; background: yellow;'>" + formattedString + "</p>"
+            } else {
+                webstring += "<p>" + formattedString + "</p>"
+            }
+        }
+        webView.loadHTMLString(webstring, baseURL: nil);
+
+        /* let stackviewH = UIStackView()
         stackviewH.axis = .horizontal
         stackviewH.spacing = 2
         stackviewH.translatesAutoresizingMaskIntoConstraints = false
@@ -164,7 +160,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             
             stackviewH.trailingAnchor.constraint(greaterThanOrEqualTo: categories.frameLayoutGuide.trailingAnchor)
         ])
-        
+
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.spacing = 0
@@ -255,14 +251,14 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         if stackviewH.arrangedSubviews.isEmpty {
             categories.isHidden = true
             NSLayoutConstraint.activate([scrollView.topAnchor.constraint(equalTo: stackviewContainer.topAnchor)])
-        }
+        } */
     }
     
     @objc func tapFunctionCategory(_ sender: UITapGestureRecognizerWithParam) {
         for view in views {
             if view.text?.replacingOccurrences(of: "\n", with: "") == sender.parameter.text {
-                let labelFrameInScrollView = view.convert(view.bounds, to: scrollView)
-                scrollView.scrollRectToVisible(labelFrameInScrollView, animated: false)
+                //let labelFrameInScrollView = view.convert(view.bounds, to: scrollView)
+                //scrollView.scrollRectToVisible(labelFrameInScrollView, animated: false)
                 break
             }
         }

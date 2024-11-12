@@ -26,103 +26,105 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     @IBOutlet weak var limudTableView: UITableView!
     var limudim = Array<ZmanListEntry>()
-    
+    var hiloulot = Array<ZmanListEntry>()
+    var headDate = "";
+
+    func numberOfSections(in tableView: UITableView) -> Int {3}
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        limudim.count
+        if section == 0 {
+            return 1
+        } else if section == 1 {
+            return limudim.count
+        } else {
+            return hiloulot.count
+        }
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            let hiddenHeadCell = UIView()
+            hiddenHeadCell.isHidden = true
+            return hiddenHeadCell
+        }
+
+        let headerCell = UITableViewCell()
+        var content = headerCell.defaultContentConfiguration()
+        content.textProperties.adjustsFontSizeToFitWidth = true
+        content.textProperties.numberOfLines = 1
+        headerCell.backgroundColor = .secondarySystemBackground
+
+        content.textProperties.alignment = .center
+
+        if section == 1 {
+            content.text = "Limudim".localized()
+            headerCell.accessoryView = UIImageView(image: UIImage(systemName: "book"))
+        } else {
+            content.text = "Hillulot".localized()
+            headerCell.accessoryView = UIImageView(image: UIImage(systemName: "flame"))
+        }
+
+        headerCell.contentConfiguration = content
+        return headerCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 0) {
+            return 0
+        }
+
+        return tableView.sectionHeaderHeight
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LimudEntry", for: indexPath)
-        let limud = limudim[indexPath.row]
-        
+
         var content = cell.defaultContentConfiguration()
         content.textProperties.adjustsFontSizeToFitWidth = true
         content.textProperties.numberOfLines = 1
-        
+
         content.textProperties.alignment = .center
-        
-        if limud.title == "Limudim".localized() {
-            cell.accessoryView = UIImageView(image: UIImage(systemName: "book"))
-            cell.backgroundColor = .clear
-        } else if limud.title == "Hillulot".localized() {
-            cell.accessoryView = UIImageView(image: UIImage(systemName: "flame"))
-            cell.backgroundColor = .clear
-        } else if indexPath.row != 0 {
+
+        if indexPath.section != 0 {
             cell.accessoryView = .none
-            cell.backgroundColor = .systemGray5
+            cell.backgroundColor = .tertiarySystemGroupedBackground
+
+            let limud = if indexPath.section == 1 { limudim[indexPath.row] } else { hiloulot[indexPath.row] }
+            content.text = limud.title
+            if !limud.src.isEmpty {
+                content.textProperties.font = .systemFont(ofSize: 20, weight: .bold)
+            }
+        } else {
+            content.text = headDate
         }
-        
-        content.text = limud.title
-        if !limud.src.isEmpty {
-            content.textProperties.font = .systemFont(ofSize: 20, weight: .bold)
-        }
-                
+
         cell.contentConfiguration = content
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         var alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         }
-        if limudim[indexPath.row].title.contains("Daf Yomi: ".localized()) {
-            let masechta = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar)!.getMasechtaTransliterated()
-            let daf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar)!.getDaf()
-            let dafYomiLink = "https://www.sefaria.org/"
-                .appending(masechta)
-                .appending(".")
-                .appending(String(daf))
-                .appending("a")
-            alertController.title = "Open Sefaria Link for: ".localized()
-                .appending(limudim[indexPath.row].title
-                .replacingOccurrences(of: "Daf Yomi: ".localized(), with: "")
-                .appending("?"))
-            alertController.message = "This will open the Sefaria website or app in a new window with the page.".localized()
-            let okayAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
-                if let url = URL(string: dafYomiLink) {
-                        UIApplication.shared.open(url)
-                }
-            }
-            let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
-            alertController.addAction(okayAction)
-            alertController.addAction(dismissAction)
-            present(alertController, animated: true)
-        } else if limudim[indexPath.row].title.contains("Yerushalmi Vilna Yomi: ".localized()) {
-            let dafYomiYerushalmi = YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar: GlobalStruct.jewishCalendar)
-            let masechtotYerushalmiTransliterated = ["Berakhot", "Peah", "Demai", "Kilayim", "Sheviit",
-                                                     "Terumot", "Maasrot", "Maaser Sheni", "Challah", "Orlah", "Bikkurim", "Shabbat", "Eruvin", "Pesachim",
-                                                     "Beitzah", "Rosh Hashanah", "Yoma", "Sukkah", "Taanit", "Shekalim", "Megillah", "Chagigah", "Moed Katan",
-                                                     "Yevamot", "Ketubot", "Sotah", "Nedarim", "Nazir", "Gittin", "Kiddushin", "Bava Kamma", "Bava Metzia",
-                                                     "Bava Batra", "Shevuot", "Makkot", "Sanhedrin", "Avodah Zarah", "Horayot", "Niddah", "No Daf Today"]
-            dafYomiYerushalmi?.setYerushalmiMasechtaTransliterated(masechtosYerushalmiTransliterated: masechtotYerushalmiTransliterated)
-            let yerushalmiYomiLink = "https://www.sefaria.org/" + "Jerusalem_Talmud_" + (dafYomiYerushalmi?.getYerushalmiMasechtaTransliterated() ?? "")
-            alertController.title = "Open Sefaria Link for: ".localized()
-                .appending(limudim[indexPath.row].title
-                .replacingOccurrences(of: "Yerushalmi Vilna Yomi: ".localized(), with: "")
-                .appending("?"))
-            alertController.message = "This will open the Sefaria website or app in a new window with the page.".localized()
-            let okayAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
-                if let url = URL(string: yerushalmiYomiLink) {
-                        UIApplication.shared.open(url)
-                }
-            }
-            let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
-            alertController.addAction(okayAction)
-            alertController.addAction(dismissAction)
-            present(alertController, animated: true)
-        } else if limudim[indexPath.row].title.contains("Mishna Yomi: ".localized()) {
-            let mishnaYomi = MishnaYomi.getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false)
-            if mishnaYomi != nil {
-                let mishnaYomiLink = "https://www.sefaria.org/" + "Mishnah_" + mishnaYomi!
+        
+        if indexPath.section == 1 {
+            if limudim[indexPath.row].title.contains("Daf Yomi: ".localized()) {
+                let masechta = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar)!.getMasechtaTransliterated()
+                let daf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar)!.getDaf()
+                let dafYomiLink = "https://www.sefaria.org/"
+                    .appending(masechta)
+                    .appending(".")
+                    .appending(String(daf))
+                    .appending("a")
                 alertController.title = "Open Sefaria Link for: ".localized()
                     .appending(limudim[indexPath.row].title
-                    .replacingOccurrences(of: "Mishna Yomi: ".localized(), with: "")
+                    .replacingOccurrences(of: "Daf Yomi: ".localized(), with: "")
                     .appending("?"))
                 alertController.message = "This will open the Sefaria website or app in a new window with the page.".localized()
                 let okayAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
-                    if let url = URL(string: mishnaYomiLink) {
+                    if let url = URL(string: dafYomiLink) {
                             UIApplication.shared.open(url)
                     }
                 }
@@ -130,16 +132,58 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
                 alertController.addAction(okayAction)
                 alertController.addAction(dismissAction)
                 present(alertController, animated: true)
+            } else if limudim[indexPath.row].title.contains("Yerushalmi Vilna Yomi: ".localized()) {
+                let dafYomiYerushalmi = YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar: GlobalStruct.jewishCalendar)
+                let masechtotYerushalmiTransliterated = ["Berakhot", "Peah", "Demai", "Kilayim", "Sheviit",
+                                                         "Terumot", "Maasrot", "Maaser Sheni", "Challah", "Orlah", "Bikkurim", "Shabbat", "Eruvin", "Pesachim",
+                                                         "Beitzah", "Rosh Hashanah", "Yoma", "Sukkah", "Taanit", "Shekalim", "Megillah", "Chagigah", "Moed Katan",
+                                                         "Yevamot", "Ketubot", "Sotah", "Nedarim", "Nazir", "Gittin", "Kiddushin", "Bava Kamma", "Bava Metzia",
+                                                         "Bava Batra", "Shevuot", "Makkot", "Sanhedrin", "Avodah Zarah", "Horayot", "Niddah", "No Daf Today"]
+                dafYomiYerushalmi?.setYerushalmiMasechtaTransliterated(masechtosYerushalmiTransliterated: masechtotYerushalmiTransliterated)
+                let yerushalmiYomiLink = "https://www.sefaria.org/" + "Jerusalem_Talmud_" + (dafYomiYerushalmi?.getYerushalmiMasechtaTransliterated() ?? "")
+                alertController.title = "Open Sefaria Link for: ".localized()
+                    .appending(limudim[indexPath.row].title
+                    .replacingOccurrences(of: "Yerushalmi Vilna Yomi: ".localized(), with: "")
+                    .appending("?"))
+                alertController.message = "This will open the Sefaria website or app in a new window with the page.".localized()
+                let okayAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
+                    if let url = URL(string: yerushalmiYomiLink) {
+                            UIApplication.shared.open(url)
+                    }
+                }
+                let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
+                alertController.addAction(okayAction)
+                alertController.addAction(dismissAction)
+                present(alertController, animated: true)
+            } else if limudim[indexPath.row].title.contains("Mishna Yomi: ".localized()) {
+                let mishnaYomi = MishnaYomi.getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false)
+                if mishnaYomi != nil {
+                    let mishnaYomiLink = "https://www.sefaria.org/" + "Mishnah_" + mishnaYomi!
+                    alertController.title = "Open Sefaria Link for: ".localized()
+                        .appending(limudim[indexPath.row].title
+                        .replacingOccurrences(of: "Mishna Yomi: ".localized(), with: "")
+                        .appending("?"))
+                    alertController.message = "This will open the Sefaria website or app in a new window with the page.".localized()
+                    let okayAction = UIAlertAction(title: "OK".localized(), style: .default) { (_) in
+                        if let url = URL(string: mishnaYomiLink) {
+                                UIApplication.shared.open(url)
+                        }
+                    }
+                    let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
+                    alertController.addAction(okayAction)
+                    alertController.addAction(dismissAction)
+                    present(alertController, animated: true)
+                }
             }
-        } else if !limudim[indexPath.row].src.isEmpty {
-            alertController.title = limudim[indexPath.row].title
-            alertController.message = limudim[indexPath.row].src
+        } else if indexPath.section == 2 && !hiloulot[indexPath.row].src.isEmpty {
+            alertController.title = hiloulot[indexPath.row].title
+            alertController.message = hiloulot[indexPath.row].src
             let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
             alertController.addAction(dismissAction)
             present(alertController, animated: true)
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         limudTableView.dataSource = self
@@ -149,18 +193,18 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         limudTableView.refreshControl = refreshControl
         refreshTable()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refreshTable()
     }
-    
+
     @objc func refreshTableWithNewDate() {
         GlobalStruct.userChosenDate = Date()
         GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
         refreshTable()
     }
-    
+
     func refreshTable() {
         limudim = []
         let dateFormatter = DateFormatter()
@@ -174,7 +218,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         var hebrewDate = hDateFormatter.string(from: GlobalStruct.jewishCalendar.workingDate)
             .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
-        
+
         if Locale.isHebrewLocale() {
             let hebrewDateFormatter = HebrewDateFormatter()
             hebrewDateFormatter.hebrewFormat = true
@@ -186,8 +230,9 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             date += "       " + hebrewDate
         }
-        limudim.append(ZmanListEntry(title:date))
-        limudim.append(ZmanListEntry(title: "Limudim".localized()))
+        headDate = date
+//        limudim.append(ZmanListEntry(title:date))
+//        limudim.append(ZmanListEntry(title: "Limudim".localized()))
         let hebrewDateFormatter = HebrewDateFormatter()
         hebrewDateFormatter.hebrewFormat = true
         hebrewDateFormatter.useGershGershayim = false
@@ -300,7 +345,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Weekly)".localized() + ": " + dailyWeeklyTehilim[GlobalStruct.jewishCalendar.getDayOfWeek() - 1]))
         
         
-        limudim.append(ZmanListEntry(title: "Hillulot".localized()))
+        //limudim.append(ZmanListEntry(title: "Hillulot".localized()))
         loadJsonFromFile(fileName: Locale.isHebrewLocale() ? "hiloulah_he" : "hiloulah_en")
         limudTableView.reloadData()
         limudTableView.refreshControl?.endRefreshing()
@@ -346,7 +391,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                         hillulot.append(entry)
                     }
-                    limudim.append(contentsOf: hillulot)
+                    hiloulot.append(contentsOf: hillulot)
                 }
             } catch {
                 print("Error reading or parsing the hillulot JSON file: \(error)")
