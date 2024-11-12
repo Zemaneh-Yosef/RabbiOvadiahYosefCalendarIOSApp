@@ -206,12 +206,11 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func refreshTable() {
-        limudim = []
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMMM, yyyy"
         dateFormatter.timeZone = GlobalStruct.geoLocation.timeZone
         var date = dateFormatter.string(from: GlobalStruct.userChosenDate)
-        
+
         let hDateFormatter = DateFormatter()
         hDateFormatter.calendar = Calendar(identifier: .hebrew)
         hDateFormatter.dateFormat = "d MMMM, yyyy"
@@ -236,6 +235,8 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         let hebrewDateFormatter = HebrewDateFormatter()
         hebrewDateFormatter.hebrewFormat = true
         hebrewDateFormatter.useGershGershayim = false
+        
+        limudim = []
         let dafYomi = GlobalStruct.jewishCalendar.getDafYomiBavli()
         if dafYomi != nil {
             limudim.append(ZmanListEntry(title:"Daf Yomi: ".localized() + hebrewDateFormatter.formatDafYomiBavli(daf: dafYomi!)))
@@ -391,7 +392,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                         hillulot.append(entry)
                     }
-                    hiloulot.append(contentsOf: hillulot)
+                    hiloulot = hillulot
                 }
             } catch {
                 print("Error reading or parsing the hillulot JSON file: \(error)")

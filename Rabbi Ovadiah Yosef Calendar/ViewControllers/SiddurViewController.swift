@@ -63,7 +63,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var stackviewContainer: UIStackView!
     @IBOutlet weak var slider: UISlider!
     @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
-        let newSize = (sender.value / 16) * 100
+        let newSize = (sender.value / 10) * 100
         print(newSize)
         defaults.set(newSize, forKey: "textSize")
         webView.evaluateJavaScript("document.documentElement.style.setProperty('-webkit-text-size-adjust', '\(newSize)%');")

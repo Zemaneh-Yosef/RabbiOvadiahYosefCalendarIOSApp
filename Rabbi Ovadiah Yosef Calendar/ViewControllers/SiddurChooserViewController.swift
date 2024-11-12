@@ -9,8 +9,6 @@ import UIKit
 import KosherSwift
 
 class SiddurChooserViewController: UIViewController {
-    
-    let progressHUD = ProgressHUD(text: "Loading...".localized())
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     let dateFormatterForZmanim = DateFormatter()
     var specialDayText = ""
@@ -136,7 +134,7 @@ class SiddurChooserViewController: UIViewController {
         GlobalStruct.jewishCalendar.forward()
         let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
         GlobalStruct.jewishCalendar.back()//reset
-        
+
         if today.count != tomorrow.count {
             var notEqual = false
             // Check if all elements at corresponding indices are equal
@@ -145,14 +143,14 @@ class SiddurChooserViewController: UIViewController {
                     notEqual = true
                 }
             }
-            
+
             if notEqual {
                 if Locale.isHebrewLocale() {
                         dateFormatterForZmanim.dateFormat = "H:mm"
                 } else {
                         dateFormatterForZmanim.dateFormat = "h:mm aa"
                 }
-                
+
                 let zmanimCalendar = ZmanimCalendar(location: GlobalStruct.geoLocation)
                 zmanimCalendar.useElevation = GlobalStruct.useElevation
                 zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
@@ -404,53 +402,40 @@ class SiddurChooserViewController: UIViewController {
     func openSiddur() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
+        //newViewController.awakeFromNib()
         newViewController.modalPresentationStyle = .fullScreen
-        
+
         if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && !(GlobalStruct.chosenPrayer == "Birchat Halevana" || GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") || GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita") {// if the prayer is dependant on isMukafChoma, we ask the user
             let alert = UIAlertController(title: "Are you in a walled (Mukaf Choma) city?".localized(),
                                           message:"Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?".localized(), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes (Jerusalem)".localized(), style: .default, handler: { UIAlertAction in
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                self.view.addSubview(self.progressHUD)
-                self.progressHUD.show()
-                self.present(newViewController, animated: false, completion: {
-                    self.progressHUD.hide()
-                })
+                self.present(newViewController, animated: false, completion: nil)
             }))
             alert.addAction(UIAlertAction(title: "Doubt (Safek)".localized(), style: .default, handler: { UIAlertAction in
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: true)
-                self.view.addSubview(self.progressHUD)
-                self.progressHUD.show()
-                self.present(newViewController, animated: false, completion: {
-                    self.progressHUD.hide()
-                })
+                self.present(newViewController, animated: false)
             }))
             alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
                 // Undo any previous settings
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                self.view.addSubview(self.progressHUD)
-                self.progressHUD.show()
-                self.present(newViewController, animated: false, completion: {
-                    self.progressHUD.hide()
-                })
+                self.present(newViewController, animated: false)
             }))
             alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
                 
             }))
             present(alert, animated: true)
         } else {
-            //view.addSubview(progressHUD)
-            //progressHUD.show()
-            self.present(newViewController, animated: false, completion: nil)
+            self.present(newViewController, animated: true)
         }
     }
-    
+
     @objc func showDatePicker() {
         var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
-        
+
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
@@ -468,7 +453,7 @@ class SiddurChooserViewController: UIViewController {
         datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
-        
+
         let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.dismiss(animated: true)
             self.showHebrewDatePicker()

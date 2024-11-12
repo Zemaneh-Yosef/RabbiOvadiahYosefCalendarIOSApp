@@ -117,7 +117,7 @@
                                         <items>
                                             <barButtonItem style="plain" id="rG5-bN-AQY">
                                                 <button key="customView" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="zlI-bE-XCz">
-                                                    <rect key="frame" x="16" y="12" width="31" height="22"/>
+                                                    <rect key="frame" x="16" y="12" width="28" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -136,7 +136,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="GJQ-ga-VxD"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="wwV-jQ-nNv">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
-                                                    <rect key="frame" x="114" y="11" width="148" height="24"/>
+                                                    <rect key="frame" x="133" y="11" width="109" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -153,7 +153,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="mhP-BS-hm9"/>
                                             <barButtonItem style="plain" id="gnu-AP-jR0">
                                                 <button key="customView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="aum-JY-kxk">
-                                                    <rect key="frame" x="328" y="12" width="31" height="22"/>
+                                                    <rect key="frame" x="331" y="12" width="28" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -622,7 +622,7 @@
                                         <items>
                                             <barButtonItem style="plain" id="Ba9-in-gsC">
                                                 <button key="customView" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="fYT-tc-Ost">
-                                                    <rect key="frame" x="16" y="12" width="31" height="21"/>
+                                                    <rect key="frame" x="16" y="12" width="28" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -642,7 +642,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="QWI-KO-db7"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="9mO-JL-WYh">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="hjf-zL-7ch">
-                                                    <rect key="frame" x="114" y="11" width="147" height="24"/>
+                                                    <rect key="frame" x="134" y="11" width="108" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -660,7 +660,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="3vb-2Z-fNJ"/>
                                             <barButtonItem style="plain" id="qHs-WG-RUp">
                                                 <button key="customView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="TVa-9D-hfw">
-                                                    <rect key="frame" x="328" y="12" width="31" height="21"/>
+                                                    <rect key="frame" x="331" y="12" width="28" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -747,44 +747,46 @@
                                     <action selector="changeTextSize:" destination="jkM-M4-JT4" eventType="touchUpInside" id="MhS-n6-5eC"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jaj-nV-nFW">
-                                <rect key="frame" x="8" y="54" width="359" height="613"/>
-                                <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yRz-yC-vsb">
-                                        <rect key="frame" x="0.0" y="0.0" width="359" height="50"/>
-                                    </scrollView>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mH8-8g-pX0">
-                                        <rect key="frame" x="0.0" y="58" width="359" height="555"/>
-                                    </scrollView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="mH8-8g-pX0" firstAttribute="top" secondItem="Jaj-nV-nFW" secondAttribute="top" constant="58" id="5eA-oW-HBt"/>
-                                </constraints>
-                            </stackView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="10" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="EpA-QB-Qcq">
+                                <rect key="frame" x="14" y="617" width="347" height="31"/>
+                                <connections>
+                                    <action selector="slider:forEvent:" destination="jkM-M4-JT4" eventType="valueChanged" id="9Cw-Gc-f7k"/>
+                                </connections>
+                            </slider>
+                            <wkWebView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWY-HY-fZK">
+                                <rect key="frame" x="16" y="54.5" width="343" height="546.5"/>
+                                <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2oc-gD-oWg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="8UB-WQ-jz2" secondAttribute="trailing" constant="8" id="682-Wn-TM0"/>
                             <constraint firstItem="8UB-WQ-jz2" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="8u3-03-163"/>
-                            <constraint firstItem="Jaj-nV-nFW" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" constant="34" id="H7U-iv-j89"/>
-                            <constraint firstItem="Jaj-nV-nFW" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="8" id="K8Y-7Y-RVM"/>
-                            <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="Jaj-nV-nFW" secondAttribute="bottom" id="LZG-VF-GEd"/>
+                            <constraint firstItem="AWY-HY-fZK" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" id="Bah-OL-EQd"/>
+                            <constraint firstItem="EpA-QB-Qcq" firstAttribute="top" secondItem="AWY-HY-fZK" secondAttribute="bottom" constant="16" id="NjM-jd-3S2"/>
                             <constraint firstItem="8UB-WQ-jz2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CX0-0v-Es4" secondAttribute="trailing" constant="8" symbolic="YES" id="Ppr-cq-1rb"/>
+                            <constraint firstItem="AWY-HY-fZK" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="16" id="bLb-pf-jN8"/>
+                            <constraint firstItem="EpA-QB-Qcq" firstAttribute="top" secondItem="AWY-HY-fZK" secondAttribute="bottom" constant="16" id="cSu-QP-l58"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="16" id="cv0-4v-f1F"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="EpA-QB-Qcq" secondAttribute="trailing" constant="16" id="evw-17-DiZ"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="fna-D7-dSt"/>
-                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="Jaj-nV-nFW" secondAttribute="trailing" constant="8" id="t3U-c7-ZUI"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="AWY-HY-fZK" secondAttribute="trailing" constant="16" id="kUd-Ii-efR"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="EpA-QB-Qcq" secondAttribute="bottom" constant="20" id="qGm-Sr-zuF"/>
+                            <constraint firstItem="EpA-QB-Qcq" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="16" id="qgi-Mb-b1c"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="categories" destination="yRz-yC-vsb" id="DJK-OO-K04"/>
-                        <outlet property="scrollView" destination="mH8-8g-pX0" id="mgD-Tq-4Mr"/>
-                        <outlet property="stackviewContainer" destination="Jaj-nV-nFW" id="Uw3-LQ-WnQ"/>
+                        <outlet property="slider" destination="EpA-QB-Qcq" id="sZs-cc-vhE"/>
+                        <outlet property="webView" destination="AWY-HY-fZK" id="cE5-8Q-WME"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRS-sw-0b2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2058" y="812"/>
+            <point key="canvasLocation" x="2056.8000000000002" y="811.84407796101959"/>
         </scene>
         <!--In Israel?-->
         <scene sceneID="poe-ZF-0DP">
@@ -2157,7 +2159,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Tf-CF-YVq">
-                                <rect key="frame" x="8" y="62" width="359" height="605"/>
+                                <rect key="frame" x="8" y="62.5" width="359" height="604.5"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7vI-nw-GMQ"/>
@@ -2255,7 +2257,7 @@ etc...</string>
                                         <items>
                                             <barButtonItem style="plain" id="xjq-k7-OCM">
                                                 <button key="customView" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Bhl-SG-ao3">
-                                                    <rect key="frame" x="16" y="12" width="32" height="22"/>
+                                                    <rect key="frame" x="16" y="12" width="29" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" button="YES" causesPageTurn="YES"/>
@@ -2274,7 +2276,7 @@ etc...</string>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="hXq-6s-d2w"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="NeZ-Nj-SCg">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="5xc-ZQ-OvM">
-                                                    <rect key="frame" x="114" y="11" width="147" height="24"/>
+                                                    <rect key="frame" x="134" y="11" width="108" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -2291,7 +2293,7 @@ etc...</string>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="aBO-XM-4x2"/>
                                             <barButtonItem style="plain" id="nRU-cL-22r">
                                                 <button key="customView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="xbf-sM-EU1">
-                                                    <rect key="frame" x="329" y="12" width="30" height="22"/>
+                                                    <rect key="frame" x="332" y="12" width="27" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -2347,7 +2349,7 @@ etc...</string>
         <image name="text.justify" catalog="system" width="128" height="101"/>
         <image name="yy_quote" width="720" height="178"/>
         <namedColor name="AccentColor">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Gold">
             <color red="1" green="0.75686274509803919" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
