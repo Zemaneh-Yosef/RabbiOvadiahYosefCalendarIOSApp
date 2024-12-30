@@ -17,59 +17,98 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var views: Array<UILabel> = []
     var compassImageView = UIImageView(image: UIImage(named: "compass"))
-    let _acceptableCharacters = "0123456789."
-
-    @IBAction func changeTextSize(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Set text size".localized(),
-                                      message: "You can set the size of your text in the text box below. The default size is 16.".localized(), preferredStyle: .alert)
-        alert.addTextField { (textField) in
-            textField.placeholder = "Size (12.0 - 78.0)".localized()
-        }
-        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel))
-        alert.addAction(UIAlertAction(title: defaults.bool(forKey: "JustifyText") ? "Right Align Text".localized() : "Justify".localized(), style: .default, handler: { [self] (_) in
-            defaults.set(!defaults.bool(forKey: "JustifyText"), forKey: "JustifyText")
-            SnackBar(contextView: view, message: "Please close and open the siddur.".localized(), duration: SnackBar.Duration.lengthShort).show()
-        }))
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self, weak alert] (_) in
-            let textField = alert?.textFields![0].text
-            //if text is empty, display a message notifying the user:
-            if textField == nil || textField == "" || !CharacterSet(charactersIn: _acceptableCharacters).isSuperset(of: CharacterSet(charactersIn: textField ?? "")) {
-                let alert = UIAlertController(title: "Error".localized(), message: "Please enter a valid number.".localized(), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: {_ in
-                    alert.dismiss(animated: true) // just dismiss the dialog
-                }))
-                self.present(alert, animated: true)
-                return
-            } else {
-                var newSize = Float(textField ?? "16")
-                if newSize! <= 11 {
-                    newSize = 12.0
-                }
-                if newSize! >= 78.0 {
-                    newSize = 78
-                }
-                print(newSize!)
-                self.defaults.set(newSize, forKey: "textSize")
-                for l in views {
-                    l.font = .boldSystemFont(ofSize: CGFloat(newSize ?? 16))
-                }
-            }
-        }))
-        present(alert, animated: true)
+    let resetCSS = """
+    /* Box sizing rules */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
     }
+
+    /* Prevent font size inflation */
+    html {
+      -moz-text-size-adjust: none;
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
+    }
+
+    /* Remove default margin in favour of better control in authored CSS */
+    body, h1, h2, h3, h4, p,
+    figure, blockquote, dl, dd {
+      margin-block-end: 0;
+    }
+
+    /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+    ul[role='list'],
+    ol[role='list'] {
+      list-style: none;
+    }
+
+    /* Set core body defaults */
+    body {
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Set shorter line heights on headings and interactive elements */
+    h1, h2, h3, h4,
+    button, input, label {
+      line-height: 1.1;
+    }
+
+    /* Balance text wrapping on headings */
+    h1, h2,
+    h3, h4 {
+      text-wrap: balance;
+    }
+
+    /* A elements that don't have a class get default styles */
+    a:not([class]) {
+      text-decoration-skip-ink: auto;
+      color: currentColor;
+    }
+
+    /* Make images easier to work with */
+    img,
+    picture {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Inherit fonts for inputs and buttons */
+    input, button,
+    textarea, select {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    /* Make sure textareas without a rows attribute are not tiny */
+    textarea:not([rows]) {
+      min-height: 10em;
+    }
+
+    /* Anything that has been anchored to should have extra scroll margin */
+    :target {
+      scroll-margin-block: 5ex;
+    }
+    """
+
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
-    @IBOutlet weak var stackviewContainer: UIStackView!
     @IBOutlet weak var slider: UISlider!
     @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
-        let newSize = (sender.value / 10) * 100
-        print(newSize)
-        defaults.set(newSize, forKey: "textSize")
+        defaults.set(sender.value, forKey: "textSize")
+        let newSize = sender.value * 10
         webView.evaluateJavaScript("document.documentElement.style.setProperty('-webkit-text-size-adjust', '\(newSize)%');")
     }
     @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var categories: UIScrollView!
+    @IBAction func justify(_ sender: UIButton) {
+        defaults.set(!defaults.bool(forKey: "JustifyText"), forKey: "JustifyText")
+        defaults.bool(forKey: "JustifyText") ? sender.setImage(.init(systemName: "text.justify"), for: .normal) : sender.setImage(.init(systemName: "text.alignright"), for: .normal)
+        webView.evaluateJavaScript("document.documentElement.style.setProperty('text-align', '\(defaults.bool(forKey: "JustifyText") ? "justify" : "right")');")
+    }
+    @IBOutlet weak var justify: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         var listOfTexts = Array<HighlightString>()
@@ -117,16 +156,54 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         }
         listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
 
-        var webstring = "<!DOCTYPE html><html dir=rtl><body><style>:root{color-scheme: light dark;}</style>"
+        let fontString = """
+        @font-face {
+            font-family: "guttman-mantova";
+            src: url('MANTB 2.ttf') format('truetype');
+        }
+        
+        @font-face {
+            font-family: "keren";
+            src: url('Guttman Keren.ttf') format('truetype');
+        }
+        """
+
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><style>:root{color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); }\(resetCSS)\(fontString)p{padding: .15rem; font-family: 'keren'; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)) }</style>"
         for text in listOfTexts {
             let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>")
-            if text.shouldBeHighlighted {
-                webstring += "<p style='color: black; background: yellow;'>" + formattedString + "</p>"
+            if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
+                "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
+                locationManager.delegate = self
+
+                // Start location services to get the true heading.
+                locationManager.distanceFilter = 1000
+                locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+                locationManager.startUpdatingLocation()
+
+                // Start heading updating.
+                if CLLocationManager.headingAvailable() {
+                    locationManager.headingFilter = 1
+                    locationManager.startUpdatingHeading()
+                }
+                webstring += "<p class='highlight'>" + formattedString + "</p>"
+                webstring += "<div class='highlight'><img id='compass' src='compass.png' style='width: 100%;' /></div>"
+            } else if text.string == "[break here]" {
+                webstring += "<hr>"
+            } else if text.isCategory {
+                webstring += "<p style='padding: .25rem; font-family: guttman-mantova; text-align: center;'>" + formattedString + "</p>"
+            } else if text.shouldBeHighlighted {
+                webstring += "<p class='highlight'>" + formattedString + "</p>"
             } else {
                 webstring += "<p>" + formattedString + "</p>"
+                if text.string.hasSuffix(SiddurMaker.menorah) {
+                    webstring += "<img id='kefiraLight' src='menora.svg' style='width: 100%;' /><img id='kefiraShadow' src='menora-shadow.svg' style='width: 100%;' />"
+                }
             }
         }
-        webView.loadHTMLString(webstring, baseURL: nil);
+        let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
+        webView.loadHTMLString(webstring, baseURL: baseURL)
+        slider.value = defaults.float(forKey: "textSize")
+        defaults.bool(forKey: "JustifyText") ? justify.setImage(.init(systemName: "text.justify"), for: .normal) : justify.setImage(.init(systemName: "text.alignright"), for: .normal)
 
         /* let stackviewH = UIStackView()
         stackviewH.axis = .horizontal
@@ -136,7 +213,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         categories.showsHorizontalScrollIndicator = true
         categories.showsVerticalScrollIndicator = false
         categories.addSubview(stackviewH)
-        
+
         for text in listOfTexts {
             if text.isCategory {
                 let label = UILabel()
@@ -151,56 +228,14 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                 stackviewH.addArrangedSubview(label)
             }
         }
-        
-        NSLayoutConstraint.activate([
-            stackviewH.topAnchor.constraint(equalTo: categories.contentLayoutGuide.topAnchor),
-            stackviewH.leadingAnchor.constraint(equalTo: categories.contentLayoutGuide.leadingAnchor),
-            stackviewH.trailingAnchor.constraint(equalTo: categories.contentLayoutGuide.trailingAnchor),
-            stackviewH.bottomAnchor.constraint(equalTo: categories.contentLayoutGuide.bottomAnchor),
-            
-            stackviewH.trailingAnchor.constraint(greaterThanOrEqualTo: categories.frameLayoutGuide.trailingAnchor)
-        ])
 
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.spacing = 0
         stackview.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(stackview)
-        
-        //slider.setValue(defaults.float(forKey: "textSize"), animated: true)
-                
-        for text in listOfTexts {
-            let label = UILabel()
-            label.numberOfLines = 0
-            label.textAlignment = defaults.bool(forKey: "JustifyText") ? .justified : .right
-            label.text = text.string
-            if defaults.bool(forKey: "JustifyText") {
-                let text: NSMutableAttributedString = NSMutableAttributedString(string: text.string)
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.alignment = .justified
-                paragraphStyle.baseWritingDirection = .rightToLeft
-                paragraphStyle.lineBreakMode = .byWordWrapping
-                text.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, text.length))
-                label.attributedText = text
-            }
 
-            var textSize = CGFloat(defaults.float(forKey: "textSize"))
-            if textSize == 0 {
-                textSize = 16
-            }
-            label.font = .boldSystemFont(ofSize: textSize)
-            if text.shouldBeHighlighted {
-                label.text = "\n".appending(text.string)
-                label.textColor = .black
-                label.backgroundColor = .yellow
-            }
-            if text.string == "[break here]" {
-                label.text = ""
-                                
-                let lineView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.width, height: 2))
-                lineView.backgroundColor = label.textColor
-                label.addSubview(lineView)
-            }
+        for text in listOfTexts {
             if text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
                 let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionSefaria))
                 label.isUserInteractionEnabled = true
@@ -214,39 +249,8 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             label.text! += "\n"
             views.append(label)
             stackview.addArrangedSubview(label)
-            if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
-                "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
-                compassImageView.backgroundColor = UIColor.black
-                compassImageView.contentMode = .scaleAspectFit // Adjust the content mode as needed
-                stackview.addArrangedSubview(compassImageView)
-                locationManager.delegate = self
-                
-                // Start location services to get the true heading.
-                locationManager.distanceFilter = 1000
-                locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-                locationManager.startUpdatingLocation()
-                
-                //Start heading updating.
-                if CLLocationManager.headingAvailable() {
-                    locationManager.headingFilter = 1
-                    locationManager.startUpdatingHeading()
-                }
-            }
-            if text.string.hasSuffix("לַמְנַצֵּ֥חַ בִּנְגִינֹ֗ת מִזְמ֥וֹר שִֽׁיר׃ אֱֽלֹהִ֗ים יְחׇנֵּ֥נוּ וִיבָרְכֵ֑נוּ יָ֤אֵֽר פָּנָ֖יו אִתָּ֣נוּ סֶֽלָה׃ לָדַ֣עַת בָּאָ֣רֶץ דַּרְכֶּ֑ךָ בְּכׇל־גּ֝וֹיִ֗ם יְשׁוּעָתֶֽךָ׃ יוֹד֖וּךָ עַמִּ֥ים ׀ אֱלֹהִ֑ים י֝וֹד֗וּךָ עַמִּ֥ים כֻּלָּֽם׃ יִ֥שְׂמְח֥וּ וִירַנְּנ֗וּ לְאֻ֫מִּ֥ים כִּֽי־תִשְׁפֹּ֣ט עַמִּ֣ים מִישֹׁ֑ר וּלְאֻמִּ֓ים ׀ בָּאָ֖רֶץ תַּנְחֵ֣ם סֶֽלָה׃ יוֹד֖וּךָ עַמִּ֥ים ׀ אֱלֹהִ֑ים י֝וֹד֗וּךָ עַמִּ֥ים כֻּלָּֽם׃ אֶ֭רֶץ נָתְנָ֣ה יְבוּלָ֑הּ יְ֝בָרְכֵ֗נוּ אֱלֹהִ֥ים אֱלֹהֵֽינוּ׃ יְבָרְכֵ֥נוּ אֱלֹהִ֑ים וְיִֽירְא֥וּ א֝וֹת֗וֹ כׇּל־אַפְסֵי־אָֽרֶץ׃") {
-                let menorahImageView = UIImageView(image: UIImage(named: "menorah"))
-                menorahImageView.contentMode = .scaleAspectFit // Adjust the content mode as needed
-                stackview.addArrangedSubview(menorahImageView)
-            }
-        }
-        
-        NSLayoutConstraint.activate([
-            stackview.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            stackview.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            stackview.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            stackview.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             
-            stackview.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-        ])
+        }
         
         if stackviewH.arrangedSubviews.isEmpty {
             categories.isHidden = true
@@ -285,13 +289,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             return
         }
 
-        // Get the heading(direction)
-        let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ?
-            newHeading.trueHeading : newHeading.magneticHeading);
-        UIView.animate(withDuration: 0.5) {
-            let angle = CGFloat(heading) * .pi / 180 // convert from degrees to radians
-            self.compassImageView.transform = CGAffineTransform(rotationAngle: angle) // rotate the picture
-        }
+        // Get the heading(direction) in degrees
+        let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)
+        webView.evaluateJavaScript("document.documentElement.style.setProperty('--deg', '\(heading)deg');")
 
 //       var strDirection = String()
 //        if(heading > 23 && heading <= 67){
@@ -318,6 +318,10 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         var result = Array<HighlightString>()
         
         for str in array {
+            if !str.isCategory {
+                result.append(str)
+                continue
+            }
             if let count = counts[str.string] {
                 counts[str.string] = count + 1  // Increment occurrence count
                 let modifiedString = str.string + String(repeating: "\u{200E}", count: count)  // Append an invisible char for each occurrence
@@ -330,7 +334,6 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         
         return result
     }
-    
 
     /*
     // MARK: - Navigation

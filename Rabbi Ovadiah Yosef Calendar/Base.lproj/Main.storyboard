@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="n2R-Sq-lDT">
-    <device id="retina4_7" orientation="portrait" appearance="dark"/>
+    <device id="retina4_0" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
@@ -18,22 +18,22 @@
             <objects>
                 <viewController id="7ii-ZM-nWk" customClass="ZmanListViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VVx-vA-6km">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="mbi-j7-2n7">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="539"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="440"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <stackView key="tableHeaderView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" distribution="fillProportionally" alignment="center" spacing="8" id="ZZU-JE-xac">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Zak-8N-HfH">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="WBX-QX-pvO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dvf-vd-jDC">
                                                             <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
@@ -45,23 +45,23 @@
                                                             <rect key="frame" x="16" y="0.0" width="0.0" height="34"/>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rabbi Ovadiah Yosef Calendar" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPe-fN-4ce">
-                                                            <rect key="frame" x="24" y="0.0" width="283" height="34"/>
+                                                            <rect key="frame" x="24" y="0.0" width="241.5" height="34"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                             <color key="textColor" name="AccentColor"/>
                                                             <nil key="highlightedColor"/>
                                                             <size key="shadowOffset" width="0.0" height="0.0"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="soL-dF-9Qy">
-                                                            <rect key="frame" x="315" y="0.0" width="0.0" height="34"/>
+                                                            <rect key="frame" x="273.5" y="0.0" width="0.0" height="34"/>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rXu-6C-f9P">
-                                                            <rect key="frame" x="323" y="0.0" width="0.0" height="34"/>
+                                                            <rect key="frame" x="281.5" y="0.0" width="0.0" height="34"/>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsg-MQ-ksN">
-                                                            <rect key="frame" x="331" y="0.0" width="0.0" height="34"/>
+                                                            <rect key="frame" x="289.5" y="0.0" width="0.0" height="34"/>
                                                         </stackView>
                                                         <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eoO-lv-hFH">
-                                                            <rect key="frame" x="339" y="0.0" width="36" height="34"/>
+                                                            <rect key="frame" x="297.5" y="0.0" width="22.5" height="34"/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" button="YES" image="YES"/>
                                                             </accessibility>
@@ -75,7 +75,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOf-Ik-LpQ" customClass="MarqueeLabel" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
                                                     <color key="backgroundColor" red="0.062745098040000002" green="0.1176470588" blue="0.58823529409999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <string key="text">Shabbat Mode          Shabbat Mode          Shabbat Mode           Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          Shabbat Mode          </string>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -90,14 +90,14 @@
                                 </stackView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZmanEntry" textLabel="BBo-Yh-1Gw" style="IBUITableViewCellStyleDefault" id="W60-C1-g81">
-                                        <rect key="frame" x="0.0" y="84" width="375" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="84" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W60-C1-g81" id="ubM-57-XUd">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BBo-Yh-1Gw">
-                                                    <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
@@ -109,10 +109,10 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqD-Wb-7Un">
-                                <rect key="frame" x="0.0" y="572" width="375" height="46"/>
+                                <rect key="frame" x="0.0" y="473" width="320" height="46"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" semanticContentAttribute="forceLeftToRight" id="p6d-hw-eWa">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <items>
                                             <barButtonItem style="plain" id="rG5-bN-AQY">
@@ -136,7 +136,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="GJQ-ga-VxD"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="wwV-jQ-nNv">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Em7-lB-APX">
-                                                    <rect key="frame" x="133" y="11" width="109" height="24"/>
+                                                    <rect key="frame" x="106" y="11" width="109" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -153,7 +153,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="mhP-BS-hm9"/>
                                             <barButtonItem style="plain" id="gnu-AP-jR0">
                                                 <button key="customView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="aum-JY-kxk">
-                                                    <rect key="frame" x="331" y="12" width="28" height="22"/>
+                                                    <rect key="frame" x="276" y="12" width="28" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -204,11 +204,11 @@
             <objects>
                 <tableViewController storyboardIdentifier="SettingsViewController" id="0ID-mP-FuA" customClass="SettingsViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="bqI-V1-4n5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="HmK-yh-cf2">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem title="Settings" id="K3E-29-Jrz">
@@ -222,14 +222,14 @@
                         </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicSettingsCell" textLabel="FeS-4f-X1R" style="IBUITableViewCellStyleDefault" id="3Eb-Ym-5Mc">
-                                <rect key="frame" x="0.0" y="99.5" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="99.5" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Eb-Ym-5Mc" id="nqW-eH-DjO">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FeS-4f-X1R">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
@@ -255,7 +255,7 @@
             <objects>
                 <viewController id="Zmu-tz-OkC" customClass="ElevationViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KQZ-V7-vNC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFS-q7-s7V">
@@ -268,13 +268,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="22" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-JY-Lk2">
-                                <rect key="frame" x="20" y="323.5" width="335" height="0.0"/>
+                                <rect key="frame" x="20" y="274" width="280" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="97x-l7-W7Z">
-                                <rect key="frame" x="103.5" y="471" width="168.5" height="116"/>
+                                <rect key="frame" x="76" y="372" width="168.5" height="116"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter elevation in meters" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="LMX-jL-QP8">
                                         <rect key="frame" x="0.0" y="0.0" width="168.5" height="34"/>
@@ -343,7 +343,7 @@
             <objects>
                 <viewController storyboardIdentifier="SiddurChooser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ghR-fU-7xL" customClass="SiddurChooserViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hYX-9A-Y0Y">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView hidden="YES" opaque="NO" contentMode="center" fixedFrame="YES" axis="vertical" distribution="fillEqually" alignment="center" spacing="52" translatesAutoresizingMaskIntoConstraints="NO" id="RIL-HI-hY9">
@@ -606,7 +606,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ri-gZ-SgA">
-                                <rect key="frame" x="305" y="20" width="50" height="34"/>
+                                <rect key="frame" x="250" y="20" width="50" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="location.circle" catalog="system"/>
                                 <connections>
@@ -614,10 +614,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" translatesAutoresizingMaskIntoConstraints="NO" id="iRO-C7-Qiq">
-                                <rect key="frame" x="0.0" y="573" width="375" height="46"/>
+                                <rect key="frame" x="0.0" y="474" width="320" height="46"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" semanticContentAttribute="forceLeftToRight" id="ff0-fC-PXd">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <items>
                                             <barButtonItem style="plain" id="Ba9-in-gsC">
@@ -642,7 +642,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="QWI-KO-db7"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="9mO-JL-WYh">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="hjf-zL-7ch">
-                                                    <rect key="frame" x="134" y="11" width="108" height="24"/>
+                                                    <rect key="frame" x="106" y="11" width="108" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -660,7 +660,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="3vb-2Z-fNJ"/>
                                             <barButtonItem style="plain" id="qHs-WG-RUp">
                                                 <button key="customView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="TVa-9D-hfw">
-                                                    <rect key="frame" x="331" y="12" width="28" height="21"/>
+                                                    <rect key="frame" x="276" y="12" width="28" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -728,7 +728,7 @@
             <objects>
                 <viewController storyboardIdentifier="Siddur" title="Siddur" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jkM-M4-JT4" customClass="SiddurViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vQM-sm-aZq">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CX0-0v-Es4">
@@ -739,47 +739,59 @@
                                     <action selector="back:" destination="jkM-M4-JT4" eventType="touchUpInside" id="PYq-4I-mRO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UB-WQ-jz2">
-                                <rect key="frame" x="247.5" y="20" width="119.5" height="34.5"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Change Text"/>
-                                <connections>
-                                    <action selector="changeTextSize:" destination="jkM-M4-JT4" eventType="touchUpInside" id="MhS-n6-5eC"/>
-                                </connections>
-                            </button>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="10" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="EpA-QB-Qcq">
-                                <rect key="frame" x="14" y="617" width="347" height="31"/>
-                                <connections>
-                                    <action selector="slider:forEvent:" destination="jkM-M4-JT4" eventType="valueChanged" id="9Cw-Gc-f7k"/>
-                                </connections>
-                            </slider>
                             <wkWebView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWY-HY-fZK">
-                                <rect key="frame" x="16" y="54.5" width="343" height="546.5"/>
+                                <rect key="frame" x="0.0" y="63" width="320" height="455"/>
                                 <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oqr-Ae-iqM">
+                                <rect key="frame" x="0.0" y="526" width="320" height="30"/>
+                                <subviews>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="10" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="EpA-QB-Qcq">
+                                        <rect key="frame" x="-2" y="0.0" width="274" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="GDt-V6-XTp"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="slider:forEvent:" destination="jkM-M4-JT4" eventType="valueChanged" id="9Cw-Gc-f7k"/>
+                                        </connections>
+                                    </slider>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8g-BM-cqK">
+                                        <rect key="frame" x="270" y="0.0" width="50" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="Qg5-SN-DrF"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="text.justify" catalog="system"/>
+                                        <connections>
+                                            <action selector="justify:" destination="jkM-M4-JT4" eventType="touchUpInside" id="wJs-Nx-goO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="QUl-GU-vJI"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2oc-gD-oWg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="8UB-WQ-jz2" secondAttribute="trailing" constant="8" id="682-Wn-TM0"/>
-                            <constraint firstItem="8UB-WQ-jz2" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="8u3-03-163"/>
-                            <constraint firstItem="AWY-HY-fZK" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" id="Bah-OL-EQd"/>
-                            <constraint firstItem="EpA-QB-Qcq" firstAttribute="top" secondItem="AWY-HY-fZK" secondAttribute="bottom" constant="16" id="NjM-jd-3S2"/>
-                            <constraint firstItem="8UB-WQ-jz2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CX0-0v-Es4" secondAttribute="trailing" constant="8" symbolic="YES" id="Ppr-cq-1rb"/>
-                            <constraint firstItem="AWY-HY-fZK" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="16" id="bLb-pf-jN8"/>
-                            <constraint firstItem="EpA-QB-Qcq" firstAttribute="top" secondItem="AWY-HY-fZK" secondAttribute="bottom" constant="16" id="cSu-QP-l58"/>
+                            <constraint firstItem="oqr-Ae-iqM" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" id="3Vg-bA-YoJ"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CX0-0v-Es4" secondAttribute="trailing" symbolic="YES" id="GV9-tG-9b8"/>
+                            <constraint firstItem="AWY-HY-fZK" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" constant="8.5" id="Lxp-xR-Mce"/>
+                            <constraint firstItem="AWY-HY-fZK" firstAttribute="trailing" secondItem="2oc-gD-oWg" secondAttribute="trailing" id="aLq-Rc-Wyr"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="16" id="cv0-4v-f1F"/>
-                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="EpA-QB-Qcq" secondAttribute="trailing" constant="16" id="evw-17-DiZ"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="fna-D7-dSt"/>
-                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="AWY-HY-fZK" secondAttribute="trailing" constant="16" id="kUd-Ii-efR"/>
-                            <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="EpA-QB-Qcq" secondAttribute="bottom" constant="20" id="qGm-Sr-zuF"/>
-                            <constraint firstItem="EpA-QB-Qcq" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="16" id="qgi-Mb-b1c"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="oqr-Ae-iqM" secondAttribute="bottom" constant="12" id="gec-on-Qpu"/>
+                            <constraint firstItem="oqr-Ae-iqM" firstAttribute="top" secondItem="AWY-HY-fZK" secondAttribute="bottom" constant="8" symbolic="YES" id="t9G-IQ-4fQ"/>
+                            <constraint firstItem="AWY-HY-fZK" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" id="wsE-91-Xjp"/>
+                            <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" secondItem="oqr-Ae-iqM" secondAttribute="trailing" id="zIA-LF-grI"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="justify" destination="d8g-BM-cqK" id="UZb-9g-u09"/>
                         <outlet property="slider" destination="EpA-QB-Qcq" id="sZs-cc-vhE"/>
                         <outlet property="webView" destination="AWY-HY-fZK" id="cE5-8Q-WME"/>
                     </connections>
@@ -793,17 +805,17 @@
             <objects>
                 <viewController storyboardIdentifier="inIsrael" title="In Israel?" id="rGY-aZ-2MU" customClass="InIsraelViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g64-Xu-cpv">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you in Israel?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4z-vQ-WJh">
-                                <rect key="frame" x="84.5" y="318" width="206" height="31.5"/>
+                                <rect key="frame" x="57" y="268.5" width="206" height="31.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="56" translatesAutoresizingMaskIntoConstraints="NO" id="Pmd-Vp-7eX">
-                                <rect key="frame" x="106.5" y="488.5" width="162" height="53"/>
+                                <rect key="frame" x="79" y="389.5" width="162" height="53"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrT-Bz-BXD" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="53" height="53"/>
@@ -878,11 +890,11 @@
             <objects>
                 <viewController storyboardIdentifier="zmanim languages" title="Zmanim language" id="nYK-wy-b7l" customClass="ZmanimLanguageViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CRJ-gu-JN7">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What language would you like the zmanim to be in?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WnI-hR-Igp">
-                                <rect key="frame" x="16" y="96" width="343" height="136"/>
+                                <rect key="frame" x="16" y="96" width="288" height="93.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="WnI-hR-Igp" secondAttribute="height" multiplier="361:143" id="Gyo-Px-gyv"/>
                                 </constraints>
@@ -892,10 +904,10 @@
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hoX-l0-yRq">
-                                <rect key="frame" x="16" y="599" width="339" height="48"/>
+                                <rect key="frame" x="16" y="500" width="284" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0v-2T-Cbu" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="107.5" height="48"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="89.5" height="48"/>
                                         <color key="backgroundColor" name="Gold"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="SHq-fP-3SH"/>
@@ -922,7 +934,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQF-QN-64C" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="115.5" y="0.0" width="108" height="48"/>
+                                        <rect key="frame" x="97.5" y="0.0" width="89" height="48"/>
                                         <color key="backgroundColor" name="Gold"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="3TO-9z-QOZ"/>
@@ -949,7 +961,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iq2-uo-yuZ" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="231.5" y="0.0" width="107.5" height="48"/>
+                                        <rect key="frame" x="194.5" y="0.0" width="89.5" height="48"/>
                                         <color key="backgroundColor" name="Gold"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="3aL-xV-2Hu"/>
@@ -979,10 +991,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GlM-kr-0dg">
-                                <rect key="frame" x="16" y="240" width="339" height="351"/>
+                                <rect key="frame" x="16" y="197.5" width="284" height="294.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pto-w5-0Pb">
-                                        <rect key="frame" x="0.0" y="0.0" width="107.5" height="351"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="89.5" height="294.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <string key="text">עלות השחר
 טלית ותפילין
@@ -996,7 +1008,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBv-t8-Yqx">
-                                        <rect key="frame" x="115.5" y="0.0" width="108" height="351"/>
+                                        <rect key="frame" x="97.5" y="0.0" width="89" height="294.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <string key="text">Alot Hashachar
 Earliest Talit/Tefilin
@@ -1010,7 +1022,7 @@ etc...</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynM-EA-aMC">
-                                        <rect key="frame" x="231.5" y="0.0" width="107.5" height="351"/>
+                                        <rect key="frame" x="194.5" y="0.0" width="89.5" height="294.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <string key="text">Dawn
 Earliest Talit/Tefilin
@@ -1054,7 +1066,7 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="SetupChooser" title="Setup Chooser" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Bt-3k-w3g" customClass="SetupChooserViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YKg-Yz-OHx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWe-dq-8Cy">
@@ -1066,7 +1078,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iRB-3I-xYH">
-                                <rect key="frame" x="329" y="20" width="26" height="26"/>
+                                <rect key="frame" x="274" y="20" width="26" height="26"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="info.circle" catalog="system"/>
                                 <connections>
@@ -1074,11 +1086,11 @@ etc...</string>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" image="yy_quote" adjustsImageSizeForAccessibilityContentSizeCategory="YES" id="rvU-XZ-RAW">
-                                <rect key="frame" x="16" y="116" width="331" height="188"/>
+                                <rect key="frame" x="16" y="116" width="276" height="89"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="pkv-Tg-xR0">
-                                <rect key="frame" x="34.5" y="312" width="306.5" height="301"/>
+                                <rect key="frame" x="7" y="213" width="306.5" height="301"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Press the button below to download the visible sunrise times from ChaiTables.com" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ui-VF-Ls8">
                                         <rect key="frame" x="0.0" y="0.0" width="306.5" height="192"/>
@@ -1153,7 +1165,7 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="SimpleSetup" title="Simple Setup" useStoryboardIdentifierAsRestorationIdentifier="YES" id="76o-ol-odN" customClass="SimpleSetupViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dq6-4L-3Br">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJd-zE-p1H">
@@ -1166,7 +1178,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cgq-kK-QSu">
-                                <rect key="frame" x="30" y="247" width="315" height="34"/>
+                                <rect key="frame" x="30" y="148" width="260" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="3Kn-Fb-bzM"/>
                                 </constraints>
@@ -1174,7 +1186,7 @@ etc...</string>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jEf-aY-KpD">
-                                <rect key="frame" x="30" y="291" width="315" height="34"/>
+                                <rect key="frame" x="30" y="192" width="260" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="HzQ-vn-tpf"/>
                                 </constraints>
@@ -1182,13 +1194,13 @@ etc...</string>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LocationName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zxk-hv-VvT">
-                                <rect key="frame" x="132.5" y="50" width="110" height="21"/>
+                                <rect key="frame" x="105" y="-49" width="110" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nVu-3O-dWw" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                <rect key="frame" x="144.5" y="385" width="86" height="34"/>
+                                <rect key="frame" x="117" y="286" width="86" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Download">
@@ -1210,7 +1222,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ug5-uB-fCE">
-                                <rect key="frame" x="30" y="203" width="315" height="34"/>
+                                <rect key="frame" x="30" y="104" width="260" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="sAl-Uj-jkQ"/>
                                 </constraints>
@@ -1256,7 +1268,7 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="AdvancedSetup" useStoryboardIdentifierAsRestorationIdentifier="YES" id="urP-wA-mla" customClass="AdvancedSetupViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OYH-jk-vHj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aP0-Mg-91S">
@@ -1270,7 +1282,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="81" translatesAutoresizingMaskIntoConstraints="NO" id="JKg-yv-DaK">
-                                <rect key="frame" x="95.5" y="100" width="184" height="467"/>
+                                <rect key="frame" x="68" y="50.5" width="184" height="467"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provide a link below:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdg-vR-aD0">
                                         <rect key="frame" x="0.0" y="0.0" width="184" height="20.5"/>
@@ -1358,14 +1370,14 @@ etc...</string>
             <objects>
                 <viewController restorationIdentifier="Molad" storyboardIdentifier="Molad" title="Molad" id="4xR-v4-sWZ" customClass="MoladViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" id="EX9-kQ-CX4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Hu3-Nl-Pl2">
-                                <rect key="frame" x="16" y="47" width="343" height="62.5"/>
+                                <rect key="frame" x="16" y="47" width="288" height="62.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mg1-pN-exZ">
-                                        <rect key="frame" x="27.5" y="0.0" width="288" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="20"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="288" id="jZR-dg-QLq"/>
@@ -1376,7 +1388,7 @@ etc...</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqr-bm-4gl">
-                                        <rect key="frame" x="101.5" y="28" width="140" height="34.5"/>
+                                        <rect key="frame" x="74" y="28" width="140" height="34.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="0nN-34-Rfs"/>
                                         </constraints>
@@ -1398,7 +1410,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="avp-2J-YNH">
-                                <rect key="frame" x="37.5" y="597" width="300" height="70"/>
+                                <rect key="frame" x="10" y="498" width="300" height="70"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PyY-kt-uCg">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="70"/>
@@ -1419,7 +1431,7 @@ etc...</string>
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="tLE-xf-GcT">
-                                <rect key="frame" x="17.5" y="273" width="340" height="304"/>
+                                <rect key="frame" x="-10" y="174" width="340" height="304"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The molad for this month in your timezone:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rs8-o5-gK9">
                                         <rect key="frame" x="0.0" y="0.0" width="340" height="21"/>
@@ -1537,15 +1549,15 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="search_a_place" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fnb-XT-klk" customClass="GetUserLocationViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hhB-qb-ke5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n3s-7X-uWg">
-                                <rect key="frame" x="0.0" y="117" width="375" height="500"/>
+                                <rect key="frame" x="0.0" y="117" width="320" height="401"/>
                                 <standardMapConfiguration key="preferredConfiguration" elevationStyle="realistic"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwT-kb-zHO">
-                                <rect key="frame" x="0.0" y="624.5" width="375" height="34.5"/>
+                                <rect key="frame" x="0.0" y="525.5" width="320" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Confirm"/>
                                 <connections>
@@ -1561,14 +1573,14 @@ etc...</string>
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="1oN-0o-oHp">
-                                <rect key="frame" x="20" y="61" width="293" height="56"/>
+                                <rect key="frame" x="20" y="61" width="238" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="fnb-XT-klk" id="c1b-15-kwd"/>
                                 </connections>
                             </searchBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovk-sY-CB5">
-                                <rect key="frame" x="313" y="72" width="50" height="35"/>
+                                <rect key="frame" x="258" y="72" width="50" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="location" catalog="system"/>
                                 <connections>
@@ -1576,14 +1588,14 @@ etc...</string>
                                 </connections>
                             </button>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="E3U-XJ-V6l">
-                                <rect key="frame" x="0.0" y="117" width="375" height="550"/>
+                                <rect key="frame" x="0.0" y="117" width="320" height="451"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="suggestionEntry" textLabel="QUi-Uc-puZ" detailTextLabel="rqP-fu-wJc" style="IBUITableViewCellStyleSubtitle" id="ERe-C8-gzA">
-                                        <rect key="frame" x="0.0" y="50" width="375" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="50" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ERe-C8-gzA" id="xXK-xx-Qqf">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QUi-Uc-puZ">
@@ -1606,7 +1618,7 @@ etc...</string>
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6m6-8Q-Wa6">
-                                <rect key="frame" x="268" y="20" width="100" height="35"/>
+                                <rect key="frame" x="213" y="20" width="100" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Advanced"/>
                                 <connections>
@@ -1657,11 +1669,11 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="Netz" title="Netz Countdown" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dd1-Sa-3GC" customClass="NetzViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KBc-5t-iyY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="etQ-08-FeZ">
-                                <rect key="frame" x="20" y="302.5" width="335" height="62.5"/>
+                                <rect key="frame" x="20" y="253" width="280" height="62.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="52"/>
                                 <color key="textColor" red="0.79505818160538821" green="0.61058326305863431" blue="0.002093639398883814" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1699,11 +1711,11 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="jerDirection" useStoryboardIdentifierAsRestorationIdentifier="YES" id="B2g-jv-hNy" customClass="JerusalemDirectionViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6hq-hw-C2R">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ssp-c9-fVS">
-                                <rect key="frame" x="0.0" y="62.5" width="375" height="604.5"/>
+                                <rect key="frame" x="0.0" y="62.5" width="320" height="505.5"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q55-Dz-exE">
@@ -1716,7 +1728,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BuO-RM-6bI">
-                                <rect key="frame" x="305" y="20" width="50" height="34"/>
+                                <rect key="frame" x="250" y="20" width="50" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="info.circle" catalog="system"/>
                                 <connections>
@@ -1724,7 +1736,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gzX-jr-WRe">
-                                <rect key="frame" x="67" y="465" width="55" height="118"/>
+                                <rect key="frame" x="67" y="366" width="55" height="118"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RsS-I4-zyr">
                                         <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
@@ -1790,11 +1802,11 @@ etc...</string>
             <objects>
                 <tableViewController storyboardIdentifier="ZmanimSettingsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GZF-lJ-21o" customClass="ZmanimSettingsViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="iWv-7E-Uat">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="W7V-XK-eeL">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem title="Zmanim Settings" id="irM-BL-jQL">
@@ -1808,14 +1820,14 @@ etc...</string>
                         </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicSettingsCell" textLabel="PR6-Ei-Lbp" style="IBUITableViewCellStyleDefault" id="EVj-D2-7pH">
-                                <rect key="frame" x="0.0" y="99.5" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="99.5" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EVj-D2-7pH" id="8ls-P6-uwm">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PR6-Ei-Lbp">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
@@ -1841,11 +1853,11 @@ etc...</string>
             <objects>
                 <tableViewController storyboardIdentifier="ZmanimNotificationsSettingsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="YT3-Qu-u1k" customClass="ZmanimNotificationsSettingsViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="kPZ-rh-Toz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="qJd-ut-Daw">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem title="Notification Settings" id="Qyu-WG-Roh">
@@ -1859,14 +1871,14 @@ etc...</string>
                         </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicSettingsCell" textLabel="qF8-a3-lyM" style="IBUITableViewCellStyleDefault" id="7gd-1G-Hj9">
-                                <rect key="frame" x="0.0" y="99.5" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="99.5" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7gd-1G-Hj9" id="QvB-p7-prw">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qF8-a3-lyM">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
@@ -1892,7 +1904,7 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="calendarChooser" title="Choose Calendar" id="rLT-7O-XUP" customClass="CalendarViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uhv-lB-hXd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5B-Kp-adr">
@@ -1904,7 +1916,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wny-zI-XsU">
-                                <rect key="frame" x="43.5" y="163" width="288" height="341.5"/>
+                                <rect key="frame" x="16" y="113.5" width="288" height="341.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose A Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yt8-iV-RXq">
                                         <rect key="frame" x="18.5" y="0.0" width="251.5" height="33.5"/>
@@ -1981,7 +1993,7 @@ etc...</string>
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Gs-BG-VXX">
-                                <rect key="frame" x="305" y="47" width="50" height="34"/>
+                                <rect key="frame" x="250" y="47" width="50" height="34"/>
                                 <buttonConfiguration key="configuration" style="plain" image="info.circle" catalog="system"/>
                                 <connections>
                                     <action selector="info:" destination="rLT-7O-XUP" eventType="touchUpInside" id="K0u-Gb-G6P"/>
@@ -2147,7 +2159,7 @@ etc...</string>
             <objects>
                 <viewController storyboardIdentifier="Omer" title="Omer" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Sxj-jY-2M3" customClass="OmerViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="A0O-d6-UWt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vZw-X1-WGR">
@@ -2159,7 +2171,7 @@ etc...</string>
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Tf-CF-YVq">
-                                <rect key="frame" x="8" y="62.5" width="359" height="604.5"/>
+                                <rect key="frame" x="8" y="62" width="304" height="506"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7vI-nw-GMQ"/>
@@ -2206,19 +2218,19 @@ etc...</string>
             <objects>
                 <viewController id="FJj-Kt-l6K" customClass="LimudimViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VCN-py-M9D">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="DQQ-Da-fAH">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="539"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="440"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <stackView key="tableHeaderView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" id="Sks-pE-YC9">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Limudim/Hillulot" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ec-ON-yQv">
-                                            <rect key="frame" x="120.5" y="0.0" width="134" height="34"/>
+                                            <rect key="frame" x="93" y="0.0" width="134" height="34"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <color key="textColor" name="AccentColor"/>
                                             <nil key="highlightedColor"/>
@@ -2230,14 +2242,14 @@ etc...</string>
                                 </stackView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LimudEntry" textLabel="0i7-J6-3Ei" style="IBUITableViewCellStyleDefault" id="zCq-tJ-vlh">
-                                        <rect key="frame" x="0.0" y="84" width="375" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="84" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zCq-tJ-vlh" id="uKg-Ka-HgU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0i7-J6-3Ei">
-                                                    <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
@@ -2249,10 +2261,10 @@ etc...</string>
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KDt-xP-qum">
-                                <rect key="frame" x="0.0" y="572" width="375" height="46"/>
+                                <rect key="frame" x="0.0" y="473" width="320" height="46"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" semanticContentAttribute="forceLeftToRight" preservesSuperviewLayoutMargins="YES" id="TLs-7L-rsp">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <items>
                                             <barButtonItem style="plain" id="xjq-k7-OCM">
@@ -2276,7 +2288,7 @@ etc...</string>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="hXq-6s-d2w"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="NeZ-Nj-SCg">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="5xc-ZQ-OvM">
-                                                    <rect key="frame" x="134" y="11" width="108" height="24"/>
+                                                    <rect key="frame" x="106" y="11" width="108" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -2293,7 +2305,7 @@ etc...</string>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="aBO-XM-4x2"/>
                                             <barButtonItem style="plain" id="nRU-cL-22r">
                                                 <button key="customView" opaque="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="xbf-sM-EU1">
-                                                    <rect key="frame" x="332" y="12" width="27" height="22"/>
+                                                    <rect key="frame" x="277" y="12" width="27" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
