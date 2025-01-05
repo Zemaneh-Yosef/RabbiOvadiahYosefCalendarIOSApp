@@ -9,9 +9,9 @@ import UIKit
 import CoreLocation
 import KosherSwift
 import SnackBar
-import WebKit
+@preconcurrency import WebKit
 
-class SiddurViewController: UIViewController, CLLocationManagerDelegate {
+class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavigationDelegate {
 
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var locationManager = CLLocationManager()
@@ -108,6 +108,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         defaults.bool(forKey: "JustifyText") ? sender.setImage(.init(systemName: "text.justify"), for: .normal) : sender.setImage(.init(systemName: "text.alignright"), for: .normal)
         webView.evaluateJavaScript("document.documentElement.style.setProperty('text-align', '\(defaults.bool(forKey: "JustifyText") ? "justify" : "right")');")
     }
+    @IBOutlet weak var dropdown: UIButton!
     @IBOutlet weak var justify: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,46 +116,71 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
 
+        var dropDownTitle: String = ""
         switch GlobalStruct.chosenPrayer {
         case "Selichot":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0
             && Date().timeIntervalSince1970 < (zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0) + 7200)
+            dropDownTitle = "סליחות"
         case "Shacharit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getShacharitPrayers()
+            dropDownTitle = "שחרית"
         case "Mussaf":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMusafPrayers()
+            dropDownTitle = "מוסף"
         case "Mincha":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMinchaPrayers()
+            dropDownTitle = "מנחה"
         case "Arvit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getArvitPrayers()
+            dropDownTitle = "ערבית"
         case "Birchat Hamazon":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
+            dropDownTitle = "ברכת המזון"
         case "Birchat Hamazon+1":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
             GlobalStruct.jewishCalendar.back()
+            dropDownTitle = "ברכת המזון"
         case "Birchat Halevana":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
+            dropDownTitle = "ברכת הלבנה"
         case "Tikkun Chatzot (Day)":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
+            dropDownTitle = "תיקון חצות"
         case "Tikkun Chatzot":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
             GlobalStruct.jewishCalendar.back()
+            dropDownTitle = "תיקון חצות"
         case "Kriat Shema SheAl Hamita":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             GlobalStruct.jewishCalendar.back()
+            dropDownTitle = "ק״ש שעל המיטה"
         case "Birchat MeEyin Shalosh":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+            dropDownTitle = "ברכת מעין שלוש"
         case "Birchat MeEyin Shalosh+1":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
             GlobalStruct.jewishCalendar.back()
+            dropDownTitle = "ברכת מעין שלוש"
         default:
             listOfTexts = [];
         }
         listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
+        dropdown.setTitle(dropDownTitle, for: .normal)
+        dropdown.showsMenuAsPrimaryAction = true
+        var categories:[UIAction] = []
+        for text in listOfTexts {
+            if text.isCategory {
+                categories.append(UIAction(title: text.string, identifier: nil, state: .mixed) { _ in
+                    //TODO go to category
+                })
+            }
+        }
+        dropdown.menu = UIMenu(title: "", options: .displayInline, children: categories)
 
         let fontString = """
         @font-face {
@@ -167,8 +193,13 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             src: url('Guttman Keren.ttf') format('truetype');
         }
         """
+        webView.navigationDelegate = self
+        if defaults.float(forKey: "textSize") == 0.0 {
+            slider.value = 16
+            defaults.set(16, forKey: "textSize")
+        }
 
-        var webstring = "<!DOCTYPE html><html dir=rtl><body><style>:root{color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); }\(resetCSS)\(fontString)p{padding: .15rem; font-family: 'keren'; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)) }</style>"
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: 'keren'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
         for text in listOfTexts {
             let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>")
             if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
@@ -186,11 +217,13 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                     locationManager.startUpdatingHeading()
                 }
                 webstring += "<p class='highlight'>" + formattedString + "</p>"
-                webstring += "<div class='highlight'><img id='compass' src='compass.png' style='width: 100%;' /></div>"
+                webstring += "<div class='highlight compassContainer'><img id='compass' src='compass.png' /></div>"
             } else if text.string == "[break here]" {
                 webstring += "<hr>"
             } else if text.isCategory {
                 webstring += "<p style='padding: .25rem; font-family: guttman-mantova; text-align: center;'>" + formattedString + "</p>"
+            } else if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" || text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
+                webstring += "<a href='" + (text.string == "Open Sefaria Siddur/פתח את סידור ספריה" ? "iosapp://sefaria" : "iosapp://musaf") + "' class='highlight'>" + text.string + "</a>"
             } else if text.shouldBeHighlighted {
                 webstring += "<p class='highlight'>" + formattedString + "</p>"
             } else {
@@ -201,18 +234,12 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
         let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
+        webView.scrollView.alwaysBounceHorizontal = false
         webView.loadHTMLString(webstring, baseURL: baseURL)
         slider.value = defaults.float(forKey: "textSize")
         defaults.bool(forKey: "JustifyText") ? justify.setImage(.init(systemName: "text.justify"), for: .normal) : justify.setImage(.init(systemName: "text.alignright"), for: .normal)
 
         /* let stackviewH = UIStackView()
-        stackviewH.axis = .horizontal
-        stackviewH.spacing = 2
-        stackviewH.translatesAutoresizingMaskIntoConstraints = false
-        categories.translatesAutoresizingMaskIntoConstraints = false
-        categories.showsHorizontalScrollIndicator = true
-        categories.showsVerticalScrollIndicator = false
-        categories.addSubview(stackviewH)
 
         for text in listOfTexts {
             if text.isCategory {
@@ -228,34 +255,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
                 stackviewH.addArrangedSubview(label)
             }
         }
-
-        let stackview = UIStackView()
-        stackview.axis = .vertical
-        stackview.spacing = 0
-        stackview.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(stackview)
-
-        for text in listOfTexts {
-            if text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
-                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionSefaria))
-                label.isUserInteractionEnabled = true
-                label.addGestureRecognizer(tap)
-            }
-            if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" {
-                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionMussaf))
-                label.isUserInteractionEnabled = true
-                label.addGestureRecognizer(tap)
-            }
-            label.text! += "\n"
-            views.append(label)
-            stackview.addArrangedSubview(label)
-            
-        }
-        
-        if stackviewH.arrangedSubviews.isEmpty {
-            categories.isHidden = true
-            NSLayoutConstraint.activate([scrollView.topAnchor.constraint(equalTo: stackviewContainer.topAnchor)])
-        } */
+         */
     }
     
     @objc func tapFunctionCategory(_ sender: UITapGestureRecognizerWithParam) {
@@ -268,7 +268,18 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    @IBAction func tapFunctionMussaf(sender: UITapGestureRecognizer) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
+        let urlAsString = navigationAction.request.url?.absoluteString.lowercased()
+
+        if urlAsString?.range(of: "iosapp://musaf") != nil {
+            tapFunctionMussaf()
+        } else if urlAsString?.range(of: "iosapp://sefaria") != nil {
+            tapFunctionSefaria()
+        }
+     }
+    
+    func tapFunctionMussaf() {
         GlobalStruct.chosenPrayer = "Mussaf"
         super.dismiss(animated: false)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -277,7 +288,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         self.presentingViewController?.present(newViewController, animated: false)
     }
     
-    @IBAction func tapFunctionSefaria(sender: UITapGestureRecognizer) {
+    func tapFunctionSefaria() {
         if let url = URL(string: "https://www.sefaria.org/Siddur_Edot_HaMizrach") {
                 UIApplication.shared.open(url)
         }
@@ -290,7 +301,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         // Get the heading(direction) in degrees
-        let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading)
+        let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading) * -1
         webView.evaluateJavaScript("document.documentElement.style.setProperty('--deg', '\(heading)deg');")
 
 //       var strDirection = String()

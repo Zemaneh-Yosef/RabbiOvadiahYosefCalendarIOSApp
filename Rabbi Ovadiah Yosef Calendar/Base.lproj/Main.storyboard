@@ -774,14 +774,26 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="QUl-GU-vJI"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EfT-yC-d9o">
+                                <rect key="frame" x="121.5" y="26" width="77" height="22"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Prayer">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                    <imageReference key="image" image="arrowtriangle.down.circle.fill" catalog="system" symbolScale="medium"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2oc-gD-oWg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="oqr-Ae-iqM" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" id="3Vg-bA-YoJ"/>
+                            <constraint firstItem="EfT-yC-d9o" firstAttribute="centerX" secondItem="vQM-sm-aZq" secondAttribute="centerX" id="Coj-DP-Rym"/>
                             <constraint firstItem="2oc-gD-oWg" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CX0-0v-Es4" secondAttribute="trailing" symbolic="YES" id="GV9-tG-9b8"/>
                             <constraint firstItem="AWY-HY-fZK" firstAttribute="top" secondItem="CX0-0v-Es4" secondAttribute="bottom" constant="8.5" id="Lxp-xR-Mce"/>
                             <constraint firstItem="AWY-HY-fZK" firstAttribute="trailing" secondItem="2oc-gD-oWg" secondAttribute="trailing" id="aLq-Rc-Wyr"/>
+                            <constraint firstItem="AWY-HY-fZK" firstAttribute="top" secondItem="EfT-yC-d9o" secondAttribute="bottom" constant="15" id="coA-0L-ypg"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="leading" secondItem="2oc-gD-oWg" secondAttribute="leading" constant="16" id="cv0-4v-f1F"/>
                             <constraint firstItem="CX0-0v-Es4" firstAttribute="top" secondItem="2oc-gD-oWg" secondAttribute="top" id="fna-D7-dSt"/>
                             <constraint firstItem="2oc-gD-oWg" firstAttribute="bottom" secondItem="oqr-Ae-iqM" secondAttribute="bottom" constant="12" id="gec-on-Qpu"/>
@@ -791,6 +803,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="dropdown" destination="EfT-yC-d9o" id="g6f-dF-JT8"/>
                         <outlet property="justify" destination="d8g-BM-cqK" id="UZb-9g-u09"/>
                         <outlet property="slider" destination="EpA-QB-Qcq" id="sZs-cc-vhE"/>
                         <outlet property="webView" destination="AWY-HY-fZK" id="cE5-8Q-WME"/>
@@ -2347,6 +2360,7 @@ etc...</string>
     <resources>
         <image name="alarm" catalog="system" width="123" height="128"/>
         <image name="arrowtriangle.backward.fill" catalog="system" width="128" height="113"/>
+        <image name="arrowtriangle.down.circle.fill" catalog="system" width="128" height="123"/>
         <image name="arrowtriangle.forward.fill" catalog="system" width="128" height="113"/>
         <image name="arrowtriangle.left.fill" catalog="system" width="128" height="113"/>
         <image name="arrowtriangle.right.fill" catalog="system" width="128" height="113"/>
@@ -2375,6 +2389,9 @@ etc...</string>
         <namedColor name="dark_blue">
             <color red="0.062745098039215685" green="0.11764705882352941" blue="0.58823529411764708" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="lightTextColor">
             <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
