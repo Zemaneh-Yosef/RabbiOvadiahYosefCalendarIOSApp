@@ -173,14 +173,6 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         dropdown.setTitle(dropDownTitle, for: .normal)
         dropdown.showsMenuAsPrimaryAction = true
         var categories:[UIAction] = []
-        for text in listOfTexts {
-            if text.isCategory {
-                categories.append(UIAction(title: text.string, identifier: nil, state: .mixed) { _ in
-                    //TODO go to category
-                })
-            }
-        }
-        dropdown.menu = UIMenu(title: "", options: .displayInline, children: categories)
 
         let fontString = """
         @font-face {
@@ -221,7 +213,10 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             } else if text.string == "[break here]" {
                 webstring += "<hr>"
             } else if text.isCategory {
-                webstring += "<p style='padding: .25rem; font-family: guttman-mantova; text-align: center;'>" + formattedString + "</p>"
+                webstring += "<p id='\(text.string)' style='padding: .25rem; font-family: guttman-mantova; text-align: center;'>" + formattedString + "</p>"
+                categories.append(UIAction(title: text.string, identifier: nil, state: .mixed) { _ in
+                    self.webView.evaluateJavaScript("document.getElementById('\(text.string)').scrollIntoView()")
+                })
             } else if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" || text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
                 webstring += "<a href='" + (text.string == "Open Sefaria Siddur/פתח את סידור ספריה" ? "iosapp://sefaria" : "iosapp://musaf") + "' class='highlight'>" + text.string + "</a>"
             } else if text.shouldBeHighlighted {
@@ -233,6 +228,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
                 }
             }
         }
+        dropdown.menu = UIMenu(title: "", options: .displayInline, children: categories)
         let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
         webView.scrollView.alwaysBounceHorizontal = false
         webView.loadHTMLString(webstring, baseURL: baseURL)
