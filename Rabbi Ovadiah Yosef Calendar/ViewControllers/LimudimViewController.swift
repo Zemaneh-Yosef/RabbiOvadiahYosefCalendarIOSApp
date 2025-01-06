@@ -87,7 +87,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
 
         if indexPath.section != 0 {
             cell.accessoryView = .none
-            cell.backgroundColor = .tertiarySystemGroupedBackground
+            cell.backgroundColor = .systemBackground
 
             let limud = if indexPath.section == 1 { limudim[indexPath.row] } else { hiloulot[indexPath.row] }
             content.text = limud.title
@@ -186,6 +186,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        limudTableView.backgroundColor = .secondarySystemBackground
         limudTableView.dataSource = self
         limudTableView.delegate = self
         let refreshControl = UIRefreshControl()

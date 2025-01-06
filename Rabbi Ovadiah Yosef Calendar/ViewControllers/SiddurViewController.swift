@@ -172,6 +172,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
         dropdown.setTitle(dropDownTitle, for: .normal)
         dropdown.showsMenuAsPrimaryAction = true
+        dropdown.semanticContentAttribute = .forceLeftToRight
         var categories:[UIAction] = []
 
         let fontString = """
@@ -190,6 +191,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             slider.value = 16
             defaults.set(16, forKey: "textSize")
         }
+        var catsFound = false
 
         var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: 'keren'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
         for text in listOfTexts {
@@ -213,6 +215,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             } else if text.string == "[break here]" {
                 webstring += "<hr>"
             } else if text.isCategory {
+                catsFound = true
                 webstring += "<p id='\(text.string)' style='padding: .25rem; font-family: guttman-mantova; text-align: center;'>" + formattedString + "</p>"
                 categories.append(UIAction(title: text.string, identifier: nil, state: .mixed) { _ in
                     self.webView.evaluateJavaScript("document.getElementById('\(text.string)').scrollIntoView()")
@@ -229,39 +232,15 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             }
         }
         dropdown.menu = UIMenu(title: "", options: .displayInline, children: categories)
+        if !catsFound {
+            dropdown.isEnabled = false
+            dropdown.imageView?.isHidden = true
+        }
         let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
         webView.scrollView.alwaysBounceHorizontal = false
         webView.loadHTMLString(webstring, baseURL: baseURL)
         slider.value = defaults.float(forKey: "textSize")
         defaults.bool(forKey: "JustifyText") ? justify.setImage(.init(systemName: "text.justify"), for: .normal) : justify.setImage(.init(systemName: "text.alignright"), for: .normal)
-
-        /* let stackviewH = UIStackView()
-
-        for text in listOfTexts {
-            if text.isCategory {
-                let label = UILabel()
-                label.numberOfLines = 0
-                label.textAlignment = .center
-                label.text = text.string
-                label.font = .boldSystemFont(ofSize: 18)
-                let tap = UITapGestureRecognizerWithParam(parameter: label, target: self, action: #selector(tapFunctionCategory))
-                tap.parameter = label
-                label.isUserInteractionEnabled = true
-                label.addGestureRecognizer(tap)
-                stackviewH.addArrangedSubview(label)
-            }
-        }
-         */
-    }
-    
-    @objc func tapFunctionCategory(_ sender: UITapGestureRecognizerWithParam) {
-        for view in views {
-            if view.text?.replacingOccurrences(of: "\n", with: "") == sender.parameter.text {
-                //let labelFrameInScrollView = view.convert(view.bounds, to: scrollView)
-                //scrollView.scrollRectToVisible(labelFrameInScrollView, animated: false)
-                break
-            }
-        }
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -353,13 +332,3 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     */
 
 }
-
-class UITapGestureRecognizerWithParam: UITapGestureRecognizer {
-    var parameter: UILabel
-    
-    init(parameter: UILabel, target: Any?, action: Selector?) {
-        self.parameter = parameter
-        super.init(target: target, action: action)
-    }
-}
-

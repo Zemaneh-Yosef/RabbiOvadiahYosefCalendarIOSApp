@@ -1021,6 +1021,17 @@
         }
       }
     },
+    "Find your location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מצא את המיקום שלך"
+          }
+        }
+      }
+    },
     "First year of Shmita" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1120,6 +1131,17 @@
         }
       }
     },
+    "Ideally, this app needs location permissions in order to accurately calculate the zmanim. Therefore, it is better to allow the app to see your location. We do not use your location for any other purpose than to calculate the zmanim.\\n\\nHowever, if you still do not want to give location permissions, you can choose to search for your address or a zipcode and the app will find your location based on your approximate area. (Using a zip code is not recommended if you want accurate zmanim. It is better to put in your address.)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "באופן אידיאלי, האפליקציה זקוקה להרשאות מיקום על מנת לחשב את הזמנים בצורה מדויקת. לכן, עדיף לאפשר לאפליקציה לגשת למיקומך. איננו משתמשים במיקומך לכל מטרה אחרת מלבד חישוב הזמנים.\n\nעם זאת, אם עדיין אינך מעוניין לתת הרשאות מיקום, באפשרותך לחפש את כתובתך או מיקוד, והאפליקציה תמצא את מיקומך על פי האזור המשוער. (שימוש במיקוד אינו מומלץ אם ברצונך לקבל זמנים מדויקים. עדיף להזין את כתובתך.)"
+          }
+        }
+      }
+    },
     "If you are in Israel, please confirm below." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1164,13 +1186,13 @@
         }
       }
     },
-    "It is good to say this prayer on Tu'Beshvat:" : {
+    "It is good to say this prayer today." : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "נכון לומר את התפילה הזו ביום ט\"ו בשבט:"
+            "value" : "נכון לומר את התפילה הזו היום."
           }
         }
       }
@@ -1416,7 +1438,7 @@
         }
       }
     },
-    "Misc" : {
+    "Misc." : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -1872,17 +1894,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ספק קישור למטה לחיפוש "
-          }
-        }
-      }
-    },
-    "Purim prayers will show on the 14th (yesterday)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "תפילות פורים יוצגו ב-14 (אתמול)"
           }
         }
       }
@@ -3072,17 +3083,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "יום כיפור"
-          }
-        }
-      }
-    },
-    "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results and it will automatically update your location." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "תוכל לבחור להשתמש במיקום המכשיר שלך, או לחפש מקום מטה. מומלץ להשתמש במיקום המכשיר שלך מכיוון שזה מספק תוצאות מדויקות יותר וזה יעדכן את מיקומך באופן אוטומטי."
           }
         }
       }

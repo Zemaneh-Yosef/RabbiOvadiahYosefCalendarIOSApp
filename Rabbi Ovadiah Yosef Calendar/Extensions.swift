@@ -252,7 +252,7 @@ public extension JewishCalendar {
         let yomTovIndex = getYomTovIndex()
         let jewishMonth = getJewishMonth()
         let jewishDay = getJewishDayOfMonth()
-        if (jewishMonth == JewishCalendar.NISSAN && jewishDay == 15) || (!inIsrael && jewishMonth == JewishCalendar.NISSAN && jewishDay == 16) || yomTovIndex == JewishCalendar.SHAVUOS || yomTovIndex == JewishCalendar.SUCCOS || yomTovIndex == JewishCalendar.SHEMINI_ATZERES || isCholHamoedSuccos() || isChanukah() {
+        if (jewishMonth == JewishCalendar.NISSAN && jewishDay == 15) || (!inIsrael && jewishMonth == JewishCalendar.NISSAN && jewishDay == 16) || yomTovIndex == JewishCalendar.SHAVUOS || yomTovIndex == JewishCalendar.SUCCOS || yomTovIndex == JewishCalendar.SHEMINI_ATZERES || isSimchasTorah() || isCholHamoedSuccos() || isChanukah() {
             return "הלל שלם";
         } else if isRoshChodesh() || isCholHamoedPesach() || (jewishMonth == JewishCalendar.NISSAN && jewishDay == 21) || (!inIsrael && jewishMonth == JewishCalendar.NISSAN && jewishDay == 22) {
             return "חצי הלל";
@@ -414,7 +414,8 @@ public extension JewishCalendar {
                  isRoshHashana() ||
                  isYomKippur() ||
                  getYomTovIndex() == JewishCalendar.SUCCOS ||
-                 getYomTovIndex() == JewishCalendar.SHEMINI_ATZERES ||
+                 isShminiAtzeres() ||
+                 isSimchasTorah() ||
                  isPesach() || isShavuos());
     }
     

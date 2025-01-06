@@ -142,24 +142,6 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                     Text(entry.daf)
                 }
             }
-        case .systemLarge:
-            HStack {
-                VStack {
-                    Text(entry.hebrewDate)
-                        .bold().padding()
-                    Text(entry.parasha)
-                        .padding()
-                    Text(entry.tachanun
-                        .replacingOccurrences(of: "There is Tachanun today", with: "Tachanun")
-                        .replacingOccurrences(of: "There is only Tachanun in the morning", with: "Tachanun Morning Only"))
-                    .padding()
-                    Text(entry.daf)
-                }
-                VStack {
-                    Text(entry.upcomingZman).padding()
-                    Text(entry.date, style: .time).bold()
-                }
-            }
         default:
             VStack {
                 Text(entry.hebrewDate)
@@ -180,7 +162,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget: Widget {
         }
         .configurationDisplayName("Rabbi Ovadiah Yosef Calendar Widget")
         .description("This is a widget that will show relevant zmanim.")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 

@@ -169,6 +169,18 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         map.addGestureRecognizer(tapGesture)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if !defaults.bool(forKey: "isSetup") {
+            
+            var alertController = UIAlertController(title: "Find your location".localized(), message: "Ideally, this app needs location permissions in order to accurately calculate the zmanim. Therefore, it is better to allow the app to see your location. We do not use your location for any other purpose than to calculate the zmanim.\n\nHowever, if you still do not want to give location permissions, you can choose to search for your address or a zipcode and the app will find your location based on your approximate area. (Using a zip code is not recommended if you want accurate zmanim. It is better to put in your address.)".localized(), preferredStyle: .alert)
+            
+            let dismissAction = UIAlertAction(title: "OK".localized(), style: .cancel) { (_) in }
+            alertController.addAction(dismissAction)
+            
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     @objc func handleMapTap(_ gestureRecognizer: UITapGestureRecognizer) {
         //This method is called when the user taps on the map view.
         map.removeAnnotation(chosenLocationAnnotation)
