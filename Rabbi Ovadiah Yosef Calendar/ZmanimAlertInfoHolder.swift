@@ -26,58 +26,55 @@ struct ZmanimAlertInfoHolder {
             return "Sunrise - HaNetz - הנץ"
         }
         if title == zmanimNames.getAchilatChametzString() {
-            return "Sof Zman Achilat Chametz - Latest time to eat Chametz - סוף זמן אכילת חמץ"
+            return "Sof Zeman Achilat Ḥametz - Latest time to eat Ḥametz - סוף זמן אכילת חמץ"
         }
         if title == zmanimNames.getBiurChametzString() {
-            return "Latest time to burn Chametz - Sof Zman Biur Chametz - סוף זמן ביעור חמץ"
+            return "Latest time to burn Ḥametz - Sof Zman Biur Ḥametz - סוף זמן ביעור חמץ"
         }
         if title == zmanimNames.getShmaMgaString() {
-            return "Latest Shma MG\"A - Sof Zman Shma MG\"A - סוף זמן שמע מג\"א"
+            return "Latest Shema MG\"A - Sof Zeman Shema MG\"A - סוף זמן שמע מג\"א"
         }
         if title == zmanimNames.getShmaGraString() {
-            return "Latest Shma GR\"A - Sof Zman Shma GR\"A - סוף זמן שמע גר\"א"
+            return "Latest Shema GR\"A - Sof Zeman Shema GR\"A - סוף זמן שמע גר\"א"
         }
         if title == zmanimNames.getBrachotShmaString() {
-            return "Latest Brachot Shma - Sof Zman Brachot Shma - סוף זמן ברכות שמע"
+            return "Latest Berakhot Shema - Sof Zman Berakhot Shema - סוף זמן ברכות שמע"
         }
         if title == zmanimNames.getChatzotString() {
-            return "Mid-day - Chatzot - חצות"
+            return "Mid-day - Ḥatzot - חצות"
         }
         if title == zmanimNames.getMinchaGedolaString() {
-            return "Earliest Mincha - Mincha Gedola - מנחה גדולה"
+            return "Earliest Minḥa - Minḥa Gedola - מנחה גדולה"
         }
         if title == zmanimNames.getMinchaKetanaString() {
-            return "Mincha Ketana - מנחה קטנה"
+            return "Minḥa Ketana - מנחה קטנה"
         }
         if title.contains(zmanimNames.getPlagHaminchaString()) {
-            return "Plag HaMincha - פלג המנחה"
+            return "Plag HaMinḥa - פלג המנחה"
         }
         if title.contains(zmanimNames.getCandleLightingString()) {
             return "Candle Lighting - הדלקת נרות"
         }
         if title == zmanimNames.getSunsetString() {
-            return "Sunset - Shkia - שקיעה"
+            return "Sunset - Sheqi'a - שקיעה"
         }
         if title == zmanimNames.getTzaitHacochavimString() {
-            return "Nightfall - Tzait Hacochavim - צאת הכוכבים"
+            return "Nightfall - Tzet Hakokhavim - צאת הכוכבים"
         }
         if title == zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString() {
-            return "Nightfall (Stringent) - Tzait Hacochavim L'Chumra - צאת הכוכבים לחומרא"
-        }
-        if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString() {
-            return "Fast Ends (Stringent) - Tzeit Taanit L'Chumra - צאת תענית לחומרא"
+            return "Nightfall (Stringent) - Tzet Hakokhavim L'Ḥumra - צאת הכוכבים לחומרא"
         }
         if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() {
-            return "Fast Ends - Tzeit Taanit - צאת תענית"
+            return "Fast Ends - Tzet Ta'anit - צאת תענית"
         }
         if title.contains("Shabbat") || title.contains("Chag") || title.contains("\u{05E9}\u{05D1}\u{05EA}") || title.contains("\u{05D7}\u{05D2}") {
-            return "Shabbat/Chag Ends - Tzeit Shabbat/Chag - צאת \u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
+            return "Shabbat/Yom Tov Ends - Tzet Shabbat/Chag - צאת \u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
         }
         if title == zmanimNames.getRTString() {
-            return "Rabbeinu Tam - רבינו תם"
+            return "Rabbenu Tam - רבינו תם"
         }
         if title == zmanimNames.getChatzotLaylaString() {
-            return "Midnight - Chatzot Layla - חצות הלילה"
+            return "Midnight - Ḥatzot Layla - חצות הלילה"
         }
         if title.contains("וּלְכַפָּרַת פֶּשַׁע") {
             return "וּלְכַפָּרַת פֶּשַׁע"
@@ -89,15 +86,15 @@ struct ZmanimAlertInfoHolder {
             return title
         }
         if title.contains("ברכת החמה") || title.contains("Birchat HaChamah") {
-            return "Latest Birchat HaChamah - סוף זמן ברכת החמה - Sof Zman Birchat HaChamah"
+            return "Latest Birkat HaChamah - סוף זמן ברכת החמה - Sof Zeman Birchat HaChamah"
         }
         if title.contains("ברכת הלבנה") || title.contains("Birchat HaLevana") {
-            return "ברכת הלבנה - Birchat Halevana"
+            return "ברכת הלבנה - Birkat Halevana"
         }
         if title.contains("שמיטה") || title.contains("Shmita") {
-            return "Shmita - שמיטה"
+            return "Shemita - שמיטה"
         }
-        
+
         return ""
     }
     
