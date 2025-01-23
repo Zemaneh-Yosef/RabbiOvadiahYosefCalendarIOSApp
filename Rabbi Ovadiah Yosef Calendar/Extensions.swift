@@ -10,6 +10,12 @@ import KosherSwift
 
 public extension JewishCalendar {
     
+    func tomorrow() -> JewishCalendar {
+        let result = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        result.forward()
+        return result
+    }
+    
     func getSpecialDay(addOmer: Bool) -> String {
         var result = Array<String>()
                 
@@ -156,6 +162,9 @@ public extension JewishCalendar {
         if yomtov.contains("Chanukah") {
             return "Chanukah" // to remove the numbers
         }
+        if (isPurimMeshulash()) {
+            return "פורים משולש";
+        }
         return yomtov.replacingOccurrences(of: "Teves", with: "Tevet")
             .replacingOccurrences(of: "Shavuos", with: "Shavuot")
             .replacingOccurrences(of: "Succos", with: "Succot")
@@ -252,7 +261,7 @@ public extension JewishCalendar {
         let yomTovIndex = getYomTovIndex()
         let jewishMonth = getJewishMonth()
         let jewishDay = getJewishDayOfMonth()
-        if (jewishMonth == JewishCalendar.NISSAN && jewishDay == 15) || (!inIsrael && jewishMonth == JewishCalendar.NISSAN && jewishDay == 16) || yomTovIndex == JewishCalendar.SHAVUOS || yomTovIndex == JewishCalendar.SUCCOS || yomTovIndex == JewishCalendar.SHEMINI_ATZERES || isCholHamoedSuccos() || isChanukah() {
+        if (jewishMonth == JewishCalendar.NISSAN && jewishDay == 15) || (!inIsrael && jewishMonth == JewishCalendar.NISSAN && jewishDay == 16) || yomTovIndex == JewishCalendar.SHAVUOS || yomTovIndex == JewishCalendar.SUCCOS || yomTovIndex == JewishCalendar.SHEMINI_ATZERES || isSimchasTorah() || isCholHamoedSuccos() || isChanukah() {
             return "הלל שלם";
         } else if isRoshChodesh() || isCholHamoedPesach() || (jewishMonth == JewishCalendar.NISSAN && jewishDay == 21) || (!inIsrael && jewishMonth == JewishCalendar.NISSAN && jewishDay == 22) {
             return "חצי הלל";
@@ -414,7 +423,8 @@ public extension JewishCalendar {
                  isRoshHashana() ||
                  isYomKippur() ||
                  getYomTovIndex() == JewishCalendar.SUCCOS ||
-                 getYomTovIndex() == JewishCalendar.SHEMINI_ATZERES ||
+                 isShminiAtzeres() ||
+                 isSimchasTorah() ||
                  isPesach() || isShavuos());
     }
     
@@ -463,6 +473,12 @@ public extension JewishCalendar {
      */
     func getYearOfShmitaCycle() -> Int {
         return getJewishYear() % 7
+    }
+    
+    func isPurimMeshulash() -> Bool {
+        let yesterday = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        yesterday.back() // Move to yesterday
+        return yesterday.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && yesterday.getDayOfWeek() == 7
     }
 }
 

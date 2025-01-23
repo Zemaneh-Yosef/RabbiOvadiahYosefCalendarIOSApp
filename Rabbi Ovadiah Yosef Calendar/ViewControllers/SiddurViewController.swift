@@ -9,266 +9,258 @@ import UIKit
 import CoreLocation
 import KosherSwift
 import SnackBar
+@preconcurrency import WebKit
 
-class SiddurViewController: UIViewController, CLLocationManagerDelegate {
-    
+class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavigationDelegate {
+
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var locationManager = CLLocationManager()
     var views: Array<UILabel> = []
     var compassImageView = UIImageView(image: UIImage(named: "compass"))
-    let _acceptableCharacters = "0123456789."
-
-    @IBAction func changeTextSize(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Set text size".localized(),
-                                      message: "You can set the size of your text in the text box below. The default size is 16.".localized(), preferredStyle: .alert)
-        alert.addTextField { (textField) in
-            textField.placeholder = "Size (12.0 - 78.0)".localized()
-        }
-        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel))
-        alert.addAction(UIAlertAction(title: defaults.bool(forKey: "JustifyText") ? "Right Align Text".localized() : "Justify".localized(), style: .default, handler: { [self] (_) in
-            defaults.set(!defaults.bool(forKey: "JustifyText"), forKey: "JustifyText")
-            SnackBar(contextView: view, message: "Please close and open the siddur.".localized(), duration: SnackBar.Duration.lengthShort).show()
-        }))
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self, weak alert] (_) in
-            let textField = alert?.textFields![0].text
-            //if text is empty, display a message notifying the user:
-            if textField == nil || textField == "" || !CharacterSet(charactersIn: _acceptableCharacters).isSuperset(of: CharacterSet(charactersIn: textField ?? "")) {
-                let alert = UIAlertController(title: "Error".localized(), message: "Please enter a valid number.".localized(), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: {_ in
-                    alert.dismiss(animated: true) // just dismiss the dialog
-                }))
-                self.present(alert, animated: true)
-                return
-            } else {
-                var newSize = Float(textField ?? "16")
-                if newSize! <= 11 {
-                    newSize = 12.0
-                }
-                if newSize! >= 78.0 {
-                    newSize = 78
-                }
-                print(newSize!)
-                self.defaults.set(newSize, forKey: "textSize")
-                for l in views {
-                    l.font = .boldSystemFont(ofSize: CGFloat(newSize ?? 16))
-                }
-            }
-        }))
-        present(alert, animated: true)
+    let resetCSS = """
+    /* Box sizing rules */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
     }
+
+    /* Prevent font size inflation */
+    html {
+      -moz-text-size-adjust: none;
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
+    }
+
+    /* Remove default margin in favour of better control in authored CSS */
+    body, h1, h2, h3, h4, p,
+    figure, blockquote, dl, dd {
+      margin-block-end: 0;
+    }
+
+    /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+    ul[role='list'],
+    ol[role='list'] {
+      list-style: none;
+    }
+
+    /* Set core body defaults */
+    body {
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Set shorter line heights on headings and interactive elements */
+    h1, h2, h3, h4,
+    button, input, label {
+      line-height: 1.1;
+    }
+
+    /* Balance text wrapping on headings */
+    h1, h2,
+    h3, h4 {
+      text-wrap: balance;
+    }
+
+    /* A elements that don't have a class get default styles */
+    a:not([class]) {
+      text-decoration-skip-ink: auto;
+      color: currentColor;
+    }
+
+    /* Make images easier to work with */
+    img,
+    picture {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Inherit fonts for inputs and buttons */
+    input, button,
+    textarea, select {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    /* Make sure textareas without a rows attribute are not tiny */
+    textarea:not([rows]) {
+      min-height: 10em;
+    }
+
+    /* Anything that has been anchored to should have extra scroll margin */
+    :target {
+      scroll-margin-block: 5ex;
+    }
+    """
+
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
-    @IBOutlet weak var stackviewContainer: UIStackView!
-    //    @IBOutlet weak var slider: UISlider!
-//    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
-//        sender.isEnabled = false
-//        let newSize = sender.value
-//        print(newSize)
-//        defaults.set(newSize, forKey: "textSize")
-//        for l in views {
-//            l.font = .boldSystemFont(ofSize: CGFloat(newSize) + 16)
-//        }
-//        sender.isEnabled = true
-//    }
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var categories: UIScrollView!
+    @IBOutlet weak var slider: UISlider!
+    @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
+        defaults.set(sender.value, forKey: "textSize")
+        let newSize = sender.value * 10
+        webView.evaluateJavaScript("document.documentElement.style.setProperty('-webkit-text-size-adjust', '\(newSize)%');")
+    }
+    @IBOutlet weak var webView: WKWebView!
+    @IBAction func justify(_ sender: UIButton) {
+        defaults.set(!defaults.bool(forKey: "JustifyText"), forKey: "JustifyText")
+        defaults.bool(forKey: "JustifyText") ? sender.setImage(.init(systemName: "text.justify"), for: .normal) : sender.setImage(.init(systemName: "text.alignright"), for: .normal)
+        webView.evaluateJavaScript("document.documentElement.style.setProperty('text-align', '\(defaults.bool(forKey: "JustifyText") ? "justify" : "right")');")
+    }
+    @IBOutlet weak var dropdown: UIButton!
+    @IBOutlet weak var justify: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         var listOfTexts = Array<HighlightString>()
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
 
-        if GlobalStruct.chosenPrayer == "Selichot" {
+        var dropDownTitle: String = ""
+        switch GlobalStruct.chosenPrayer {
+        case "Selichot":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0
             && Date().timeIntervalSince1970 < (zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0) + 7200)
-        }
-        if GlobalStruct.chosenPrayer == "Shacharit" {
+            dropDownTitle = "סליחות"
+        case "Shacharit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getShacharitPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Mussaf" {
+            dropDownTitle = "שחרית"
+        case "Mussaf":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMusafPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Mincha" {
+            dropDownTitle = "מוסף"
+        case "Mincha":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMinchaPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Neilah" {//will never show, but future proof it
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getMusafPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Arvit" {
+            dropDownTitle = "מנחה"
+        case "Arvit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getArvitPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat Hamazon" {
+            dropDownTitle = "ערבית"
+        case "Birchat Hamazon":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat Hamazon+1" {
+            dropDownTitle = "ברכת המזון"
+        case "Birchat Hamazon+1":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
             GlobalStruct.jewishCalendar.back()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat Halevana" {
+            dropDownTitle = "ברכת המזון"
+        case "Birchat Halevana":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Tikkun Chatzot (Day)" {
+            dropDownTitle = "ברכת הלבנה"
+        case "Tikkun Chatzot (Day)":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
-        }
-        if GlobalStruct.chosenPrayer == "Tikkun Chatzot" {
+            dropDownTitle = "תיקון חצות"
+        case "Tikkun Chatzot":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
             GlobalStruct.jewishCalendar.back()
-        }
-        if GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita" {
+            dropDownTitle = "תיקון חצות"
+        case "Kriat Shema SheAl Hamita":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             GlobalStruct.jewishCalendar.back()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat MeEyin Shalosh" {
+            dropDownTitle = "ק״ש שעל המיטה"
+        case "Birchat MeEyin Shalosh":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        }
-        if GlobalStruct.chosenPrayer == "Birchat MeEyin Shalosh+1" {
+            dropDownTitle = "ברכת מעין שלוש"
+        case "Birchat MeEyin Shalosh+1":
             GlobalStruct.jewishCalendar.forward()
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
             GlobalStruct.jewishCalendar.back()
+            dropDownTitle = "ברכת מעין שלוש"
+        case "Hadlakat Neirot Chanuka":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHadlakatNeirotChanukaPrayers()
+            dropDownTitle = "הדלקת נרות חנוכה"
+        case "Havdala":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHavdalahPrayers()
+            dropDownTitle = "הבדלה"
+        default:
+            listOfTexts = []
         }
         listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
-        
-        let stackviewH = UIStackView()
-        stackviewH.axis = .horizontal
-        stackviewH.spacing = 2
-        stackviewH.translatesAutoresizingMaskIntoConstraints = false
-        categories.translatesAutoresizingMaskIntoConstraints = false
-        categories.showsHorizontalScrollIndicator = true
-        categories.showsVerticalScrollIndicator = false
-        categories.addSubview(stackviewH)
-        
-        for text in listOfTexts {
-            if text.isCategory {
-                let label = UILabel()
-                label.numberOfLines = 0
-                label.textAlignment = .center
-                label.text = text.string
-                label.font = .boldSystemFont(ofSize: 18)
-                let tap = UITapGestureRecognizerWithParam(parameter: label, target: self, action: #selector(tapFunctionCategory))
-                tap.parameter = label
-                label.isUserInteractionEnabled = true
-                label.addGestureRecognizer(tap)
-                stackviewH.addArrangedSubview(label)
-            }
+        dropdown.setTitle(dropDownTitle, for: .normal)
+        dropdown.showsMenuAsPrimaryAction = true
+        dropdown.semanticContentAttribute = .forceLeftToRight
+        var categories:[UIAction] = []
+
+        let fontString = """
+        @font-face {
+            font-family: "guttman-mantova";
+            src: url('MANTB 2.ttf') format('truetype');
         }
         
-        NSLayoutConstraint.activate([
-            stackviewH.topAnchor.constraint(equalTo: categories.contentLayoutGuide.topAnchor),
-            stackviewH.leadingAnchor.constraint(equalTo: categories.contentLayoutGuide.leadingAnchor),
-            stackviewH.trailingAnchor.constraint(equalTo: categories.contentLayoutGuide.trailingAnchor),
-            stackviewH.bottomAnchor.constraint(equalTo: categories.contentLayoutGuide.bottomAnchor),
-            
-            stackviewH.trailingAnchor.constraint(greaterThanOrEqualTo: categories.frameLayoutGuide.trailingAnchor)
-        ])
-        
-        let stackview = UIStackView()
-        stackview.axis = .vertical
-        stackview.spacing = 0
-        stackview.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(stackview)
-        
-        //slider.setValue(defaults.float(forKey: "textSize"), animated: true)
-                
-        for text in listOfTexts {
-            let label = UILabel()
-            label.numberOfLines = 0
-            label.textAlignment = defaults.bool(forKey: "JustifyText") ? .justified : .right
-            label.text = text.string
-            if defaults.bool(forKey: "JustifyText") {
-                let text: NSMutableAttributedString = NSMutableAttributedString(string: text.string)
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.alignment = .justified
-                paragraphStyle.baseWritingDirection = .rightToLeft
-                paragraphStyle.lineBreakMode = .byWordWrapping
-                text.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, text.length))
-                label.attributedText = text
-            }
+        @font-face {
+            font-family: "keren";
+            src: url('Guttman Keren.ttf') format('truetype');
+        }
+        """
+        webView.navigationDelegate = self
+        if defaults.float(forKey: "textSize") == 0.0 {
+            slider.value = 16
+            defaults.set(16, forKey: "textSize")
+        }
+        var catsFound = false
 
-            var textSize = CGFloat(defaults.float(forKey: "textSize"))
-            if textSize == 0 {
-                textSize = 16
-            }
-            label.font = .boldSystemFont(ofSize: textSize)
-            if text.shouldBeHighlighted {
-                label.text = "\n".appending(text.string)
-                label.textColor = .black
-                label.backgroundColor = .yellow
-            }
-            if text.string == "[break here]" {
-                label.text = ""
-                                
-                let lineView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.width, height: 2))
-                lineView.backgroundColor = label.textColor
-                label.addSubview(lineView)
-            }
-            if text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
-                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionSefaria))
-                label.isUserInteractionEnabled = true
-                label.addGestureRecognizer(tap)
-            }
-            if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" {
-                let tap = UITapGestureRecognizer(target: self, action: #selector(tapFunctionMussaf))
-                label.isUserInteractionEnabled = true
-                label.addGestureRecognizer(tap)
-            }
-            label.text! += "\n"
-            views.append(label)
-            stackview.addArrangedSubview(label)
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: 'keren'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
+        for text in listOfTexts {
+            let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>").appending("<br><br>")
             if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
                 "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
-                compassImageView.backgroundColor = UIColor.black
-                compassImageView.contentMode = .scaleAspectFit // Adjust the content mode as needed
-                stackview.addArrangedSubview(compassImageView)
                 locationManager.delegate = self
-                
+
                 // Start location services to get the true heading.
                 locationManager.distanceFilter = 1000
                 locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
                 locationManager.startUpdatingLocation()
-                
-                //Start heading updating.
+
+                // Start heading updating.
                 if CLLocationManager.headingAvailable() {
                     locationManager.headingFilter = 1
                     locationManager.startUpdatingHeading()
                 }
-            }
-            if text.string.hasSuffix("לַמְנַצֵּ֥חַ בִּנְגִינֹ֗ת מִזְמ֥וֹר שִֽׁיר׃ אֱֽלֹהִ֗ים יְחׇנֵּ֥נוּ וִיבָרְכֵ֑נוּ יָ֤אֵֽר פָּנָ֖יו אִתָּ֣נוּ סֶֽלָה׃ לָדַ֣עַת בָּאָ֣רֶץ דַּרְכֶּ֑ךָ בְּכׇל־גּ֝וֹיִ֗ם יְשׁוּעָתֶֽךָ׃ יוֹד֖וּךָ עַמִּ֥ים ׀ אֱלֹהִ֑ים י֝וֹד֗וּךָ עַמִּ֥ים כֻּלָּֽם׃ יִ֥שְׂמְח֥וּ וִירַנְּנ֗וּ לְאֻ֫מִּ֥ים כִּֽי־תִשְׁפֹּ֣ט עַמִּ֣ים מִישֹׁ֑ר וּלְאֻמִּ֓ים ׀ בָּאָ֖רֶץ תַּנְחֵ֣ם סֶֽלָה׃ יוֹד֖וּךָ עַמִּ֥ים ׀ אֱלֹהִ֑ים י֝וֹד֗וּךָ עַמִּ֥ים כֻּלָּֽם׃ אֶ֭רֶץ נָתְנָ֣ה יְבוּלָ֑הּ יְ֝בָרְכֵ֗נוּ אֱלֹהִ֥ים אֱלֹהֵֽינוּ׃ יְבָרְכֵ֥נוּ אֱלֹהִ֑ים וְיִֽירְא֥וּ א֝וֹת֗וֹ כׇּל־אַפְסֵי־אָֽרֶץ׃") {
-                let menorahImageView = UIImageView(image: UIImage(named: "menorah"))
-                menorahImageView.contentMode = .scaleAspectFit // Adjust the content mode as needed
-                stackview.addArrangedSubview(menorahImageView)
+                webstring += "<p class='highlight'>" + formattedString + "</p>"
+                webstring += "<div class='highlight compassContainer'><img id='compass' src='compass.png' /></div>"
+            } else if text.string == "[break here]" {
+                webstring += "<hr>"
+            } else if text.isCategory {
+                catsFound = true
+                webstring += "<p id='\(text.string)' style='padding: .25rem; font-family: guttman-mantova; text-align: center;'>" + formattedString + "</p>"
+                categories.append(UIAction(title: text.string, identifier: nil, state: .mixed) { _ in
+                    self.webView.evaluateJavaScript("document.getElementById('\(text.string)').scrollIntoView()")
+                })
+            } else if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" || text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
+                webstring += "<a href='" + (text.string == "Open Sefaria Siddur/פתח את סידור ספריה" ? "iosapp://sefaria" : "iosapp://musaf") + "' class='highlight'>" + text.string + "</a>"
+            } else if text.shouldBeHighlighted {
+                webstring += "<p class='highlight'>" + formattedString + "</p>"
+            } else {
+                webstring += "<p>" + formattedString + "</p>"
+                if text.string.hasSuffix(SiddurMaker.menorah) {
+                    webstring += "<img id='kefiraLight' src='menora.svg' style='width: 100%;' /><img id='kefiraShadow' src='menora-shadow.svg' style='width: 100%;' />"
+                }
             }
         }
-        
-        NSLayoutConstraint.activate([
-            stackview.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            stackview.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            stackview.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            stackview.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            
-            stackview.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-        ])
-        
-        if stackviewH.arrangedSubviews.isEmpty {
-            categories.isHidden = true
-            NSLayoutConstraint.activate([scrollView.topAnchor.constraint(equalTo: stackviewContainer.topAnchor)])
+        dropdown.menu = UIMenu(title: "", options: .displayInline, children: categories)
+        if !catsFound {
+            dropdown.isEnabled = false
+            dropdown.imageView?.isHidden = true
         }
+        let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
+        webView.scrollView.alwaysBounceHorizontal = false
+        webView.loadHTMLString(webstring, baseURL: baseURL)
+        slider.value = defaults.float(forKey: "textSize")
+        defaults.bool(forKey: "JustifyText") ? justify.setImage(.init(systemName: "text.justify"), for: .normal) : justify.setImage(.init(systemName: "text.alignright"), for: .normal)
     }
     
-    @objc func tapFunctionCategory(_ sender: UITapGestureRecognizerWithParam) {
-        for view in views {
-            if view.text?.replacingOccurrences(of: "\n", with: "") == sender.parameter.text {
-                let labelFrameInScrollView = view.convert(view.bounds, to: scrollView)
-                scrollView.scrollRectToVisible(labelFrameInScrollView, animated: false)
-                break
-            }
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
+        let urlAsString = navigationAction.request.url?.absoluteString.lowercased()
+
+        if urlAsString?.range(of: "iosapp://musaf") != nil {
+            tapFunctionMussaf()
+        } else if urlAsString?.range(of: "iosapp://sefaria") != nil {
+            tapFunctionSefaria()
         }
-    }
+     }
     
-    @IBAction func tapFunctionMussaf(sender: UITapGestureRecognizer) {
+    func tapFunctionMussaf() {
         GlobalStruct.chosenPrayer = "Mussaf"
         super.dismiss(animated: false)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -277,7 +269,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         self.presentingViewController?.present(newViewController, animated: false)
     }
     
-    @IBAction func tapFunctionSefaria(sender: UITapGestureRecognizer) {
+    func tapFunctionSefaria() {
         if let url = URL(string: "https://www.sefaria.org/Siddur_Edot_HaMizrach") {
                 UIApplication.shared.open(url)
         }
@@ -289,13 +281,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
             return
         }
 
-        // Get the heading(direction)
-        let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ?
-            newHeading.trueHeading : newHeading.magneticHeading);
-        UIView.animate(withDuration: 0.5) {
-            let angle = CGFloat(heading) * .pi / 180 // convert from degrees to radians
-            self.compassImageView.transform = CGAffineTransform(rotationAngle: angle) // rotate the picture
-        }
+        // Get the heading(direction) in degrees
+        let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading) * -1
+        webView.evaluateJavaScript("document.documentElement.style.setProperty('--deg', '\(heading)deg');")
 
 //       var strDirection = String()
 //        if(heading > 23 && heading <= 67){
@@ -322,6 +310,10 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         var result = Array<HighlightString>()
         
         for str in array {
+            if !str.isCategory {
+                result.append(str)
+                continue
+            }
             if let count = counts[str.string] {
                 counts[str.string] = count + 1  // Increment occurrence count
                 let modifiedString = str.string + String(repeating: "\u{200E}", count: count)  // Append an invisible char for each occurrence
@@ -334,7 +326,6 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
         
         return result
     }
-    
 
     /*
     // MARK: - Navigation
@@ -347,13 +338,3 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate {
     */
 
 }
-
-class UITapGestureRecognizerWithParam: UITapGestureRecognizer {
-    var parameter: UILabel
-    
-    init(parameter: UILabel, target: Any?, action: Selector?) {
-        self.parameter = parameter
-        super.init(target: target, action: action)
-    }
-}
-
