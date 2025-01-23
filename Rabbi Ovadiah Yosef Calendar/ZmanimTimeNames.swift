@@ -148,7 +148,7 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "פלג המנחה"
         } else {
-            return "Plag HaMincha"
+            return "Plag HaMinḥa"
         }
     }
     
