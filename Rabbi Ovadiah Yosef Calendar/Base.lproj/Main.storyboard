@@ -519,7 +519,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oqr-Ae-iqM">
                                 <rect key="frame" x="0.0" y="694" width="414" height="30"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="10" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="EpA-QB-Qcq">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="16" minValue="10" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="EpA-QB-Qcq">
                                         <rect key="frame" x="-2" y="0.0" width="368" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="GDt-V6-XTp"/>

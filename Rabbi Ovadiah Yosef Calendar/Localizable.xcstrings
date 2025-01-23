@@ -1624,6 +1624,17 @@
         }
       }
     },
+    "No Tachanun in Yerushalayim or a Safek Mukaf Choma" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אין אומרים תחנון בירושלים או בספק מוקף חומה"
+          }
+        }
+      }
+    },
     "No Weekly Parasha" : {
       "extractionState" : "manual",
       "localizations" : {

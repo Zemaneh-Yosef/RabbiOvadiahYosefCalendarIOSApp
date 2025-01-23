@@ -1678,6 +1678,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             zmanimList.append(ZmanListEntry(title: ulChaparatPesha))
         }
         zmanimList.append(ZmanListEntry(title:jewishCalendar.getTachanun()))
+        if (jewishCalendar.isPurimMeshulash()) {
+            zmanimList.append(ZmanListEntry(title: "No Tachanun in Yerushalayim or a Safek Mukaf Choma"))
+        }
         let bircatHelevana = jewishCalendar.getBirchatLevanaStatus()
         if !bircatHelevana.isEmpty {
             zmanimList.append(ZmanListEntry(title: bircatHelevana))

@@ -166,8 +166,14 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
             GlobalStruct.jewishCalendar.back()
             dropDownTitle = "ברכת מעין שלוש"
+        case "Hadlakat Neirot Chanuka":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHadlakatNeirotChanukaPrayers()
+            dropDownTitle = "הדלקת נרות חנוכה"
+        case "Havdala":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHavdalahPrayers()
+            dropDownTitle = "הבדלה"
         default:
-            listOfTexts = [];
+            listOfTexts = []
         }
         listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
         dropdown.setTitle(dropDownTitle, for: .normal)
@@ -195,7 +201,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
 
         var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: 'keren'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
         for text in listOfTexts {
-            let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>")
+            let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>").appending("<br><br>")
             if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
                 "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
                 locationManager.delegate = self

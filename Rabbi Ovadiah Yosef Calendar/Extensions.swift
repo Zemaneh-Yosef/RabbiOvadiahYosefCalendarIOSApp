@@ -10,6 +10,12 @@ import KosherSwift
 
 public extension JewishCalendar {
     
+    func tomorrow() -> JewishCalendar {
+        let result = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        result.forward()
+        return result
+    }
+    
     func getSpecialDay(addOmer: Bool) -> String {
         var result = Array<String>()
                 
@@ -155,6 +161,9 @@ public extension JewishCalendar {
         }
         if yomtov.contains("Chanukah") {
             return "Chanukah" // to remove the numbers
+        }
+        if (isPurimMeshulash()) {
+            return "פורים משולש";
         }
         return yomtov.replacingOccurrences(of: "Teves", with: "Tevet")
             .replacingOccurrences(of: "Shavuos", with: "Shavuot")
@@ -464,6 +473,12 @@ public extension JewishCalendar {
      */
     func getYearOfShmitaCycle() -> Int {
         return getJewishYear() % 7
+    }
+    
+    func isPurimMeshulash() -> Bool {
+        let yesterday = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        yesterday.back() // Move to yesterday
+        return yesterday.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && yesterday.getDayOfWeek() == 7
     }
 }
 

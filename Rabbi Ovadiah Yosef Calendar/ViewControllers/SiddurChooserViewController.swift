@@ -238,6 +238,12 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         }
         choices["morning"]?.append("מנחה")
         choices["night"]?.append("ערבית")
+        if (GlobalStruct.jewishCalendar.tomorrow().isChanukah() || GlobalStruct.jewishCalendar.isChanukah() && GlobalStruct.jewishCalendar.getDayOfChanukah() != 8) {
+            choices["night"]?.append("הדלקת נרות חנוכה")
+        }
+        if (!GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha()) {
+            choices["night"]?.append("הבדלה")
+        }
         choices["night"]?.append("ק״ש שעל המיטה")
         choices[!GlobalStruct.jewishCalendar.is3Weeks() ? "night" : "misc"]?.append("תיקון חצות")
         choices["misc"]?.append("ברכת המזון")
@@ -380,6 +386,12 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             openSiddur()
         case "ברכת מעין שלוש":
             birchatMeEyinShalosh()
+        case "הדלקת נרות חנוכה":
+            GlobalStruct.chosenPrayer = "Hadlakat Neirot Chanuka"
+            openSiddur()
+        case "הבדלה":
+            GlobalStruct.chosenPrayer = "Havdala"
+            openSiddur()
         default:
             if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
                 openEtrogPrayerLink()
@@ -468,10 +480,6 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             ]
             entries = entries.filter { !$0.isEmpty }
             return entries.joined(separator: ", ")
-        case "ברכת הלבנה":
-            return nil
-        case "תיקון חצות":
-            return nil
         case "ק״ש שעל המיטה":
 //            if Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0 {
 //                GlobalStruct.jewishCalendar.forward()
@@ -496,10 +504,12 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
 //                GlobalStruct.jewishCalendar.back()
 //            }
             return nil
-        case "ברכת מעין שלוש":
-            return nil
-        default:
+        case "Prayer for Etrog".localized():
             return "It is good to say this prayer today.".localized()
+        case "Parshat Haman".localized():
+            return "It is good to say this prayer today.".localized()
+        default:
+            return nil
         }
         
         return nil
