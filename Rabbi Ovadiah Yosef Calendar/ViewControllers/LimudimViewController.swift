@@ -11,6 +11,8 @@ import KosherSwift
 
 class LimudimViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    var lastTimeUserWasInApp: Date = Date()
+    
     @IBAction func prevDay(_ sender: UIButton) {
         GlobalStruct.userChosenDate = GlobalStruct.userChosenDate.advanced(by: -86400)
         GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
@@ -197,6 +199,11 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
+            GlobalStruct.userChosenDate = Date()
+            GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
+        }
+        lastTimeUserWasInApp = Date()
         refreshTable()
     }
 

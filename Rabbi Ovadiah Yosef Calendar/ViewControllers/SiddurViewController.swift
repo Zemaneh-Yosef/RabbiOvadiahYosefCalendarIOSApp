@@ -138,9 +138,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
             dropDownTitle = "ברכת המזון"
         case "Birchat Hamazon+1":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
             dropDownTitle = "ברכת המזון"
         case "Birchat Halevana":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
@@ -149,22 +147,16 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
             dropDownTitle = "תיקון חצות"
         case "Tikkun Chatzot":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getTikkunChatzotPrayers(isForNight: true)
             dropDownTitle = "תיקון חצות"
         case "Kriat Shema SheAl Hamita":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             dropDownTitle = "ק״ש שעל המיטה"
         case "Birchat MeEyin Shalosh":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
             dropDownTitle = "ברכת מעין שלוש"
         case "Birchat MeEyin Shalosh+1":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers()
             dropDownTitle = "ברכת מעין שלוש"
         case "Hadlakat Neirot Chanuka":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHadlakatNeirotChanukaPrayers()

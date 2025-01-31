@@ -14,9 +14,25 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/SiddurViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "webView(_:decidePolicyFor:decisionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "00C3785B-FB90-4FAD-BD18-92ABE439AF62"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Rabbi Ovadiah Yosef Calendar/ViewControllers/ZmanListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "496"
+            endingLineNumber = "496"
+            landmarkName = "showHebrewDatePicker()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

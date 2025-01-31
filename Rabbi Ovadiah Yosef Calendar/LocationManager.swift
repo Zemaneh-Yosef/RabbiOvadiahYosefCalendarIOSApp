@@ -44,13 +44,26 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             }
             
             var name = ""
+            var strings = Array<String>()
             
-            if let locality = place.locality {
-                name += locality
+            let useSubLocalOnly = place.locality?.split(separator: " ").map({ String($0.first!) }).joined() == place.administrativeArea
+            
+            if let subLocality = place.subLocality {
+                strings.append(subLocality)
             }
             
-            if let adminRegion = place.administrativeArea {
-                name += ", \(adminRegion)"
+            if !useSubLocalOnly, let locality = place.locality {
+                strings.append(locality)
+            }
+            
+            if let adminRegion = place.administrativeArea, !adminRegion.contains(place.locality ?? "") {
+                strings.append(adminRegion)
+            }
+            
+            name = strings.joined(separator: ", ")
+            
+            if let zipcode = place.postalCode {
+                name += " (\(zipcode))"
             }
             
             completion(name)

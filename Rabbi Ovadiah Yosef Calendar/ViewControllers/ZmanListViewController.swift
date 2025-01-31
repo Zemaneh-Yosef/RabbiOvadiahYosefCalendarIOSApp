@@ -367,6 +367,10 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             })
         }
         
+        if indexPath.row == 1 {
+            showDatePicker()
+        }
+        
         if zmanimList[indexPath.row].title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
             let setupSunriseAction = UIAlertAction(title: "Setup Visible Sunrise".localized(), style: .default) { [self] (_) in
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)

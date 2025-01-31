@@ -11,6 +11,17 @@
         }
       }
     },
+    " (Today)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " (היום)"
+          }
+        }
+      }
+    },
     " / Last notification until the app is opened again." : {
       "extractionState" : "manual",
       "localizations" : {

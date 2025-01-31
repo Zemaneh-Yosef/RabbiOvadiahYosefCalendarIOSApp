@@ -11,6 +11,7 @@ import KosherSwift
 class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var zmanimCalendar = ComplexZmanimCalendar()
+    var lastTimeUserWasInApp: Date = Date()
     let dateFormatterForZmanim = DateFormatter()
     var specialDayText = ""
     var tonightText = ""
@@ -203,7 +204,10 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
-        let weekday = dateFormatter.string(from: GlobalStruct.jewishCalendar.workingDate)
+        var weekday = dateFormatter.string(from: GlobalStruct.jewishCalendar.workingDate)
+        if Calendar.current.isDate(GlobalStruct.jewishCalendar.workingDate, inSameDayAs: Date()) {
+            weekday = weekday.appending(" (Today)".localized())
+        }
         let hebrewDateFormatter = HebrewDateFormatter()
         hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
 
@@ -217,17 +221,15 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                 .appending(GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false))
         }
 
-        GlobalStruct.jewishCalendar.forward()
         tonightText = weekday
             .appending(" " + "(After Sunset)".localized())
             .appending("\n")
-            .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar))
-        if !GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false).isEmpty {
+            .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()))
+        if !GlobalStruct.jewishCalendar.tomorrow().getSpecialDay(addOmer: false).isEmpty {
             tonightText = tonightText
                 .appending("\n")
-                .appending(GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false))
+                .appending(GlobalStruct.jewishCalendar.tomorrow().getSpecialDay(addOmer: false))
         }
-        GlobalStruct.jewishCalendar.back()
 
         if GlobalStruct.jewishCalendar.isSelichotSaid() {
             choices["morning"]?.append("סליחות")
@@ -324,20 +326,16 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                           || GlobalStruct.jewishCalendar.getTachanun() == "אומרים תחנון"
                           || GlobalStruct.jewishCalendar.getTachanun() == "There is Tachanun today"
                   if (!GlobalStruct.jewishCalendar.isDayTikkunChatzotSaid() || !isTachanunSaid) {
-                      GlobalStruct.jewishCalendar.forward()
-                      if (!GlobalStruct.jewishCalendar.isNightTikkunChatzotSaid()) {// i.e. both are not said
+                      if (!GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {// i.e. both are not said
                           content.textProperties.color = .systemGray // Subtle gray for text
                           cell.alpha = 0.8 // Slightly dim entire cell
                       }
-                      GlobalStruct.jewishCalendar.back()
                   }
               } else {// not three weeks
-                  GlobalStruct.jewishCalendar.forward()
-                  if (!GlobalStruct.jewishCalendar.isNightTikkunChatzotSaid()) {
+                  if (!GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {
                       content.textProperties.color = .systemGray // Subtle gray for text
                       cell.alpha = 0.8 // Slightly dim entire cell
                   }
-                  GlobalStruct.jewishCalendar.back()
               }
         }
 
@@ -546,6 +544,11 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
+            GlobalStruct.userChosenDate = Date()
+            GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
+        }
+        lastTimeUserWasInApp = Date()
         loadView()
         viewDidLoad()
     }
