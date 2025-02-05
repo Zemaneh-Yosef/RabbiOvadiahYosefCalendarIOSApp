@@ -44,7 +44,7 @@
 		5D7550B829FC555200894335 /* ZmanimSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */; };
 		5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */; };
 		5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */; };
-		5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D948C302A38205E0017A8B6 /* CalendarViewController.swift */; };
+		5D948C312A38205E0017A8B6 /* TipScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D948C302A38205E0017A8B6 /* TipScreenViewController.swift */; };
 		CE0CE7D62B4B6ABF00913F40 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CA12D2A021CA100F24323 /* Notifications.swift */; };
 		CE0CE7D72B4B6AC000913F40 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CA12D2A021CA100F24323 /* Notifications.swift */; };
 		CE0CEBF42B07085100BFD068 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBF32B07085100BFD068 /* ContentView.swift */; };
@@ -204,7 +204,7 @@
 		5D7550B729FC555200894335 /* ZmanimSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimSettingsViewController.swift; sourceTree = "<group>"; };
 		5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimNotificationsSettingsViewController.swift; sourceTree = "<group>"; };
 		5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimAlertInfoHolder.swift; sourceTree = "<group>"; };
-		5D948C302A38205E0017A8B6 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		5D948C302A38205E0017A8B6 /* TipScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipScreenViewController.swift; sourceTree = "<group>"; };
 		CE0CEBF32B07085100BFD068 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE0CEBF52B070AD400BFD068 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements"; sourceTree = "<group>"; };
 		CE14479E2BE99A3E00AA52C9 /* OmerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmerViewController.swift; sourceTree = "<group>"; };
@@ -296,7 +296,7 @@
 				CE17DDCE2C9A8AF100CB9AA5 /* LimudimViewController.swift */,
 				CE14479E2BE99A3E00AA52C9 /* OmerViewController.swift */,
 				520D97392ABA8D17004B9014 /* NetzViewController.swift */,
-				5D948C302A38205E0017A8B6 /* CalendarViewController.swift */,
+				5D948C302A38205E0017A8B6 /* TipScreenViewController.swift */,
 				5D7550A229E3776700894335 /* ElevationViewController.swift */,
 				5D7550A829EF8B5800894335 /* InIsraelViewController.swift */,
 				52A2A8B52A8B4CF500E2A463 /* SetupChooserViewController.swift */,
@@ -657,7 +657,7 @@
 				CEB21E3A2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */,
 				520D973A2ABA8D17004B9014 /* NetzViewController.swift in Sources */,
 				5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */,
-				5D948C312A38205E0017A8B6 /* CalendarViewController.swift in Sources */,
+				5D948C312A38205E0017A8B6 /* TipScreenViewController.swift in Sources */,
 				52A2A8B62A8B4CF500E2A463 /* SetupChooserViewController.swift in Sources */,
 				CE97D7C32D4C95FF00C019AA /* ZmanimFactory.swift in Sources */,
 				5D19D36329A3687900F8033D /* SceneDelegate.swift in Sources */,
