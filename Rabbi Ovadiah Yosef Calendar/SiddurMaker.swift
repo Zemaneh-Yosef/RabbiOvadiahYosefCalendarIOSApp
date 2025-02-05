@@ -41,6 +41,7 @@ public class SiddurMaker {
         || jewishCalendar.getTachanun() == "אומרים תחנון"
         || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה"
         || jewishCalendar.getTachanun() == "Some skip Tachanun by mincha"
+        || jewishCalendar.isPurimMeshulash() && (jewishCalendar.isMukafChoma || jewishCalendar.isSafekMukafChoma)
         
         self.isTachanunSaidByMincha = jewishCalendar.getTachanun() == "There is Tachanun today"
         || jewishCalendar.getTachanun() == "אומרים תחנון"
@@ -48,6 +49,7 @@ public class SiddurMaker {
         || jewishCalendar.getTachanun() == "יש אומרים תחנון"
         || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה"
         || jewishCalendar.getTachanun() == "Some skip Tachanun by mincha"
+        || jewishCalendar.isPurimMeshulash() && (jewishCalendar.isMukafChoma || jewishCalendar.isSafekMukafChoma)
     }
     
     func getSelichotPrayers(isAfterChatzot: Bool) -> Array<HighlightString> {
@@ -825,10 +827,6 @@ public class SiddurMaker {
         if jewishCalendar.getTachanun() == "Some say Tachanun today"
             || jewishCalendar.getTachanun() == "יש אומרים תחנון" {
             addToSiddur( "[".appending(jewishCalendar.getTachanun()).appending("]") )
-        }
-        
-        if (jewishCalendar.isPurimMeshulash()) {
-            addToSiddurHighlighted("אין תחנון בירושלים או בעיר שהיא ספק מוקפת חומה/No Tachanun in Yerushalayim or a city with a doubt of being walled (Safek Mukaf Choma)")
         }
         
         if (isTachanunSaidInTheMorning) {
@@ -3410,10 +3408,6 @@ public class SiddurMaker {
             || jewishCalendar.getTachanun() == "Some say Tachanun today"
             || jewishCalendar.getTachanun() == "יש אומרים תחנון") {
             addToSiddur( "[" + jewishCalendar.getTachanun() + "]");
-        }
-        
-        if (jewishCalendar.isPurimMeshulash()) {
-            addToSiddurHighlighted("אין אומרים תחנון בירושלים/No Tachanun in Yerushalayim");
         }
         
         if (isTachanunSaidByMincha) {

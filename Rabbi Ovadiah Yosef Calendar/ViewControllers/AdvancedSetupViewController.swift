@@ -46,7 +46,7 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
     }
     @IBAction func websiteButton(_ sender: UIButton) {
         let webView = WKWebView()
-        webView.load(URLRequest(url: URL(string: "https://bit.ly/3rhS55b")!))
+        webView.load(URLRequest(url: URL(string: Locale.isHebrewLocale() ? "https://chaitables.com/chai_heb.php" : "https://bit.ly/3rhS55b")!))
         webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)
@@ -97,20 +97,15 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
     }
     
     func assertCorrectURL(url: String) -> String {
-        var url = url
-        if (url.contains("&cgi_types=0")) {
-             url = url.replacingOccurrences(of: "&cgi_types=0", with: "&cgi_types=0");
-         } else if (url.contains("&cgi_types=1")) {
-             url = url.replacingOccurrences(of: "&cgi_types=1", with: "&cgi_types=0");
-         } else if (url.contains("&cgi_types=2")) {
-             url = url.replacingOccurrences(of: "&cgi_types=2", with: "&cgi_types=0");
-         } else if (url.contains("&cgi_types=3")) {
-             url = url.replacingOccurrences(of: "&cgi_types=3", with: "&cgi_types=0");
-         } else if (url.contains("&cgi_types=4")) {
-             url = url.replacingOccurrences(of: "&cgi_types=4", with: "&cgi_types=0");
-         } else if (url.contains("&cgi_types=-1")) {
-             url = url.replacingOccurrences(of: "&cgi_types=-1", with: "&cgi_types=0");
-         }
-        return url
+        var editedURL = url
+        return editedURL
+            .replacingOccurrences(of: "&cgi_types=-1", with: "&cgi_types=0")
+            .replacingOccurrences(of: "&cgi_types=1", with: "&cgi_types=0")
+            .replacingOccurrences(of: "&cgi_types=2", with: "&cgi_types=0")
+            .replacingOccurrences(of: "&cgi_types=3", with: "&cgi_types=0")
+            .replacingOccurrences(of: "&cgi_types=4", with: "&cgi_types=0")
+            .replacingOccurrences(of: "&cgi_types=5", with: "&cgi_types=0")
+            .replacingOccurrences(of: "&cgi_optionheb=0", with: "&cgi_optionheb=1")
+            .replacingOccurrences(of: "&cgi_Language=Hebrew", with: "&cgi_Language=English")
     }
 }

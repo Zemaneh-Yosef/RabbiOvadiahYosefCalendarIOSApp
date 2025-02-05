@@ -306,6 +306,17 @@
         }
       }
     },
+    "Always use a 10th of the day for Rabbeinu Tam" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "השתמש תמיד בעשירית היום עבור רבנו תם"
+          }
+        }
+      }
+    },
     "Amudei Horaah Mode" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -889,6 +900,17 @@
         }
       }
     },
+    "Enable this if you want to always calculate Rabbeinu Tam as a 10th of the day (72 non-deviated zmaniyot minutes)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הפעל אפשרות זו אם ברצונך תמיד לחשב את זמני רבנו תם כהעשירית של היום (72 דקות זמניות לא מוסטות)."
+          }
+        }
+      }
+    },
     "End shabbat opinion" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1010,7 +1032,7 @@
         }
       }
     },
-    "Fifth year of Shmita" : {
+    "Fifth year of Shemita" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -1043,7 +1065,7 @@
         }
       }
     },
-    "First year of Shmita" : {
+    "First year of Shemita" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -1054,7 +1076,7 @@
         }
       }
     },
-    "Fourth year of Shmita" : {
+    "Fourth year of Shemita" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -1083,6 +1105,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הַסְכָּמוֹת"
+          }
+        }
+      }
+    },
+    "Havdalah is only said on a flame tonight." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הבדלה נאמרת הלילה רק על האש."
+          }
+        }
+      }
+    },
+    "Havdalah will be completed after the fast." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הבדלה תושלם לאחר הצום."
           }
         }
       }
@@ -1291,7 +1335,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "הזן קו רוחב"
+            "value" : "קו רוחב"
           }
         }
       }
@@ -1339,6 +1383,17 @@
         }
       }
     },
+    "Location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מיקום"
+          }
+        }
+      }
+    },
     "Location Issues" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1378,7 +1433,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "הזן קו אורך"
+            "value" : "קו אורך"
           }
         }
       }
@@ -1390,6 +1445,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ד ו"
+          }
+        }
+      }
+    },
+    "meters" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מטרים"
           }
         }
       }
@@ -1620,6 +1686,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אין מידע על שם המיקום"
+          }
+        }
+      }
+    },
+    "No location set" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לא הוגדרה מיקום"
           }
         }
       }
@@ -2072,7 +2149,7 @@
         }
       }
     },
-    "Second year of Shmita" : {
+    "Second year of Shemita" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -2255,6 +2332,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הגדרת זריחה נראית"
+          }
+        }
+      }
+    },
+    "Setup visible sunrise now! (Want to try later? Visit the Sunrise description)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדירו עכשיו את זמן זריחת החמה הנראית! (רוצים לנסות מאוחר יותר? בקרו בתיאור הזריחה)"
           }
         }
       }
@@ -2507,7 +2595,7 @@
         }
       }
     },
-    "Show the year of the shmita cycle or if the current year is a shmita year" : {
+    "Show the year of the Shemita cycle or if the current year is a Shemita year" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -2529,7 +2617,7 @@
         }
       }
     },
-    "Show year of Shmita cycle?" : {
+    "Show year of Shemita cycle?" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -2572,7 +2660,7 @@
         }
       }
     },
-    "Sixth year of Shmita" : {
+    "Sixth year of Shemita" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -2836,7 +2924,7 @@
         }
       }
     },
-    "Third year of Shmita" : {
+    "Third year of Shemita" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -2878,7 +2966,7 @@
         }
       }
     },
-    "This year is a shmita year" : {
+    "This year is a Shemita year" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -2940,6 +3028,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תיקון חצות לא נאמר הלילה. סיבות אפשריות לכך: זהו ליל שבת, ראש השנה, יום כיפור, סוכות/שמיני עצרת, פסח או שבועות"
+          }
+        }
+      }
+    },
+    "Time Zone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אזור זמן"
           }
         }
       }

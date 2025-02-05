@@ -39,10 +39,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     }
     @IBOutlet weak var viewContainingToolbar: UIView!
     @IBAction func jerDirection(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "jerDirection") as! JerusalemDirectionViewController
-        newViewController.modalPresentationStyle = .fullScreen
-        self.present(newViewController, animated: true)
+        showFullScreenView("jerDirection")
     }
 
     func birchatHamazon() {
@@ -243,7 +240,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         if (GlobalStruct.jewishCalendar.tomorrow().isChanukah() || GlobalStruct.jewishCalendar.isChanukah() && GlobalStruct.jewishCalendar.getDayOfChanukah() != 8) {
             choices["night"]?.append("הדלקת נרות חנוכה")
         }
-        if (!GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha()) {
+        if !GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha() || (GlobalStruct.jewishCalendar.isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7 || GlobalStruct.jewishCalendar.getDayOfWeek() == 1) {
             choices["night"]?.append("הבדלה")
         }
         choices["night"]?.append("ק״ש שעל המיטה")
@@ -338,7 +335,14 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                   }
               }
         }
-
+        
+        if content.text == "הבדלה" {
+            if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
+                content.textProperties.color = .systemGray // Subtle gray for text
+                cell.alpha = 0.8 // Slightly dim entire cell
+            }
+        }
+        
         cell.contentConfiguration = content
         return cell
     }
@@ -389,7 +393,18 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             openSiddur()
         case "הבדלה":
             GlobalStruct.chosenPrayer = "Havdala"
-            openSiddur()
+            if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
+                let alert = UIAlertController(title: "Havdalah is only said on a flame tonight.".localized(),
+                                              message:"Havdalah will be completed after the fast.".localized().appending("\n\n").appending("בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם, בּוֹרֵא מְאוֹרֵי הָאֵשׁ:"), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Yes (Jerusalem)".localized(), style: .default, handler: { UIAlertAction in
+                    GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
+                    GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
+                    self.showFullScreenView("Siddur")
+                }))
+                present(alert, animated: true)
+            } else {
+                openSiddur()
+            }
         default:
             if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
                 openEtrogPrayerLink()
@@ -554,35 +569,31 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     func openSiddur() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
-        newViewController.modalPresentationStyle = .fullScreen
-
         if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && !(GlobalStruct.chosenPrayer == "Birchat Halevana" || GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") || GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita") {// if the prayer is dependant on isMukafChoma, we ask the user
             let alert = UIAlertController(title: "Are you in a walled (Mukaf Choma) city?".localized(),
                                           message:"Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?".localized(), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes (Jerusalem)".localized(), style: .default, handler: { UIAlertAction in
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                self.present(newViewController, animated: false, completion: nil)
+                self.showFullScreenView("Siddur")
             }))
             alert.addAction(UIAlertAction(title: "Doubt (Safek)".localized(), style: .default, handler: { UIAlertAction in
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: true)
-                self.present(newViewController, animated: false)
+                self.showFullScreenView("Siddur")
             }))
             alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
                 // Undo any previous settings
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                self.present(newViewController, animated: false)
+                self.showFullScreenView("Siddur")
             }))
             alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-                
+                alert.dismiss(animated: false)
             }))
-            present(alert, animated: true)
+            showFullScreenView("Siddur")
         } else {
-            self.present(newViewController, animated: true)
+            showFullScreenView("Siddur")
         }
     }
 

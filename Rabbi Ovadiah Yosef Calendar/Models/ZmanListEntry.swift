@@ -17,6 +17,7 @@ struct ZmanListEntry {
     var shouldBeDimmed: Bool = false // For Tzeit on Shabbat/Yom Tov
     var isVisibleSunriseZman = false
     var isBirchatHachamahZman = false
+    var is66MisheyakirZman = false
 }
 
 #if DEBUG

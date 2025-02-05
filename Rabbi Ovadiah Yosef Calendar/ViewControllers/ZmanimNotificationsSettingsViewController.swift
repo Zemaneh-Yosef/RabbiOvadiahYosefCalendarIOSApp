@@ -47,19 +47,6 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if !defaults.bool(forKey: "LuachAmudeiHoraah") {
-            if defaults.integer(forKey: "plagOpinion") == 1 {
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Halacha Berurah")!)
-            }
-            if defaults.integer(forKey: "plagOpinion") == 2 {
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Yalkut Yosef")!)
-            }
-            if !defaults.bool(forKey: "showTzeitLChumra") {
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Tzeit Hacochavim (Stringent)")!)
-            }
-        } else {
-            editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends")!)
-        }
     }
 
     // MARK: - Table view data source

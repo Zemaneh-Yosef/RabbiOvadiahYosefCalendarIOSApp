@@ -28,42 +28,43 @@ class InIsraelViewController: UIViewController {
         transition.subtype = CATransitionSubtype.fromRight
         transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         view.window!.layer.add(transition, forKey: kCATransition)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        var newViewController: UIViewController
-        if Locale.isHebrewLocale() {// if person speaks hebrew, skip language chooser
-            defaults.setValue(true, forKey: "isZmanimInHebrew")
-            defaults.setValue(false, forKey: "isZmanimEnglishTranslated")
-            if inIsrael {// if in israel, skip calendar chooser as well
-                if defaults.bool(forKey: "isSetup") {
-                    self.dismiss(animated: false)
-                } else {// user has never setup the app before, needs location details
-                    newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
-                    self.present(newViewController, animated: false)
-                }
-            } else {// Not in Israel
-                if defaults.bool(forKey: "isSetup") {
-                    newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
-                    self.present(newViewController, animated: false)
-                } else {// user has never setup the app before, needs location details
-                    newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
-                    self.present(newViewController, animated: false)
+        
+        defaults.set(inIsrael, forKey: "inIsrael")
+        defaults.set(!inIsrael, forKey: "LuachAmudeiHoraah")
+        defaults.set(!inIsrael, forKey: "useElevation")
+        
+        if Locale.isHebrewLocale() {
+            defaults.set(true, forKey: "isZmanimInHebrew")
+            defaults.set(false, forKey: "isZmanimEnglishTranslated")
+            defaults.set(true, forKey: "isSetup")
+            if defaults.bool(forKey: "hasNotShownTipScreen") {
+                showFullScreenView("TipScreen")
+                defaults.set(false, forKey: "hasNotShownTipScreen")
+            } else {
+                let welcome = super.presentingViewController?.presentingViewController?.presentingViewController
+                let getUserLocationView = super.presentingViewController?.presentingViewController
+                super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
+                    if getUserLocationView != nil {
+                        getUserLocationView?.dismiss(animated: false) {
+                            if welcome != nil {
+                                welcome?.dismiss(animated: false)
+                            }
+                        }
+                    }
                 }
             }
-        } else {// any other language
-            newViewController = storyboard.instantiateViewController(withIdentifier: "zmanim languages") as! ZmanimLanguageViewController
-            self.present(newViewController, animated: false)
+        } else {
+            showFullScreenView("zmanim languages")
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 15.0, *) {
-            yes.setTitleColor(.white, for: .normal)
-            yes.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            yes.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            
-            no.setTitleColor(.black, for: .normal)
-            no.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            no.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        }
+        yes.setTitleColor(.white, for: .normal)
+        yes.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        yes.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        no.setTitleColor(.black, for: .normal)
+        no.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        no.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }

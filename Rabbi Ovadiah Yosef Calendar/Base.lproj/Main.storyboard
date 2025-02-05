@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="n2R-Sq-lDT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="n2R-Sq-lDT">
     <device id="retina5_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -583,6 +583,93 @@
             </objects>
             <point key="canvasLocation" x="2056.8000000000002" y="811.84407796101959"/>
         </scene>
+        <!--WelcomeScreen-->
+        <scene sceneID="dNP-La-fb3">
+            <objects>
+                <viewController storyboardIdentifier="WelcomeScreen" title="WelcomeScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ICO-Qs-waI" customClass="WelcomeScreenViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MbX-9N-3z1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcome_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Noq-tO-2y1">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="B7k-UR-fby">
+                                <rect key="frame" x="20" y="20" width="374" height="153.66666666666666"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Worldwide Halachic Times according to our Sepharadic Tradition." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTv-vF-cjv">
+                                <rect key="frame" x="20" y="181.66666666666666" width="374" height="90.666666666666657"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="1" height="1"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wGX-29-YCc">
+                                <rect key="frame" x="20" y="324.33333333333331" width="374" height="40.333333333333314"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyz-W1-l65">
+                                        <rect key="frame" x="0.0" y="0.0" width="183" height="40.333333333333336"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="About Us">
+                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="22"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="aboutUs:" destination="ICO-Qs-waI" eventType="touchUpInside" id="dSC-K5-ZdV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRY-wu-AJw">
+                                        <rect key="frame" x="191" y="0.0" width="183" height="40.333333333333336"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <size key="titleShadowOffset" width="1" height="1"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="Haskamot">
+                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="22"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="haskamot:" destination="ICO-Qs-waI" eventType="touchUpInside" id="Fq3-0z-1aW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saG-WL-uph">
+                                <rect key="frame" x="20" y="681.66666666666663" width="374" height="34.333333333333371"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Get Started">
+                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="getStarted:" destination="ICO-Qs-waI" eventType="touchUpInside" id="BRp-ao-5kn"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jdL-Tb-ffq"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jdL-Tb-ffq" firstAttribute="trailing" secondItem="CTv-vF-cjv" secondAttribute="trailing" constant="20" id="51Q-FV-eUS"/>
+                            <constraint firstItem="jdL-Tb-ffq" firstAttribute="trailing" secondItem="B7k-UR-fby" secondAttribute="trailing" constant="20" id="Am0-gl-Xbo"/>
+                            <constraint firstItem="B7k-UR-fby" firstAttribute="leading" secondItem="jdL-Tb-ffq" secondAttribute="leading" constant="20" id="M4f-zA-Bv1"/>
+                            <constraint firstItem="CTv-vF-cjv" firstAttribute="leading" secondItem="jdL-Tb-ffq" secondAttribute="leading" constant="20" id="QBb-Gd-Wnp"/>
+                            <constraint firstItem="Noq-tO-2y1" firstAttribute="top" secondItem="MbX-9N-3z1" secondAttribute="top" id="Su2-2p-1xw"/>
+                            <constraint firstItem="Noq-tO-2y1" firstAttribute="leading" secondItem="MbX-9N-3z1" secondAttribute="leading" id="V6r-nU-bZJ"/>
+                            <constraint firstItem="jdL-Tb-ffq" firstAttribute="trailing" secondItem="wGX-29-YCc" secondAttribute="trailing" constant="20" id="VSX-Ag-IHn"/>
+                            <constraint firstItem="wGX-29-YCc" firstAttribute="top" secondItem="CTv-vF-cjv" secondAttribute="bottom" constant="52" id="cUd-rd-IBP"/>
+                            <constraint firstAttribute="bottom" secondItem="Noq-tO-2y1" secondAttribute="bottom" id="dRa-7o-pxk"/>
+                            <constraint firstItem="jdL-Tb-ffq" firstAttribute="bottom" secondItem="saG-WL-uph" secondAttribute="bottom" constant="20" id="fJh-um-Ksh"/>
+                            <constraint firstItem="jdL-Tb-ffq" firstAttribute="trailing" secondItem="saG-WL-uph" secondAttribute="trailing" constant="20" id="gTY-Wa-QYB"/>
+                            <constraint firstItem="wGX-29-YCc" firstAttribute="leading" secondItem="jdL-Tb-ffq" secondAttribute="leading" constant="20" id="gxF-80-jfI"/>
+                            <constraint firstAttribute="trailing" secondItem="Noq-tO-2y1" secondAttribute="trailing" id="kRI-zv-0wu"/>
+                            <constraint firstItem="B7k-UR-fby" firstAttribute="top" secondItem="jdL-Tb-ffq" secondAttribute="top" id="mFZ-F8-DrC"/>
+                            <constraint firstItem="CTv-vF-cjv" firstAttribute="top" secondItem="B7k-UR-fby" secondAttribute="bottom" constant="8" id="nvQ-38-kId"/>
+                            <constraint firstItem="saG-WL-uph" firstAttribute="leading" secondItem="jdL-Tb-ffq" secondAttribute="leading" constant="20" id="zQb-FJ-Ugs"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WZQ-po-H2f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2783" y="-55"/>
+        </scene>
         <!--In Israel?-->
         <scene sceneID="poe-ZF-0DP">
             <objects>
@@ -677,172 +764,92 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What language would you like the zmanim to be in?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WnI-hR-Igp">
-                                <rect key="frame" x="16" y="96.000000000000014" width="382" height="151.33333333333337"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="WnI-hR-Igp" secondAttribute="height" multiplier="361:143" id="Gyo-Px-gyv"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="20.000000000000004" width="374" height="62.333333333333343"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                                 <color key="textColor" name="AccentColor"/>
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hoX-l0-yRq">
-                                <rect key="frame" x="16" y="668" width="378" height="48"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lrM-cT-txR">
+                                <rect key="frame" x="20" y="90.333333333333314" width="374" height="283"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="lrM-cT-txR" secondAttribute="height" multiplier="374:283" id="tCl-kZ-stj"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="Si1-yU-EDp">
+                                <rect key="frame" x="20" y="381.33333333333331" width="117" height="96.666666666666686"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0v-2T-Cbu" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="120.66666666666667" height="48"/>
-                                        <color key="backgroundColor" name="Gold"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="SHq-fP-3SH"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="Zsk-h6-3O4"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Hebrew">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                <color key="value" name="Gold"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                <color key="value" name="Gold"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="middleColor">
-                                                <color key="value" name="GoldStart"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpc-TF-p71">
+                                        <rect key="frame" x="0.0" y="0.0" width="117" height="34.333333333333336"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="largecircle.fill.circle" catalog="system" title="Hebrew" imagePadding="8"/>
                                         <connections>
-                                            <action selector="hebrew:" destination="nYK-wy-b7l" eventType="touchUpInside" id="fdK-iY-3FY"/>
+                                            <action selector="hebrew:" destination="nYK-wy-b7l" eventType="touchUpInside" id="DWW-xs-BI0"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQF-QN-64C" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="128.66666666666666" y="0.0" width="120.66666666666666" height="48"/>
-                                        <color key="backgroundColor" name="Gold"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="3TO-9z-QOZ"/>
-                                            <constraint firstAttribute="height" constant="48" id="Yox-7l-dx7"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Default">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                <color key="value" name="Gold"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                <color key="value" name="Gold"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="middleColor">
-                                                <color key="value" name="GoldStart"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6l8-H5-0MM">
+                                        <rect key="frame" x="0.0" y="62.333333333333371" width="117" height="34.333333333333343"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system" title="English" imagePadding="8"/>
                                         <connections>
-                                            <action selector="English:" destination="nYK-wy-b7l" eventType="touchUpInside" id="Pmx-eO-q4n"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iq2-uo-yuZ" customClass="GradientButton" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target">
-                                        <rect key="frame" x="257.33333333333331" y="0.0" width="120.66666666666669" height="48"/>
-                                        <color key="backgroundColor" name="Gold"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="3aL-xV-2Hu"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="fPm-r1-btr"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="English">
-                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                <color key="value" name="Gold"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                <color key="value" name="Gold"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="middleColor">
-                                                <color key="value" name="GoldStart"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="translatedEnglish:" destination="nYK-wy-b7l" eventType="touchUpInside" id="Faa-XG-Lvz"/>
+                                            <action selector="English:" destination="nYK-wy-b7l" eventType="touchUpInside" id="mlG-O1-OTi"/>
                                         </connections>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GlM-kr-0dg">
-                                <rect key="frame" x="16" y="255.33333333333334" width="378" height="404.66666666666663"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" ambiguous="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pto-w5-0Pb">
-                                        <rect key="frame" x="0.0" y="0.0" width="120.66666666666667" height="404.66666666666669"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <string key="text">עלות השחר
-טלית ותפילין
-הנץ
-סוף זמן שמע מג"א
-סוף זמן שמע גר"א
-סוף זמן ברכות שמע
-חצות
-וגו׳...</string>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" ambiguous="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBv-t8-Yqx">
-                                        <rect key="frame" x="128.66666666666666" y="0.0" width="120.66666666666666" height="404.66666666666669"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <string key="text">Alot Hashachar
-Earliest Talit/Tefilin
-HaNetz
-Sof Zman Shma Mg'a
-Sof Zman Shma Gr'a
-Sof Zman Brachot Shma
-Chatzot
-etc...</string>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynM-EA-aMC">
-                                        <rect key="frame" x="257.33333333333331" y="0.0" width="120.66666666666669" height="404.66666666666669"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <string key="text">Dawn
-Earliest Talit/Tefilin
-Sunrise
-Latest Shma Mg'a
-Latest Shma Gr'a
-Latest Brachot Shma
-Mid-Day
-etc...</string>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jD-Zx-x2q">
+                                <rect key="frame" x="46" y="486" width="348" height="34.333333333333371"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="checkmark.square.fill" catalog="system" title="Translated" imagePadding="8"/>
+                                <connections>
+                                    <action selector="translatedEnglish:" destination="nYK-wy-b7l" eventType="touchUpInside" id="ghS-8O-Rdl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvc-dt-hJ2">
+                                <rect key="frame" x="20" y="546.33333333333337" width="374" height="34.333333333333371"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Confirm">
+                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="confirm:" destination="nYK-wy-b7l" eventType="touchUpInside" id="tIy-Ca-Waw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="myT-g7-SLJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="hoX-l0-yRq" firstAttribute="top" secondItem="GlM-kr-0dg" secondAttribute="bottom" constant="8" symbolic="YES" id="0K0-nK-3UJ"/>
-                            <constraint firstAttribute="trailing" secondItem="hoX-l0-yRq" secondAttribute="trailing" constant="20" symbolic="YES" id="4LY-Dr-URH"/>
-                            <constraint firstItem="WnI-hR-Igp" firstAttribute="top" secondItem="myT-g7-SLJ" secondAttribute="top" constant="76" id="7JZ-fU-5xk"/>
-                            <constraint firstItem="WnI-hR-Igp" firstAttribute="leading" secondItem="hoX-l0-yRq" secondAttribute="leading" id="N31-WK-pEw"/>
-                            <constraint firstAttribute="bottom" secondItem="hoX-l0-yRq" secondAttribute="bottom" constant="20" symbolic="YES" id="QxL-y7-99O"/>
-                            <constraint firstItem="myT-g7-SLJ" firstAttribute="trailing" secondItem="WnI-hR-Igp" secondAttribute="trailing" constant="16" id="Syj-rI-DZA"/>
-                            <constraint firstItem="WnI-hR-Igp" firstAttribute="centerX" secondItem="CRJ-gu-JN7" secondAttribute="centerX" id="Y1G-w3-UEk"/>
-                            <constraint firstItem="WnI-hR-Igp" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="16" id="ac4-zj-s7J"/>
-                            <constraint firstItem="WnI-hR-Igp" firstAttribute="centerX" secondItem="CRJ-gu-JN7" secondAttribute="centerX" id="cKM-wn-D8Z"/>
-                            <constraint firstItem="WnI-hR-Igp" firstAttribute="leading" secondItem="GlM-kr-0dg" secondAttribute="leading" id="jjB-aE-ewR"/>
-                            <constraint firstItem="GlM-kr-0dg" firstAttribute="top" secondItem="WnI-hR-Igp" secondAttribute="bottom" constant="8" symbolic="YES" id="lrT-zp-vAm"/>
-                            <constraint firstAttribute="trailing" secondItem="GlM-kr-0dg" secondAttribute="trailing" constant="20" symbolic="YES" id="mMV-Gu-uRQ"/>
+                            <constraint firstItem="Si1-yU-EDp" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="20" id="8QO-G2-MII"/>
+                            <constraint firstItem="8jD-Zx-x2q" firstAttribute="top" secondItem="Si1-yU-EDp" secondAttribute="bottom" constant="7.3300000000000001" id="8be-C9-o6s"/>
+                            <constraint firstItem="lrM-cT-txR" firstAttribute="top" secondItem="WnI-hR-Igp" secondAttribute="bottom" constant="8" id="At0-zo-7Cz"/>
+                            <constraint firstItem="Wvc-dt-hJ2" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="20" id="FZv-GQ-cer"/>
+                            <constraint firstItem="8jD-Zx-x2q" firstAttribute="top" secondItem="Si1-yU-EDp" secondAttribute="bottom" constant="8" id="U5b-t1-C8m"/>
+                            <constraint firstItem="myT-g7-SLJ" firstAttribute="trailing" secondItem="WnI-hR-Igp" secondAttribute="trailing" constant="20" id="Yvf-OS-rkh"/>
+                            <constraint firstItem="Wvc-dt-hJ2" firstAttribute="top" secondItem="8jD-Zx-x2q" secondAttribute="bottom" constant="26" id="Zgr-HN-05M"/>
+                            <constraint firstItem="WnI-hR-Igp" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="20" id="gZd-WW-iu4"/>
+                            <constraint firstItem="8jD-Zx-x2q" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="46" id="hUZ-3H-Faz"/>
+                            <constraint firstItem="myT-g7-SLJ" firstAttribute="trailing" secondItem="8jD-Zx-x2q" secondAttribute="trailing" constant="20" id="jyl-rn-2jO"/>
+                            <constraint firstItem="myT-g7-SLJ" firstAttribute="trailing" secondItem="lrM-cT-txR" secondAttribute="trailing" constant="20" id="nMf-hq-I5k"/>
+                            <constraint firstItem="lrM-cT-txR" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="20" id="r9Z-PS-AGY"/>
+                            <constraint firstItem="myT-g7-SLJ" firstAttribute="trailing" secondItem="Wvc-dt-hJ2" secondAttribute="trailing" constant="20" id="sSh-I5-fvg"/>
+                            <constraint firstItem="Si1-yU-EDp" firstAttribute="top" secondItem="lrM-cT-txR" secondAttribute="bottom" constant="8" symbolic="YES" id="xaz-42-fsJ"/>
+                            <constraint firstItem="WnI-hR-Igp" firstAttribute="top" secondItem="myT-g7-SLJ" secondAttribute="top" id="zVf-Se-ZNN"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="english" destination="6l8-H5-0MM" id="beM-s0-9RD"/>
+                        <outlet property="hebrew" destination="wpc-TF-p71" id="WXc-cg-Hfy"/>
+                        <outlet property="imageview" destination="lrM-cT-txR" id="LVo-Wb-Ug2"/>
+                        <outlet property="translated" destination="8jD-Zx-x2q" id="6Z6-CY-Ukb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTi-TB-Uix" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-744" y="-55"/>
+            <point key="canvasLocation" x="-744.92753623188412" y="-55.434782608695656"/>
         </scene>
         <!--Setup Chooser-->
         <scene sceneID="Jui-vI-foo">
@@ -1335,37 +1342,35 @@ etc...</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n3s-7X-uWg">
-                                <rect key="frame" x="0.0" y="117" width="414" height="569"/>
-                                <standardMapConfiguration key="preferredConfiguration" elevationStyle="realistic"/>
-                            </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwT-kb-zHO">
-                                <rect key="frame" x="0.0" y="693.66666666666663" width="414" height="34.333333333333371"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Confirm"/>
+                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="1oN-0o-oHp">
+                                <rect key="frame" x="20" y="54" width="374" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="confirm:" destination="fnb-XT-klk" eventType="touchUpInside" id="MvQ-9M-gSa"/>
+                                    <outlet property="delegate" destination="fnb-XT-klk" id="c1b-15-kwd"/>
                                 </connections>
-                            </button>
+                            </searchBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1bs-rB-ci7">
-                                <rect key="frame" x="27" y="20" width="62" height="35"/>
+                                <rect key="frame" x="27" y="19.999999999999996" width="62" height="34.666666666666657"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Back"/>
                                 <connections>
                                     <action selector="back:" destination="fnb-XT-klk" eventType="touchUpInside" id="TFR-ol-DSe"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="1oN-0o-oHp">
-                                <rect key="frame" x="20" y="61" width="332" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="fnb-XT-klk" id="c1b-15-kwd"/>
-                                </connections>
-                            </searchBar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsUserLocation="YES" showsScale="YES" id="n3s-7X-uWg">
+                                <rect key="frame" x="0.0" y="209" width="414" height="527"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <standardMapConfiguration key="preferredConfiguration" elevationStyle="realistic"/>
+                            </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovk-sY-CB5">
-                                <rect key="frame" x="352" y="72" width="50" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="location" catalog="system"/>
+                                <rect key="frame" x="50" y="118.00000000000001" width="314" height="34.666666666666671"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Use your device's location" image="location" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="filled" image="location" catalog="system" title="Use your device's location">
+                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="useLocation:" destination="fnb-XT-klk" eventType="touchUpInside" id="1Fe-My-EVj"/>
                                 </connections>
@@ -1401,11 +1406,23 @@ etc...</string>
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6m6-8Q-Wa6">
-                                <rect key="frame" x="307" y="20" width="100" height="35"/>
+                                <rect key="frame" x="307" y="19.999999999999996" width="100" height="34.666666666666657"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Advanced"/>
                                 <connections>
                                     <action selector="advanced:" destination="fnb-XT-klk" eventType="touchUpInside" id="3fX-8S-wL6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwT-kb-zHO">
+                                <rect key="frame" x="0.0" y="693.66666666666663" width="414" height="34.333333333333371"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Confirm">
+                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="confirm:" destination="fnb-XT-klk" eventType="touchUpInside" id="MvQ-9M-gSa"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1413,27 +1430,21 @@ etc...</string>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="E3U-XJ-V6l" firstAttribute="leading" secondItem="y9v-dc-DRV" secondAttribute="leading" id="4AG-Ty-RSd"/>
-                            <constraint firstItem="n3s-7X-uWg" firstAttribute="top" secondItem="1oN-0o-oHp" secondAttribute="bottom" id="6Z4-ik-1YV"/>
-                            <constraint firstItem="E3U-XJ-V6l" firstAttribute="top" secondItem="1oN-0o-oHp" secondAttribute="bottom" id="98Q-kR-R5p"/>
+                            <constraint firstItem="ovk-sY-CB5" firstAttribute="leading" secondItem="y9v-dc-DRV" secondAttribute="leading" constant="50" id="AlS-03-cdo"/>
+                            <constraint firstItem="y9v-dc-DRV" firstAttribute="trailing" secondItem="ovk-sY-CB5" secondAttribute="trailing" constant="50" id="HUE-bO-COY"/>
                             <constraint firstItem="E3U-XJ-V6l" firstAttribute="trailing" secondItem="y9v-dc-DRV" secondAttribute="trailing" id="HyU-dt-nqP"/>
                             <constraint firstItem="gwT-kb-zHO" firstAttribute="trailing" secondItem="y9v-dc-DRV" secondAttribute="trailing" id="I3j-1g-CXt"/>
-                            <constraint firstItem="ovk-sY-CB5" firstAttribute="top" secondItem="y9v-dc-DRV" secondAttribute="top" constant="52" id="Km1-u0-Cjz"/>
-                            <constraint firstItem="n3s-7X-uWg" firstAttribute="top" secondItem="ovk-sY-CB5" secondAttribute="bottom" constant="10" id="OSy-VG-9kL"/>
-                            <constraint firstItem="1oN-0o-oHp" firstAttribute="top" secondItem="1bs-rB-ci7" secondAttribute="bottom" constant="6" id="Rzw-Mo-hCF"/>
+                            <constraint firstItem="y9v-dc-DRV" firstAttribute="trailing" secondItem="1oN-0o-oHp" secondAttribute="trailing" constant="20" id="RtC-0A-Ghg"/>
                             <constraint firstItem="1bs-rB-ci7" firstAttribute="top" secondItem="y9v-dc-DRV" secondAttribute="top" id="Snv-Z5-MUI"/>
-                            <constraint firstItem="gwT-kb-zHO" firstAttribute="top" secondItem="n3s-7X-uWg" secondAttribute="bottom" constant="7.6699999999999999" id="T0E-Tz-Dzb"/>
-                            <constraint firstItem="ovk-sY-CB5" firstAttribute="leading" secondItem="1oN-0o-oHp" secondAttribute="trailing" id="UJ8-wq-TxQ"/>
-                            <constraint firstItem="n3s-7X-uWg" firstAttribute="trailing" secondItem="y9v-dc-DRV" secondAttribute="trailing" id="WcC-ya-DOe"/>
                             <constraint firstAttribute="bottom" secondItem="E3U-XJ-V6l" secondAttribute="bottom" id="WlO-aq-kFf"/>
                             <constraint firstItem="y9v-dc-DRV" firstAttribute="trailing" secondItem="6m6-8Q-Wa6" secondAttribute="trailing" constant="7" id="Yju-73-tHQ"/>
-                            <constraint firstItem="y9v-dc-DRV" firstAttribute="trailing" secondItem="ovk-sY-CB5" secondAttribute="trailing" constant="12" id="eMe-xd-v6f"/>
-                            <constraint firstItem="n3s-7X-uWg" firstAttribute="leading" secondItem="y9v-dc-DRV" secondAttribute="leading" id="eQ2-gk-rVF"/>
-                            <constraint firstItem="1oN-0o-oHp" firstAttribute="leading" secondItem="y9v-dc-DRV" secondAttribute="leading" constant="20" id="gXB-4b-nOT"/>
+                            <constraint firstItem="1oN-0o-oHp" firstAttribute="top" secondItem="y9v-dc-DRV" secondAttribute="top" constant="34" id="ZI4-1T-jTj"/>
+                            <constraint firstItem="ovk-sY-CB5" firstAttribute="top" secondItem="1oN-0o-oHp" secondAttribute="bottom" constant="8" id="dfB-4x-GHx"/>
                             <constraint firstItem="y9v-dc-DRV" firstAttribute="bottom" secondItem="gwT-kb-zHO" secondAttribute="bottom" constant="8" id="khF-V5-bBe"/>
                             <constraint firstItem="gwT-kb-zHO" firstAttribute="leading" secondItem="y9v-dc-DRV" secondAttribute="leading" id="lJf-VM-IrK"/>
+                            <constraint firstItem="E3U-XJ-V6l" firstAttribute="top" secondItem="1oN-0o-oHp" secondAttribute="bottom" constant="7" id="pOt-UH-fJM"/>
                             <constraint firstItem="6m6-8Q-Wa6" firstAttribute="top" secondItem="y9v-dc-DRV" secondAttribute="top" id="pVv-CY-JEj"/>
-                            <constraint firstItem="ovk-sY-CB5" firstAttribute="leading" secondItem="1oN-0o-oHp" secondAttribute="trailing" id="qJq-kW-9Xo"/>
-                            <constraint firstItem="n3s-7X-uWg" firstAttribute="top" secondItem="1oN-0o-oHp" secondAttribute="bottom" id="t9D-BA-6wA"/>
+                            <constraint firstItem="1oN-0o-oHp" firstAttribute="leading" secondItem="y9v-dc-DRV" secondAttribute="leading" constant="20" id="vQN-M4-RpQ"/>
                             <constraint firstItem="1bs-rB-ci7" firstAttribute="leading" secondItem="hhB-qb-ke5" secondAttribute="leadingMargin" constant="7" id="xUF-VC-t57"/>
                         </constraints>
                     </view>
@@ -1441,11 +1452,12 @@ etc...</string>
                         <outlet property="map" destination="n3s-7X-uWg" id="Br4-aT-Waz"/>
                         <outlet property="search" destination="1oN-0o-oHp" id="C0X-S7-Cgg"/>
                         <outlet property="tableview" destination="E3U-XJ-V6l" id="7lz-4l-G2F"/>
+                        <outlet property="useLocation" destination="ovk-sY-CB5" id="E9u-Wz-Wn1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QVC-Zq-yKP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1336.7441860465117" y="-709.44206008583694"/>
+            <point key="canvasLocation" x="-2101" y="-55"/>
         </scene>
         <!--Netz Countdown-->
         <scene sceneID="7MF-ii-ALv">
@@ -1685,7 +1697,7 @@ etc...</string>
         <!--Choose Calendar-->
         <scene sceneID="DUu-8d-2XX">
             <objects>
-                <viewController storyboardIdentifier="calendarChooser" title="Choose Calendar" id="rLT-7O-XUP" customClass="CalendarViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TipScreen" title="Choose Calendar" id="rLT-7O-XUP" customClass="CalendarViewController" customModule="Rabbi_Ovadiah_Yosef_Calendar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uhv-lB-hXd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1701,8 +1713,8 @@ etc...</string>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wny-zI-XsU">
                                 <rect key="frame" x="63" y="197.33333333333334" width="288" height="341.66666666666663"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose A Calendar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yt8-iV-RXq">
-                                        <rect key="frame" x="18.333333333333329" y="0.0" width="251.33333333333337" height="33.666666666666664"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Did you know?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yt8-iV-RXq">
+                                        <rect key="frame" x="49" y="0.0" width="190" height="33.666666666666664"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1729,7 +1741,7 @@ etc...</string>
                                             <action selector="ohrHachaim:" destination="rLT-7O-XUP" eventType="touchUpInside" id="rZH-vB-ubH"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Calendar in Israel created and used by Rabbi Ovadiah himself)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dK1-Lq-pZC">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dK1-Lq-pZC">
                                         <rect key="frame" x="0.0" y="98.666666666666657" width="288" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="288" id="EiQ-Mw-87r"/>
@@ -1761,14 +1773,13 @@ etc...</string>
                                             <action selector="amudeiHoraah:" destination="rLT-7O-XUP" eventType="touchUpInside" id="xQm-fr-UP6"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TxL-Vj-ggR">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TxL-Vj-ggR">
                                         <rect key="frame" x="0.0" y="238.66666666666663" width="288" height="103"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="288" id="L3s-97-G53"/>
                                             <constraint firstAttribute="height" constant="103" id="bJ8-og-KJC"/>
                                         </constraints>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
-                                        <string key="text">(Calendar with the zmanim adjusted based on location in accordance to Rabbi Ovadiah. Only applicable for locations outside of Israel.)</string>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -2136,13 +2147,18 @@ etc...</string>
         <image name="arrowtriangle.right.fill" catalog="system" width="128" height="113"/>
         <image name="book" catalog="system" width="128" height="99"/>
         <image name="calendar" catalog="system" width="128" height="107"/>
+        <image name="checkmark.square.fill" catalog="system" width="128" height="114"/>
+        <image name="circle" catalog="system" width="128" height="123"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="info.circle" catalog="system" width="128" height="123"/>
+        <image name="largecircle.fill.circle" catalog="system" width="128" height="123"/>
         <image name="location" catalog="system" width="128" height="119"/>
         <image name="location.circle" catalog="system" width="128" height="123"/>
+        <image name="logo" width="666.66668701171875" height="153.66667175292969"/>
         <image name="minus" catalog="system" width="128" height="26"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="text.justify" catalog="system" width="128" height="101"/>
+        <image name="welcome_bg" width="1728" height="1152"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2164,6 +2180,9 @@ etc...</string>
         </systemColor>
         <systemColor name="lightTextColor">
             <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="quaternarySystemFillColor">
             <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>

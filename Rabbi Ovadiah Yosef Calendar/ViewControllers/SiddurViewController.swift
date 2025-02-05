@@ -255,10 +255,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     func tapFunctionMussaf() {
         GlobalStruct.chosenPrayer = "Mussaf"
         super.dismiss(animated: false)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
-        newViewController.modalPresentationStyle = .fullScreen
-        self.presentingViewController?.present(newViewController, animated: false)
+        showFullScreenView("Siddur")
     }
     
     func tapFunctionSefaria() {

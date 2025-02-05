@@ -7,6 +7,7 @@
 
 import Foundation
 import KosherSwift
+import UIKit
 
 public extension JewishCalendar {
     
@@ -371,19 +372,19 @@ public extension JewishCalendar {
         
         if getJewishMonth() != JewishCalendar.AV {
             if Calendar.current.isDate(workingDate, inSameDayAs: sevenDays) {
-                return "Birchat HaLevana starts tonight".localized();
+                return "Birkat Halevana starts tonight".localized();
             }
         } else {
             if getJewishDayOfMonth() < 9 {
                 return ""
             }
             if getYomTovIndex() == JewishCalendar.TISHA_BEAV {
-                return "Birchat HaLevana starts tonight".localized();
+                return "Birkat Halevana starts tonight".localized();
             }
         }
         
         if getJewishDayOfMonth() == 14 {
-            return "Last night for Birchat HaLevana".localized();
+            return "Last night for Birkat Halevana".localized();
         }
         
         let latest = Calendar(identifier: .hebrew).date(bySetting: .day, value: 14, of: sevenDays)!
@@ -394,7 +395,7 @@ public extension JewishCalendar {
             if Locale.isHebrewLocale() {
                 return "ברכת הלבנה עד ליל טו'"
             }
-            return "Birchat HaLevana until " + format.string(from: latest)
+            return "Birkat Halevana until " + format.string(from: latest)
         }
         return ""
     }
@@ -527,5 +528,21 @@ public extension TimeZone {
             id = "Asia/Jerusalem"
         }
         return TimeZone(identifier: id) ?? TimeZone.current
+    }
+}
+
+public extension JewishCalendar {
+    /**
+     * This method checks if the user is near Israel. The exact coordinate are hard to define, that is why I based the coordinates on what was shown
+     * in the sefer, "טובה הארץ מאוד מאוד על גבולות ארץ ישראל" by Rav Chaim Yisrael Shteiner.
+     * It is based on the opinion of the Maharikash on the Rambam, which is big enough to cover the other opinions except for one that included
+     * almost all of Iraq.
+     * It seemed like a nice middle ground.
+     * @param latitude the latitude to check
+     * @param longitude the longitude to check
+     * @return if the latitude and longitude are coordinates inside or near Eretz Yisrael (based on halacha)
+     */
+    static func isInOrNearIsrael(latitude: Double, longitude: Double) -> Bool {
+        return latitude >= 29.7 && latitude <= 36.1 && longitude >= 31.5 && longitude <= 38.0;
     }
 }

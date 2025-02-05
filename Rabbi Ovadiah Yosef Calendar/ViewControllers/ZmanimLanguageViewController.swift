@@ -10,28 +10,66 @@ import UIKit
 class ZmanimLanguageViewController: UIViewController {
     
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    var isZmanimInHebrew: Bool = false
+    var isZmanimEnglishTranslated: Bool = false
 
+    @IBOutlet weak var imageview: UIImageView!
+    @IBOutlet weak var translated: UIButton!
+    @IBOutlet weak var english: UIButton!
+    @IBOutlet weak var hebrew: UIButton!
     @IBAction func hebrew(_ sender: UIButton) {
-        defaults.set(true, forKey: "isZmanimInHebrew")
-        defaults.set(false, forKey: "isZmanimEnglishTranslated")
-        showNextView()
+        isZmanimInHebrew = true
+        isZmanimEnglishTranslated = false
+        setImages()
     }
     @IBAction func English(_ sender: UIButton) {
-        defaults.set(false, forKey: "isZmanimInHebrew")
-        defaults.set(false, forKey: "isZmanimEnglishTranslated")
-        showNextView()
+        isZmanimInHebrew = false
+        isZmanimEnglishTranslated = false
+        setImages()
     }
     @IBAction func translatedEnglish(_ sender: UIButton) {
-        defaults.set(false, forKey: "isZmanimInHebrew")
-        defaults.set(true, forKey: "isZmanimEnglishTranslated")
+        isZmanimInHebrew = false
+        if isZmanimEnglishTranslated {
+            isZmanimEnglishTranslated = false
+        } else {
+            isZmanimEnglishTranslated = true
+        }
+        setImages()
+    }
+    @IBAction func confirm(_ sender: UIButton) {
         showNextView()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        isZmanimInHebrew = defaults.bool(forKey: "isZmanimInHebrew")
+        isZmanimEnglishTranslated = defaults.bool(forKey: "isZmanimEnglishTranslated")
+        setImages()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    func setImages() {
+        if isZmanimInHebrew {
+            hebrew.setImage(UIImage(systemName: "largecircle.fill.circle"), for: .normal)
+            english.setImage(UIImage(systemName: "circle"), for: .normal)
+            translated.setImage(UIImage(systemName: "square"), for: .normal)
+            imageview.image = UIImage(named: "hebrew")
+            translated.isEnabled = false
+        } else if isZmanimEnglishTranslated {
+            hebrew.setImage(UIImage(systemName: "circle"), for: .normal)
+            english.setImage(UIImage(systemName: "largecircle.fill.circle"), for: .normal)
+            translated.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            imageview.image = UIImage(named: "translated")
+            translated.isEnabled = true
+        } else {
+            hebrew.setImage(UIImage(systemName: "circle"), for: .normal)
+            english.setImage(UIImage(systemName: "largecircle.fill.circle"), for: .normal)
+            translated.setImage(UIImage(systemName: "square"), for: .normal)
+            imageview.image = UIImage(named: "english")
+            translated.isEnabled = true
+        }
     }
     
     func showNextView() {
@@ -41,26 +79,28 @@ class ZmanimLanguageViewController: UIViewController {
         transition.subtype = CATransitionSubtype.fromRight
         transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         view.window!.layer.add(transition, forKey: kCATransition)
-        if !defaults.bool(forKey: "inIsrael") {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if defaults.bool(forKey: "isSetup") {// We got location before
-                let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
-                self.present(newViewController, animated: false)
-            } else {
-                let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
-                newViewController.modalPresentationStyle = .fullScreen
-                self.present(newViewController, animated: true)
-            }
-        } else {
-            if !defaults.bool(forKey: "isSetup") {// We did not get location before
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyboard.instantiateViewController(withIdentifier: "search_a_place") as! GetUserLocationViewController
-                newViewController.modalPresentationStyle = .fullScreen
-                self.present(newViewController, animated: true)
-            } else {
-                let inIsraelView = super.presentingViewController?.presentingViewController!
-                super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
-                    inIsraelView?.dismiss(animated: false)
+        
+        defaults.set(isZmanimInHebrew, forKey: "isZmanimInHebrew")
+        defaults.set(isZmanimEnglishTranslated, forKey: "isZmanimEnglishTranslated")
+        defaults.set(true, forKey: "isSetup")
+        
+        if defaults.bool(forKey: "hasNotShownTipScreen") {
+            showFullScreenView("TipScreen")
+            defaults.set(false, forKey: "hasNotShownTipScreen")
+        } else {// dismiss everything
+            let welcome = super.presentingViewController?.presentingViewController?.presentingViewController
+            let getUserLocationView = super.presentingViewController?.presentingViewController
+            let isIsrael = super.presentingViewController
+            super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
+                if isIsrael != nil {
+                    isIsrael?.dismiss(animated: false)
+                    if getUserLocationView != nil {
+                        getUserLocationView?.dismiss(animated: false) {
+                            if welcome != nil {
+                                welcome?.dismiss(animated: false)
+                            }
+                        }
+                    }
                 }
             }
         }
