@@ -84,9 +84,9 @@ class ZmanimLanguageViewController: UIViewController {
         defaults.set(isZmanimEnglishTranslated, forKey: "isZmanimEnglishTranslated")
         defaults.set(true, forKey: "isSetup")
         
-        if defaults.bool(forKey: "hasNotShownTipScreen") {
+        if !defaults.bool(forKey: "hasShownTipScreen") {
             showFullScreenView("TipScreen")
-            defaults.set(false, forKey: "hasNotShownTipScreen")
+            defaults.set(true, forKey: "hasShownTipScreen")
         } else {// dismiss everything
             let welcome = super.presentingViewController?.presentingViewController?.presentingViewController
             let getUserLocationView = super.presentingViewController?.presentingViewController

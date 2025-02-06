@@ -121,33 +121,32 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             RedSnackBar.make(in: self.view, message: "No location set".localized(), duration: .lengthShort).show()
             return
         }
-        
-        if timezone.corrected().identifier == "Asia/Jerusalem" {
-            if !GetUserLocationViewController.loneView {
-                showFullScreenView("inIsrael")
-            }
-        } else if Locale.isHebrewLocale() {
-            defaults.set(false, forKey: "inIsrael")
-            defaults.set(true, forKey: "LuachAmudeiHoraah")
-            defaults.set(false, forKey: "useElevation")
-            if !GetUserLocationViewController.loneView {
-                showFullScreenView("zmanim languages")
-            }
+        if GetUserLocationViewController.loneView {
+            super.dismiss(animated: false)
         } else {
-            defaults.set(false, forKey: "inIsrael")
-            defaults.set(true, forKey: "LuachAmudeiHoraah")
-            defaults.set(false, forKey: "useElevation")
-            defaults.set(true, forKey: "isZmanimInHebrew")
-            defaults.set(false, forKey: "isZmanimEnglishTranslated")
-            defaults.set(true, forKey: "isSetup")
-            if defaults.bool(forKey: "hasNotShownTipScreen") {
-                showFullScreenView("TipScreen")
-                defaults.set(false, forKey: "hasNotShownTipScreen")
+            if timezone.corrected().identifier == "Asia/Jerusalem" {
+                showFullScreenView("inIsrael")
+            } else if !Locale.isHebrewLocale() {
+                defaults.set(false, forKey: "inIsrael")
+                defaults.set(true, forKey: "LuachAmudeiHoraah")
+                defaults.set(false, forKey: "useElevation")
+                showFullScreenView("zmanim languages")
             } else {
-                let welcome = super.presentingViewController
-                super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
-                    if welcome != nil {
-                        welcome?.dismiss(animated: false)
+                defaults.set(false, forKey: "inIsrael")
+                defaults.set(true, forKey: "LuachAmudeiHoraah")
+                defaults.set(false, forKey: "useElevation")
+                defaults.set(true, forKey: "isZmanimInHebrew")
+                defaults.set(false, forKey: "isZmanimEnglishTranslated")
+                defaults.set(true, forKey: "isSetup")
+                if !defaults.bool(forKey: "hasShownTipScreen") {
+                    showFullScreenView("TipScreen")
+                    defaults.set(true, forKey: "hasShownTipScreen")
+                } else {
+                    let welcome = super.presentingViewController
+                    super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
+                        if welcome != nil {
+                            welcome?.dismiss(animated: false)
+                        }
                     }
                 }
             }

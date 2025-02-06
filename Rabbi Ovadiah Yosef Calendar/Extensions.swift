@@ -442,27 +442,34 @@ public extension JewishCalendar {
         if (forNightTikkun) {
             if (isTikkunChatzotSaid) {
                 // These are days where we ONLY say Tikkun Leia
-                let currentDate = workingDate
-                let currentHebrewMonth = getJewishMonth();
-                while (currentHebrewMonth == getJewishMonth()) {
-                    forward() // go forward until the next month
-                }
-                let molad = getMoladAsDate(); // now we can get the molad for the next month
-                let roshChodesh = workingDate
-                workingDate = currentDate // reset
-                let afterMoladBeforeRoshChodesh = molad.timeIntervalSince1970 < Date().timeIntervalSince1970 && roshChodesh.timeIntervalSince1970 > Date().timeIntervalSince1970 && !isRoshChodesh(); // Tikkun Leia (only) is said if it is after the molad but before Rosh Chodesh, this condition is time based even though all the other methods are date based
                 return (isAseresYemeiTeshuva() ||
                         isCholHamoedSuccos() ||
                         getDayOfOmer() != -1 ||
                         (getInIsrael() && isShmitaYear()) ||
                         getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון" ||
-                        afterMoladBeforeRoshChodesh);
+                        isAfterMoladBeforeRoshChodesh());
                 // Tikkun Rachel is also skipped in the house of a Mourner, Chatan, or Brit Milah (Specifically the father of the boy)
             }
         } else { // for day tikkun, we do not say Tikkun Rachel if there is no tachanun
             return getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון";
         }
         return false;
+    }
+    
+    func isAfterMoladBeforeRoshChodesh() -> Bool {
+        let currentDate = workingDate
+        let currentHebrewMonth = getJewishMonth();
+        while (currentHebrewMonth == getJewishMonth()) {
+            forward() // go forward until the next month
+        }
+        let molad = getMoladAsDate(); // now we can get the molad for the next month
+        workingDate = currentDate // reset
+        while (!isRoshChodesh()) {
+            forward() // go forward until the next rosh chodesh
+        }
+        let roshChodesh = workingDate
+        workingDate = currentDate // reset
+        return molad.timeIntervalSince1970 < Date().timeIntervalSince1970 && roshChodesh.timeIntervalSince1970 > Date().timeIntervalSince1970 && !isRoshChodesh(); // Tikkun Leia (only) is said if it is after the molad but before Rosh Chodesh, this condition is time based even though all the other methods are date based
     }
     
     /**
@@ -528,21 +535,5 @@ public extension TimeZone {
             id = "Asia/Jerusalem"
         }
         return TimeZone(identifier: id) ?? TimeZone.current
-    }
-}
-
-public extension JewishCalendar {
-    /**
-     * This method checks if the user is near Israel. The exact coordinate are hard to define, that is why I based the coordinates on what was shown
-     * in the sefer, "טובה הארץ מאוד מאוד על גבולות ארץ ישראל" by Rav Chaim Yisrael Shteiner.
-     * It is based on the opinion of the Maharikash on the Rambam, which is big enough to cover the other opinions except for one that included
-     * almost all of Iraq.
-     * It seemed like a nice middle ground.
-     * @param latitude the latitude to check
-     * @param longitude the longitude to check
-     * @return if the latitude and longitude are coordinates inside or near Eretz Yisrael (based on halacha)
-     */
-    static func isInOrNearIsrael(latitude: Double, longitude: Double) -> Bool {
-        return latitude >= 29.7 && latitude <= 36.1 && longitude >= 31.5 && longitude <= 38.0;
     }
 }

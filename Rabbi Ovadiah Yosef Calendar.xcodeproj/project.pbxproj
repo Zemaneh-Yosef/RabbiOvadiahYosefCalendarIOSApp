@@ -80,6 +80,7 @@
 		CE4E66042C6496F800E39907 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4E66032C6496F800E39907 /* GradientButton.swift */; };
 		CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309542B3BB5040020939B /* SwiftyJSON */; };
 		CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */; };
+		CE6C5FC02D5358B400D1A1F5 /* upcomingZmanim.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */; };
 		CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
 		CE7D2B5C2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
 		CE7D2B5D2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
@@ -106,6 +107,7 @@
 		CEBC70E92D222FB800468477 /* menora.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70E82D222FB800468477 /* menora.svg */; };
 		CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70EA2D22367200468477 /* menora-shadow.svg */; };
 		CEBC70ED2D22590000468477 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70EC2D22590000468477 /* compass.png */; };
+		CEC7611C2D531B4E00FD0AF1 /* explanation.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CEC7611B2D531B4E00FD0AF1 /* explanation.mp4 */; };
 		CED163592B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED163582B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift */; };
 		CED1635D2B07031800E05876 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED1635C2B07031800E05876 /* Assets.xcassets */; };
 		CED163602B07031800E05876 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED1635F2B07031800E05876 /* Preview Assets.xcassets */; };
@@ -219,6 +221,7 @@
 		CE4E66032C6496F800E39907 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		CE502A8F2B0DEC23008E716C /* Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
+		CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = upcomingZmanim.swift; sourceTree = "<group>"; };
 		CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ViewControllers/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE7E2BBF2C07E4F50080D898 /* checkVersion-iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "checkVersion-iOS.swift"; sourceTree = "<group>"; };
 		CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurChooserViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +238,7 @@
 		CEBC70E82D222FB800468477 /* menora.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menora.svg; sourceTree = "<group>"; };
 		CEBC70EA2D22367200468477 /* menora-shadow.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "menora-shadow.svg"; sourceTree = "<group>"; };
 		CEBC70EC2D22590000468477 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
+		CEC7611B2D531B4E00FD0AF1 /* explanation.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = explanation.mp4; sourceTree = "<group>"; };
 		CED163562B07031700E05876 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED163582B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift; sourceTree = "<group>"; };
 		CED1635C2B07031800E05876 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -322,6 +326,7 @@
 				525950982A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle.swift */,
 				5259509A2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity.swift */,
 				5259509C2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.swift */,
+				CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */,
 				CEB21E3D2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */,
 				5259509F2A9B3AE700872955 /* Assets.xcassets */,
 				525950A12A9B3AE700872955 /* Info.plist */,
@@ -405,6 +410,7 @@
 				CEBC70E82D222FB800468477 /* menora.svg */,
 				CEBC70EA2D22367200468477 /* menora-shadow.svg */,
 				CEBC70EC2D22590000468477 /* compass.png */,
+				CEC7611B2D531B4E00FD0AF1 /* explanation.mp4 */,
 			);
 			path = "Rabbi Ovadiah Yosef Calendar";
 			sourceTree = "<group>";
@@ -523,7 +529,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					525950912A9B3AE500872955 = {
@@ -587,6 +593,7 @@
 				CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
 				5D19D36D29A3687B00F8033D /* LaunchScreen.storyboard in Resources */,
 				CEDAB85B2C9DFBB60018357B /* hiloulah_he.json in Resources */,
+				CEC7611C2D531B4E00FD0AF1 /* explanation.mp4 in Resources */,
 				CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
 				5D19D36A29A3687B00F8033D /* Assets.xcassets in Resources */,
 				CEDAB8592C9DFBAC0018357B /* hiloulah_en.json in Resources */,
@@ -630,6 +637,7 @@
 				CE1035532B4554F600193D1E /* LocationManager.swift in Sources */,
 				5259509B2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity.swift in Sources */,
 				5259509D2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.swift in Sources */,
+				CE6C5FC02D5358B400D1A1F5 /* upcomingZmanim.swift in Sources */,
 				CE1035512B4554AC00193D1E /* ZmanimTimeNames.swift in Sources */,
 				CE97D7C42D4C95FF00C019AA /* ZmanimFactory.swift in Sources */,
 			);

@@ -31,15 +31,15 @@ class InIsraelViewController: UIViewController {
         
         defaults.set(inIsrael, forKey: "inIsrael")
         defaults.set(!inIsrael, forKey: "LuachAmudeiHoraah")
-        defaults.set(!inIsrael, forKey: "useElevation")
+        defaults.set(inIsrael, forKey: "useElevation")
         
         if Locale.isHebrewLocale() {
             defaults.set(true, forKey: "isZmanimInHebrew")
             defaults.set(false, forKey: "isZmanimEnglishTranslated")
             defaults.set(true, forKey: "isSetup")
-            if defaults.bool(forKey: "hasNotShownTipScreen") {
+            if !defaults.bool(forKey: "hasShownTipScreen") {
                 showFullScreenView("TipScreen")
-                defaults.set(false, forKey: "hasNotShownTipScreen")
+                defaults.set(true, forKey: "hasShownTipScreen")
             } else {
                 let welcome = super.presentingViewController?.presentingViewController?.presentingViewController
                 let getUserLocationView = super.presentingViewController?.presentingViewController

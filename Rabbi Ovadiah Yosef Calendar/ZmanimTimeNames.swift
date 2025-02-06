@@ -127,8 +127,6 @@ struct ZmanimTimeNames {
     public func getTzaitString() -> String {
         if (mIsZmanimInHebrew) {
             return "צאת ";
-        } else if (!mIsZmanimEnglishTranslated) {
-            return "Tzet ";
         } else {
             return "";//if we are translating to English, we don't want to show the word Tzet first, just {Zman} Ends
         }

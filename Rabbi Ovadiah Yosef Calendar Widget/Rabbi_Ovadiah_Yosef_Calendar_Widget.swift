@@ -20,10 +20,10 @@ struct Provider: IntentTimelineProvider {
 
         let entry = SimpleEntry(
             hebrewDate: getHebrewDate(),
-            parasha: getParshah(jewishCalendar: getJewishCalendar()),
+            parasha: getParshah(jewishCalendar: JewishCalendar()),
             upcomingZman: "Zman",
             date: Date(),
-            tachanun: getJewishCalendar().getTachanun(),
+            tachanun: JewishCalendar().getTachanun(),
             daf: daf,
             configuration: ConfigurationIntent())
         
@@ -68,7 +68,7 @@ struct Provider: IntentTimelineProvider {
                 hebrewDate: getHebrewDate(),
                 parasha: getParshah(jewishCalendar: getJewishCalendar()),
                 upcomingZman: upcomingZman.title,
-                date: upcomingZman.zman!,
+                date: upcomingZman.zman ?? Date(),
                 tachanun: getJewishCalendar().getTachanun(),
                 daf: daf,
                 configuration: ConfigurationIntent())
@@ -160,8 +160,8 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Rabbi Ovadiah Yosef Calendar Widget")
-        .description("This is a widget that will show relevant zmanim.")
+        .configurationDisplayName("Rabbi Ovadiah Yosef Calendar Widget".localized())
+        .description("This is a widget that will show relevant zmanim.".localized())
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

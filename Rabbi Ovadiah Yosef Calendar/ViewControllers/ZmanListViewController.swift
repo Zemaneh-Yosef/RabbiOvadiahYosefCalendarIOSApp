@@ -770,7 +770,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func resolveElevation() {
         if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-            self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
+            if self.defaults.bool(forKey: "useElevation") {
+                self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
+            } else {
+                self.elevation = 0
+            }
         } else {//we have never been here before, get the elevation from online
             if self.defaults.bool(forKey: "useElevation") {
                 self.getElevationFromOnline()
@@ -873,7 +877,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if defaults.bool(forKey: "neverAskInIsrael") {
             return
         }
-        if !defaults.bool(forKey: "inIsrael") && JewishCalendar.isInOrNearIsrael(latitude: lat, longitude: long) {
+        if !defaults.bool(forKey: "inIsrael") && timezone.corrected().identifier == "Asia/Jerusalem" {
             let alertController = UIAlertController(title: "Are you in Israel now?".localized(), message: "If you are in Israel, please confirm below.".localized(), preferredStyle: .alert)
 
             let yesAction = UIAlertAction(title: "Yes".localized(), style: .default) { (_) in
@@ -882,9 +886,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.defaults.set(true, forKey: "useElevation")
                 self.jewishCalendar.inIsrael = true
                 GlobalStruct.jewishCalendar.inIsrael = self.jewishCalendar.inIsrael
-                GlobalStruct.useElevation = self.defaults.bool(forKey: "useElevation")
+                GlobalStruct.useElevation = true
+                self.resolveElevation()
                 self.recreateZmanimCalendar()
                 self.updateZmanimList()
+                self.createMenu()
             }
 
             alertController.addAction(yesAction)
@@ -904,7 +910,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             present(alertController, animated: true, completion: nil)
         }
         
-        if defaults.bool(forKey: "inIsrael") && !JewishCalendar.isInOrNearIsrael(latitude: lat, longitude: long) {
+        if defaults.bool(forKey: "inIsrael") && timezone.corrected().identifier != "Asia/Jerusalem" {
             let alertController = UIAlertController(title: "Have you left Israel?".localized(), message: "If you have left Israel, please confirm below.".localized(), preferredStyle: .alert)
 
             let yesAction = UIAlertAction(title: "Yes".localized(), style: .default) { (_) in
@@ -913,9 +919,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 GlobalStruct.jewishCalendar.inIsrael = false
                 self.defaults.set(true, forKey: "LuachAmudeiHoraah")
                 self.defaults.set(false, forKey: "useElevation")
-                GlobalStruct.useElevation = self.defaults.bool(forKey: "useElevation")
+                GlobalStruct.useElevation = false
+                self.resolveElevation()
                 self.recreateZmanimCalendar()
                 self.updateZmanimList()
+                self.createMenu()
             }
 
             alertController.addAction(yesAction)

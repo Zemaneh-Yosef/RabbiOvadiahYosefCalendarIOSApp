@@ -80,11 +80,9 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
                 content.secondaryTextProperties.color = .gray
                 cell.selectionStyle = .none
             }
-            if !defaults.bool(forKey: "LuachAmudeiHoraah") && defaults.integer(forKey: "plagOpinion") == 1 {
-                content.text = editableZmanim[indexPath.row-2].replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Plag HaMincha").localized()
-            } else {
-                content.text = editableZmanim[indexPath.row-2].localized()
-            }
+            content.text = editableZmanim[indexPath.row-2]
+                .replacingOccurrences(of: "Plag HaMincha Halacha Berurah", with: "Plag HaMincha (Halacha Berura)")
+                .replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Plag HaMincha (Yalkut Yosef)").localized()
             let minutesBefore = defaults.integer(forKey: editableZmanim[indexPath.row-2])
             if minutesBefore >= 1 {
                 content.secondaryText = "Notify ".localized() + String(minutesBefore) + " minutes before".localized()

@@ -663,9 +663,13 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     func resolveElevation() {
         if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
-            self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
+            if self.defaults.bool(forKey: "useElevation") {
+                self.elevation = self.defaults.double(forKey: "elevation" + self.locationName)
+            } else {
+                self.elevation = 0
+            }
         } else {//we have never been here before, get the elevation from online
-            if self.defaults.bool(forKey: "useElevation") && !self.defaults.bool(forKey: "LuachAmudeiHoraah") {
+            if self.defaults.bool(forKey: "useElevation") {
                 self.getElevationFromOnline()
             } else {
                 self.elevation = 0//undo any previous values

@@ -258,7 +258,7 @@
 "ynM-EA-aMC.text" = "Dawn\nEarliest Talit/Tefilin\nSunrise\nLatest Shma Mg'a\nLatest Shma Gr'a\nLatest Brachot Shma\nMid-Day\netc...";
 
 /* Class = "UILabel"; text = "Choose A Calendar"; ObjectID = "yt8-iV-RXq"; */
-"yt8-iV-RXq.text" = "בחר לוח";
+"yt8-iV-RXq.text" = "טיפ: ניתן ללחוץ על הזמנים כדי לקבל מידע נוסף עליהם!";
 
 /* Class = "UIButton"; configuration.title = "Skip"; ObjectID = "z5B-Kp-adr"; */
 "z5B-Kp-adr.configuration.title" = "דלג";
@@ -275,8 +275,6 @@
 "1bs-rB-ci7.normalTitle" = "חזרה";
 
 "gwT-kb-zHO.normalTitle" = "אשר";
-
-"ovk-sY-CB5.normalTitle" = "";
 
 "6m6-8Q-Wa6.normalTitle" = "מתקדם";
 
@@ -295,3 +293,15 @@
 "33I-o5-3VQ.title" = "זמנים";
 
 "6Q1-my-Ca5.title" = "לימודים/הילולות";
+
+"CTv-vF-cjv.text" = "זמני הלכה עולמיים לפי מסורתנו הספרדית.";
+
+"tyz-W1-l65.normalTitle" = "עלינו";
+
+"wRY-wu-AJw.normalTitle" = "הסכמות";
+
+"saG-WL-uph.normalTitle" = "התחל";
+
+"ovk-sY-CB5.normalTitle" = "השתמש במיקום המכשיר שלי.";
+
+"1oN-0o-oHp.placeholder" = "הכנס שם מקום/מיקוד";
