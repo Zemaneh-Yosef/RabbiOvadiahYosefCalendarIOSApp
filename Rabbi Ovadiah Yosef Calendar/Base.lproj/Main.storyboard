@@ -374,7 +374,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="QWI-KO-db7"/>
                                             <barButtonItem landscapeImage="calendar" catalog="system" style="plain" id="9mO-JL-WYh">
                                                 <button key="customView" opaque="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="hjf-zL-7ch">
-                                                    <rect key="frame" x="153" y="10.666666666666664" width="108" height="24"/>
+                                                    <rect key="frame" x="153" y="11" width="108" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="tintColor" name="AccentColor"/>
@@ -594,10 +594,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="B7k-UR-fby">
-                                <rect key="frame" x="20" y="20" width="374" height="153.66666666666666"/>
+                                <rect key="frame" x="20" y="20" width="374" height="161.66666666666666"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Worldwide Halachic Times according to our Sepharadic Tradition." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTv-vF-cjv">
-                                <rect key="frame" x="20" y="181.66666666666666" width="374" height="90.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Worldwide Halachic Times according to our Sepharadic Tradition." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTv-vF-cjv">
+                                <rect key="frame" x="20" y="189.66666666666666" width="374" height="90.666666666666657"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -605,26 +605,25 @@
                                 <size key="shadowOffset" width="1" height="1"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wGX-29-YCc">
-                                <rect key="frame" x="20" y="324.33333333333331" width="374" height="40.333333333333314"/>
+                                <rect key="frame" x="20" y="332.33333333333331" width="374" height="39"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyz-W1-l65">
-                                        <rect key="frame" x="0.0" y="0.0" width="183" height="40.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="183" height="39"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="gray" title="About Us">
-                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="22"/>
-                                        </buttonConfiguration>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="About Us"/>
                                         <connections>
                                             <action selector="aboutUs:" destination="ICO-Qs-waI" eventType="touchUpInside" id="dSC-K5-ZdV"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRY-wu-AJw">
-                                        <rect key="frame" x="191" y="0.0" width="183" height="40.333333333333336"/>
+                                        <rect key="frame" x="191" y="0.0" width="183" height="39"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <size key="titleShadowOffset" width="1" height="1"/>
-                                        <buttonConfiguration key="configuration" style="gray" title="Haskamot">
-                                            <fontDescription key="titleFontDescription" type="boldSystem" pointSize="22"/>
-                                        </buttonConfiguration>
+                                        <state key="normal" title="Haskamot"/>
                                         <connections>
                                             <action selector="haskamot:" destination="ICO-Qs-waI" eventType="touchUpInside" id="Fq3-0z-1aW"/>
                                         </connections>
@@ -632,12 +631,12 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saG-WL-uph">
-                                <rect key="frame" x="20" y="681.66666666666663" width="374" height="34.333333333333371"/>
+                                <rect key="frame" x="20" y="686" width="374" height="30"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Get Started">
-                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Get Started">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="getStarted:" destination="ICO-Qs-waI" eventType="touchUpInside" id="BRp-ao-5kn"/>
                                 </connections>
@@ -776,22 +775,26 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="Si1-yU-EDp">
-                                <rect key="frame" x="20" y="381.33333333333331" width="117" height="96.666666666666686"/>
+                                <rect key="frame" x="20" y="381.33333333333331" width="79.666666666666671" height="79.333333333333314"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpc-TF-p71">
-                                        <rect key="frame" x="0.0" y="0.0" width="117" height="34.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="79.666666666666671" height="25.666666666666668"/>
                                         <color key="tintColor" systemColor="labelColor"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="largecircle.fill.circle" catalog="system" title="Hebrew" imagePadding="8"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                                        <state key="normal" title="Hebrew" image="largecircle.fill.circle" catalog="system">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="hebrew:" destination="nYK-wy-b7l" eventType="touchUpInside" id="DWW-xs-BI0"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6l8-H5-0MM">
-                                        <rect key="frame" x="0.0" y="62.333333333333371" width="117" height="34.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="53.666666666666679" width="79.666666666666671" height="25.666666666666664"/>
                                         <color key="tintColor" systemColor="labelColor"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system" title="English" imagePadding="8"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                                        <state key="normal" title="English" image="circle" catalog="system">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="English:" destination="nYK-wy-b7l" eventType="touchUpInside" id="mlG-O1-OTi"/>
                                         </connections>
@@ -799,21 +802,23 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jD-Zx-x2q">
-                                <rect key="frame" x="46" y="486" width="348" height="34.333333333333371"/>
+                                <rect key="frame" x="46" y="468.66666666666669" width="348" height="23.666666666666686"/>
                                 <color key="tintColor" systemColor="labelColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="checkmark.square.fill" catalog="system" title="Translated" imagePadding="8"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                                <state key="normal" title="Translated" image="checkmark.square.fill" catalog="system">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
                                 <connections>
                                     <action selector="translatedEnglish:" destination="nYK-wy-b7l" eventType="touchUpInside" id="ghS-8O-Rdl"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvc-dt-hJ2">
-                                <rect key="frame" x="20" y="546.33333333333337" width="374" height="34.333333333333371"/>
+                                <rect key="frame" x="20" y="518.33333333333337" width="374" height="30"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Confirm">
-                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Confirm">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="confirm:" destination="nYK-wy-b7l" eventType="touchUpInside" id="tIy-Ca-Waw"/>
                                 </connections>
@@ -823,7 +828,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Si1-yU-EDp" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="20" id="8QO-G2-MII"/>
-                            <constraint firstItem="8jD-Zx-x2q" firstAttribute="top" secondItem="Si1-yU-EDp" secondAttribute="bottom" constant="7.3300000000000001" id="8be-C9-o6s"/>
                             <constraint firstItem="lrM-cT-txR" firstAttribute="top" secondItem="WnI-hR-Igp" secondAttribute="bottom" constant="8" id="At0-zo-7Cz"/>
                             <constraint firstItem="Wvc-dt-hJ2" firstAttribute="leading" secondItem="myT-g7-SLJ" secondAttribute="leading" constant="20" id="FZv-GQ-cer"/>
                             <constraint firstItem="8jD-Zx-x2q" firstAttribute="top" secondItem="Si1-yU-EDp" secondAttribute="bottom" constant="8" id="U5b-t1-C8m"/>
@@ -1359,15 +1363,14 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <standardMapConfiguration key="preferredConfiguration" elevationStyle="realistic"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovk-sY-CB5">
-                                <rect key="frame" x="50" y="118.00000000000001" width="314" height="34.666666666666671"/>
+                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovk-sY-CB5">
+                                <rect key="frame" x="50" y="118.00000000000001" width="314" height="25.666666666666671"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Use your device's location" image="location" catalog="system"/>
-                                <buttonConfiguration key="configuration" style="filled" image="location" catalog="system" title="Use your device's location">
-                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
-                                </buttonConfiguration>
+                                <state key="normal" title="Use your device's location" image="location" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="useLocation:" destination="fnb-XT-klk" eventType="touchUpInside" id="1Fe-My-EVj"/>
                                 </connections>
@@ -1411,13 +1414,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwT-kb-zHO">
-                                <rect key="frame" x="0.0" y="693.66666666666663" width="414" height="34.333333333333371"/>
+                                <rect key="frame" x="0.0" y="698" width="414" height="30"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Confirm">
-                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
-                                </buttonConfiguration>
+                                <color key="tintColor" systemColor="tintColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Confirm">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="confirm:" destination="fnb-XT-klk" eventType="touchUpInside" id="MvQ-9M-gSa"/>
                                 </connections>
@@ -1706,16 +1709,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cth-4O-QU9">
-                                <rect key="frame" x="20" y="128.33333333333334" width="374" height="385.66666666666663"/>
+                                <rect key="frame" x="20" y="128.33333333333334" width="374" height="390.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NBN-W3-z70">
-                                <rect key="frame" x="52" y="540" width="310" height="35"/>
+                                <rect key="frame" x="52" y="545" width="310" height="30"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Okay!">
-                                    <color key="baseBackgroundColor" systemColor="linkColor"/>
-                                </buttonConfiguration>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Okay!">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="okay:" destination="rLT-7O-XUP" eventType="touchUpInside" id="9Qo-Lw-g09"/>
                                 </connections>
@@ -1948,14 +1951,14 @@
         <image name="largecircle.fill.circle" catalog="system" width="128" height="123"/>
         <image name="location" catalog="system" width="128" height="119"/>
         <image name="location.circle" catalog="system" width="128" height="123"/>
-        <image name="logo" width="666.66668701171875" height="153.66667175292969"/>
+        <image name="logo" width="666.66668701171875" height="161.66667175292969"/>
         <image name="minus" catalog="system" width="128" height="26"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="text.justify" catalog="system" width="128" height="101"/>
         <image name="welcome_bg" width="1728" height="1152"/>
         <image name="yy_quote" width="480" height="118.66666412353516"/>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Gold">
             <color red="1" green="0.75686274509803919" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1995,6 +1998,9 @@
         </systemColor>
         <systemColor name="systemMintColor">
             <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

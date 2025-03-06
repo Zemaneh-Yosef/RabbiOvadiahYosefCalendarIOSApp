@@ -57,7 +57,6 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
         locationManager.delegate = self
         
         // Start location services to get the true heading.
-        locationManager.distanceFilter = 1000
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.startUpdatingLocation()
         

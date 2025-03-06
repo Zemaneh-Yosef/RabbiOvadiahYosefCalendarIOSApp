@@ -153,7 +153,7 @@ class ZmanimFactory {
             rt.zman = zmanimCalendar.getTzais72Zmanis()
         }
         if isForTommorow {
-            rt.title = zmanimNames.getCandleLightingString()
+            rt.title += zmanimNames.getMacharString()
         }
         rt.isRTZman = true
         rt.isNoteworthyZman = true

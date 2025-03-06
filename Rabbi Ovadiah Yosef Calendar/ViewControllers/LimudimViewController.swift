@@ -179,7 +179,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         } else if indexPath.section == 2 && !hiloulot[indexPath.row].src.isEmpty {
             alertController.title = hiloulot[indexPath.row].title
-            alertController.message = hiloulot[indexPath.row].src
+            alertController.message = hiloulot[indexPath.row].desc + "\n-----\n" + hiloulot[indexPath.row].src
             let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
             alertController.addAction(dismissAction)
             present(alertController, animated: true)
@@ -394,8 +394,12 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
                         if let name = hillula["name"].string {
                             entry.title = name
                         }
+                        
+                        if let src = hillula["desc"].string {
+                            entry.desc = src
+                        }
 
-                        if let src = hillula["src"].string, !src.isEmpty, src != "-" {
+                        if let src = hillula["src"].string {
                             entry.src = src
                         }
                         hillulot.append(entry)

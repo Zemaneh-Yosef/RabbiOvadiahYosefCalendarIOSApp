@@ -31,7 +31,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     let dateFormatterForZmanim = DateFormatter()
     var timerForShabbatMode: Timer?
     var timerForNextZman: Timer?
-    var currentIndex = 0
     var shouldScroll = true
     var askedToUpdateTablesAlready = false
     var wcSession : WCSession! = nil
@@ -314,7 +313,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.deselectRow(at: indexPath, animated: true)
         
         if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
-            endShabbatMode()
             return//do not show the dialogs
         }
         
@@ -325,10 +323,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             return
         }
         
-        let zmanimInfo = ZmanimAlertInfoHolder.init(title: zmanimList[indexPath.row].title, mIsZmanimInHebrew: zmanimNames.mIsZmanimInHebrew, mIsZmanimEnglishTranslated: zmanimNames.mIsZmanimEnglishTranslated)
+        let zmanimInfo = ZmanimAlertInfoHolder(title: zmanimList[indexPath.row].title, mIsZmanimInHebrew: zmanimNames.mIsZmanimInHebrew, mIsZmanimEnglishTranslated: zmanimNames.mIsZmanimEnglishTranslated)
         
         let candleLightingOffset = zmanimCalendar.candleLightingOffset
-        let shabbatOffset = zmanimCalendar.ateretTorahSunsetOffset
         
         var alertController = UIAlertController(title: zmanimInfo.getFullTitle(), message: zmanimInfo.getFullMessage().replacingOccurrences(of: "%c", with: String(candleLightingOffset)), preferredStyle: .actionSheet)
         
@@ -388,7 +385,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             alertController.addAction(setupSunriseAction)
         }
         
-        if zmanimList[indexPath.row].title.contains("Birchat HaLevana") || zmanimList[indexPath.row].title.contains("ברכת הלבנה") {
+        if zmanimList[indexPath.row].title.contains("Birkat Halevana") || zmanimList[indexPath.row].title.contains("ברכת הלבנה") {
             let fullTextAction = UIAlertAction(title: "Show Full Text".localized(), style: .default) { [self] (_) in
                 GlobalStruct.chosenPrayer = "Birchat Halevana"
                 showFullScreenView("Siddur")
@@ -652,19 +649,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {//this method happens 2nd
         super.viewWillAppear(animated)
-        if Locale.isHebrewLocale() {
-            if defaults.bool(forKey: "showSeconds") {
-                dateFormatterForZmanim.dateFormat = "H:mm:ss"
-            } else {
-                dateFormatterForZmanim.dateFormat = "H:mm"
-            }
-        } else {
-            if defaults.bool(forKey: "showSeconds") {
-                dateFormatterForZmanim.dateFormat = "h:mm:ss aa"
-            } else {
-                dateFormatterForZmanim.dateFormat = "h:mm aa"
-            }
-        }
+        dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "")
     }
     
     override func viewDidAppear(_ animated: Bool) {//this method happens last
@@ -731,11 +716,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if WCSession.isSupported() && !(wcSession.activationState == .activated) {
             wcSession.activate()
         }
-//        if #available(iOS 16.0, *) {
-//            var rootViewController = UIHostingController(rootView: ContentView())
-//            rootViewController.modalPresentationStyle = .fullScreen
-//            present(rootViewController, animated: false)
-//        }
+//        let rootViewController = UIHostingController(rootView: ContentView())
+//        rootViewController.modalPresentationStyle = .fullScreen
+//        present(rootViewController, animated: false)
         //TODO
     }
     
@@ -807,11 +790,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @objc func labelTapped() {
-        if shabbatMode {
-            ShabbatModeBanner.isHidden = true
-        } else {
-            ShabbatModeBanner.isHidden = false
-        }
+        ShabbatModeBanner.isHidden = shabbatMode
     }
     
     func setNotificationsDefaults() {
@@ -1369,6 +1348,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             zmanimList.append(ZmanListEntry(title:"No Weekly Parasha".localized()))
         }
         let haftorah = WeeklyHaftarahReading.getThisWeeksHaftarah(jewishCalendar: jewishCalendar)
+            .replacingOccurrences(of: "מפטירין", with: Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
         if !haftorah.isEmpty {
             zmanimList.append(ZmanListEntry(title: haftorah))
         }
@@ -1422,7 +1402,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         zmanimList.append(ZmanListEntry(title:jewishCalendar.getTachanun()))
         if (jewishCalendar.isPurimMeshulash()) {
-            zmanimList.append(ZmanListEntry(title: "No Tachanun in Yerushalayim or a Safek Mukaf Choma"))
+            zmanimList.append(ZmanListEntry(title: "No Tachanun in Yerushalayim or a Safek Mukaf Choma".localized()))
         }
         let bircatHelevana = jewishCalendar.getBirchatLevanaStatus()
         if !bircatHelevana.isEmpty {
@@ -1466,8 +1446,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
         if jewishCalendar.isBirkasHachamah() {
-            zmanimList.append(ZmanListEntry(title: "Birchat HaChamah is said today".localized()))
+            zmanimList.append(ZmanListEntry(title: "Birchat Ha'Ḥamah is said today".localized()))
         }
+        
+        if (jewishCalendar.tomorrow().getDayOfWeek() == 7
+            && jewishCalendar.tomorrow().getYomTovIndex() == JewishCalendar.EREV_PESACH) {
+            zmanimList.append(ZmanListEntry(title: "Burn your Ḥametz today".localized()))
+        }
+        
         if Locale.isHebrewLocale() {
             dateFormatter.dateFormat = "H:mm"
         } else {

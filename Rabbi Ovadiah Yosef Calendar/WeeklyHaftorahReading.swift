@@ -284,6 +284,6 @@ public class WeeklyHaftarahReading {
             return result;
         }
 
-        return result.replacingOccurrences(of: "מפטירין", with: Locale.isHebrewLocale() ? "" : "Haftarah: \u{202B}")
+        return result
     }
 }

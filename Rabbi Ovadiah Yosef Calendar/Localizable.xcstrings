@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     " : " : {
       "localizations" : {
         "he" : {
@@ -83,6 +86,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : " דקות לפני"
+          }
+        }
+      }
+    },
+    " MODE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " מצב"
           }
         }
       }
@@ -184,6 +198,9 @@
           }
         }
       }
+    },
+    "▼" : {
+
     },
     "1 hour and 15 minutes before sunset (Halacha Berurah)" : {
       "extractionState" : "manual",
@@ -405,7 +422,7 @@
         }
       }
     },
-    "Birchat HaChamah is said today" : {
+    "Birchat Ha'Ḥamah is said today" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -416,7 +433,7 @@
         }
       }
     },
-    "Birchat HaLevana starts tonight" : {
+    "Birkat Halevana starts tonight" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -434,6 +451,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ביעור חמץ"
+          }
+        }
+      }
+    },
+    "Burn your Ḥametz today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שריפת חמץ כל היום"
           }
         }
       }
@@ -482,6 +510,9 @@
         }
       }
     },
+    "Candle Lighting Time: %lld min before sunset" : {
+
+    },
     "Cannot Send Email" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -503,6 +534,9 @@
           }
         }
       }
+    },
+    "Change Calendar" : {
+
     },
     "Change Location" : {
       "extractionState" : "manual",
@@ -537,6 +571,9 @@
         }
       }
     },
+    "Change Zmanim Settings" : {
+
+    },
     "Chatzot" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -569,6 +606,12 @@
           }
         }
       }
+    },
+    "Choose End Shabbat Opinion" : {
+
+    },
+    "Choose Tekufa Opinion" : {
+
     },
     "Choose whether or not the app will notify you of the day of the omer during the day" : {
       "extractionState" : "manual",
@@ -735,6 +778,9 @@
         }
       }
     },
+    "Contact Developer" : {
+
+    },
     "Contact the developer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -812,6 +858,9 @@
         }
       }
     },
+    "Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later." : {
+
+    },
     "Dismiss" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -833,6 +882,9 @@
           }
         }
       }
+    },
+    "Do not drink ...." : {
+
     },
     "Do not rely on these seconds!" : {
       "extractionState" : "manual",
@@ -900,6 +952,12 @@
         }
       }
     },
+    "Earliest Birchat Halevana (7 days)" : {
+
+    },
+    "Editable Zmanim Notifications" : {
+
+    },
     "Elevation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -932,6 +990,9 @@
           }
         }
       }
+    },
+    "End Shabbat Opinion: %@" : {
+
     },
     "Enter how many minutes before you would like to be notified for " : {
       "extractionState" : "manual",
@@ -1098,6 +1159,9 @@
         }
       }
     },
+    "Get Started" : {
+
+    },
     "h:" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1163,6 +1227,9 @@
           }
         }
       }
+    },
+    "Help & Support" : {
+
     },
     "Hillulot" : {
       "extractionState" : "manual",
@@ -1329,7 +1396,7 @@
         }
       }
     },
-    "Last night for Birchat HaLevana" : {
+    "Last night for Birkat Halevana" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
@@ -1339,6 +1406,9 @@
           }
         }
       }
+    },
+    "Latest Birchat Halevana (15 days)" : {
+
     },
     "Latitude" : {
       "extractionState" : "manual",
@@ -1526,6 +1596,9 @@
         }
       }
     },
+    "Minutes till Shabbat Ends: %lld" : {
+
+    },
     "Misc." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1548,17 +1621,6 @@
         }
       }
     },
-    "MODE          " : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מצב          "
-          }
-        }
-      }
-    },
     "Molad Calculator" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1569,6 +1631,12 @@
           }
         }
       }
+    },
+    "Molad for This Month (Your Timezone)" : {
+
+    },
+    "Molad Time Announced" : {
+
     },
     "Moonrise: " : {
       "extractionState" : "manual",
@@ -1767,6 +1835,9 @@
         }
       }
     },
+    "Notifications" : {
+
+    },
     "Notify " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1822,6 +1893,17 @@
         }
       }
     },
+    "Okay!" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בסדר!"
+          }
+        }
+      }
+    },
     "Open Sefaria Link for: " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1832,6 +1914,9 @@
           }
         }
       }
+    },
+    "Other Settings" : {
+
     },
     "Override the time for Shabbat End" : {
       "extractionState" : "manual",
@@ -2042,6 +2127,7 @@
       }
     },
     "Rabbi Ovadiah Yosef Calendar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "he" : {
           "stringUnit" : {
@@ -2249,6 +2335,9 @@
         }
       }
     },
+    "Set Candle Lighting Minutes" : {
+
+    },
     "Set Elevation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2292,6 +2381,12 @@
           }
         }
       }
+    },
+    "Set Minutes Before Notification" : {
+
+    },
+    "Set Minutes till Shabbat Ends" : {
+
     },
     "Set text size" : {
       "extractionState" : "manual",
@@ -2441,6 +2536,9 @@
           }
         }
       }
+    },
+    "Shabbat/Chag Settings" : {
+
     },
     "Share" : {
       "extractionState" : "manual",
@@ -2672,6 +2770,9 @@
         }
       }
     },
+    "SiddurView" : {
+
+    },
     "SIMCHAT TORAH" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2859,6 +2960,12 @@
         }
       }
     },
+    "Tekufa Opinion: %@" : {
+
+    },
+    "Tekufa Settings" : {
+
+    },
     "Tevet" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2935,6 +3042,9 @@
           }
         }
       }
+    },
+    "The Whole 15th Night of the Hebrew Month" : {
+
     },
     "There is no moon tonight" : {
       "extractionState" : "manual",
@@ -3166,6 +3276,9 @@
         }
       }
     },
+    "Use Simple List" : {
+
+    },
     "Watch a video guide" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3177,6 +3290,9 @@
         }
       }
     },
+    "Watch Video Guide" : {
+
+    },
     "We are the platform to use whenever and wherever you'd need Halachic Times (Zemanim) according to Hakham Ovadia Yosef zt'l, following his practices represented in his Ohr Hachaim calendar from Eretz Yisrael. Outside Israel, our algorithm follow's the rules outlined by the Minḥat Kohen (as quoted by R David Yosef, approved by R Yitzḥak Yosef) to comply with the astronomical differences while sticking to seasonal minutes." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3187,6 +3303,9 @@
           }
         }
       }
+    },
+    "We are the platform to use whenever and wherever you'd need Halachic Times (Zemanim) according to Hakham Ovadia Yosef zt'l, following his practices represented in his Ohr Hachaim calendar from Eretz Yisrael. Outside Israel, our algorithm follows the rules outlined by the Minḥat Kohen (as quoted by R David Yosef, approved by R Yitzḥak Yosef) to comply with the astronomical differences while sticking to seasonal minutes." : {
+
     },
     "Website" : {
       "extractionState" : "manual",
@@ -3209,6 +3328,12 @@
           }
         }
       }
+    },
+    "When praying the Amidah, one should direct himself towards Israel, Jerusalem, the temple mount and the Kodesh Hakodashim (Holy of Holies) area (Berakhot Bavli 30a, based on Kings I 8:35–48 & Chronicles II 6:32). Determining which direction that is in can be done through the \"Rhumb line\" method, which \"draws\" a line from one's location to a specific point (which in our case, would be the Temple mount). Once the line is drawn, you are expected to pray in the direction the line is drawn in through matching your direction with its degree angle. Please note that even if the Aron in the synagogue that you are in is misplaced, you should not separate from the others. Rather, you should only adjust your head to the right direction." : {
+
+    },
+    "Worldwide Halachic Times according to our Sepharadic Tradition." : {
+
     },
     "Yerushalmi Vilna Yomi: " : {
       "extractionState" : "manual",
@@ -3265,6 +3390,9 @@
         }
       }
     },
+    "Your device is not configured to send emails. Please send an email from another device to ElyahuJacobi@gmail.com" : {
+
+    },
     "Zipcode/Address" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3296,6 +3424,9 @@
           }
         }
       }
+    },
+    "Zmanim Display" : {
+
     },
     "Zmanim Notifications" : {
       "extractionState" : "manual",
@@ -3340,6 +3471,9 @@
           }
         }
       }
+    },
+    "בעת התפילה בעמידה, יש להכווין את עצמו לכיוון ירושלים, בית המקדש ואזור קודש הקדשים (ברכות בבלי ל: א), (מלכים א' ח: לה-מח, ודברי הימים ב' ו: לב). לקביעת הכיוון הנכון ניתן להשתמש בשיטת \"קו רומב\" המציירת קו ממקום המתפלל ישירות לנקודה ספציפית (שבמקרה שלנו, יהיה זה הר הבית). לאחר שהקו נמשך, מומלץ להתפלל לפי הכיוון של הקו באמצעות התאמת כיוון התפילה לזווית המדרגה שלו. יש לשים לב כי גם אם ארון הקודש בבית הכנסת בו אתה נמצא מותקף, לא רקוב זה אינו מנותק מהמתפללים האחרים. במקום זאת, יש להתאים רק את הראש לכיוון הנכון." : {
+
     }
   },
   "version" : "1.0"

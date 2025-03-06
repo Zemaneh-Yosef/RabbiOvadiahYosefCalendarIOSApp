@@ -68,7 +68,8 @@ class MoladViewController: UIViewController {
         hebrewMonthFormatter.calendar = Calendar.init(identifier: .hebrew)
         hebrewMonthFormatter.dateFormat = "MMMM yyyy"
         
-        chosenMonth.text = monthFormatter.string(from: jewishCalendar.workingDate) + " / " + hebrewMonthFormatter.string(from: jewishCalendar.workingDate)
+        chosenMonth.text = monthFormatter.string(from: jewishCalendar.workingDate) + " / " + hebrewMonthFormatter.string(from: jewishCalendar.workingDate).replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+            .replacingOccurrences(of: "Tamuz", with: "Tammuz")
         jewishCalendar.calculateMolad()
         moladChalakim.text = String(jewishCalendar.moladHours) + "h:".localized() + String(jewishCalendar.moladMinutes) + "m and ".localized() + String(jewishCalendar.moladChalakim) + " Chalakim".localized()
         molad.text = formatter.string(from: moladDate)

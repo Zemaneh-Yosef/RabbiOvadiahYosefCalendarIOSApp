@@ -97,8 +97,7 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
     }
     
     func assertCorrectURL(url: String) -> String {
-        var editedURL = url
-        return editedURL
+        return url
             .replacingOccurrences(of: "&cgi_types=-1", with: "&cgi_types=0")
             .replacingOccurrences(of: "&cgi_types=1", with: "&cgi_types=0")
             .replacingOccurrences(of: "&cgi_types=2", with: "&cgi_types=0")

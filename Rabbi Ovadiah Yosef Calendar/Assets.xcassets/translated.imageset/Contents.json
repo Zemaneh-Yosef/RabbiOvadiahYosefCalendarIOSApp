@@ -6,12 +6,45 @@
       "scale" : "1x"
     },
     {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Simulator Screenshot - iPhone 16 Pro - 2025-02-04 at 02.16.34 3.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
       "filename" : "Simulator Screenshot - iPhone 16 Pro - 2025-02-04 at 02.16.34 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Simulator Screenshot - iPhone 16 Pro - 2025-02-04 at 02.16.34 4.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
       "filename" : "Simulator Screenshot - iPhone 16 Pro - 2025-02-04 at 02.16.34 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Simulator Screenshot - iPhone 16 Pro - 2025-02-04 at 02.16.34 5.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

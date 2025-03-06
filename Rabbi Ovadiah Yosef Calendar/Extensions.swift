@@ -146,6 +146,9 @@ public extension JewishCalendar {
         if Locale.isHebrewLocale() {
             let hebrewDateFormatter = HebrewDateFormatter()
             hebrewDateFormatter.hebrewFormat = true
+            if (isPurimMeshulash()) {
+                return "פורים משולש"
+            }
             return hebrewDateFormatter.formatYomTov(jewishCalendar: self)
         }
         let hebrewDateFormatter = HebrewDateFormatter()
@@ -163,14 +166,36 @@ public extension JewishCalendar {
         if yomtov.contains("Chanukah") {
             return "Chanukah" // to remove the numbers
         }
-        if (isPurimMeshulash()) {
-            return "פורים משולש";
+        if isPurimMeshulash() {
+            return "Purim Meshulash"
         }
         return yomtov.replacingOccurrences(of: "Teves", with: "Tevet")
             .replacingOccurrences(of: "Shavuos", with: "Shavuot")
             .replacingOccurrences(of: "Succos", with: "Succot")
             .replacingOccurrences(of: "Atzeres", with: "Atzeret")
             .replacingOccurrences(of: "Simchas", with: "Simchat")
+    }
+    
+    func getThisWeeksParasha() -> String {
+        let temp = workingDate
+        while getDayOfWeek() != 7 {//forward jewish calendar to saturday
+            forward()
+        }
+        let hebrewDateFormatter = HebrewDateFormatter()
+        hebrewDateFormatter.hebrewFormat = true
+        //now that we are on saturday, check the parasha
+        let specialParasha = hebrewDateFormatter.formatSpecialParsha(jewishCalendar: self)
+        var parasha = hebrewDateFormatter.formatParsha(parsha: getParshah())
+        workingDate = temp //reset
+        
+        if !specialParasha.isEmpty {
+            parasha += " / " + specialParasha
+        }
+        if !parasha.isEmpty {
+            return parasha
+        } else {
+            return "No Weekly Parasha".localized()
+        }
     }
     
     func getTachanun() -> String {

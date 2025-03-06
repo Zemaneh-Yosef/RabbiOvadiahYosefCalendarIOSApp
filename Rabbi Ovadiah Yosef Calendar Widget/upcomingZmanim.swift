@@ -23,18 +23,14 @@ struct UpcomingZmanimProvider: IntentTimelineProvider {
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (UpcomingZmanimEntry) -> ()) {
         getZmanimCalendarWithLocation() { zmanimCalendar in
-            let upcomingZmanim = getNextUpcomingZmanim(forTime: Date(), zmanimCalendar: zmanimCalendar)
-            
-            let entry = UpcomingZmanimEntry(
+            completion(UpcomingZmanimEntry(
                 date: Date(),
                 zmanimInHebrew: false,
                 upcomingZmanim: [ZmanListEntry(title: "Mincha Gedolah".localized()),
                                  ZmanListEntry(title: "Mincha Ketana".localized()),
                                  ZmanListEntry(title: "Plag HaMincha (Halacha Berura)".localized()),
                                  ZmanListEntry(title: "Plag HaMincha (Yalkut Yosef)".localized()),
-                                 ZmanListEntry(title: "Sunset".localized())])
-
-            completion(entry)
+                                 ZmanListEntry(title: "Sunset".localized())]))
         }
     }
 

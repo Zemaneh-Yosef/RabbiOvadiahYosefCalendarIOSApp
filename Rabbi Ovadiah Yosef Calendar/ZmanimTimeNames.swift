@@ -50,7 +50,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Midnight";
         } else {
-            return "Ḥatzot Layla";
+            return "Ḥatzot Ha'Layla";
         }
     }
     
@@ -86,7 +86,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Nightfall";
         } else {
-            return "Tzet Hakokhavim";
+            return "Tzet Ha'Kokhavim";
         }
     }
     
@@ -144,7 +144,7 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "פלג המנחה"
         } else {
-            return "Plag HaMinḥa"
+            return "Pelag Ha'Minḥa"
         }
     }
     
@@ -220,9 +220,9 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "סוף זמן ברכת החמה";
         } else if (mIsZmanimEnglishTranslated) {
-            return "Latest Birkat HaChamah";
+            return "Latest Birkat Ha'Ḥamah";
         } else {
-            return "Sof Zeman Birkat HaChamah";
+            return "Sof Zeman Birkat Ha'Ḥamah";
         }
     }
     
@@ -268,7 +268,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Sunrise"
         } else {
-            return "HaNetz"
+            return "Ha'Netz"
         }
     }
     
@@ -284,7 +284,7 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "טלית ותפילין"
         } else {
-            return "Earliest Talit/Tefilin"
+            return "Earliest Tallit/Tefilin"
         }
     }
     
@@ -294,7 +294,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Dawn"
         } else {
-            return "Alot Hashachar"
+            return "Alot Ha'Shaḥar"
         }
     }
 }

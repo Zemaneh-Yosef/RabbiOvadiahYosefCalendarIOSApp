@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import KosherSwift
 
-@available(iOS 16.0, *)
+@available(iOS 15.0, *)
 struct MainView: App {
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     var body: some Scene {
@@ -17,49 +18,110 @@ struct MainView: App {
     }
 }
 
-@available(iOS 16.0, *)
+@available(iOS 15.0, *)
 struct ContentView: View {
     init() {
         UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
     }
-    var body: some View {
-        if #available(iOS 18.0, *) {
-            TabView {
-                Tab("Limudim/Hillulot", systemImage: "text.justify", content: {
-                    NavigationStack {
-                        List{
-                            
-                        }
-                        .navigationTitle("Limudim/Hillulot")
-                    }
-                })
-                Tab("Zmanim", systemImage: "alarm", content: {
-                    NavigationStack {
-                        List{
-                            
-                        }
-                        .navigationTitle("Rabbi Ovadiah Yosef Calendar")
-                    }
-                })
-                Tab("Siddur", systemImage: "book", content: {
-                    NavigationStack {
-                        HStack {
-                            
-                        }
-                        .navigationTitle("Siddur")
-                    }
-                })
+    
+    @State private var selectedTab = 2 // Default tab
+    
+    @ViewBuilder
+    private func tabContent(title: String) -> some View {
+        if #available(iOS 16.0, *) {
+            switch title {
+            case "Limudim/Hillulot":
+                NavigationStack {
+                    LimudimView()
+                        .navigationTitle(title)
+                }
+            case "Rabbi Ovadiah Yosef Calendar":
+                NavigationStack {
+                    ZmanimView()
+                        .navigationTitle(title)
+                }
+            case "Siddur":
+                NavigationStack {
+                    SiddurView()
+                        .navigationTitle(title)
+                }
+            default:
+                EmptyView()
             }
         } else {
-            // Fallback on earlier versions use .tabItem
+            switch title {
+            case "Limudim/Hillulot":
+                NavigationView {
+                    LimudimView()
+                        .navigationTitle(title)
+                }
+            case "Rabbi Ovadiah Yosef Calendar":
+                NavigationView {
+                    ZmanimView()
+                        .navigationTitle(title)
+                }
+            case "Siddur":
+                NavigationView {
+                    SiddurView()
+                        .navigationTitle(title)
+                }
+            default:
+                EmptyView()
+            }
+        }
+    }
+    
+    var body: some View {
+        if #available(iOS 18.0, *) {
+            TabView(selection: $selectedTab) {
+                Tab("Limudim/Hillulot", systemImage: "text.justify", value: 1) {
+                    tabContent(title: "Limudim/Hillulot")
+                }
+                Tab("Zmanim", systemImage: "alarm", value: 2) {
+                    tabContent(title: "Rabbi Ovadiah Yosef Calendar")
+                }
+                Tab("Siddur", systemImage: "book", value: 3) {
+                    tabContent(title: "Siddur")
+                }
+            }
+        } else {
+            TabView(selection: $selectedTab) {
+                tabContent(title: "Limudim/Hillulot")
+                    .tabItem {
+                        Label("Limudim/Hillulot", systemImage: "text.justify")
+                    }
+                    .tag(1)
+
+                tabContent(title: "Rabbi Ovadiah Yosef Calendar")
+                    .tabItem {
+                        Label("Zmanim", systemImage: "alarm")
+                    }
+                    .tag(2)
+
+                tabContent(title: "Siddur")
+                    .tabItem {
+                        Label("Siddur", systemImage: "book")
+                    }
+                    .tag(3)
+            }
+        }
+    }
+}
+
+struct SiddurView: View {
+    var body: some View {
+        List {
+            Text("SiddurView")
+            Text("SiddurView")
+            Text("SiddurView")
         }
     }
 }
 
 #Preview {
-    if #available(iOS 16.0, *) {
+    if #available(iOS 15.0, *) {
         ContentView()
     } else {
-        // No fallback on earlier versions
+        // Fallback on earlier versions
     }
 }

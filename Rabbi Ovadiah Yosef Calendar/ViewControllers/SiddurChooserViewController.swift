@@ -240,7 +240,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         if (GlobalStruct.jewishCalendar.tomorrow().isChanukah() || GlobalStruct.jewishCalendar.isChanukah() && GlobalStruct.jewishCalendar.getDayOfChanukah() != 8) {
             choices["night"]?.append("הדלקת נרות חנוכה")
         }
-        if !GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha() || (GlobalStruct.jewishCalendar.isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7 || GlobalStruct.jewishCalendar.getDayOfWeek() == 1) {
+        if !GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha() || (GlobalStruct.jewishCalendar.isTishaBav() && (GlobalStruct.jewishCalendar.getDayOfWeek() == 7 || GlobalStruct.jewishCalendar.getDayOfWeek() == 1)) {
             choices["night"]?.append("הבדלה")
         }
         choices["night"]?.append("ק״ש שעל המיטה")

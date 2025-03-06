@@ -17,13 +17,13 @@ struct ZmanimAlertInfoHolder {
     func getFullTitle() -> String {
         let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: mIsZmanimInHebrew, mIsZmanimEnglishTranslated: mIsZmanimEnglishTranslated)
         if title == zmanimNames.getAlotString() {
-            return "Dawn - Alot Hashachar - עלות השחר"
+            return "Dawn - Alot Ha'Shaḥar - עלות השחר"
         }
         if title.contains(zmanimNames.getTalitTefilinString()) {
-            return "Earliest Talit/Tefilin - טלית ותפילין"
+            return "Earliest Tallit/Tefilin - טלית ותפילין"
         }
         if title.contains(zmanimNames.getHaNetzString()) {
-            return "Sunrise - HaNetz - הנץ"
+            return "Sunrise - Ha'Netz - הנץ"
         }
         if title == zmanimNames.getAchilatChametzString() {
             return "Sof Zeman Akhilat Ḥametz - Latest time to eat Ḥametz - סוף זמן אכילת חמץ"
@@ -50,7 +50,7 @@ struct ZmanimAlertInfoHolder {
             return "Minḥa Ketana - מנחה קטנה"
         }
         if title.contains(zmanimNames.getPlagHaminchaString()) {
-            return "Plag HaMinḥa - פלג המנחה"
+            return "Pelag Ha'Minḥa - פלג המנחה"
         }
         if title.contains(zmanimNames.getCandleLightingString()) {
             return "Candle Lighting - הדלקת נרות"
@@ -59,10 +59,10 @@ struct ZmanimAlertInfoHolder {
             return "Sunset - Sheqi'a - שקיעה"
         }
         if title == zmanimNames.getTzaitHacochavimString() {
-            return "Nightfall - Tzet Hakokhavim - צאת הכוכבים"
+            return "Nightfall - Tzet Ha'Kokhavim - צאת הכוכבים"
         }
         if title == zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString() {
-            return "Nightfall (Stringent) - Tzet Hakokhavim L'Ḥumra - צאת הכוכבים לחומרא"
+            return "Nightfall (Stringent) - Tzet Ha'Kokhavim L'Ḥumra - צאת הכוכבים לחומרא"
         }
         if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + " " + zmanimNames.getLChumraString() {
             return "Fast Ends (Stringent) - צאת תענית לחומרא"
@@ -77,7 +77,10 @@ struct ZmanimAlertInfoHolder {
             return "Rabbenu Tam - רבינו תם"
         }
         if title == zmanimNames.getChatzotLaylaString() {
-            return "Midnight - Ḥatzot Layla - חצות הלילה"
+            return "Midnight - Ḥatzot Ha'Layla - חצות הלילה"
+        }
+        if title.contains("Tachanun".localized()) || title.contains("צדקתך") {
+            return "Tachanun - תחנון"
         }
         if title.contains("וּלְכַפָּרַת פֶּשַׁע") {
             return "וּלְכַפָּרַת פֶּשַׁע"
@@ -89,7 +92,7 @@ struct ZmanimAlertInfoHolder {
             return title
         }
         if title.contains("ברכת החמה") || title.contains("Birkat HaChamah") {
-            return "Latest Birkat HaChamah - סוף זמן ברכת החמה - Sof Zeman Birkat HaChamah"
+            return "Latest Birkat Ha'Ḥamah - סוף זמן ברכת החמה - Sof Zeman Birkat Ha'Ḥamah"
         }
         if title.contains("ברכת הלבנה") || title.contains("Birkat Halevana") {
             return "ברכת הלבנה - Birkat Halevana"
@@ -107,38 +110,68 @@ struct ZmanimAlertInfoHolder {
             if Locale.isHebrewLocale() {
                 return """
                 עלות השחר מתחיל את היום ההלכתי, ומסמל את הראות של קרני השמש בשמים המוארים במזרח. (רא"ש, ברכות ד:א; רמב"ם פירוש המשניות, יומא ג:א; שו"ע או"ח פ"ט:א). בשפת עברית, זמן זה נקרא עלות השחר (כפי שנמצא בבראשית ל"ב:כח; ומילולית דומה של וכמו השחר עלה נמצא בבראשית י"ט:טו) או עמוד השחר (כפי שנמצא במשנה ברכות א:א). זהו הרגע שמסמן את המעבר בין מצוות הלילה (כגון תיקון רחל, קריאת שמע של ערבית ותפילת ערבית) למצוות היום (כמו לא לאכול לפני תפילה; שו"ע או"ח פ"ט:ה), גם אם זה לא תמיד ראוי לגמרי. זאת משום שבמקרים מסוימים ניתן עדיין לקיים מצוות של הלילה (כמו קריאת שמע ללא ברכת השכיבנו) גם במהלך היום, ובמציאות, יש להימנע מלקיים מצוות חיוביות (כגון תפילה) עד זמן הזריחה (אלא אם כן יש סיבה דחופה לכך. כמו כן, מי שעשה מצווה בטעות לפני הזריחה פטור בדיעבד).
+
                 ---
+
                 זמנים הלכתיים אלו נקבעים לא על פי מה שאנו רואים בעינינו (האם השמים תואמים את התיאור האסטרונומי של השחר לעיל), אלא באמצעות מדידות. ביום רגיל (בו יש 12 שעות יום ו-12 שעות לילה), ניתן למדוד את אורך היום מזריחה עד שקיעה, לחלק אותו ליחידות קטנות בשם "מיל" - כל אחת באורך 18 דקות (ש"ע או"ח תנט:ב), ולחשב 4 מיל (כפי שמחייב רבי יהודה, פסחים בבלי צד) כדי להגיע לזמן עלות השחר שמתרחש 72 דקות לפני הזריחה.
+
                 הקודיפיקציה של הלכה זו מצד פוסקי ההלכה רואה את ההקשר של התלמוד (ישראל ביום השוויון האביבי - ערב פסח) כאמצעי ליצור מקביל אסטרונומי של היכן השמש נמצאת מתחת לאופק (ב-16.04 מעלות) עד להחשת הזמן; אולם, כאשר משתנים הפרמטרים (כמו ימים שונים בלוח השנה או מיקומים שונים מישראל), יש להתאים את אורך הזמני ערב כך שיתאים.
+
                 ---
-                החזרת הקשר של הגמרא נעשית פשוטה ככל שמחשבים את מיקום השמש ("מעלות") מתחת לאופק ביום השוויון, בשעות אלו לאזור המיועד. [הלכה ברורה (הקדמה לסימן 261 הלכה 13), בהתבסס על מנחת כהן (2 4), פרי חדש (קונטרס דבאי שמשאי 8) ובית דוד (104). למרות שרבי דוד יוסף כותב כי יש להיות מחמיר ולהוסיף, ההיגיון של השימוש בו להקלות לפי דקות זמניות רגילות גם תואם לדקות זמניות מתוקנות] אז ניתן למדוד את הזמן שהאירוע האסטרונומי מתרחש עד הזריחה כדי להבטיח את הזמן העדכני לאזור זה. בהתאמה עם המנהג הספרדי הנורמטיבי שמשתמש בדקות לפי זמן הימצאות השמש מעל האופק, תקופת הזמן הזו מותאמת ומורחבת או מקוצרת בהתאם. (ראו בהמשך: מנחת כהן (מבוא השמש מאמר ב פרק ג) על שו"ת פאר הדור 44. זהו פסק של מרן עובדיה, והביא ראיה מבא"ח (שנא ראשונה - וארא ה, ויקהל ד, צב ח; שנא שניא - נח ז; רב פעלים ב:ב), וכן הסכים הילקוט יוסף (נ"ח:ג))
+
+                החזרת הקשר של הגמרא נעשית פשוטה ככל שמחשבים את מיקום השמש ("מעלות") מתחת לאופק ביום השוויון, בשעות אלו לאזור המיועד. [הלכה ברורה (הקדמה לסימן 261 הלכה 13), בהתבסס על מנחת כהן (2 4), פרי חדש (קונטרס דבאי שמשאי 8) ובית דוד (104). למרות שרבי דוד יוסף כותב כי יש להיות מחמיר ולהוסיף, ההיגיון של השימוש בו להקלות לפי דקות זמניות רגילות גם תואם לדקות זמניות מתוקנות] אז ניתן למדוד את הזמן שהאירוע האסטרונומי מתרחש עד הזריחה כדי להבטיח את הזמן העדכני לאזור זה. בהתאמה עם המנהג הספרדי הנורמטיבי שמשתמש בדקות לפי זמן הימצאות השמש מעל האופק, תקופת הזמן הזו מותאמת ומורחבת או מקוצרת בהתאם. (ראו בהמשך: מנחת כהן (מבוא השמש מאמר ב פרק ג) על שו"ת פאר הדור 44. זהו פסק של מרן עובדיה, והביא ראיה מבא"ח (שנה ראשונה - וארא ה, ויקהל ד, צב ח; שנה שניה - נח ז; רב פעלים ב:ב), וכן הסכים הילקוט יוסף (נ"ח:ג))
+
                 הזמנים בלוח הנוצרים באמצעות הנוסחה שלנו עשויים להביא להקלה או להחמרה, תלוי בתרחיש ובזמנים אחרים שנעשה בהם שימוש להשוואה. בשל האופי של תלותנו בזמן, *כל* נוסחה אחרת שתייצר זמנים נוחים או מקלים יותר לא תוכל לשמש על מנת לעקוף את ה"חומרות" שלנו, משום שהיא משתמשת בהנחות שלא התקבלו על ידי פוסקי ההלכה שלנו. ראה י"י (מהדורת תשפ"א) עמוד תעה סימן פט:יב למידע נוסף.
                 """
             } else {
-                return "Dawn begins the halachic day, signified by the visibility of the sun's rays in the illuminated eastern sky. (Rosh, Berakhoth 4:1; Rambam Pirush Mishnayoth Yoma 3:1; Shulḥan Arukh O.Ḥ. 89:1). In Hebrew, this time is either called עלות השחר (as used in Genesis 32:25; Variant of וכמו השחר עלה is used in Genesis 19:15) or עמוד השחר (as used in משנה ברכות א:א). It's the moment that transitions from the night's commandments (examples: תיקון רחל, קריאת שמע של ערבית & תפילת ערבית) to the days commandments (like not eating before prayer; S\"A O\"Ḥ 89:5), even if not a full-proof perfect one. This is because there are cases where the night's commandments (קריאת שמע בלי ברכת השכיבנו) could still be done into the day, and practically, one should still not perform positive commandments (such as prayer) until sunrise (unless there is a pressing circumstance. Also, one who erroneously did any commandment before sunrise is exempt post-facto).\n\nThese Halachic times are determined not through what our eyes see (whether the sky correlates to the astronomical description of Dawn above), but rather through measurements. On the average day (where there are 12 hours of day and 12 hours of night), one could measure the length of the day from sunrise to sunset, break them up into smaller units called \"mil\" - each spanning 18 minutes (ש\"ע או\"ח תנט:ב), and use 4 of those mil (as held by R' Yehuda, פסחים בבלי צד) to get to a Dawn time that takes place 72 minutes before sunrise.\n\nThe codification of this law from our authorities views the context of the Talmud (Israel on the spring equinox - Erev Pesaḥ) as a means to create an astronomical parallel of where the sun is below the horizon (16.04 degrees) to the passage of time; however, when the parameters change (such as the different days of the calendar or different locations than Israel), we maintain the time length of twilight would also accommodate.\n\nRecreating the context of the Gemara is as easy as applying the sun's position (\"degree\") below the horizon on the equinox day at those minutes to the respective location. [Halacha Berurah (intro to siman 261 halacha 13), based on Minḥath Kohen (2 4), Pri Ḥadash (Kuntres DeBey Shimshey 8) & Bet David (104). Although R David writes one should only be stringent and increase, the logic of using it for leniencies by regular seasonal minutes also apply by these adjusted-seasonal minutes] One could then measure the time that this astronomical event takes place until sunrise to get the length of twilight fitting for that location. To fit it with the normative Sepharadic custom of using minutes based on how long the sun is above the horizon, this twilight period is then lengthened/shortened accordingly. (see further: מנחת כהן (מבוא השמש מאמר ב פרק ג) על שו\"ת פאר הדור 44. זה פסק של מרן עובדיה, והביא ראיה מבא\"ח (שנא ראשונה - וארא ה, ויקהל ד, צב ח; שנא שניא - נח ז; רב פעלים ב:ב), וכן הסכים הילקוט יוסף (נ\"ח:ג))\n\nThe calendar times generated using our formula may result in either a leniency or a stringency, dependent on the scenario & the other time used in the comparison. Due to the nature of how reliant we are on our time, *any* other formula that would generate more comfortable/lenient times may **not** be used to supersede our \"stringencies\", considering they use premises not adopted by our authorities. See י\"י (מהדורת תשפ\"א) עמוד תעה סימן פט:יב for further information."
+                return """
+                Dawn begins the halachic day, signified by the visibility of the sun's rays in the illuminated eastern sky. (Rosh, Berakhoth 4:1; Rambam Pirush Mishnayoth Yoma 3:1; Shulḥan Arukh O.Ḥ. 89:1). In Hebrew, this time is either called עלות השחר (as used in Genesis 32:25; Variant of וכמו השחר עלה is used in Genesis 19:15) or עמוד השחר (as used in משנה ברכות א:א). It's the moment that transitions from the night's commandments (examples: תיקון רחל, קריאת שמע של ערבית & תפילת ערבית) to the days commandments (like not eating before prayer; S"A O"Ḥ 89:5), even if not a full-proof perfect one. This is because there are cases where the night's commandments (קריאת שמע בלי ברכת השכיבנו) could still be done into the day, and practically, one should still not perform positive commandments (such as prayer) until sunrise (unless there is a pressing circumstance. Also, one who erroneously did any commandment before sunrise is exempt post-facto).
+                
+                ---
+                
+                These Halachic times are determined not through what our eyes see (whether the sky correlates to the astronomical description of Dawn above), but rather through measurements. On the average day (where there are 12 hours of day and 12 hours of night), one could measure the length of the day from sunrise to sunset, break them up into smaller units called "mil" - each spanning 18 minutes (ש"ע או"ח תנט:ב), and use 4 of those mil (as held by R' Yehuda, פסחים בבלי צד) to get to a Dawn time that takes place 72 minutes before sunrise.
+                
+                The codification of this law from our authorities views the context of the Talmud (Israel on the spring equinox - Erev Pesaḥ) as a means to create an astronomical parallel of where the sun is below the horizon (16.04 degrees) to the passage of time; however, when the parameters change (such as the different days of the calendar or different locations than Israel), we maintain the time length of twilight would also accommodate.
+                
+                ---
+                
+                Recreating the context of the Gemara is as easy as applying the sun's position ("degree") below the horizon on the equinox day at those minutes to the respective location. [Halacha Berurah (intro to siman 261 halacha 13), based on Minḥath Kohen (2 4), Pri Ḥadash (Kuntres DeBey Shimshey 8) & Bet David (104). Although R David writes one should only be stringent and increase, the logic of using it for leniencies by regular seasonal minutes also apply by these adjusted-seasonal minutes] One could then measure the time that this astronomical event takes place until sunrise to get the length of twilight fitting for that location. To fit it with the normative Sepharadic custom of using minutes based on how long the sun is above the horizon, this twilight period is then lengthened/shortened accordingly. (see further: מנחת כהן (מבוא השמש מאמר ב פרק ג) על שו"ת פאר הדור 44. זה פסק של מרן עובדיה, והביא ראיה מבא"ח (שנה ראשונה - וארא ה, ויקהל ד, צב ח; שנה שניה - נח ז; רב פעלים ב:ב), וכן הסכים הילקוט יוסף (נ"ח:ג))
+                
+                The calendar times generated using our formula may result in either a leniency or a stringency, dependent on the scenario & the other time used in the comparison. Due to the nature of how reliant we are on our time, *any* other formula that would generate more comfortable/lenient times may **not** be used to supersede our "stringencies", considering they use premises not adopted by our authorities. See י"י (מהדורת תשפ"א) עמוד תעה סימן פט:יב for further information.
+                """
             }
         }
         if title.contains(zmanimNames.getTalitTefilinString()) {
             if Locale.isHebrewLocale() {
                 return """
                 **מִשֵּׁיָּכִיר** (בַּלָּעַז "כשאתה מזהה") הוא הזמן שבו יש מספיק אור בשמים כדי להבחין בין צבעי הלבן ו"תכלת" (כחול - משנה תורה ב:א ומגיד משרים פרשת קרח). מצוות שתלויות בהכרת דבר מסוים ניתנות לקיום כעת (ברכות ט:ב), כגון:
+
                 - **לובש ציצית** (ברייתא במנחות מ"ג מצטט את הפסוק במדבר טו:לט - "וְרָאִיתֶם אֹתוֹ")
                 - **לובש תפילין** (רבנו יונה מצטט את הפסוק בדברים כ"ח:י - "וְרָאוּ כָּל־עַמֵּי הָאָרֶץ כִּי שֵׁם יְהוָה נִקְרָא עָלֶיךָ")
                 - **קורא את שמע** (מגן אברהם על אורח חיים 58:6 בשם הרמב"ן - הדרך לקיים "ובקומך" היא כאשר אנשים קמים, ורוב האנשים קמים כאשר הם יכולים לראות מישהו שהם מעט מכירים במרחק 4 אמות).
+
                 למרות שכל אחת מהפעולות הללו מבוססת על סוגים שונים של הכרה, הבית יוסף כתב שכל הפעולות האלו נעשות באותו זמן.
+
                 ---
-                למרות שכתבי קודש מוקדמים לא נתנו מדד מדויק לזמן זה (והשאירו זאת לקביעת זמן מעשי), חכמים מאוחרים השתמשו במדדים יחסיים לזמן *עלות השחר*. על פי ההלכה, *משיהכיר* קורה אחרי שעבר **1/12** מהזמן שבין עלות השחר לזריחה ("שישה דקות זמניות"). עם זאת, זמן זה הוא על פי דין, עבור אלו שצריכים לצאת לעבודה או לנסוע מוקדם בבוקר; בדרך כלל, יש להמתין עד שיחלוף **1/6** מהזמן.
+
+                למרות שכתבי קודש מוקדמים לא נתנו מדד מדויק לזמן זה (והשאירו זאת לקביעת זמן מעשי), חכמים מאוחרים השתמשו במדדים יחסיים לזמן *עלות השחר*. על פי ההלכה, *משיכיר* קורה אחרי שעבר **1/12** מהזמן שבין עלות השחר לזריחה ("שישה דקות זמניות"). עם זאת, זמן זה הוא על פי דין, עבור אלו שצריכים לצאת לעבודה או לנסוע מוקדם בבוקר; בדרך כלל, יש להמתין עד שיחלוף **1/6** מהזמן. זו הסיבה שהזמן של 66 דקות מוסתר כברירת מחדל.
+
                 (מקור לדקות זמניות: הלכה ברורה עמוד 227)
                 """
             } else {
                 return """
                 Misheyakir (literally "when you recognize") is the time where there is enough light in the sky for one to distinguish between the colors of white & "Techelet" (blue - משנה תורה ב:א & מגיד משרים פרשת קרח). Mitzvot that depend on recognition can be done now (Berakhot 9b), such as:
+
                 - Wearing ציצית (Braitah in Menachot 43b quoting the verse in Bamidbar 15:39 - וראיתם אותו)
                 - Wearing תפילין (Rabbenu Yona quoting the verse in Devarim 28:10 - וְרָאוּ֙ כׇּל־עַמֵּ֣י הָאָ֔רֶץ כִּ֛י שֵׁ֥ם יְהֹוָ֖ה נִקְרָ֣א עָלֶ֑יךָ)
                 - Reciting Shema (MG"A on Orach Hayim 58:6 in the name of the Ramban - The way to fulfil ובקומך is when people get up, and most people get up when they can see someone who they are somewhat familiar with 4 אמות away).
+
                 Although each of these actions are based on different forms of recognition, the Bet Yosef says that they are really all in the same time.
+
                 ---
-                Although earlier authorities did not assign any type of measurement to this time (leaving it to be determined on a practical level), later authorities used measurements relative to the time of Dawn. Without restating how to calculate Dawn, Misheyakir according to the letter of the law happens after 1/12th of the time passed from Dawn until sunrise ("six zemaniyot/seasonal minutes"). However, that time is the letter-of-the-law, for those who need to go to work or leave early in the morning to travel; people should ideally wait until 1/6th of the time passed instead ("twelve zemaniyot/seasonal minutes").
+
+                Although earlier authorities did not assign any type of measurement to this time (leaving it to be determined on a practical level), later authorities used measurements relative to the time of Dawn. Without restating how to calculate Dawn, Misheyakir according to the letter of the law happens after 1/12th's of the time passed from Dawn until sunrise ("six zemaniyot/seasonal minutes"). However, that time is the letter-of-the-law, for those who need to go to work or leave early in the morning to travel; people should ideally wait until 1/6th's of the time passed instead ("twelve zemaniyot/seasonal minutes"). Which is why the 66 minute time is hidden by default.
+
                 (Source for seasonal minutes: Halacha Berura pg. 227)
                 """
             }
@@ -147,14 +180,18 @@ struct ZmanimAlertInfoHolder {
             if Locale.isHebrewLocale() {
                 return """
                 הזריחה ("הנץ") היא תחילת היום ההלכתי החדשה האידיאלית, שבה ניתן לבצע את כל המצוות התלויות ביום (שופר, לולב, מגילה) בצורה אופטימלית. תקופה זו עצמה היא גם הזמן הנכון לומר את תפילת שחרית, בהתבסס על הפסוק (תהילים 72:5) "יִֽירָא֥וּךָ עִם־שָׁ֣מֶשׁ"; "ייראו אותך עם השמש". רבים מקפידים מאוד לוודא שהם מתחילים את התפילה בזמן הזריחה (כפי שמועצה רבי יצחק יוסף, ילקוט יוסף מהדורת 5781, עמוד 440), למרות שמרן זצ"ל לא היה כה מדויק בזמנים (ראו אורחות מרן, ח"ב סי' 7:5).
+
                 ---
-                בפנים, אנו קובעים את הזמן הזה (כולל גובה, עבור תושבי ארץ ישראל) כרגע שבו קצה העליון של כדור השמש מתחיל לעלות מעל לאופק המזרחי (ילקוט יוסף - מהדורה חדשה, סימן 89, עמוד 460), לפי קווי הרוחב והאורך המדויקים של המשתמש. עם זאת, כאשר אנו מציגים את הזמן הזה, אנו מנסים להתאים את "הזריחה הנראה" בצורה הקרובה ביותר (אשל אברהם בוטשאטש, אורח חיים ס"ח; ילקוט יוסף, מהדורה חדשה, סימן 89, עמוד 51), שהיא "כאשר השמש מתחילה להאיר על ראשי ההרים" (תלמודי רבינו יונה על ברכות ד: בדפי הריף). לכן, אנו מספקים למשתמשים דרך להשתמש בזמנים הנוצרים מאתר ChaiTables (סיפק את המידע רבי חיים קלר), עם גיבוי של הצגת זמן הזריחה הרגיל (ללא גובה) כאשר הזמנים הללו לא הורדו.
+
+                בפנים, אנו קובעים את הזמן הזה (כולל גובה, עבור תושבי ארץ ישראל) כרגע שבו קצה העליון של כדור השמש מתחיל לעלות מעל לאופק המזרחי (ילקוט יוסף - מהדורה חדשה, סימן 89, עמוד 460), לפי קווי הרוחב והאורך המדויקים של המשתמש. עם זאת, כאשר אנו מציגים את הזמן הזה, אנו מנסים להתאים את "הזריחה הנראה" בצורה הקרובה ביותר (אשל אברהם בוטשאטש, אורח חיים ס"ח; ילקוט יוסף, מהדורה חדשה, סימן 89, עמוד 51), שהיא "כאשר השמש מתחילה להאיר על ראשי ההרים" (תלמידי רבינו יונה על ברכות ד: בדפי הריף). לכן, אנו מספקים למשתמשים דרך להשתמש בזמנים הנוצרים מאתר ChaiTables (סיפק את המידע רבי חיים קלר), עם גיבוי של הצגת זמן הזריחה הרגיל (ללא גובה) כאשר הזמנים הללו לא הורדו.
                 """
             } else {
                 return """
-                Sunrise ("Hanetz") is the ideal beginning of the new Halachic day, where one can now perform any day-dependent Mitzvot (Shofar, Lulav, Megillah) in an optimal fashion. The time period itself is also the proper time to be saying the Tefilah of Shacharit, based on the verse (Tehilim 72:5) "יִֽירָא֥וּךָ עִם־שָׁ֣מֶשׁ"; "They will fear you with the sun". Many take extra precision to ensure they start by the sunrise minute (as adviced by R Yitzḥak Yosef, Yalkut Yosef 5781 edition, pg. 440), although Maran zt"l himself wasn't as time-precise (see Orḥot Maran I 7:5).
+                Sunrise ("Hanetz") is the ideal beginning of the new Halachic day, where one can now perform any day-dependent Mitzvot (Shofar, Lulav, Megillah) in an optimal fashion. The time period itself is also the proper time to be saying the Tefilah of Shacharit, based on the verse (Tehilim 72:5) "יִֽירָא֥וּךָ עִם־שָׁ֣מֶשׁ"; "They will fear you with the sun". Many take extra precision to ensure they start by the sunrise minute (as advised by R Yitzḥak Yosef, Yalkut Yosef 5781 edition, pg. 440), although Maran zt"l himself wasn't as time-precise (see Orḥot Maran I 7:5).
+
                 ---
-                Internally, we determine this time (elevation-included, for those in Eretz Yisrael) as the moment the sun's sphere's uppermost edge peeks above the eastern horizon (Yalkut Yosef - new edition, siman 89 page 460), for the exact latitude & longitude as the user. Nevertheless, when displaying this time, we try to match a "Visible Sunrise" as closely as possible (Eshel Avraham Botchach, Oraḥ Ḥayim 89; Yalkut Yosef, new edition, siman 89 page 51), which is "when the sun starts shining on the hilltops" (תלמדי רבינו יונה על ברכות ד: בדפי הריף). As such, we provide users with a way to use these times generated from the ChaiTables website (provided by Rabbi Chaim Keller), with a fallback of displaying the standard sunrise time (without elevation) when these generated times are not downloaded.
+
+                Internally, we determine this time (elevation-included, for those in Eretz Yisrael) as the moment the sun's sphere's uppermost edge peeks above the eastern horizon (Yalkut Yosef - new edition, siman 89 page 460), for the exact latitude & longitude as the user. Nevertheless, when displaying this time, we try to match a "Visible Sunrise" as closely as possible (Eshel Avraham Botchach, Oraḥ Ḥayim 89; Yalkut Yosef, new edition, siman 89 page 51), which is "when the sun starts shining on the hilltops" (תלמידי רבינו יונה על ברכות ד: בדפי הריף). As such, we provide users with a way to use these times generated from the ChaiTables website (provided by Rabbi Chaim Keller), with a fallback of displaying the standard sunrise time (without elevation) when these generated times are not downloaded.
                 """
             }
         }
@@ -326,20 +363,9 @@ struct ZmanimAlertInfoHolder {
         }
         if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() {
             if Locale.isHebrewLocale() {
-                return "זהו הזמן בו מסתיימת התענית.  זמן זה מחושב כ-20 דקות רגילות לאחר השקיעה (עם גובה בחשבונות).  נכתב בהלכה ברורה שבאחת מהפעמים, הרב עובדיה יוסף זצ\"ל נסע לניו יורק ואמר לבנו, הרב דוד יוסף שליט\"א, שהתענית מסתיים 13.5 דקות זמניות לאחר השקיעה. אך בספרו \"חזון עובדיה\" כתב שהתענית מסתיים כ-20 דקות לאחר השקיעה.  בלוח אור החיים כתוב שהתענית מסתיים בצאת הכוכבים. שאלתי את הרב בניזרי אם זה אומר שהתענית מסתיים 13.5 דקות זמניות לאחר השקיעה והוא אמר, \"לא בהכרח, הלוח פשוט אומר שהתענית מסתיים בצאת הכוכבים, אדם יכול לסיים את התענית 20 דקות לאחר השקיעה אם הוא רוצה להחמיר.\" אני שאלתי אותו האם ה-20 דקות הם דקות זמניות או רגילות והוא אמר, \"דקות רגילות.\"  בסיכום: אם אדם רוצה לסיים את התענית 13.5 דקות זמניות לאחר השקיעה, יש לו את הזכות לעשות זאת. אך אם אדם רוצה להחמיר, הוא יכול לסיים את התענית 20 דקות לאחר השקיעה."
+                return "זמן זה מחושב כ-20 דקות רגילות (מחוץ לישראל, 20 דקות זמניות מותאמות) לאחר השקיעה (כולל גובה פני הים).\n\nמובא בהלכה ברורה (חלק י\"ד, באוצרות יוסף [קונטרס כי בא השמש]) כי מרן הרב עובדיה יוסף זצ\"ל, כאשר נסע פעם בניו יורק, אמר לבנו, הרב דוד יוסף שליט\"א, שהצום מסתיים בצאת גאונים (13.5 דקות זמניות לאחר השקיעה). עם זאת, בספרו חזון עובדיה, הוא כותב שהצום מסתיים כ-20 דקות לאחר השקיעה.\n\nבלוח אור החיים נכתב שהצום מסתיים בצאת הכוכבים. שאלתי את הרב בניזרי (מחבר הלוח) האם הכוונה היא ל-13.5 או 20 דקות לאחר השקיעה, והוא השיב: \"הלוח פשוט אומר שהצום מסתיים בצאת הכוכבים, אדם יכול לסיים את הצום 20 דקות לאחר השקיעה אם הוא רוצה להחמיר.\"\n\nלסיכום: מי שרוצה לסיים את הצום ב-13.5 דקות זמניות לאחר השקיעה, רשאי לעשות כן. אך אם ירצה להחמיר, יוכל להמתין עד 20 דקות לאחר השקיעה."
             } else {
-                return "This is the time that the fast/taanit ends.\n\n" +
-                "This time is calculated as 20 regular minutes after sunset (elevation included).\n\n" +
-                "It is brought down in Halacha Berurah that Rabbi Ovadiah Yosef Z\"TL was once traveling in New York and he said to his son, " +
-                "Rabbi David Yosef Shlita, that the fast ends 13.5 zmaniyot minutes after sunset. However, in his sefer Chazon Ovadiah, he " +
-                "writes that the fast ends 20 minutes after sunset.\n\n" +
-                "In the Ohr HaChaim calendar, they write that the fast ends at Tzait Hacochavim. I asked Rabbi Benizri if this meant that " +
-                "the fast ends at 13.5 zmaniyot minutes after sunset and he said, \"Not necessarily, the calendar just says that the fast ends " +
-                "at Tzait Hacochavim, a person can end the fast at 20 minutes " +
-                "after sunset if he wants to be stringent.\" I then asked him if those 20 minutes are zmaniyot minutes or regular minutes " +
-                "and he said, \"Regular minutes.\"\n\n" +
-                "To summarize: If a person wants to end the fast at 13.5 zmaniyot minutes after sunset, he has the right to do so. However, if a person wants to " +
-                "be stringent, he can end the fast at 20 minutes after sunset."
+                return "This time is calculated as 20 regular minutes (outside of Israel, 20 adjusted zmaniyot minutes) after sunset (elevation included).\n\nIt is brought down in Halacha Berurah (vol. 14, in Otzrot Yosef [Kuntrus Ki Ba Hashemesh]) that Rabbi Ovadiah Yosef Z\"TL was once traveling in New York and he said to his son, Rabbi David Yosef Shlita, that the fast ends at tzeit geonim (13.5 zmaniyot minutes after sunset). However, in his sefer Chazon Ovadiah, he writes that the fast ends around 20 minutes after sunset.\n\nIn the Ohr HaChaim calendar, they write that the fast ends at Tzait Hacochavim. I asked Rabbi Benizri (author of the calendar) if this meant that the fast ends at 13.5 or 20 minutes after sunset, and he said, \"The calendar just says that the fast ends at Tzait Hacochavim, a person can end the fast at 20 minutes after sunset if he wants to be stringent.\"\n\nTo summarize: If a person wants to end the fast at 13.5 zmaniyot minutes after sunset, he has the right to do so. However, if a person wants to be stringent, he can end the fast at 20 minutes after sunset."
             }
         }
         if title.contains("Shabbat Ends") || title.contains("Chag Ends") || title.contains("Tzait Shabbat") || title.contains("Tzait Chag") || title.contains("צאת שבת/חג") || title.contains("צאת שבת") || title.contains("צאת חג") {
@@ -378,7 +404,7 @@ struct ZmanimAlertInfoHolder {
                 "It is best to have Melaveh Malka before this time.\n\n" +
                 "This time is calculated as 6 zmaniyot/seasonal hours after sunset. " +
                 "The GR\"A calculates a zmaniyot/seasonal hour by taking the time between sunrise and sunset (elevation included) and " +
-                "divides it into 12 equal parts.\n\n"
+                "divides it into 12 equal parts."
             }
         }
         if title.contains("וּלְכַפָּרַת פֶּשַׁע") {
@@ -431,7 +457,7 @@ A further Makhloket is whether the first Tekufah used a fixed clock time of 12:0
                 return "During the time of the Three weeks/Nine days/Shevuah shechal bo certain restrictions apply:\n\nThree Weeks:\nNo listening to music\nBetter to delay shehechiyanu\n\nNine Days:\nNo listening to music\nBetter to delay shehechiyanu\nBetter to delay any construction\nNo weddings\nNo purchasing new clothing (unless there is great need ex: a sale)\nNo consumption of meat or wine (excludes Rosh Chodesh and Shabbat)\nNo wearing brand new clothing\n\nShevuah Shechal Bo:\nNo listening to music\nBetter to delay shehechiyanu\nNo construction\nNo weddings\nNo purchasing new clothing (unless there is great need ex: a sale)\nNo consumption of meat or wine\nNo wearing brand new clothing\nNo taking haircuts or shaving (Men Only)\nNo swimming (with hot water)\nNo showering (with hot water)\nNo laundry\nNo wearing freshly laundered clothing (excludes undergarments)\n"
             }
         }
-        if title.contains("ברכת החמה") || title.contains("Birkat HaChamah") {
+        if title.contains("ברכת החמה") || title.contains("Birkat Ha'Ḥamah") {
             if Locale.isHebrewLocale() {
                 return "ברכת החמה נאמרת היום! זהו אירוע המתרחש פעם אחת בכל 28 שנה, ואדם צריך להיות זהיר כדי לברך על השמש בשעות הראשונות של הבוקר ביום זה. לפי רוב הפוסקים, אפשר לברך על השמש כל יום, אך רב עובדיה יוסף זצ\"ל כותב בחזון עובדיה ברכות כי אדם צריך לנסות לברך על השמש עד לפחות 3 שעות זמניות לאחר תחילת היום. אם הזמן הזה עובר, הוא צריך לברך על השמש בלי שם השם. לכן, מנהג עם ישראל הוא להתעורר בבוקר מוקדם ולהתפלל בנץ ביום זה, ולאחר העמידה (קדיש תתקבל), הם יוצאים החוצה כדי לברך על השמש."
             }
