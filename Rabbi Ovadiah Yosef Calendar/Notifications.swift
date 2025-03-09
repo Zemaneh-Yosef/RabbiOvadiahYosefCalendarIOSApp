@@ -327,18 +327,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                                   "Tzeit Hacochavim",
                                   "Tzeit Hacochavim (Stringent)",
                                   "Fast Ends",
-                                  "Fast Ends (Stringent)",
                                   "Shabbat Ends",
                                   "Rabbeinu Tam",
                                   "Chatzot Layla"]
             
-            if !defaults.bool(forKey: "LuachAmudeiHoraah") {
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Plag HaMincha Halacha Berurah")!)
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Tzeit Hacochavim (Stringent)")!)
-            } else {
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends")!)
-                editableZmanim.remove(at: editableZmanim.firstIndex(of: "Fast Ends (Stringent)")!)
-            }
             for string in editableZmanim {
                 if !defaults.bool(forKey: "Notify"+string) || defaults.integer(forKey: string) < 0 {
                     editableZmanim.remove(at: editableZmanim.firstIndex(of: string)!)//get rid of zmanim we do not want to notify for
@@ -346,6 +338,20 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             }
             var zmanim: Array<ZmanListEntry> = []
             zmanim = addZmanim(list: zmanim)//list is already filtered in this method
+            if zmanim.isEmpty {
+                //if there are no zmanim to notify for, we can use the other local notifications for daily notifications which are the most important in my opinion
+                if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+                    addOneDayToCalendars()
+                }
+                //we already scheduled for 14 days, so advance the dates 15/16 days
+                zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400 * 15)
+                jewishCalendar.workingDate = zmanimCalendar.workingDate
+                while amountOfNotificationsSet != amountOfPossibleNotifications {
+                    scheduleDailyNotification()
+                    addOneDayToCalendars()
+                }
+                return
+            }
             var index = 0 //we need the index for the list to match the array above
             for zmanEntry in zmanim {
                 let zman = zmanEntry.zman
