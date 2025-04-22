@@ -237,6 +237,9 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         }
         choices["morning"]?.append("מנחה")
         choices["night"]?.append("ערבית")
+        if !(GlobalStruct.jewishCalendar.tomorrow().getDayOfOmer() == -1 || GlobalStruct.jewishCalendar.getDayOfOmer() >= 49) {
+            choices["night"]?.append("ספירת העומר")
+        }
         if (GlobalStruct.jewishCalendar.tomorrow().isChanukah() || GlobalStruct.jewishCalendar.isChanukah() && GlobalStruct.jewishCalendar.getDayOfChanukah() != 8) {
             choices["night"]?.append("הדלקת נרות חנוכה")
         }
@@ -376,6 +379,8 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         case "ערבית":
             GlobalStruct.chosenPrayer = "Arvit"
             openSiddur()
+        case "ספירת העומר":
+            showFullScreenView("Omer")
         case "ברכת המזון":
             birchatHamazon()
         case "ברכת הלבנה":
@@ -494,28 +499,6 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             entries = entries.filter { !$0.isEmpty }
             return entries.joined(separator: ", ")
         case "ק״ש שעל המיטה":
-//            if Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0 {
-//                GlobalStruct.jewishCalendar.forward()
-//            }
-//            var tachanun =
-//                GlobalStruct.jewishCalendar.getTachanun()
-//                    .replacingOccurrences(of: "צדקתך", with: "")
-//                    .replacingOccurrences(of: "לא אומרים תחנון", with: "")
-//                    .replacingOccurrences(of: "אומרים תחנון רק בבוקר", with: "")
-//                    .replacingOccurrences(of: "יש אומרים תחנון", with: "")
-//                    .replacingOccurrences(of: "יש מדלגים תחנון במנחה", with: "")
-//                    .replacingOccurrences(of: "אומרים תחנון", with: "")
-//                
-//                    .replacingOccurrences(of: "צדקתך", with: "")
-//                    .replacingOccurrences(of: "No Tachanun today", with: "")
-//                    .replacingOccurrences(of: "Tachanun only in the morning", with: "")
-//                    .replacingOccurrences(of: "Some say Tachanun today", with: "")
-//                    .replacingOccurrences(of: "Some skip Tachanun by mincha", with: "")
-//                    .replacingOccurrences(of: "There is Tachanun today", with: "")
-//
-//            if Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0 {
-//                GlobalStruct.jewishCalendar.back()
-//            }
             return nil
         case "Prayer for Etrog".localized():
             return "It is good to say this prayer today.".localized()
@@ -569,7 +552,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     func openSiddur() {
-        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && !(GlobalStruct.chosenPrayer == "Birchat Halevana" || GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") || GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita") {// if the prayer is dependant on isMukafChoma, we ask the user
+        if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM) && GlobalStruct.chosenPrayer != "Birchat Halevana" && !GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") && GlobalStruct.chosenPrayer != "Kriat Shema SheAl Hamita" {// if the prayer is dependant on isMukafChoma, we ask the user
             let alert = UIAlertController(title: "Are you in a walled (Mukaf Choma) city?".localized(),
                                           message:"Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?".localized(), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes (Jerusalem)".localized(), style: .default, handler: { UIAlertAction in

@@ -8,12 +8,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Rabbi Ovadia Yosef Calendar"
+            "value" : "Rabbi Ovadiah Yosef Calendar Widget"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "זמני יוסף"
           }
         }

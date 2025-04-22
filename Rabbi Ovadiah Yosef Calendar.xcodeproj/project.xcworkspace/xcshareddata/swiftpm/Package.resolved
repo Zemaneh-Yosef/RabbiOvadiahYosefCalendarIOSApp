@@ -1,13 +1,13 @@
 {
-  "originHash" : "164c63dde18c84e20d023a6d9e38f2a643b45f8ed8067118def5626e39d85a5c",
+  "originHash" : "acd20142b9767cfdc0dece66c0c114e8033085e3a17f7aa50cbf09c0ed4ecfea",
   "pins" : [
     {
       "identity" : "kosherswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Elyahu41/KosherSwift",
       "state" : {
-        "revision" : "fbf305bdfd02299843c5ce1245d7a06043e857c3",
-        "version" : "1.10.2"
+        "revision" : "310e396e31f691eb09a06b180e8f9bababa31bdc",
+        "version" : "1.10.3"
       }
     },
     {
@@ -42,8 +42,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "revision" : "6b4930da67b462d3f200472c902dd016d37a554d",
-        "version" : "2.7.7"
+        "revision" : "bba848db50462894e7fc0891d018dfecad4ef11e",
+        "version" : "2.8.7"
+      }
+    },
+    {
+      "identity" : "swiftuisnackbar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zaniluca/SwiftUISnackbar.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ff5132c91e3a3855af679e648b95c8ab60c5eeb1"
       }
     },
     {

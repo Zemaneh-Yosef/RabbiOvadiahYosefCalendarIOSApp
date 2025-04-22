@@ -65,14 +65,18 @@ struct MoladView: View {
                             }
                         HStack {
                             Button {
-                                datePickerIsVisible.toggle()
-                                hebrewDatePickerIsVisible.toggle()
+                                withAnimation {
+                                    datePickerIsVisible.toggle()
+                                    hebrewDatePickerIsVisible.toggle()
+                                }
                             } label: {
                                 Text("Change Calendar")
                             }
                             Spacer()
                             Button {
-                                datePickerIsVisible.toggle()
+                                withAnimation {
+                                    datePickerIsVisible.toggle()
+                                }
                             } label: {
                                 Text("Done")
                             }
@@ -96,14 +100,18 @@ struct MoladView: View {
                             }
                         HStack {
                             Button {
-                                hebrewDatePickerIsVisible.toggle()
-                                datePickerIsVisible.toggle()
+                                withAnimation {
+                                    hebrewDatePickerIsVisible.toggle()
+                                    datePickerIsVisible.toggle()
+                                }
                             } label: {
                                 Text("Change Calendar")
                             }
                             Spacer()
                             Button {
-                                hebrewDatePickerIsVisible.toggle()
+                                withAnimation {
+                                    hebrewDatePickerIsVisible.toggle()
+                                }
                             } label: {
                                 Text("Done")
                             }
@@ -122,122 +130,130 @@ struct MoladView: View {
     
     var body: some View {
         alerts(view:
-                ZStack {
-            Image("molad_background")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            
-            VStack(spacing: 16) {
-                Text("Molad Calculator")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.white)
+                ScrollView {
+            ZStack {
+                Image("molad_background")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
                 
-                Spacer()
-                
-                HStack {
-                    VStack {
-                        Text(englishMonth)
-                            .font(.title2)
-                            .foregroundStyle(Color.white)
-                        Text(String(Calendar.current.dateComponents([.year], from: userChosenDate).year ?? 1))
-                            .foregroundStyle(Color.white)
-                    }
-                    Button(action: {
-                        datePickerIsVisible.toggle()
-                    }) {
-                        Image(systemName: "pencil.circle.fill").resizable().frame(width: 24, height: 24)
-                    }
-                    .padding(.horizontal)
-                    VStack {
-                        Text(hebrewMonth)
-                            .font(.title2)
-                            .foregroundStyle(Color.white)
-                        Text(String(GlobalStruct.jewishCalendar.getJewishYear()))
-                            .foregroundStyle(Color.white)
-                    }
-                }
-                .padding()
-                .background(alignment: .center) {
-                    RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
-                }
-                .onTapGesture {
-                    datePickerIsVisible.toggle()
-                }
-                
-                VStack {
-                    Text("Molad Time Announced")
-                        .font(.headline)
+                VStack(spacing: 16) {
+                    Text("Molad Calculator")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
                         .foregroundStyle(Color.white)
-                    Text(getMoladAnnouncement())
-                        .font(.title2)
-                        .bold()
-                        .foregroundStyle(Color.yellow)
-                }
-                .padding()
-                .background(alignment: .center) {
-                    RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
-                }
-                
-                VStack {
-                    Text("Molad for This Month (Your Timezone)")
-                        .font(.headline)
-                        .foregroundStyle(Color.white)
-                    Text(dateFormatter.string(from: GlobalStruct.jewishCalendar.getMoladAsDate()))
-                        .font(.title2)
-                        .bold()
-                        .foregroundStyle(Color.yellow)
-                }
-                .padding()
-                .background(alignment: .center) {
-                    RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
-                }
-                
-                VStack {
-                    Text("Earliest Birchat Halevana (7 days)")
-                        .font(.headline)
-                        .foregroundStyle(Color.white)
-                    Text(dateFormatter.string(from: GlobalStruct.jewishCalendar.getTchilasZmanKidushLevana7Days()))
-                        .font(.title2)
-                        .bold()
-                        .foregroundStyle(Color.yellow)
                     
-                    Divider().background(Color.white)
+                    HStack {
+                        VStack {
+                            Text(englishMonth)
+                                .font(.title2)
+                                .foregroundStyle(Color.white)
+                            Text(String(Calendar.current.dateComponents([.year], from: userChosenDate).year ?? 1))
+                                .foregroundStyle(Color.white)
+                        }
+                        Button(action: {
+                            withAnimation {
+                                datePickerIsVisible.toggle()
+                            }
+                        }) {
+                            Image(systemName: "pencil.circle.fill").resizable().frame(width: 24, height: 24)
+                        }
+                        .padding(.horizontal)
+                        VStack {
+                            Text(hebrewMonth)
+                                .font(.title2)
+                                .foregroundStyle(Color.white)
+                            Text(String(GlobalStruct.jewishCalendar.getJewishYear()))
+                                .foregroundStyle(Color.white)
+                        }
+                    }
+                    .padding()
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
+                    }
+                    .onTapGesture {
+                        withAnimation {
+                            datePickerIsVisible.toggle()
+                        }
+                    }
                     
-                    Text("Latest Birchat Halevana (15 days)")
-                        .font(.headline)
-                        .foregroundStyle(Color.white)
-                    Text("The Whole 15th Night of the Hebrew Month")
+                    Spacer()
+                    
+                    VStack {
+                        Text("Molad Time Announced")
+                            .font(.headline)
+                            .foregroundStyle(Color.white)
+                        Text(getMoladAnnouncement())
+                            .font(.title2)
+                            .bold()
+                            .foregroundStyle(Color.yellow)
+                    }
+                    .padding()
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
+                    }
+                    
+                    VStack {
+                        Text("Molad for This Month (Your Timezone)")
+                            .font(.headline)
+                            .foregroundStyle(Color.white)
+                        Text(dateFormatter.string(from: GlobalStruct.jewishCalendar.getMoladAsDate()))
+                            .font(.title2)
+                            .bold()
+                            .foregroundStyle(Color.yellow)
+                    }
+                    .padding()
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
+                    }
+                    
+                    VStack {
+                        Text("Earliest Birchat Halevana (7 days)")
+                            .font(.headline)
+                            .foregroundStyle(Color.white)
+                        Text(dateFormatter.string(from: GlobalStruct.jewishCalendar.getTchilasZmanKidushLevana7Days()))
+                            .font(.title2)
+                            .bold()
+                            .foregroundStyle(Color.yellow)
+                        
+                        Divider().background(Color.white)
+                        
+                        Text("Latest Birchat Halevana (15 days)")
+                            .font(.headline)
+                            .foregroundStyle(Color.white)
+                        Text("The Whole 15th Night of the Hebrew Month")
+                            .multilineTextAlignment(.center)
+                            .font(.title3)
+                            .foregroundStyle(Color.yellow)
+                    }
+                    .padding()
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
+                    }
+                    
+                    Spacer()
+                    
+                    Text("Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later.")
+                        .font(.footnote)
                         .multilineTextAlignment(.center)
-                        .font(.title3)
-                        .foregroundStyle(Color.yellow)
+                        .foregroundStyle(Color.teal)
+                        .padding(.bottom, 10)
                 }
                 .padding()
-                .background(alignment: .center) {
-                    RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
-                }
-                
-                Spacer()
-                
-                Text("Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later.")
-                    .font(.footnote)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color.teal)
-                    .padding(.bottom, 10)
+            }.onAppear {
+                syncCalendarDates()
             }
-            .padding()
-        }.onAppear {
-            syncCalendarDates()
-        }
             .onTapGesture {// dismiss the datepickers if the user taps elsewhere while they are up
-                if datePickerIsVisible {
-                    datePickerIsVisible.toggle()
-                }
-                if hebrewDatePickerIsVisible {
-                    hebrewDatePickerIsVisible.toggle()
+                withAnimation {
+                    if datePickerIsVisible {
+                        datePickerIsVisible.toggle()
+                    }
+                    if hebrewDatePickerIsVisible {
+                        hebrewDatePickerIsVisible.toggle()
+                    }
                 }
             }
+        }
         )
     }
 }

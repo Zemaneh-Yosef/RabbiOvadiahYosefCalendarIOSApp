@@ -358,11 +358,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             alertController.addAction(elevationAction)
             alertController.addAction(UIAlertAction(title: "Share".localized(), style: .default) { [self] (_) in
-                let image = UIImage(named: "AppIcon")
+                //let image = UIImage(named: "AppIcon")
                 let textToShare = "Find all the Zmanim on Zmanei Yosef".localized()
                 
                 if let myWebsite = URL(string: "https://royzmanim.com/calendar?locationName=\(locationName)&lat=\(lat)&long=\(long)&elevation=\(elevation)&timeZone=\(timezone.identifier)") {
-                    let objectsToShare = [textToShare, myWebsite, image ?? #imageLiteral(resourceName: "app-logo")] as [Any]
+                    let objectsToShare = [textToShare, myWebsite] as [Any]
                     let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
                     
                     //Excluded Activities
@@ -389,6 +389,13 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             let fullTextAction = UIAlertAction(title: "Show Full Text".localized(), style: .default) { [self] (_) in
                 GlobalStruct.chosenPrayer = "Birchat Halevana"
                 showFullScreenView("Siddur")
+            }
+            alertController.addAction(fullTextAction)
+        }
+        
+        if zmanimList[indexPath.row].title.contains("day of Omer") || zmanimList[indexPath.row].title.contains("ימים לעומר") {
+            let fullTextAction = UIAlertAction(title: "Show Full Text".localized(), style: .default) { [self] (_) in
+                showFullScreenView("Omer")
             }
             alertController.addAction(fullTextAction)
         }
@@ -644,7 +651,9 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             wcSession = WCSession.default
             wcSession.delegate = self
         }
-        CheckUpdate.shared.showUpdate(withConfirmation: true)
+        if #available(iOS 15.0, *) {// stop checking for updates for devices below iOS 15
+            CheckUpdate.shared.showUpdate(withConfirmation: true)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {//this method happens 2nd
@@ -658,9 +667,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         userChosenDate = GlobalStruct.userChosenDate
         syncCalendarDates()
         if !defaults.bool(forKey: "isSetup") {
-            if !defaults.bool(forKey: "setupShown") {
-                showSetup()
-            }
+            showSetup()
         } else { //not first run
             if defaults.bool(forKey: "useAdvanced") {
                 setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
@@ -716,10 +723,17 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         if WCSession.isSupported() && !(wcSession.activationState == .activated) {
             wcSession.activate()
         }
-//        let rootViewController = UIHostingController(rootView: ContentView())
-//        rootViewController.modalPresentationStyle = .fullScreen
-//        present(rootViewController, animated: false)
-        //TODO
+        if !defaults.bool(forKey: "RYYHaskamaShown") {
+            let alertController = UIAlertController(title: "New Haskama!".localized(), message: "The team behind Zemaneh Yosef is proud to announce that we have recently received a new haskama from the Rishon L'Tzion HaRav Yitzhak Yosef! Check it out!".localized(), preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Rabbi Yitzchak Yosef (Hebrew)".localized(), style: .default) { (_) in
+                if let url = URL(string: "https://royzmanim.com/assets/haskamah-rishon-letzion.pdf") {
+                        UIApplication.shared.open(url)
+                }
+            })
+            alertController.addAction(UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in })
+            present(alertController, animated: true, completion: nil)
+            defaults.set(true, forKey: "RYYHaskamaShown")// do not check again
+        }
     }
     
     func showLocationServicesDisabledAlert() {
@@ -956,7 +970,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func showSetup() {
         showFullScreenView("WelcomeScreen")
-        defaults.set(true, forKey: "setupShown")
     }
     
     func getElevationFromOnline() {
@@ -1557,12 +1570,12 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
+        // TODO replace with only colons
+        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Amudei Horaah) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Ohr HaChaim) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (O\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
         }
         
         if defaults.bool(forKey: "showShmita") {

@@ -9,6 +9,7 @@ import SwiftUI
 import KosherSwift
 import SwiftyJSON
 
+@available(iOS 15.0, *)
 struct LimudimView: View {
     @State var limudim: [ZmanListEntry] = []
     @State var hiloulot: [ZmanListEntry] = []
@@ -21,6 +22,7 @@ struct LimudimView: View {
     @State private var selectedHiloula: ZmanListEntry? // Track selected item
     @State private var showLimudAlert = false
     @State private var showHillulotAlert = false
+    @State private var isNasiYomi = false
     
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
@@ -30,6 +32,9 @@ struct LimudimView: View {
     }
 
     func limudTitle() -> String {
+        if isNasiYomi {
+            return selectedLimud?.title ?? ""
+        }
         return "Open Sefaria Link for: ".localized()
             .appending(selectedLimud?.title ?? "")
             .replacingOccurrences(of: "Daf Yomi: ".localized(), with: "")
@@ -150,6 +155,15 @@ struct LimudimView: View {
             ]
         }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Weekly)".localized() + ": " + dailyWeeklyTehilim[GlobalStruct.jewishCalendar.getDayOfWeek() - 1]))
+        
+        if (GlobalStruct.jewishCalendar.getJewishMonth() == JewishCalendar.NISSAN) {
+            let title = NisanLimudYomi.getNisanLimudYomiTitle(day: GlobalStruct.jewishCalendar.getJewishDayOfMonth());
+            let reading = NisanLimudYomi.getNisanLimudYomiReading(day: GlobalStruct.jewishCalendar.getJewishDayOfMonth());
+ 
+             if (!title.isEmpty) {
+                 limudim.append(ZmanListEntry(title: "Daily Nasi: ".localized() + title, desc: reading));
+             }
+         }
     }
     
     // Method to load JSON from the file and decode it into a Swift object
@@ -204,144 +218,209 @@ struct LimudimView: View {
     }
     
     func alerts(view: any View) -> some View {
-        if #available(iOS 15.0, *) {
-            let result = view.overlay {
-                    ZStack {
-                        if datePickerIsVisible {
-                            VStack {
-                                DatePicker("", selection: $userChosenDate, displayedComponents: .date)
-                                    .labelsHidden()
-                                    .datePickerStyle(.graphical)
-                                    .onChange(of: userChosenDate) { newValue in
-                                        syncCalendarDates()
-                                    }
-                                HStack {
-                                    Button {
-                                        datePickerIsVisible.toggle()
-                                        hebrewDatePickerIsVisible.toggle()
-                                    } label: {
-                                        Text("Change Calendar")
-                                    }
-                                    Spacer()
-                                    Button {
-                                        datePickerIsVisible.toggle()
-                                    } label: {
-                                        Text("Done")
-                                    }
-                                }.padding()
-                            }.frame(width: 320)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                        .foregroundColor(Color(UIColor.secondarySystemBackground))
-                                        .shadow(radius: 1)
-                                }
+        let result = view.overlay {
+            ZStack {
+                if datePickerIsVisible {
+                    VStack {
+                        DatePicker("", selection: $userChosenDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .datePickerStyle(.graphical)
+                            .onChange(of: userChosenDate) { newValue in
+                                syncCalendarDates()
+                            }
+                        HStack {
+                            Button {
+                                datePickerIsVisible.toggle()
+                                hebrewDatePickerIsVisible.toggle()
+                            } label: {
+                                Text("Change Calendar")
+                            }
+                            Spacer()
+                            Button {
+                                datePickerIsVisible.toggle()
+                            } label: {
+                                Text("Done")
+                            }
+                        }.padding()
+                    }.frame(width: 320)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .foregroundColor(Color(UIColor.secondarySystemBackground))
+                                .shadow(radius: 1)
                         }
-                        if hebrewDatePickerIsVisible {
-                            VStack {
-                                DatePicker("", selection: $userChosenDate, displayedComponents: .date)
-                                    .labelsHidden()
-                                    .datePickerStyle(.graphical)
-                                    .environment(\.locale, Locale(identifier: "he"))
-                                    .environment(\.calendar, Calendar(identifier: .hebrew))
-                                    .onChange(of: userChosenDate) { newValue in
-                                        syncCalendarDates()
-                                    }
-                                HStack {
-                                    Button {
-                                        hebrewDatePickerIsVisible.toggle()
-                                        datePickerIsVisible.toggle()
-                                    } label: {
-                                        Text("Change Calendar")
-                                    }
-                                    Spacer()
-                                    Button {
-                                        hebrewDatePickerIsVisible.toggle()
-                                    } label: {
-                                        Text("Done")
-                                    }
-                                }.padding()
-                            }.frame(width: 320)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                        .foregroundColor(Color(UIColor.secondarySystemBackground))
-                                        .shadow(radius: 1)
-                                }
-                        }
-                    }
                 }
-            return AnyView(result)
-        } else {
-            return AnyView(EmptyView())
+                if hebrewDatePickerIsVisible {
+                    VStack {
+                        DatePicker("", selection: $userChosenDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .datePickerStyle(.graphical)
+                            .environment(\.locale, Locale(identifier: "he"))
+                            .environment(\.calendar, Calendar(identifier: .hebrew))
+                            .onChange(of: userChosenDate) { newValue in
+                                syncCalendarDates()
+                            }
+                        HStack {
+                            Button {
+                                hebrewDatePickerIsVisible.toggle()
+                                datePickerIsVisible.toggle()
+                            } label: {
+                                Text("Change Calendar")
+                            }
+                            Spacer()
+                            Button {
+                                hebrewDatePickerIsVisible.toggle()
+                            } label: {
+                                Text("Done")
+                            }
+                        }.padding()
+                    }.frame(width: 320)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .foregroundColor(Color(UIColor.secondarySystemBackground))
+                                .shadow(radius: 1)
+                        }
+                }
+            }
         }
+        return AnyView(result)
     }
 
     var body: some View {
-        if #available(iOS 15.0, *) {
-            alerts(view:
-            List {
-                Section {
-                    Text(getDateString(currentDate: userChosenDate))
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .onTapGesture {
-                            datePickerIsVisible.toggle()
-                        }
-                }
-                
-                Section(header: Label("Limudim", systemImage: "book")) {
-                    if !limudim.isEmpty {
+        alerts(view:
+        List {
+            Section {
+                Text(getDateString(currentDate: userChosenDate))
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .onTapGesture {
+                        datePickerIsVisible.toggle()
+                    }
+            }
+            
+            Section(header: Label("Limudim", systemImage: "book")) {
+                if !limudim.isEmpty {
+                    HStack {
+                        Text("").frame(maxWidth: 0)
+                        Spacer()
                         Button(limudim[0].title) {
+                            /* Daf Yomi */
                             selectedLimud = limudim[0]
                             showLimudAlert = true
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("").frame(maxWidth: 0)
+                        Spacer()
                         Button(limudim[1].title) {
+                            /* Yerushalmi Yomi */
                             selectedLimud = limudim[1]
                             showLimudAlert = true
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("").frame(maxWidth: 0)
+                        Spacer()
                         Button(limudim[2].title) {
+                            /* Mishna Yomi */
                             selectedLimud = limudim[2]
                             showLimudAlert = true
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
-                        Button(limudim[3].title) {}
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        Button(limudim[4].title) {}
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        Button(limudim[5].title) {}
-                            .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
                     }
-                }.alert(limudTitle(), isPresented: $showLimudAlert) {
+                    
+                    HStack {
+                        Text("").frame(maxWidth: 0)
+                        Spacer()
+                        Button(limudim[3].title) {/* Chafetz Chaim Yomi */}
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                            .allowsTightening(true)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("").frame(maxWidth: 0)
+                        Spacer()
+                        Button(limudim[4].title) {/* Daily Tehilim (Monthly) */}
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("").frame(maxWidth: 0)
+                        Spacer()
+                        Button(limudim[5].title) {/* Daily Tehilim (Daily) */}
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
+                    }
+                    
+                    if limudim.count > 6 {
+                        HStack {
+                            Text("").frame(maxWidth: 0)
+                            Spacer()
+                            Button(limudim[6].title) {
+                                /* Nasi Yomi */
+                                selectedLimud = limudim[6]
+                                showLimudAlert = true
+                                isNasiYomi = true
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            Spacer()
+                        }
+                    }
+                }
+            }.alert(limudTitle(), isPresented: $showLimudAlert) {
+                if !isNasiYomi {
                     Button("OK") {
                         openSefariaLink(selectedLimud: selectedLimud)
                     }
-                    Button("Dismiss", role: .cancel) { }
-                } message: {
+                }
+                Button("Dismiss", role: .cancel) { isNasiYomi = false }
+            } message: {
+                if isNasiYomi {
+                    Text(selectedLimud?.desc ?? "")
+                } else {
                     Text("This will open the Sefaria website or app in a new window with the page.")
-                }.textCase(nil)
-                // Hillulot
-                Section(header: Label("Hillulot", systemImage: "flame")) {
-                    ForEach(hiloulot, id: \.title) { hiloula in
+                }
+            }.textCase(nil)
+            
+            // Hillulot
+            Section(header: Label("Hillulot", systemImage: "flame")) {
+                ForEach(hiloulot, id: \.title) { hiloula in
+                    HStack {
+                        Text("").frame(maxWidth: 0)
+                        Spacer()
                         Button(hiloula.title) {
                             selectedHiloula = hiloula
                             showHillulotAlert = true
                         }
                         .font(.title3.bold())
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                        .allowsTightening(true)
                         .frame(maxWidth: .infinity, alignment: .center)
+                        Spacer()
                     }
-                }.alert(selectedHiloula?.title ?? "", isPresented: $showHillulotAlert) {
-                    Button("Dismiss", role: .cancel) { }
-                } message: {
-                    Text((selectedHiloula?.desc ?? "").appending("\n-----\n").appending(selectedHiloula?.src ?? ""))
-                }.textCase(nil)
-            }
-            .onAppear {
-                updateLimudim()
-                updateHillulot()
-            }.listStyle(.insetGrouped)
-                   )
+                }
+            }.confirmationDialog(selectedHiloula?.title ?? "", isPresented: $showHillulotAlert) {
+                Button("Dismiss", role: .cancel) { showHillulotAlert.toggle() }
+            } message: {
+                Text((selectedHiloula?.desc ?? "").appending("\n-----\n").appending(selectedHiloula?.src ?? ""))
+            }.textCase(nil)
         }
+        .onAppear {
+            updateLimudim()
+            updateHillulot()
+        }.listStyle(.insetGrouped)
+                )
         HStack {
             Button {
                 userChosenDate = userChosenDate.advanced(by: -86400)
@@ -436,5 +515,9 @@ func openSefariaLink(selectedLimud: ZmanListEntry?) {
 }
 
 #Preview {
-    LimudimView()
+    if #available(iOS 15.0, *) {
+        LimudimView()
+    } else {
+        // Fallback on earlier versions
+    }
 }

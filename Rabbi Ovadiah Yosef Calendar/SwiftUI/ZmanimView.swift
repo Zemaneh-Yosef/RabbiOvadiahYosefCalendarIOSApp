@@ -503,12 +503,12 @@ struct ZmanimView: View {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
+        // TODO replace with only colons
+        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Amudei Horaah) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-            zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Ohr HaChaim) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (O\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
         }
         
         if defaults.bool(forKey: "showShmita") {
@@ -1216,7 +1216,7 @@ struct ZmanimView: View {
                         Text("A new version of our app is available on the App Store. Update now!".localized())
                     }
                 ZStack { }
-                    .alert("Location info for: " + locationName, isPresented: $showLocationInfoAlert) {
+                    .confirmationDialog("Location info for: " + locationName, isPresented: $showLocationInfoAlert) {
                         Button("Change Location".localized()) {
                             GetUserLocationViewController.loneView = true
                             //self.showFullScreenView("search_a_place")
@@ -1345,9 +1345,12 @@ struct ZmanimView: View {
     var simpleListView: some View {
         ScrollViewReader { scrollViewProxy in
             List(zmanimList, id: \.self) { zmanEntry in
+                if zmanimList.first?.title == zmanEntry.title && shabbatMode {
+                    MarqueeText(text: bannerText, duration: 8, textColor: bannerTextColor, bgColor: bannerBGColor)
+                }
                 Button {
                     if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
-                        return//do not show the dialogs
+                        return //do not show the dialogs
                     }
                     if zmanimList.first?.title == zmanEntry.title {
                         showLocationInfoAlert = true
@@ -1367,20 +1370,25 @@ struct ZmanimView: View {
                     }
                 } label: {
                     if !zmanEntry.isZman {
-                        if !zmanimList.isEmpty && zmanEntry.title == zmanimList[2].title {
-                            Text(zmanEntry.title)
-                                .bold()
-                                .frame(maxWidth: .infinity, alignment: .center)
-                        } else {
-                            Text(zmanEntry.title)
-                                .frame(maxWidth: .infinity, alignment: .center)
+                        HStack {
+                            Text("").frame(maxWidth: 0)
+                            Spacer()
+                            if !zmanimList.isEmpty && zmanEntry.title == zmanimList[2].title {
+                                Text(zmanEntry.title)
+                                    .bold()
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            } else {
+                                Text(zmanEntry.title)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                            }
+                            Spacer()
                         }
                     } else {
                         zmanEntryRow(zmanEntry)
                     }
                 }
                 .id(zmanEntry.title)
-                .alert(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert) {
+                .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert) {
                     if selectedZman.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
                         Button("Setup Visible Sunrise") {
                             //TODO
@@ -1414,13 +1422,13 @@ struct ZmanimView: View {
             }
             .onChange(of: scrollToTop) { newValue in
                 DispatchQueue.main.async {
-                    scrollViewProxy.scrollTo(zmanimList.first?.title, anchor: .bottom)// use the anchor
+                    scrollViewProxy.scrollTo(zmanimList.first?.title, anchor: .bottom)
                 }
             }
         }
     }
     
-    fileprivate func zmanEntryRow(_ zmanEntry: ZmanListEntry) -> HStack<_ConditionalContent<TupleView<(_ConditionalContent<Text, Text>, Image?, Spacer, _ConditionalContent<Text, Text>)>, TupleView<(_ConditionalContent<Text, Text>, Spacer, Image?, _ConditionalContent<Text, Text>)>>> {
+    fileprivate func zmanEntryRow(_ zmanEntry: ZmanListEntry) -> some View {
         return HStack {
             if defaults.bool(forKey: "isZmanimInHebrew") && !Locale.isHebrewLocale() {
                 if zmanEntry.isRTZman {
@@ -1460,13 +1468,17 @@ struct ZmanimView: View {
         VStack {
             ScrollViewReader { scrollViewProxy in
                 ScrollView {
+                    if shabbatMode {
+                        MarqueeText(text: bannerText, duration: 8, textColor: bannerTextColor, bgColor: bannerBGColor)
+                    }
                     HStack {
-                        VStack {
+                        VStack(spacing: 10) {
                             Color.clear.frame(height: 1).id("top") // this as a scroll anchor
                             if Calendar.current.isDateInToday(userChosenDate) {
-                                Text("▼")
+                                Text(formatDate(format: "EEEE")).fontWeight(.heavy).foregroundStyle(Color.red)
+                            } else {
+                                Text(formatDate(format: "EEEE")).bold().foregroundStyle(Color.red)
                             }
-                            Text(formatDate(format: "EEEE")).bold().foregroundStyle(Color.red)
                             Divider()
                             HStack {
                                 VStack {
@@ -1487,7 +1499,8 @@ struct ZmanimView: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        .padding()
+                        .padding(.top, 0)
+                        .padding(.bottom, nil)
                         .background(Color(.systemBackground))
                         .frame(maxWidth: .infinity)
                         .cornerRadius(26)
@@ -1558,47 +1571,47 @@ struct ZmanimView: View {
                         ForEach(zmanimList, id: \.self) { zmanEntry in
                             if zmanEntry.isZman {
                                 zmanEntryRow(zmanEntry)
-                                .padding(.leading).padding(.trailing)
-                                .onTapGesture {
-                                    if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
-                                        return//do not show the dialogs
-                                    }
-                                    if zmanEntry.title == ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
-                                        withAnimation {
-                                            updateZmanimList(add66Misheyakir: true)
+                                    .padding(.leading).padding(.trailing)
+                                    .onTapGesture {
+                                        if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
+                                            return//do not show the dialogs
                                         }
-                                    } else {
-                                        selectedZman = zmanEntry
-                                        showZmanAlert = true
-                                    }
-                                }
-                                .alert(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert) {
-                                    if selectedZman.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
-                                        Button("Setup Visible Sunrise") {
-                                            //TODO
+                                        if zmanEntry.title == ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
+                                            withAnimation {
+                                                updateZmanimList(add66Misheyakir: true)
+                                            }
+                                        } else {
+                                            selectedZman = zmanEntry
+                                            showZmanAlert = true
                                         }
                                     }
-                                    if selectedZman.title.contains("Birkat Halevana") || selectedZman.title.contains("ברכת הלבנה") {
-                                        Button("Show Full Text") {
-                                            GlobalStruct.chosenPrayer = "Birchat Halevana"
-                                            //showFullScreenView("Siddur") //TODO
-                                        }
-                                    }
-                                    if #available(iOS 16.2, *) {
-                                        if selectedZman.isZman
-                                            && (selectedZman.zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
-                                            && selectedZman.zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
-                                            Button("Keep track of this zman with a Live Activity?") {
-                                                let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: selectedZman.title)
-                                                let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.TimerStatus(endTime: selectedZman.zman ?? Date())
-                                                _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
+                                    .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert) {
+                                        if selectedZman.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
+                                            Button("Setup Visible Sunrise") {
+                                                //TODO
                                             }
                                         }
-                                    }
-                                    Button("Dismiss", role: .cancel) { }
-                                } message: {
-                                    Text(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullMessage().replacingOccurrences(of: "%c", with: String(zmanimCalendar.candleLightingOffset)))
-                                }.textCase(nil)
+                                        if selectedZman.title.contains("Birkat Halevana") || selectedZman.title.contains("ברכת הלבנה") {
+                                            Button("Show Full Text") {
+                                                GlobalStruct.chosenPrayer = "Birchat Halevana"
+                                                //showFullScreenView("Siddur") //TODO
+                                            }
+                                        }
+                                        if #available(iOS 16.2, *) {
+                                            if selectedZman.isZman
+                                                && (selectedZman.zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
+                                                && selectedZman.zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
+                                                Button("Keep track of this zman with a Live Activity?") {
+                                                    let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: selectedZman.title)
+                                                    let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.TimerStatus(endTime: selectedZman.zman ?? Date())
+                                                    _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
+                                                }
+                                            }
+                                        }
+                                        Button("Dismiss", role: .cancel) { }
+                                    } message: {
+                                        Text(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullMessage().replacingOccurrences(of: "%c", with: String(zmanimCalendar.candleLightingOffset)))
+                                    }.textCase(nil)
                                 Divider()
                             }
                         }
@@ -1633,181 +1646,174 @@ struct ZmanimView: View {
     }
     
     var body: some View {
-        if shabbatMode {
-            MarqueeText(text: bannerText, duration: 8, textColor: bannerTextColor, bgColor: bannerBGColor)
-        }
-        if #available(iOS 15.0, *) {
-            
-            if simpleList {
-                alerts(view: simpleListView)
-            } else {
-                alerts(view: scrollView)
-            }
-            HStack {
-                Button {
-                    userChosenDate = userChosenDate.advanced(by: -86400)
-                    syncCalendarDates()
-                    updateZmanimList()
-                    checkIfTablesNeedToBeUpdated()
-                    scrollToTop.toggle()
-                } label: {
-                    Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
-                }
-                Spacer()
-                Button {
-                    withAnimation(.easeInOut) {
-                        datePickerIsVisible.toggle()
-                    }
-                } label: {
-                    Image(systemName: "calendar").resizable().scaledToFit().frame(width: 26, height: 26)
-                }
-                Spacer()
-                Button {
-                    userChosenDate = userChosenDate.advanced(by: 86400)
-                    syncCalendarDates()
-                    updateZmanimList()
-                    checkIfTablesNeedToBeUpdated()
-                    scrollToTop.toggle()
-                } label: {
-                    Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
-                }
-            }
-            .sheet(isPresented: $showShareSheet) {
-                let image = UIImage(named: "AppIcon")
-                let textToShare = "Find all the Zmanim on Zmanei Yosef".localized()
-                
-                if let myWebsite = URL(string: "https://royzmanim.com/calendar?locationName=\(locationName)&lat=\(lat)&long=\(long)&elevation=\(elevation)&timeZone=\(timezone.identifier)") {
-                    ShareSheet(items: [textToShare, myWebsite, image ?? UIImage(systemName: "square.and.arrow.up") as Any])
-                }
-            }
-            .padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
-            .disabled(shabbatMode)
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        ZmanimMenu()
-                    }
-                }
-                .onAppear {
-                    UIApplication.shared.isIdleTimerDisabled = true
-                    if !defaults.bool(forKey: "isSetup") {
-                        defaults.set(true, forKey: "showZmanDialogs")
-                        setNotificationsDefaults()
-                    }
-                    if !defaults.bool(forKey: "massUpdateCheck") {// since version 6.4, we need to move everyone to AH mode if they are outside of Israel. This should eventually be removed, but far into the future
-                        if !defaults.bool(forKey: "inIsrael") {
-                            defaults.set(true, forKey: "LuachAmudeiHoraah")
-                            defaults.set(false, forKey: "useElevation")
-                        }
-                        defaults.set(true, forKey: "massUpdateCheck")// do not check again
-                    }
-                    GlobalStruct.useElevation = defaults.bool(forKey: "useElevation")
-                    //let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
-                    //let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
-                    //swipeGestureRecognizer.direction = .right
-                    //swipeLeftGestureRecognizer.direction = .left
-                    //zmanimTableView.addGestureRecognizer(swipeGestureRecognizer)
-                    //zmanimTableView.addGestureRecognizer(swipeLeftGestureRecognizer)
-                    //            let hideBannerGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
-                    //            ShabbatModeBanner.isUserInteractionEnabled = true
-                    //            ShabbatModeBanner.addGestureRecognizer(hideBannerGestureRecognizer)
-                    CheckUpdate.shared.showUpdate(withConfirmation: true, isForSwiftUI: true) { needsUpdate, appURL in
-                        appStoreURL = appURL
-                        showAppUpdateAlert = needsUpdate
-                    }
-                    dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "")
-                    dateFormatterForRT.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss")
-                    syncOldDefaults()
-                    userChosenDate = GlobalStruct.userChosenDate
-                    syncCalendarDates()
-                    simpleList = defaults.bool(forKey: "useSimpleList")
-                    if !defaults.bool(forKey: "isSetup") && false {
-                        if !defaults.bool(forKey: "setupShown") {
-                            //self.pushActive = true
-                            //showFullScreenView("WelcomeScreen")
-                            defaults.set(true, forKey: "setupShown")
-                        }
-                    } else { //not first run
-                        if defaults.bool(forKey: "useAdvanced") {
-                            setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
-                        } else if defaults.bool(forKey: "useLocation1") {
-                            setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
-                        } else if defaults.bool(forKey: "useLocation2") {
-                            setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
-                        } else if defaults.bool(forKey: "useLocation3") {
-                            setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
-                        } else if defaults.bool(forKey: "useLocation4") {
-                            setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
-                        } else if defaults.bool(forKey: "useLocation5") {
-                            setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
-                        } else if defaults.bool(forKey: "useZipcode") {
-                            setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
-                        } else {
-                            DispatchQueue.global().async {
-                                if CLLocationManager.locationServicesEnabled() {
-                                    let locationManager = CLLocationManager()
-                                    switch locationManager.authorizationStatus {
-                                    case .restricted, .denied:
-                                        DispatchQueue.main.async {
-                                            showLocationServicesDisabledAlert = true
-                                        }
-                                        print("No access")
-                                        break
-                                    case .authorizedAlways, .authorizedWhenInUse:
-                                        //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
-                                        break
-                                    case .notDetermined:
-                                        break
-                                    @unknown default:
-                                        break
-                                    }
-                                } else {
-                                    showLocationServicesDisabledAlert = true
-                                    print("No access")
-                                }
-                            }
-                            getUserLocation()
-                        }
-                    }
-                    // another swiftUI hack because they removed onViewDidAppear, I'm concerned about what will happen if it takes too long to get the location...
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        self.refreshTable()
-                    }
-                    defaults.set(locationName, forKey: "lastKnownLocation")
-                    checkIfUserIsInIsrael()
-                    checkIfTablesNeedToBeUpdated()
-                    createBackgroundThreadForNextUpcomingZman()
-                    if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
-                        refreshTable()
-                    } else {
-                        updateZmanimList()
-                    }
-                    lastTimeUserWasInApp = Date()
-                }
-            NavigationLink("", isActive: $showView) {
-                switch nextView {
-                case .netz:
-                    NetzView().applyToolbarHidden()
-                case .molad:
-                    MoladView().applyToolbarHidden()
-                case .jerDirection:
-                    JerDirectionView().applyToolbarHidden()
-                case .setup:
-                    WelcomeScreenView().applyToolbarHidden()
-                case .searchForPlace:
-                    EmptyView()
-                case .settings:
-                    SettingsView().applyToolbarHidden()
-                case .setupVisibleSunrise:
-                    EmptyView()
-                case .siddur:
-                    EmptyView()
-                default:
-                    EmptyView()
-                }
-            }.hidden()// hide this link so it doesn't take any space
+        if simpleList {
+            alerts(view: simpleListView)
         } else {
-            // Fallback on earlier versions
+            alerts(view: scrollView)
         }
+        HStack {
+            Button {
+                userChosenDate = userChosenDate.advanced(by: -86400)
+                syncCalendarDates()
+                updateZmanimList()
+                checkIfTablesNeedToBeUpdated()
+                scrollToTop.toggle()
+            } label: {
+                Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
+            }
+            .padding(.leading)
+            Spacer()
+            Button {
+                withAnimation(.easeInOut) {
+                    datePickerIsVisible.toggle()
+                }
+            } label: {
+                Image(systemName: "calendar").resizable().scaledToFit().frame(width: 26, height: 26)
+            }
+            Spacer()
+            Button {
+                userChosenDate = userChosenDate.advanced(by: 86400)
+                syncCalendarDates()
+                updateZmanimList()
+                checkIfTablesNeedToBeUpdated()
+                scrollToTop.toggle()
+            } label: {
+                Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
+            }
+            .padding(.trailing)
+        }
+        .sheet(isPresented: $showShareSheet) {
+            let image = UIImage(named: "AppIcon")
+            let textToShare = "Find all the Zmanim on Zmanei Yosef".localized()
+            
+            if let myWebsite = URL(string: "https://royzmanim.com/calendar?locationName=\(locationName)&lat=\(lat)&long=\(long)&elevation=\(elevation)&timeZone=\(timezone.identifier)") {
+                ShareSheet(items: [textToShare, myWebsite, image ?? UIImage(systemName: "square.and.arrow.up") as Any])
+            }
+        }
+        .disabled(shabbatMode)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                ZmanimMenu()
+            }
+        }
+        .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
+            if !defaults.bool(forKey: "isSetup") {
+                defaults.set(true, forKey: "showZmanDialogs")
+                setNotificationsDefaults()
+            }
+            if !defaults.bool(forKey: "massUpdateCheck") {// since version 6.4, we need to move everyone to AH mode if they are outside of Israel. This should eventually be removed, but far into the future
+                if !defaults.bool(forKey: "inIsrael") {
+                    defaults.set(true, forKey: "LuachAmudeiHoraah")
+                    defaults.set(false, forKey: "useElevation")
+                }
+                defaults.set(true, forKey: "massUpdateCheck")// do not check again
+            }
+            GlobalStruct.useElevation = defaults.bool(forKey: "useElevation")
+            //let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+            //let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+            //swipeGestureRecognizer.direction = .right
+            //swipeLeftGestureRecognizer.direction = .left
+            //zmanimTableView.addGestureRecognizer(swipeGestureRecognizer)
+            //zmanimTableView.addGestureRecognizer(swipeLeftGestureRecognizer)
+            //            let hideBannerGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+            //            ShabbatModeBanner.isUserInteractionEnabled = true
+            //            ShabbatModeBanner.addGestureRecognizer(hideBannerGestureRecognizer)
+            CheckUpdate.shared.showUpdate(withConfirmation: true, isForSwiftUI: true) { needsUpdate, appURL in
+                appStoreURL = appURL
+                showAppUpdateAlert = needsUpdate
+            }
+            dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
+            dateFormatterForRT.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss") + (Locale.isHebrewLocale() ? "" : " aa")
+            syncOldDefaults()
+            userChosenDate = GlobalStruct.userChosenDate
+            syncCalendarDates()
+            simpleList = defaults.bool(forKey: "useSimpleList")
+            if !defaults.bool(forKey: "isSetup") && false {
+                if !defaults.bool(forKey: "setupShown") {
+                    //self.pushActive = true
+                    //showFullScreenView("WelcomeScreen")
+                    defaults.set(true, forKey: "setupShown")
+                }
+            } else { //not first run
+                if defaults.bool(forKey: "useAdvanced") {
+                    setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+                } else if defaults.bool(forKey: "useLocation1") {
+                    setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+                } else if defaults.bool(forKey: "useLocation2") {
+                    setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+                } else if defaults.bool(forKey: "useLocation3") {
+                    setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+                } else if defaults.bool(forKey: "useLocation4") {
+                    setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+                } else if defaults.bool(forKey: "useLocation5") {
+                    setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+                } else if defaults.bool(forKey: "useZipcode") {
+                    setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
+                } else {
+                    DispatchQueue.global().async {
+                        if CLLocationManager.locationServicesEnabled() {
+                            let locationManager = CLLocationManager()
+                            switch locationManager.authorizationStatus {
+                            case .restricted, .denied:
+                                DispatchQueue.main.async {
+                                    showLocationServicesDisabledAlert = true
+                                }
+                                print("No access")
+                                break
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
+                                break
+                            case .notDetermined:
+                                break
+                            @unknown default:
+                                break
+                            }
+                        } else {
+                            showLocationServicesDisabledAlert = true
+                            print("No access")
+                        }
+                    }
+                    getUserLocation()
+                }
+            }
+            // another swiftUI hack because they removed onViewDidAppear, I'm concerned about what will happen if it takes too long to get the location...
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.refreshTable()
+            }
+            defaults.set(locationName, forKey: "lastKnownLocation")
+            checkIfUserIsInIsrael()
+            checkIfTablesNeedToBeUpdated()
+            createBackgroundThreadForNextUpcomingZman()
+            if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
+                refreshTable()
+            } else {
+                updateZmanimList()
+            }
+            lastTimeUserWasInApp = Date()
+        }
+        NavigationLink("", isActive: $showView) {
+            switch nextView {
+            case .netz:
+                NetzView().applyToolbarHidden()
+            case .molad:
+                MoladView().applyToolbarHidden()
+            case .jerDirection:
+                JerDirectionView().applyToolbarHidden()
+            case .setup:
+                WelcomeScreenView().applyToolbarHidden()
+            case .searchForPlace:
+                EmptyView()
+            case .settings:
+                SettingsView().applyToolbarHidden()
+            case .setupVisibleSunrise:
+                EmptyView()
+            case .siddur:
+                EmptyView()
+            default:
+                EmptyView()
+            }
+        }.hidden()// hide this link so it doesn't take any space
     }
 }
 

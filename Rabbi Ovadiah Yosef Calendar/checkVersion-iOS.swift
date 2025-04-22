@@ -64,7 +64,7 @@ class CheckUpdate: NSObject {
                 
                 _ = self.isTestFlight ? "TestFlight" : "AppStore"
                 
-                if let error = error {
+                if error != nil {
                     completion?(false, nil) // Return false if there's an error fetching app info
                     return
                 }

@@ -11,6 +11,11 @@ class WelcomeScreenViewController: UIViewController {
 
     @IBAction func haskamot(_ sender: UIButton) {
         let alertController = UIAlertController(title: "Choose a haskama to view".localized(), message: "Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.".localized(), preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Rabbi Yitzchak Yosef (Hebrew)".localized(), style: .default) { (_) in
+            if let url = URL(string: "https://royzmanim.com/assets/haskamah-rishon-letzion.pdf") {
+                    UIApplication.shared.open(url)
+            }
+        })
         alertController.addAction(UIAlertAction(title: "Rabbi Elbaz (English)".localized(), style: .default) { (_) in
             if let url = URL(string: "https://royzmanim.com/assets/Haskamah.pdf") {
                     UIApplication.shared.open(url)

@@ -220,19 +220,24 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             present(mailComposer, animated: true, completion: nil)
         }
         if indexPath.row == 16 {
-            let alert = UIAlertController(title: "Choose a haskama to view".localized(), message: "Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.".localized(), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Rabbi Elbaz (English)".localized(), style: .default) { (_) in
+            let alertController = UIAlertController(title: "Choose a haskama to view".localized(), message: "Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.".localized(), preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Rabbi Yitzchak Yosef (Hebrew)".localized(), style: .default) { (_) in
+                if let url = URL(string: "https://royzmanim.com/assets/haskamah-rishon-letzion.pdf") {
+                        UIApplication.shared.open(url)
+                }
+            })
+            alertController.addAction(UIAlertAction(title: "Rabbi Elbaz (English)".localized(), style: .default) { (_) in
                 if let url = URL(string: "https://royzmanim.com/assets/Haskamah.pdf") {
                         UIApplication.shared.open(url)
                 }
             })
-            alert.addAction(UIAlertAction(title: "Rabbi Dahan (Hebrew)".localized(), style: .default) { (_) in
+            alertController.addAction(UIAlertAction(title: "Rabbi Dahan (Hebrew)".localized(), style: .default) { (_) in
                 if let url = URL(string: "https://royzmanim.com/assets/%D7%94%D7%A1%D7%9B%D7%9E%D7%94.pdf") {
                         UIApplication.shared.open(url)
                 }
             })
-            alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel))
-            present(alert, animated: true)
+            alertController.addAction(UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in })
+            present(alertController, animated: true, completion: nil)
         }
         if indexPath.row == 17 {
             if let url = URL(string: "https://youtu.be/NP1_4kMA-Vs") {

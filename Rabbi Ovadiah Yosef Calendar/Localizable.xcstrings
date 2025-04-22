@@ -189,6 +189,16 @@
         }
       }
     },
+    "%lf, %lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lf, %2$lf"
+          }
+        }
+      }
+    },
     "⏱️" : {
       "localizations" : {
         "he" : {
@@ -198,9 +208,6 @@
           }
         }
       }
-    },
-    "▼" : {
-
     },
     "1 hour and 15 minutes before sunset (Halacha Berurah)" : {
       "extractionState" : "manual",
@@ -367,6 +374,9 @@
         }
       }
     },
+    "Are you currently in Israel?" : {
+
+    },
     "Are you in a walled (Mukaf Choma) city?" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -399,6 +409,9 @@
           }
         }
       }
+    },
+    "Arvit" : {
+
     },
     "Back" : {
       "extractionState" : "manual",
@@ -857,6 +870,9 @@
           }
         }
       }
+    },
+    "Did you start your meal before sunset? %@" : {
+
     },
     "Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later." : {
 
@@ -1541,6 +1557,9 @@
         }
       }
     },
+    "Mincha" : {
+
+    },
     "Mincha Gedolah" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1700,6 +1719,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הנץ/זריחה עברו. הספירה תתחיל מחדש בשקיעה. גרור למטה כדי להתחיל לספור שוב."
+          }
+        }
+      }
+    },
+    "New Haskama!" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הסכמה חדשה!"
           }
         }
       }
@@ -2148,6 +2178,28 @@
         }
       }
     },
+    "Rabbi Yitzchak Yosef (Hebrew)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הסכמה מאת הרב יצחק יוסף"
+          }
+        }
+      }
+    },
+    "Rabbi Yitzkhak Yosef (Hebrew)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הסכמה מאת הרב יצחק יוסף"
+          }
+        }
+      }
+    },
     "Receive daily zmanim notifications" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2236,6 +2288,12 @@
         }
       }
     },
+    "Say Tikkun Chatzot during the day?" : {
+
+    },
+    "Search for a location" : {
+
+    },
     "Search For A Place" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2301,6 +2359,9 @@
           }
         }
       }
+    },
+    "Select Location" : {
+
     },
     "Select Metro Area" : {
       "extractionState" : "manual",
@@ -2454,6 +2515,28 @@
         }
       }
     },
+    "Shaah Zemanit MG\"A (A\"H): " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שעה זמנית מג״א (ע״ה): "
+          }
+        }
+      }
+    },
+    "Shaah Zemanit MG\"A (O\"H): " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שעה זמנית מג״א (א״ה): "
+          }
+        }
+      }
+    },
     "Shaah Zmanit GRA: " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2461,17 +2544,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שעה זמנית גר\"א: "
-          }
-        }
-      }
-    },
-    "Shaah Zmanit MGA: " : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שעה זמנית מג\"א: "
           }
         }
       }
@@ -2538,6 +2610,9 @@
       }
     },
     "Shabbat/Chag Settings" : {
+
+    },
+    "Shacharit" : {
 
     },
     "Share" : {
@@ -2770,9 +2845,6 @@
         }
       }
     },
-    "SiddurView" : {
-
-    },
     "SIMCHAT TORAH" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2838,6 +2910,9 @@
           }
         }
       }
+    },
+    "Some say it during the day during the 3 weeks." : {
+
     },
     "Sunrise" : {
       "extractionState" : "manual",
@@ -3043,6 +3118,17 @@
         }
       }
     },
+    "The team behind Zemaneh Yosef is proud to announce that we have recently received a new haskama from the Rishon L'Tzion HaRav Yitzhak Yosef! Check it out!" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצוות שמאחורי זמני יוסף גאה להודיע כי לאחרונה קיבלנו הסכמה חדשה מראשון לציון, מרן הרב יצחק יוסף שליט״א!"
+          }
+        }
+      }
+    },
     "The Whole 15th Night of the Hebrew Month" : {
 
     },
@@ -3154,6 +3240,9 @@
           }
         }
       }
+    },
+    "Tikkun Chatzot is not said tonight." : {
+
     },
     "Tikkun Chatzot is not said tonight. Possible reasons for why it is not said: It is Friday night, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot." : {
       "extractionState" : "manual",
@@ -3378,6 +3467,9 @@
           }
         }
       }
+    },
+    "You answered: %@" : {
+
     },
     "You can set the size of your text in the text box below. The default size is 16." : {
       "extractionState" : "manual",

@@ -102,8 +102,9 @@ class ZmanimFactory {
                 }
                 index+=1
             }
-        }
-        if defaults.bool(forKey: "alwaysShowRT") {
+        } else if jewishCalendar.getDayOfWeek() == 7 {// always add RT for shabbat
+            temp = addRTZman(list: temp, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, zmanimNames: zmanimNames, defaults: defaults, useAHZmanim: useAHZmanim, isForTommorow: false)
+        } else if defaults.bool(forKey: "alwaysShowRT") {
             if !(jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting()) {
                 temp = addRTZman(list: temp, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, zmanimNames: zmanimNames, defaults: defaults, useAHZmanim: useAHZmanim, isForTommorow: false)
             }

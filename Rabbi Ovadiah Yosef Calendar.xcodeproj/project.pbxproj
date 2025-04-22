@@ -73,6 +73,8 @@
 		CE341C402BA025AE00E8F4CB /* LocationManagerForNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */; };
 		CE341C412BA025EF00E8F4CB /* LocationManagerForNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */; };
 		CE3A504A2BF2FFCF00CD1DD2 /* SnackBar in Frameworks */ = {isa = PBXBuildFile; productRef = CE3A50492BF2FFCF00CD1DD2 /* SnackBar */; };
+		CE3C5B422DA4E684003AD67D /* SwiftUISnackbar in Frameworks */ = {isa = PBXBuildFile; productRef = CE3C5B412DA4E684003AD67D /* SwiftUISnackbar */; };
+		CE3C5B442DA4F6B7003AD67D /* NisanLimudYomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C5B432DA4F6B7003AD67D /* NisanLimudYomi.swift */; };
 		CE44BC622B5DF3C60091501E /* WeeklyParashaReadings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44BC612B5DF3C60091501E /* WeeklyParashaReadings.swift */; };
 		CE4C6D772C0E50B40013A8EC /* WeeklyHaftorahReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */; };
 		CE4C6D782C0E50B40013A8EC /* WeeklyHaftorahReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */; };
@@ -217,6 +219,7 @@
 		CE2B0B742AC54BBD00F07CCD /* SiddurViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurViewController.swift; sourceTree = "<group>"; };
 		CE32442C2B3BE66F00EEF29C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CE341C3E2BA0255C00E8F4CB /* LocationManagerForNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerForNotifications.swift; sourceTree = "<group>"; };
+		CE3C5B432DA4F6B7003AD67D /* NisanLimudYomi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NisanLimudYomi.swift; sourceTree = "<group>"; };
 		CE44BC612B5DF3C60091501E /* WeeklyParashaReadings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyParashaReadings.swift; sourceTree = "<group>"; };
 		CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyHaftorahReading.swift; sourceTree = "<group>"; };
 		CE4E66032C6496F800E39907 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE1EB97A2CAA2E3900936F3A /* SunCalc in Frameworks */,
+				CE3C5B422DA4E684003AD67D /* SwiftUISnackbar in Frameworks */,
 				52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */,
 				CE3A504A2BF2FFCF00CD1DD2 /* SnackBar in Frameworks */,
 				CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */,
@@ -398,6 +402,7 @@
 				CEE5D6E52CA68B0000E9C9C8 /* ChafetzChayimYomi.swift */,
 				CE32442C2B3BE66F00EEF29C /* Extensions.swift */,
 				CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */,
+				CE3C5B432DA4F6B7003AD67D /* NisanLimudYomi.swift */,
 				CEFCE3FF2C62C97E00609B9D /* NumberToHebrew.swift */,
 				CE4E66032C6496F800E39907 /* GradientButton.swift */,
 				CE97D7C22D4C95FF00C019AA /* ZmanimFactory.swift */,
@@ -499,6 +504,7 @@
 				CE3A50492BF2FFCF00CD1DD2 /* SnackBar */,
 				CE1EB9792CAA2E3900936F3A /* SunCalc */,
 				CE7EEB5B2CAA641500FFCD0A /* KosherSwift */,
+				CE3C5B412DA4E684003AD67D /* SwiftUISnackbar */,
 			);
 			productName = "Rabbi Ovadiah Yosef Calendar";
 			productReference = 5D19D35D29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar.app */;
@@ -563,6 +569,7 @@
 				CE3A50482BF2FFCF00CD1DD2 /* XCRemoteSwiftPackageReference "SnackBar" */,
 				CE1EB9782CAA2E3900936F3A /* XCRemoteSwiftPackageReference "SunCalc" */,
 				CE7EEB5A2CAA641500FFCD0A /* XCRemoteSwiftPackageReference "KosherSwift" */,
+				CE3C5B402DA4E684003AD67D /* XCRemoteSwiftPackageReference "SwiftUISnackbar" */,
 			);
 			productRefGroup = 5D19D35E29A3687900F8033D /* Products */;
 			projectDirPath = "";
@@ -666,6 +673,7 @@
 				5D7550AC29EF94C300894335 /* ZmanimLanguageViewController.swift in Sources */,
 				5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */,
 				CEB21E3A2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */,
+				CE3C5B442DA4F6B7003AD67D /* NisanLimudYomi.swift in Sources */,
 				520D973A2ABA8D17004B9014 /* NetzViewController.swift in Sources */,
 				5D19D37E29A36DB300F8033D /* LSGeoLookup.swift in Sources */,
 				5D948C312A38205E0017A8B6 /* TipScreenViewController.swift in Sources */,
@@ -792,7 +800,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.5;
+				MARKETING_VERSION = 6.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -826,7 +834,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.5;
+				MARKETING_VERSION = 6.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -967,7 +975,7 @@
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Rabbi Ovadiah Yosef Calendar/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Rabbi Ovadia Yosef Calendar";
+				INFOPLIST_KEY_CFBundleDisplayName = "Zemaneh Yosef";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location to calculate zmanim for your current location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow the app to see your location in order to calculate the zmanim/times.";
@@ -982,7 +990,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.5;
+				MARKETING_VERSION = 6.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1008,7 +1016,7 @@
 				DEVELOPMENT_TEAM = 7L3824N5VJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Rabbi Ovadiah Yosef Calendar/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Rabbi Ovadia Yosef Calendar";
+				INFOPLIST_KEY_CFBundleDisplayName = "Zemaneh Yosef";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app uses your location to calculate zmanim for your current location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow the app to see your location in order to calculate the zmanim/times.";
@@ -1023,7 +1031,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.5;
+				MARKETING_VERSION = 6.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1180,6 +1188,14 @@
 				minimumVersion = 0.1.2;
 			};
 		};
+		CE3C5B402DA4E684003AD67D /* XCRemoteSwiftPackageReference "SwiftUISnackbar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zaniluca/SwiftUISnackbar.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		CE6309532B3BB5040020939B /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
@@ -1213,6 +1229,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CE3A50482BF2FFCF00CD1DD2 /* XCRemoteSwiftPackageReference "SnackBar" */;
 			productName = SnackBar;
+		};
+		CE3C5B412DA4E684003AD67D /* SwiftUISnackbar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE3C5B402DA4E684003AD67D /* XCRemoteSwiftPackageReference "SwiftUISnackbar" */;
+			productName = SwiftUISnackbar;
 		};
 		CE6309542B3BB5040020939B /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;

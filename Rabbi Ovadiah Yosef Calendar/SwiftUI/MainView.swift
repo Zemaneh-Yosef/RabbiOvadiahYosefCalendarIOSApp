@@ -42,7 +42,7 @@ struct ContentView: View {
                 }
             case "Siddur":
                 NavigationStack {
-                    SiddurView()
+                    SiddurChooserView()
                         .navigationTitle(title)
                 }
             default:
@@ -62,7 +62,7 @@ struct ContentView: View {
                 }
             case "Siddur":
                 NavigationView {
-                    SiddurView()
+                    SiddurChooserView()
                         .navigationTitle(title)
                 }
             default:
@@ -104,16 +104,6 @@ struct ContentView: View {
                     }
                     .tag(3)
             }
-        }
-    }
-}
-
-struct SiddurView: View {
-    var body: some View {
-        List {
-            Text("SiddurView")
-            Text("SiddurView")
-            Text("SiddurView")
         }
     }
 }
