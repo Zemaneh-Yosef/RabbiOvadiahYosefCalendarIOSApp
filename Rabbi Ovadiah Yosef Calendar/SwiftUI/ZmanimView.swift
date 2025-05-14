@@ -17,14 +17,7 @@ struct ZmanimView: View {
     @State var locationName: String = ""
     @State var lat: Double = 0
     @State var long: Double = 0
-    @State var elevation: Double = 0.0 { // use @Binding in other view, and pass it in the constructor
-        didSet {
-            defaults.set(elevation, forKey: "elevation" + locationName)
-            recreateZmanimCalendar()
-            setNextUpcomingZman()
-            updateZmanimList()
-        }
-    }
+    @State var elevation: Double = 0.0
     @State var timezone: TimeZone = TimeZone.current
     @State var shabbatMode: Bool = false
     @State var useElevation: Bool = false
@@ -58,13 +51,12 @@ struct ZmanimView: View {
     @State var showInIsraelAlert = false
     @State var showOutOfIsraelAlert = false
     @State var showTablesNeedToBeUpdatedAlert = false
+    @State var showChaitablesErrorAlert = false
     @State var showAppUpdateAlert = false
     @State var appStoreURL: String? = nil
     @State var showShareSheet = false
-    
-    @State var showView = false
     @State var nextView = NextView.none
-    
+    @State var showNextView = false
     @State var bannerText = ""
     @State var bannerTextColor: Color = Color(.white)
     @State var bannerBGColor: Color = Color(.darkBlue)
@@ -734,25 +726,29 @@ struct ZmanimView: View {
         
         LocationManager.shared.getUserLocation {//4.4 fixed the location issue
             location in concurrentQueue.async { [self] in
-                lat = location.coordinate.latitude
-                long = location.coordinate.longitude
-                timezone = TimeZone.current.corrected()
-                recreateZmanimCalendar()
-                defaults.set(timezone.identifier, forKey: "timezone")
-                defaults.set(false, forKey: "useZipcode")
-                defaults.set(false, forKey: "useAdvanced")
-                LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
-                    self.locationName = locationName ?? ""
-                    resolveElevation()
+                if location != nil {
+                    lat = location!.coordinate.latitude
+                    long = location!.coordinate.longitude
+                    timezone = TimeZone.current.corrected()
                     recreateZmanimCalendar()
-                    jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone, inIsrael: defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
-                    GlobalStruct.jewishCalendar = jewishCalendar
-                    setNextUpcomingZman()
-                    updateZmanimList()
-                    didLocationUpdate = true
-                    NotificationManager.instance.requestAuthorization()
-                    NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-                    sessionManager.sendMessage(self.getSettingsDictionary())
+                    defaults.set(timezone.identifier, forKey: "timezone")
+                    defaults.set(false, forKey: "useZipcode")
+                    defaults.set(false, forKey: "useAdvanced")
+                    LocationManager.shared.resolveLocationName(with: location!) { [self] locationName in
+                        self.locationName = locationName ?? ""
+                        resolveElevation()
+                        recreateZmanimCalendar()
+                        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone, inIsrael: defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
+                        GlobalStruct.jewishCalendar = jewishCalendar
+                        setNextUpcomingZman()
+                        updateZmanimList()
+                        didLocationUpdate = true
+                        NotificationManager.instance.requestAuthorization()
+                        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                        sessionManager.sendMessage(self.getSettingsDictionary())
+                    }
+                } else {
+                    print("location is nil")
                 }
             }
         }
@@ -919,7 +915,9 @@ struct ZmanimView: View {
         } else if defaults.bool(forKey: "useZipcode") {
             setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
         } else {
-            getUserLocation()
+            if defaults.bool(forKey: "isSetup") {
+                getUserLocation()
+            }
         }
         userChosenDate = Date()
         syncCalendarDates()
@@ -1052,9 +1050,14 @@ struct ZmanimView: View {
             return
         }
         let chaitables = ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults)
-        if chaitables.getVisibleSurise(forDate: userChosenDate) == nil {
-            showTablesNeedToBeUpdatedAlert = true
-            askedToUpdateTablesAlready = true
+        if chaitables.getVisibleSurise(forDate: userChosenDate) == nil && chaitables.useVisibleSunrise {
+            if chaitables.chaitableVisibleSunrise == "" {
+                showTablesNeedToBeUpdatedAlert = true
+                askedToUpdateTablesAlready = true
+            } else {// There is an issue, because there is something in the string that is not formatting properly
+                print(chaitables.chaitableVisibleSunrise)
+                showChaitablesErrorAlert = true
+            }
         }
     }
     
@@ -1097,31 +1100,36 @@ struct ZmanimView: View {
                 }
             }
             Button("Netz Countdown") {
-                showView = true
                 nextView = .netz
+                showNextView = true
             }
             Button("Molad Calculator") {
-                showView = true
                 nextView = .molad
+                showNextView = true
             }
             Button("Jerusalem Direction") {
-                showView = true
                 nextView = .jerDirection
+                showNextView = true
             }
             Divider()
             Button("Setup") {
-                showView = true
+                GetUserLocationView.loneView = false
                 nextView = .setup
+                showNextView = true
             }
-            Button("Search For A Place") { }
+            Button("Search For A Place") {
+                GetUserLocationView.loneView = true
+                nextView = .searchForPlace
+                showNextView = true
+            }
             Button("Website") {
                 if let url = URL(string: "https://royzmanim.com/") {
                     UIApplication.shared.open(url)
                 }
             }
             Button("Settings") {
-                showView = true
                 nextView = .settings
+                showNextView = true
             }
         } label: {
             Image(systemName: "ellipsis")
@@ -1138,10 +1146,22 @@ struct ZmanimView: View {
         let result = view.overlay {
             ZStack {
                 ZStack { }
+                    .alert("Visible Sunrise Data Error", isPresented: $showChaitablesErrorAlert) {
+                        Button("Do not use visible sunrise for this location") {
+                            defaults.set(true, forKey: "useMishorSunrise".appending(GlobalStruct.geoLocation.locationName))
+                        }
+                        Button("Dismiss".localized(), role: .cancel) {}
+                    } message: {
+                        Text("An error occurred while trying to read the data that was retrieved from chaitables.com for this location. A table was expected but this was found instead:\n\n"
+                            .appending(ChaiTables(locationName: locationName, jewishCalendar: jewishCalendar, defaults: defaults).chaitableVisibleSunrise
+                                .appending("\n\nPlease try to download the table again, or choose to not use visible sunrise for this location.")))
+                    }
+                ZStack { }
                     .alert("Location Issues".localized(), isPresented: $showLocationServicesDisabledAlert) {
                         Button("Search For A Place".localized()) {
-                            GetUserLocationViewController.loneView = true
-                            //self.showFullScreenView("search_a_place")
+                            GetUserLocationView.loneView = true
+                            nextView = .searchForPlace
+                            showNextView = true
                         }
                         Button("Dismiss".localized(), role: .cancel) {}
                     } message: {
@@ -1218,11 +1238,13 @@ struct ZmanimView: View {
                 ZStack { }
                     .confirmationDialog("Location info for: " + locationName, isPresented: $showLocationInfoAlert) {
                         Button("Change Location".localized()) {
-                            GetUserLocationViewController.loneView = true
-                            //self.showFullScreenView("search_a_place")
+                            GetUserLocationView.loneView = true
+                            nextView = .searchForPlace
+                            showNextView = true
                         }
                         Button("Set Elevation".localized()) {
-                            //setupElevetion((Any).self)
+                            nextView = .setupElevation
+                            showNextView = true
                         }
                         Button("Share".localized()) {
                             showShareSheet = true
@@ -1377,9 +1399,13 @@ struct ZmanimView: View {
                                 Text(zmanEntry.title)
                                     .bold()
                                     .frame(maxWidth: .infinity, alignment: .center)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.5)
                             } else {
                                 Text(zmanEntry.title)
                                     .frame(maxWidth: .infinity, alignment: .center)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.5)
                             }
                             Spacer()
                         }
@@ -1388,16 +1414,25 @@ struct ZmanimView: View {
                     }
                 }
                 .id(zmanEntry.title)
-                .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert) {
+                .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert, titleVisibility: .visible) {
                     if selectedZman.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
                         Button("Setup Visible Sunrise") {
-                            //TODO
+                            nextView = .setupVisibleSunrise
+                            showNextView = true
                         }
                     }
                     if selectedZman.title.contains("Birkat Halevana") || selectedZman.title.contains("ברכת הלבנה") {
                         Button("Show Full Text") {
                             GlobalStruct.chosenPrayer = "Birchat Halevana"
-                            //showFullScreenView("Siddur") //TODO
+                            nextView = .siddur
+                            showNextView = true
+                        }
+                    }
+                    if selectedZman.title.contains("day of Omer") || selectedZman.title.contains("ימים לעומר") {
+                        Button("Show Full Text") {
+                            GlobalStruct.chosenPrayer = "Sefirat HaOmer"
+                            nextView = .siddur
+                            showNextView = true
                         }
                     }
                     if #available(iOS 16.2, *) {
@@ -1420,6 +1455,18 @@ struct ZmanimView: View {
             .refreshable {
                 refreshTable()
             }
+            .gesture(DragGesture(minimumDistance: 5, coordinateSpace: .global).onEnded { value in
+                let horizontalAmount = value.translation.width
+                let verticalAmount = value.translation.height
+                
+                if abs(horizontalAmount) > abs(verticalAmount) {
+                    if horizontalAmount < 0 {
+                        updateDate(86400)
+                    } else {
+                        updateDate(-86400)
+                    }
+                }
+            })
             .onChange(of: scrollToTop) { newValue in
                 DispatchQueue.main.async {
                     scrollViewProxy.scrollTo(zmanimList.first?.title, anchor: .bottom)
@@ -1432,24 +1479,46 @@ struct ZmanimView: View {
         return HStack {
             if defaults.bool(forKey: "isZmanimInHebrew") && !Locale.isHebrewLocale() {
                 if zmanEntry.isRTZman {
-                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForRT.string(from: zmanEntry.zman!)).font(.system(size: 20, weight: .regular))
+                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForRT.string(from: zmanEntry.zman!))
+                        .font(.system(size: 20, weight: .regular))
                 } else {
-                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForZmanim.string(from: zmanEntry.zman!)).font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
+                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForZmanim.string(from: zmanEntry.zman!))
+                        .font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
                 }
                 if zmanEntry.zman == nextUpcomingZman {
                     Image(systemName: "arrowtriangle.backward.fill")
                 }
                 Spacer()
                 if zmanEntry.is66MisheyakirZman {
-                    Text(zmanEntry.title).font(.system(size: 18, weight: .regular))
+                    Text(zmanEntry.title)
+                        .font(.system(size: 18, weight: .regular))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                 } else {
-                    Text(zmanEntry.title).font(.system(size: 20, weight: .bold))
+                    if zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getHalachaBerurahString()) || zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getYalkutYosefString()) {
+                        PelagZmanView(title: zmanEntry.title)
+                    } else {
+                        Text(zmanEntry.title)
+                            .font(.system(size: 20, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                    }
                 }
             } else {
                 if zmanEntry.is66MisheyakirZman {
-                    Text(zmanEntry.title).font(.system(size: 18, weight: .regular))
+                    Text(zmanEntry.title)
+                        .font(.system(size: 18, weight: .regular))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                 } else {
-                    Text(zmanEntry.title).font(.system(size: 20, weight: .bold))
+                    if zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getHalachaBerurahString()) || zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getYalkutYosefString()) {
+                        PelagZmanView(title: zmanEntry.title)
+                    } else {
+                        Text(zmanEntry.title)
+                            .font(.system(size: 20, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                    }
                 }
                 Spacer()
                 if zmanEntry.zman == nextUpcomingZman {
@@ -1463,6 +1532,49 @@ struct ZmanimView: View {
             }
         }
     }
+    
+    struct PelagZmanView: View {
+        let title: String
+        
+        var body: some View {
+            let (mainTitle, parenTitle) = splitTitle(title)
+            
+            HStack(spacing: 2) {
+                Text(mainTitle)
+                    .font(.system(size: 20, weight: .bold))
+                    .lineLimit(1)
+                    .layoutPriority(1) // prioritize full title
+                
+                if !parenTitle.isEmpty {
+                    Text(parenTitle)
+                        .font(.system(size: 20, weight: .bold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.4) // only shrink the parens
+                        .layoutPriority(0) // lower priority so it shrinks first
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .environment(\.layoutDirection, isHebrew(text: title) ? .rightToLeft : .leftToRight)
+        }
+        
+        private func splitTitle(_ full: String) -> (String, String) {
+            let pattern = #"^(.*?)\s*(\([^)]*\))?$"#
+            guard let regex = try? NSRegularExpression(pattern: pattern),
+                  let match = regex.firstMatch(in: full, range: NSRange(full.startIndex..., in: full)) else {
+                return (full, "")
+            }
+            
+            let main = Range(match.range(at: 1), in: full).map { String(full[$0]) } ?? full
+            let paren = Range(match.range(at: 2), in: full).map { String(full[$0]) } ?? ""
+            
+            return (main, paren)
+        }
+        
+        private func isHebrew(text: String) -> Bool {
+            return text.range(of: #"[\u0590-\u05FF]"#, options: .regularExpression) != nil
+        }
+    }
+
     
     var scrollView: some View {
         VStack {
@@ -1503,10 +1615,17 @@ struct ZmanimView: View {
                         .padding(.bottom, nil)
                         .background(Color(.systemBackground))
                         .frame(maxWidth: .infinity)
-                        .cornerRadius(26)
+                        .clipShape(RoundedRectangle(cornerRadius: 26))
                         .onTapGesture {
-                            withAnimation {
-                                datePickerIsVisible.toggle()
+                            if datePickerIsVisible {
+                                withAnimation {
+                                    datePickerIsVisible.toggle()
+                                }
+                            }
+                            if hebrewDatePickerIsVisible {
+                                withAnimation {
+                                    hebrewDatePickerIsVisible.toggle()
+                                }
                             }
                         }
                         
@@ -1585,16 +1704,25 @@ struct ZmanimView: View {
                                             showZmanAlert = true
                                         }
                                     }
-                                    .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert) {
+                                    .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert, titleVisibility: .visible) {
                                         if selectedZman.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
                                             Button("Setup Visible Sunrise") {
-                                                //TODO
+                                                nextView = .setupVisibleSunrise
+                                                showNextView = true
                                             }
                                         }
                                         if selectedZman.title.contains("Birkat Halevana") || selectedZman.title.contains("ברכת הלבנה") {
                                             Button("Show Full Text") {
                                                 GlobalStruct.chosenPrayer = "Birchat Halevana"
-                                                //showFullScreenView("Siddur") //TODO
+                                                nextView = .siddur
+                                                showNextView = true
+                                            }
+                                        }
+                                        if selectedZman.title.contains("day of Omer") || selectedZman.title.contains("ימים לעומר") {
+                                            Button("Show Full Text") {
+                                                GlobalStruct.chosenPrayer = "Sefirat HaOmer"
+                                                nextView = .siddur
+                                                showNextView = true
                                             }
                                         }
                                         if #available(iOS 16.2, *) {
@@ -1622,19 +1750,23 @@ struct ZmanimView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity) // Takes up all remaining space
                     .background(Color(.systemBackground))
                 }
-                .onTapGesture {// dismiss the datepickers if the user taps elsewhere while they are up
-                    if datePickerIsVisible {
-                        datePickerIsVisible.toggle()
-                    }
-                    if hebrewDatePickerIsVisible {
-                        hebrewDatePickerIsVisible.toggle()
-                    }
-                }
                 .background(Color(uiColor: .systemGray6))
                 .offset(y: scrollViewOffset)
                 .refreshable {
                     refreshTable()
                 }
+                .gesture(DragGesture(minimumDistance: 5, coordinateSpace: .global).onEnded { value in
+                    let horizontalAmount = value.translation.width
+                    let verticalAmount = value.translation.height
+                    
+                    if abs(horizontalAmount) > abs(verticalAmount) {
+                        if horizontalAmount < 0 {
+                            updateDate(86400)
+                        } else {
+                            updateDate(-86400)
+                        }
+                    }
+                })
                 .onChange(of: scrollToTop) { newValue in
                     DispatchQueue.main.async {
                         scrollViewProxy.scrollTo("top", anchor: .bottom)// use the anchor
@@ -1645,6 +1777,14 @@ struct ZmanimView: View {
         }
     }
     
+    fileprivate func updateDate(_ seconds: TimeInterval) {
+        userChosenDate = userChosenDate.advanced(by: seconds)
+        syncCalendarDates()
+        updateZmanimList()
+        checkIfTablesNeedToBeUpdated()
+        scrollToTop.toggle()
+    }
+    
     var body: some View {
         if simpleList {
             alerts(view: simpleListView)
@@ -1653,15 +1793,10 @@ struct ZmanimView: View {
         }
         HStack {
             Button {
-                userChosenDate = userChosenDate.advanced(by: -86400)
-                syncCalendarDates()
-                updateZmanimList()
-                checkIfTablesNeedToBeUpdated()
-                scrollToTop.toggle()
+                updateDate(-86400)
             } label: {
                 Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
             }
-            .padding(.leading)
             Spacer()
             Button {
                 withAnimation(.easeInOut) {
@@ -1672,16 +1807,12 @@ struct ZmanimView: View {
             }
             Spacer()
             Button {
-                userChosenDate = userChosenDate.advanced(by: 86400)
-                syncCalendarDates()
-                updateZmanimList()
-                checkIfTablesNeedToBeUpdated()
-                scrollToTop.toggle()
+                updateDate(86400)
             } label: {
                 Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
             }
-            .padding(.trailing)
         }
+        .padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
         .sheet(isPresented: $showShareSheet) {
             let image = UIImage(named: "AppIcon")
             let textToShare = "Find all the Zmanim on Zmanei Yosef".localized()
@@ -1694,6 +1825,16 @@ struct ZmanimView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 ZmanimMenu()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("elevation"))) { notification in
+            if let value = notification.object as? String,
+               let doubleValue = Double(value) {
+                elevation = doubleValue
+                defaults.set(elevation, forKey: "elevation" + locationName)
+                recreateZmanimCalendar()
+                setNextUpcomingZman()
+                updateZmanimList()
             }
         }
         .onAppear {
@@ -1710,15 +1851,6 @@ struct ZmanimView: View {
                 defaults.set(true, forKey: "massUpdateCheck")// do not check again
             }
             GlobalStruct.useElevation = defaults.bool(forKey: "useElevation")
-            //let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
-            //let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
-            //swipeGestureRecognizer.direction = .right
-            //swipeLeftGestureRecognizer.direction = .left
-            //zmanimTableView.addGestureRecognizer(swipeGestureRecognizer)
-            //zmanimTableView.addGestureRecognizer(swipeLeftGestureRecognizer)
-            //            let hideBannerGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
-            //            ShabbatModeBanner.isUserInteractionEnabled = true
-            //            ShabbatModeBanner.addGestureRecognizer(hideBannerGestureRecognizer)
             CheckUpdate.shared.showUpdate(withConfirmation: true, isForSwiftUI: true) { needsUpdate, appURL in
                 appStoreURL = appURL
                 showAppUpdateAlert = needsUpdate
@@ -1729,12 +1861,9 @@ struct ZmanimView: View {
             userChosenDate = GlobalStruct.userChosenDate
             syncCalendarDates()
             simpleList = defaults.bool(forKey: "useSimpleList")
-            if !defaults.bool(forKey: "isSetup") && false {
-                if !defaults.bool(forKey: "setupShown") {
-                    //self.pushActive = true
-                    //showFullScreenView("WelcomeScreen")
-                    defaults.set(true, forKey: "setupShown")
-                }
+            if !defaults.bool(forKey: "isSetup") {
+                nextView = .setup
+                showNextView = true
             } else { //not first run
                 if defaults.bool(forKey: "useAdvanced") {
                     setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
@@ -1792,28 +1921,34 @@ struct ZmanimView: View {
             }
             lastTimeUserWasInApp = Date()
         }
-        NavigationLink("", isActive: $showView) {
-            switch nextView {
-            case .netz:
-                NetzView().applyToolbarHidden()
-            case .molad:
-                MoladView().applyToolbarHidden()
-            case .jerDirection:
-                JerDirectionView().applyToolbarHidden()
-            case .setup:
-                WelcomeScreenView().applyToolbarHidden()
-            case .searchForPlace:
-                EmptyView()
-            case .settings:
-                SettingsView().applyToolbarHidden()
-            case .setupVisibleSunrise:
-                EmptyView()
-            case .siddur:
-                EmptyView()
-            default:
-                EmptyView()
-            }
-        }.hidden()// hide this link so it doesn't take any space
+        .background {
+            NavigationLink("", isActive: $showNextView) {
+                switch nextView {
+                case .netz:
+                    NetzView().applyToolbarHidden()
+                case .molad:
+                    MoladView().applyToolbarHidden()
+                case .jerDirection:
+                    JerDirectionView().applyToolbarHidden()
+                case .setup:
+                    WelcomeScreenView()
+                        .navigationBarBackButtonHidden(!defaults.bool(forKey: "isSetup"))
+                        .applyToolbarHidden()
+                case .setupElevation:
+                    SetupElevationView().applyToolbarHidden()
+                case .searchForPlace:
+                    GetUserLocationView().applyToolbarHidden()
+                case .settings:
+                    SettingsView().applyToolbarHidden()
+                case .setupVisibleSunrise:
+                    SetupChooserView().applyToolbarHidden()
+                case .siddur:
+                    UIKitSiddurControllerView().applyToolbarHidden() // Temp
+                default:
+                    EmptyView()
+                }
+            }.hidden()
+        }
     }
 }
 
@@ -1833,13 +1968,14 @@ extension View {
 
 public enum NextView {
     case setupVisibleSunrise
-    case siddur
     case netz
     case molad
     case jerDirection
     case setup
+    case setupElevation
     case searchForPlace
     case settings
+    case siddur
     case none
 }
 

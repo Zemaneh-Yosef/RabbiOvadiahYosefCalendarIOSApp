@@ -56,12 +56,16 @@ struct WelcomeScreenView: View {
                 
                 Spacer()
                 
-                NavigationLink("Get Started", destination: GetUserLocationView())
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .foregroundStyle(Color.white)
+                NavigationLink {
+                    GetUserLocationView()
+                } label: {
+                    Text("Get Started")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .foregroundStyle(Color.white)
+                }
             }
             .padding(.horizontal, 20) // Ensures elements don’t exceed screen width
         }

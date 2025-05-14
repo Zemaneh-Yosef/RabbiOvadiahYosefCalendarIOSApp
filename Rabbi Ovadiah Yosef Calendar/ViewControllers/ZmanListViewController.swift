@@ -1246,27 +1246,29 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
 
         LocationManager.shared.getUserLocation {//4.4 fixed the location issue
             location in concurrentQueue.async { [self] in
-                lat = location.coordinate.latitude
-                long = location.coordinate.longitude
-                timezone = TimeZone.current.corrected()
-                recreateZmanimCalendar()
-                defaults.set(timezone.identifier, forKey: "timezone")
-                defaults.set(false, forKey: "useZipcode")
-                defaults.set(false, forKey: "useAdvanced")
-                LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
-                    self.locationName = locationName ?? ""
-                    resolveElevation()
+                if location != nil {
+                    lat = location!.coordinate.latitude
+                    long = location!.coordinate.longitude
+                    timezone = TimeZone.current.corrected()
                     recreateZmanimCalendar()
-                    jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone, inIsrael: defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
-                    GlobalStruct.jewishCalendar = jewishCalendar
-                    setNextUpcomingZman()
-                    updateZmanimList()
-                    NotificationManager.instance.requestAuthorization()
-                    NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
-                    if self.wcSession != nil {
-                        if self.wcSession.isPaired {
-                            if self.wcSession.isWatchAppInstalled {
-                                self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                    defaults.set(timezone.identifier, forKey: "timezone")
+                    defaults.set(false, forKey: "useZipcode")
+                    defaults.set(false, forKey: "useAdvanced")
+                    LocationManager.shared.resolveLocationName(with: location!) { [self] locationName in
+                        self.locationName = locationName ?? ""
+                        resolveElevation()
+                        recreateZmanimCalendar()
+                        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone, inIsrael: defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
+                        GlobalStruct.jewishCalendar = jewishCalendar
+                        setNextUpcomingZman()
+                        updateZmanimList()
+                        NotificationManager.instance.requestAuthorization()
+                        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                        if self.wcSession != nil {
+                            if self.wcSession.isPaired {
+                                if self.wcSession.isWatchAppInstalled {
+                                    self.wcSession.sendMessage(self.getSettingsDictionary(), replyHandler: nil)
+                                }
                             }
                         }
                     }

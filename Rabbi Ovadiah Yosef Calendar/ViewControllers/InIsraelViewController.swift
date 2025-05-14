@@ -14,14 +14,12 @@ class InIsraelViewController: UIViewController {
     @IBOutlet weak var no: UIButton!
     @IBOutlet weak var yes: UIButton!
     @IBAction func yesButton(_ sender: UIButton) {
-        defaults.setValue(true, forKey: "inIsrael")
-        presentZmanimLanguages(inIsrael: true)
+        presentNextView(inIsrael: true)
     }
     @IBAction func noButton(_ sender: UIButton) {
-        defaults.setValue(false, forKey: "inIsrael")
-        presentZmanimLanguages(inIsrael: false)
+        presentNextView(inIsrael: false)
     }
-    func presentZmanimLanguages(inIsrael:Bool) {
+    func presentNextView(inIsrael:Bool) {
         let transition = CATransition()
         transition.duration = 0.5
         transition.type = CATransitionType.push

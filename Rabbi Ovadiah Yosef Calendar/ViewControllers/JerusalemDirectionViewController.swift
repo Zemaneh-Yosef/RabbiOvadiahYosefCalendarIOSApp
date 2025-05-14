@@ -42,6 +42,7 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
+    @IBOutlet weak var back: UIButton!
     
     var locationManager = CLLocationManager()
     var northPointerImageView = UIImageView(image: UIImage(named: "North Pointer"))
@@ -49,9 +50,14 @@ class JerusalemDirectionViewController: UIViewController, CLLocationManagerDeleg
     let jerGeolocation = GeoLocation(locationName: "Jerusalem", latitude: 31.778015, longitude: 35.235413, timeZone: TimeZone.current)
     var currentGeolocation = GlobalStruct.geoLocation
     var isCompassGreen = false
+    public static var hideQuitButton: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if JerusalemDirectionViewController.hideQuitButton {
+            back.isHidden = true
+        }
         
         map.delegate = self
         locationManager.delegate = self

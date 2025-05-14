@@ -8,6 +8,7 @@
 import SwiftUI
 import KosherSwift
 
+@main
 @available(iOS 15.0, *)
 struct MainView: App {
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
@@ -35,7 +36,7 @@ struct ContentView: View {
                     LimudimView()
                         .navigationTitle(title)
                 }
-            case "Rabbi Ovadiah Yosef Calendar":
+            case "Rabbi Ovadia Yosef Calendar":
                 NavigationStack {
                     ZmanimView()
                         .navigationTitle(title)
@@ -55,7 +56,7 @@ struct ContentView: View {
                     LimudimView()
                         .navigationTitle(title)
                 }
-            case "Rabbi Ovadiah Yosef Calendar":
+            case "Rabbi Ovadia Yosef Calendar":
                 NavigationView {
                     ZmanimView()
                         .navigationTitle(title)
@@ -78,7 +79,7 @@ struct ContentView: View {
                     tabContent(title: "Limudim/Hillulot")
                 }
                 Tab("Zmanim", systemImage: "alarm", value: 2) {
-                    tabContent(title: "Rabbi Ovadiah Yosef Calendar")
+                    tabContent(title: "Rabbi Ovadia Yosef Calendar")
                 }
                 Tab("Siddur", systemImage: "book", value: 3) {
                     tabContent(title: "Siddur")
@@ -92,7 +93,7 @@ struct ContentView: View {
                     }
                     .tag(1)
 
-                tabContent(title: "Rabbi Ovadiah Yosef Calendar")
+                tabContent(title: "Rabbi Ovadia Yosef Calendar")
                     .tabItem {
                         Label("Zmanim", systemImage: "alarm")
                     }

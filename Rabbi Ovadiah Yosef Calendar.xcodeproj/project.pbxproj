@@ -83,6 +83,13 @@
 		CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309542B3BB5040020939B /* SwiftyJSON */; };
 		CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */; };
 		CE6C5FC02D5358B400D1A1F5 /* upcomingZmanim.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */; };
+		CE6F524A2DC9653200D3296A /* Guttman Mantova.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */; };
+		CE6F52532DC9A88700D3296A /* FrameUp in Frameworks */ = {isa = PBXBuildFile; productRef = CE6F52522DC9A88700D3296A /* FrameUp */; };
+		CE6F52552DC9A9E500D3296A /* JustifiedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6F52542DC9A9E500D3296A /* JustifiedText.swift */; };
+		CE6F52572DC9C88600D3296A /* Taamey D.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE6F52562DC9C88600D3296A /* Taamey D.ttf */; };
+		CE6F52592DC9E52900D3296A /* HighlightString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6F52582DC9E52900D3296A /* HighlightString.swift */; };
+		CE6F525A2DC9E52900D3296A /* HighlightString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6F52582DC9E52900D3296A /* HighlightString.swift */; };
+		CE6F525B2DC9E52900D3296A /* HighlightString.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6F52582DC9E52900D3296A /* HighlightString.swift */; };
 		CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
 		CE7D2B5C2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
 		CE7D2B5D2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */; };
@@ -106,7 +113,6 @@
 		CEB21E3B2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CEB21E3D2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */; };
 		CEB980DA2D5F1A68003D96F4 /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB980D92D5F1A68003D96F4 /* WCSessionManager.swift */; };
 		CEBC70E52D221B8C00468477 /* Guttman Keren.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70E42D221B8B00468477 /* Guttman Keren.ttf */; };
-		CEBC70E72D221EFC00468477 /* MANTB 2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70E62D221EFC00468477 /* MANTB 2.ttf */; };
 		CEBC70E92D222FB800468477 /* menora.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70E82D222FB800468477 /* menora.svg */; };
 		CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70EA2D22367200468477 /* menora-shadow.svg */; };
 		CEBC70ED2D22590000468477 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70EC2D22590000468477 /* compass.png */; };
@@ -226,6 +232,10 @@
 		CE502A8F2B0DEC23008E716C /* Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
 		CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = upcomingZmanim.swift; sourceTree = "<group>"; };
+		CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guttman Mantova.ttf"; sourceTree = "<group>"; };
+		CE6F52542DC9A9E500D3296A /* JustifiedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustifiedText.swift; sourceTree = "<group>"; };
+		CE6F52562DC9C88600D3296A /* Taamey D.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Taamey D.ttf"; sourceTree = "<group>"; };
+		CE6F52582DC9E52900D3296A /* HighlightString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightString.swift; sourceTree = "<group>"; };
 		CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ViewControllers/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE7E2BBF2C07E4F50080D898 /* checkVersion-iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "checkVersion-iOS.swift"; sourceTree = "<group>"; };
 		CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurChooserViewController.swift; sourceTree = "<group>"; };
@@ -239,7 +249,6 @@
 		CEB21E402B7B3BF30081C142 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		CEB980D92D5F1A68003D96F4 /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
 		CEBC70E42D221B8B00468477 /* Guttman Keren.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guttman Keren.ttf"; sourceTree = "<group>"; };
-		CEBC70E62D221EFC00468477 /* MANTB 2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MANTB 2.ttf"; sourceTree = "<group>"; };
 		CEBC70E82D222FB800468477 /* menora.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menora.svg; sourceTree = "<group>"; };
 		CEBC70EA2D22367200468477 /* menora-shadow.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "menora-shadow.svg"; sourceTree = "<group>"; };
 		CEBC70EC2D22590000468477 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
@@ -279,6 +288,7 @@
 			files = (
 				CE1EB97A2CAA2E3900936F3A /* SunCalc in Frameworks */,
 				CE3C5B422DA4E684003AD67D /* SwiftUISnackbar in Frameworks */,
+				CE6F52532DC9A88700D3296A /* FrameUp in Frameworks */,
 				52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */,
 				CE3A504A2BF2FFCF00CD1DD2 /* SnackBar in Frameworks */,
 				CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */,
@@ -344,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */,
+				CE6F52582DC9E52900D3296A /* HighlightString.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -404,6 +415,7 @@
 				CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */,
 				CE3C5B432DA4F6B7003AD67D /* NisanLimudYomi.swift */,
 				CEFCE3FF2C62C97E00609B9D /* NumberToHebrew.swift */,
+				CE6F52542DC9A9E500D3296A /* JustifiedText.swift */,
 				CE4E66032C6496F800E39907 /* GradientButton.swift */,
 				CE97D7C22D4C95FF00C019AA /* ZmanimFactory.swift */,
 				5D19D36629A3687900F8033D /* Main.storyboard */,
@@ -413,7 +425,8 @@
 				5D0D7D9E29A374C5003B6E43 /* Rabbi Ovadiah Yosef Calendar-Bridging-Header.h */,
 				CEDAB8582C9DFBAC0018357B /* hiloulah_en.json */,
 				CEDAB85A2C9DFBB60018357B /* hiloulah_he.json */,
-				CEBC70E62D221EFC00468477 /* MANTB 2.ttf */,
+				CE6F52562DC9C88600D3296A /* Taamey D.ttf */,
+				CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */,
 				CEBC70E42D221B8B00468477 /* Guttman Keren.ttf */,
 				CEBC70E82D222FB800468477 /* menora.svg */,
 				CEBC70EA2D22367200468477 /* menora-shadow.svg */,
@@ -505,6 +518,7 @@
 				CE1EB9792CAA2E3900936F3A /* SunCalc */,
 				CE7EEB5B2CAA641500FFCD0A /* KosherSwift */,
 				CE3C5B412DA4E684003AD67D /* SwiftUISnackbar */,
+				CE6F52522DC9A88700D3296A /* FrameUp */,
 			);
 			productName = "Rabbi Ovadiah Yosef Calendar";
 			productReference = 5D19D35D29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar.app */;
@@ -570,6 +584,7 @@
 				CE1EB9782CAA2E3900936F3A /* XCRemoteSwiftPackageReference "SunCalc" */,
 				CE7EEB5A2CAA641500FFCD0A /* XCRemoteSwiftPackageReference "KosherSwift" */,
 				CE3C5B402DA4E684003AD67D /* XCRemoteSwiftPackageReference "SwiftUISnackbar" */,
+				CE6F52512DC9A88700D3296A /* XCRemoteSwiftPackageReference "FrameUp" */,
 			);
 			productRefGroup = 5D19D35E29A3687900F8033D /* Products */;
 			projectDirPath = "";
@@ -599,7 +614,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEBC70E52D221B8C00468477 /* Guttman Keren.ttf in Resources */,
-				CEBC70E72D221EFC00468477 /* MANTB 2.ttf in Resources */,
 				CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
 				5D19D36D29A3687B00F8033D /* LaunchScreen.storyboard in Resources */,
 				CEDAB85B2C9DFBB60018357B /* hiloulah_he.json in Resources */,
@@ -609,7 +623,9 @@
 				CEDAB8592C9DFBAC0018357B /* hiloulah_en.json in Resources */,
 				CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */,
 				CEBC70E92D222FB800468477 /* menora.svg in Resources */,
+				CE6F524A2DC9653200D3296A /* Guttman Mantova.ttf in Resources */,
 				CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
+				CE6F52572DC9C88600D3296A /* Taamey D.ttf in Resources */,
 				5D19D36829A3687900F8033D /* Main.storyboard in Resources */,
 				CEBC70ED2D22590000468477 /* compass.png in Resources */,
 			);
@@ -642,6 +658,7 @@
 				CE1035492B4553F600193D1E /* ZmanListEntry.swift in Sources */,
 				CE10354F2B45548B00193D1E /* Constants.swift in Sources */,
 				CE32442E2B3BE66F00EEF29C /* Extensions.swift in Sources */,
+				CE6F52592DC9E52900D3296A /* HighlightString.swift in Sources */,
 				CE10354B2B45545400193D1E /* ChaiTables.swift in Sources */,
 				CE341C402BA025AE00E8F4CB /* LocationManagerForNotifications.swift in Sources */,
 				CE1035532B4554F600193D1E /* LocationManager.swift in Sources */,
@@ -694,6 +711,7 @@
 				CEE5D6E62CA68B0000E9C9C8 /* ChafetzChayimYomi.swift in Sources */,
 				CEB980DA2D5F1A68003D96F4 /* WCSessionManager.swift in Sources */,
 				5292D1B82A6E537E00857241 /* ChaiTablesCountries.swift in Sources */,
+				CE6F52552DC9A9E500D3296A /* JustifiedText.swift in Sources */,
 				CE17DDCF2C9A8AF100CB9AA5 /* LimudimViewController.swift in Sources */,
 				CE4E66042C6496F800E39907 /* GradientButton.swift in Sources */,
 				5D7550A529EBC58200894335 /* MarqueeLabel.swift in Sources */,
@@ -704,6 +722,7 @@
 				CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */,
 				CE341C3F2BA0255C00E8F4CB /* LocationManagerForNotifications.swift in Sources */,
 				5D226EFD29D3B1E500D45E34 /* ZmanimTimeNames.swift in Sources */,
+				CE6F525A2DC9E52900D3296A /* HighlightString.swift in Sources */,
 				CE4C6D772C0E50B40013A8EC /* WeeklyHaftorahReading.swift in Sources */,
 				CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */,
 			);
@@ -725,6 +744,7 @@
 				CE10354C2B45545500193D1E /* ChaiTables.swift in Sources */,
 				CE341C412BA025EF00E8F4CB /* LocationManagerForNotifications.swift in Sources */,
 				CE10354E2B45547900193D1E /* LSGeoLookup.swift in Sources */,
+				CE6F525B2DC9E52900D3296A /* HighlightString.swift in Sources */,
 				CE4C6D792C0E50B40013A8EC /* WeeklyHaftorahReading.swift in Sources */,
 				CE10354A2B4553F600193D1E /* ZmanListEntry.swift in Sources */,
 			);
@@ -794,7 +814,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app uses your location to calculate zmanim for your current location";
 				INFOPLIST_KEY_NSLocationUsageDescription = "This app uses your location to calculate zmanim for your current location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to calculate zmanim for your current location";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -828,7 +848,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This app uses your location to calculate zmanim for your current location";
 				INFOPLIST_KEY_NSLocationUsageDescription = "This app uses your location to calculate zmanim for your current location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to calculate zmanim for your current location";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -982,10 +1002,9 @@
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1023,10 +1042,9 @@
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1204,6 +1222,14 @@
 				minimumVersion = 5.0.1;
 			};
 		};
+		CE6F52512DC9A88700D3296A /* XCRemoteSwiftPackageReference "FrameUp" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ryanlintott/FrameUp";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.9;
+			};
+		};
 		CE7EEB5A2CAA641500FFCD0A /* XCRemoteSwiftPackageReference "KosherSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Elyahu41/KosherSwift";
@@ -1239,6 +1265,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CE6309532B3BB5040020939B /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		CE6F52522DC9A88700D3296A /* FrameUp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE6F52512DC9A88700D3296A /* XCRemoteSwiftPackageReference "FrameUp" */;
+			productName = FrameUp;
 		};
 		CE7EEB5B2CAA641500FFCD0A /* KosherSwift */ = {
 			isa = XCSwiftPackageProductDependency;

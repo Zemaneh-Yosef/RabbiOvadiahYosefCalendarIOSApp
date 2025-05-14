@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct InIsraelView: View {
-    @State private var isInIsrael: Bool? = nil
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    @State private var inIsrael: Bool? = nil
+    @State var showNextView = false
+    @Environment(\.dismiss) private var dismiss
+    @State var nextView = NextSetupView.zmanimLanguage
     
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 40) {
             Text("Are you currently in Israel?")
                 .font(.title2)
                 .multilineTextAlignment(.center)
@@ -19,37 +23,94 @@ struct InIsraelView: View {
 
             HStack(spacing: 40) {
                 Button(action: {
-                    isInIsrael = true
-                    // handle "Yes" logic here
+                    inIsrael = true
+                    presentNextView()
                 }) {
                     Text("Yes")
-                        .frame(width: 100, height: 44)
-                        .background(Color.green.opacity(0.8))
+                        .font(.headline)
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .frame(width: 100, height: 100)
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.cyan]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(alignment: .center) {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.white, lineWidth: 2)
+                        }
                 }
 
                 Button(action: {
-                    isInIsrael = false
-                    // handle "No" logic here
+                    inIsrael = false
+                    presentNextView()
                 }) {
                     Text("No")
-                        .frame(width: 100, height: 44)
-                        .background(Color.red.opacity(0.8))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .font(.headline)
+                        .foregroundStyle(Color.black)
+                        .frame(width: 100, height: 100) // square shape
+                        .background(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.yellow.opacity(0.85), Color.yellow]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(alignment: .center) {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.white, lineWidth: 2)
+                        }
                 }
             }
-
-            if let answer = isInIsrael {
-                Text("You answered: \(answer ? "Yes" : "No")")
-                    .foregroundColor(.gray)
-                    .padding(.top, 20)
-            }
-
-            Spacer()
         }
         .padding()
+        NavigationLink("", isActive: $showNextView) {
+            switch nextView {
+            case .zmanimLanguage:
+                ZmanimLanguageView().applyToolbarHidden()
+            case .tipScreen:
+                TipScreenView().applyToolbarHidden()
+            default:
+                EmptyView()
+            }
+        }.hidden()
+    }
+    
+    func presentNextView() {
+        defaults.set(inIsrael.unsafelyUnwrapped, forKey: "inIsrael")
+        defaults.set(!inIsrael.unsafelyUnwrapped, forKey: "LuachAmudeiHoraah")
+        defaults.set(inIsrael.unsafelyUnwrapped, forKey: "useElevation")
+        
+        if Locale.isHebrewLocale() {
+            defaults.set(true, forKey: "isZmanimInHebrew")
+            defaults.set(false, forKey: "isZmanimEnglishTranslated")
+            defaults.set(true, forKey: "isSetup")
+            if !defaults.bool(forKey: "hasShownTipScreen") {
+                nextView = .tipScreen
+                showNextView = true
+                defaults.set(true, forKey: "hasShownTipScreen")
+            } else {
+                goBackToRootView()
+            }
+        } else {
+            nextView = .zmanimLanguage
+            showNextView = true
+        }
+    }
+    
+    private func goBackToRootView() {
+        guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+          return
+        }
+        guard let firstWindow = firstScene.windows.first else {
+          return
+        }
+        firstWindow.rootViewController = UIHostingController(rootView: ContentView())
+        firstWindow.makeKeyAndVisible()
     }
 }
 

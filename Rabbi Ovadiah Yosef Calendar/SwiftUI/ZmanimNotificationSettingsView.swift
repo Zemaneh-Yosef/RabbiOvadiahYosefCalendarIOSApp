@@ -82,63 +82,69 @@ struct ZmanimNotificationsSettingsView: View {
     @State private var zmanMinutesBefore: String = ""
 
     var body: some View {
-        NavigationView {
-            Form {
-                Section {
-                    Toggle("Zmanim Notifications on Shabbat and Yom Tov", isOn: $viewModel.notificationsOnShabbat)
-                    Text("Receive zmanim notifications on shabbat and yom tov")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+        Form {
+            Section {
+                Toggle("Zmanim Notifications on Shabbat and Yom Tov", isOn: $viewModel.notificationsOnShabbat)
+                Text("Receive zmanim notifications on shabbat and yom tov")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            
+            Section {
+                Text("Select on the row of the zman to change the amount of minutes")
+                    .font(.subheadline)
+                    .multilineTextAlignment(.center)
+            } header: {
+                VStack {
+                    Text("Minutes before the zman for notifications").textCase(nil)
                 }
-                
-                Section(header: Text("Minutes before the zman for notifications")) {
-                    Text("Select on the row of the zman to change the amount of minutes")
-                        .font(.subheadline)
-                        .multilineTextAlignment(.center)
-                }
-                
-                Section(header: Text("Editable Zmanim Notifications")) {
-                    ForEach(viewModel.editableZmanim, id: \.self) { zman in
-                        let isNotified = viewModel.zmanimSettings[zman] ?? false
-                        let minutesBefore = viewModel.zmanimMinutes[zman] ?? -1
-                        
-                        let displayText: String = {
-                            if minutesBefore >= 1 {
-                                return "Notify \(minutesBefore) minutes before"
-                            } else if minutesBefore == 0 {
-                                return "Notify at the time of the zman"
-                            } else {
-                                return "Off"
+            }
+            
+            Section {
+                ForEach(viewModel.editableZmanim, id: \.self) { zman in
+                    let isNotified = viewModel.zmanimSettings[zman] ?? false
+                    let minutesBefore = viewModel.zmanimMinutes[zman] ?? -1
+                    
+                    let displayText: String = {
+                        if minutesBefore >= 1 {
+                            return "Notify \(minutesBefore) minutes before"
+                        } else if minutesBefore == 0 {
+                            return "Notify at the time of the zman"
+                        } else {
+                            return "Off"
+                        }
+                    }()
+                    
+                    Button(action: {
+                        if isNotified {
+                            selectedZman = zman
+                            zmanMinutesBefore = minutesBefore > 0 ? "\(minutesBefore)" : ""
+                        }
+                    }) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(zman)
+                                    .foregroundColor(isNotified ? .primary : .gray)
+                                Text(displayText)
+                                    .font(.subheadline)
+                                    .foregroundColor(isNotified ? .secondary : .gray)
                             }
-                        }()
-                        
-                        Button(action: {
-                            if isNotified {
-                                selectedZman = zman
-                                zmanMinutesBefore = minutesBefore > 0 ? "\(minutesBefore)" : ""
-                            }
-                        }) {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(zman)
-                                        .foregroundColor(isNotified ? .primary : .gray)
-                                    Text(displayText)
-                                        .font(.subheadline)
-                                        .foregroundColor(isNotified ? .secondary : .gray)
-                                }
-                                Spacer()
-                                Toggle("", isOn: Binding(
-                                    get: { viewModel.zmanimSettings[zman] ?? false },
-                                    set: { _ in viewModel.toggleNotification(for: zman) }
-                                ))
-                                .labelsHidden()
-                            }
+                            Spacer()
+                            Toggle("", isOn: Binding(
+                                get: { viewModel.zmanimSettings[zman] ?? false },
+                                set: { _ in viewModel.toggleNotification(for: zman) }
+                            ))
+                            .labelsHidden()
                         }
                     }
                 }
+            } header: {
+                VStack {
+                    Text("Editable Zmanim Notifications").textCase(nil)
+                }
             }
-            .navigationTitle("Zmanim Notifications")
         }
+        .navigationTitle("Zmanim Notifications")
         .alert("Set Minutes Before Notification", isPresented: Binding(
             get: { selectedZman != nil },
             set: { if !$0 { selectedZman = nil } }

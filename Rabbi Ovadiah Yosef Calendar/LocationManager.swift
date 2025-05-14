@@ -13,9 +13,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     let manager = CLLocationManager()
     
-    var completion: ((CLLocation) -> Void)?
+    var completion: ((CLLocation?) -> Void)?
     
-    public func getUserLocation(completion: @escaping ((CLLocation) -> Void)) {
+    public func getUserLocation(completion: @escaping ((CLLocation?) -> Void)) {
         self.completion = completion
         manager.requestAlwaysAuthorization()
         manager.delegate = self
@@ -24,6 +24,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {
+            completion?(nil)
             return
         }
         completion?(location)
@@ -32,6 +33,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
+        completion?(nil)
     }
     
     public func resolveLocationName(with location: CLLocation, completion: @escaping ((String?) -> Void)) {

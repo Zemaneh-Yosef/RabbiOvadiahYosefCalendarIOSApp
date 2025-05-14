@@ -556,23 +556,25 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
 
         return LocationManager.shared.getUserLocation {
             location in concurrentQueue.async {
-                lat = location.coordinate.latitude
-                long = location.coordinate.longitude
-                timezone = TimeZone.current
-                LocationManager.shared.resolveLocationName(with: location) { name in
-                    locationName = name ?? ""
-                    if defaults.object(forKey: "elevation" + locationName) != nil {//if we have been here before, use the elevation saved for this location
-                        elevation = defaults.double(forKey: "elevation" + locationName)
-                    } else {//we have never been here before, get the elevation from online
+                if location != nil {
+                    lat = location!.coordinate.latitude
+                    long = location!.coordinate.longitude
+                    timezone = TimeZone.current
+                    LocationManager.shared.resolveLocationName(with: location!) { name in
+                        locationName = name ?? ""
+                        if defaults.object(forKey: "elevation" + locationName) != nil {//if we have been here before, use the elevation saved for this location
+                            elevation = defaults.double(forKey: "elevation" + locationName)
+                        } else {//we have never been here before, get the elevation from online
                             elevation = 0//undo any previous values
-                    }
-                    if locationName.isEmpty {
-                        locationName = "Lat: " + String(lat) + " Long: " + String(long)
-                        if defaults.bool(forKey: "setElevationToLastKnownLocation") {
-                            elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
                         }
+                        if locationName.isEmpty {
+                            locationName = "Lat: " + String(lat) + " Long: " + String(long)
+                            if defaults.bool(forKey: "setElevationToLastKnownLocation") {
+                                elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
+                            }
+                        }
+                        completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
                     }
-                    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
                 }
             }
         }

@@ -417,6 +417,8 @@ struct LimudimView: View {
             }.textCase(nil)
         }
         .onAppear {
+            userChosenDate = GlobalStruct.userChosenDate
+            syncCalendarDates()
             updateLimudim()
             updateHillulot()
         }.listStyle(.insetGrouped)

@@ -138,11 +138,6 @@ struct MoladView: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: 16) {
-                    Text("Molad Calculator")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.white)
-                    
                     HStack {
                         VStack {
                             Text(englishMonth)
@@ -254,10 +249,10 @@ struct MoladView: View {
                 }
             }
         }
+            .navigationTitle("Molad Calculator")
         )
     }
 }
-
 
 #Preview {
     if #available(iOS 15.0, *) {

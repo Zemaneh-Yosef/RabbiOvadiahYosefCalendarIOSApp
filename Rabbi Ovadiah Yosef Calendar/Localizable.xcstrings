@@ -145,6 +145,9 @@
         }
       }
     },
+    "(I recommend you visit the website first.) \n\n Choose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables. \n\n Just make sure your search radius is big enough and the app will do the rest." : {
+
+    },
     "(Monthly)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -178,6 +181,9 @@
         }
       }
     },
+    "(אני ממליץ לך לבקר קודם באתר.) בחר את האזור שלך ובעמוד הבא כל מה שאתה צריך לעשות הוא למלא את שלבים 1 ו-2, וללחוץ על הכפתור כדי לחשב את הטבלאות בתחתית העמוד .ודא שרדיוס החיפוש שלך גדול מספיק ועזוב את השנה היהודית בשקט. האפליקציה תעשה את השאר." : {
+
+    },
     "/SHABBAT" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -185,16 +191,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "/שבת"
-          }
-        }
-      }
-    },
-    "%lf, %lf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lf, %2$lf"
           }
         }
       }
@@ -308,6 +304,9 @@
         }
       }
     },
+    "Advanced Setup" : {
+
+    },
     "Alot Hashachar" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -409,9 +408,6 @@
           }
         }
       }
-    },
-    "Arvit" : {
-
     },
     "Back" : {
       "extractionState" : "manual",
@@ -791,6 +787,9 @@
         }
       }
     },
+    "Confirm" : {
+
+    },
     "Contact Developer" : {
 
     },
@@ -871,9 +870,6 @@
         }
       }
     },
-    "Did you start your meal before sunset? %@" : {
-
-    },
     "Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later." : {
 
     },
@@ -924,6 +920,12 @@
         }
       }
     },
+    "Do not use visible sunrise for this location" : {
+
+    },
+    "Do you want to say Tikkun Chatzot for the day?" : {
+
+    },
     "Don't forget to count!" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -968,6 +970,12 @@
         }
       }
     },
+    "Downloading..." : {
+
+    },
+    "During the three weeks, some say a shorter Tikkun Chatzot after mid-day. Are you looking to say this version of Tikkun Chatzot?" : {
+
+    },
     "Earliest Birchat Halevana (7 days)" : {
 
     },
@@ -1010,6 +1018,12 @@
     "End Shabbat Opinion: %@" : {
 
     },
+    "Enter elevation in meters" : {
+
+    },
+    "Enter Elevation Manually" : {
+
+    },
     "Enter how many minutes before you would like to be notified for " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1020,6 +1034,9 @@
           }
         }
       }
+    },
+    "Enter location name/ZIP code" : {
+
     },
     "Enter the amount of minutes for candle lighting" : {
       "extractionState" : "manual",
@@ -1098,6 +1115,24 @@
         }
       }
     },
+    "ex: -73.740559" : {
+
+    },
+    "ex: 30" : {
+
+    },
+    "ex: 30.0" : {
+
+    },
+    "ex: 40.808058" : {
+
+    },
+    "ex: America/New_York" : {
+
+    },
+    "ex: New York" : {
+
+    },
     "Fast Ends" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1175,7 +1210,16 @@
         }
       }
     },
+    "Get From Online" : {
+
+    },
     "Get Started" : {
+
+    },
+    "Go to the website in the app" : {
+
+    },
+    "Guttman Keren" : {
 
     },
     "h:" : {
@@ -1279,6 +1323,9 @@
           }
         }
       }
+    },
+    "https://chaitables.com/..." : {
+
     },
     "Ideally, this app needs location permissions in order to accurately calculate the zmanim. Therefore, it is better to allow the app to see your location. We do not use your location for any other purpose than to calculate the zmanim.\\n\\nHowever, if you still do not want to give location permissions, you can choose to search for your address or a zipcode and the app will find your location based on your approximate area. (Using a zip code is not recommended if you want accurate zmanim. It is better to put in your address.)" : {
       "extractionState" : "manual",
@@ -1556,9 +1603,6 @@
           }
         }
       }
-    },
-    "Mincha" : {
-
     },
     "Mincha Gedolah" : {
       "extractionState" : "manual",
@@ -1854,6 +1898,9 @@
         }
       }
     },
+    "None" : {
+
+    },
     "Not now" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1923,6 +1970,9 @@
         }
       }
     },
+    "Okay" : {
+
+    },
     "Okay!" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1944,6 +1994,9 @@
           }
         }
       }
+    },
+    "Or" : {
+
     },
     "Other Settings" : {
 
@@ -2079,6 +2132,9 @@
           }
         }
       }
+    },
+    "Please go to chaitables.com and create a table of the current year for the area you specified. Then copy the link/address of the table and enter it here:" : {
+
     },
     "Please only enter numbers and decimals! For example: 30.0" : {
       "extractionState" : "manual",
@@ -2288,10 +2344,7 @@
         }
       }
     },
-    "Say Tikkun Chatzot during the day?" : {
-
-    },
-    "Search for a location" : {
+    "Search for a place" : {
 
     },
     "Search For A Place" : {
@@ -2359,9 +2412,6 @@
           }
         }
       }
-    },
-    "Select Location" : {
-
     },
     "Select Metro Area" : {
       "extractionState" : "manual",
@@ -2443,6 +2493,9 @@
         }
       }
     },
+    "Set Link" : {
+
+    },
     "Set Minutes Before Notification" : {
 
     },
@@ -2493,6 +2546,9 @@
         }
       }
     },
+    "Setup Elevation" : {
+
+    },
     "Setup Visible Sunrise" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2514,6 +2570,9 @@
           }
         }
       }
+    },
+    "Setup your city!" : {
+
     },
     "Shaah Zemanit MG\"A (A\"H): " : {
       "extractionState" : "manual",
@@ -2610,9 +2669,6 @@
       }
     },
     "Shabbat/Chag Settings" : {
-
-    },
-    "Shacharit" : {
 
     },
     "Share" : {
@@ -2845,6 +2901,9 @@
         }
       }
     },
+    "Siddur Font" : {
+
+    },
     "SIMCHAT TORAH" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2877,6 +2936,9 @@
           }
         }
       }
+    },
+    "Skip" : {
+
     },
     "Sof Zman Shma GRA" : {
       "extractionState" : "manual",
@@ -2911,9 +2973,6 @@
         }
       }
     },
-    "Some say it during the day during the 3 weeks." : {
-
-    },
     "Sunrise" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2946,6 +3005,9 @@
           }
         }
       }
+    },
+    "Taamey D" : {
+
     },
     "Taanit Bechorot" : {
       "extractionState" : "manual",
@@ -3241,9 +3303,6 @@
         }
       }
     },
-    "Tikkun Chatzot is not said tonight." : {
-
-    },
     "Tikkun Chatzot is not said tonight. Possible reasons for why it is not said: It is Friday night, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3265,6 +3324,12 @@
           }
         }
       }
+    },
+    "Tip: You can press on the times to find out more information on them!" : {
+
+    },
+    "Tip!" : {
+
     },
     "Tishri" : {
       "extractionState" : "manual",
@@ -3365,7 +3430,19 @@
         }
       }
     },
+    "Use Mishor (Sea Level) Sunrise/Sunset" : {
+
+    },
+    "Use my device's location" : {
+
+    },
     "Use Simple List" : {
+
+    },
+    "Visible Sunrise Data Error" : {
+
+    },
+    "Visible Sunrise Setup" : {
 
     },
     "Watch a video guide" : {
@@ -3468,9 +3545,6 @@
         }
       }
     },
-    "You answered: %@" : {
-
-    },
     "You can set the size of your text in the text box below. The default size is 16." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3520,6 +3594,9 @@
     "Zmanim Display" : {
 
     },
+    "Zmanim Language" : {
+
+    },
     "Zmanim Notifications" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3565,6 +3642,45 @@
       }
     },
     "בעת התפילה בעמידה, יש להכווין את עצמו לכיוון ירושלים, בית המקדש ואזור קודש הקדשים (ברכות בבלי ל: א), (מלכים א' ח: לה-מח, ודברי הימים ב' ו: לב). לקביעת הכיוון הנכון ניתן להשתמש בשיטת \"קו רומב\" המציירת קו ממקום המתפלל ישירות לנקודה ספציפית (שבמקרה שלנו, יהיה זה הר הבית). לאחר שהקו נמשך, מומלץ להתפלל לפי הכיוון של הקו באמצעות התאמת כיוון התפילה לזווית המדרגה שלו. יש לשים לב כי גם אם ארון הקודש בבית הכנסת בו אתה נמצא מותקף, לא רקוב זה אינו מנותק מהמתפללים האחרים. במקום זאת, יש להתאים רק את הראש לכיוון הנכון." : {
+
+    },
+    "ברכת הלבנה" : {
+
+    },
+    "ברכת המזון" : {
+
+    },
+    "ברכת מעין שלוש" : {
+
+    },
+    "הבדלה" : {
+
+    },
+    "הדלקת נרות חנוכה" : {
+
+    },
+    "מוסף" : {
+
+    },
+    "מנחה" : {
+
+    },
+    "סליחות" : {
+
+    },
+    "ספירת העומר" : {
+
+    },
+    "ערבית" : {
+
+    },
+    "ק״ש שעל המיטה" : {
+
+    },
+    "שחרית" : {
+
+    },
+    "תיקון חצות" : {
 
     }
   },

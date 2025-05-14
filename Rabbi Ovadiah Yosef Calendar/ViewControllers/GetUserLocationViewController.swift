@@ -68,7 +68,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             textField.placeholder = "ex: 805"
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Timezone e.g. America/New_York"
+            textField.placeholder = "ex: America/New_York"
         }
         advancedAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self] UIAlertAction in
             map.removeAnnotation(chosenLocationAnnotation)
@@ -103,13 +103,15 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         map.removeAnnotation(chosenLocationAnnotation)
         LocationManager.shared.getUserLocation {
             location in DispatchQueue(label: "mainApp", attributes: .concurrent).async { [self] in
-                lat = location.coordinate.latitude
-                long = location.coordinate.longitude
-                defaults.set(false, forKey: "useZipcode")
-                defaults.set(false, forKey: "useAdvanced")
-                useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
-                LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
-                    zoomMapToPlaceAndAddAnnotation()
+                if location != nil {
+                    lat = location!.coordinate.latitude
+                    long = location!.coordinate.longitude
+                    defaults.set(false, forKey: "useZipcode")
+                    defaults.set(false, forKey: "useAdvanced")
+                    useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
+                    LocationManager.shared.resolveLocationName(with: location!) { [self] locationName in
+                        zoomMapToPlaceAndAddAnnotation()
+                    }
                 }
             }
         }
@@ -186,7 +188,6 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
     }
     
     @objc func handleMapTap(_ gestureRecognizer: UITapGestureRecognizer) {
-        //This method is called when the user taps on the map view.
         map.removeAnnotation(chosenLocationAnnotation)
         let location = gestureRecognizer.location(in: map)
         let coordinate = map.convert(location, toCoordinateFrom: map)
@@ -255,7 +256,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         }
     }
     
-    func addSavedLocation(locationDefault:String) {
+    func addSavedLocation(locationDefault: String) {
         let location = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: defaults.double(forKey: locationDefault.appending("Lat")), longitude: defaults.double(forKey: locationDefault.appending("Long")))))
         location.name = defaults.string(forKey: locationDefault)
         location.timeZone = TimeZone(identifier: locationDefault.appending("Timezone"))
@@ -365,7 +366,11 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             locationName = name
             if i?.first?.timeZone != nil {
                 self.timezone = (i?.first?.timeZone)!
-                if locationName == defaults.string(forKey: "location1") || locationName == defaults.string(forKey: "location2") || locationName == defaults.string(forKey: "location3") || locationName == defaults.string(forKey: "location4") || locationName == defaults.string(forKey: "location5") {
+                if locationName == defaults.string(forKey: "location1") ||
+                    locationName == defaults.string(forKey: "location2") ||
+                    locationName == defaults.string(forKey: "location3") ||
+                    locationName == defaults.string(forKey: "location4") ||
+                    locationName == defaults.string(forKey: "location5") {
                     defaults.setValue(false, forKey: "useAdvanced")
                     defaults.setValue(false, forKey: "useZipcode")
                     useLocation(location1: locationName == defaults.string(forKey: "location1"),

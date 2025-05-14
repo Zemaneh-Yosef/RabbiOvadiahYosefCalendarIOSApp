@@ -7,18 +7,26 @@
 
 import SwiftUI
 import KosherSwift
+import FrameUp
 
 @available(iOS 15.0, *)
 struct SiddurView: View {
     
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    var categoriesFound = false
+    var fontName = "Guttman Keren"
     @State var prayer: String
     @State var listOfTexts: [HighlightString]
     @State var dropDownTitle: String
-    @State var textSize: CGFloat = 16
+    @State var textSize: Float = 16.0
+    @State var isJustified = false
+    @State var goToMussaf = false
+    @StateObject private var compassVM = CompassViewModel()
     
     init(prayer: String) {
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
+        fontName = defaults.string(forKey: "fontName") ?? "Guttman Keren"
         self.prayer = prayer
         switch prayer {
         case "Selichot":
@@ -37,6 +45,9 @@ struct SiddurView: View {
         case "Arvit":
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getArvitPrayers()
             self.dropDownTitle = "ערבית"
+        case "Sefirat HaOmer":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getSefiratHaOmer()
+            dropDownTitle = "ספירת העומר"
         case "Birchat Hamazon":
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
             self.dropDownTitle = "ברכת המזון"
@@ -71,56 +82,157 @@ struct SiddurView: View {
             self.listOfTexts = []
             self.dropDownTitle = ""
         }
-        listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
+        for text in listOfTexts {
+            if text.isCategory {
+                categoriesFound = true
+                continue
+            }
+        }
     }
     
     var body: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(listOfTexts) { text in
-                    if text.isCategory {
-                        Text(text.string)
-                            .font(Font.custom("MANTB 2", size: textSize))
-                            .frame(maxWidth: .infinity, alignment: .center)
-                    } else {
-                        Text(text.string)
-                            .font(Font.custom("Guttman Keren", size: textSize))
-                            .foregroundStyle(text.shouldBeHighlighted ? Color.yellow : Color.primary)
+        ScrollViewReader { proxy in
+            VStack(alignment: .leading, spacing: 10) {
+                Menu {
+                    ForEach(listOfTexts, id: \.self) { text in
+                        if text.isCategory {
+                            Button(action: {
+                                proxy.scrollTo(text, anchor: .top)
+                            }) {
+                                Text(text.string)
+                            }
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: "arrowtriangle.down.circle.fill")
+                        Text(dropDownTitle)
+                    }
+                    .frame(width: 150, height: 30)
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+                .disabled(!categoriesFound)
+            }
+            ScrollView {
+                LazyVStack {
+                    ForEach(listOfTexts) { text in
+                        if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
+                            "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
+                            Image("compass")
+                                 .resizable()
+                                 .scaledToFit()
+                                 .frame(width: 200, height: 200)
+                                 .rotationEffect(.degrees(compassVM.heading))
+                                 .animation(.easeInOut, value: compassVM.heading)
+                        } else if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" {
+                            Button(text.string) {
+                                goToMussaf = true
+                            }
+                            .foregroundStyle(text.shouldBeHighlighted ? Color.black : Color.primary)
                             .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding()
+                            .background(text.shouldBeHighlighted ? Color.init("SiddurHighlightBackgroundColor") : Color.clear)
                             .multilineTextAlignment(.trailing)
+                            NavigationLink("", isActive: $goToMussaf) { SiddurView(prayer: "Mussaf").applyToolbarHidden() }.hidden()
+                        } else if text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
+                            Button(text.string) {
+                                if let url = URL(string: "https://www.sefaria.org/Siddur_Edot_HaMizrach") {
+                                        UIApplication.shared.open(url)
+                                }
+                            }
+                            .foregroundStyle(text.shouldBeHighlighted ? Color.black : Color.primary)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding()
+                            .background(text.shouldBeHighlighted ? Color.init("SiddurHighlightBackgroundColor") : Color.clear)
+                            .multilineTextAlignment(.trailing)
+                        } else if text.isCategory {
+                            JustifiedText(text.string, font: UIFont.init(name: "Guttman Mantova", size: CGFloat(textSize + 8))!, isJustified: isJustified)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.bottom)
+                                .id(text)
+                        } else if text.string == "[break here]" {
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(Color.secondary)
+                        } else {
+                            JustifiedText(text.string, font: UIFont.init(name: fontName, size: CGFloat(textSize)) ?? UIFont.systemFont(ofSize: CGFloat(textSize)), isJustified: isJustified)
+                                .foregroundStyle(text.shouldBeHighlighted ? Color.black : Color.primary)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding()
+                                .background(text.shouldBeHighlighted ? Color.init("SiddurHighlightBackgroundColor") : Color.clear)
+                                .multilineTextAlignment(.trailing)
+                            // TODO there is an issue with text justification being backwards and slow even in a lazyvstack
+                        }
                     }
                 }
-            }.padding()
+            }
         }
-        Slider(value: $textSize, in: 10...30)
+        HStack {
+            Slider(value: $textSize, in: 10...50)
+                .onChange(of: textSize) { newValue in
+                    defaults.set(newValue, forKey: "textSize")
+                }
+            Button(action: {
+                isJustified.toggle()
+                defaults.set(isJustified, forKey: "JustifyText")
+            }) {
+                if isJustified {
+                    Image(systemName: "text.alignright")
+                } else {
+                    Image(systemName: "text.justify")
+                }
+            }
+            .padding()
+        }
+        .onAppear {
+            if defaults.float(forKey: "textSize") == 0.0 {
+                textSize = 16
+                defaults.set(16, forKey: "textSize")
+            }
+            textSize = defaults.float(forKey: "textSize")
+            isJustified = defaults.bool(forKey: "JustifyText")
+        }
     }
-    
-    func appendUnicodeForDuplicates(in array: Array<HighlightString>) -> Array<HighlightString> {
-        var counts = [String: Int]()  // Dictionary to track occurrences
-        var result = Array<HighlightString>()
+}
+
+import CoreLocation
+import Combine
+
+class CompassViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    private var locationManager = CLLocationManager()
+    @Published var heading: Double = 0.0
+
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
-        for str in array {
-            if !str.isCategory {
-                result.append(str)
-                continue
-            }
-            if let count = counts[str.string] {
-                counts[str.string] = count + 1  // Increment occurrence count
-                let modifiedString = str.string + String(repeating: "\u{200E}", count: count)  // Append an invisible char for each occurrence
-                result.append(HighlightString(modifiedString, shouldBeHighlighted: str.shouldBeHighlighted, isCategory: str.isCategory))
-            } else {
-                counts[str.string] = 1  // First occurrence
-                result.append(str)
-            }
+        // Start location services to get the true heading.
+        locationManager.distanceFilter = 1000
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        locationManager.startUpdatingLocation()
+        
+        // Start heading updating.
+        if CLLocationManager.headingAvailable() {
+            locationManager.headingFilter = 1
+            locationManager.startUpdatingHeading()
         }
-        
-        return result
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        if newHeading.headingAccuracy < 0 { return }
+
+        let headingDegrees = (newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading)
+        DispatchQueue.main.async {
+            self.heading = -headingDegrees  // Negative to rotate correctly like a real compass
+        }
     }
 }
 
 #Preview {
     if #available(iOS 15.0, *) {
-        SiddurView(prayer: "Shacharit")
+        SiddurView(prayer: "Arvit")
     } else {
         // Fallback on earlier versions
     }

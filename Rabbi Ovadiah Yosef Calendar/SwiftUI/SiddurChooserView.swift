@@ -8,225 +8,770 @@
 import SwiftUI
 import KosherSwift
 
+// TODO move omer to siddur
 @available(iOS 15.0, *)
 struct SiddurChooserView: View {
-    @State private var alertContent: AlertContent?
-    @State private var alertType: AlertType?
-    @State private var navigateToSiddur = false
+    @State private var siddurPrayer = ""
+    @State private var showSiddur = false
+    
+    @State var userChosenDate: Date = GlobalStruct.userChosenDate
+    @State var lastTimeUserWasInApp = Date()
+    @State var datePickerIsVisible = false
+    @State var hebrewDatePickerIsVisible = false
 
-    struct AlertContent: Identifiable {
-        var id = UUID()
-        var title: String
-        var message: String
-        var primaryAction: () -> Void
-    }
-
-    enum AlertType: Identifiable {
-        case birchatHamazon
-        case meEyinShalosh
-        case tikkunChatzotDayOption
-        case tikkunChatzotNotSaidToday
-
-        var id: Int { hashValue }
+    @State var showBirchatHamazonAlert = false
+    @State var showMeEyinShaloshAlert = false
+    @State var showTikkunChatzotDayOptionAlert = false
+    @State var showTikkunChatzotNotSaidTodayAlert = false
+    @State var showTikkunChatzotNotSaidTodayOrTonightAlert = false
+    @State var showTikkunChatzotNotSaidTonightAlert = false
+    @State var showMukafChomaAlert = false
+    @State var showHavdalaAlert = false
+    
+    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let secondaryTextSize = Font.system(size: 14)
+    
+    func syncCalendarDates() {//with userChosenDate
+        GlobalStruct.jewishCalendar.workingDate = userChosenDate
+        GlobalStruct.userChosenDate = userChosenDate
     }
 
     var body: some View {
-        List {
-            NavigationLink("Shacharit", destination: SiddurView(prayer: "Shacharit").applyToolbarHidden())
-            NavigationLink("Mincha", destination: SiddurView(prayer: "Mincha").applyToolbarHidden())
-            NavigationLink("Arvit", destination: SiddurView(prayer: "Arvit").applyToolbarHidden())
-
-//            Button(action: {
-//                handleSelection(prayer: prayer.name)
-//            }) {
-//                VStack(alignment: .leading) {
-//                    Text(prayer.name)
-//                        .font(.system(size: 20, weight: .semibold))
-//                        .foregroundColor(prayer.isDisabled ? .gray : .primary)
-//                    if let secondary = prayer.secondary {
-//                        Text(secondary)
-//                            .font(.system(size: 16))
-//                            .foregroundColor(.secondary)
-//                    }
-//                }
-//            }
+        alerts(view:
+                List {
+            Section {
+                if GlobalStruct.jewishCalendar.isSelichotSaid() {
+                    Button(action: {
+                        siddurPrayer = "Selichot"
+                        GlobalStruct.chosenPrayer = siddurPrayer
+                        openSiddurView()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("סליחות")
+                                .foregroundColor(shouldBeDimmed("סליחות") ? .gray : .primary)
+                            if let secondary = getSecondaryText("סליחות") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                Button(action: {
+                    siddurPrayer = "Shacharit"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    openSiddurView()
+                }) {
+                    VStack(alignment: .leading) {
+                        Text("שחרית")
+                        if let secondary = getSecondaryText("שחרית") {
+                            Text(secondary)
+                                .font(secondaryTextSize)
+                                .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
+                if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() {
+                    Button(action: {
+                        siddurPrayer = "Mussaf"
+                        GlobalStruct.chosenPrayer = siddurPrayer
+                        openSiddurView()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("מוסף")
+                            if let secondary = getSecondaryText("מוסף") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                Button(action: {
+                    siddurPrayer = "Mincha"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    openSiddurView()
+                }) {
+                    VStack(alignment: .leading) {
+                        Text("מנחה")
+                        if let secondary = getSecondaryText("מנחה") {
+                            Text(secondary)
+                                .font(secondaryTextSize)
+                                .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
+            } header: {
+                VStack {
+                    Text(getDayTitle(userChosenDate)).textCase(nil)
+                }
+            }.textCase(nil)
+            Section {
+                Button(action: {
+                    siddurPrayer = "Arvit"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    openSiddurView()
+                }) {
+                    VStack(alignment: .leading) {
+                        Text("ערבית")
+                        if let secondary = getSecondaryText("ערבית") {
+                            Text(secondary)
+                                .font(secondaryTextSize)
+                                .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
+                if !(GlobalStruct.jewishCalendar.tomorrow().getDayOfOmer() == -1 || GlobalStruct.jewishCalendar.getDayOfOmer() >= 49) {
+                    Button(action: {
+                        siddurPrayer = "Sefirat HaOmer+1"
+                        GlobalStruct.chosenPrayer = siddurPrayer
+                        openSiddurView()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("ספירת העומר")
+                            if let secondary = getSecondaryText("ספירת העומר") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                if (GlobalStruct.jewishCalendar.tomorrow().isChanukah() || GlobalStruct.jewishCalendar.isChanukah() && GlobalStruct.jewishCalendar.getDayOfChanukah() != 8) {
+                    Button(action: {
+                        siddurPrayer = "Hadlakat Neirot Chanuka"
+                        GlobalStruct.chosenPrayer = siddurPrayer
+                        openSiddurView()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("הדלקת נרות חנוכה")
+                            if let secondary = getSecondaryText("הדלקת נרות חנוכה") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                if !GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha() || (GlobalStruct.jewishCalendar.isTishaBav() && (GlobalStruct.jewishCalendar.getDayOfWeek() == 7 || GlobalStruct.jewishCalendar.getDayOfWeek() == 1)) {
+                    Button(action: {
+                        if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
+                            showHavdalaAlert = true
+                        } else {
+                            siddurPrayer = "Havdala"
+                            GlobalStruct.chosenPrayer = siddurPrayer
+                            openSiddurView()
+                        }
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("הבדלה")
+                                .foregroundColor(shouldBeDimmed("הבדלה") ? .gray : .primary)
+                            if let secondary = getSecondaryText("הבדלה") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                Button(action: {
+                    siddurPrayer = "Kriat Shema SheAl Hamita"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    openSiddurView()
+                }) {
+                    VStack(alignment: .leading) {
+                        Text("ק״ש שעל המיטה")
+                        if let secondary = getSecondaryText("ק״ש שעל המיטה") {
+                            Text(secondary)
+                                .font(secondaryTextSize)
+                                .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
+                if !GlobalStruct.jewishCalendar.is3Weeks() {
+                    Button(action: {
+                        handleTikkunChatzot()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("תיקון חצות")
+                                .foregroundColor(shouldBeDimmed("תיקון חצות") ? .gray : .primary)
+                            if let secondary = getSecondaryText("תיקון חצות") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+            } header: {
+                VStack {
+                    Text(getNightTitle(userChosenDate)).textCase(nil)
+                }
+            }.textCase(nil)
+            Section {
+                if GlobalStruct.jewishCalendar.is3Weeks() {
+                    Button(action: {
+                        handleTikkunChatzot()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("תיקון חצות")
+                                .foregroundColor(shouldBeDimmed("תיקון חצות") ? .gray : .primary)
+                            if let secondary = getSecondaryText("תיקון חצות") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                Button(action: {
+                    siddurPrayer = "Birchat Hamazon"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    handleBirchatHamazon()
+                }) {
+                    VStack(alignment: .leading) {
+                        Text("ברכת המזון")
+                        if let secondary = getSecondaryText("ברכת המזון") {
+                            Text(secondary)
+                                .font(secondaryTextSize)
+                                .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
+                Button(action: {
+                    siddurPrayer = "Birchat MeEyin Shalosh"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    handleMeEyinShalosh()
+                }) {
+                    VStack(alignment: .leading) {
+                        Text("ברכת מעין שלוש")
+                        if let secondary = getSecondaryText("ברכת מעין שלוש") {
+                            Text(secondary)
+                                .font(secondaryTextSize)
+                                .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
+                if !GlobalStruct.jewishCalendar.getBirchatLevanaStatus().isEmpty {
+                    Button(action: {
+                        siddurPrayer = "Birchat Halevana"
+                        GlobalStruct.chosenPrayer = siddurPrayer
+                        openSiddurView()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("ברכת הלבנה")
+                            if let secondary = getSecondaryText("ברכת הלבנה") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
+                    Button(action: {
+                        if let openLink = URL(string: "https://elyahu41.github.io/Prayer%20for%20an%20Etrog.pdf") {
+                            if UIApplication.shared.canOpenURL(openLink) {
+                                UIApplication.shared.open(openLink, options: [:])
+                            }
+                        }
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("Prayer for Etrog".localized())
+                            if let secondary = getSecondaryText("Prayer for Etrog".localized()) {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+                if GlobalStruct.jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH &&
+                    GlobalStruct.jewishCalendar.getDayOfWeek() == 3 {
+                    Button(action: {
+                        if let openLink = URL(string: "https://elyahu41.github.io/Parshat-Haman-3.pdf") {
+                            if UIApplication.shared.canOpenURL(openLink) {
+                                UIApplication.shared.open(openLink, options: [:])
+                            }
+                        }
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("Parshat Haman".localized())
+                            if let secondary = getSecondaryText("Parshat Haman".localized()) {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
+            } header: {
+                VStack {
+                    Text("Misc.").textCase(nil)
+                }
+            }.textCase(nil)
+        }
+            .onAppear {
+                if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
+                    userChosenDate = Date()
+                    GlobalStruct.userChosenDate = Date()
+                    GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
+                }
+                lastTimeUserWasInApp = Date()
+                userChosenDate = GlobalStruct.userChosenDate
+                syncCalendarDates()
+            }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    NavigationLink(destination: JerDirectionView().applyToolbarHidden()) {
+                        Image(systemName: "location.circle")
+                    }
+                }
+            }
+            .alert("When did you start your meal?", isPresented: $showBirchatHamazonAlert) {
+                Button("Yes") {
+                    openSiddurView()
+                }
+                Button("No") {
+                    siddurPrayer = "Birchat Hamazon+1"
+                    openSiddurView()
+                }
+                Button("Dismiss", role: .cancel) { }
+            } message: {
+                Text(getBeforeSunsetMessage())
+            }.textCase(nil)
+               
+            .alert("When did you start your meal?", isPresented: $showMeEyinShaloshAlert) {
+                Button("Yes") {
+                    openSiddurView()
+                }
+                Button("No") {
+                    siddurPrayer = "Birchat MeEyin Shalosh+1"
+                    openSiddurView()
+                }
+                Button("Dismiss", role: .cancel) { }
+            } message: {
+                Text(getBeforeSunsetMessage())
+            }.textCase(nil)
+               
+            .alert("Do you want to say Tikkun Chatzot for the day?", isPresented: $showTikkunChatzotDayOptionAlert) {
+                Button("Yes") {
+                    siddurPrayer = "Tikkun Chatzot (Day)"
+                    openSiddurView()
+                }
+                Button("No") {
+                    siddurPrayer = "Tikkun Chatzot"
+                    openSiddurView()
+                }
+                Button("Dismiss", role: .cancel) { }
+            } message: {
+                Text("During the three weeks, some say a shorter Tikkun Chatzot after mid-day. Are you looking to say this version of Tikkun Chatzot?")
+            }.textCase(nil)
+               
+            .alert("Tikkun Chatzot is not said today or tonight", isPresented: $showTikkunChatzotNotSaidTodayOrTonightAlert) {
+                Button("Dismiss", role: .cancel) { }
+            } message: {
+                Text("Tikkun Chatzot is not said today or tonight. Possible reasons for why it is not said: It is Friday/Friday night, No Tachanun is said today, Erev Rosh Chodesh AV, Rosh Chodesh, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot.")
+            }.textCase(nil)
+               
+            .alert("Tikkun Chatzot is not said tonight", isPresented: $showTikkunChatzotNotSaidTonightAlert) {
+                Button("Dismiss", role: .cancel) { }
+            } message: {
+                Text("Tikkun Chatzot is not said tonight. Possible reasons for why it is not said: It is Friday night, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot.")
+            }.textCase(nil)
+               
+            .alert("Havdalah is only said on a flame tonight.", isPresented: $showHavdalaAlert) {
+                Button("Dismiss", role: .cancel) { }
+            } message: {
+                Text("Havdalah will be completed after the fast.".localized()
+                    .appending("\n\n")
+                    .appending("בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם, בּוֹרֵא מְאוֹרֵי הָאֵשׁ:"))
+            }.textCase(nil)
+               
+            .alert("Are you in a walled (Mukaf Choma) city?", isPresented: $showMukafChomaAlert) {
+                Button("Yes (Jerusalem)") {
+                    GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
+                    GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
+                    showSiddur = true
+                }
+                Button("Doubt (Safek)") {
+                    GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
+                    GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: true)
+                    showSiddur = true
+                }
+                Button("No") {
+                    // Undo any previous settings
+                    GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
+                    GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
+                    showSiddur = true
+                }
+            } message: {
+                Text("Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?")
+            }.textCase(nil)
+        )
+        //NavigationLink("", isActive: $showSiddur) { SiddurView(prayer: siddurPrayer).applyToolbarHidden() }.hidden()// TODO fix
+        NavigationLink("", isActive: $showSiddur) { UIKitSiddurControllerView().applyToolbarHidden() }.hidden()// Temp
+        HStack {
+            Button {
+                userChosenDate = userChosenDate.advanced(by: -86400)
+                syncCalendarDates()
+            } label: {
+                Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
+            }
+            Spacer()
+            Button {
+                withAnimation(.easeInOut) {
+                    datePickerIsVisible.toggle()
+                }
+            } label: {
+                Image(systemName: "calendar").resizable().scaledToFit().frame(width: 26, height: 26)
+            }
+            Spacer()
+            Button {
+                userChosenDate = userChosenDate.advanced(by: 86400)
+                syncCalendarDates()
+            } label: {
+                Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
+            }
+        }.padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
+    }
+    
+    private func openSiddurView() {
+        if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM) && siddurPrayer != "Birchat Halevana" && !siddurPrayer.contains("Tikkun Chatzot") && siddurPrayer != "Kriat Shema SheAl Hamita" {// if the prayer is dependant on isMukafChoma, we ask the user
+            showMukafChomaAlert = true
+        } else {
+            // I am only doing this because SwiftUI is designed poorly. If we do not wait to set the showSiddur boolean to true, SwiftUI will show the view too quickly and the String will be old. So we need to delay the initialization by putting it on a background thread... There is probably a better way to do this, but I did not see any better way. TODO fix this later
+            DispatchQueue.main.async {
+                showSiddur = true
+            }
             
-            // Optional: Include static buttons at the end
-//            Section(header: Text("Other Prayers")) {
-//                Button("Birchat Hamazon") { handleBirchatHamazon() }
-//                Button("Birchat MeEyin Shalosh") { handleMeEyinShalosh() }
-//                Button("Tikkun Chatzot") { handleTikkunChatzot() }
-//            }
         }
-        .onAppear {
-            //self.sections = SiddurDataBuilder().buildSections()
+    }
+    
+    private func getDayTitle(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        var weekday = dateFormatter.string(from: date)
+        if Calendar.current.isDate(date, inSameDayAs: Date()) {
+            weekday = weekday.appending(" (Today)".localized())
         }
-        .alert(item: $alertContent) { alert in
-            Alert(
-                title: Text(alert.title),
-                message: Text(alert.message),
-                primaryButton: .default(Text("OK"), action: alert.primaryAction),
-                secondaryButton: .cancel()
-            )
+        let hebrewDateFormatter = HebrewDateFormatter()
+        hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
+
+        var specialDayText = weekday
+            .appending("\n")
+            .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar))
+        
+        if !GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false).isEmpty {
+            specialDayText = specialDayText
+                .appending("\n")
+                .appending(GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false))
         }
-        .alert(item: $alertType) { type in
-            switch type {
-            case .birchatHamazon:
-                return createSunsetAlert(title: "Birchat Hamazon", yesPrayer: "", noPrayer: "")
-            case .meEyinShalosh:
-                return createSunsetAlert(title: "Birchat MeEyin Shalosh", yesPrayer: "", noPrayer: "")
-            case .tikkunChatzotDayOption:
-                return Alert(
-                    title: Text("Say Tikkun Chatzot during the day?"),
-                    message: Text("Some say it during the day during the 3 weeks."),
-                    primaryButton: .default(Text("Yes")) {
-                        //selectedPrayer = .tikkunChatzotDay
-                        navigateToSiddur = true
-                    },
-                    secondaryButton: .default(Text("No")) {
-                        //selectedPrayer = .tikkunChatzot
-                        navigateToSiddur = true
-                    }
-                )
-            case .tikkunChatzotNotSaidToday:
-                return Alert(title: Text("Tikkun Chatzot is not said tonight."))
-            }
+        return specialDayText
+    }
+    
+    private func getNightTitle(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        var weekday = dateFormatter.string(from: date)
+        if Calendar.current.isDate(date, inSameDayAs: Date()) {
+            weekday = weekday.appending(" (Today)".localized())
         }
-//        .background(
-//            NavigationLink(
-//                destination: SiddurView(prayer: ""), // customize SiddurView with selectedPrayer if needed
-//                isActive: $navigateToSiddur
-//            ) { EmptyView() }
-//        )
+        let hebrewDateFormatter = HebrewDateFormatter()
+        hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
+
+        var tonightText = weekday
+            .appending(" " + "(After Sunset)".localized())
+            .appending("\n")
+            .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()))
+        if !GlobalStruct.jewishCalendar.tomorrow().getSpecialDay(addOmer: false).isEmpty {
+            tonightText = tonightText
+                .appending("\n")
+                .appending(GlobalStruct.jewishCalendar.tomorrow().getSpecialDay(addOmer: false))
+        }
+        return tonightText
+    }
+    
+    private func getBeforeSunsetMessage() -> String {
+        let dateFormatterForZmanim = DateFormatter()
+        dateFormatterForZmanim.dateFormat = Locale.isHebrewLocale() ? "H:mm" : "hh:mm a"
+        let zmanimCalendar = ZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.useElevation = GlobalStruct.useElevation
+        zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
+        return "Did you start your meal before sunset?".localized()
+            .appending(" ")
+            .appending(dateFormatterForZmanim.string(from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()))
     }
 
-    // MARK: - Prayer Selection
-    private func handleSelection(prayer: String) {
-        switch prayer {
-        case "סליחות": GlobalStruct.chosenPrayer = "Selichot"
-        case "שחרית": GlobalStruct.chosenPrayer = "Shacharit"
-        case "מוסף": GlobalStruct.chosenPrayer = "Mussaf"
-        case "מנחה": GlobalStruct.chosenPrayer = "Mincha"
-        case "ערבית": GlobalStruct.chosenPrayer = "Arvit"
-        case "ק״ש שעל המיטה": GlobalStruct.chosenPrayer = "Kriat Shema SheAl Hamita"
-        case "הדלקת נרות חנוכה": GlobalStruct.chosenPrayer = "Hadlakat Neirot Chanuka"
-        case "ברכת הלבנה": GlobalStruct.chosenPrayer = "Birchat Halevana"
-        case "הבדלה":
-            if GlobalStruct.jewishCalendar.tomorrow().isTishaBav() &&
-                GlobalStruct.jewishCalendar.getDayOfWeek() == 7 {
-                alertContent = AlertContent(
-                    title: "Havdalah is only said on a flame tonight.".localized(),
-                    message: "Havdalah will be completed after the fast.".localized().appending("\n\n").appending("בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם, בּוֹרֵא מְאוֹרֵי הָאֵשׁ:"),
-                    primaryAction: {
-                        GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
-                        GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                        showFullScreenSiddur()
-                    }
-                )
-                return
-            }
-            GlobalStruct.chosenPrayer = "Havdala"
-        case "ברכת המזון": handleBirchatHamazon(); return
-        case "ברכת מעין שלוש": handleMeEyinShalosh(); return
-        case "תיקון חצות": handleTikkunChatzot(); return
-        default:
-            if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
-                //openEtrogPrayerLink()
-            } else {
-                //openParshatHamanPrayerLink()
-            }
-            return
-        }
-
-        showFullScreenSiddur()
-    }
-
-    // MARK: - Special Cases
     private func handleBirchatHamazon() {
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        GlobalStruct.jewishCalendar.forward()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        GlobalStruct.jewishCalendar.back()
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
 
         if !arePrayersEqual(today, tomorrow) {
-            alertType = .birchatHamazon
+            showBirchatHamazonAlert = true
         } else {
-            //selectedPrayer = .birchatHamazon
-            navigateToSiddur = true
+            openSiddurView()
         }
     }
 
     private func handleMeEyinShalosh() {
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        GlobalStruct.jewishCalendar.forward()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        GlobalStruct.jewishCalendar.back()
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers()
 
         if !arePrayersEqual(today, tomorrow) {
-            alertType = .meEyinShalosh
+            showMeEyinShaloshAlert = true
         } else {
-            //selectedPrayer = .meEyinShalosh
-            navigateToSiddur = true
+            openSiddurView()
         }
     }
 
     private func handleTikkunChatzot() {
-        if GlobalStruct.jewishCalendar.is3Weeks() {
-            let tachanun = GlobalStruct.jewishCalendar.getTachanun()
-            let isTachanunSaid = ["Tachanun only in the morning", "There is Tachanun today", "אומרים תחנון רק בבוקר", "אומרים תחנון"].contains(tachanun)
-
-            if GlobalStruct.jewishCalendar.isDayTikkunChatzotSaid(), isTachanunSaid {
-                alertType = .tikkunChatzotDayOption
-                return
+        if (GlobalStruct.jewishCalendar.is3Weeks()) {
+            let isTachanunSaid = GlobalStruct.jewishCalendar.getTachanun() == "Tachanun only in the morning"
+            || GlobalStruct.jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
+            || GlobalStruct.jewishCalendar.getTachanun() == "אומרים תחנון"
+            || GlobalStruct.jewishCalendar.getTachanun() == "There is Tachanun today"
+            if (GlobalStruct.jewishCalendar.isDayTikkunChatzotSaid() && isTachanunSaid) {
+                showTikkunChatzotDayOptionAlert = true
+            } else {
+                if (GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {
+                    siddurPrayer = "Tikkun Chatzot"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    openSiddurView()
+                } else {
+                    showTikkunChatzotNotSaidTodayOrTonightAlert = true
+                }
             }
-        }
-
-        GlobalStruct.jewishCalendar.forward()
-        let isSaid = GlobalStruct.jewishCalendar.isNightTikkunChatzotSaid()
-        GlobalStruct.jewishCalendar.back()
-
-        if isSaid {
-            //selectedPrayer = .tikkunChatzot
-            navigateToSiddur = true
-        } else {
-            alertType = .tikkunChatzotNotSaidToday
+        } else {// Not three weeks
+            if (GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {
+                siddurPrayer = "Tikkun Chatzot"
+                GlobalStruct.chosenPrayer = siddurPrayer
+                openSiddurView()
+            } else {
+                showTikkunChatzotNotSaidTonightAlert = true
+            }
         }
     }
 
-    // MARK: - Helpers
     private func arePrayersEqual(_ a: [HighlightString], _ b: [HighlightString]) -> Bool {
         guard a.count == b.count else { return false }
         return zip(a, b).allSatisfy { $0.string == $1.string }
     }
-
-    private func createSunsetAlert(title: String, yesPrayer: String, noPrayer: String) -> Alert {
-        let zmanimCalendar = ZmanimCalendar(location: GlobalStruct.geoLocation)
-        zmanimCalendar.useElevation = GlobalStruct.useElevation
-        zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
-
-        let sunset = zmanimCalendar.getElevationAdjustedSunset() ?? Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = Locale.isHebrewLocale() ? "H:mm" : "h:mm a"
-
-        return Alert(
-            title: Text(title),
-            message: Text("Did you start your meal before sunset? \(formatter.string(from: sunset))"),
-            primaryButton: .default(Text("Yes")) {
-                //selectedPrayer = yesPrayer
-                navigateToSiddur = true
-            },
-            secondaryButton: .default(Text("No")) {
-                //selectedPrayer = noPrayer
-                navigateToSiddur = true
+    
+    func shouldBeDimmed(_ prayer: String) -> Bool {
+        switch prayer {
+        case "סליחות" :
+            let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+            zmanimCalendar.useElevation = GlobalStruct.useElevation
+            zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
+            var tzeit = Date()
+            if defaults.bool(forKey: "LuachAmudeiHoraah") {
+                tzeit = zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()
+            } else {
+                tzeit = zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date();
             }
-        )
+            if Date().compare(tzeit) == .orderedDescending && Date().compare(zmanimCalendar.getSolarMidnightIfSunTransitNil() ?? Date()) == .orderedAscending {
+                return true
+            }
+        case "תיקון חצות" :
+            if (GlobalStruct.jewishCalendar.is3Weeks()) {
+                let isTachanunSaid = GlobalStruct.jewishCalendar.getTachanun() == "Tachanun only in the morning"
+                          || GlobalStruct.jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
+                          || GlobalStruct.jewishCalendar.getTachanun() == "אומרים תחנון"
+                          || GlobalStruct.jewishCalendar.getTachanun() == "There is Tachanun today"
+                  if (!GlobalStruct.jewishCalendar.isDayTikkunChatzotSaid() || !isTachanunSaid) {
+                      if (!GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {// i.e. both are not said
+                          return true
+                      }
+                  }
+              } else {// not three weeks
+                  if (!GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {
+                      return true
+                  }
+              }
+        case "הבדלה" :
+            if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
+                return true
+            }
+        default:
+            return false
+        }
+        return false
     }
+    
+    func getSecondaryText(_ prayer: String) -> String? {
+        var result: String? = nil
+        switch prayer {
+        case "סליחות":
+            if GlobalStruct.jewishCalendar.isAseresYemeiTeshuva() {
+                result = "עשרת ימי תשובה"
+            }
+        case "שחרית":
+            var entries:[String] = [
+                GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() ? "יעלה ויבוא" : "",
+                GlobalStruct.jewishCalendar.isPurim() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM ? "[על הניסים]" : "",
+                GlobalStruct.jewishCalendar.isChanukah() ? "על הניסים" : "",
+                GlobalStruct.jewishCalendar.getHallelOrChatziHallel() == "" ? GlobalStruct.jewishCalendar.getTachanun()
+                    .replacingOccurrences(of: "צדקתך", with: "")
+                    .replacingOccurrences(of: "לא אומרים תחנון", with: "יהי שם")
+                    .replacingOccurrences(of: "אומרים תחנון רק בבוקר", with: "תחנון")
+                    .replacingOccurrences(of: "יש מדלגים תחנון במנחה", with: "תחנון")
+                    .replacingOccurrences(of: "אומרים תחנון", with: "תחנון")
 
-    private func showFullScreenSiddur() {
-        navigateToSiddur = true
+                    .replacingOccurrences(of: "No Tachanun today", with: "יהי שם")
+                    .replacingOccurrences(of: "Tachanun only in the morning", with: "תחנון")
+                    .replacingOccurrences(of: "Some say Tachanun today", with: "יש אומרים תחנון")
+                    .replacingOccurrences(of: "Some skip Tachanun by mincha", with: "תחנון")
+                    .replacingOccurrences(of: "There is Tachanun today", with: "תחנון")
+                : GlobalStruct.jewishCalendar.getHallelOrChatziHallel()
+            ]
+            entries = entries.filter { !$0.isEmpty }
+            result = entries.joined(separator: ", ")
+        case "מוסף":
+            var entries:[String] = [
+                GlobalStruct.jewishCalendar.getIsUlChaparatPeshaSaid() == "אומרים וּלְכַפָּרַת פֶּשַׁע" || GlobalStruct.jewishCalendar.getIsUlChaparatPeshaSaid() ==  "Say וּלְכַפָּרַת פֶּשַׁע" ?
+                GlobalStruct.jewishCalendar.getIsUlChaparatPeshaSaid()
+                    .replacingOccurrences(of: "אומרים ", with: "")
+                    .replacingOccurrences(of: "Say ", with: "") : "",
+                GlobalStruct.jewishCalendar.isPurim() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM ? "[על הניסים]" : "",
+                GlobalStruct.jewishCalendar.isChanukah() ? "על הניסים" : "",
+            ]
+            entries = entries.filter { !$0.isEmpty }
+            result = entries.joined(separator: ", ")
+        case "מנחה":
+            var entries:[String] = [
+                GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() ? "יעלה ויבוא" : "",
+                GlobalStruct.jewishCalendar.isPurim() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM ? "[על הניסים]" : "",
+                GlobalStruct.jewishCalendar.isChanukah() ? "על הניסים" : "",
+                GlobalStruct.jewishCalendar.getTachanun()
+                    .replacingOccurrences(of: "לא אומרים תחנון", with: "יהי שם")
+                    .replacingOccurrences(of: "אומרים תחנון רק בבוקר", with: "יהי שם")
+                    .replacingOccurrences(of: "יש מדלגים תחנון במנחה", with: "יש אומרים תחנון")
+                    .replacingOccurrences(of: "אומרים תחנון", with: "תחנון")
+
+                    .replacingOccurrences(of: "No Tachanun today", with: "יהי שם")
+                    .replacingOccurrences(of: "Tachanun only in the morning", with: "יהי שם")
+                    .replacingOccurrences(of: "Some say Tachanun today", with: "יש אומרים תחנון")
+                    .replacingOccurrences(of: "Some skip Tachanun by mincha", with: "יש אומרים תחנון")
+                    .replacingOccurrences(of: "There is Tachanun today", with: "תחנון")
+            ]
+            entries = entries.filter { !$0.isEmpty }
+            result = entries.joined(separator: ", ")
+        case "ערבית":
+            GlobalStruct.jewishCalendar.forward()
+            var entries:[String] = [
+                GlobalStruct.jewishCalendar.isRoshChodesh() ? "ברכי נפשי" : "",
+                TefilaRules().isVeseinTalUmatarStartDate(jewishCalendar: GlobalStruct.jewishCalendar) ? "ברך עלינו" : "",
+                GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() ? "יעלה ויבוא" : "",
+                GlobalStruct.jewishCalendar.isPurim() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM ? "[על הניסים]" : "",
+                GlobalStruct.jewishCalendar.isChanukah() ? "על הניסים" : ""
+            ]
+            GlobalStruct.jewishCalendar.back()
+            entries = entries.filter { !$0.isEmpty }
+            result = entries.joined(separator: ", ")
+        case "ברכת המזון":
+            var entries:[String] = [
+                GlobalStruct.jewishCalendar.isPurim() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM ? "[על הניסים]" : "",
+                GlobalStruct.jewishCalendar.isChanukah() ? "על הניסים" : "",
+                GlobalStruct.jewishCalendar.getDayOfWeek() == 7 ? "[רצה]" : "",
+                GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() || GlobalStruct.jewishCalendar.isYomTovAssurBemelacha() ? "יעלה ויבוא" : ""
+            ]
+            entries = entries.filter { !$0.isEmpty }
+            result = entries.joined(separator: ", ")
+        case "ק״ש שעל המיטה":
+            return nil
+        case "Prayer for Etrog".localized():
+            return "It is good to say this prayer today.".localized()
+        case "Parshat Haman".localized():
+            return "It is good to say this prayer today.".localized()
+        default:
+            return nil
+        }
+        
+        if result?.count == 0 {
+            result = nil
+        }
+        
+        return result
+    }
+    
+    func alerts(view: any View) -> some View {
+        let result = view.overlay {
+            ZStack {
+                if datePickerIsVisible {
+                    VStack {
+                        DatePicker("", selection: $userChosenDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .datePickerStyle(.graphical)
+                            .onChange(of: userChosenDate) { newValue in
+                                syncCalendarDates()
+                            }
+                        HStack {
+                            Button {
+                                datePickerIsVisible.toggle()
+                                hebrewDatePickerIsVisible.toggle()
+                            } label: {
+                                Text("Change Calendar")
+                            }
+                            Spacer()
+                            Button {
+                                datePickerIsVisible.toggle()
+                            } label: {
+                                Text("Done")
+                            }
+                        }.padding()
+                    }.frame(width: 320)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .foregroundColor(Color(UIColor.secondarySystemBackground))
+                                .shadow(radius: 1)
+                        }
+                }
+                if hebrewDatePickerIsVisible {
+                    VStack {
+                        DatePicker("", selection: $userChosenDate, displayedComponents: .date)
+                            .labelsHidden()
+                            .datePickerStyle(.graphical)
+                            .environment(\.locale, Locale(identifier: "he"))
+                            .environment(\.calendar, Calendar(identifier: .hebrew))
+                            .onChange(of: userChosenDate) { newValue in
+                                syncCalendarDates()
+                            }
+                        HStack {
+                            Button {
+                                hebrewDatePickerIsVisible.toggle()
+                                datePickerIsVisible.toggle()
+                            } label: {
+                                Text("Change Calendar")
+                            }
+                            Spacer()
+                            Button {
+                                hebrewDatePickerIsVisible.toggle()
+                            } label: {
+                                Text("Done")
+                            }
+                        }.padding()
+                    }.frame(width: 320)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .foregroundColor(Color(UIColor.secondarySystemBackground))
+                                .shadow(radius: 1)
+                        }
+                }
+            }
+        }
+        return AnyView(result)
     }
 }
 
+// TEMP SOLUTION
+struct UIKitSiddurControllerView : UIViewControllerRepresentable {
+     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+     func makeUIViewController(context: Context) -> some UIViewController {
+         SiddurViewController.hideBackButton = true
+         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "Siddur")
+     }
+}
 
 #Preview {
     if #available(iOS 15.0, *) {

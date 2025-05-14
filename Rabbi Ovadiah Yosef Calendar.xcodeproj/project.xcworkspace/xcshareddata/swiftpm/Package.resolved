@@ -1,6 +1,15 @@
 {
-  "originHash" : "acd20142b9767cfdc0dece66c0c114e8033085e3a17f7aa50cbf09c0ed4ecfea",
+  "originHash" : "d0c98c04f152db5b058666c05a5e77e2f1a30edac5dd0323a3ce8c2df697f326",
   "pins" : [
+    {
+      "identity" : "frameup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ryanlintott/FrameUp",
+      "state" : {
+        "revision" : "b88973341a99ac96b1833fa8b138e338b1cc3161",
+        "version" : "0.9.9"
+      }
+    },
     {
       "identity" : "kosherswift",
       "kind" : "remoteSourceControl",

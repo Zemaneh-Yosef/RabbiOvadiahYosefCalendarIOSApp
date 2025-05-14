@@ -75,8 +75,14 @@ class CheckUpdate: NSObject {
                         completion?(needsUpdate, (info?.trackViewUrl)!)
                     } else if needsUpdate {
                         DispatchQueue.main.async {
-                            let topController: UIViewController = (UIApplication.shared.windows.first?.rootViewController)!
-                            topController.showAppUpdateAlert(version: appStoreAppVersion, force: force, appURL: (info?.trackViewUrl)!, isTestFlight: self.isTestFlight)
+                            if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene, let topController = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                                topController.showAppUpdateAlert(
+                                    version: appStoreAppVersion,
+                                    force: force,
+                                    appURL: (info?.trackViewUrl)!,
+                                    isTestFlight: self.isTestFlight
+                                )
+                            }
                         }
                     }
                 } else if let testFlightAppVersion = data?.attributes.version { // Check app on TestFlight
@@ -85,8 +91,16 @@ class CheckUpdate: NSObject {
                         completion?(needsUpdate, (info?.trackViewUrl)!)
                     } else if needsUpdate {
                         DispatchQueue.main.async {
-                            let topController: UIViewController = (UIApplication.shared.windows.first?.rootViewController)!
-                            topController.showAppUpdateAlert(version: testFlightAppVersion, force: force, appURL: (info?.trackViewUrl)!, isTestFlight: self.isTestFlight)
+                            if let scene = UIApplication.shared.connectedScenes
+                                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                               let topController = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                                topController.showAppUpdateAlert(
+                                    version: testFlightAppVersion,
+                                    force: force,
+                                    appURL: (info?.trackViewUrl)!,
+                                    isTestFlight: self.isTestFlight
+                                )
+                            }
                         }
                     }
                 } else {

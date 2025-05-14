@@ -45,9 +45,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     func birchatHamazon() {
         GlobalStruct.chosenPrayer = "Birchat Hamazon"
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        GlobalStruct.jewishCalendar.forward()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        GlobalStruct.jewishCalendar.back()//reset
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
         
         if today.count != tomorrow.count {
             var notEqual = false
@@ -92,9 +90,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     func birchatMeEyinShalosh() {
         GlobalStruct.chosenPrayer = "Birchat MeEyin Shalosh"
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        GlobalStruct.jewishCalendar.forward()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        GlobalStruct.jewishCalendar.back()//reset
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers()
 
         if today.count != tomorrow.count {
             var notEqual = false
@@ -380,7 +376,8 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             GlobalStruct.chosenPrayer = "Arvit"
             openSiddur()
         case "ספירת העומר":
-            showFullScreenView("Omer")
+            GlobalStruct.chosenPrayer = "Sefirat HaOmer"
+            openSiddur()
         case "ברכת המזון":
             birchatHamazon()
         case "ברכת הלבנה":
@@ -401,10 +398,8 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
                 let alert = UIAlertController(title: "Havdalah is only said on a flame tonight.".localized(),
                                               message:"Havdalah will be completed after the fast.".localized().appending("\n\n").appending("בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם, בּוֹרֵא מְאוֹרֵי הָאֵשׁ:"), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Yes (Jerusalem)".localized(), style: .default, handler: { UIAlertAction in
-                    GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
-                    GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                    self.showFullScreenView("Siddur")
+                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .cancel, handler: { UIAlertAction in
+                    alert.dismiss(animated: false)
                 }))
                 present(alert, animated: true)
             } else {

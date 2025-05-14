@@ -26,17 +26,25 @@ struct ZmanimSettingsView: View {
     
     var body: some View {
         Form {
-            Section(header: Text("Zmanim Settings")) {
+            Section {
                 Toggle("Amudei Horaah Mode", isOn: $amudeiHoraahMode)
-            }
-            
-            Section(header: Text("Tekufa Settings")) {
-                Button("Tekufa Opinion: \(tekufaOpinionText())") {
-                    showTekufaOpinionAlert = true
+            } header: {
+                VStack {
+                    Text("Zmanim Settings").textCase(nil)
                 }
             }
             
-            Section(header: Text("Shabbat/Chag Settings")) {
+            Section {
+                Button("Tekufa Opinion: \(tekufaOpinionText())") {
+                    showTekufaOpinionAlert = true
+                }
+            } header: {
+                VStack {
+                    Text("Tekufa Settings").textCase(nil)
+                }
+            }
+            
+            Section {
                 Toggle("Override the time for Shabbat End", isOn: $overrideShabbatTime)
                 
                 Button("Minutes till Shabbat Ends: \(shabbatOffset)") {
@@ -52,13 +60,21 @@ struct ZmanimSettingsView: View {
                     }
                 }
                 .disabled(!overrideShabbatTime)
+            } header: {
+                VStack {
+                    Text("Shabbat/Chag Settings").textCase(nil)
+                }
             }
             
-            Section(header: Text("Other Settings")) {
+            Section {
                 Toggle("Always use a 10th of the day for Rabbeinu Tam", isOn: $alwaysCalcTenthOfDay)
                 
                 Button("Candle Lighting Time: \(candleLightingOffset) min before sunset") {
                     showCandleLightingAlert = true
+                }
+            } header: {
+                VStack {
+                    Text("Other Settings").textCase(nil)
                 }
             }
         }

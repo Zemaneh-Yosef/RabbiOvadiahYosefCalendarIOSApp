@@ -15,6 +15,7 @@ struct JerDirectionView: View {
 struct UIKitJerDirectionControllerView : UIViewControllerRepresentable {
      func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
      func makeUIViewController(context: Context) -> some UIViewController {
+         JerusalemDirectionViewController.hideQuitButton = true
          return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "jerDirection")
      }
 }
