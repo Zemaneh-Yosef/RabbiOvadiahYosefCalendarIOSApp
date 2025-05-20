@@ -87,7 +87,7 @@ struct SettingsView: View {
                 Picker("Siddur Font", selection: $siddurFont) {
                     Text("Guttman Keren").tag("Guttman Keren")
                     Text("Taamey D").tag("Taamey D")
-                    Text("None").tag("None")
+                    Text("System Default").tag("System Default")
                 }
                 .pickerStyle(.segmented) // or .menu or .segmented, depending on your UI style
             } header: {

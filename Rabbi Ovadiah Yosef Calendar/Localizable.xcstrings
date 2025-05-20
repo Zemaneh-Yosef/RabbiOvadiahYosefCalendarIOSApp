@@ -1898,9 +1898,6 @@
         }
       }
     },
-    "None" : {
-
-    },
     "Not now" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3006,6 +3003,9 @@
         }
       }
     },
+    "System Default" : {
+
+    },
     "Taamey D" : {
 
     },
@@ -3436,9 +3436,6 @@
     "Use my device's location" : {
 
     },
-    "Use Simple List" : {
-
-    },
     "Visible Sunrise Data Error" : {
 
     },
@@ -3681,6 +3678,9 @@
 
     },
     "תיקון חצות" : {
+
+    },
+    "תפלת הדרך" : {
 
     }
   },

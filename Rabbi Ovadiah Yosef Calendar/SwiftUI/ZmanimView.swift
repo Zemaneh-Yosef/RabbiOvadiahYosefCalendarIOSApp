@@ -11,6 +11,8 @@ import WatchConnectivity
 import SunCalc
 import CoreLocation
 import ActivityKit
+import Combine
+import SwiftUIScrollOffset
 
 @available(iOS 15.0, *)
 struct ZmanimView: View {
@@ -30,10 +32,10 @@ struct ZmanimView: View {
     @State private var zmanimList: [ZmanListEntry] = []
     let dateFormatterForZmanim = DateFormatter()
     let dateFormatterForRT = DateFormatter()
-    @State var timerForShabbatMode: Timer?
-    @State private var scrollViewOffset = CGFloat(0)
+    @State var timer = Timer.publish(every: 0.001, on: .main, in: .common).autoconnect()
+    @State var timerForShabbatMode: Publishers.Autoconnect<Timer.TimerPublisher> = .init(upstream: .init(interval: .greatestFiniteMagnitude, runLoop: .current, mode: .default))
+    @State var scrollViewOffset = CGFloat(1000)
     @State var timerForNextZman: Timer?
-    var shouldScroll = true
     var shouldAddMisheyakirZman = false
     @State var askedToUpdateTablesAlready = false
     @StateObject private var sessionManager = WCSessionManager.shared
@@ -43,6 +45,8 @@ struct ZmanimView: View {
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
     @State var scrollToTop = false
+    @State var scrollDirection = 1
+    @ScrollOffsetProxy(.bottom, id: "Scroller") private var scrollOffsetProxy
     
     @State var showZmanAlert = false
     @State var showLocationInfoAlert = false
@@ -57,9 +61,8 @@ struct ZmanimView: View {
     @State var showShareSheet = false
     @State var nextView = NextView.none
     @State var showNextView = false
-    @State var bannerText = ""
-    @State var bannerTextColor: Color = Color(.white)
-    @State var bannerBGColor: Color = Color(.darkBlue)
+    @State var isBannerHidden = false
+    @State var shouldAdjustForShabbatBanner = true
     
     init() {
         dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "")
@@ -70,35 +73,27 @@ struct ZmanimView: View {
         userChosenDate = Date()
         syncCalendarDates()
         updateZmanimList()
-        setShabbatBannerText(isFirstTime:true)
-        timerForShabbatMode?.invalidate() // Invalidate any existing timer
-        // Start a timer that will alternate scroll direction when reaching top or bottom
-        timerForShabbatMode = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { _ in
-            //            if scrollDirection == 1 { // Scrolling down
-            //                scrollViewOffset += 1
-            //                proxy.scrollTo(scrollContent.count - 1, anchor: .bottom)
-            //            } else { // Scrolling up
-            //                scrollViewOffset -= 1
-            //                proxy.scrollTo(0, anchor: .top)
-            //            }
-            //
-            //            // Alternate direction once we reach top or bottom
-            //            if scrollViewOffset >= 100 { // Threshold for scrolling down
-            //                scrollDirection = -1 // Start scrolling up
-            //            } else if scrollViewOffset <= 0 { // Threshold for scrolling up
-            //                scrollDirection = 1 // Start scrolling down
-            //            }
-        }
-        //        scheduleTimer()//to update zmanim
-        UIApplication.shared.isIdleTimerDisabled = true
+        isBannerHidden = false
+        scheduleTimer()//to update zmanim at 12AM
     }
     
     func endShabbatMode() {
         updateZmanimList()
-        timerForShabbatMode?.invalidate() // Stop the timer
-        timerForShabbatMode = nil
-        scrollViewOffset = 0 // Reset the offset
-        UIApplication.shared.isIdleTimerDisabled = false
+        scrollViewOffset = CGFloat(1000)
+    }
+    
+    func scheduleTimer() {
+        let calendar = Calendar.current
+        let currentDate = Date()
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: currentDate)
+        dateComponents.day! += 1
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        dateComponents.second = 2
+        let targetDate = calendar.date(from: dateComponents)!
+
+        let timeInterval = calendar.dateComponents([.second], from: currentDate, to: targetDate).second!
+        timerForShabbatMode = Timer.publish(every: TimeInterval(timeInterval), on: .main, in: .common).autoconnect()
     }
     
     func formatDate(using calendar: Calendar = Calendar.current, format: String) -> String {
@@ -955,14 +950,14 @@ struct ZmanimView: View {
         oldDefaults.setValue(true, forKey: "hasBeenSynced")
     }
     
-    func setShabbatBannerText(isFirstTime:Bool) {
+    func getShabbatBannerText(isFirstTime:Bool) -> String {
         if isFirstTime {
             jewishCalendar.forward()
         }
         
         let isShabbat = jewishCalendar.getDayOfWeek() == 7
         
-        bannerText = ""
+        var bannerText = ""
         
         switch jewishCalendar.getYomTovIndex() {
         case JewishCalendar.PESACH:
@@ -970,65 +965,99 @@ struct ZmanimView: View {
             if isShabbat {
                 bannerText += "/SHABBAT".localized()
             }
-            bannerText += " MODE".localized()
-            bannerBGColor = Color("light_yellow")
-            bannerTextColor = .black
+            bannerText += " MODE".localized() + "          "
         case JewishCalendar.SHAVUOS:
             bannerText += "SHAVUOT".localized()
             if isShabbat {
                 bannerText += "/SHABBAT".localized()
             }
-            bannerText += " MODE".localized()
-            bannerBGColor = .blue
-            bannerTextColor = .white
+            bannerText += " MODE".localized() + "          "
         case JewishCalendar.SUCCOS:
             bannerText += "SUCCOT"
             if isShabbat {
                 bannerText += "/SHABBAT".localized()
             }
-            bannerText += " MODE".localized()
-            bannerBGColor = .green
-            bannerTextColor = .black
+            bannerText += " MODE".localized() + "          "
         case JewishCalendar.SHEMINI_ATZERES:
             bannerText += "SHEMINI ATZERET".localized()
             if isShabbat {
                 bannerText += "/SHABBAT".localized()
             }
-            bannerText += " MODE".localized()
-            bannerBGColor = .green
-            bannerTextColor = .black
+            bannerText += " MODE".localized() + "          "
         case JewishCalendar.SIMCHAS_TORAH:
             bannerText += "SIMCHAT TORAH".localized()
             if isShabbat {
                 bannerText += "/SHABBAT".localized()
             }
-            bannerText += " MODE".localized()
-            bannerBGColor = .green
-            bannerTextColor = .black
+            bannerText += " MODE".localized() + "          "
         case JewishCalendar.ROSH_HASHANA:
             bannerText += "ROSH HASHANA".localized()
             if isShabbat {
                 bannerText += "/SHABBAT".localized()
             }
-            bannerText += " MODE".localized()
-            bannerBGColor = .red
-            bannerTextColor = .white
+            bannerText += " MODE".localized() + "          "
         case JewishCalendar.YOM_KIPPUR:
             bannerText += "YOM KIPPUR".localized()
             if isShabbat {
                 bannerText += "/SHABBAT".localized()
             }
-            bannerText += " MODE".localized()
+            bannerText += " MODE".localized() + "          "
+        default:
+            bannerText = "SHABBAT MODE          SHABBAT MODE          SHABBAT MODE           SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          ".localized()
+        }
+                
+        if isFirstTime {
+            jewishCalendar.back()
+        }
+        
+        return bannerText
+    }
+    
+    func getShabbatBannerColors(isFirstTime:Bool, text: Bool) -> Color {
+        if isFirstTime {
+            jewishCalendar.forward()
+        }
+        
+        let isShabbat = jewishCalendar.getDayOfWeek() == 7
+        
+        var bannerBGColor = Color.black
+        var bannerTextColor = Color.white
+        
+        switch jewishCalendar.getYomTovIndex() {
+        case JewishCalendar.PESACH:
+            bannerBGColor = Color("light_yellow")
+            bannerTextColor = .black
+        case JewishCalendar.SHAVUOS:
+            bannerBGColor = .blue
+            bannerTextColor = .white
+        case JewishCalendar.SUCCOS:
+            bannerBGColor = .green
+            bannerTextColor = .black
+        case JewishCalendar.SHEMINI_ATZERES:
+            bannerBGColor = .green
+            bannerTextColor = .black
+        case JewishCalendar.SIMCHAS_TORAH:
+            bannerBGColor = .green
+            bannerTextColor = .black
+        case JewishCalendar.ROSH_HASHANA:
+            bannerBGColor = .red
+            bannerTextColor = .white
+        case JewishCalendar.YOM_KIPPUR:
             bannerBGColor = .white
             bannerTextColor = .black
         default:
-            bannerText = "Shabbat Mode".localized()
             bannerBGColor = Color(.darkBlue)
             bannerTextColor = .white
         }
         
         if isFirstTime {
             jewishCalendar.back()
+        }
+        
+        if text {
+            return bannerTextColor
+        } else {
+            return bannerBGColor
         }
     }
     
@@ -1064,7 +1093,9 @@ struct ZmanimView: View {
     func ZmanimMenu() -> some View {
         Menu {
             Button(action: {
-                shabbatMode.toggle()
+                withAnimation {
+                    shabbatMode.toggle()
+                }
                 shabbatMode ? endShabbatMode() : startShabbatMode()
             }) {
                 if shabbatMode {
@@ -1073,17 +1104,17 @@ struct ZmanimView: View {
                     Text("Shabbat/Chag Mode")
                 }
             }
-            Button(action: {
-                simpleList.toggle()
-                defaults.set(simpleList, forKey: "useSimpleList")
-                updateZmanimList()
-            }) {
-                if simpleList {
-                    Label("Use Simple List", systemImage: "checkmark")
-                } else {
-                    Text("Use Simple List")
-                }
-            }
+//            Button(action: {
+//                simpleList.toggle()
+//                defaults.set(simpleList, forKey: "useSimpleList")
+//                updateZmanimList()
+//            }) {
+//                if simpleList {
+//                    Label("Use Simple List", systemImage: "checkmark")
+//                } else {
+//                    Text("Use Simple List")
+//                }
+//            }
             Button(action: {
                 useElevation.toggle()
                 defaults.set(useElevation, forKey: "useElevation")
@@ -1328,48 +1359,9 @@ struct ZmanimView: View {
         return AnyView(result)
     }
     
-    struct MarqueeText: View {
-        let text: String
-        let duration: Double
-        @State private var offset: CGFloat = UIScreen.main.bounds.width
-        @State private var isHidden = false
-        @State var textColor: Color
-        @State var bgColor: Color
-        
-        func WhiteText(_ text: String) -> some View {
-            if #available(iOS 17.0, *) {
-                Text(text).foregroundStyle(textColor).bold()
-            } else {
-                Text(text).foregroundColor(textColor).bold()
-            }
-        }
-        
-        var body: some View {
-            if !isHidden {
-                WhiteText(text + " " + text + " " + text)
-                    .font(.title2)
-                    .lineLimit(1)
-                    .offset(x: offset)
-                    .frame(maxWidth: UIScreen.main.bounds.width)
-                    .background(bgColor)
-                    .onAppear {
-                        withAnimation(Animation.linear(duration: duration).repeatForever(autoreverses: false)) {
-                            offset = -UIScreen.main.bounds.width
-                        }
-                    }
-                    .onTapGesture {
-                        isHidden = true
-                    }
-            }
-        }
-    }
-    
     var simpleListView: some View {
         ScrollViewReader { scrollViewProxy in
             List(zmanimList, id: \.self) { zmanEntry in
-                if zmanimList.first?.title == zmanEntry.title && shabbatMode {
-                    MarqueeText(text: bannerText, duration: 8, textColor: bannerTextColor, bgColor: bannerBGColor)
-                }
                 Button {
                     if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
                         return //do not show the dialogs
@@ -1452,6 +1444,7 @@ struct ZmanimView: View {
                 }.textCase(nil)
             }
             .listStyle(.plain)
+            .scrollOffsetID("Scroller")
             .refreshable {
                 refreshTable()
             }
@@ -1467,10 +1460,46 @@ struct ZmanimView: View {
                     }
                 }
             })
+            .onChange(of: scrollViewOffset) { newValue in
+                if shabbatMode {
+                    DispatchQueue.main.async {
+                        scrollOffsetProxy.scrollTo(newValue, withAnimation: false)
+                    }
+                }
+            }
             .onChange(of: scrollToTop) { newValue in
                 DispatchQueue.main.async {
                     scrollViewProxy.scrollTo(zmanimList.first?.title, anchor: .bottom)
                 }
+            }
+            .onReceive(timer) { _ in
+                guard shabbatMode else { return }
+                
+                let topOfView = ScrollOffset.proxy(.top, id: "Scroller")
+                let bottomOfView = ScrollOffset.proxy(.bottom, id: "Scroller")
+                
+                if scrollViewOffset ==  CGFloat(1000) {
+                    scrollViewOffset = bottomOfView.offset
+                }
+                                                                
+                if scrollDirection == 1 {
+                    scrollViewOffset += 0.25
+                } else {
+                    scrollViewOffset -= 0.25
+                }
+
+                // Reverse direction at bounds
+                if topOfView.offset == 0 {
+                    scrollDirection = -1
+                } else if bottomOfView.offset == 0 {
+                    scrollDirection = 1
+                }
+            }
+            .onReceive(timerForShabbatMode) { _ in
+                guard shabbatMode else { return }
+                scheduleTimer()
+                shouldAdjustForShabbatBanner = false
+                refreshTable()
             }
         }
     }
@@ -1575,14 +1604,10 @@ struct ZmanimView: View {
         }
     }
 
-    
     var scrollView: some View {
         VStack {
             ScrollViewReader { scrollViewProxy in
                 ScrollView {
-                    if shabbatMode {
-                        MarqueeText(text: bannerText, duration: 8, textColor: bannerTextColor, bgColor: bannerBGColor)
-                    }
                     HStack {
                         VStack(spacing: 10) {
                             Color.clear.frame(height: 1).id("top") // this as a scroll anchor
@@ -1786,10 +1811,25 @@ struct ZmanimView: View {
     }
     
     var body: some View {
-        if simpleList {
-            alerts(view: simpleListView)
+        if shabbatMode && !isBannerHidden {
+            MarqueeText(
+                text: getShabbatBannerText(isFirstTime: shouldAdjustForShabbatBanner) + getShabbatBannerText(isFirstTime: shouldAdjustForShabbatBanner) + getShabbatBannerText(isFirstTime: shouldAdjustForShabbatBanner),
+                font: UIFont.systemFont(ofSize: UIFont.buttonFontSize, weight: .bold),
+                leftFade: 0,
+                rightFade: 0,
+                startDelay: 0,
+                foregroundColor: getShabbatBannerColors(isFirstTime: shouldAdjustForShabbatBanner, text: true),
+                backgroundColor: getShabbatBannerColors(isFirstTime: shouldAdjustForShabbatBanner, text: false)
+            )
+            .onTapGesture {
+                isBannerHidden = true
+            }
+        }
+        if #available(iOS 16.0, *) {
+            alerts(view: simpleList ? simpleListView : scrollView)
+                .scrollDisabled(shabbatMode)
         } else {
-            alerts(view: scrollView)
+            alerts(view: simpleList ? simpleListView : scrollView)
         }
         HStack {
             Button {
@@ -1827,6 +1867,9 @@ struct ZmanimView: View {
                 ZmanimMenu()
             }
         }
+        .onReceive(timerForShabbatMode) { _ in
+            refreshTable()
+        }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("elevation"))) { notification in
             if let value = notification.object as? String,
                let doubleValue = Double(value) {
@@ -1860,55 +1903,58 @@ struct ZmanimView: View {
             syncOldDefaults()
             userChosenDate = GlobalStruct.userChosenDate
             syncCalendarDates()
-            simpleList = defaults.bool(forKey: "useSimpleList")
+            //simpleList = defaults.bool(forKey: "useSimpleList")
+            simpleList = true// temp
             if !defaults.bool(forKey: "isSetup") {
                 nextView = .setup
                 showNextView = true
             } else { //not first run
-                if defaults.bool(forKey: "useAdvanced") {
-                    setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
-                } else if defaults.bool(forKey: "useLocation1") {
-                    setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
-                } else if defaults.bool(forKey: "useLocation2") {
-                    setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
-                } else if defaults.bool(forKey: "useLocation3") {
-                    setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
-                } else if defaults.bool(forKey: "useLocation4") {
-                    setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
-                } else if defaults.bool(forKey: "useLocation5") {
-                    setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
-                } else if defaults.bool(forKey: "useZipcode") {
-                    setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
-                } else {
-                    DispatchQueue.global().async {
-                        if CLLocationManager.locationServicesEnabled() {
-                            let locationManager = CLLocationManager()
-                            switch locationManager.authorizationStatus {
-                            case .restricted, .denied:
-                                DispatchQueue.main.async {
-                                    showLocationServicesDisabledAlert = true
+                if lat == 0 && long == 0 {
+                    if defaults.bool(forKey: "useAdvanced") {
+                        setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+                    } else if defaults.bool(forKey: "useLocation1") {
+                        setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+                    } else if defaults.bool(forKey: "useLocation2") {
+                        setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+                    } else if defaults.bool(forKey: "useLocation3") {
+                        setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+                    } else if defaults.bool(forKey: "useLocation4") {
+                        setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+                    } else if defaults.bool(forKey: "useLocation5") {
+                        setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+                    } else if defaults.bool(forKey: "useZipcode") {
+                        setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
+                    } else {
+                        DispatchQueue.global().async {
+                            if CLLocationManager.locationServicesEnabled() {
+                                let locationManager = CLLocationManager()
+                                switch locationManager.authorizationStatus {
+                                case .restricted, .denied:
+                                    DispatchQueue.main.async {
+                                        showLocationServicesDisabledAlert = true
+                                    }
+                                    print("No access")
+                                    break
+                                case .authorizedAlways, .authorizedWhenInUse:
+                                    //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
+                                    break
+                                case .notDetermined:
+                                    break
+                                @unknown default:
+                                    break
                                 }
+                            } else {
+                                showLocationServicesDisabledAlert = true
                                 print("No access")
-                                break
-                            case .authorizedAlways, .authorizedWhenInUse:
-                                //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
-                                break
-                            case .notDetermined:
-                                break
-                            @unknown default:
-                                break
                             }
-                        } else {
-                            showLocationServicesDisabledAlert = true
-                            print("No access")
                         }
+                        getUserLocation()
                     }
-                    getUserLocation()
                 }
             }
             // another swiftUI hack because they removed onViewDidAppear, I'm concerned about what will happen if it takes too long to get the location...
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.refreshTable()
+                refreshTable()
             }
             defaults.set(locationName, forKey: "lastKnownLocation")
             checkIfUserIsInIsrael()

@@ -97,6 +97,7 @@
 		CE7EEB5C2CAA641500FFCD0A /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE7EEB5B2CAA641500FFCD0A /* KosherSwift */; };
 		CE7EEB5E2CAA642000FFCD0A /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE7EEB5D2CAA642000FFCD0A /* KosherSwift */; };
 		CE7EEB602CAA642C00FFCD0A /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE7EEB5F2CAA642C00FFCD0A /* KosherSwift */; };
+		CE812C492DD6DC450053047D /* SwiftUIScrollOffset in Frameworks */ = {isa = PBXBuildFile; productRef = CE812C482DD6DC450053047D /* SwiftUIScrollOffset */; };
 		CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */; };
 		CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
 		CE9641B62B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
@@ -290,6 +291,7 @@
 				CE3C5B422DA4E684003AD67D /* SwiftUISnackbar in Frameworks */,
 				CE6F52532DC9A88700D3296A /* FrameUp in Frameworks */,
 				52119EE32A7F954800661D63 /* SwiftSoup in Frameworks */,
+				CE812C492DD6DC450053047D /* SwiftUIScrollOffset in Frameworks */,
 				CE3A504A2BF2FFCF00CD1DD2 /* SnackBar in Frameworks */,
 				CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */,
 				CE7EEB5C2CAA641500FFCD0A /* KosherSwift in Frameworks */,
@@ -519,6 +521,7 @@
 				CE7EEB5B2CAA641500FFCD0A /* KosherSwift */,
 				CE3C5B412DA4E684003AD67D /* SwiftUISnackbar */,
 				CE6F52522DC9A88700D3296A /* FrameUp */,
+				CE812C482DD6DC450053047D /* SwiftUIScrollOffset */,
 			);
 			productName = "Rabbi Ovadiah Yosef Calendar";
 			productReference = 5D19D35D29A3687900F8033D /* Rabbi Ovadiah Yosef Calendar.app */;
@@ -585,6 +588,7 @@
 				CE7EEB5A2CAA641500FFCD0A /* XCRemoteSwiftPackageReference "KosherSwift" */,
 				CE3C5B402DA4E684003AD67D /* XCRemoteSwiftPackageReference "SwiftUISnackbar" */,
 				CE6F52512DC9A88700D3296A /* XCRemoteSwiftPackageReference "FrameUp" */,
+				CE812C472DD6DC450053047D /* XCRemoteSwiftPackageReference "SwiftUIScrollOffset" */,
 			);
 			productRefGroup = 5D19D35E29A3687900F8033D /* Products */;
 			projectDirPath = "";
@@ -1238,6 +1242,14 @@
 				minimumVersion = 1.1.1;
 			};
 		};
+		CE812C472DD6DC450053047D /* XCRemoteSwiftPackageReference "SwiftUIScrollOffset" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ciaranrobrien/SwiftUIScrollOffset";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1285,6 +1297,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CE7EEB5A2CAA641500FFCD0A /* XCRemoteSwiftPackageReference "KosherSwift" */;
 			productName = KosherSwift;
+		};
+		CE812C482DD6DC450053047D /* SwiftUIScrollOffset */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE812C472DD6DC450053047D /* XCRemoteSwiftPackageReference "SwiftUIScrollOffset" */;
+			productName = SwiftUIScrollOffset;
 		};
 		CE97D7C62D4CAB7000C019AA /* SunCalc */ = {
 			isa = XCSwiftPackageProductDependency;

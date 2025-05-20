@@ -40,12 +40,16 @@ struct SimpleSetupView: View {
                             selectedState = ""
                             selectedMetro = ""
                             metros = chaitables.selectCountry(country: countries[index]).reversed()
-                            if countries[index] == .USA {
+                            if countries[index] == .USA || countries[index] == .CANADA {
                                 showStatePicker = true
                                 states = Array(Set(metros.map { String($0.suffix(2)) })).sorted().reversed()
                             } else {
                                 showStatePicker = false
                                 states = []
+                                if metros.count == 1 {
+                                    selectedMetro = metros[0]
+                                    chaitables.selectMetropolitanArea(metropolitanArea: metros[0])
+                                }
                             }
                         }
                     }
@@ -70,8 +74,12 @@ struct SimpleSetupView: View {
                                 selectedState = state
                                 selectedMetro = ""
                                 metros = ChaiTablesLinkGenerator()
-                                    .selectCountry(country: .USA)
+                                    .selectCountry(country: countries[selectedCountryIndex ?? 0])
                                     .filter { $0.contains(state) }.reversed()
+                                if metros.count == 1 {
+                                    selectedMetro = metros[0]
+                                    chaitables.selectMetropolitanArea(metropolitanArea: metros[0])
+                                }
                             }
                         }
                     } label: {

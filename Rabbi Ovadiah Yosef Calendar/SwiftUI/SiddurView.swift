@@ -54,6 +54,9 @@ struct SiddurView: View {
         case "Birchat Hamazon+1":
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
             self.dropDownTitle = "ברכת המזון"
+        case "Tefilat HaDerech":
+            self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTefilatHaderechPrayer()
+            self.dropDownTitle = "תפלת הדרך"
         case "Birchat Halevana":
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
             self.dropDownTitle = "ברכת הלבנה"
@@ -92,28 +95,6 @@ struct SiddurView: View {
     
     var body: some View {
         ScrollViewReader { proxy in
-            VStack(alignment: .leading, spacing: 10) {
-                Menu {
-                    ForEach(listOfTexts, id: \.self) { text in
-                        if text.isCategory {
-                            Button(action: {
-                                proxy.scrollTo(text, anchor: .top)
-                            }) {
-                                Text(text.string)
-                            }
-                        }
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: "arrowtriangle.down.circle.fill")
-                        Text(dropDownTitle)
-                    }
-                    .frame(width: 150, height: 30)
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-                .disabled(!categoriesFound)
-            }
             ScrollView {
                 LazyVStack {
                     ForEach(listOfTexts) { text in
@@ -165,6 +146,27 @@ struct SiddurView: View {
                             // TODO there is an issue with text justification being backwards and slow even in a lazyvstack
                         }
                     }
+                }
+            }
+            .toolbar {
+                ToolbarItem {
+                    Menu {
+                        ForEach(listOfTexts, id: \.self) { text in
+                            if text.isCategory {
+                                Button(action: {
+                                    proxy.scrollTo(text, anchor: .top)
+                                }) {
+                                    Text(text.string)
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "arrowtriangle.down.circle.fill")
+                            Text(dropDownTitle)
+                        }
+                    }
+                    .disabled(!categoriesFound)
                 }
             }
         }

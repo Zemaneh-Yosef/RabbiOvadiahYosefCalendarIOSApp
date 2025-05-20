@@ -151,6 +151,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         case "Birchat Hamazon+1":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
             dropDownTitle = "ברכת המזון"
+        case "Tefilat HaDerech":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTefilatHaderechPrayer()
+            dropDownTitle = "תפלת הדרך"
         case "Birchat Halevana":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
             dropDownTitle = "ברכת הלבנה"
@@ -219,7 +222,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             fontFamily = "none"
         }
 
-        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; }  .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
         for text in listOfTexts {
             let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>").appending("<br><br>")
             if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +

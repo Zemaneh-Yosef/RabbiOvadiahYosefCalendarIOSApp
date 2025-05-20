@@ -252,6 +252,20 @@ struct SiddurChooserView: View {
                         }
                     }
                 }
+                Button(action: {
+                    siddurPrayer = "Tefilat HaDerech"
+                    GlobalStruct.chosenPrayer = siddurPrayer
+                    openSiddurView()
+                }) {
+                    VStack(alignment: .leading) {
+                        Text("תפלת הדרך")
+                        if let secondary = getSecondaryText("תפלת הדרך") {
+                            Text(secondary)
+                                .font(secondaryTextSize)
+                                .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
                 if !GlobalStruct.jewishCalendar.getBirchatLevanaStatus().isEmpty {
                     Button(action: {
                         siddurPrayer = "Birchat Halevana"

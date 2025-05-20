@@ -167,10 +167,10 @@ public class WeeklyHaftarahReading {
                 result += "\"ויאמר ירמיהו\" ירמיה ל\"ב";
                 break;
             case .BECHUKOSAI:
-                result += "\"יהוה עזי\" ירמיה ט\"ז";
+                result += "\"ה' עזי\" ירמיה ט\"ז";
                 break;
             case .BEHAR_BECHUKOSAI:
-                result += "\"יהוה עזי\" ירמיה ט\"ז";
+                result += "\"ה' עזי\" ירמיה ט\"ז";
                 break;
             case .BAMIDBAR:
                 result += "\"והיה מספר\" הושע ב";
@@ -201,13 +201,13 @@ public class WeeklyHaftarahReading {
                     if (jewishCalendar.getJewishDayOfMonth() >= 17) {// If after the seventeenth of Tammuz
                         result += "\"דברי ירמיהו\" ירמיהו א";
                     } else {
-                        result += "\"ויד יהוה\" מלכים י\"ח";
+                        result += "\"ויד ה'\" מלכים י\"ח";
                     }
                 } else {
                     if (jewishCalendar.getJewishMonth() == JewishCalendar.AV) {// I don't think this case is possible, where Parshat Pinchas falls out in the month of Av. However, I included it to be careful just in case.
                         result += "\"דברי ירמיהו\" ירמיהו א";
                     } else {
-                        result += "\"ויד יהוה\" מלכים י\"ח";
+                        result += "\"ויד ה'\" מלכים י\"ח";
                     }
                 }
                 break;
