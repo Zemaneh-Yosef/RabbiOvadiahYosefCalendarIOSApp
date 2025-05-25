@@ -129,8 +129,8 @@ struct ZmanimNotificationsSettingsView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(zman
-                                    .replacingOccurrences(of: "Plag HaMincha Halacha Berurah", with: "Plag HaMincha (Halacha Berura)")
-                                    .replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Plag HaMincha (Yalkut Yosef)")
+                                    .replacingOccurrences(of: "Plag HaMincha Halacha Berurah", with: "Pelag HaMincha (Halacha Berura)")
+                                    .replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Pelag HaMincha (Yalkut Yosef)")
                                     .localized())
                                     .foregroundColor(isNotified ? .primary : .gray)
                                 Text(displayText)

@@ -2393,6 +2393,28 @@
         }
       }
     },
+    "Pelag HaMincha (Halacha Berura)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "פלג המנחה (הלכה ברורה)"
+          }
+        }
+      }
+    },
+    "Pelag HaMincha (Yalkut Yosef)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "פלג המנחה (ילקוט יוסף)"
+          }
+        }
+      }
+    },
     "PESACH" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2411,28 +2433,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פלג המנחה"
-          }
-        }
-      }
-    },
-    "Plag HaMincha (Halacha Berura)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "פלג המנחה (הלכה ברורה)"
-          }
-        }
-      }
-    },
-    "Plag HaMincha (Yalkut Yosef)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "פלג המנחה (ילקוט יוסף)"
           }
         }
       }

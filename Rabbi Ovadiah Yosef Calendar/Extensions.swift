@@ -214,19 +214,17 @@ public extension JewishCalendar {
             || yomTovIndex == JewishCalendar.SHUSHAN_PURIM_KATAN
             || yomTovIndex == JewishCalendar.PURIM
             || yomTovIndex == JewishCalendar.SHUSHAN_PURIM
-            || yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM //tachanun erev before, however, Rav ovadia would not say on the day itself
             || isChanukah()
             || getJewishMonth() == JewishCalendar.NISSAN
             || (getJewishMonth() == JewishCalendar.SIVAN && getJewishDayOfMonth() <= 12)
             || (getJewishMonth() == JewishCalendar.TISHREI && getJewishDayOfMonth() >= 11)) {
             if (yomTovIndex == JewishCalendar.ROSH_HASHANA && getDayOfWeek() == 7) {//Edge case for rosh hashana that falls on shabbat (Shulchan Aruch, Chapter 598 and Chazon Ovadia page 185)
                 return "צדקתך";
-            }//TODO check source on this
-            if Locale.isHebrewLocale() {
-                return "לא אומרים תחנון"
-            } else {
-                return "No Tachanun today";
             }
+            if Locale.isHebrewLocale() {
+                return "לא אומרים תחנון";
+            }
+            return "No Tachanun today";
         }
         let yomTovIndexForNextDay = getYomTovIndexForNextDay();
         if (getDayOfWeek() == 6
@@ -241,10 +239,9 @@ public extension JewishCalendar {
             || isErevRoshChodesh()) {
             if (getDayOfWeek() == 7) {
                 if Locale.isHebrewLocale() {
-                    return "לא אומרים תחנון"
-                } else {
-                    return "No Tachanun today";
+                    return "לא אומרים תחנון";
                 }
+                return "No Tachanun today";
             }
             if Locale.isHebrewLocale() {
                 return "אומרים תחנון רק בבוקר";
@@ -252,19 +249,20 @@ public extension JewishCalendar {
             return "Tachanun only in the morning";
         }
         // According to Rabbi Meir Gavriel Elbaz, Rabbi Ovadiah would only skip tachanun on the day of Yom Yerushalayim itself as is the custom of the Yeshiva of Yechaveh Daat.
-         // He WOULD say tachanun on Erev Yom Yerushalayim and on Yom Ha'atmaut. However, since there are disagreements, it was recommended for the app to just say that "Some say tachanun" on both days.
-         if (yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndex == JewishCalendar.YOM_HAATZMAUT) {
-             if Locale.isHebrewLocale() {
-                 return "יש אומרים תחנון";
-             }
-             return "Some say Tachanun today";
-         }
-         if (yomTovIndexForNextDay == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndexForNextDay == JewishCalendar.YOM_HAATZMAUT) {
-             if Locale.isHebrewLocale() {
-                 return "יש מדלגים תחנון במנחה";
-             }
-             return "Some skip Tachanun by mincha";
-         }
+        // He WOULD say tachanun on Erev Yom Yerushalayim and on Yom Ha'atmaut. However, since there are disagreements (for example: Rabbi Yonatan Nacson writes that you may skip tachanun on both days), it was recommended for the app to just say that "Some say tachanun" on both days.
+        if (yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndex == JewishCalendar.YOM_HAATZMAUT) {
+            if Locale.isHebrewLocale() {
+                return "יש אומרים תחנון";
+            }
+            return "Some say Tachanun today";
+        }
+        if (yomTovIndexForNextDay == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndexForNextDay == JewishCalendar.YOM_HAATZMAUT) {
+            if Locale.isHebrewLocale() {
+                return "יש מדלגים תחנון במנחה";
+            }
+            return "Some skip Tachanun by mincha";
+        }
+        
         if (getDayOfWeek() == 7) {
             return "צדקתך";
         }
