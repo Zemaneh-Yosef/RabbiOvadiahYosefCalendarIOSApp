@@ -1951,7 +1951,7 @@ struct ZmanimView: View {
                 // another swiftUI hack because they removed onViewDidAppear, I'm concerned about what will happen if it takes too long to get the location...
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     refreshTable()
-                
+                }
             }
             defaults.set(locationName, forKey: "lastKnownLocation")
             checkIfUserIsInIsrael()
