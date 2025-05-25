@@ -99,6 +99,8 @@
 		CE7EEB602CAA642C00FFCD0A /* KosherSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CE7EEB5F2CAA642C00FFCD0A /* KosherSwift */; };
 		CE812C492DD6DC450053047D /* SwiftUIScrollOffset in Frameworks */ = {isa = PBXBuildFile; productRef = CE812C482DD6DC450053047D /* SwiftUIScrollOffset */; };
 		CE8BEC5F2AC53FB500DEA411 /* SiddurChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */; };
+		CE8FB5D72DE2EF8D00C6B6CA /* hiloulah_en.json in Resources */ = {isa = PBXBuildFile; fileRef = CE8FB5D62DE2EF8D00C6B6CA /* hiloulah_en.json */; };
+		CE8FB5D92DE2F00400C6B6CA /* hiloulah_he.json in Resources */ = {isa = PBXBuildFile; fileRef = CE8FB5D82DE2F00400C6B6CA /* hiloulah_he.json */; };
 		CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
 		CE9641B62B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
 		CE9641B72B71A46800BA7BC7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */; };
@@ -123,8 +125,6 @@
 		CED1635D2B07031800E05876 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED1635C2B07031800E05876 /* Assets.xcassets */; };
 		CED163602B07031800E05876 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED1635F2B07031800E05876 /* Preview Assets.xcassets */; };
 		CED163632B07031800E05876 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = CED163562B07031700E05876 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		CEDAB8592C9DFBAC0018357B /* hiloulah_en.json in Resources */ = {isa = PBXBuildFile; fileRef = CEDAB8582C9DFBAC0018357B /* hiloulah_en.json */; };
-		CEDAB85B2C9DFBB60018357B /* hiloulah_he.json in Resources */ = {isa = PBXBuildFile; fileRef = CEDAB85A2C9DFBB60018357B /* hiloulah_he.json */; };
 		CEE5D6E42CA679EF00E9C9C8 /* MishnaYomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE5D6E32CA679EF00E9C9C8 /* MishnaYomi.swift */; };
 		CEE5D6E62CA68B0000E9C9C8 /* ChafetzChayimYomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE5D6E52CA68B0000E9C9C8 /* ChafetzChayimYomi.swift */; };
 		CEEA0DCA2D51BD9B0051CB6C /* WelcomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEA0DC92D51BD9B0051CB6C /* WelcomeScreenViewController.swift */; };
@@ -241,6 +241,8 @@
 		CE7D2B5A2BC37A25006FD03B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ViewControllers/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE7E2BBF2C07E4F50080D898 /* checkVersion-iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "checkVersion-iOS.swift"; sourceTree = "<group>"; };
 		CE8BEC5E2AC53FB500DEA411 /* SiddurChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurChooserViewController.swift; sourceTree = "<group>"; };
+		CE8FB5D62DE2EF8D00C6B6CA /* hiloulah_en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = hiloulah_en.json; sourceTree = "<group>"; };
+		CE8FB5D82DE2F00400C6B6CA /* hiloulah_he.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = hiloulah_he.json; sourceTree = "<group>"; };
 		CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		CE9641BD2B75A1AE00BA7BC7 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Main.strings; sourceTree = "<group>"; };
@@ -260,8 +262,6 @@
 		CED163582B07031800E05876 /* Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rabbi_Ovadiah_Yosef_Calendar_watchOSApp.swift; sourceTree = "<group>"; };
 		CED1635C2B07031800E05876 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CED1635F2B07031800E05876 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CEDAB8582C9DFBAC0018357B /* hiloulah_en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hiloulah_en.json; sourceTree = "<group>"; };
-		CEDAB85A2C9DFBB60018357B /* hiloulah_he.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = hiloulah_he.json; sourceTree = "<group>"; };
 		CEE5D6E32CA679EF00E9C9C8 /* MishnaYomi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MishnaYomi.swift; sourceTree = "<group>"; };
 		CEE5D6E52CA68B0000E9C9C8 /* ChafetzChayimYomi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChafetzChayimYomi.swift; sourceTree = "<group>"; };
 		CEEA0DC92D51BD9B0051CB6C /* WelcomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenViewController.swift; sourceTree = "<group>"; };
@@ -428,8 +428,8 @@
 				5D19D36B29A3687B00F8033D /* LaunchScreen.storyboard */,
 				5D19D36E29A3687B00F8033D /* Info.plist */,
 				5D0D7D9E29A374C5003B6E43 /* Rabbi Ovadiah Yosef Calendar-Bridging-Header.h */,
-				CEDAB8582C9DFBAC0018357B /* hiloulah_en.json */,
-				CEDAB85A2C9DFBB60018357B /* hiloulah_he.json */,
+				CE8FB5D62DE2EF8D00C6B6CA /* hiloulah_en.json */,
+				CE8FB5D82DE2F00400C6B6CA /* hiloulah_he.json */,
 				CE6F52562DC9C88600D3296A /* Taamey D.ttf */,
 				CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */,
 				CEBC70E42D221B8B00468477 /* Guttman Keren.ttf */,
@@ -623,17 +623,17 @@
 				CEBC70E52D221B8C00468477 /* Guttman Keren.ttf in Resources */,
 				CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
 				5D19D36D29A3687B00F8033D /* LaunchScreen.storyboard in Resources */,
-				CEDAB85B2C9DFBB60018357B /* hiloulah_he.json in Resources */,
+				CE8FB5D72DE2EF8D00C6B6CA /* hiloulah_en.json in Resources */,
 				CEC7611C2D531B4E00FD0AF1 /* explanation.mp4 in Resources */,
 				CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
 				5D19D36A29A3687B00F8033D /* Assets.xcassets in Resources */,
-				CEDAB8592C9DFBAC0018357B /* hiloulah_en.json in Resources */,
 				CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */,
 				CEBC70E92D222FB800468477 /* menora.svg in Resources */,
 				CE6F524A2DC9653200D3296A /* Guttman Mantova.ttf in Resources */,
 				CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 				CE6F52572DC9C88600D3296A /* Taamey D.ttf in Resources */,
 				5D19D36829A3687900F8033D /* Main.storyboard in Resources */,
+				CE8FB5D92DE2F00400C6B6CA /* hiloulah_he.json in Resources */,
 				CEBC70ED2D22590000468477 /* compass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
