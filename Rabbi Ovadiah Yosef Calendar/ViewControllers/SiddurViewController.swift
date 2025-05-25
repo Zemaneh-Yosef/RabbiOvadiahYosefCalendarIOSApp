@@ -157,6 +157,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         case "Birchat Halevana":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
             dropDownTitle = "ברכת הלבנה"
+        case "Seder Siyum Masechet":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSiyumMasechetPrayer(masechtas: GlobalStruct.siyumChoices)
+            dropDownTitle = "סדר סיום מסכת"
         case "Tikkun Chatzot (Day)":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
             dropDownTitle = "תיקון חצות"
@@ -167,10 +170,10 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             dropDownTitle = "ק״ש שעל המיטה"
         case "Birchat MeEyin Shalosh":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
             dropDownTitle = "ברכת מעין שלוש"
         case "Birchat MeEyin Shalosh+1":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
             dropDownTitle = "ברכת מעין שלוש"
         case "Hadlakat Neirot Chanuka":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHadlakatNeirotChanukaPrayers()

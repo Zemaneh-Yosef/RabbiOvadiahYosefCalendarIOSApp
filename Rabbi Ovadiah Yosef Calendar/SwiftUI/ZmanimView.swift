@@ -62,7 +62,7 @@ struct ZmanimView: View {
     @State var nextView = NextView.none
     @State var showNextView = false
     @State var isBannerHidden = false
-    @State var shouldAdjustForShabbatBanner = true
+    @State var isFirstTimeForShabbatBanner = true
     
     init() {
         dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "")
@@ -1013,13 +1013,11 @@ struct ZmanimView: View {
         return bannerText
     }
     
-    func getShabbatBannerColors(isFirstTime:Bool, text: Bool) -> Color {
+    func getShabbatBannerColors(isFirstTime:Bool, textOnly: Bool) -> Color {
         if isFirstTime {
             jewishCalendar.forward()
         }
-        
-        let isShabbat = jewishCalendar.getDayOfWeek() == 7
-        
+                
         var bannerBGColor = Color.black
         var bannerTextColor = Color.white
         
@@ -1054,7 +1052,7 @@ struct ZmanimView: View {
             jewishCalendar.back()
         }
         
-        if text {
+        if textOnly {
             return bannerTextColor
         } else {
             return bannerBGColor
@@ -1094,9 +1092,10 @@ struct ZmanimView: View {
         Menu {
             Button(action: {
                 withAnimation {
+                    isFirstTimeForShabbatBanner = true
                     shabbatMode.toggle()
+                    shabbatMode ? endShabbatMode() : startShabbatMode()
                 }
-                shabbatMode ? endShabbatMode() : startShabbatMode()
             }) {
                 if shabbatMode {
                     Label("Shabbat/Chag Mode", systemImage: "checkmark")
@@ -1498,7 +1497,7 @@ struct ZmanimView: View {
             .onReceive(timerForShabbatMode) { _ in
                 guard shabbatMode else { return }
                 scheduleTimer()
-                shouldAdjustForShabbatBanner = false
+                isFirstTimeForShabbatBanner = false
                 refreshTable()
             }
         }
@@ -1813,13 +1812,13 @@ struct ZmanimView: View {
     var body: some View {
         if shabbatMode && !isBannerHidden {
             MarqueeText(
-                text: getShabbatBannerText(isFirstTime: shouldAdjustForShabbatBanner) + getShabbatBannerText(isFirstTime: shouldAdjustForShabbatBanner) + getShabbatBannerText(isFirstTime: shouldAdjustForShabbatBanner),
+                text: getShabbatBannerText(isFirstTime: isFirstTimeForShabbatBanner) + getShabbatBannerText(isFirstTime: isFirstTimeForShabbatBanner) + getShabbatBannerText(isFirstTime: isFirstTimeForShabbatBanner),
                 font: UIFont.systemFont(ofSize: UIFont.buttonFontSize, weight: .bold),
                 leftFade: 0,
                 rightFade: 0,
                 startDelay: 0,
-                foregroundColor: getShabbatBannerColors(isFirstTime: shouldAdjustForShabbatBanner, text: true),
-                backgroundColor: getShabbatBannerColors(isFirstTime: shouldAdjustForShabbatBanner, text: false)
+                foregroundColor: getShabbatBannerColors(isFirstTime: isFirstTimeForShabbatBanner, textOnly: true),
+                backgroundColor: getShabbatBannerColors(isFirstTime: isFirstTimeForShabbatBanner, textOnly: false)
             )
             .onTapGesture {
                 isBannerHidden = true

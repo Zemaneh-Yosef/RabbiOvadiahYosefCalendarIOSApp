@@ -13,11 +13,11 @@ import SwiftyJSON
 struct LimudimView: View {
     @State var limudim: [ZmanListEntry] = []
     @State var hiloulot: [ZmanListEntry] = []
-
+    
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
-
+    
     @State private var selectedLimud: ZmanListEntry? // Track selected item
     @State private var selectedHiloula: ZmanListEntry? // Track selected item
     @State private var showLimudAlert = false
@@ -30,7 +30,7 @@ struct LimudimView: View {
         updateLimudim()
         updateHillulot()
     }
-
+    
     func limudTitle() -> String {
         if isNasiYomi {
             return selectedLimud?.title ?? ""
@@ -65,93 +65,93 @@ struct LimudimView: View {
         limudim.append(ZmanListEntry(title: "Daily Chafetz Chaim: ".localized() + ChafetzChayimYomi.getChafetzChayimYomi(jewishCalendar: GlobalStruct.jewishCalendar)))
         var dailyMonthlyTehilim: Array<String>
         if (Locale.isHebrewLocale()) {
-                    dailyMonthlyTehilim = [
-                            "א - ט",       // 1 - 9
-                            "י - יז",      // 10 - 17
-                            "יח - כב",     // 18 - 22
-                            "כג - כח",     // 23 - 28
-                            "כט - לד",     // 29 - 34
-                            "לה - לח",     // 35 - 38
-                            "לט - מג",     // 39 - 43
-                            "מד - מח",     // 44 - 48
-                            "מט - נד",     // 49 - 54
-                            "נה - נט",     // 55 - 59
-                            "ס - סה",      // 60 - 65
-                            "סו - סח",     // 66 - 68
-                            "סט - עא",     // 69 - 71
-                            "עב - עו",     // 72 - 76
-                            "עז - עח",     // 77 - 78
-                            "עט - פב",     // 79 - 82
-                            "פג - פז",     // 83 - 87
-                            "פח - פט",     // 88 - 89
-                            "צ - צו",      // 90 - 96
-                            "צז - קג",     // 97 - 103
-                            "קד - קה",     // 104 - 105
-                            "קו - קז",     // 106 - 107
-                            "קח - קיב",    // 108 - 112
-                            "קיג - קיח",   // 113 - 118
-                            "קיט:א - קיט:צו", // 119:1 - 119:96
-                            "קיט:צז - קיט:קעו", // 119:97 - 119:176
-                            "קכ - קלד",     // 120 - 134
-                            "קל - קלט",     // 135 - 139
-                            "קמ - " + (GlobalStruct.jewishCalendar.getDaysInJewishMonth() == 29 ? "קנ" : "קמה"), // 140 - 150 or 145
-                            "קמה - קנ"       // 145 - 150
-                    ]
-                } else {
-                    dailyMonthlyTehilim = [
-                            "1 - 9",
-                            "10 - 17",
-                            "18 - 22",
-                            "23 - 28",
-                            "29 - 34",
-                            "35 - 38",
-                            "39 - 43",
-                            "44 - 48",
-                            "49 - 54",
-                            "55 - 59",
-                            "60 - 65",
-                            "66 - 68",
-                            "69 - 71",
-                            "72 - 76",
-                            "77 - 78",
-                            "79 - 82",
-                            "83 - 87",
-                            "88 - 89",
-                            "90 - 96",
-                            "97 - 103",
-                            "104 - 105",
-                            "106 - 107",
-                            "108 - 112",
-                            "113 - 118",
-                            "119:1 - 119:96",
-                            "119:97 - 119:176",
-                            "120 - 134",
-                            "135 - 139",
-                            "140 - " + (GlobalStruct.jewishCalendar.getDaysInJewishMonth() == 29 ? String(150) : String(145)),
-                            "145 - 150"]
-                }
+            dailyMonthlyTehilim = [
+                "א - ט",       // 1 - 9
+                "י - יז",      // 10 - 17
+                "יח - כב",     // 18 - 22
+                "כג - כח",     // 23 - 28
+                "כט - לד",     // 29 - 34
+                "לה - לח",     // 35 - 38
+                "לט - מג",     // 39 - 43
+                "מד - מח",     // 44 - 48
+                "מט - נד",     // 49 - 54
+                "נה - נט",     // 55 - 59
+                "ס - סה",      // 60 - 65
+                "סו - סח",     // 66 - 68
+                "סט - עא",     // 69 - 71
+                "עב - עו",     // 72 - 76
+                "עז - עח",     // 77 - 78
+                "עט - פב",     // 79 - 82
+                "פג - פז",     // 83 - 87
+                "פח - פט",     // 88 - 89
+                "צ - צו",      // 90 - 96
+                "צז - קג",     // 97 - 103
+                "קד - קה",     // 104 - 105
+                "קו - קז",     // 106 - 107
+                "קח - קיב",    // 108 - 112
+                "קיג - קיח",   // 113 - 118
+                "קיט:א - קיט:צו", // 119:1 - 119:96
+                "קיט:צז - קיט:קעו", // 119:97 - 119:176
+                "קכ - קלד",     // 120 - 134
+                "קל - קלט",     // 135 - 139
+                "קמ - " + (GlobalStruct.jewishCalendar.getDaysInJewishMonth() == 29 ? "קנ" : "קמה"), // 140 - 150 or 145
+                "קמה - קנ"       // 145 - 150
+            ]
+        } else {
+            dailyMonthlyTehilim = [
+                "1 - 9",
+                "10 - 17",
+                "18 - 22",
+                "23 - 28",
+                "29 - 34",
+                "35 - 38",
+                "39 - 43",
+                "44 - 48",
+                "49 - 54",
+                "55 - 59",
+                "60 - 65",
+                "66 - 68",
+                "69 - 71",
+                "72 - 76",
+                "77 - 78",
+                "79 - 82",
+                "83 - 87",
+                "88 - 89",
+                "90 - 96",
+                "97 - 103",
+                "104 - 105",
+                "106 - 107",
+                "108 - 112",
+                "113 - 118",
+                "119:1 - 119:96",
+                "119:97 - 119:176",
+                "120 - 134",
+                "135 - 139",
+                "140 - " + (GlobalStruct.jewishCalendar.getDaysInJewishMonth() == 29 ? String(150) : String(145)),
+                "145 - 150"]
+        }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Monthly)".localized() + ": " + dailyMonthlyTehilim[GlobalStruct.jewishCalendar.getJewishDayOfMonth() - 1]))
-
+        
         var dailyWeeklyTehilim: Array<String>
         if (Locale.isHebrewLocale()) {
             dailyWeeklyTehilim = [
-                    "א - כט",      // 1 - 29
-                    "ל - נ",       // 30 - 50
-                    "נא - עב",     // 51 - 72
-                    "עג - פט",     // 73 - 89
-                    "צ - קו",      // 90 - 106
-                    "קז - קיט",    // 107 - 119
-                    "קכ - קנ"      // 120 - 150
+                "א - כט",      // 1 - 29
+                "ל - נ",       // 30 - 50
+                "נא - עב",     // 51 - 72
+                "עג - פט",     // 73 - 89
+                "צ - קו",      // 90 - 106
+                "קז - קיט",    // 107 - 119
+                "קכ - קנ"      // 120 - 150
             ]
         } else {
             dailyWeeklyTehilim = [
-                    "1 - 29",
-                    "30 - 50",
-                    "51 - 72",
-                    "73 - 89",
-                    "90 - 106",
-                    "107 - 119",
-                    "120 - 150"
+                "1 - 29",
+                "30 - 50",
+                "51 - 72",
+                "73 - 89",
+                "90 - 106",
+                "107 - 119",
+                "120 - 150"
             ]
         }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Weekly)".localized() + ": " + dailyWeeklyTehilim[GlobalStruct.jewishCalendar.getDayOfWeek() - 1]))
@@ -159,11 +159,11 @@ struct LimudimView: View {
         if (GlobalStruct.jewishCalendar.getJewishMonth() == JewishCalendar.NISSAN) {
             let title = NisanLimudYomi.getNisanLimudYomiTitle(day: GlobalStruct.jewishCalendar.getJewishDayOfMonth());
             let reading = NisanLimudYomi.getNisanLimudYomiReading(day: GlobalStruct.jewishCalendar.getJewishDayOfMonth());
- 
-             if (!title.isEmpty) {
-                 limudim.append(ZmanListEntry(title: "Daily Nasi: ".localized() + title, desc: reading));
-             }
-         }
+            
+            if (!title.isEmpty) {
+                limudim.append(ZmanListEntry(title: "Daily Nasi: ".localized() + title, desc: reading));
+            }
+        }
     }
     
     // Method to load JSON from the file and decode it into a Swift object
@@ -193,7 +193,7 @@ struct LimudimView: View {
                 }
                 // Retrieve the array from the JSON for the currentDate
                 if let currentHillulot = json[currentDate].array {
-
+                    
                     // Loop through the array of hillulot
                     for hillula in currentHillulot {
                         var entry = ZmanListEntry(title: "")
@@ -204,7 +204,7 @@ struct LimudimView: View {
                         if let src = hillula["desc"].string {
                             entry.desc = src
                         }
-
+                        
                         if let src = hillula["src"].string {
                             entry.src = src
                         }
@@ -284,10 +284,10 @@ struct LimudimView: View {
         }
         return AnyView(result)
     }
-
+    
     var body: some View {
         alerts(view:
-        List {
+                List {
             Section {
                 Text(getDateString(currentDate: userChosenDate))
                     .font(.headline)
@@ -410,19 +410,21 @@ struct LimudimView: View {
                         Spacer()
                     }
                 }
-            }.confirmationDialog(selectedHiloula?.title ?? "", isPresented: $showHillulotAlert) {
+            }.confirmationDialog(selectedHiloula?.title ?? "", isPresented: $showHillulotAlert, titleVisibility: .visible) {
                 Button("Dismiss", role: .cancel) { showHillulotAlert.toggle() }
             } message: {
                 Text((selectedHiloula?.desc ?? "").appending("\n-----\n").appending(selectedHiloula?.src ?? ""))
             }.textCase(nil)
         }
-        .onAppear {
-            userChosenDate = GlobalStruct.userChosenDate
-            syncCalendarDates()
-            updateLimudim()
-            updateHillulot()
-        }.listStyle(.insetGrouped)
-                )
+            .refreshable {
+                userChosenDate = Date()
+                syncCalendarDates()
+            }
+            .onAppear {
+                userChosenDate = GlobalStruct.userChosenDate
+                syncCalendarDates()
+            }.listStyle(.insetGrouped)
+        )
         HStack {
             Button {
                 userChosenDate = userChosenDate.advanced(by: -86400)

@@ -1635,14 +1635,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 }
 
-struct GlobalStruct {
-    static var useElevation = false
-    static var geoLocation = GeoLocation()
-    static var jewishCalendar = JewishCalendar()
-    static var chosenPrayer = ""
-    static var userChosenDate = Date()
-}
-
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes: ActivityAttributes {
     public typealias TimerStatus = ContentState
     

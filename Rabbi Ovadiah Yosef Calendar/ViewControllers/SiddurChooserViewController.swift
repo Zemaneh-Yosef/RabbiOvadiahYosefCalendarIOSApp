@@ -89,8 +89,8 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     }
     func birchatMeEyinShalosh() {
         GlobalStruct.chosenPrayer = "Birchat MeEyin Shalosh"
-        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers()
+        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
 
         if today.count != tomorrow.count {
             var notEqual = false

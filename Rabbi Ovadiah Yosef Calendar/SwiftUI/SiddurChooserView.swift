@@ -7,8 +7,8 @@
 
 import SwiftUI
 import KosherSwift
+import SwiftUISnackbar
 
-// TODO move omer to siddur
 @available(iOS 15.0, *)
 struct SiddurChooserView: View {
     @State private var siddurPrayer = ""
@@ -18,19 +18,72 @@ struct SiddurChooserView: View {
     @State var lastTimeUserWasInApp = Date()
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
-
+    
     @State var showBirchatHamazonAlert = false
+    @State var showMeEyinShaloshChoicePicker = false
     @State var showMeEyinShaloshAlert = false
+    let choices = [
+        "Wine",
+        "5 Grains",
+        "Olives, dates, grapes, figs and/or pomegranates",
+        "Other"
+    ]
+    @State private var selectedChoices: [String] = []
     @State var showTikkunChatzotDayOptionAlert = false
     @State var showTikkunChatzotNotSaidTodayAlert = false
     @State var showTikkunChatzotNotSaidTodayOrTonightAlert = false
     @State var showTikkunChatzotNotSaidTonightAlert = false
     @State var showMukafChomaAlert = false
     @State var showHavdalaAlert = false
+    @State var showSelectSomethingSnackbar = false
+    @State private var showMasechtaPicker = false
+    @State private var selectedMasechtot: [String] = []
+    @State private var masechtot = [
+        "ברכות",
+        "שבת",
+        "עירובין",
+        "פסחים",
+        "שקלים",
+        "יומא",
+        "סוכה",
+        "ביצה",
+        "ראש השנה",
+        "תענית",
+        "מגילה",
+        "מועד קטן",
+        "חגיגה",
+        "יבמות",
+        "כתובות",
+        "נדרים",
+        "נזיר",
+        "סוטה",
+        "גיטין",
+        "קידושין",
+        "בבא קמא",
+        "בבא מציעא",
+        "בבא בתרא",
+        "סנהדרין",
+        "מכות",
+        "שבועות",
+        "עבודה זרה",
+        "הוריות",
+        "זבחים",
+        "מנחות",
+        "חולין",
+        "בכורות",
+        "ערכין",
+        "תמורה",
+        "כריתות",
+        "מעילה",
+        "קינים",
+        "תמיד",
+        "מידות",
+        "נדה"
+    ]
     
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     let secondaryTextSize = Font.system(size: 14)
-    
+        
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
         GlobalStruct.userChosenDate = userChosenDate
@@ -241,7 +294,7 @@ struct SiddurChooserView: View {
                 Button(action: {
                     siddurPrayer = "Birchat MeEyin Shalosh"
                     GlobalStruct.chosenPrayer = siddurPrayer
-                    handleMeEyinShalosh()
+                    showMeEyinShaloshChoicePicker = true
                 }) {
                     VStack(alignment: .leading) {
                         Text("ברכת מעין שלוש")
@@ -252,17 +305,119 @@ struct SiddurChooserView: View {
                         }
                     }
                 }
+                .sheet(isPresented: $showMeEyinShaloshChoicePicker) {
+                    NavigationView {
+                        List {
+                            ForEach(choices, id: \.self) { choice in
+                                Button(action: {
+                                    if let index = selectedChoices.firstIndex(of: choice) {
+                                        selectedChoices.remove(at: index)
+                                    } else {
+                                        selectedChoices.append(choice)
+                                    }
+                                }) {
+                                    HStack {
+                                        Image(systemName: selectedChoices.contains(choice) ? "checkmark.square.fill" : "square")
+                                        Text(choice)
+                                        Spacer()
+                                    }
+                                    .contentShape(Rectangle()) // Makes entire row tappable
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .navigationTitle("What did you eat/drink?")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") {
+                                    if selectedChoices.isEmpty {
+                                        showSelectSomethingSnackbar = true
+                                    } else {
+                                        showMeEyinShaloshChoicePicker = false
+                                        GlobalStruct.meEyinShaloshChoices = selectedChoices.joined(separator: ", ")
+                                        handleMeEyinShalosh()
+                                    }
+                                }
+                            }
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel") {
+                                    showMeEyinShaloshChoicePicker = false
+                                }
+                            }
+                        }
+                    }
+                }
+                if isNotAssurBemelacha() {
+                    Button(action: {
+                        siddurPrayer = "Tefilat HaDerech"
+                        GlobalStruct.chosenPrayer = siddurPrayer
+                        openSiddurView()
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text("תפלת הדרך")
+                            if let secondary = getSecondaryText("תפלת הדרך") {
+                                Text(secondary)
+                                    .font(secondaryTextSize)
+                                    .foregroundStyle(Color.secondary)
+                            }
+                        }
+                    }
+                }
                 Button(action: {
-                    siddurPrayer = "Tefilat HaDerech"
+                    siddurPrayer = "Seder Siyum Masechet"
                     GlobalStruct.chosenPrayer = siddurPrayer
-                    openSiddurView()
+                    showMasechtaPicker = true
                 }) {
                     VStack(alignment: .leading) {
-                        Text("תפלת הדרך")
-                        if let secondary = getSecondaryText("תפלת הדרך") {
+                        Text("סדר סיום מסכת")
+                        if let secondary = getSecondaryText("סדר סיום מסכת") {
                             Text(secondary)
                                 .font(secondaryTextSize)
                                 .foregroundStyle(Color.secondary)
+                        }
+                    }
+                }
+                .sheet(isPresented: $showMasechtaPicker) {
+                    NavigationView {
+                        List {
+                            ForEach(masechtot, id: \.self) { masechta in
+                                Button(action: {
+                                    if let index = selectedMasechtot.firstIndex(of: masechta) {
+                                        selectedMasechtot.remove(at: index)
+                                    } else {
+                                        selectedMasechtot.append(masechta)
+                                    }
+                                }) {
+                                    HStack {
+                                        Image(systemName: selectedMasechtot.contains(masechta) ? "checkmark.square.fill" : "square")
+                                        Text(masechta)
+                                        Spacer()
+                                    }
+                                    .contentShape(Rectangle()) // Makes entire row tappable
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .navigationTitle(Locale.isHebrewLocale() ? "בחר מסכתות" : "Choose Masechtas")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") {
+                                    if selectedMasechtot.isEmpty {
+                                        showSelectSomethingSnackbar = true
+                                    } else {
+                                        showMasechtaPicker = false
+                                        GlobalStruct.siyumChoices = selectedMasechtot
+                                        openSiddurView()
+                                    }
+                                }
+                            }
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel") {
+                                    showMasechtaPicker = false
+                                }
+                            }
                         }
                     }
                 }
@@ -325,6 +480,10 @@ struct SiddurChooserView: View {
                 }
             }.textCase(nil)
         }
+            .refreshable {
+                userChosenDate = Date()
+                syncCalendarDates()
+            }
             .onAppear {
                 if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
                     userChosenDate = Date()
@@ -334,6 +493,7 @@ struct SiddurChooserView: View {
                 lastTimeUserWasInApp = Date()
                 userChosenDate = GlobalStruct.userChosenDate
                 syncCalendarDates()
+                autoFillMasechta()
             }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -342,6 +502,7 @@ struct SiddurChooserView: View {
                     }
                 }
             }
+            .snackbar(isShowing: $showSelectSomethingSnackbar, title: "Please select at least one option", style: .error)
             .alert("When did you start your meal?", isPresented: $showBirchatHamazonAlert) {
                 Button("Yes") {
                     openSiddurView()
@@ -451,17 +612,28 @@ struct SiddurChooserView: View {
     }
     
     private func openSiddurView() {
-        if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM) && siddurPrayer != "Birchat Halevana" && !siddurPrayer.contains("Tikkun Chatzot") && siddurPrayer != "Kriat Shema SheAl Hamita" {// if the prayer is dependant on isMukafChoma, we ask the user
+        if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM) && siddurPrayer != "Birchat Halevana" && !siddurPrayer.contains("Tikkun Chatzot") && siddurPrayer != "Kriat Shema SheAl Hamita" && siddurPrayer != "Seder Siyum Masechet" && siddurPrayer != "Tefilat HaDerech" {// if the prayer is dependant on isMukafChoma, we ask the user
             showMukafChomaAlert = true
         } else {
             // I am only doing this because SwiftUI is designed poorly. If we do not wait to set the showSiddur boolean to true, SwiftUI will show the view too quickly and the String will be old. So we need to delay the initialization by putting it on a background thread... There is probably a better way to do this, but I did not see any better way. TODO fix this later
             DispatchQueue.main.async {
                 showSiddur = true
             }
-            
         }
     }
     
+    private func autoFillMasechta() {
+        selectedMasechtot.removeAll()
+        let currentDaf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar);
+        let nextDaf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow());
+
+        if currentDaf?.getMasechta() != nextDaf?.getMasechta() {
+            if currentDaf != nil {
+                selectedMasechtot.append(currentDaf!.getMasechta())
+            }
+        }
+    }
+        
     private func getDayTitle(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
@@ -517,6 +689,14 @@ struct SiddurChooserView: View {
             .appending(dateFormatterForZmanim.string(from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()))
     }
 
+    private func isNotAssurBemelacha() -> Bool {
+        let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.useElevation = GlobalStruct.useElevation
+        zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
+        return !(GlobalStruct.jewishCalendar.isAssurBemelacha() && Date().timeIntervalSince1970 < zmanimCalendar.getTzais13Point5MinutesZmanis()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
+        || (GlobalStruct.jewishCalendar.hasCandleLighting() && Date().timeIntervalSince1970 > zmanimCalendar.getSunset()?.timeIntervalSince1970 ?? 0))
+    }
+    
     private func handleBirchatHamazon() {
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
         let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
@@ -529,8 +709,8 @@ struct SiddurChooserView: View {
     }
 
     private func handleMeEyinShalosh() {
-        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers()
+        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
 
         if !arePrayersEqual(today, tomorrow) {
             showMeEyinShaloshAlert = true

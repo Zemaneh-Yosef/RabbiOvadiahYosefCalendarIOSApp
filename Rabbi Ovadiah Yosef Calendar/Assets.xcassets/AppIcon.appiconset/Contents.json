@@ -36,7 +36,7 @@
       "size" : "38x38"
     },
     {
-      "filename" : "icon_1024 1.png",
+      "filename" : "icon_120.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",
@@ -71,14 +71,14 @@
       "size" : "60x60"
     },
     {
-      "filename" : "icon_167 1.png",
+      "filename" : "icon_128.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "64x64"
     },
     {
-      "filename" : "icon_180 1.png",
+      "filename" : "icon_256.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "3x",

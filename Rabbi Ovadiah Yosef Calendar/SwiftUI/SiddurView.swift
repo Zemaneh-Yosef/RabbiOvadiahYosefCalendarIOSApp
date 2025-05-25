@@ -60,6 +60,9 @@ struct SiddurView: View {
         case "Birchat Halevana":
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
             self.dropDownTitle = "ברכת הלבנה"
+        case "Seder Siyum Masechet":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSiyumMasechetPrayer(masechtas: GlobalStruct.siyumChoices)
+            dropDownTitle = "סדר סיום מסכת"
         case "Tikkun Chatzot (Day)":
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
             self.dropDownTitle = "תיקון חצות"
@@ -70,10 +73,10 @@ struct SiddurView: View {
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             self.dropDownTitle = "ק״ש שעל המיטה"
         case "Birchat MeEyin Shalosh":
-            self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+            self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
             self.dropDownTitle = "ברכת מעין שלוש"
         case "Birchat MeEyin Shalosh+1":
-            self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers()
+            self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
             self.dropDownTitle = "ברכת מעין שלוש"
         case "Hadlakat Neirot Chanuka":
             self.listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHadlakatNeirotChanukaPrayers()

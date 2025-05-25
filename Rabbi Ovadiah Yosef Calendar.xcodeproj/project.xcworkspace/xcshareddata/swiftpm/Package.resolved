@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Elyahu41/KosherSwift",
       "state" : {
-        "revision" : "310e396e31f691eb09a06b180e8f9bababa31bdc",
-        "version" : "1.10.3"
+        "revision" : "91f0eb135a6a1f62a2bcf6ad5686257e77d418a5",
+        "version" : "1.10.4"
       }
     },
     {
