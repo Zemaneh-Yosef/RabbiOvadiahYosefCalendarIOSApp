@@ -10,7 +10,7 @@ import Combine
 import KosherSwift
 
 class NetzViewModel: ObservableObject {
-    @Published var countdownText: String = "Calculating..."
+    @Published var countdownText: String = "Calculating...".localized()
     private var timer: AnyCancellable?
     private let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 

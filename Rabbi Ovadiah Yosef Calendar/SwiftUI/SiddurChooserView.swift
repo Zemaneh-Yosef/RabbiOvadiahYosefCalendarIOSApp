@@ -23,10 +23,10 @@ struct SiddurChooserView: View {
     @State var showMeEyinShaloshChoicePicker = false
     @State var showMeEyinShaloshAlert = false
     let choices = [
-        "Wine",
-        "5 Grains",
-        "Olives, dates, grapes, figs and/or pomegranates",
-        "Other"
+        "Wine".localized(),
+        "5 Grains".localized(),
+        "Olives, dates, grapes, figs and/or pomegranates".localized(),
+        "Other".localized()
     ]
     @State private var selectedChoices: [String] = []
     @State var showTikkunChatzotDayOptionAlert = false
@@ -399,14 +399,12 @@ struct SiddurChooserView: View {
                                 .buttonStyle(.plain)
                             }
                         }
-                        .navigationTitle(Locale.isHebrewLocale() ? "בחר מסכתות" : "Choose Masechtas")
+                        .navigationTitle("Choose Masechtas")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
                                 Button("Done") {
-                                    if selectedMasechtot.isEmpty {
-                                        showSelectSomethingSnackbar = true
-                                    } else {
+                                    if !selectedMasechtot.isEmpty {
                                         showMasechtaPicker = false
                                         GlobalStruct.siyumChoices = selectedMasechtot
                                         openSiddurView()
@@ -502,7 +500,7 @@ struct SiddurChooserView: View {
                     }
                 }
             }
-            .snackbar(isShowing: $showSelectSomethingSnackbar, title: "Please select at least one option", style: .error)
+            .snackbar(isShowing: $showSelectSomethingSnackbar, title: "Please select at least one option".localized(), style: .error)
             .alert("When did you start your meal?", isPresented: $showBirchatHamazonAlert) {
                 Button("Yes") {
                     openSiddurView()

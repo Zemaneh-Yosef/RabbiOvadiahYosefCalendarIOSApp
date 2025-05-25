@@ -96,9 +96,7 @@ struct AdvancedSetupView: View {
                     showWebView = true
                 }
             } message: {
-                Text(Locale.isHebrewLocale()
-                     ? "(אני ממליץ לך לבקר קודם באתר.) בחר את האזור שלך ובעמוד הבא כל מה שאתה צריך לעשות הוא למלא את שלבים 1 ו-2, וללחוץ על הכפתור כדי לחשב את הטבלאות בתחתית העמוד .ודא שרדיוס החיפוש שלך גדול מספיק ועזוב את השנה היהודית בשקט. האפליקציה תעשה את השאר."
-                     : "(I recommend you visit the website first.) \n\n Choose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables. \n\n Just make sure your search radius is big enough and the app will do the rest.")
+                Text("(I recommend you visit the website first.)\n\nChoose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables.\n\nJust make sure your search radius is big enough and the app will do the rest.")
             }
         }
     }

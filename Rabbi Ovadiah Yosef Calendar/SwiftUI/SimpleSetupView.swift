@@ -15,7 +15,7 @@ struct SimpleSetupView: View {
     @State private var states: [String] = []
     @State private var metros: [String] = []
     @State private var showStatePicker = false
-    @State private var buttonTitle = "Download"
+    @State private var buttonTitle = "Download".localized()
     @State private var buttonColors = [Color("Gold"), Color("GoldStart"), Color("Gold")]
     @State private var isDownloading = false
 

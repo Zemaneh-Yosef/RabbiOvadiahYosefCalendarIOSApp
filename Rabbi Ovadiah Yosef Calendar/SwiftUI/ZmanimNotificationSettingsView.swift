@@ -11,7 +11,10 @@ class ZmanimSettingsViewModel: ObservableObject {
     private let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
     
     @Published var notificationsOnShabbat: Bool {
-        didSet { defaults.set(notificationsOnShabbat, forKey: "zmanim_notifications_on_shabbat") }
+        didSet {
+            defaults.set(notificationsOnShabbat, forKey: "zmanim_notifications_on_shabbat")
+            NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+        }
     }
     
     @Published var zmanimSettings: [String: Bool] = [:]
@@ -65,12 +68,14 @@ class ZmanimSettingsViewModel: ObservableObject {
         }
         
         objectWillChange.send()
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
     
     func updateMinutes(for zman: String, minutes: Int) {
         defaults.set(minutes, forKey: zman)
         zmanimMinutes[zman] = minutes
         objectWillChange.send()
+        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
 }
 
@@ -107,11 +112,11 @@ struct ZmanimNotificationsSettingsView: View {
                     
                     let displayText: String = {
                         if minutesBefore >= 1 {
-                            return "Notify \(minutesBefore) minutes before"
+                            return "Notify ".localized().appending("\(minutesBefore)").appending(" minutes before".localized())
                         } else if minutesBefore == 0 {
-                            return "Notify at the time of the zman"
+                            return "Notify at the time of the zman".localized()
                         } else {
-                            return "Off"
+                            return "Off".localized()
                         }
                     }()
                     
@@ -123,7 +128,10 @@ struct ZmanimNotificationsSettingsView: View {
                     }) {
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(zman)
+                                Text(zman
+                                    .replacingOccurrences(of: "Plag HaMincha Halacha Berurah", with: "Plag HaMincha (Halacha Berura)")
+                                    .replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Plag HaMincha (Yalkut Yosef)")
+                                    .localized())
                                     .foregroundColor(isNotified ? .primary : .gray)
                                 Text(displayText)
                                     .font(.subheadline)

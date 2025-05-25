@@ -176,10 +176,10 @@ struct GetiOS17PlusUserLocationView: View {
             }
         }
         .navigationTitle("Search for a place")
-        .snackbar(isShowing: $showNoLocationPermissionSnackbar, title: "No location permission".localized(), text: "[Tap to dismiss]", style: .custom(.red))
-        .snackbar(isShowing: $showNoLocationSetSnackbar, title: "No location set".localized(), text: "[Tap to dismiss]", style: .custom(.red))
-        .snackbar(isShowing: $showRedSnackbar, title: "The application will NOT track your location".localized(), text: "[Tap to dismiss]", style: .custom(.red))
-        .snackbar(isShowing: $showGreenSnackbar, title: "The application will keep requesting your location".localized(), text: "[Tap to dismiss]", style: .custom(.green))
+        .snackbar(isShowing: $showNoLocationPermissionSnackbar, title: "No location permission".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.red))
+        .snackbar(isShowing: $showNoLocationSetSnackbar, title: "No location set".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.red))
+        .snackbar(isShowing: $showRedSnackbar, title: "The application will NOT track your location".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.red))
+        .snackbar(isShowing: $showGreenSnackbar, title: "The application will keep requesting your location".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.green))
         .alert("Advanced", isPresented: $showAdvancedAlert) {
             TextField(text: $AdvancedLocationName, prompt: Text("ex: New York")) {}
             TextField(text: $AdvancedLat, prompt: Text("ex: 40.808058")) {}
@@ -638,10 +638,10 @@ struct GetiOS16MinusUserLocationView: View {
             }
         }
         .navigationTitle("Search for a place")
-        .snackbar(isShowing: $showNoLocationPermissionSnackbar, title: "No location permission".localized(), text: "[Tap to dismiss]", style: .custom(.red))
-        .snackbar(isShowing: $showNoLocationSetSnackbar, title: "No location set".localized(), text: "[Tap to dismiss]", style: .custom(.red))
-        .snackbar(isShowing: $showRedSnackbar, title: "The application will NOT track your location".localized(), text: "[Tap to dismiss]", style: .custom(.red))
-        .snackbar(isShowing: $showGreenSnackbar, title: "The application will keep requesting your location".localized(), text: "[Tap to dismiss]", style: .custom(.green))
+        .snackbar(isShowing: $showNoLocationPermissionSnackbar, title: "No location permission".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.red))
+        .snackbar(isShowing: $showNoLocationSetSnackbar, title: "No location set".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.red))
+        .snackbar(isShowing: $showRedSnackbar, title: "The application will NOT track your location".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.red))
+        .snackbar(isShowing: $showGreenSnackbar, title: "The application will keep requesting your location".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.green))
         .alert("Advanced", isPresented: $showAdvancedAlert) {
             TextField(text: $AdvancedLocationName, prompt: Text("ex: New York")) {}
             TextField(text: $AdvancedLat, prompt: Text("ex: 40.808058")) {}

@@ -90,6 +90,7 @@ struct ZmanimSettingsView: View {
             Button("12PM start time (Ohr Hachaim)") { tekufaOpinion = 1 }
             Button("11:39AM start time (Amudei Horaah)") { tekufaOpinion = 2 }
             Button("Show Both") { tekufaOpinion = 3 }
+            Button("Calendar Based") { tekufaOpinion = 0 }
         }
         
         .alert("Set Minutes till Shabbat Ends", isPresented: $showShabbatEndMinutesAlert) {
@@ -107,19 +108,19 @@ struct ZmanimSettingsView: View {
     
     private func tekufaOpinionText() -> String {
         switch tekufaOpinion {
-        case 1: return "12PM (Ohr Hachaim)"
-        case 2: return "11:39AM (Amudei Horaah)"
-        case 3: return "Show Both"
-        default: return "Calendar Based"
+        case 1: return "12PM (Ohr Hachaim)".localized()
+        case 2: return "11:39AM (Amudei Horaah)".localized()
+        case 3: return "Show Both".localized()
+        default: return "Calendar Based".localized()
         }
     }
     
     private func endShabbatOpinionText() -> String {
         switch endOfShabbatOpinion {
-        case 1: return "Regular Minutes"
-        case 2: return "7.14 Degrees"
-        case 3: return "Lesser of the two"
-        default: return "Calendar Based"
+        case 1: return "Regular Minutes".localized()
+        case 2: return "7.14 Degrees".localized()
+        case 3: return "Lesser of the two".localized()
+        default: return "Calendar Based".localized()
         }
     }
 }

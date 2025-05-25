@@ -44,6 +44,12 @@ struct SettingsView: View {
                 Toggle("Receive daily zmanim notifications", isOn: $zmanimNotifications)
                 if zmanimNotifications {
                     NavigationLink("Zmanim Notifications Settings", destination: ZmanimNotificationsSettingsView())
+                        .onAppear {
+                            NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                        }
+                        .onDisappear {
+                            NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                        }
                 }
             } header: {
                 VStack {
@@ -98,7 +104,7 @@ struct SettingsView: View {
             Section {
                 Button("Contact Developer") { sendEmail() }
                 Button("Haskamot") { showHaskamotAlert = true }
-                Button("Watch Video Guide") { openURL("https://youtu.be/NP1_4kMA-Vs") }
+                //Button("Watch Video Guide") { openURL("https://youtu.be/NP1_4kMA-Vs") }
             } header: {
                 VStack {
                     Text("Help & Support").textCase(nil)
@@ -176,7 +182,7 @@ struct MailView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> MFMailComposeViewController {
         let mailComposer = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = context.coordinator
-        mailComposer.setSubject("Zmanei Yosef (iOS)".localized())
+        mailComposer.setSubject("Zemaneh Yosef (iOS)".localized())
         mailComposer.setToRecipients([recipient])
         return mailComposer
     }

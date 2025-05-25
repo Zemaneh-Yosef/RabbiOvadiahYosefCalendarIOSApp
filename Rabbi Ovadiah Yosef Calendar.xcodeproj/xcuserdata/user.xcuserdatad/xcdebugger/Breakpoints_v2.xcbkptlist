@@ -174,8 +174,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/ZmanimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1953"
-            endingLineNumber = "1953"
+            startingLineNumber = "1955"
+            endingLineNumber = "1955"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/ZmanimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1951"
-            endingLineNumber = "1951"
+            startingLineNumber = "1950"
+            endingLineNumber = "1950"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -455,22 +455,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B1BBF9C6-5620-4801-B79C-DFD9357E527E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/ZmanimView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1912"
-            endingLineNumber = "1912"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "360279CE-4BD3-478E-8C8B-E4366597D72D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -478,8 +462,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/ZmanimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1950"
-            endingLineNumber = "1950"
+            startingLineNumber = "1949"
+            endingLineNumber = "1949"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

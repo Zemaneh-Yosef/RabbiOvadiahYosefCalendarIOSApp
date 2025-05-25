@@ -123,6 +123,17 @@
         }
       }
     },
+    "\"Please go to chaitables.com and create a table of the current year for the area you specified. Then copy the link/address of the table and enter it here:\"" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אנא היכנס ל־chaitables.com ויצור טבלה של השנה הנוכחית עבור האזור שציינת. לאחר מכן העתק את הקישור/כתובת של הטבלה והכנס אותו כאן:"
+          }
+        }
+      }
+    },
     "(After Sunset)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -145,8 +156,15 @@
         }
       }
     },
-    "(I recommend you visit the website first.) \n\n Choose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables. \n\n Just make sure your search radius is big enough and the app will do the rest." : {
-
+    "(I recommend you visit the website first.)\n\nChoose your area and on the next page all you need to do is to fill out steps 1 and 2, choose visible sunrise, and click the button on the bottom of the page to calculate the tables.\n\nJust make sure your search radius is big enough and the app will do the rest." : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(אני ממליץ לך לבקר קודם באתר.) בחר את האזור שלך ובעמוד הבא כל מה שאתה צריך לעשות הוא למלא את שלבים 1 ו-2, וללחוץ על הכפתור כדי לחשב את הטבלאות בתחתית העמוד .ודא שרדיוס החיפוש שלך גדול מספיק ועזוב את השנה היהודית בשקט. האפליקציה תעשה את השאר."
+          }
+        }
+      }
     },
     "(Monthly)" : {
       "extractionState" : "manual",
@@ -181,8 +199,16 @@
         }
       }
     },
-    "(אני ממליץ לך לבקר קודם באתר.) בחר את האזור שלך ובעמוד הבא כל מה שאתה צריך לעשות הוא למלא את שלבים 1 ו-2, וללחוץ על הכפתור כדי לחשב את הטבלאות בתחתית העמוד .ודא שרדיוס החיפוש שלך גדול מספיק ועזוב את השנה היהודית בשקט. האפליקציה תעשה את השאר." : {
-
+    "[Tap to dismiss]" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[הקש כדי לסגור]"
+          }
+        }
+      }
     },
     "/SHABBAT" : {
       "extractionState" : "manual",
@@ -227,6 +253,17 @@
         }
       }
     },
+    "5 Grains" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "חמשת מיני דגן"
+          }
+        }
+      }
+    },
     "7.14 Degrees" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -238,6 +275,17 @@
         }
       }
     },
+    "11:39AM (Amudei Horaah)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "11:39 בבוקר (עמודי הוראה)"
+          }
+        }
+      }
+    },
     "11:39AM start time (Amudei Horaah)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -245,6 +293,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "11:39 בבוקר (התחלה - עמודי הוראה)"
+          }
+        }
+      }
+    },
+    "12PM (Ohr Hachaim)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12 בצהריים (אור החיים)"
           }
         }
       }
@@ -305,7 +364,14 @@
       }
     },
     "Advanced Setup" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדרה מתקדמת"
+          }
+        }
+      }
     },
     "Alot Hashachar" : {
       "extractionState" : "manual",
@@ -374,7 +440,14 @@
       }
     },
     "Are you currently in Israel?" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "האם אתה נמצא כעת בישראל?"
+          }
+        }
+      }
     },
     "Are you in a walled (Mukaf Choma) city?" : {
       "extractionState" : "manual",
@@ -475,6 +548,28 @@
         }
       }
     },
+    "Calculating..." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מחשבים..."
+          }
+        }
+      }
+    },
+    "Calendar Based" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מבוסס לוח שנה"
+          }
+        }
+      }
+    },
     "Calendar Choice Page Explained" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -520,7 +615,14 @@
       }
     },
     "Candle Lighting Time: %lld min before sunset" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זמן הדלקת נרות: ‏‎%lld‎‏ דקות לפני השקיעה\n"
+          }
+        }
+      }
     },
     "Cannot Send Email" : {
       "extractionState" : "manual",
@@ -545,7 +647,14 @@
       }
     },
     "Change Calendar" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה לוח שנה"
+          }
+        }
+      }
     },
     "Change Location" : {
       "extractionState" : "manual",
@@ -581,7 +690,14 @@
       }
     },
     "Change Zmanim Settings" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה הגדרות זמני היום"
+          }
+        }
+      }
     },
     "Chatzot" : {
       "extractionState" : "manual",
@@ -617,13 +733,34 @@
       }
     },
     "Choose End Shabbat Opinion" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בחר שיטת סיום שבת"
+          }
+        }
+      }
     },
     "Choose Masechtas" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בחר מסכתות"
+          }
+        }
+      }
     },
     "Choose Tekufa Opinion" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בחר שיטת חישוב תקופה"
+          }
+        }
+      }
     },
     "Choose whether or not the app will notify you of the day of the omer during the day" : {
       "extractionState" : "manual",
@@ -791,10 +928,24 @@
       }
     },
     "Confirm" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אשר"
+          }
+        }
+      }
     },
     "Contact Developer" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "צור קשר עם המפתח"
+          }
+        }
+      }
     },
     "Contact the developer" : {
       "extractionState" : "manual",
@@ -874,7 +1025,14 @@
       }
     },
     "Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later." : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "כתב ויתור: הזמנים הם להמחשה בלבד, יש להתייעץ עם רב האם מותר לברך מוקדם או מאוחר יותר."
+          }
+        }
+      }
     },
     "Dismiss" : {
       "extractionState" : "manual",
@@ -924,10 +1082,24 @@
       }
     },
     "Do not use visible sunrise for this location" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אל תשתמש בזריחת השמש הנראית למקום זה"
+          }
+        }
+      }
     },
     "Do you want to say Tikkun Chatzot for the day?" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "האם תרצה לומר תיקון חצות להיום?"
+          }
+        }
+      }
     },
     "Don't forget to count!" : {
       "extractionState" : "manual",
@@ -974,16 +1146,44 @@
       }
     },
     "Downloading..." : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מוריד..."
+          }
+        }
+      }
     },
     "During the three weeks, some say a shorter Tikkun Chatzot after mid-day. Are you looking to say this version of Tikkun Chatzot?" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "במהלך שלושת השבועות, יש אומרים תיקון חצות קצר לאחר חצות היום. האם ברצונך לומר את גרסת התיקון הזו?"
+          }
+        }
+      }
     },
     "Earliest Birchat Halevana (7 days)" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ברכת הלבנה המוקדמת ביותר (7 ימים)"
+          }
+        }
+      }
     },
     "Editable Zmanim Notifications" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "התראות זמניים לעריכה"
+          }
+        }
+      }
     },
     "Elevation" : {
       "extractionState" : "manual",
@@ -1019,13 +1219,34 @@
       }
     },
     "End Shabbat Opinion: %@" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "דעת סיום שבת: %@"
+          }
+        }
+      }
     },
     "Enter elevation in meters" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הכנס גובה מעל פני הים במטרים"
+          }
+        }
+      }
     },
     "Enter Elevation Manually" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הזן גובה ידנית"
+          }
+        }
+      }
     },
     "Enter how many minutes before you would like to be notified for " : {
       "extractionState" : "manual",
@@ -1039,7 +1260,14 @@
       }
     },
     "Enter location name/ZIP code" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הזן שם מיקום / מיקוד"
+          }
+        }
+      }
     },
     "Enter the amount of minutes for candle lighting" : {
       "extractionState" : "manual",
@@ -1134,7 +1362,14 @@
 
     },
     "ex: New York" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לדוגמה: ניו יורק"
+          }
+        }
+      }
     },
     "Fast Ends" : {
       "extractionState" : "manual",
@@ -1214,16 +1449,44 @@
       }
     },
     "Get From Online" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "קבל מהאינטרנט"
+          }
+        }
+      }
     },
     "Get Started" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "התחל"
+          }
+        }
+      }
     },
     "Go to the website in the app" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "עבור לאתר בתוך האפליקציה"
+          }
+        }
+      }
     },
     "Guttman Keren" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "גוטמן קרן"
+          }
+        }
+      }
     },
     "h:" : {
       "extractionState" : "manual",
@@ -1292,7 +1555,14 @@
       }
     },
     "Help & Support" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "עזרה ותמיכה"
+          }
+        }
+      }
     },
     "Hillulot" : {
       "extractionState" : "manual",
@@ -1474,7 +1744,14 @@
       }
     },
     "Latest Birchat Halevana (15 days)" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ברכת הלבנה אחרונה (15 יום)"
+          }
+        }
+      }
     },
     "Latitude" : {
       "extractionState" : "manual",
@@ -1663,7 +1940,14 @@
       }
     },
     "Minutes till Shabbat Ends: %lld" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "דקות עד סיום השבת: %lld"
+          }
+        }
+      }
     },
     "Misc." : {
       "extractionState" : "manual",
@@ -1699,10 +1983,24 @@
       }
     },
     "Molad for This Month (Your Timezone)" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מולד לחודש זה (אזור הזמן שלך)"
+          }
+        }
+      }
     },
     "Molad Time Announced" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זמן המולד המוכרז"
+          }
+        }
+      }
     },
     "Moonrise: " : {
       "extractionState" : "manual",
@@ -1846,6 +2144,17 @@
         }
       }
     },
+    "No location permission" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אין הרשאת מיקום"
+          }
+        }
+      }
+    },
     "No location set" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1913,7 +2222,14 @@
       }
     },
     "Notifications" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "התראות"
+          }
+        }
+      }
     },
     "Notify " : {
       "extractionState" : "manual",
@@ -1971,7 +2287,14 @@
       }
     },
     "Okay" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אוקיי"
+          }
+        }
+      }
     },
     "Okay!" : {
       "extractionState" : "manual",
@@ -1980,6 +2303,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "בסדר!"
+          }
+        }
+      }
+    },
+    "Olives, dates, grapes, figs and/or pomegranates" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זיתים, תמרים, ענבים, תאנים ו/או רימונים"
           }
         }
       }
@@ -1996,10 +2330,35 @@
       }
     },
     "Or" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "או"
+          }
+        }
+      }
+    },
+    "Other" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אחר"
+          }
+        }
+      }
     },
     "Other Settings" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדרות נוספות"
+          }
+        }
+      }
     },
     "Override the time for Shabbat End" : {
       "extractionState" : "manual",
@@ -2134,7 +2493,14 @@
       }
     },
     "Please go to chaitables.com and create a table of the current year for the area you specified. Then copy the link/address of the table and enter it here:" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אנא עבור לאתר chaitables.com ויצר טבלה לשנה הנוכחית עבור האזור שהגדרת. לאחר מכן, העתק את הקישור/כתובת של הטבלה והזן אותו כאן:"
+          }
+        }
+      }
     },
     "Please only enter numbers and decimals! For example: 30.0" : {
       "extractionState" : "manual",
@@ -2143,6 +2509,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אנא הזן רק מספרים ונקודות עשרוניות! לדוגמה: 30.0"
+          }
+        }
+      }
+    },
+    "Please select at least one option" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בבקשה בחר אפשרות אחת לפחות"
           }
         }
       }
@@ -2245,17 +2622,6 @@
         }
       }
     },
-    "Rabbi Yitzkhak Yosef (Hebrew)" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הסכמה מאת הרב יצחק יוסף"
-          }
-        }
-      }
-    },
     "Receive daily zmanim notifications" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2345,7 +2711,14 @@
       }
     },
     "Search for a place" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "חפש מקום"
+          }
+        }
+      }
     },
     "Search For A Place" : {
       "extractionState" : "manual",
@@ -2447,7 +2820,14 @@
       }
     },
     "Set Candle Lighting Minutes" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדר דקות להדלקת נרות"
+          }
+        }
+      }
     },
     "Set Elevation" : {
       "extractionState" : "manual",
@@ -2494,13 +2874,34 @@
       }
     },
     "Set Link" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדר קישור"
+          }
+        }
+      }
     },
     "Set Minutes Before Notification" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדר דקות לפני ההתראה"
+          }
+        }
+      }
     },
     "Set Minutes till Shabbat Ends" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדר דקות עד סיום השבת"
+          }
+        }
+      }
     },
     "Set text size" : {
       "extractionState" : "manual",
@@ -2547,7 +2948,14 @@
       }
     },
     "Setup Elevation" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדר גובה"
+          }
+        }
+      }
     },
     "Setup Visible Sunrise" : {
       "extractionState" : "manual",
@@ -2572,7 +2980,14 @@
       }
     },
     "Setup your city!" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדר את העיר שלך!"
+          }
+        }
+      }
     },
     "Shaah Zemanit MG\"A (A\"H): " : {
       "extractionState" : "manual",
@@ -2669,7 +3084,14 @@
       }
     },
     "Shabbat/Chag Settings" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדרות שבת/חג"
+          }
+        }
+      }
     },
     "Share" : {
       "extractionState" : "manual",
@@ -2825,17 +3247,6 @@
         }
       }
     },
-    "Show the four next upcoming zmanim." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הצג את ארבעת זמני היום הקרובים."
-          }
-        }
-      }
-    },
     "Show the ideal zman for Talit Tefilin (60 seasonal minutes before sunrise)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2902,7 +3313,14 @@
       }
     },
     "Siddur Font" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "גופן סידור"
+          }
+        }
+      }
     },
     "SIMCHAT TORAH" : {
       "extractionState" : "manual",
@@ -2938,7 +3356,14 @@
       }
     },
     "Skip" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "דלג"
+          }
+        }
+      }
     },
     "Sof Zman Shma GRA" : {
       "extractionState" : "manual",
@@ -3007,10 +3432,24 @@
       }
     },
     "System Default" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ברירת מערכת"
+          }
+        }
+      }
     },
     "Taamey D" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תעמי ד'"
+          }
+        }
+      }
     },
     "Taanit Bechorot" : {
       "extractionState" : "manual",
@@ -3101,10 +3540,24 @@
       }
     },
     "Tekufa Opinion: %@" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "דעת תקופה: %@"
+          }
+        }
+      }
     },
     "Tekufa Settings" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדרות תקופה"
+          }
+        }
+      }
     },
     "Tevet" : {
       "extractionState" : "manual",
@@ -3195,7 +3648,14 @@
       }
     },
     "The Whole 15th Night of the Hebrew Month" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "כל ליל ה־15 בחודש העברי"
+          }
+        }
+      }
     },
     "There is no moon tonight" : {
       "extractionState" : "manual",
@@ -3225,17 +3685,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "האפליקציה דורשת גרסת watchOS 10.0 ומעלה."
-          }
-        }
-      }
-    },
-    "This is a widget that will show relevant zmanim." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "זוהי יחידת גרסה שתציג זמנים רלוונטיים."
           }
         }
       }
@@ -3329,10 +3778,24 @@
       }
     },
     "Tip: You can press on the times to find out more information on them!" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "טיפ: ניתן ללחוץ על הזמנים כדי לקבל מידע נוסף עליהם!"
+          }
+        }
+      }
     },
     "Tip!" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "טיפ!"
+          }
+        }
+      }
     },
     "Tishri" : {
       "extractionState" : "manual",
@@ -3389,17 +3852,6 @@
         }
       }
     },
-    "Upcoming Zmanim Widget" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "יישומון זמני היום הקרובים"
-          }
-        }
-      }
-    },
     "Update" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3434,16 +3886,44 @@
       }
     },
     "Use Mishor (Sea Level) Sunrise/Sunset" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "השתמש בזמני זריחת/שקיעת שמש במישור (גובה פני הים)"
+          }
+        }
+      }
     },
     "Use my device's location" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "השתמש במיקום המכשיר שלי"
+          }
+        }
+      }
     },
     "Visible Sunrise Data Error" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שגיאת נתוני זריחת השמש הנראית"
+          }
+        }
+      }
     },
     "Visible Sunrise Setup" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדרת זריחת שמש נראית"
+          }
+        }
+      }
     },
     "Watch a video guide" : {
       "extractionState" : "manual",
@@ -3457,7 +3937,15 @@
       }
     },
     "Watch Video Guide" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "צפה במדריך וידאו"
+          }
+        }
+      }
     },
     "We are the platform to use whenever and wherever you'd need Halachic Times (Zemanim) according to Hakham Ovadia Yosef zt'l, following his practices represented in his Ohr Hachaim calendar from Eretz Yisrael. Outside Israel, our algorithm follow's the rules outlined by the Minḥat Kohen (as quoted by R David Yosef, approved by R Yitzḥak Yosef) to comply with the astronomical differences while sticking to seasonal minutes." : {
       "extractionState" : "manual",
@@ -3471,7 +3959,14 @@
       }
     },
     "We are the platform to use whenever and wherever you'd need Halachic Times (Zemanim) according to Hakham Ovadia Yosef zt'l, following his practices represented in his Ohr Hachaim calendar from Eretz Yisrael. Outside Israel, our algorithm follows the rules outlined by the Minḥat Kohen (as quoted by R David Yosef, approved by R Yitzḥak Yosef) to comply with the astronomical differences while sticking to seasonal minutes." : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אנו הפלטפורמה לשימוש בכל מקום וזמן בו תזדקקו לזמני הלכה (זמנים) לפי חכם עובדיה יוסף זצ\"ל, בהתאם למנהגיו המיוצגים בלוח אור החיים שלו מארץ ישראל. מחוץ לישראל, האלגוריתם שלנו פועל לפי הכללים שהוגדרו על ידי מנחת כהן (כמצוטט מרב דוד יוסף, באישור רב יצחק יוסף) כדי להתאים להבדלים האסטרונומיים, תוך שמירה על דקות זמניות."
+          }
+        }
+      }
     },
     "Website" : {
       "extractionState" : "manual",
@@ -3485,7 +3980,14 @@
       }
     },
     "What did you eat/drink?" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מה אכלת/שתית?"
+          }
+        }
+      }
     },
     "When did you start your meal?" : {
       "extractionState" : "manual",
@@ -3499,10 +4001,35 @@
       }
     },
     "When praying the Amidah, one should direct himself towards Israel, Jerusalem, the temple mount and the Kodesh Hakodashim (Holy of Holies) area (Berakhot Bavli 30a, based on Kings I 8:35–48 & Chronicles II 6:32). Determining which direction that is in can be done through the \"Rhumb line\" method, which \"draws\" a line from one's location to a specific point (which in our case, would be the Temple mount). Once the line is drawn, you are expected to pray in the direction the line is drawn in through matching your direction with its degree angle. Please note that even if the Aron in the synagogue that you are in is misplaced, you should not separate from the others. Rather, you should only adjust your head to the right direction." : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בעת התפילה בעמידה, יש להכווין את עצמו לכיוון ירושלים, בית המקדש ואזור קודש הקדשים (ברכות בבלי ל: א), (מלכים א\\' ח: לה-מח, ודברי הימים ב\\' ו: לב). לקביעת הכיוון הנכון ניתן להשתמש בשיטת \\\"קו רומב\\\" המציירת קו ממקום המתפלל ישירות לנקודה ספציפית (שבמקרה שלנו, יהיה זה הר הבית). לאחר שהקו נמשך, מומלץ להתפלל לפי הכיוון של הקו באמצעות התאמת כיוון התפילה לזווית המדרגה שלו. יש לשים לב כי גם אם ארון הקודש בבית הכנסת בו אתה נמצא מותקף, לא רקוב זה אינו מנותק מהמתפללים האחרים. במקום זאת, יש להתאים רק את הראש לכיוון הנכון."
+          }
+        }
+      }
+    },
+    "Wine" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "יין"
+          }
+        }
+      }
     },
     "Worldwide Halachic Times according to our Sepharadic Tradition." : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זמני הלכה עולמיים לפי המסורת הספרדית שלנו."
+          }
+        }
+      }
     },
     "Yerushalmi Vilna Yomi: " : {
       "extractionState" : "manual",
@@ -3560,7 +4087,25 @@
       }
     },
     "Your device is not configured to send emails. Please send an email from another device to ElyahuJacobi@gmail.com" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "המכשיר שלך לא מוגדר לשליחת מיילים. אנא שלח מייל ממכשיר אחר לכתובת [ElyahuJacobi@gmail.com]"
+          }
+        }
+      }
+    },
+    "Zemaneh Yosef (IOS)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זמני יוסף (IOS)"
+          }
+        }
+      }
     },
     "Zipcode/Address" : {
       "extractionState" : "manual",
@@ -3569,17 +4114,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מיקוד/כתובת"
-          }
-        }
-      }
-    },
-    "Zmanei Yosef (IOS)" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "זמני יוסף (IOS)"
           }
         }
       }
@@ -3595,10 +4129,24 @@
       }
     },
     "Zmanim Display" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " הצגת זמני זמניות\n"
+          }
+        }
+      }
     },
     "Zmanim Language" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שפת זמני זמניות"
+          }
+        }
+      }
     },
     "Zmanim Notifications" : {
       "extractionState" : "manual",
@@ -3643,12 +4191,6 @@
           }
         }
       }
-    },
-    "בחר מסכתות" : {
-
-    },
-    "בעת התפילה בעמידה, יש להכווין את עצמו לכיוון ירושלים, בית המקדש ואזור קודש הקדשים (ברכות בבלי ל: א), (מלכים א' ח: לה-מח, ודברי הימים ב' ו: לב). לקביעת הכיוון הנכון ניתן להשתמש בשיטת \"קו רומב\" המציירת קו ממקום המתפלל ישירות לנקודה ספציפית (שבמקרה שלנו, יהיה זה הר הבית). לאחר שהקו נמשך, מומלץ להתפלל לפי הכיוון של הקו באמצעות התאמת כיוון התפילה לזווית המדרגה שלו. יש לשים לב כי גם אם ארון הקודש בבית הכנסת בו אתה נמצא מותקף, לא רקוב זה אינו מנותק מהמתפללים האחרים. במקום זאת, יש להתאים רק את הראש לכיוון הנכון." : {
-
     },
     "ברכת הלבנה" : {
 

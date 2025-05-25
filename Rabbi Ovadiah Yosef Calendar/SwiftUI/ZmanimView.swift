@@ -1908,52 +1908,50 @@ struct ZmanimView: View {
                 nextView = .setup
                 showNextView = true
             } else { //not first run
-                if lat == 0 && long == 0 {
-                    if defaults.bool(forKey: "useAdvanced") {
-                        setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
-                    } else if defaults.bool(forKey: "useLocation1") {
-                        setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
-                    } else if defaults.bool(forKey: "useLocation2") {
-                        setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
-                    } else if defaults.bool(forKey: "useLocation3") {
-                        setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
-                    } else if defaults.bool(forKey: "useLocation4") {
-                        setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
-                    } else if defaults.bool(forKey: "useLocation5") {
-                        setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
-                    } else if defaults.bool(forKey: "useZipcode") {
-                        setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
-                    } else {
-                        DispatchQueue.global().async {
-                            if CLLocationManager.locationServicesEnabled() {
-                                let locationManager = CLLocationManager()
-                                switch locationManager.authorizationStatus {
-                                case .restricted, .denied:
-                                    DispatchQueue.main.async {
-                                        showLocationServicesDisabledAlert = true
-                                    }
-                                    print("No access")
-                                    break
-                                case .authorizedAlways, .authorizedWhenInUse:
-                                    //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
-                                    break
-                                case .notDetermined:
-                                    break
-                                @unknown default:
-                                    break
+                if defaults.bool(forKey: "useAdvanced") {
+                    setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+                } else if defaults.bool(forKey: "useLocation1") {
+                    setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+                } else if defaults.bool(forKey: "useLocation2") {
+                    setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+                } else if defaults.bool(forKey: "useLocation3") {
+                    setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+                } else if defaults.bool(forKey: "useLocation4") {
+                    setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+                } else if defaults.bool(forKey: "useLocation5") {
+                    setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+                } else if defaults.bool(forKey: "useZipcode") {
+                    setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
+                } else {
+                    DispatchQueue.global().async {
+                        if CLLocationManager.locationServicesEnabled() {
+                            let locationManager = CLLocationManager()
+                            switch locationManager.authorizationStatus {
+                            case .restricted, .denied:
+                                DispatchQueue.main.async {
+                                    showLocationServicesDisabledAlert = true
                                 }
-                            } else {
-                                showLocationServicesDisabledAlert = true
                                 print("No access")
+                                break
+                            case .authorizedAlways, .authorizedWhenInUse:
+                                //self.getUserLocation() this does not work for some reason. I assume it is because it works on another thread
+                                break
+                            case .notDetermined:
+                                break
+                            @unknown default:
+                                break
                             }
+                        } else {
+                            showLocationServicesDisabledAlert = true
+                            print("No access")
                         }
-                        getUserLocation()
                     }
+                    getUserLocation()
                 }
-            }
-            // another swiftUI hack because they removed onViewDidAppear, I'm concerned about what will happen if it takes too long to get the location...
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                refreshTable()
+                // another swiftUI hack because they removed onViewDidAppear, I'm concerned about what will happen if it takes too long to get the location...
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    refreshTable()
+                }
             }
             defaults.set(locationName, forKey: "lastKnownLocation")
             checkIfUserIsInIsrael()
