@@ -11,7 +11,11 @@ import SwiftUISnackbar
 
 @available(iOS 15.0, *)
 struct SiddurChooserView: View {
-    @State private var siddurPrayer = ""
+    @State private var siddurPrayer = "" {
+        didSet {
+            GlobalStruct.chosenPrayer = siddurPrayer
+        }
+    }
     @State private var showSiddur = false
     
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
@@ -96,7 +100,6 @@ struct SiddurChooserView: View {
                 if GlobalStruct.jewishCalendar.isSelichotSaid() {
                     Button(action: {
                         siddurPrayer = "Selichot"
-                        GlobalStruct.chosenPrayer = siddurPrayer
                         openSiddurView()
                     }) {
                         VStack(alignment: .leading) {
@@ -112,7 +115,6 @@ struct SiddurChooserView: View {
                 }
                 Button(action: {
                     siddurPrayer = "Shacharit"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     openSiddurView()
                 }) {
                     VStack(alignment: .leading) {
@@ -127,7 +129,6 @@ struct SiddurChooserView: View {
                 if GlobalStruct.jewishCalendar.isRoshChodesh() || GlobalStruct.jewishCalendar.isCholHamoed() {
                     Button(action: {
                         siddurPrayer = "Mussaf"
-                        GlobalStruct.chosenPrayer = siddurPrayer
                         openSiddurView()
                     }) {
                         VStack(alignment: .leading) {
@@ -142,7 +143,6 @@ struct SiddurChooserView: View {
                 }
                 Button(action: {
                     siddurPrayer = "Mincha"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     openSiddurView()
                 }) {
                     VStack(alignment: .leading) {
@@ -162,7 +162,6 @@ struct SiddurChooserView: View {
             Section {
                 Button(action: {
                     siddurPrayer = "Arvit"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     openSiddurView()
                 }) {
                     VStack(alignment: .leading) {
@@ -177,7 +176,6 @@ struct SiddurChooserView: View {
                 if !(GlobalStruct.jewishCalendar.tomorrow().getDayOfOmer() == -1 || GlobalStruct.jewishCalendar.getDayOfOmer() >= 49) {
                     Button(action: {
                         siddurPrayer = "Sefirat HaOmer+1"
-                        GlobalStruct.chosenPrayer = siddurPrayer
                         openSiddurView()
                     }) {
                         VStack(alignment: .leading) {
@@ -193,7 +191,6 @@ struct SiddurChooserView: View {
                 if (GlobalStruct.jewishCalendar.tomorrow().isChanukah() || GlobalStruct.jewishCalendar.isChanukah() && GlobalStruct.jewishCalendar.getDayOfChanukah() != 8) {
                     Button(action: {
                         siddurPrayer = "Hadlakat Neirot Chanuka"
-                        GlobalStruct.chosenPrayer = siddurPrayer
                         openSiddurView()
                     }) {
                         VStack(alignment: .leading) {
@@ -212,7 +209,6 @@ struct SiddurChooserView: View {
                             showHavdalaAlert = true
                         } else {
                             siddurPrayer = "Havdala"
-                            GlobalStruct.chosenPrayer = siddurPrayer
                             openSiddurView()
                         }
                     }) {
@@ -229,7 +225,6 @@ struct SiddurChooserView: View {
                 }
                 Button(action: {
                     siddurPrayer = "Kriat Shema SheAl Hamita"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     openSiddurView()
                 }) {
                     VStack(alignment: .leading) {
@@ -279,7 +274,6 @@ struct SiddurChooserView: View {
                 }
                 Button(action: {
                     siddurPrayer = "Birchat Hamazon"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     handleBirchatHamazon()
                 }) {
                     VStack(alignment: .leading) {
@@ -293,7 +287,6 @@ struct SiddurChooserView: View {
                 }
                 Button(action: {
                     siddurPrayer = "Birchat MeEyin Shalosh"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     showMeEyinShaloshChoicePicker = true
                 }) {
                     VStack(alignment: .leading) {
@@ -351,7 +344,6 @@ struct SiddurChooserView: View {
                 if isNotAssurBemelacha() {
                     Button(action: {
                         siddurPrayer = "Tefilat HaDerech"
-                        GlobalStruct.chosenPrayer = siddurPrayer
                         openSiddurView()
                     }) {
                         VStack(alignment: .leading) {
@@ -366,7 +358,6 @@ struct SiddurChooserView: View {
                 }
                 Button(action: {
                     siddurPrayer = "Seder Siyum Masechet"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     showMasechtaPicker = true
                 }) {
                     VStack(alignment: .leading) {
@@ -399,7 +390,7 @@ struct SiddurChooserView: View {
                                 .buttonStyle(.plain)
                             }
                         }
-                        .navigationTitle("Choose Masechtas")
+                        .navigationTitle("Choose Masekhtot")
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
@@ -422,7 +413,6 @@ struct SiddurChooserView: View {
                 if !GlobalStruct.jewishCalendar.getBirchatLevanaStatus().isEmpty {
                     Button(action: {
                         siddurPrayer = "Birchat Halevana"
-                        GlobalStruct.chosenPrayer = siddurPrayer
                         openSiddurView()
                     }) {
                         VStack(alignment: .leading) {
