@@ -258,7 +258,7 @@
 "ynM-EA-aMC.text" = "Dawn\nEarliest Talit/Tefilin\nSunrise\nLatest Shma Mg'a\nLatest Shma Gr'a\nLatest Brachot Shma\nMid-Day\netc...";
 
 /* Class = "UILabel"; text = "Choose A Calendar"; ObjectID = "yt8-iV-RXq"; */
-"yt8-iV-RXq.text" = "Choose A Calendar";
+"yt8-iV-RXq.text" = "Tip: You can press on the times to find out more information on them!";
 
 /* Class = "UIButton"; configuration.title = "Skip"; ObjectID = "z5B-Kp-adr"; */
 "z5B-Kp-adr.configuration.title" = "Skip";
@@ -274,7 +274,7 @@
 
 "gwT-kb-zHO.normalTitle" = "Confirm";
 
-"ovk-sY-CB5.normalTitle" = "";
+"ovk-sY-CB5.normalTitle" = "Use your device's location";
 
 "RsS-I4-zyr.normalTitle" = "";
 

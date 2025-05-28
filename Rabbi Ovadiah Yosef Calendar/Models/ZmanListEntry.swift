@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct ZmanListEntry {
+struct ZmanListEntry: Hashable {
     var title: String // Name of zman or information of the day
+    var desc: String = "" // if this object is being used for limudim
     var src: String = "" // if this object is being used for limudim
     var zman: Date? = nil // Date time of zman
     var isZman: Bool = false // Whether or not this object is a zman or just some text
@@ -17,6 +18,15 @@ struct ZmanListEntry {
     var shouldBeDimmed: Bool = false // For Tzeit on Shabbat/Yom Tov
     var isVisibleSunriseZman = false
     var isBirchatHachamahZman = false
+    var is66MisheyakirZman = false
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(title)
+    }
+    
+    static func == (lhs: ZmanListEntry, rhs: ZmanListEntry) -> Bool {
+        return lhs.title == rhs.title && lhs.src == rhs.src && lhs.zman == rhs.zman && lhs.isZman == rhs.isZman
+    }
 }
 
 #if DEBUG

@@ -8,7 +8,6 @@
 import UIKit
 import KosherSwift
 
-@main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -43,11 +42,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyboard.instantiateViewController(withIdentifier: "Omer") as! OmerViewController
             newViewController.modalPresentationStyle = .fullScreen
-            
             // Get the reference to the currently visible view controller
-            if let rootViewController = UIApplication.shared.windows.first?.rootViewController {
-                // Present the new view controller
-                rootViewController.present(newViewController, animated: true, completion: nil)
+            if #available(iOS 15.0, *) {
+                if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                   let rootViewController = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                    rootViewController.present(newViewController, animated: true, completion: nil)
+                }
+            } else {
+                if let rootViewController = UIApplication.shared.windows.first?.rootViewController {
+                    // Present the new view controller
+                    rootViewController.present(newViewController, animated: true, completion: nil)
+                }
             }
         }
     }

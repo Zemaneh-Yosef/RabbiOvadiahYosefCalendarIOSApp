@@ -41,10 +41,7 @@ class SetupChooserViewController: UIViewController {
         transition.subtype = CATransitionSubtype.fromRight
         transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         view.window!.layer.add(transition, forKey: kCATransition)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "SimpleSetup") as! SimpleSetupViewController
-        newViewController.modalPresentationStyle = .fullScreen
-        self.present(newViewController, animated: false)
+        showFullScreenView("SimpleSetup")
     }
     
     @IBAction func startAdvancedSetup(_ sender: UIButton) {
@@ -54,10 +51,7 @@ class SetupChooserViewController: UIViewController {
         transition.subtype = CATransitionSubtype.fromRight
         transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         view.window!.layer.add(transition, forKey: kCATransition)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "AdvancedSetup") as! AdvancedSetupViewController
-        newViewController.modalPresentationStyle = .fullScreen
-        self.present(newViewController, animated: false)
+        showFullScreenView("AdvancedSetup")
     }
     
     override func viewDidLoad() {

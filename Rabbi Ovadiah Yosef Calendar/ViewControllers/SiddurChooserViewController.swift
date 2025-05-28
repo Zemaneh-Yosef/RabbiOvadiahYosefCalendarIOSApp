@@ -11,6 +11,7 @@ import KosherSwift
 class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var zmanimCalendar = ComplexZmanimCalendar()
+    var lastTimeUserWasInApp: Date = Date()
     let dateFormatterForZmanim = DateFormatter()
     var specialDayText = ""
     var tonightText = ""
@@ -38,18 +39,13 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     }
     @IBOutlet weak var viewContainingToolbar: UIView!
     @IBAction func jerDirection(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "jerDirection") as! JerusalemDirectionViewController
-        newViewController.modalPresentationStyle = .fullScreen
-        self.present(newViewController, animated: true)
+        showFullScreenView("jerDirection")
     }
 
     func birchatHamazon() {
         GlobalStruct.chosenPrayer = "Birchat Hamazon"
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        GlobalStruct.jewishCalendar.forward()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-        GlobalStruct.jewishCalendar.back()//reset
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
         
         if today.count != tomorrow.count {
             var notEqual = false
@@ -93,10 +89,8 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     }
     func birchatMeEyinShalosh() {
         GlobalStruct.chosenPrayer = "Birchat MeEyin Shalosh"
-        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        GlobalStruct.jewishCalendar.forward()
-        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-        GlobalStruct.jewishCalendar.back()//reset
+        let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
+        let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
 
         if today.count != tomorrow.count {
             var notEqual = false
@@ -203,7 +197,10 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
-        let weekday = dateFormatter.string(from: GlobalStruct.jewishCalendar.workingDate)
+        var weekday = dateFormatter.string(from: GlobalStruct.jewishCalendar.workingDate)
+        if Calendar.current.isDate(GlobalStruct.jewishCalendar.workingDate, inSameDayAs: Date()) {
+            weekday = weekday.appending(" (Today)".localized())
+        }
         let hebrewDateFormatter = HebrewDateFormatter()
         hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
 
@@ -217,17 +214,15 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                 .appending(GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false))
         }
 
-        GlobalStruct.jewishCalendar.forward()
         tonightText = weekday
             .appending(" " + "(After Sunset)".localized())
             .appending("\n")
-            .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar))
-        if !GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false).isEmpty {
+            .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()))
+        if !GlobalStruct.jewishCalendar.tomorrow().getSpecialDay(addOmer: false).isEmpty {
             tonightText = tonightText
                 .appending("\n")
-                .appending(GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false))
+                .appending(GlobalStruct.jewishCalendar.tomorrow().getSpecialDay(addOmer: false))
         }
-        GlobalStruct.jewishCalendar.back()
 
         if GlobalStruct.jewishCalendar.isSelichotSaid() {
             choices["morning"]?.append("סליחות")
@@ -238,10 +233,13 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         }
         choices["morning"]?.append("מנחה")
         choices["night"]?.append("ערבית")
+        if !(GlobalStruct.jewishCalendar.tomorrow().getDayOfOmer() == -1 || GlobalStruct.jewishCalendar.getDayOfOmer() >= 49) {
+            choices["night"]?.append("ספירת העומר")
+        }
         if (GlobalStruct.jewishCalendar.tomorrow().isChanukah() || GlobalStruct.jewishCalendar.isChanukah() && GlobalStruct.jewishCalendar.getDayOfChanukah() != 8) {
             choices["night"]?.append("הדלקת נרות חנוכה")
         }
-        if (!GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha()) {
+        if !GlobalStruct.jewishCalendar.hasCandleLighting() && GlobalStruct.jewishCalendar.isAssurBemelacha() || (GlobalStruct.jewishCalendar.isTishaBav() && (GlobalStruct.jewishCalendar.getDayOfWeek() == 7 || GlobalStruct.jewishCalendar.getDayOfWeek() == 1)) {
             choices["night"]?.append("הבדלה")
         }
         choices["night"]?.append("ק״ש שעל המיטה")
@@ -324,23 +322,26 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                           || GlobalStruct.jewishCalendar.getTachanun() == "אומרים תחנון"
                           || GlobalStruct.jewishCalendar.getTachanun() == "There is Tachanun today"
                   if (!GlobalStruct.jewishCalendar.isDayTikkunChatzotSaid() || !isTachanunSaid) {
-                      GlobalStruct.jewishCalendar.forward()
-                      if (!GlobalStruct.jewishCalendar.isNightTikkunChatzotSaid()) {// i.e. both are not said
+                      if (!GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {// i.e. both are not said
                           content.textProperties.color = .systemGray // Subtle gray for text
                           cell.alpha = 0.8 // Slightly dim entire cell
                       }
-                      GlobalStruct.jewishCalendar.back()
                   }
               } else {// not three weeks
-                  GlobalStruct.jewishCalendar.forward()
-                  if (!GlobalStruct.jewishCalendar.isNightTikkunChatzotSaid()) {
+                  if (!GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {
                       content.textProperties.color = .systemGray // Subtle gray for text
                       cell.alpha = 0.8 // Slightly dim entire cell
                   }
-                  GlobalStruct.jewishCalendar.back()
               }
         }
-
+        
+        if content.text == "הבדלה" {
+            if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
+                content.textProperties.color = .systemGray // Subtle gray for text
+                cell.alpha = 0.8 // Slightly dim entire cell
+            }
+        }
+        
         cell.contentConfiguration = content
         return cell
     }
@@ -374,6 +375,9 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         case "ערבית":
             GlobalStruct.chosenPrayer = "Arvit"
             openSiddur()
+        case "ספירת העומר":
+            GlobalStruct.chosenPrayer = "Sefirat HaOmer"
+            openSiddur()
         case "ברכת המזון":
             birchatHamazon()
         case "ברכת הלבנה":
@@ -391,7 +395,16 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             openSiddur()
         case "הבדלה":
             GlobalStruct.chosenPrayer = "Havdala"
-            openSiddur()
+            if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
+                let alert = UIAlertController(title: "Havdalah is only said on a flame tonight.".localized(),
+                                              message:"Havdalah will be completed after the fast.".localized().appending("\n\n").appending("בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם, בּוֹרֵא מְאוֹרֵי הָאֵשׁ:"), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized(), style: .cancel, handler: { UIAlertAction in
+                    alert.dismiss(animated: false)
+                }))
+                present(alert, animated: true)
+            } else {
+                openSiddur()
+            }
         default:
             if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
                 openEtrogPrayerLink()
@@ -481,28 +494,6 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             entries = entries.filter { !$0.isEmpty }
             return entries.joined(separator: ", ")
         case "ק״ש שעל המיטה":
-//            if Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0 {
-//                GlobalStruct.jewishCalendar.forward()
-//            }
-//            var tachanun =
-//                GlobalStruct.jewishCalendar.getTachanun()
-//                    .replacingOccurrences(of: "צדקתך", with: "")
-//                    .replacingOccurrences(of: "לא אומרים תחנון", with: "")
-//                    .replacingOccurrences(of: "אומרים תחנון רק בבוקר", with: "")
-//                    .replacingOccurrences(of: "יש אומרים תחנון", with: "")
-//                    .replacingOccurrences(of: "יש מדלגים תחנון במנחה", with: "")
-//                    .replacingOccurrences(of: "אומרים תחנון", with: "")
-//                
-//                    .replacingOccurrences(of: "צדקתך", with: "")
-//                    .replacingOccurrences(of: "No Tachanun today", with: "")
-//                    .replacingOccurrences(of: "Tachanun only in the morning", with: "")
-//                    .replacingOccurrences(of: "Some say Tachanun today", with: "")
-//                    .replacingOccurrences(of: "Some skip Tachanun by mincha", with: "")
-//                    .replacingOccurrences(of: "There is Tachanun today", with: "")
-//
-//            if Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0 {
-//                GlobalStruct.jewishCalendar.back()
-//            }
             return nil
         case "Prayer for Etrog".localized():
             return "It is good to say this prayer today.".localized()
@@ -546,40 +537,41 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
+            GlobalStruct.userChosenDate = Date()
+            GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
+        }
+        lastTimeUserWasInApp = Date()
         loadView()
         viewDidLoad()
     }
     
     func openSiddur() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
-        newViewController.modalPresentationStyle = .fullScreen
-
-        if GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && !(GlobalStruct.chosenPrayer == "Birchat Halevana" || GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") || GlobalStruct.chosenPrayer == "Kriat Shema SheAl Hamita") {// if the prayer is dependant on isMukafChoma, we ask the user
+        if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM) && GlobalStruct.chosenPrayer != "Birchat Halevana" && !GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") && GlobalStruct.chosenPrayer != "Kriat Shema SheAl Hamita" {// if the prayer is dependant on isMukafChoma, we ask the user
             let alert = UIAlertController(title: "Are you in a walled (Mukaf Choma) city?".localized(),
                                           message:"Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?".localized(), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes (Jerusalem)".localized(), style: .default, handler: { UIAlertAction in
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                self.present(newViewController, animated: false, completion: nil)
+                self.showFullScreenView("Siddur")
             }))
             alert.addAction(UIAlertAction(title: "Doubt (Safek)".localized(), style: .default, handler: { UIAlertAction in
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: true)
-                self.present(newViewController, animated: false)
+                self.showFullScreenView("Siddur")
             }))
             alert.addAction(UIAlertAction(title: "No".localized(), style: .default, handler: { UIAlertAction in
                 // Undo any previous settings
                 GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: false)
                 GlobalStruct.jewishCalendar.setIsSafekMukafChoma(isSafekMukafChoma: false)
-                self.present(newViewController, animated: false)
+                self.showFullScreenView("Siddur")
             }))
             alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-                
+                alert.dismiss(animated: false)
             }))
-            present(alert, animated: true)
+            showFullScreenView("Siddur")
         } else {
-            self.present(newViewController, animated: true)
+            showFullScreenView("Siddur")
         }
     }
 

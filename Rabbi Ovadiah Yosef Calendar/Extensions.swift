@@ -7,6 +7,7 @@
 
 import Foundation
 import KosherSwift
+import UIKit
 
 public extension JewishCalendar {
     
@@ -145,6 +146,9 @@ public extension JewishCalendar {
         if Locale.isHebrewLocale() {
             let hebrewDateFormatter = HebrewDateFormatter()
             hebrewDateFormatter.hebrewFormat = true
+            if (isPurimMeshulash()) {
+                return "פורים משולש"
+            }
             return hebrewDateFormatter.formatYomTov(jewishCalendar: self)
         }
         let hebrewDateFormatter = HebrewDateFormatter()
@@ -162,14 +166,36 @@ public extension JewishCalendar {
         if yomtov.contains("Chanukah") {
             return "Chanukah" // to remove the numbers
         }
-        if (isPurimMeshulash()) {
-            return "פורים משולש";
+        if isPurimMeshulash() {
+            return "Purim Meshulash"
         }
         return yomtov.replacingOccurrences(of: "Teves", with: "Tevet")
             .replacingOccurrences(of: "Shavuos", with: "Shavuot")
             .replacingOccurrences(of: "Succos", with: "Succot")
             .replacingOccurrences(of: "Atzeres", with: "Atzeret")
             .replacingOccurrences(of: "Simchas", with: "Simchat")
+    }
+    
+    func getThisWeeksParasha() -> String {
+        let temp = workingDate
+        while getDayOfWeek() != 7 {//forward jewish calendar to saturday
+            forward()
+        }
+        let hebrewDateFormatter = HebrewDateFormatter()
+        hebrewDateFormatter.hebrewFormat = true
+        //now that we are on saturday, check the parasha
+        let specialParasha = hebrewDateFormatter.formatSpecialParsha(jewishCalendar: self)
+        var parasha = hebrewDateFormatter.formatParsha(parsha: getParshah())
+        workingDate = temp //reset
+        
+        if !specialParasha.isEmpty {
+            parasha += " / " + specialParasha
+        }
+        if !parasha.isEmpty {
+            return parasha
+        } else {
+            return "No Weekly Parasha".localized()
+        }
     }
     
     func getTachanun() -> String {
@@ -188,19 +214,17 @@ public extension JewishCalendar {
             || yomTovIndex == JewishCalendar.SHUSHAN_PURIM_KATAN
             || yomTovIndex == JewishCalendar.PURIM
             || yomTovIndex == JewishCalendar.SHUSHAN_PURIM
-            || yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM //tachanun erev before, however, Rav ovadia would not say on the day itself
             || isChanukah()
             || getJewishMonth() == JewishCalendar.NISSAN
             || (getJewishMonth() == JewishCalendar.SIVAN && getJewishDayOfMonth() <= 12)
             || (getJewishMonth() == JewishCalendar.TISHREI && getJewishDayOfMonth() >= 11)) {
             if (yomTovIndex == JewishCalendar.ROSH_HASHANA && getDayOfWeek() == 7) {//Edge case for rosh hashana that falls on shabbat (Shulchan Aruch, Chapter 598 and Chazon Ovadia page 185)
                 return "צדקתך";
-            }//TODO check source on this
-            if Locale.isHebrewLocale() {
-                return "לא אומרים תחנון"
-            } else {
-                return "No Tachanun today";
             }
+            if Locale.isHebrewLocale() {
+                return "לא אומרים תחנון";
+            }
+            return "No Tachanun today";
         }
         let yomTovIndexForNextDay = getYomTovIndexForNextDay();
         if (getDayOfWeek() == 6
@@ -215,10 +239,9 @@ public extension JewishCalendar {
             || isErevRoshChodesh()) {
             if (getDayOfWeek() == 7) {
                 if Locale.isHebrewLocale() {
-                    return "לא אומרים תחנון"
-                } else {
-                    return "No Tachanun today";
+                    return "לא אומרים תחנון";
                 }
+                return "No Tachanun today";
             }
             if Locale.isHebrewLocale() {
                 return "אומרים תחנון רק בבוקר";
@@ -226,19 +249,20 @@ public extension JewishCalendar {
             return "Tachanun only in the morning";
         }
         // According to Rabbi Meir Gavriel Elbaz, Rabbi Ovadiah would only skip tachanun on the day of Yom Yerushalayim itself as is the custom of the Yeshiva of Yechaveh Daat.
-         // He WOULD say tachanun on Erev Yom Yerushalayim and on Yom Ha'atmaut. However, since there are disagreements, it was recommended for the app to just say that "Some say tachanun" on both days.
-         if (yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndex == JewishCalendar.YOM_HAATZMAUT) {
-             if Locale.isHebrewLocale() {
-                 return "יש אומרים תחנון";
-             }
-             return "Some say Tachanun today";
-         }
-         if (yomTovIndexForNextDay == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndexForNextDay == JewishCalendar.YOM_HAATZMAUT) {
-             if Locale.isHebrewLocale() {
-                 return "יש מדלגים תחנון במנחה";
-             }
-             return "Some skip Tachanun by mincha";
-         }
+        // He WOULD say tachanun on Erev Yom Yerushalayim and on Yom Ha'atmaut. However, since there are disagreements (for example: Rabbi Yonatan Nacson writes that you may skip tachanun on both days), it was recommended for the app to just say that "Some say tachanun" on both days.
+        if (yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndex == JewishCalendar.YOM_HAATZMAUT) {
+            if Locale.isHebrewLocale() {
+                return "יש אומרים תחנון";
+            }
+            return "Some say Tachanun today";
+        }
+        if (yomTovIndexForNextDay == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndexForNextDay == JewishCalendar.YOM_HAATZMAUT) {
+            if Locale.isHebrewLocale() {
+                return "יש מדלגים תחנון במנחה";
+            }
+            return "Some skip Tachanun by mincha";
+        }
+        
         if (getDayOfWeek() == 7) {
             return "צדקתך";
         }
@@ -371,19 +395,19 @@ public extension JewishCalendar {
         
         if getJewishMonth() != JewishCalendar.AV {
             if Calendar.current.isDate(workingDate, inSameDayAs: sevenDays) {
-                return "Birchat HaLevana starts tonight".localized();
+                return "Birkat Halevana starts tonight".localized();
             }
         } else {
             if getJewishDayOfMonth() < 9 {
                 return ""
             }
             if getYomTovIndex() == JewishCalendar.TISHA_BEAV {
-                return "Birchat HaLevana starts tonight".localized();
+                return "Birkat Halevana starts tonight".localized();
             }
         }
         
         if getJewishDayOfMonth() == 14 {
-            return "Last night for Birchat HaLevana".localized();
+            return "Last night for Birkat Halevana".localized();
         }
         
         let latest = Calendar(identifier: .hebrew).date(bySetting: .day, value: 14, of: sevenDays)!
@@ -394,7 +418,7 @@ public extension JewishCalendar {
             if Locale.isHebrewLocale() {
                 return "ברכת הלבנה עד ליל טו'"
             }
-            return "Birchat HaLevana until " + format.string(from: latest)
+            return "Birkat Halevana until " + format.string(from: latest)
         }
         return ""
     }
@@ -441,27 +465,34 @@ public extension JewishCalendar {
         if (forNightTikkun) {
             if (isTikkunChatzotSaid) {
                 // These are days where we ONLY say Tikkun Leia
-                let currentDate = workingDate
-                let currentHebrewMonth = getJewishMonth();
-                while (currentHebrewMonth == getJewishMonth()) {
-                    forward() // go forward until the next month
-                }
-                let molad = getMoladAsDate(); // now we can get the molad for the next month
-                let roshChodesh = workingDate
-                workingDate = currentDate // reset
-                let afterMoladBeforeRoshChodesh = molad.timeIntervalSince1970 < Date().timeIntervalSince1970 && roshChodesh.timeIntervalSince1970 > Date().timeIntervalSince1970 && !isRoshChodesh(); // Tikkun Leia (only) is said if it is after the molad but before Rosh Chodesh, this condition is time based even though all the other methods are date based
                 return (isAseresYemeiTeshuva() ||
                         isCholHamoedSuccos() ||
                         getDayOfOmer() != -1 ||
                         (getInIsrael() && isShmitaYear()) ||
                         getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון" ||
-                        afterMoladBeforeRoshChodesh);
+                        isAfterMoladBeforeRoshChodesh());
                 // Tikkun Rachel is also skipped in the house of a Mourner, Chatan, or Brit Milah (Specifically the father of the boy)
             }
         } else { // for day tikkun, we do not say Tikkun Rachel if there is no tachanun
             return getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון";
         }
         return false;
+    }
+    
+    func isAfterMoladBeforeRoshChodesh() -> Bool {
+        let currentDate = workingDate
+        let currentHebrewMonth = getJewishMonth();
+        while (currentHebrewMonth == getJewishMonth()) {
+            forward() // go forward until the next month
+        }
+        let molad = getMoladAsDate(); // now we can get the molad for the next month
+        workingDate = currentDate // reset
+        while (!isRoshChodesh()) {
+            forward() // go forward until the next rosh chodesh
+        }
+        let roshChodesh = workingDate
+        workingDate = currentDate // reset
+        return molad.timeIntervalSince1970 < Date().timeIntervalSince1970 && roshChodesh.timeIntervalSince1970 > Date().timeIntervalSince1970 && !isRoshChodesh(); // Tikkun Leia (only) is said if it is after the molad but before Rosh Chodesh, this condition is time based even though all the other methods are date based
     }
     
     /**

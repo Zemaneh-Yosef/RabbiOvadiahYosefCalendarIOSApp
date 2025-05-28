@@ -146,8 +146,8 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
         case 12:
-            content.text = "Show year of Shmita cycle?".localized()
-            content.secondaryText = "Show the year of the shmita cycle or if the current year is a shmita year".localized()
+            content.text = "Show year of Shemita cycle?".localized()
+            content.secondaryText = "Show the year of the Shemita cycle or if the current year is a Shemita year".localized()
             let switchView = SwitchWithParam(frame: .zero)
             switchView.isOn = defaults.bool(forKey: "showShmita")
             switchView.param = "showShmita"
@@ -189,24 +189,18 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        if indexPath.row == 2 && defaults.bool(forKey: "zmanim_notifications") {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyboard.instantiateViewController(withIdentifier: "ZmanimNotificationsSettingsViewController") as! ZmanimNotificationsSettingsViewController
-            newViewController.modalPresentationStyle = .fullScreen
-            self.present(newViewController, animated: true)
-        }
         if indexPath.row == 0 {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyboard.instantiateViewController(withIdentifier: "ZmanimSettingsViewController") as! ZmanimSettingsViewController
-            newViewController.modalPresentationStyle = .fullScreen
-            self.present(newViewController, animated: true)
+            showFullScreenView("ZmanimSettingsViewController")
+        }
+        if indexPath.row == 2 && defaults.bool(forKey: "zmanim_notifications") {
+            showFullScreenView("ZmanimNotificationsSettingsViewController")
         }
         if indexPath.row == 3 {
             let alert = UIAlertController(title: "Do not rely on these seconds!".localized(), message: "DO NOT RELY ON THESE SECONDS. The only zman that can be relied on to the second is the visible sunrise time based on chaitables.com. Otherwise, these zmanim are NOT accurate to the second! You should always round up or down a minute or two just in case.".localized(), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK".localized(), style: .default))
             present(alert, animated: true)
         }
-        if indexPath.row == 13 {
+        if indexPath.row == 15 {
             let recipient = "elyahujacobi@gmail.com"
             
             // Check if the user's device can send email
@@ -225,22 +219,27 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
             
             present(mailComposer, animated: true, completion: nil)
         }
-        if indexPath.row == 14 {
-            let alert = UIAlertController(title: "Choose a haskama to view".localized(), message: "Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.".localized(), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Rabbi Elbaz (English)".localized(), style: .default) { (_) in
+        if indexPath.row == 16 {
+            let alertController = UIAlertController(title: "Choose a haskama to view".localized(), message: "Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.".localized(), preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Rabbi Yitzchak Yosef (Hebrew)".localized(), style: .default) { (_) in
+                if let url = URL(string: "https://royzmanim.com/assets/haskamah-rishon-letzion.pdf") {
+                        UIApplication.shared.open(url)
+                }
+            })
+            alertController.addAction(UIAlertAction(title: "Rabbi Elbaz (English)".localized(), style: .default) { (_) in
                 if let url = URL(string: "https://royzmanim.com/assets/Haskamah.pdf") {
                         UIApplication.shared.open(url)
                 }
             })
-            alert.addAction(UIAlertAction(title: "Rabbi Dahan (Hebrew)".localized(), style: .default) { (_) in
+            alertController.addAction(UIAlertAction(title: "Rabbi Dahan (Hebrew)".localized(), style: .default) { (_) in
                 if let url = URL(string: "https://royzmanim.com/assets/%D7%94%D7%A1%D7%9B%D7%9E%D7%94.pdf") {
                         UIApplication.shared.open(url)
                 }
             })
-            alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel))
-            present(alert, animated: true)
+            alertController.addAction(UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in })
+            present(alertController, animated: true, completion: nil)
         }
-        if indexPath.row == 15 {
+        if indexPath.row == 17 {
             if let url = URL(string: "https://youtu.be/NP1_4kMA-Vs") {
                     UIApplication.shared.open(url)
             }

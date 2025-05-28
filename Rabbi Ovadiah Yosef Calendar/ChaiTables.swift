@@ -12,13 +12,20 @@ class ChaiTables {
     
     var chaitableVisibleSunrise: String
     var jewishCalendar = JewishCalendar()
+    var useVisibleSunrise: Bool = true
     
     init(locationName: String, jewishCalendar: JewishCalendar, defaults: UserDefaults) {
         chaitableVisibleSunrise = defaults.string(forKey: "visibleSunriseTable\(locationName)\(jewishCalendar.getJewishYear())") ?? ""
         self.jewishCalendar = jewishCalendar
+        if defaults.object(forKey: "useMishorSunrise".appending(locationName)) != nil {
+            useVisibleSunrise = defaults.bool(forKey: "useMishorSunrise".appending(locationName))
+        }
     }
     
     func getVisibleSurise(forDate: Date) -> Date? {
+        if !useVisibleSunrise {
+            return nil
+        }
         var hebrewCal = Calendar(identifier: .hebrew)
         hebrewCal.timeZone = jewishCalendar.timeZone
         

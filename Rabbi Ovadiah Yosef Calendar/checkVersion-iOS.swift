@@ -48,52 +48,67 @@ class CheckUpdate: NSObject {
     static let appStoreId = "6448838987" // Id Example
     
     // MARK: - Show Update Function
-    func showUpdate(withConfirmation: Bool, isTestFlight: Bool = false) {
+    func showUpdate(withConfirmation: Bool, isTestFlight: Bool = false, isForSwiftUI: Bool = false, completion: ((Bool, String?) -> Void)? = nil) {
         self.isTestFlight = isTestFlight
         DispatchQueue.global().async {
-            self.checkVersion(force : !withConfirmation)
+            self.checkVersion(force: !withConfirmation, isForSwiftUI: isForSwiftUI) { needsUpdate, appURL  in
+                completion?(needsUpdate, appURL)
+            }
         }
     }
 
     // MARK: - Function to check version
-    private  func checkVersion(force: Bool) {
+    private func checkVersion(force: Bool, isForSwiftUI: Bool = false, completion: ((Bool, String?) -> Void)? = nil) {
         if let currentVersion = self.getBundle(key: "CFBundleShortVersionString") {
             _ = getAppInfo { (data, info, error) in
                 
-                let store = self.isTestFlight ? "TestFlight" : "AppStore"
+                _ = self.isTestFlight ? "TestFlight" : "AppStore"
                 
-                if let error = error {
-                    print("error getting app \(store) version: ", error)
+                if error != nil {
+                    completion?(false, nil) // Return false if there's an error fetching app info
+                    return
                 }
                 
-                if let appStoreAppVersion = info?.version { // Check app on AppStore
-                    // Check if the installed app is the same that is on AppStore, if it is, print on console, but if it isn't it shows an alert.
-                    if appStoreAppVersion <= currentVersion {
-                        print("Already on the latest app version: ", currentVersion)
-                    } else {
-                        print("Needs update: \(store) Version: \(appStoreAppVersion) > Current version: ", currentVersion)
+                if let appStoreAppVersion = info?.version { // Check app on App Store
+                    let needsUpdate = appStoreAppVersion > currentVersion
+                    if isForSwiftUI {
+                        completion?(needsUpdate, (info?.trackViewUrl)!)
+                    } else if needsUpdate {
                         DispatchQueue.main.async {
-                            let topController: UIViewController = (UIApplication.shared.windows.first?.rootViewController)!
-                            topController.showAppUpdateAlert(version: appStoreAppVersion, force: force, appURL: (info?.trackViewUrl)!, isTestFlight: self.isTestFlight)
+                            if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene, let topController = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                                topController.showAppUpdateAlert(
+                                    version: appStoreAppVersion,
+                                    force: force,
+                                    appURL: (info?.trackViewUrl)!,
+                                    isTestFlight: self.isTestFlight
+                                )
+                            }
                         }
                     }
                 } else if let testFlightAppVersion = data?.attributes.version { // Check app on TestFlight
-                // Check if the installed app is the same that is on TestFlight, if it is, print on console, but if it isn't it shows an alert.
-                    if testFlightAppVersion <= currentVersion {
-                        print("Already on the last app version: ",currentVersion)
-                    } else {
-                        print("Needs update: \(store) Version: \(testFlightAppVersion) > Current version: ", currentVersion)
+                    let needsUpdate = testFlightAppVersion > currentVersion
+                    if isForSwiftUI {
+                        completion?(needsUpdate, (info?.trackViewUrl)!)
+                    } else if needsUpdate {
                         DispatchQueue.main.async {
-                            let topController: UIViewController = (UIApplication.shared.windows.first?.rootViewController)!
-                            topController.showAppUpdateAlert(version: testFlightAppVersion, force: force, appURL: (info?.trackViewUrl)!, isTestFlight: self.isTestFlight)
+                            if let scene = UIApplication.shared.connectedScenes
+                                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                               let topController = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                                topController.showAppUpdateAlert(
+                                    version: testFlightAppVersion,
+                                    force: force,
+                                    appURL: (info?.trackViewUrl)!,
+                                    isTestFlight: self.isTestFlight
+                                )
+                            }
                         }
                     }
-                } else { // App doesn't exist on store
-                    print("App does not exist on \(store)")
+                } else {
+                    completion?(false, nil) // App does not exist on the store
                 }
             }
         } else {
-            print("Erro to decode app current version")
+            completion?(false, nil) // Error decoding app version
         }
     }
     
@@ -138,7 +153,7 @@ class CheckUpdate: NSObject {
                     guard let data = data else { throw VersionError.invalidResponse }
                     
                     let result = try JSONDecoder().decode(LookupResult.self, from: data)
-                    print(result)
+                    //print(result)
                     
                     if self.isTestFlight {
                         let info = result.data?.first
@@ -192,11 +207,7 @@ extension UIViewController {
             guard let url = URL(string: appURL) else {
                 return
             }
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
 
         alertController.addAction(updateButton)

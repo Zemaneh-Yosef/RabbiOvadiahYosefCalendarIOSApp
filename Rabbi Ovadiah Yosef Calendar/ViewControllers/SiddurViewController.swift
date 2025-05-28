@@ -93,9 +93,11 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     }
     """
 
+    public static var hideBackButton = false
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
+    @IBOutlet weak var back: UIButton!
     @IBOutlet weak var slider: UISlider!
     @IBAction func slider(_ sender: UISlider, forEvent event: UIEvent) {
         defaults.set(sender.value, forKey: "textSize")
@@ -112,6 +114,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     @IBOutlet weak var justify: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        if SiddurViewController.hideBackButton {
+            back.isHidden = true
+        }
         var listOfTexts = Array<HighlightString>()
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
@@ -134,37 +139,41 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         case "Arvit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getArvitPrayers()
             dropDownTitle = "ערבית"
+        case "Sefirat HaOmer":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSefiratHaOmer()
+            dropDownTitle = "ספירת העומר"
+        case "Sefirat HaOmer+1":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getSefiratHaOmer()
+            dropDownTitle = "ספירת העומר"
         case "Birchat Hamazon":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
             dropDownTitle = "ברכת המזון"
         case "Birchat Hamazon+1":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
             dropDownTitle = "ברכת המזון"
+        case "Tefilat HaDerech":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTefilatHaderechPrayer()
+            dropDownTitle = "תפלת הדרך"
         case "Birchat Halevana":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHalevanaPrayers()
             dropDownTitle = "ברכת הלבנה"
+        case "Seder Siyum Masechet":
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSiyumMasechetPrayer(masechtas: GlobalStruct.siyumChoices)
+            dropDownTitle = "סדר סיום מסכת"
         case "Tikkun Chatzot (Day)":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
             dropDownTitle = "תיקון חצות"
         case "Tikkun Chatzot":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getTikkunChatzotPrayers(isForNight: true)
             dropDownTitle = "תיקון חצות"
         case "Kriat Shema SheAl Hamita":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
             dropDownTitle = "ק״ש שעל המיטה"
         case "Birchat MeEyin Shalosh":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
             dropDownTitle = "ברכת מעין שלוש"
         case "Birchat MeEyin Shalosh+1":
-            GlobalStruct.jewishCalendar.forward()
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers()
-            GlobalStruct.jewishCalendar.back()
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
             dropDownTitle = "ברכת מעין שלוש"
         case "Hadlakat Neirot Chanuka":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHadlakatNeirotChanukaPrayers()
@@ -184,12 +193,17 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         let fontString = """
         @font-face {
             font-family: "guttman-mantova";
-            src: url('MANTB 2.ttf') format('truetype');
+            src: url('Guttman Mantova.ttf') format('truetype');
         }
         
         @font-face {
             font-family: "keren";
             src: url('Guttman Keren.ttf') format('truetype');
+        }
+        
+        @font-face {
+            font-family: "taamey";
+            src: url('Taamey D.ttf') format('truetype');
         }
         """
         webView.navigationDelegate = self
@@ -198,8 +212,20 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             defaults.set(16, forKey: "textSize")
         }
         var catsFound = false
+        var fontFamily = ""
+        if defaults.string(forKey: "fontName") == nil {
+            defaults.set("Guttman Keren", forKey: "fontName")
+        }
+        switch defaults.string(forKey: "fontName") {
+        case "Guttman Keren" :
+            fontFamily = "keren"
+        case "Taamey D" :
+            fontFamily = "taamey"
+        default:
+            fontFamily = "none"
+        }
 
-        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: 'keren'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; }  .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
         for text in listOfTexts {
             let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>").appending("<br><br>")
             if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
@@ -263,10 +289,8 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     func tapFunctionMussaf() {
         GlobalStruct.chosenPrayer = "Mussaf"
         super.dismiss(animated: false)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyboard.instantiateViewController(withIdentifier: "Siddur") as! SiddurViewController
-        newViewController.modalPresentationStyle = .fullScreen
-        self.presentingViewController?.present(newViewController, animated: false)
+        SiddurViewController.hideBackButton = false
+        showFullScreenView("Siddur")
     }
     
     func tapFunctionSefaria() {

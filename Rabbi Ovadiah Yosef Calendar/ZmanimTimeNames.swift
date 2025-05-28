@@ -50,7 +50,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Midnight";
         } else {
-            return "Ḥatzot Layla";
+            return "Ḥatzot Ha'Layla";
         }
     }
     
@@ -67,10 +67,8 @@ struct ZmanimTimeNames {
     public func getTaanitString() -> String {
         if (mIsZmanimInHebrew) {
             return "תענית";
-        } else if (mIsZmanimEnglishTranslated) {
-            return "Fast";
         } else {
-            return "Ta'anit";
+            return "Fast";
         }
     }
     
@@ -88,7 +86,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Nightfall";
         } else {
-            return "Tzait Hakokhavim";
+            return "Tzet Ha'Kokhavim";
         }
     }
     
@@ -119,7 +117,7 @@ struct ZmanimTimeNames {
     }
     
     public func getEndsString() -> String {
-        if (mIsZmanimEnglishTranslated) {
+        if (!mIsZmanimInHebrew) {
             return " Ends";
         } else {
             return "";
@@ -129,10 +127,8 @@ struct ZmanimTimeNames {
     public func getTzaitString() -> String {
         if (mIsZmanimInHebrew) {
             return "צאת ";
-        } else if (!mIsZmanimEnglishTranslated) {
-            return "Tzet ";
         } else {
-            return "";//if we are translating to English, we don't want to show the word Tzait first, just {Zman} Ends
+            return "";//if we are translating to English, we don't want to show the word Tzet first, just {Zman} Ends
         }
     }
     
@@ -148,7 +144,7 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "פלג המנחה"
         } else {
-            return "Plag HaMinḥa"
+            return "Pelag Ha'Minḥa"
         }
     }
     
@@ -206,7 +202,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Latest time to eat Ḥametz"
         } else {
-            return "Sof Zeman Achilat Ḥametz"
+            return "Sof Zeman Akhilat Ḥametz"
         }
     }
     
@@ -224,9 +220,9 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "סוף זמן ברכת החמה";
         } else if (mIsZmanimEnglishTranslated) {
-            return "Latest Birkat HaChamah";
+            return "Latest Birkat Ha'Ḥamah";
         } else {
-            return "Sof Zeman Birkat HaChamah";
+            return "Sof Zeman Birkat Ha'Ḥamah";
         }
     }
     
@@ -272,7 +268,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Sunrise"
         } else {
-            return "HaNetz"
+            return "Ha'Netz"
         }
     }
     
@@ -288,7 +284,7 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "טלית ותפילין"
         } else {
-            return "Earliest Talit/Tefilin"
+            return "Earliest Tallit/Tefilin"
         }
     }
     
@@ -298,7 +294,7 @@ struct ZmanimTimeNames {
         } else if (mIsZmanimEnglishTranslated) {
             return "Dawn"
         } else {
-            return "Alot Hashachar"
+            return "Alot Ha'Shaḥar"
         }
     }
 }

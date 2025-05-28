@@ -17,10 +17,8 @@ class ZmanimSettingsViewController: UITableViewController {
     let overrideTimeForShabbat = 3
     let minutesForShabbatEndRow = 4
     let endShabbatOpinionRow = 5
-    let showPreferredMisheyakirRow = 7
-    let plagOpinionRow = 8
-    let alwaysShowTzeitLChumraRow = 9 // last row
-    let amountOfRows = 9 + 1 // it should be the last row + 1
+    let alwaysCalcTenthOfDayRow = 6
+    let amountOfRows = 6 + 1 // it should be the last row + 1
 
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true)
@@ -73,31 +71,23 @@ class ZmanimSettingsViewController: UITableViewController {
         case minutesForShabbatEndRow:
             content.text = "Minutes till shabbat ends".localized()
             content.secondaryText = "Enter the amount of minutes to add to sunset for shabbat/chag to end".localized()
+            if !defaults.bool(forKey: "overrideAHEndShabbatTime") {
+                content.textProperties.color = .secondaryLabel
+                content.secondaryTextProperties.color = .secondaryLabel
+            }
         case endShabbatOpinionRow:
             content.text = "End shabbat opinion".localized()
             content.secondaryText = "Choose which opinion to use for the time for when shabbat/chag ends".localized()
-        case 6: //These settings only apply to the regular mode i.e. Ohr HaChaim calendar
-            content.text = "The settings below only apply if you do not use the Luach Amudei Horaah setting above".localized()
-            content.secondaryText = ""
-            content.textProperties.color = .systemBlue
-            content.textProperties.alignment = .center
-        case showPreferredMisheyakirRow:
-            content.text = "Show Preferred Misheyakir Time".localized()
-            content.secondaryText = "Show the ideal zman for Talit Tefilin (60 seasonal minutes before sunrise)".localized()
+            if !defaults.bool(forKey: "overrideAHEndShabbatTime") {
+                content.textProperties.color = .secondaryLabel
+                content.secondaryTextProperties.color = .secondaryLabel
+            }
+        case alwaysCalcTenthOfDayRow:
+            content.text = "Always use a 10th of the day for Rabbeinu Tam".localized()
+            content.secondaryText = "Enable this if you want to always calculate Rabbeinu Tam as a 10th of the day (72 non-deviated zmaniyot minutes)".localized()
             let switchView = SwitchWithParam(frame: .zero)
-            switchView.isOn = defaults.bool(forKey: "showPreferredMisheyakirZman")
-            switchView.param = "showPreferredMisheyakirZman"
-            switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
-            cell.accessoryView = switchView
-        case plagOpinionRow:
-            content.text = "Plag hamincha opinion".localized()
-            content.secondaryText = "Choose which opinion to show for plag hamincha".localized()
-        case alwaysShowTzeitLChumraRow:
-            content.text = "Always show Tzeit L'Chumra (Stringent)".localized()
-            content.secondaryText = "Choose whether or not to show the more stringent tzeit hacochavim everyday".localized()
-            let switchView = SwitchWithParam(frame: .zero)
-            switchView.isOn = defaults.bool(forKey: "showTzeitLChumra")
-            switchView.param = "showTzeitLChumra"
+            switchView.isOn = defaults.bool(forKey: "overrideRTZman")
+            switchView.param = "overrideRTZman"
             switchView.addTarget(self, action: #selector(toggle(_:)), for: .valueChanged)
             cell.accessoryView = switchView
         default:
@@ -163,7 +153,9 @@ class ZmanimSettingsViewController: UITableViewController {
             }
             alertController.addAction(saveAction)
 
-            present(alertController, animated: true, completion: nil)
+            if defaults.bool(forKey: "overrideAHEndShabbatTime") {
+                present(alertController, animated: true, completion: nil)
+            }
         }
         
         if indexPath.row == endShabbatOpinionRow {
@@ -183,29 +175,9 @@ class ZmanimSettingsViewController: UITableViewController {
                 self.defaults.set(3, forKey: "endOfShabbatOpinion")
             }
             alertController.addAction(lesserAction)
-
-            present(alertController, animated: true, completion: nil)
-        }
-        
-        if indexPath.row == plagOpinionRow {
-            let alertController = UIAlertController(title: "Plag HaMincha Opinion".localized(), message:"Choose which opinion to use for the time for Plag HaMincha".localized(), preferredStyle: .alert)
-
-            let regularAction = UIAlertAction(title: "1 hour and 15 minutes before tzeit (Yalkut Yosef)".localized(), style: .default) { (_) in
-                self.defaults.set(1, forKey: "plagOpinion")
+            if defaults.bool(forKey: "overrideAHEndShabbatTime") {
+                present(alertController, animated: true, completion: nil)
             }
-            alertController.addAction(regularAction)
-            
-            let degreeAction = UIAlertAction(title: "1 hour and 15 minutes before sunset (Halacha Berurah)".localized(), style: .default) { (_) in
-                self.defaults.set(2, forKey: "plagOpinion")
-            }
-            alertController.addAction(degreeAction)
-            
-            let lesserAction = UIAlertAction(title: "Show Both".localized(), style: .default) { (_) in
-                self.defaults.set(3, forKey: "plagOpinion")
-            }
-            alertController.addAction(lesserAction)
-
-            present(alertController, animated: true, completion: nil)
         }
     }
     

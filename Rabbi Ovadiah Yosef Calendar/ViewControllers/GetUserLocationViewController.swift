@@ -11,10 +11,11 @@ import SnackBar
 
 class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    public static var loneView: Bool = false
     var locationName: String = ""
     var lat: Double = 0
     var long: Double = 0
-    var timezone: TimeZone = TimeZone.current.corrected()
+    var timezone: TimeZone = TimeZone.current
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var chosenLocationAnnotation = MKPointAnnotation()
     var searchResults: [MKMapItem] = []
@@ -48,7 +49,6 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         defaults.setValue(bALat, forKey: "advancedLat")
         defaults.setValue(bALong, forKey: "advancedLong")
         defaults.setValue(bATimezone.identifier, forKey: "advancedTimezone")
-        useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
         useLocation(location1: useLocation1, location2: useLocation2, location3: useLocation3, location4: useLocation4, location5: useLocation5)
         super.dismiss(animated: true)
     }
@@ -68,7 +68,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             textField.placeholder = "ex: 805"
         }
         advancedAlert.addTextField { (textField) in
-            textField.placeholder = "Timezone e.g. America/New_York"
+            textField.placeholder = "ex: America/New_York"
         }
         advancedAlert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [self] UIAlertAction in
             map.removeAnnotation(chosenLocationAnnotation)
@@ -98,17 +98,20 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         }))
         self.present(advancedAlert, animated: true)
     }
+    @IBOutlet weak var useLocation: UIButton!
     @IBAction func useLocation(_ sender: UIButton) {
         map.removeAnnotation(chosenLocationAnnotation)
         LocationManager.shared.getUserLocation {
             location in DispatchQueue(label: "mainApp", attributes: .concurrent).async { [self] in
-                lat = location.coordinate.latitude
-                long = location.coordinate.longitude
-                defaults.set(false, forKey: "useZipcode")
-                defaults.set(false, forKey: "useAdvanced")
-                useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
-                LocationManager.shared.resolveLocationName(with: location) { [self] locationName in
-                    zoomMapToPlaceAndAddAnnotation()
+                if location != nil {
+                    lat = location!.coordinate.latitude
+                    long = location!.coordinate.longitude
+                    defaults.set(false, forKey: "useZipcode")
+                    defaults.set(false, forKey: "useAdvanced")
+                    useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
+                    LocationManager.shared.resolveLocationName(with: location!) { [self] locationName in
+                        zoomMapToPlaceAndAddAnnotation()
+                    }
                 }
             }
         }
@@ -116,27 +119,41 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
     }
     @IBOutlet weak var search: UISearchBar!
     @IBAction func confirm(_ sender: Any) {
-        if !defaults.bool(forKey: "isSetup") {// We got location before
-            if !defaults.bool(forKey: "inIsrael") {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyboard.instantiateViewController(withIdentifier: "calendarChooser") as! CalendarViewController
-                self.present(newViewController, animated: false)
-            }
-            defaults.setValue(true, forKey: "isSetup")
+        if lat == 0 && long == 0 {
+            RedSnackBar.make(in: self.view, message: "No location set".localized(), duration: .lengthShort).show()
+            return
+        }
+        if GetUserLocationViewController.loneView {
+            super.dismiss(animated: false)
         } else {
-            let inIsraelView = super.presentingViewController?.presentingViewController
-            let zmanimLanguagesView = super.presentingViewController
-            
-            super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
-                if zmanimLanguagesView != nil {
-                    zmanimLanguagesView?.dismiss(animated: false) {
-                        if inIsraelView != nil {
-                            inIsraelView?.dismiss(animated: false)
+            if timezone.corrected().identifier == "Asia/Jerusalem" {
+                showFullScreenView("inIsrael")
+            } else if !Locale.isHebrewLocale() {
+                defaults.set(false, forKey: "inIsrael")
+                defaults.set(true, forKey: "LuachAmudeiHoraah")
+                defaults.set(false, forKey: "useElevation")
+                showFullScreenView("zmanim languages")
+            } else {
+                defaults.set(false, forKey: "inIsrael")
+                defaults.set(true, forKey: "LuachAmudeiHoraah")
+                defaults.set(false, forKey: "useElevation")
+                defaults.set(true, forKey: "isZmanimInHebrew")
+                defaults.set(false, forKey: "isZmanimEnglishTranslated")
+                defaults.set(true, forKey: "isSetup")
+                if !defaults.bool(forKey: "hasShownTipScreen") {
+                    showFullScreenView("TipScreen")
+                    defaults.set(true, forKey: "hasShownTipScreen")
+                } else {
+                    let welcome = super.presentingViewController
+                    super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
+                        if welcome != nil {
+                            welcome?.dismiss(animated: false)
                         }
                     }
                 }
             }
         }
+        GetUserLocationViewController.loneView = false// reset bool
     }
     @IBOutlet weak var map: MKMapView!
     
@@ -145,6 +162,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         search.delegate = self
         tableview.delegate = self
         tableview.dataSource = self
+        useLocation.backgroundColor = .systemBlue
         lat = GlobalStruct.geoLocation.latitude
         long = GlobalStruct.geoLocation.longitude
         zoomMapToPlaceAndAddAnnotation()
@@ -169,20 +187,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         map.addGestureRecognizer(tapGesture)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if !defaults.bool(forKey: "isSetup") {
-            
-            var alertController = UIAlertController(title: "Find your location".localized(), message: "Ideally, this app needs location permissions in order to accurately calculate the zmanim. Therefore, it is better to allow the app to see your location. We do not use your location for any other purpose than to calculate the zmanim.\n\nHowever, if you still do not want to give location permissions, you can choose to search for your address or a zipcode and the app will find your location based on your approximate area. (Using a zip code is not recommended if you want accurate zmanim. It is better to put in your address.)".localized(), preferredStyle: .alert)
-            
-            let dismissAction = UIAlertAction(title: "OK".localized(), style: .cancel) { (_) in }
-            alertController.addAction(dismissAction)
-            
-            present(alertController, animated: true, completion: nil)
-        }
-    }
-    
     @objc func handleMapTap(_ gestureRecognizer: UITapGestureRecognizer) {
-        //This method is called when the user taps on the map view.
         map.removeAnnotation(chosenLocationAnnotation)
         let location = gestureRecognizer.location(in: map)
         let coordinate = map.convert(location, toCoordinateFrom: map)
@@ -205,7 +210,6 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             })
         }
         RedSnackBar.make(in: self.view, message: "The application will NOT track your location".localized(), duration: .lengthShort).show()
-
     }
     
     func zoomMapToPlaceAndAddAnnotation() {
@@ -252,7 +256,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         }
     }
     
-    func addSavedLocation(locationDefault:String) {
+    func addSavedLocation(locationDefault: String) {
         let location = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: defaults.double(forKey: locationDefault.appending("Lat")), longitude: defaults.double(forKey: locationDefault.appending("Long")))))
         location.name = defaults.string(forKey: locationDefault)
         location.timeZone = TimeZone(identifier: locationDefault.appending("Timezone"))
@@ -345,9 +349,28 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         lat = selectedItem.placemark.coordinate.latitude
         long = selectedItem.placemark.coordinate.longitude
         CLGeocoder().geocodeAddressString(locationName, in: nil, preferredLocale: .current, completionHandler: { [self] i, j in
+            var name = ""
+            if i?.first?.locality != nil {
+                if let locality = i?.first?.locality {
+                    name += locality
+                }
+            }
+            if i?.first?.administrativeArea != nil {
+                if let adminRegion = i?.first?.administrativeArea {
+                    name += ", \(adminRegion)"
+                }
+            }
+            if name.isEmpty {
+                name = "No location name info".localized()
+            }
+            locationName = name
             if i?.first?.timeZone != nil {
                 self.timezone = (i?.first?.timeZone)!
-                if locationName == defaults.string(forKey: "location1") || locationName == defaults.string(forKey: "location2") || locationName == defaults.string(forKey: "location3") || locationName == defaults.string(forKey: "location4") || locationName == defaults.string(forKey: "location5") {
+                if locationName == defaults.string(forKey: "location1") ||
+                    locationName == defaults.string(forKey: "location2") ||
+                    locationName == defaults.string(forKey: "location3") ||
+                    locationName == defaults.string(forKey: "location4") ||
+                    locationName == defaults.string(forKey: "location5") {
                     defaults.setValue(false, forKey: "useAdvanced")
                     defaults.setValue(false, forKey: "useZipcode")
                     useLocation(location1: locationName == defaults.string(forKey: "location1"),
