@@ -69,89 +69,59 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
-        
+
+        let tekufaContent = UNMutableNotificationContent()
+        tekufaContent.title = "Tekufa / Season Changes".localized()
+        tekufaContent.sound = .default
+
+        let dateFormatter = DateFormatter()
+        if Locale.isHebrewLocale() {
+            dateFormatter.dateFormat = "H:mm"
+        } else {
+            dateFormatter.dateFormat = "h:mm aa"
+        }
+        let backup = jewishCalendar.workingDate
+        while jewishCalendar.getTekufaAsDate() == nil {
+            jewishCalendar.forward()
+        }
+
+        let fixedTekufa = jewishCalendar.getTekufaAsDate()
+        let meanDeviatedTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true);
+        let selectedTekufa = dateFormatter.string(from: fixedTekufa!) + " / " + dateFormatter.string(from: meanDeviatedTekufa!)
+
+        // Default is the most stringent - aka the early of the two and the later of the two.
+        // This is available if tekufaSetting is "3"
+        let beginTime = Date(timeIntervalSince1970: meanDeviatedTekufa!.timeIntervalSince1970 - 1800) // half hour before earlier time
+        let endTime = Date(timeIntervalSince1970: fixedTekufa!.timeIntervalSince1970 + 1800) // half hour after later time
+
         //Tekufa can happen whenever, so not neccesarily sunrise, but in my android app I check for tekufa at sunrise so it makes sense to put this code here
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
-        if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1  {
-            let tekufaContent = UNMutableNotificationContent()
-            tekufaContent.title = "Tekufa / Season Changes".localized()
-            tekufaContent.sound = .default
-            
-            let dateFormatter = DateFormatter()
-            if Locale.isHebrewLocale() {
-                dateFormatter.dateFormat = "H:mm"
-            } else {
-                dateFormatter.dateFormat = "h:mm aa"
-            }
-            let backup = jewishCalendar.workingDate
-            while jewishCalendar.getTekufaAsDate() == nil {
-                jewishCalendar.forward()
-            }
-            let tekufa = jewishCalendar.getTekufaAsDate()
-            let beginTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1800) // half hour before earlier time
-            let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
-            tekufaContent.body = "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!) + ". Do not drink water from " + dateFormatter.string(from: beginTime) + " until ".localized() + dateFormatter.string(from: endTime)
-            jewishCalendar.workingDate = backup
-            
-            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
-            
-            let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
-            notificationCenter.add(tekufaRequest)
-            amountOfNotificationsSet+=1
+        if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1 {
+            // Selected Fixed Tekufa - that means the begin time is too stringent by 21 minutes
+            beginTime = Date(timeIntervalSince1970: fixedTekufa!.timeIntervalSince1970 - 1800)
+            selectedTekufa = dateFormatter.string(from: fixedTekufa!)
         } else if tekufaSetting == 2 || (tekufaSetting == 0 && defaults.bool(forKey: "LuachAmudeiHoraah")) {
-            let tekufaContent = UNMutableNotificationContent()
-            tekufaContent.title = "Tekufa / Season Changes".localized()
-            tekufaContent.sound = .default
-            
-            let dateFormatter = DateFormatter()
-            if Locale.isHebrewLocale() {
-                dateFormatter.dateFormat = "H:mm"
-            } else {
-                dateFormatter.dateFormat = "h:mm aa"
-            }
-            let backup = jewishCalendar.workingDate
-            while jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true) == nil {
-                jewishCalendar.forward()
-            }
-            let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
-            let beginTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1800) // half hour before earlier time
-            let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
-            tekufaContent.body = "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!) + ". Do not drink water from ".localized() + dateFormatter.string(from: beginTime) + " until ".localized() + dateFormatter.string(from: endTime)
-            jewishCalendar.workingDate = backup
-            
-            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: tekufa?.addingTimeInterval(-1800) ?? Date()), repeats: false)
-            
-            let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
-            notificationCenter.add(tekufaRequest)
-            amountOfNotificationsSet+=1
-        } else {
-            let tekufaContent = UNMutableNotificationContent()
-            tekufaContent.title = "Tekufa / Season Changes".localized()
-            tekufaContent.sound = .default
-            
-            let dateFormatter = DateFormatter()
-            if Locale.isHebrewLocale() {
-                dateFormatter.dateFormat = "H:mm"
-            } else {
-                dateFormatter.dateFormat = "h:mm aa"
-            }
-            let backup = jewishCalendar.workingDate
-            while jewishCalendar.getTekufaAsDate() == nil {
-                jewishCalendar.forward()
-            }
-            let tekufa = jewishCalendar.getTekufaAsDate()
-            let AHTekufa = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 - 1260) // 21 minutes in seconds
-            let beginTime = Date(timeIntervalSince1970: AHTekufa.timeIntervalSince1970 - 1800) // half hour before earlier time
-            let endTime = Date(timeIntervalSince1970: tekufa!.timeIntervalSince1970 + 1800) // half hour after later time
-            tekufaContent.body = "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: AHTekufa) + "/" + dateFormatter.string(from: tekufa!) + ". Do not drink water from ".localized() + dateFormatter.string(from: beginTime) + " until ".localized() + dateFormatter.string(from: endTime)
-            jewishCalendar.workingDate = backup
-            
-            let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: AHTekufa.addingTimeInterval(-1800)), repeats: false)
-            
-            let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
-            notificationCenter.add(tekufaRequest)
-            amountOfNotificationsSet+=1
+            // Selected Mean Deviation Tekufa - that means the end time is too stringent by 21 minutes
+            endTime = Date(timeIntervalSince1970: meanDeviatedTekufa!.timeIntervalSince1970 - 1800)
+            selectedTekufa = dateFormatter.string(from: meanDeviatedTekufa!)
         }
+
+        tekufaContent.body = "Tekufa ".localized()
+            + jewishCalendar.getTekufaName().localized()
+            + " is today at ".localized()
+            + selectedTekufa
+            + ". Do not drink water from ".localized()
+            + dateFormatter.string(from: beginTime)
+            + " until ".localized()
+            + dateFormatter.string(from: endTime)
+
+        jewishCalendar.workingDate = backup
+
+        let tekufaTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: beginTime ?? Date()), repeats: false)
+
+        let tekufaRequest = UNNotificationRequest(identifier: "TekufaNotification", content: tekufaContent, trigger: tekufaTrigger)
+        notificationCenter.add(tekufaRequest)
+        amountOfNotificationsSet+=1
     }
     
     fileprivate func scheduleOmerNotifications() {
