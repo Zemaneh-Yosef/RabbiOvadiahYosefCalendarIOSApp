@@ -9,7 +9,7 @@ import Foundation
 import KosherSwift
 
 class ZmanimFactory {
-    
+
     public static func addZmanim(list:Array<ZmanListEntry>, defaults: UserDefaults, zmanimCalendar: ComplexZmanimCalendar, jewishCalendar: JewishCalendar, add66Misheyakir: Bool = false) -> Array<ZmanListEntry> {
         let useAHZmanim = defaults.bool(forKey: "LuachAmudeiHoraah")
         var temp = list
@@ -112,7 +112,7 @@ class ZmanimFactory {
         temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
         return temp
     }
-    
+
     private static func addShabbatEndsZman(list: Array<ZmanListEntry>, zmanimCalendar: ComplexZmanimCalendar, jewishCalendar: JewishCalendar, zmanimNames: ZmanimTimeNames, defaults: UserDefaults, useAHZmanim: Bool, isForCandLighting: Bool, isForTommorow: Bool) -> Array<ZmanListEntry> {
         var temp = list
         zmanimCalendar.ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40
@@ -120,7 +120,7 @@ class ZmanimFactory {
             zmanimCalendar.ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
         }
         var endShabbat: ZmanListEntry
-        
+
         if !defaults.bool(forKey: "overrideAHEndShabbatTime") {// default zman
             if useAHZmanim {
                 endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString()  + " (7.14°)", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true)
@@ -146,7 +146,7 @@ class ZmanimFactory {
         temp.append(endShabbat)
         return temp
     }
-    
+
     private static func addRTZman(list: Array<ZmanListEntry>, zmanimCalendar: ComplexZmanimCalendar, jewishCalendar: JewishCalendar, zmanimNames: ZmanimTimeNames, defaults: UserDefaults, useAHZmanim: Bool, isForTommorow: Bool) -> Array<ZmanListEntry> {
         var temp = list
         var rt = ZmanListEntry(title: zmanimNames.getRTString(), zman: useAHZmanim ? zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah() : zmanimCalendar.getTzais72Zmanis(), isZman: true)
@@ -161,7 +161,7 @@ class ZmanimFactory {
         temp.append(rt)
         return temp
     }
-    
+
     private static func getShabbatAndOrChag(defaults: UserDefaults, jewishCalendar: JewishCalendar) -> String {
         if (defaults.bool(forKey: "isZmanimInHebrew")) {
             if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
