@@ -51,10 +51,10 @@ Daily view of the app:
 
 ![alt text](https://i.imgur.com/F9M29Zt.png)
 
-# Explanation of how the zmanim are calculated:
+# Explanation of how the zemanim are calculated:
+
 - For an in-depth explanation on each specific time, please look at the descriptions for each individual time, found in the app-itself.
 - For an overall explanation, please visit our organization's ReadME on GitHub.
-
 
 # Introduction to the calendar in Israel:
 
