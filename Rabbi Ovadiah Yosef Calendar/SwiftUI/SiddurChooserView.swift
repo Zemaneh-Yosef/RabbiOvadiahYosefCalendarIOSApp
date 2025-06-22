@@ -573,7 +573,9 @@ struct SiddurChooserView: View {
             }.textCase(nil)
         )
         //NavigationLink("", isActive: $showSiddur) { SiddurView(prayer: siddurPrayer).applyToolbarHidden() }.hidden()// TODO fix
-        NavigationLink("", isActive: $showSiddur) { UIKitSiddurControllerView().applyToolbarHidden() }.hidden()// Temp
+        NavigationLink("", isActive: $showSiddur) { UIKitSiddurControllerView()
+            .navigationBarTitleDisplayMode(.inline)// fix for iOS 15/16
+            .applyToolbarHidden() }.hidden()// Temp
         HStack {
             Button {
                 userChosenDate = userChosenDate.advanced(by: -86400)

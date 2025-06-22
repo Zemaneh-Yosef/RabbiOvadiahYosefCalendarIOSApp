@@ -41,7 +41,6 @@ struct ZmanimView: View {
     @StateObject private var sessionManager = WCSessionManager.shared
     @State var simpleList = false
     @State var showSetup = false
-    @State var didLocationUpdate = false
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
     @State var scrollToTop = false
@@ -491,7 +490,7 @@ struct ZmanimView: View {
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
         // TODO replace with only colons
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GR\"A: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
             zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
@@ -737,7 +736,6 @@ struct ZmanimView: View {
                         GlobalStruct.jewishCalendar = jewishCalendar
                         setNextUpcomingZman()
                         updateZmanimList()
-                        didLocationUpdate = true
                         NotificationManager.instance.requestAuthorization()
                         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
                         sessionManager.sendMessage(self.getSettingsDictionary())
@@ -1103,15 +1101,17 @@ struct ZmanimView: View {
                     Text("Shabbat/Chag Mode")
                 }
             }
-//            Button(action: {
-//                simpleList.toggle()
-//                defaults.set(simpleList, forKey: "useSimpleList")
-//                updateZmanimList()
-//            }) {
-//                if simpleList {
-//                    Label("Use Simple List", systemImage: "checkmark")
-//                } else {
-//                    Text("Use Simple List")
+//            if #available(iOS 17.0, *) {
+//                Button(action: {
+//                    simpleList.toggle()
+//                    defaults.set(simpleList, forKey: "useSimpleList")
+//                    updateZmanimList()
+//                }) {
+//                    if simpleList {
+//                        Label("Use Simple List", systemImage: "checkmark")
+//                    } else {
+//                        Text("Use Simple List")
+//                    }
 //                }
 //            }
             Button(action: {
@@ -1559,6 +1559,16 @@ struct ZmanimView: View {
                 }
             }
         }
+        .foregroundStyle(zmanEntry.isBirchatHachamahZman ? .black : .primary)
+        .background(
+            zmanEntry.isBirchatHachamahZman ?
+            LinearGradient(
+                gradient: Gradient(colors: [Color("Gold"), Color("GoldStart"), Color("Gold")]),
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            : .init(stops: [], startPoint: .leading, endPoint: .trailing)
+        )
     }
     
     struct PelagZmanView: View {
@@ -1824,11 +1834,16 @@ struct ZmanimView: View {
                 isBannerHidden = true
             }
         }
-        if #available(iOS 16.0, *) {
+        if #available(iOS 17.0, *) {
             alerts(view: simpleList ? simpleListView : scrollView)
                 .scrollDisabled(shabbatMode)
-        } else {
-            alerts(view: simpleList ? simpleListView : scrollView)
+        } else {// The ScrollView should work on iOS 16 and below, but SwiftUI on those iOS verisons does not like the turnary above
+            if #available(iOS 16.0, *) {
+                alerts(view: simpleListView)
+                    .scrollDisabled(shabbatMode)
+            } else {
+                alerts(view: simpleListView)
+            }
         }
         HStack {
             Button {

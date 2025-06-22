@@ -117,6 +117,7 @@ struct UpcomingZmanim: Widget {
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: UpcomingZmanimProvider()) { entry in
             upcomingZmanimEntryView(entry: entry)
+                .widgetBackground(backgroundView: EmptyView())
         }
         .supportedFamilies([.systemSmall, .systemMedium])
         .configurationDisplayName("Upcoming Zmanim Widget".localized())

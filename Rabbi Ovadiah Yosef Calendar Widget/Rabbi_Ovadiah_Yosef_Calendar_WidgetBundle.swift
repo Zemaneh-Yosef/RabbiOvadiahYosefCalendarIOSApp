@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import SwiftUICore
 
 @main
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle: WidgetBundle {
@@ -15,6 +16,18 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle: WidgetBundle {
         UpcomingZmanim()
         if #available(iOSApplicationExtension 16.1, *) {
             Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity()
+        }
+    }
+}
+
+extension View {
+    func widgetBackground(backgroundView: some View) -> some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return containerBackground(for: .widget) {
+                backgroundView
+            }
+        } else {
+            return background(backgroundView)
         }
     }
 }

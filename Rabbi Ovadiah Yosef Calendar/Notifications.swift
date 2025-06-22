@@ -34,31 +34,31 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     func requestAuthorization() {
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound, .carPlay]) {(success, error) in}
     }
-    
+
     fileprivate func scheduleDailyNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Jewish Special Day".localized()
         content.sound = .default
         content.body = "Today is ".localized() + jewishCalendar.getSpecialDay(addOmer: defaults.bool(forKey: "showDayOfOmer"))
-        
+
         if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {// if this is the last notification being set
             content.body = content.body.appending(" / Last notification until the app is opened again.".localized())
         }
-        
+
         //So... Ideally, I wanted to make the notifications like the android version that fires at sunrise/sunset everyday. But it seems like Apple/IOS does not not allow different trigger times for local notifications in the background. And apparently there is no way to run any code in the background while the app is closed. So there is no way to update the notifications unless the user interacts with the application. Best I can do is set the notifications in advanced for a week. Not what I wanted, but it'll have to do until Apple adds more options to local notifications or lets developers run background tasks/threads while the app is closed.
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getSeaLevelSunrise() ?? Date()), repeats: false)
-        
+
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         if content.body != "Today is ".localized() {//avoid scheduling notifications that are not going to be displayed
             notificationCenter.add(request)
             amountOfNotificationsSet+=1
         }
     }
-    
+
     func scheduleSunriseNotifications() {
         amountOfNotificationsSet = 0
         notificationCenter.removeAllPendingNotificationRequests()//always start from scratch...
-        
+
         if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
             addOneDayToCalendars()
         }
@@ -69,14 +69,14 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
-        
+
         //Tekufa can happen whenever, so not neccesarily sunrise, but in my android app I check for tekufa at sunrise so it makes sense to put this code here
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
         if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1  {
             let tekufaContent = UNMutableNotificationContent()
             tekufaContent.title = "Tekufa / Season Changes".localized()
             tekufaContent.sound = .default
-            
+
             let dateFormatter = DateFormatter()
             if Locale.isHebrewLocale() {
                 dateFormatter.dateFormat = "H:mm"
@@ -204,7 +204,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                         "הַיּוֹם שִׁבְעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
                         "הַיּוֹם שְׁמוֹנָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
                         "הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת:"]
-        
+
         let content = UNMutableNotificationContent()
         content.title = "Day of Omer".localized()
         content.sound = .default
@@ -216,7 +216,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             } else {
                 content.body = omerList[dayOfOmer]
             }
-            
+
             // Create a notification action
             let action = UNNotificationAction(identifier: "omerAction", title: "See full text".localized(), options: [.foreground])
             // Add the action to the notification content
@@ -226,27 +226,27 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             let category = UNNotificationCategory(identifier: "omerCategory", actions: [action], intentIdentifiers: [], options: [])
             // Register the notification category
             notificationCenter.setNotificationCategories([category])
-            
+
             //same issue as described in scheduleDailyNotifications()
             var trigger: UNCalendarNotificationTrigger
-            
+
             if defaults.bool(forKey: "LuachAmudeiHoraah") {
                 trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()), repeats: false)
             } else {
                 trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date()), repeats: false)
             }
-            
+
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             notificationCenter.add(request)
             amountOfNotificationsSet+=1
         }
     }
-    
+
     fileprivate func addOneDayToCalendars() {
         zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
         jewishCalendar.workingDate = zmanimCalendar.workingDate
     }
-    
+
     func scheduleSunsetNotifications() {
         for _ in 1...13 {
             scheduleOmerNotifications()
@@ -255,10 +255,10 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         lastOmerNotification = true
         scheduleOmerNotifications()
         lastOmerNotification = false // clean up for next run
-        
+
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
-        
+
         while !TefilaRules().isVeseinTalUmatarStartDate(jewishCalendar: jewishCalendar) {
             jewishCalendar.forward()
         }//now that the jewish date is set to the date where we change to Barech Aleinu in the morning, make a notification for sunset the day before
@@ -269,9 +269,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         contentBarech.sound = .default
         contentBarech.subtitle = locationName
         contentBarech.body = "Tonight we start saying Barech Aleinu!".localized()
-        
+
         let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()), repeats: false)
-        
+
         let request = UNNotificationRequest(identifier: "BarechAleinuNotification", content: contentBarech, trigger: triggerBarech)
         notificationCenter.add(request)
         amountOfNotificationsSet+=1
@@ -318,7 +318,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                                   "Shabbat Ends",
                                   "Rabbeinu Tam",
                                   "Chatzot Layla"]
-            
+
             for string in editableZmanim {
                 if !defaults.bool(forKey: "Notify"+string) || defaults.integer(forKey: string) < 0 {
                     editableZmanim.remove(at: editableZmanim.firstIndex(of: string)!)//get rid of zmanim we do not want to notify for
@@ -361,7 +361,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {// if this is the last notification being set
                         zmanContent.body = zmanContent.body.appending(" / Last notification until the app is opened again.".localized())
                     }
-                    
+
                     if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
                         //no notification
                     } else {//notify
@@ -392,7 +392,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
 
         //printPendingNotifications()
     }
-    
+
     func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
             return addAmudeiHoraahZmanim(list:list)
@@ -593,9 +593,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         return temp
     }
-    
+
     // MARK: - Helper methods
-    
+
     func initializeLocationObjectsAndSetNotifications() {
         if notificationsAreBeingSet {
             return
@@ -694,7 +694,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
     }
  
-    
+
     func getShabbatAndOrChag() -> String {
         if (defaults.bool(forKey: "isZmanimInHebrew")) {
             if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {

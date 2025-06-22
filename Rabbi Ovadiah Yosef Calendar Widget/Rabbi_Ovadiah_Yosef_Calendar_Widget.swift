@@ -159,10 +159,12 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget: Widget {
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView(entry: entry)
+                .widgetBackground(backgroundView: EmptyView())
         }
         .configurationDisplayName("Rabbi Ovadiah Yosef Calendar Widget".localized())
         .description("This is a widget that will show relevant zmanim.".localized())
         .supportedFamilies([.systemSmall, .systemMedium])
+        .contentMarginsDisabled()
     }
 }
 

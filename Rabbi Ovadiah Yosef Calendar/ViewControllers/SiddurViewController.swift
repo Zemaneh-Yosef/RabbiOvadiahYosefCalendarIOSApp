@@ -48,6 +48,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     body {
       min-height: 100vh;
       line-height: 1.5;
+      margin: 0;
     }
 
     /* Set shorter line heights on headings and interactive elements */
@@ -225,9 +226,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             fontFamily = "none"
         }
 
-        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding: .15rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; }  .highlight { background: #DAA520; color: black; display: block; } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; }</style>"
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding-top: 0; padding-right: .4rem; padding-left: .4rem; padding-bottom: 1rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; }  .highlight { background: #DAA520; color: black; display: block; } details { background: \(UIColor.darkGray.toHex()); } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } details { background: \(UIColor.lightGray.toHex())} }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; } details { margin: 0; margin-bottom: .4rem; padding: .4rem; }</style>"
         for text in listOfTexts {
-            let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>").appending("<br><br>")
+            let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>")
             if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
                 "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
                 locationManager.delegate = self
@@ -256,6 +257,8 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
                 webstring += "<a href='" + (text.string == "Open Sefaria Siddur/פתח את סידור ספריה" ? "iosapp://sefaria" : "iosapp://musaf") + "' class='highlight'>" + text.string + "</a>"
             } else if text.shouldBeHighlighted {
                 webstring += "<p class='highlight'>" + formattedString + "</p>"
+            } else if text.isInfo {
+                webstring += formattedString
             } else {
                 webstring += "<p>" + formattedString + "</p>"
                 if text.string.hasSuffix(SiddurMaker.menorah) {

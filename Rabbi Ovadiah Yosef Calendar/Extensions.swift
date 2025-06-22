@@ -560,3 +560,22 @@ public extension TimeZone {
         return TimeZone(identifier: id) ?? TimeZone.current
     }
 }
+
+extension UIColor {
+    func toHex() -> String {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        guard self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return "#000000"
+        }
+        
+        let hexRed = String(format: "%02X", Int(red * 255))
+        let hexGreen = String(format: "%02X", Int(green * 255))
+        let hexBlue = String(format: "%02X", Int(blue * 255))
+        
+        return "#\(hexRed)\(hexGreen)\(hexBlue)"
+    }
+}
