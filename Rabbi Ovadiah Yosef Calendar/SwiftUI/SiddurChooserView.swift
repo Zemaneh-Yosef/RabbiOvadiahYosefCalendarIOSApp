@@ -91,6 +91,7 @@ struct SiddurChooserView: View {
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
         GlobalStruct.userChosenDate = userChosenDate
+        autoFillMasechta()
     }
 
     var body: some View {
@@ -243,7 +244,7 @@ struct SiddurChooserView: View {
                         VStack(alignment: .leading) {
                             Text("תיקון חצות")
                                 .foregroundColor(shouldBeDimmed("תיקון חצות") ? .gray : .primary)
-                            if let secondary = getSecondaryText("תיקון חצות") {
+                            if let secondary = getSecondaryText("תיקון חצות (לילה)") {
                                 Text(secondary)
                                     .font(secondaryTextSize)
                                     .foregroundStyle(Color.secondary)
@@ -720,7 +721,6 @@ struct SiddurChooserView: View {
             } else {
                 if (GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {
                     siddurPrayer = "Tikkun Chatzot"
-                    GlobalStruct.chosenPrayer = siddurPrayer
                     openSiddurView()
                 } else {
                     showTikkunChatzotNotSaidTodayOrTonightAlert = true
@@ -729,7 +729,6 @@ struct SiddurChooserView: View {
         } else {// Not three weeks
             if (GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid()) {
                 siddurPrayer = "Tikkun Chatzot"
-                GlobalStruct.chosenPrayer = siddurPrayer
                 openSiddurView()
             } else {
                 showTikkunChatzotNotSaidTonightAlert = true
@@ -853,6 +852,8 @@ struct SiddurChooserView: View {
             GlobalStruct.jewishCalendar.back()
             entries = entries.filter { !$0.isEmpty }
             result = entries.joined(separator: ", ")
+        case "ספירת העומר":
+            return String(GlobalStruct.jewishCalendar.tomorrow().getDayOfOmer())
         case "ברכת המזון":
             var entries:[String] = [
                 GlobalStruct.jewishCalendar.isPurim() || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM ? "[על הניסים]" : "",
@@ -864,10 +865,24 @@ struct SiddurChooserView: View {
             result = entries.joined(separator: ", ")
         case "ק״ש שעל המיטה":
             return nil
+        case "תיקון חצות (לילה)":
+            if GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid() {
+                return GlobalStruct.jewishCalendar.isOnlyTikkunLeiaSaid(forNightTikkun: true, isTikkunChatzotSaid: true) ? "תיקון לאה"  : "תיקון רחל ,תיקון לאה "
+            }
+            return nil
         case "Prayer for Etrog".localized():
             return "It is good to say this prayer today.".localized()
         case "Parshat Haman".localized():
             return "It is good to say this prayer today.".localized()
+        case "סדר סיום מסכת":
+            let currentDaf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar);
+            let nextDaf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow());
+            if currentDaf?.getMasechta() != nextDaf?.getMasechta() {
+                if currentDaf != nil {
+                    return currentDaf!.getMasechta()
+                }
+            }
+            return nil
         default:
             return nil
         }
