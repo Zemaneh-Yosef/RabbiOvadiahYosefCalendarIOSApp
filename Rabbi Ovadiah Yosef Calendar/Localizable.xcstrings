@@ -2634,7 +2634,14 @@
       }
     },
     "Receive omer notifications" : {
-
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "קבל התראות על ספירת העומר"
+          }
+        }
+      }
     },
     "Receive zmanim notifications on shabbat and yom tov" : {
       "extractionState" : "manual",
