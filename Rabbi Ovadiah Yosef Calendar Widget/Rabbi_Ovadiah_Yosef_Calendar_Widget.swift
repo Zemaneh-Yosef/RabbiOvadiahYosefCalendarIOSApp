@@ -126,6 +126,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                 VStack {
                     Text(entry.hebrewDate)
                         .bold()
+                        .multilineTextAlignment(.center)
                         .padding(.bottom, .leastNormalMagnitude)
                     Text(entry.parasha)
                 }

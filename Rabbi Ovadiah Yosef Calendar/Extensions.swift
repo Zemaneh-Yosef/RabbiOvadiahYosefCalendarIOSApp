@@ -369,6 +369,7 @@ public extension JewishCalendar {
         workingDate = Calendar(identifier: .hebrew).date(bySetting: .day, value: 9, of: workingDate)!
         
         if getDayOfWeek() == 1 || getDayOfWeek() == 7 {
+            workingDate = backup// reset
             return false
         }
         workingDate = backup// reset
@@ -461,22 +462,19 @@ public extension JewishCalendar {
                 getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון");
     }
     
-    func isOnlyTikkunLeiaSaid(forNightTikkun: Bool, isTikkunChatzotSaid: Bool) -> Bool {
+    func isOnlyTikkunLeiaSaid(forNightTikkun: Bool) -> Bool {
         if (forNightTikkun) {
-            if (isTikkunChatzotSaid) {
-                // These are days where we ONLY say Tikkun Leia
-                return (isAseresYemeiTeshuva() ||
-                        isCholHamoedSuccos() ||
-                        getDayOfOmer() != -1 ||
-                        (getInIsrael() && isShmitaYear()) ||
-                        getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון" ||
-                        isAfterMoladBeforeRoshChodesh());
-                // Tikkun Rachel is also skipped in the house of a Mourner, Chatan, or Brit Milah (Specifically the father of the boy)
-            }
+            // These are days where we ONLY say Tikkun Leia
+            return (isAseresYemeiTeshuva() ||
+                    isCholHamoedSuccos() ||
+                    getDayOfOmer() != -1 ||
+                    (getInIsrael() && isShmitaYear()) ||
+                    getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון" ||
+                    isAfterMoladBeforeRoshChodesh());
+            // Tikkun Rachel is also skipped in the house of a Mourner, Chatan, or Brit Milah (Specifically the father of the boy)
         } else { // for day tikkun, we do not say Tikkun Rachel if there is no tachanun
             return getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון";
         }
-        return false;
     }
     
     func isAfterMoladBeforeRoshChodesh() -> Bool {

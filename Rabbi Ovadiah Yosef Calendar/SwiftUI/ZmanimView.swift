@@ -41,6 +41,7 @@ struct ZmanimView: View {
     @StateObject private var sessionManager = WCSessionManager.shared
     @State var simpleList = false
     @State var showSetup = false
+    @State var didLocationUpdate = false // DO NOT DELETE
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
     @State var scrollToTop = false
@@ -736,6 +737,7 @@ struct ZmanimView: View {
                         GlobalStruct.jewishCalendar = jewishCalendar
                         setNextUpcomingZman()
                         updateZmanimList()
+                        didLocationUpdate = true
                         NotificationManager.instance.requestAuthorization()
                         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
                         sessionManager.sendMessage(self.getSettingsDictionary())
@@ -1559,7 +1561,7 @@ struct ZmanimView: View {
                 }
             }
         }
-        .foregroundStyle(zmanEntry.isBirchatHachamahZman ? .black : .primary)
+        .foregroundStyle(zmanEntry.shouldBeDimmed ? .gray : (zmanEntry.isBirchatHachamahZman ? .black : .primary))
         .background(
             zmanEntry.isBirchatHachamahZman ?
             LinearGradient(

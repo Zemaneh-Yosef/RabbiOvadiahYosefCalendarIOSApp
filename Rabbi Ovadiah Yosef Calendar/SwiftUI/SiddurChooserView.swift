@@ -867,7 +867,7 @@ struct SiddurChooserView: View {
             return nil
         case "תיקון חצות (לילה)":
             if GlobalStruct.jewishCalendar.tomorrow().isNightTikkunChatzotSaid() {
-                return GlobalStruct.jewishCalendar.isOnlyTikkunLeiaSaid(forNightTikkun: true, isTikkunChatzotSaid: true) ? "תיקון לאה"  : "תיקון רחל ,תיקון לאה "
+                return GlobalStruct.jewishCalendar.tomorrow().isOnlyTikkunLeiaSaid(forNightTikkun: true) ? "תיקון לאה"  : "תיקון רחל ,תיקון לאה"
             }
             return nil
         case "Prayer for Etrog".localized():

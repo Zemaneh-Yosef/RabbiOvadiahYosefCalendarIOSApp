@@ -14,6 +14,7 @@ struct SettingsView: View {
     private static let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
 
     @AppStorage("zmanimNotifications", store: defaults) private var zmanimNotifications: Bool = false
+    @AppStorage("omerNotifications", store: defaults) private var omerNotifications: Bool = true
     @AppStorage("showSeconds", store: defaults) private var showSeconds: Bool = false
     @AppStorage("alwaysShowRT", store: defaults) private var alwaysShowRT: Bool = false
     @AppStorage("roundUpRT", store: defaults) private var roundUpRT: Bool = false
@@ -51,6 +52,10 @@ struct SettingsView: View {
                             NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
                         }
                 }
+                Toggle("Receive omer notifications", isOn: $omerNotifications)
+                    .onChange(of: omerNotifications) { newValue in
+                        NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
+                    }
             } header: {
                 VStack {
                     Text("Notifications").textCase(nil)

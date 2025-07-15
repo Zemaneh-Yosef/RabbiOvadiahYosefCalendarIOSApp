@@ -2633,6 +2633,9 @@
         }
       }
     },
+    "Receive omer notifications" : {
+
+    },
     "Receive zmanim notifications on shabbat and yom tov" : {
       "extractionState" : "manual",
       "localizations" : {

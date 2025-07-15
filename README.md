@@ -21,7 +21,7 @@
         <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="200px">
       </a>
       <br>
-      <a href="https://github.com/Zemaneh-Yosef/RabbiOvadiahYosefCalendarApp">
+      <a href="https://github.com/Zemaneh-Yosef/RabbiOvadiahYosefCalendarAndroidApp">
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50px" alt="GitHub">
       </a>
     </td>

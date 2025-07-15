@@ -109,7 +109,6 @@ struct NetzView: View {
                 .foregroundStyle(Color.yellow)
             Spacer()
         }
-        .background(Color.black.opacity(0.1))
         .gesture(
             DragGesture(minimumDistance: 50, coordinateSpace: .local)
                 .onEnded { gesture in

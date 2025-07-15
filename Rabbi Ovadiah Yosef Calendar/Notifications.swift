@@ -248,14 +248,16 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     }
 
     func scheduleSunsetNotifications() {
-        for _ in 1...13 {
+        if defaults.bool(forKey: "omerNotifications") {
+            for _ in 1...13 {
+                scheduleOmerNotifications()
+                addOneDayToCalendars()
+            }
+            lastOmerNotification = true
             scheduleOmerNotifications()
-            addOneDayToCalendars()
+            lastOmerNotification = false // clean up for next run
         }
-        lastOmerNotification = true
-        scheduleOmerNotifications()
-        lastOmerNotification = false // clean up for next run
-
+        
         zmanimCalendar.workingDate = Date()
         jewishCalendar.workingDate = zmanimCalendar.workingDate//reset to today
 

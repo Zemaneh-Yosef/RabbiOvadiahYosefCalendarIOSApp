@@ -151,7 +151,7 @@ struct MoladView: View {
                                 datePickerIsVisible.toggle()
                             }
                         }) {
-                            Image(systemName: "pencil.circle.fill").resizable().frame(width: 24, height: 24)
+                            Image(systemName: "pencil.circle.fill").resizable().frame(width: 24, height: 24).tint(.white)
                         }
                         .padding(.horizontal)
                         VStack {
