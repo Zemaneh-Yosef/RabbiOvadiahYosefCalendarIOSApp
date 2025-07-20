@@ -9,7 +9,6 @@ import SwiftUI
 import KosherSwift
 import SwiftyJSON
 
-@available(iOS 15.0, *)
 struct LimudimView: View {
     @State var limudim: [ZmanListEntry] = []
     @State var hiloulot: [ZmanListEntry] = []
@@ -519,9 +518,5 @@ func openSefariaLink(selectedLimud: ZmanListEntry?) {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        LimudimView()
-    } else {
-        // Fallback on earlier versions
-    }
+    LimudimView()
 }

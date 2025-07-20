@@ -94,7 +94,6 @@ class NetzViewModel: ObservableObject {
     }
 }
 
-@available(iOS 15.0, *)
 struct NetzView: View {
     @StateObject private var viewModel = NetzViewModel()
 
@@ -122,11 +121,7 @@ struct NetzView: View {
 
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        NetzView()
-    } else {
-        // Fallback on earlier versions
-    }
+    NetzView()
 }
 
 // //

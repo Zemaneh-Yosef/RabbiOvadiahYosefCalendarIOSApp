@@ -2524,6 +2524,17 @@
         }
       }
     },
+    "Post-sunset date:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תאריך לאחר השקיעה:"
+          }
+        }
+      }
+    },
     "Prayer for Etrog" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2531,6 +2542,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תפילה לאתרוג"
+          }
+        }
+      }
+    },
+    "Pre-sunset date:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תאריך לפני השקיעה:"
           }
         }
       }
@@ -3814,6 +3836,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תשרי"
+          }
+        }
+      }
+    },
+    "Today - " : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "היום - "
           }
         }
       }

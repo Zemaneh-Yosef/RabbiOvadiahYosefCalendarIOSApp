@@ -79,7 +79,6 @@ class ZmanimSettingsViewModel: ObservableObject {
     }
 }
 
-@available(iOS 15.0, *)
 struct ZmanimNotificationsSettingsView: View {
     @StateObject private var viewModel = ZmanimSettingsViewModel()
     
@@ -174,9 +173,5 @@ struct ZmanimNotificationsSettingsView: View {
 
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        ZmanimNotificationsSettingsView()
-    } else {
-        // Fallback on earlier versions
-    }
+    ZmanimNotificationsSettingsView()
 }

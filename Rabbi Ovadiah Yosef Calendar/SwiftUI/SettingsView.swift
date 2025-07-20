@@ -8,12 +8,11 @@
 import SwiftUI
 import MessageUI
 
-@available(iOS 15.0, *)
 struct SettingsView: View {
     
     private static let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
 
-    @AppStorage("zmanimNotifications", store: defaults) private var zmanimNotifications: Bool = false
+    @AppStorage("zmanim_notifications", store: defaults) private var zmanimNotifications: Bool = false
     @AppStorage("omerNotifications", store: defaults) private var omerNotifications: Bool = true
     @AppStorage("showSeconds", store: defaults) private var showSeconds: Bool = false
     @AppStorage("alwaysShowRT", store: defaults) private var alwaysShowRT: Bool = false
@@ -196,9 +195,5 @@ struct MailView: UIViewControllerRepresentable {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        SettingsView()
-    } else {
-        // Fallback on earlier versions
-    }
+    SettingsView()
 }

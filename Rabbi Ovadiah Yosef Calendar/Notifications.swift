@@ -350,11 +350,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     zmanContent.title = zmanEntry.title
                     zmanContent.sound = .default
                     zmanContent.subtitle = locationName
-                    if #available(iOS 15.0, *) {
-                        zmanContent.interruptionLevel = .timeSensitive
-                    } else {
-                        // Fallback on earlier versions
-                    }
+                    zmanContent.interruptionLevel = .timeSensitive
                     if defaults.bool(forKey: "isZmanimInHebrew") {
                         zmanContent.body = zmanTimeFormatter.string(from: zman ?? Date()) + " : " + zmanEntry.title
                     } else {
@@ -778,7 +774,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             print("🚀 Pending Notifications: \(requests.count)")
             for request in requests {
-                print("🔔 Identifier: \(request.identifier)")
+                //print("🔔 Identifier: \(request.identifier)")
                 print("📅 Trigger: \(String(describing: request.trigger))")
                 print("📝 Content: \(request.content.body)")
             }

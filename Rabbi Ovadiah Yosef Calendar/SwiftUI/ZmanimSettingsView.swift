@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
 struct ZmanimSettingsView: View {
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
     
@@ -127,9 +126,5 @@ struct ZmanimSettingsView: View {
 
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        ZmanimSettingsView()
-    } else {
-        // Fallback on earlier versions
-    }
+    ZmanimSettingsView()
 }

@@ -14,7 +14,6 @@ import ActivityKit
 import Combine
 import SwiftUIScrollOffset
 
-@available(iOS 15.0, *)
 struct ZmanimView: View {
     @State var locationName: String = ""
     @State var lat: Double = 0
@@ -257,7 +256,12 @@ struct ZmanimView: View {
         }
         
         if Calendar.current.isDateInToday(userChosenDate) {
-            date += "   ▼   " + hebrewDate
+            date = "Today - ".localized() + date + "\n"
+            if Date().timeIntervalSince1970 > zmanimCalendar.getSunset()?.timeIntervalSince1970 ?? TimeInterval.infinity {
+                date += "Post-sunset date:".localized() + " " + hebrewDate
+            } else {
+                date += "Pre-sunset date:".localized() + " " + hebrewDate
+            }
         } else {
             date += "       " + hebrewDate
         }
@@ -670,6 +674,7 @@ struct ZmanimView: View {
         defaults.set(true, forKey: "roundUpRT")
         defaults.set(false, forKey: "zmanim_notifications")
         defaults.set(false, forKey: "zmanim_notifications_on_shabbat")
+        defaults.set(true, forKey: "omerNotifications")
         
         defaults.set(false, forKey: "NotifyAlot Hashachar")
         defaults.set(false, forKey: "NotifyTalit And Tefilin")
@@ -1384,16 +1389,30 @@ struct ZmanimView: View {
                         }
                     }
                 } label: {
-                    if !zmanEntry.isZman {
+                    if zmanEntry.isZman {
+                        zmanEntryRow(zmanEntry)
+                    } else {
                         HStack {
                             Text("").frame(maxWidth: 0)
                             Spacer()
-                            if !zmanimList.isEmpty && zmanEntry.title == zmanimList[2].title {
+                            if zmanEntry.title.contains("\n") {
                                 Text(zmanEntry.title)
-                                    .bold()
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .lineLimit(1)
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(2)
                                     .minimumScaleFactor(0.5)
+                                    .padding(4) // Add padding to give space between text and border
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(
+                                                LinearGradient(
+                                                    colors: [Color.orange, Color.orange, Color.orange],
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing
+                                                ),
+                                                lineWidth: 2
+                                            )
+                                    )
                             } else {
                                 Text(zmanEntry.title)
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -1402,8 +1421,6 @@ struct ZmanimView: View {
                             }
                             Spacer()
                         }
-                    } else {
-                        zmanEntryRow(zmanEntry)
                     }
                 }
                 .id(zmanEntry.title)
@@ -2050,9 +2067,5 @@ struct ShareSheet: UIViewControllerRepresentable {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        ZmanimView()
-    } else {
-        // Fallback on earlier versions
-    }
+    ZmanimView()
 }

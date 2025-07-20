@@ -969,9 +969,5 @@ public enum NextSetupView {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        GetUserLocationView()
-    } else {
-        // Fallback on earlier versions
-    }
+    GetUserLocationView()
 }

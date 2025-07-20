@@ -9,7 +9,6 @@ import SwiftUI
 import KosherSwift
 
 @main
-@available(iOS 15.0, *)
 struct MainView: App {
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     var body: some Scene {
@@ -19,7 +18,6 @@ struct MainView: App {
     }
 }
 
-@available(iOS 15.0, *)
 struct ContentView: View {
     init() {
         UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
@@ -110,9 +108,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        ContentView()
-    } else {
-        // Fallback on earlier versions
-    }
+    ContentView()
 }

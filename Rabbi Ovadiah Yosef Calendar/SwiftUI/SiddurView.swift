@@ -9,7 +9,6 @@ import SwiftUI
 import KosherSwift
 import FrameUp
 
-@available(iOS 15.0, *)
 struct SiddurView: View {
     
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
@@ -236,9 +235,5 @@ class CompassViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        SiddurView(prayer: "Arvit")
-    } else {
-        // Fallback on earlier versions
-    }
+    SiddurView(prayer: "Arvit")
 }

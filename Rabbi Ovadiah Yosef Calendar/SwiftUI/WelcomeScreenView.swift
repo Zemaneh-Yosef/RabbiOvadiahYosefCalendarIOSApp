@@ -7,13 +7,15 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
 struct WelcomeScreenView: View {
     @Environment(\.openURL) var openURL
+    @Namespace private var animationNamespace
+
     @State private var showHaskamotAlert = false
     @State private var showAboutUsAlert = false
-    @State private var showNextView = false
-    
+    @State private var isAnimating = false
+    @State private var navigate = false
+
     var body: some View {
         ZStack {
             Image("welcome_bg")
@@ -22,53 +24,83 @@ struct WelcomeScreenView: View {
                 .ignoresSafeArea()
             
             VStack {
-                Image("logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: 350, maxHeight: 250)
-                
-                Text("Worldwide Halachic Times according to our Sepharadic Tradition.")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(Color.white)
-                    .frame(maxWidth: 300)
-                    .padding()
-                
-                HStack(spacing: 80) {
-                    Button(action: { showHaskamotAlert.toggle() }) {
-                        Text("Haskamot")
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .foregroundStyle(Color.white)
-                    }
-                    
-                    Button(action: { showAboutUsAlert.toggle() }) {
-                        Text("About Us")
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .foregroundStyle(Color.white)
-                    }
+                if !isAnimating {
+                    Image("logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 350, maxHeight: 250)
+                        .transition(.opacity)
                 }
-                .padding()
-                
-                Spacer()
-                
-                NavigationLink {
-                    GetUserLocationView()
-                } label: {
-                    Text("Get Started")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                if !isAnimating {
+                    Text("Worldwide Halachic Times according to our Sepharadic Tradition.")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
                         .foregroundStyle(Color.white)
+                        .frame(maxWidth: 300)
+                        .padding()
+                        .transition(.opacity)
+                }
+
+                if !isAnimating {
+                    HStack(spacing: 80) {
+                        Button(action: { showHaskamotAlert.toggle() }) {
+                            Text("Haskamot")
+                                .padding()
+                                .background(Color.gray.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .foregroundStyle(Color.white)
+                        }
+                        
+                        Button(action: { showAboutUsAlert.toggle() }) {
+                            Text("About Us")
+                                .padding()
+                                .background(Color.gray.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .foregroundStyle(Color.white)
+                        }
+                    }
+                    .padding()
+                    .transition(.opacity)
+                }
+
+                Spacer()
+
+                if !isAnimating {
+                    Button(action: startTransition) {
+                        Text("Get Started")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue.matchedGeometryEffect(id: "buttonBG", in: animationNamespace))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .foregroundStyle(Color.white)
+                    }
+                    .padding(.horizontal)
+                    .transition(.opacity)
                 }
             }
-            .padding(.horizontal, 20) // Ensures elements don’t exceed screen width
+
+            // Fullscreen expanding button
+            if isAnimating {
+                Color.blue
+                    .matchedGeometryEffect(id: "buttonBG", in: animationNamespace)
+                    .ignoresSafeArea()
+                    .transition(.identity)
+                    .onAppear {
+                        // Delay navigation until animation completes
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            navigate = true
+                        }
+                    }
+            }
+
+            // Navigation
+            NavigationLink(destination: GetUserLocationView(), isActive: $navigate) {
+                EmptyView()
+            }
         }
+        .animation(.easeInOut(duration: 0.4), value: isAnimating)
         .alert("Choose a haskama to view", isPresented: $showHaskamotAlert) {
             Button("Rabbi Yitzchak Yosef (Hebrew)", action: { openURL(URL(string: "https://royzmanim.com/assets/haskamah-rishon-letzion.pdf")!) })
             Button("Rabbi Elbaz (English)", action: { openURL(URL(string: "https://royzmanim.com/assets/Haskamah.pdf")!) })
@@ -76,20 +108,21 @@ struct WelcomeScreenView: View {
             Button("Dismiss", role: .cancel, action: {})
         } message: {
             Text("Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.")
-        }.textCase(nil)
-        
+        }
         .alert("About Us", isPresented: $showAboutUsAlert) {
             Button("Dismiss", role: .cancel, action: {})
         } message: {
             Text("We are the platform to use whenever and wherever you'd need Halachic Times (Zemanim) according to Hakham Ovadia Yosef zt'l, following his practices represented in his Ohr Hachaim calendar from Eretz Yisrael. Outside Israel, our algorithm follows the rules outlined by the Minḥat Kohen (as quoted by R David Yosef, approved by R Yitzḥak Yosef) to comply with the astronomical differences while sticking to seasonal minutes.")
-        }.textCase(nil)
+        }
+    }
+
+    func startTransition() {
+        withAnimation {
+            isAnimating = true
+        }
     }
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        WelcomeScreenView()
-    } else {
-        // Fallback on earlier versions
-    }
+    WelcomeScreenView()
 }

@@ -9,7 +9,6 @@ import SwiftUI
 import KosherSwift
 import SwiftUISnackbar
 
-@available(iOS 15.0, *)
 struct SiddurChooserView: View {
     @State private var siddurPrayer = "" {
         didSet {
@@ -973,9 +972,5 @@ struct UIKitSiddurControllerView : UIViewControllerRepresentable {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        SiddurChooserView()
-    } else {
-        // Fallback on earlier versions
-    }
+    SiddurChooserView()
 }

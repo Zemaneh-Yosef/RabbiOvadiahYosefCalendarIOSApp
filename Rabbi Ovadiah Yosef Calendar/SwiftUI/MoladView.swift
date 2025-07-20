@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@available(iOS 15.0, *)
 struct MoladView: View {
     @State var englishMonth = ""
     @State var hebrewMonth = ""
@@ -255,9 +254,5 @@ struct MoladView: View {
 }
 
 #Preview {
-    if #available(iOS 15.0, *) {
-        MoladView()
-    } else {
-        // Fallback on earlier versions
-    }
+    MoladView()
 }
