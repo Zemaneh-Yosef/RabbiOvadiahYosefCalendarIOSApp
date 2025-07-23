@@ -24,32 +24,38 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.self) { context in
             // Lock screen/banner UI goes here
-            VStack {
-                HStack {
-                    Text(context.attributes.zmanName).font(.headline)
-                    Text(" : ")
-                    Text(context.state.endTime, style: .timer)
-                }//TODO instead of timer counting up, say "Zman has passed!"
-                ProgressView(timerInterval: .init(uncheckedBounds: (Date(), context.state.endTime)))
+            if context.state.endTime.timeIntervalSince1970 < Date().timeIntervalSince1970 {
+                Text("The Zman has passed!")
+            } else {
+                VStack {
+                    HStack {
+                        Text(context.attributes.zmanName).font(.headline)
+                        Text(" : ")
+                        Text(context.state.endTime, style: .timer)
+                    }
+                    ProgressView(timerInterval: .init(uncheckedBounds: (Date(), context.state.endTime)))
+                }
+                .padding(.all)
             }
-            .padding(.all)
         } dynamicIsland: { context in
             DynamicIsland {
                 // Expanded UI goes here.  Compose the expanded UI through
                 // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
                     Text(getHebrewDate())
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.4)
+                        .padding(.leading, 1)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Text(getParshah(jewishCalendar:getJewishCalendar()))
+                        .padding(.trailing, 1)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    HStack {
-                        Text(context.attributes.zmanName).font(.headline).padding()
-                        Spacer()
-                        Text(" is in: ").padding(.leading).padding(.leading).padding(.leading).padding(.leading)
-                        Spacer()
-                        Text(context.state.endTime, style: .timer).multilineTextAlignment(.trailing)
+                    VStack {
+                        Text(context.attributes.zmanName).font(.headline).multilineTextAlignment(.center)
+                        Text("is in:").multilineTextAlignment(.center)
+                        Text(context.state.endTime, style: .timer).font(.headline).multilineTextAlignment(.center)
                     }.padding(.top)
                 }
             } compactLeading: {

@@ -9,7 +9,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ":"
+            "value" : " : "
           }
         }
       }
@@ -54,16 +54,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "חלקים"
-          }
-        }
-      }
-    },
-    " is in: " : {
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ב:"
           }
         }
       }
@@ -1651,6 +1641,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "קלט לא תקין"
+          }
+        }
+      }
+    },
+    "is in:" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ב:"
           }
         }
       }
@@ -3685,6 +3685,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כל ליל ה־15 בחודש העברי"
+          }
+        }
+      }
+    },
+    "The Zman has passed!" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הזמן עבר!"
           }
         }
       }
