@@ -52,16 +52,24 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
                         .padding(.trailing, 1)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    VStack {
-                        Text(context.attributes.zmanName).font(.headline).multilineTextAlignment(.center)
-                        Text("is in:").multilineTextAlignment(.center)
-                        Text(context.state.endTime, style: .timer).font(.headline).multilineTextAlignment(.center)
-                    }.padding(.top)
+                    if context.state.endTime.timeIntervalSince1970 < Date().timeIntervalSince1970 {
+                        Text("The Zman has passed!")
+                    } else {
+                        VStack {
+                            Text(context.attributes.zmanName).font(.headline).multilineTextAlignment(.center)
+                            Text("is in:").multilineTextAlignment(.center)
+                            Text(context.state.endTime, style: .timer).font(.headline).multilineTextAlignment(.center)
+                        }.padding(.top)
+                    }
                 }
             } compactLeading: {
                 Text(context.attributes.zmanName)
             } compactTrailing: {
-                Text(context.state.endTime, style: .timer).multilineTextAlignment(.trailing)
+                if context.state.endTime.timeIntervalSince1970 < Date().timeIntervalSince1970 {
+                    Text("--:--:--").multilineTextAlignment(.trailing)
+                } else {
+                    Text(context.state.endTime, style: .timer).multilineTextAlignment(.trailing)
+                }
             } minimal: {
                 Text("⏱️")
             }

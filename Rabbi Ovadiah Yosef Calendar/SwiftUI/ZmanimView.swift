@@ -1445,7 +1445,7 @@ struct ZmanimView: View {
                             showNextView = true
                         }
                     }
-                    if #available(iOS 16.2, *) {
+                    if #available(iOS 16.2, *), ActivityAuthorizationInfo().areActivitiesEnabled {
                         if selectedZman.isZman
                             && (selectedZman.zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
                             && selectedZman.zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
@@ -1778,7 +1778,7 @@ struct ZmanimView: View {
                                                 showNextView = true
                                             }
                                         }
-                                        if #available(iOS 16.2, *) {
+                                        if #available(iOS 16.2, *), ActivityAuthorizationInfo().areActivitiesEnabled {
                                             if selectedZman.isZman
                                                 && (selectedZman.zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
                                                 && selectedZman.zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
