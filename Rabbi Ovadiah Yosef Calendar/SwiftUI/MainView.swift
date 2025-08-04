@@ -24,9 +24,9 @@ struct ContentView: View {
     init() {
         UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
     }
-    
+
     @State private var selectedTab = 2 // Default tab
-    
+
     @ViewBuilder
     private func tabContent(title: String) -> some View {
         if #available(iOS 16.0, *) {
@@ -71,7 +71,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     var body: some View {
         if #available(iOS 18.0, *) {
             TabView(selection: $selectedTab) {

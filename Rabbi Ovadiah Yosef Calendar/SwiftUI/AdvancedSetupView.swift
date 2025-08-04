@@ -24,17 +24,17 @@ struct AdvancedSetupView: View {
                     .font(.headline)
                     .multilineTextAlignment(.center)
                     .padding()
-                
+
                 TextField("https://chaitables.com/...", text: $link)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
-                
+
                 Button {
                     setVisibleSunriseForThisLocation(true)
                     guard !link.trimmingCharacters(in: .whitespaces).isEmpty,
                           let _ = URL(string: link)
                     else { return }
-                    
+
                     startScrape(with: link)
                 } label: {
                     Text("Set Link")
@@ -51,12 +51,12 @@ struct AdvancedSetupView: View {
                     )
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                
+
                 Text("Or")
                     .font(.headline)
                     .multilineTextAlignment(.center)
                     .padding()
-                
+
                 Button {
                     setVisibleSunriseForThisLocation(true)
                     urlToLoad = Locale.isHebrewLocale() ? URL(string: "https://chaitables.com/chai_heb.php")! : URL(string: "https://bit.ly/3rhS55b")!
@@ -76,7 +76,7 @@ struct AdvancedSetupView: View {
                     )
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                
+
                 Button {
                     setVisibleSunriseForThisLocation(false)
                     showNextView = true
@@ -100,7 +100,7 @@ struct AdvancedSetupView: View {
             }
         }
     }
-    
+
     func setVisibleSunriseForThisLocation(_ useMishor: Bool) {
         defaults.set(useMishor, forKey: "useMishorSunrise".appending(GlobalStruct.geoLocation.locationName))
     }

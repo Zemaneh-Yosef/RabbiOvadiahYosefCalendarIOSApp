@@ -10,7 +10,7 @@ import MapKit
 import SnackBar
 
 class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
-    
+
     public static var loneView: Bool = false
     var locationName: String = ""
     var lat: Double = 0
@@ -20,7 +20,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
     var chosenLocationAnnotation = MKPointAnnotation()
     var searchResults: [MKMapItem] = []
     var localSearch: MKLocalSearch?
-    
+
     var useZipcode = false
     var useAdvanced = false
     var useLocation1 = false
@@ -36,7 +36,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
     var bALat = 0.0
     var bALong = 0.0
     var bATimezone = TimeZone.current.corrected()
-    
+
     @IBOutlet weak var tableview: UITableView!
     @IBAction func back(_ sender: UIButton) {
         defaults.set(useZipcode, forKey: "useZipcode")
@@ -75,7 +75,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             defaults.setValue(true, forKey: "useAdvanced")
             defaults.setValue(false, forKey: "useZipcode")
             useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
-            
+
             locationName = advancedAlert.textFields![0].text ?? ""
             lat = Double(advancedAlert.textFields![1].text ?? "") ?? 0
             long = Double(advancedAlert.textFields![2].text ?? "") ?? 0
@@ -156,7 +156,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         GetUserLocationViewController.loneView = false// reset bool
     }
     @IBOutlet weak var map: MKMapView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         search.delegate = self
@@ -166,7 +166,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         lat = GlobalStruct.geoLocation.latitude
         long = GlobalStruct.geoLocation.longitude
         zoomMapToPlaceAndAddAnnotation()
-        
+
         useZipcode = defaults.bool(forKey: "useZipcode")
         useAdvanced = defaults.bool(forKey: "useAdvanced")
         useLocation1 = defaults.bool(forKey: "useLocation1")
@@ -182,11 +182,11 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         bALat = defaults.double(forKey: "advancedLat")
         bALong = defaults.double(forKey: "advancedLong")
         bATimezone = TimeZone(identifier: defaults.string(forKey: "advancedTimezone") ?? timezone.identifier) ?? timezone
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleMapTap(_:)))
         map.addGestureRecognizer(tapGesture)
     }
-    
+
     @objc func handleMapTap(_ gestureRecognizer: UITapGestureRecognizer) {
         map.removeAnnotation(chosenLocationAnnotation)
         let location = gestureRecognizer.location(in: map)
@@ -211,7 +211,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         }
         RedSnackBar.make(in: self.view, message: "The application will NOT track your location".localized(), duration: .lengthShort).show()
     }
-    
+
     func zoomMapToPlaceAndAddAnnotation() {
         let centerCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let regionSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
@@ -223,26 +223,26 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         chosenLocationAnnotation.subtitle = timezone.identifier
         map.addAnnotation(chosenLocationAnnotation)
     }
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             tableview.isHidden = true
         } else {
             tableview.isHidden = false
             localSearch?.cancel()// Cancel any previous search
-            
+
             let request = MKLocalSearch.Request()
             request.naturalLanguageQuery = searchText
             localSearch = MKLocalSearch(request: request)
-            
+
             localSearch?.start { [weak self] (response, error) in
                 guard let self = self else { return }
-                
+
                 if let error = error {
                     print("Local search error:", error.localizedDescription)
                     return
                 }
-                
+
                 if let response = response {
                     self.searchResults = response.mapItems
                     addSavedLocation(locationDefault: "location1")
@@ -255,7 +255,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             }
         }
     }
-    
+
     func addSavedLocation(locationDefault: String) {
         let location = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: defaults.double(forKey: locationDefault.appending("Lat")), longitude: defaults.double(forKey: locationDefault.appending("Long")))))
         location.name = defaults.string(forKey: locationDefault)
@@ -266,7 +266,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             }
         }
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         var search = searchBar.text
         if search != nil {
@@ -318,17 +318,17 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         searchBar.resignFirstResponder()
         RedSnackBar.make(in: self.view, message: "The application will NOT track your location".localized(), duration: .lengthShort).show()
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "suggestionEntry", for: indexPath)
         var content = cell.defaultContentConfiguration()
         content.textProperties.adjustsFontSizeToFitWidth = true
         content.textProperties.numberOfLines = 1
-        
+
         let selectedItem = searchResults[indexPath.row].placemark
         content.text = selectedItem.name
         let address = parseAddress(selectedItem: selectedItem)
@@ -338,13 +338,13 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         cell.contentConfiguration = content
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         map.removeAnnotation(chosenLocationAnnotation)
         let selectedItem = searchResults[indexPath.row]
         search.text = selectedItem.name
         search.resignFirstResponder()// Dismiss the keyboard
-        
+
         locationName = selectedItem.name ?? "No location name info".localized()
         lat = selectedItem.placemark.coordinate.latitude
         long = selectedItem.placemark.coordinate.longitude
@@ -394,7 +394,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         })
         RedSnackBar.make(in: self.view, message: "The application will NOT track your location".localized(), duration: .lengthShort).show()
     }
-    
+
     func showZipcodeAlert() {
         let alert = UIAlertController(title: "Location or Search a place?".localized(),
                                       message: "You can choose to use your device's location, or you can search for a place below. It is recommended to use your devices location as this provides more accurate results and it will automatically update your location.".localized(), preferredStyle: .alert)
@@ -481,27 +481,27 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
+
     func saveLocation() {
         var setOfLocationNames = Set<String>()
-        
+
         setOfLocationNames.insert(defaults.string(forKey: "location1") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location2") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location3") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location4") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location5") ?? "")
-        
+
         if !locationName.isEmpty && !setOfLocationNames.contains(locationName) {
             defaults.setValue(defaults.string(forKey: "location4") ?? "", forKey: "location5")
             defaults.setValue(defaults.double(forKey: "location4Lat"), forKey: "location5Lat")
             defaults.setValue(defaults.double(forKey: "location4Long"), forKey: "location5Long")
             defaults.setValue(defaults.string(forKey: "location4Timezone"), forKey: "location5Timezone")
-            
+
             defaults.setValue(defaults.string(forKey: "location3") ?? "", forKey: "location4")
             defaults.setValue(defaults.double(forKey: "location3Lat"), forKey: "location4Lat")
             defaults.setValue(defaults.double(forKey: "location3Long"), forKey: "location4Long")
             defaults.setValue(defaults.string(forKey: "location3Timezone"), forKey: "location4Timezone")
-            
+
             defaults.setValue(defaults.string(forKey: "location2") ?? "", forKey: "location3")
             defaults.setValue(defaults.double(forKey: "location2Lat"), forKey: "location3Lat")
             defaults.setValue(defaults.double(forKey: "location2Long"), forKey: "location3Long")
@@ -518,7 +518,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
             defaults.setValue(timezone.identifier, forKey: "location1Timezone")
         }
     }
-        
+
     func useLocation(location1:Bool, location2:Bool, location3:Bool, location4:Bool, location5:Bool) {
         defaults.setValue(location1, forKey: "useLocation1")
         defaults.setValue(location2, forKey: "useLocation2")
@@ -526,7 +526,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
         defaults.setValue(location4, forKey: "useLocation4")
         defaults.setValue(location5, forKey: "useLocation5")
     }
-    
+
     func parseAddress(selectedItem:MKPlacemark) -> String {
         // put a space between "4" and "Melrose Place"
         let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
@@ -553,7 +553,7 @@ class GetUserLocationViewController: UIViewController, UISearchBarDelegate, UITa
 }
 
 class GreenSnackBar: SnackBar {
-    
+
     override var style: SnackBarStyle {
         var style = SnackBarStyle()
         style.background = .systemGreen
@@ -563,7 +563,7 @@ class GreenSnackBar: SnackBar {
 }
 
 class RedSnackBar: SnackBar {
-    
+
     override var style: SnackBarStyle {
         var style = SnackBarStyle()
         style.background = .red

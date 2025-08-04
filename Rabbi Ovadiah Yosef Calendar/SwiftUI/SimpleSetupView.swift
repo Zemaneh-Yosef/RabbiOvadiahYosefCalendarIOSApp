@@ -26,12 +26,12 @@ struct SimpleSetupView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 16) {
-                
+
                 Spacer()
-                
+
                 Text(locationName)
                     .font(.headline)
-                
+
                 // Country Menu
                 Menu {
                     ForEach(countries.indices, id: \.self) { index in
@@ -65,7 +65,7 @@ struct SimpleSetupView: View {
                 .onChange(of: selectedMetro) { newValue in
                     resetButton()
                 }
-                
+
                 // State Menu
                 if showStatePicker {
                     Menu {
@@ -86,7 +86,7 @@ struct SimpleSetupView: View {
                         menuLabel(title: "Select State", value: selectedState)
                     }
                 }
-                
+
                 // Metro Menu
                 Menu {
                     ForEach(metros, id: \.self) { metro in
@@ -98,9 +98,9 @@ struct SimpleSetupView: View {
                 } label: {
                     menuLabel(title: "Select Metro Area", value: selectedMetro)
                 }
-                
+
                 Divider()
-                
+
                 Button(action: {
                     Task { await downloadTapped() }
                 }) {
@@ -119,7 +119,7 @@ struct SimpleSetupView: View {
                         .cornerRadius(12)
                 }
                 .disabled(isDownloading)
-                
+
                 Spacer()
             }
             .padding()
@@ -187,7 +187,7 @@ struct SimpleSetupView: View {
             }
         }
     }
-    
+
     private func resetButton() {
         buttonTitle = "Download".localized()
         buttonColors = [Color("Gold"), Color("GoldStart"), Color("Gold")]
@@ -197,7 +197,7 @@ struct SimpleSetupView: View {
         buttonTitle = "Error, did you choose the right location?".localized()
         buttonColors = [.red, .red, .red]
     }
-    
+
     private func goBackToRootView() {
         guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
           return

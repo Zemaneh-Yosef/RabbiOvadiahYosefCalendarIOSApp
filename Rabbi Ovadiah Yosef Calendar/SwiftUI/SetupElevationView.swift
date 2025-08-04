@@ -23,7 +23,7 @@ struct SetupElevationView: View {
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .padding()
-                
+
                 Button {
                     text = "0"
                     handleManualInput()
@@ -44,7 +44,7 @@ struct SetupElevationView: View {
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-                
+
                 Button {
                     showManualAlert = true
                 } label: {
@@ -64,7 +64,7 @@ struct SetupElevationView: View {
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-                
+
                 Button {
                     fetchElevationFromSources()
                 } label: {
@@ -162,7 +162,7 @@ struct SetupElevationView: View {
             goBackToRootView()
         }
     }
-    
+
     private func goBackToRootView() {
         guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
           return

@@ -17,12 +17,12 @@ struct SiddurChooserView: View {
         }
     }
     @State private var showSiddur = false
-    
+
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
     @State var lastTimeUserWasInApp = Date()
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
-    
+
     @State var showBirchatHamazonAlert = false
     @State var showMeEyinShaloshChoicePicker = false
     @State var showMeEyinShaloshAlert = false
@@ -84,10 +84,10 @@ struct SiddurChooserView: View {
         "מידות",
         "נדה"
     ]
-    
+
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     let secondaryTextSize = Font.system(size: 14)
-        
+
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
         GlobalStruct.userChosenDate = userChosenDate
@@ -503,7 +503,7 @@ struct SiddurChooserView: View {
             } message: {
                 Text(getBeforeSunsetMessage())
             }.textCase(nil)
-               
+
             .alert("When did you start your meal?", isPresented: $showMeEyinShaloshAlert) {
                 Button("Yes") {
                     openSiddurView()
@@ -516,7 +516,7 @@ struct SiddurChooserView: View {
             } message: {
                 Text(getBeforeSunsetMessage())
             }.textCase(nil)
-               
+
             .alert("Do you want to say Tikkun Chatzot for the day?", isPresented: $showTikkunChatzotDayOptionAlert) {
                 Button("Yes") {
                     siddurPrayer = "Tikkun Chatzot (Day)"
@@ -530,19 +530,19 @@ struct SiddurChooserView: View {
             } message: {
                 Text("During the three weeks, some say a shorter Tikkun Chatzot after mid-day. Are you looking to say this version of Tikkun Chatzot?")
             }.textCase(nil)
-               
+
             .alert("Tikkun Chatzot is not said today or tonight", isPresented: $showTikkunChatzotNotSaidTodayOrTonightAlert) {
                 Button("Dismiss", role: .cancel) { }
             } message: {
                 Text("Tikkun Chatzot is not said today or tonight. Possible reasons for why it is not said: It is Friday/Friday night, No Tachanun is said today, Erev Rosh Chodesh AV, Rosh Chodesh, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot.")
             }.textCase(nil)
-               
+
             .alert("Tikkun Chatzot is not said tonight", isPresented: $showTikkunChatzotNotSaidTonightAlert) {
                 Button("Dismiss", role: .cancel) { }
             } message: {
                 Text("Tikkun Chatzot is not said tonight. Possible reasons for why it is not said: It is Friday night, Rosh Hashana, Yom Kippur, Succot/Shemini Atzeret, Pesach, or Shavuot.")
             }.textCase(nil)
-               
+
             .alert("Havdalah is only said on a flame tonight.", isPresented: $showHavdalaAlert) {
                 Button("Dismiss", role: .cancel) { }
             } message: {
@@ -550,7 +550,7 @@ struct SiddurChooserView: View {
                     .appending("\n\n")
                     .appending("בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם, בּוֹרֵא מְאוֹרֵי הָאֵשׁ:"))
             }.textCase(nil)
-               
+
             .alert("Are you in a walled (Mukaf Choma) city?", isPresented: $showMukafChomaAlert) {
                 Button("Yes (Jerusalem)") {
                     GlobalStruct.jewishCalendar.setIsMukafChoma(isMukafChoma: true)
@@ -598,7 +598,7 @@ struct SiddurChooserView: View {
             }
         }.padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
     }
-    
+
     private func openSiddurView() {
         if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM) && siddurPrayer != "Birchat Halevana" && !siddurPrayer.contains("Tikkun Chatzot") && siddurPrayer != "Kriat Shema SheAl Hamita" && siddurPrayer != "Seder Siyum Masechet" && siddurPrayer != "Tefilat HaDerech" {// if the prayer is dependant on isMukafChoma, we ask the user
             showMukafChomaAlert = true
@@ -609,7 +609,7 @@ struct SiddurChooserView: View {
             }
         }
     }
-    
+
     private func autoFillMasechta() {
         selectedMasechtot.removeAll()
         let currentDaf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar);
@@ -621,7 +621,7 @@ struct SiddurChooserView: View {
             }
         }
     }
-        
+
     private func getDayTitle(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
@@ -635,7 +635,7 @@ struct SiddurChooserView: View {
         var specialDayText = weekday
             .appending("\n")
             .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar))
-        
+
         if !GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false).isEmpty {
             specialDayText = specialDayText
                 .appending("\n")
@@ -643,7 +643,7 @@ struct SiddurChooserView: View {
         }
         return specialDayText
     }
-    
+
     private func getNightTitle(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
@@ -665,7 +665,7 @@ struct SiddurChooserView: View {
         }
         return tonightText
     }
-    
+
     private func getBeforeSunsetMessage() -> String {
         let dateFormatterForZmanim = DateFormatter()
         dateFormatterForZmanim.dateFormat = Locale.isHebrewLocale() ? "H:mm" : "hh:mm a"
@@ -684,7 +684,7 @@ struct SiddurChooserView: View {
         return !(GlobalStruct.jewishCalendar.isAssurBemelacha() && Date().timeIntervalSince1970 < zmanimCalendar.getTzais13Point5MinutesZmanis()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970
         || (GlobalStruct.jewishCalendar.hasCandleLighting() && Date().timeIntervalSince1970 > zmanimCalendar.getSunset()?.timeIntervalSince1970 ?? 0))
     }
-    
+
     private func handleBirchatHamazon() {
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
         let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
@@ -739,7 +739,7 @@ struct SiddurChooserView: View {
         guard a.count == b.count else { return false }
         return zip(a, b).allSatisfy { $0.string == $1.string }
     }
-    
+
     func shouldBeDimmed(_ prayer: String) -> Bool {
         switch prayer {
         case "סליחות" :
@@ -780,7 +780,7 @@ struct SiddurChooserView: View {
         }
         return false
     }
-    
+
     func getSecondaryText(_ prayer: String) -> String? {
         var result: String? = nil
         switch prayer {
@@ -869,14 +869,14 @@ struct SiddurChooserView: View {
         default:
             return nil
         }
-        
+
         if result?.count == 0 {
             result = nil
         }
-        
+
         return result
     }
-    
+
     func alerts(view: any View) -> some View {
         let result = view.overlay {
             ZStack {

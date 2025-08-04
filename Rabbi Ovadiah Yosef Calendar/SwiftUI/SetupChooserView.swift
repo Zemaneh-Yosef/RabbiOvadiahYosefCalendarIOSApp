@@ -15,15 +15,15 @@ struct SetupChooserView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            
+
             Spacer()
-            
+
             Image("yy_quote")
                 .resizable()
                 .scaledToFit()
-            
+
             Spacer()
-            
+
             Button(action: {
                 navigateToSimple = true
             }) {
@@ -41,12 +41,12 @@ struct SetupChooserView: View {
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            
+
             Button("Advanced Setup") {
                 navigateToAdvanced = true
             }
             .buttonStyle(FilledButtonStyle(color: .gray.opacity(0.3)))
-            
+
             NavigationLink(destination: SimpleSetupView(), isActive: $navigateToSimple) { EmptyView() }
             NavigationLink(destination: AdvancedSetupView(), isActive: $navigateToAdvanced) { EmptyView() }
         }

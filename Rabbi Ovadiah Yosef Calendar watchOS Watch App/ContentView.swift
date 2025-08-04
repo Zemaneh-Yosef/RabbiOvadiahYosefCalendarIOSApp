@@ -153,20 +153,20 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     dateFormatter.timeZone = timezone
     zmanimList.append(ZmanListEntry(title: locationName))
     var date = dateFormatter.string(from: userChosenDate)
-            
+
     let hDateFormatter = DateFormatter()
     hDateFormatter.calendar = Calendar(identifier: .hebrew)
     hDateFormatter.dateFormat = "d MMMM, yyyy"
     var hebrewDate = hDateFormatter.string(from: userChosenDate)
         .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
         .replacingOccurrences(of: "Tamuz", with: "Tammuz")
-    
+
     if Locale.isHebrewLocale() {
         let hebrewDateFormatter = HebrewDateFormatter()
         hebrewDateFormatter.hebrewFormat = true
         hebrewDate = hebrewDateFormatter.format(jewishCalendar: jewishCalendar)
     }
-    
+
     if Calendar.current.isDateInToday(userChosenDate) {
         date += "   ▼   " + hebrewDate
     } else {
@@ -347,7 +347,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
             }
         }
         jewishCalendar.workingDate = userChosenDate //reset
-        
+
         let tekufaAH = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if tekufaAH != nil {
             if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
@@ -386,22 +386,22 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         }
         jewishCalendar.workingDate = userChosenDate //reset
     }
-    
+
     zmanimList = ZmanimFactory.addZmanim(list: zmanimList, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar)
-    
+
     zmanimList.append(ZmanListEntry(title:jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()))
-    
+
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute, .second]
     formatter.unitsStyle = .abbreviated
     if defaults.bool(forKey: "LuachAmudeiHoraah") {
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Amudei Horaah) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MGA: ".localized() + "(Amudei Horaah) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
     } else {
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Ohr HaChaim) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MGA: ".localized() + "(Ohr HaChaim) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
     }
-    
+
     if defaults.bool(forKey: "showShmita") {
         switch (jewishCalendar.getYearOfShmitaCycle()) {
             case 1:
@@ -427,7 +427,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
                 break;
         }
     }
-    
+
     hebrewDateFormatter.hebrewFormat = true
     hebrewDateFormatter.useGershGershayim = false
     let dafYomi = jewishCalendar.getDafYomiBavli()
@@ -474,12 +474,12 @@ func setNextUpcomingZman() {
     var theZman: Date? = nil
     var zmanim = Array<ZmanListEntry>()
     var today = Date()
-    
+
     today = today.advanced(by: -86400)//yesterday
     jewishCalendar.workingDate = today
     zmanimCalendar.workingDate = today
     zmanim = ZmanimFactory.addZmanim(list: zmanim, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar)
-    
+
     today = today.advanced(by: 86400)//today
     jewishCalendar.workingDate = today
     zmanimCalendar.workingDate = today
@@ -492,7 +492,7 @@ func setNextUpcomingZman() {
 
     zmanimCalendar.workingDate = userChosenDate//reset
     jewishCalendar.workingDate = userChosenDate//reset
-    
+
     for entry in zmanim {
         let zman = entry.zman
         if zman != nil {
@@ -515,7 +515,7 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
     var long = 0.0
     var elevation = 0.0
     var timezone = TimeZone.current
-    
+
     if defaults.bool(forKey: "useAdvanced") {
         locationName = defaults.string(forKey: "advancedLN") ?? ""
         lat = defaults.double(forKey: "advancedLat")

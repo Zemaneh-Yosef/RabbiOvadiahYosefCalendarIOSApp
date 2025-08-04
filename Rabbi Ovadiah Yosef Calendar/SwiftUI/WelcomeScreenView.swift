@@ -13,20 +13,20 @@ struct WelcomeScreenView: View {
     @State private var showHaskamotAlert = false
     @State private var showAboutUsAlert = false
     @State private var showNextView = false
-    
+
     var body: some View {
         ZStack {
             Image("welcome_bg")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-            
+
             VStack {
                 Image("logo")
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: 350, maxHeight: 250)
-                
+
                 Text("Worldwide Halachic Times according to our Sepharadic Tradition.")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -34,7 +34,7 @@ struct WelcomeScreenView: View {
                     .foregroundStyle(Color.white)
                     .frame(maxWidth: 300)
                     .padding()
-                
+
                 HStack(spacing: 80) {
                     Button(action: { showHaskamotAlert.toggle() }) {
                         Text("Haskamot")
@@ -43,7 +43,7 @@ struct WelcomeScreenView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .foregroundStyle(Color.white)
                     }
-                    
+
                     Button(action: { showAboutUsAlert.toggle() }) {
                         Text("About Us")
                             .padding()
@@ -53,9 +53,9 @@ struct WelcomeScreenView: View {
                     }
                 }
                 .padding()
-                
+
                 Spacer()
-                
+
                 NavigationLink {
                     GetUserLocationView()
                 } label: {
@@ -77,7 +77,7 @@ struct WelcomeScreenView: View {
         } message: {
             Text("Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.")
         }.textCase(nil)
-        
+
         .alert("About Us", isPresented: $showAboutUsAlert) {
             Button("Dismiss", role: .cancel, action: {})
         } message: {

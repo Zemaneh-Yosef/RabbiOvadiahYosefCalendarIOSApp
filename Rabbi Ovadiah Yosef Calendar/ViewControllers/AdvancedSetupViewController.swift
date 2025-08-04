@@ -14,20 +14,20 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
     @IBOutlet weak var download: UIButton!
     @IBOutlet weak var linkTextField: UITextField!
     @IBAction func dowloadTFlink(_ sender: UIButton) {
-        
+
         let presentingView = super.presentingViewController
-        
+
         if linkTextField.text == nil || linkTextField.text == "" {
             return
         }
-        
+
         let chaitables = ChaiTablesScraper(
             link: linkTextField.text!,
             locationName: GlobalStruct.geoLocation.locationName,
             jewishYear: JewishCalendar().getJewishYear(),
             defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 )
-        
+
         chaitables.scrape {
             chaitables.jewishYear = chaitables.jewishYear + 1
             chaitables.link = chaitables.link.replacingOccurrences(of: "&cgi_yrheb=".appending(String(JewishCalendar().getJewishYear())), with: "&cgi_yrheb=".appending(String(JewishCalendar().getJewishYear() + 1)))
@@ -42,7 +42,7 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
         super.dismiss(animated: true)
     }
     @IBAction func chaitablesLinkTF(_ sender: UITextField) {
-        
+
     }
     @IBAction func websiteButton(_ sender: UIButton) {
         let webView = WKWebView()
@@ -78,7 +78,7 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
         }
         topLabel.text = "Provide a link below for ".localized().appending("\(GlobalStruct.geoLocation.locationName)")
     }
-    
+
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         if (webView.url?.absoluteString.starts(with: "http://chaitables.com/cgi-bin/") == true) {
             let presentingView = super.presentingViewController
@@ -95,7 +95,7 @@ class AdvancedSetupViewController: UIViewController, WKNavigationDelegate, WKUID
             }
         }
     }
-    
+
     func assertCorrectURL(url: String) -> String {
         return url
             .replacingOccurrences(of: "&cgi_types=-1", with: "&cgi_types=0")

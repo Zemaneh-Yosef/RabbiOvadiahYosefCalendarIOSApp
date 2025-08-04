@@ -9,7 +9,7 @@ import UIKit
 import KosherSwift
 
 class OmerViewController: UIViewController {
-    
+
     let omerList = ["הַיּוֹם יוֹם אֶחָד לָעֹמֶר:",
                     "הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר:",
                     "הַיּוֹם שְׁלֹשָׁה יָמִים לָעֹמֶר:",
@@ -59,7 +59,7 @@ class OmerViewController: UIViewController {
                     "הַיּוֹם שִׁבְעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים:",
                     "הַיּוֹם שְׁמוֹנָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים:",
                     "הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם לָעֹמֶר, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת:", ""]
-    
+
     let attributes = [
              "חֶסֶד שֶׁבְּחֶסֶד",     // Day 1
              "גְּבוּרָה שֶׁבְּחֶסֶד",   // Day 2
@@ -118,39 +118,39 @@ class OmerViewController: UIViewController {
     @IBOutlet weak var scrollview: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let stackview = UIStackView()
         stackview.axis = .vertical
         stackview.spacing = 0
-                
+
         stackview.translatesAutoresizingMaskIntoConstraints = false
-                
+
         scrollview.addSubview(stackview)
-        
+
         let beracha = "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ עַל סְפִירַת הָעֹמֶר:";
-        
+
         let omerDay = GlobalStruct.jewishCalendar.tomorrow().getDayOfOmer()
-        
+
         if omerDay != -1 {
             let firstString = beracha.appending("\n\n")
                 .appending(omerList[omerDay-1])
                 .appending(" (").appending(attributes[omerDay-1]).appending(")")
                 .appending("\n\n")
                 .appending("הָרַחֲמָן הוּא יַחֲזִיר עֲבוֹדַת בֵּית הַמִּקְדָּשׁ לִמְקוֹמָהּ בִּמְהֵרָה בְיָמֵֽינוּ אָמֵן:")
-            
+
             let initialLabel = UILabel()
             initialLabel.numberOfLines = 0
             initialLabel.textAlignment = .right
             initialLabel.text = firstString
             initialLabel.font = .boldSystemFont(ofSize: 18)
-            
+
             stackview.addArrangedSubview(initialLabel)
         }
-        
+
         let menorahImageView = UIImageView(image: UIImage(named: "menorah"))
         menorahImageView.contentMode = .scaleAspectFit // Adjust the content mode as needed
         stackview.addArrangedSubview(menorahImageView)
-        
+
         let finalLabel = UILabel()
         finalLabel.numberOfLines = 0
         finalLabel.textAlignment = .right
@@ -164,19 +164,19 @@ class OmerViewController: UIViewController {
         "שַׁוְעָתֵֽנוּ קַבֵּל. וּשְׁמַע צַעֲקָתֵֽנוּ. יוֹדֵֽעַ תַּעֲלוּמוֹת: (שק\"ו צי\"ת) \n\n" +
         "בָּרוּךְ שֵׁם כְּבוֹד מַלְכוּתוֹ לְעוֹלָם וָעֶד:"
         finalLabel.font = .boldSystemFont(ofSize: 18)
-        
+
         stackview.addArrangedSubview(finalLabel)
-        
+
         NSLayoutConstraint.activate([
             stackview.topAnchor.constraint(equalTo: scrollview.contentLayoutGuide.topAnchor),
             stackview.leadingAnchor.constraint(equalTo: scrollview.contentLayoutGuide.leadingAnchor),
             stackview.trailingAnchor.constraint(equalTo: scrollview.contentLayoutGuide.trailingAnchor),
             stackview.bottomAnchor.constraint(equalTo: scrollview.contentLayoutGuide.bottomAnchor),
-            
+
             stackview.widthAnchor.constraint(equalTo: scrollview.frameLayoutGuide.widthAnchor),
         ])
     }
-    
+
 
     /*
     // MARK: - Navigation

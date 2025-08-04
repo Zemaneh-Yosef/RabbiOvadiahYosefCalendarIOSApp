@@ -46,7 +46,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         GlobalStruct.chosenPrayer = "Birchat Hamazon"
         let today = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
         let tomorrow = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
-        
+
         if today.count != tomorrow.count {
             var notEqual = false
             // Check if all elements at corresponding indices are equal
@@ -55,18 +55,18 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                     notEqual = true
                 }
             }
-            
+
             if notEqual {
                 if Locale.isHebrewLocale() {
                         dateFormatterForZmanim.dateFormat = "H:mm"
                 } else {
                         dateFormatterForZmanim.dateFormat = "h:mm aa"
                 }
-                
+
                 let zmanimCalendar = ZmanimCalendar(location: GlobalStruct.geoLocation)
                 zmanimCalendar.useElevation = GlobalStruct.useElevation
                 zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
-                
+
                 let alert = UIAlertController(title: "When did you start your meal?".localized(),
                                               message: "Did you start your meal before sunset?".localized()
                     .appending(" ")
@@ -111,7 +111,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                 let zmanimCalendar = ZmanimCalendar(location: GlobalStruct.geoLocation)
                 zmanimCalendar.useElevation = GlobalStruct.useElevation
                 zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
-                
+
                 let alert = UIAlertController(title: "When did you start your meal?".localized(),
                                               message: "Did you start your meal before sunset?".localized()
                     .appending(" ")
@@ -124,7 +124,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                     self.openSiddur()
                 }))
                 alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { UIAlertAction in
-                    
+
                 }))
                 present(alert, animated: true)
             }
@@ -182,7 +182,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
     }
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.backgroundColor = .secondarySystemBackground
@@ -207,7 +207,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         specialDayText = weekday
             .appending("\n")
             .appending(hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar))
-        
+
         if !GlobalStruct.jewishCalendar.getSpecialDay(addOmer: false).isEmpty {
             specialDayText = specialDayText
                 .appending("\n")
@@ -260,7 +260,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         }
         tableview.reloadData()
     }
-        
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = UITableViewCell()
         var content = headerCell.defaultContentConfiguration()
@@ -282,14 +282,14 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         headerCell.contentConfiguration = content
         return headerCell
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tefilaEntry", for: indexPath)
         var content = cell.defaultContentConfiguration()
         cell.backgroundColor = .systemBackground
         content.textProperties.font = .systemFont(ofSize: 20, weight: .semibold)
         content.secondaryTextProperties.font = .systemFont(ofSize: 16, weight: .regular)
-        
+
         switch indexPath.section {
         case 0:
             content.text = choices["morning"]?[indexPath.row]
@@ -299,7 +299,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             content.text = choices["misc"]?[indexPath.row]
         }
         content.secondaryText = getSecondaryText(content.text!)
-        
+
         if content.text == "סליחות" {
             zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
             zmanimCalendar.useElevation = GlobalStruct.useElevation
@@ -334,21 +334,21 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
                   }
               }
         }
-        
+
         if content.text == "הבדלה" {
             if (GlobalStruct.jewishCalendar.tomorrow().isTishaBav() && GlobalStruct.jewishCalendar.getDayOfWeek() == 7) {
                 content.textProperties.color = .systemGray // Subtle gray for text
                 cell.alpha = 0.8 // Slightly dim entire cell
             }
         }
-        
+
         cell.contentConfiguration = content
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         var navigationArray:[String] = []
         switch indexPath.section {
         case 0:
@@ -358,7 +358,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         default:
             navigationArray = choices["misc"]!
         }
-        
+
         switch navigationArray[indexPath.row] {
         case "סליחות":
             GlobalStruct.chosenPrayer = "Selichot"
@@ -413,7 +413,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
     }
-    
+
     func getSecondaryText(_ prayer:String) -> String? {
         switch prayer {
         case "סליחות":
@@ -502,7 +502,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         default:
             return nil
         }
-        
+
         return nil
     }
 
@@ -521,9 +521,9 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {3}
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -534,7 +534,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             return choices["misc"]?.count ?? 0
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !Calendar.current.isDate(lastTimeUserWasInApp, inSameDayAs: Date()) && lastTimeUserWasInApp.timeIntervalSinceNow < 7200 {//2 hours
@@ -545,7 +545,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         loadView()
         viewDidLoad()
     }
-    
+
     func openSiddur() {
         if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM) && GlobalStruct.chosenPrayer != "Birchat Halevana" && !GlobalStruct.chosenPrayer.contains("Tikkun Chatzot") && GlobalStruct.chosenPrayer != "Kriat Shema SheAl Hamita" {// if the prayer is dependant on isMukafChoma, we ask the user
             let alert = UIAlertController(title: "Are you in a walled (Mukaf Choma) city?".localized(),
@@ -612,10 +612,10 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
 
         present(alertController, animated: true, completion: nil)
     }
-    
+
     @objc func showHebrewDatePicker() {
         var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
-        
+
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
@@ -635,7 +635,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
         datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
-        
+
         let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.dismiss(animated: true)
             self.showDatePicker()

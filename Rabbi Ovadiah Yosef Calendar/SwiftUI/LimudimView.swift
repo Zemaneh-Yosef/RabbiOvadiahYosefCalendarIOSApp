@@ -13,24 +13,24 @@ import SwiftyJSON
 struct LimudimView: View {
     @State var limudim: [ZmanListEntry] = []
     @State var hiloulot: [ZmanListEntry] = []
-    
+
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
-    
+
     @State private var selectedLimud: ZmanListEntry? // Track selected item
     @State private var selectedHiloula: ZmanListEntry? // Track selected item
     @State private var showLimudAlert = false
     @State private var showHillulotAlert = false
     @State private var isNasiYomi = false
-    
+
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
         GlobalStruct.userChosenDate = userChosenDate
         updateLimudim()
         updateHillulot()
     }
-    
+
     func limudTitle() -> String {
         if isNasiYomi {
             return selectedLimud?.title ?? ""
@@ -42,7 +42,7 @@ struct LimudimView: View {
             .replacingOccurrences(of: "Mishna Yomi: ".localized(), with: "")
             .appending("?")
     }
-    
+
     func updateLimudim() {
         limudim = []
         let hebrewDateFormatter = HebrewDateFormatter()
@@ -131,7 +131,7 @@ struct LimudimView: View {
                 "145 - 150"]
         }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Monthly)".localized() + ": " + dailyMonthlyTehilim[GlobalStruct.jewishCalendar.getJewishDayOfMonth() - 1]))
-        
+
         var dailyWeeklyTehilim: Array<String>
         if (Locale.isHebrewLocale()) {
             dailyWeeklyTehilim = [
@@ -155,17 +155,17 @@ struct LimudimView: View {
             ]
         }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Weekly)".localized() + ": " + dailyWeeklyTehilim[GlobalStruct.jewishCalendar.getDayOfWeek() - 1]))
-        
+
         if (GlobalStruct.jewishCalendar.getJewishMonth() == JewishCalendar.NISSAN) {
             let title = NisanLimudYomi.getNisanLimudYomiTitle(day: GlobalStruct.jewishCalendar.getJewishDayOfMonth());
             let reading = NisanLimudYomi.getNisanLimudYomiReading(day: GlobalStruct.jewishCalendar.getJewishDayOfMonth());
-            
+
             if (!title.isEmpty) {
                 limudim.append(ZmanListEntry(title: "Daily Nasi: ".localized() + title, desc: reading));
             }
         }
     }
-    
+
     // Method to load JSON from the file and decode it into a Swift object
     func updateHillulot() {
         hiloulot = []
@@ -174,10 +174,10 @@ struct LimudimView: View {
             do {
                 // Read the JSON file as Data
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                
+
                 // Parse the data using SwiftyJSON
                 let json = try JSON(data: data)
-                
+
                 let month = GlobalStruct.jewishCalendar.getNissanStartingJewishMonth()
                 let day = GlobalStruct.jewishCalendar.getJewishDayOfMonth()
                 var currentDate:String
@@ -193,18 +193,18 @@ struct LimudimView: View {
                 }
                 // Retrieve the array from the JSON for the currentDate
                 if let currentHillulot = json[currentDate].array {
-                    
+
                     // Loop through the array of hillulot
                     for hillula in currentHillulot {
                         var entry = ZmanListEntry(title: "")
                         if let name = hillula["name"].string {
                             entry.title = name
                         }
-                        
+
                         if let src = hillula["desc"].string {
                             entry.desc = src
                         }
-                        
+
                         if let src = hillula["src"].string {
                             entry.src = src
                         }
@@ -216,7 +216,7 @@ struct LimudimView: View {
             }
         }
     }
-    
+
     func alerts(view: any View) -> some View {
         let result = view.overlay {
             ZStack {
@@ -284,7 +284,7 @@ struct LimudimView: View {
         }
         return AnyView(result)
     }
-    
+
     var body: some View {
         alerts(view:
                 List {
@@ -296,7 +296,7 @@ struct LimudimView: View {
                         datePickerIsVisible.toggle()
                     }
             }
-            
+
             Section(header: Label("Limudim", systemImage: "book")) {
                 if !limudim.isEmpty {
                     HStack {
@@ -310,7 +310,7 @@ struct LimudimView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         Spacer()
                     }
-                    
+
                     HStack {
                         Text("").frame(maxWidth: 0)
                         Spacer()
@@ -322,7 +322,7 @@ struct LimudimView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         Spacer()
                     }
-                    
+
                     HStack {
                         Text("").frame(maxWidth: 0)
                         Spacer()
@@ -334,7 +334,7 @@ struct LimudimView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         Spacer()
                     }
-                    
+
                     HStack {
                         Text("").frame(maxWidth: 0)
                         Spacer()
@@ -345,7 +345,7 @@ struct LimudimView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                         Spacer()
                     }
-                    
+
                     HStack {
                         Text("").frame(maxWidth: 0)
                         Spacer()
@@ -353,7 +353,7 @@ struct LimudimView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                         Spacer()
                     }
-                    
+
                     HStack {
                         Text("").frame(maxWidth: 0)
                         Spacer()
@@ -361,7 +361,7 @@ struct LimudimView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                         Spacer()
                     }
-                    
+
                     if limudim.count > 6 {
                         HStack {
                             Text("").frame(maxWidth: 0)
@@ -391,7 +391,7 @@ struct LimudimView: View {
                     Text("This will open the Sefaria website or app in a new window with the page.")
                 }
             }.textCase(nil)
-            
+
             // Hillulot
             Section(header: Label("Hillulot", systemImage: "flame")) {
                 ForEach(hiloulot, id: \.title) { hiloula in
@@ -469,7 +469,7 @@ func getDateString(currentDate: Date) -> String {
         hebrewDateFormatter.hebrewFormat = true
         hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
     }
-    
+
     if Calendar.current.isDateInToday(currentDate) {
         date += "   ▼   " + hebrewDate
     } else {

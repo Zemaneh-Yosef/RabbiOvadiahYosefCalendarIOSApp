@@ -9,18 +9,18 @@ import SwiftUI
 
 class ZmanimSettingsViewModel: ObservableObject {
     private let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
-    
+
     @Published var notificationsOnShabbat: Bool {
         didSet {
             defaults.set(notificationsOnShabbat, forKey: "zmanim_notifications_on_shabbat")
             NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
         }
     }
-    
+
     @Published var zmanimSettings: [String: Bool] = [:]
     @Published var zmanimMinutes: [String: Int] = [:]
-    
-    let editableZmanim = ["Alot Hashachar",
+
+    let editZmanimIndex = ["Alot Hashachar",
                            "Talit And Tefilin",
                            "Sunrise",
                            "Sof Zman Shma MGA",
@@ -41,24 +41,24 @@ class ZmanimSettingsViewModel: ObservableObject {
                            "Shabbat Ends",
                            "Rabbeinu Tam",
                            "Chatzot Layla"]
-    
+
     init() {
         self.notificationsOnShabbat = defaults.bool(forKey: "zmanim_notifications_on_shabbat")
-        
-        for zman in editableZmanim {
+
+        for zman in editZmanimIndex {
             let notifyKey = "Notify" + zman
             let minutesKey = zman
-            
+
             zmanimSettings[zman] = defaults.bool(forKey: notifyKey)
             zmanimMinutes[zman] = defaults.integer(forKey: minutesKey)
         }
     }
-    
+
     func toggleNotification(for zman: String) {
         let notifyKey = "Notify" + zman
         zmanimSettings[zman]?.toggle()
         defaults.set(zmanimSettings[zman] ?? false, forKey: notifyKey)
-        
+
         if zmanimSettings[zman] == false {
             defaults.set(-1, forKey: zman)
             zmanimMinutes[zman] = -1
@@ -66,11 +66,11 @@ class ZmanimSettingsViewModel: ObservableObject {
             defaults.set(0, forKey: zman)
             zmanimMinutes[zman] = 0
         }
-        
+
         objectWillChange.send()
         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
-    
+
     func updateMinutes(for zman: String, minutes: Int) {
         defaults.set(minutes, forKey: zman)
         zmanimMinutes[zman] = minutes
@@ -82,44 +82,44 @@ class ZmanimSettingsViewModel: ObservableObject {
 @available(iOS 15.0, *)
 struct ZmanimNotificationsSettingsView: View {
     @StateObject private var viewModel = ZmanimSettingsViewModel()
-    
+
     @State private var selectedZman: String? = nil
     @State private var zmanMinutesBefore: String = ""
 
     var body: some View {
         Form {
             Section {
-                Toggle("Zmanim Notifications on Shabbat and Yom Tov", isOn: $viewModel.notificationsOnShabbat)
-                Text("Receive zmanim notifications on shabbat and yom tov")
+                Toggle("Zemanim Notifications on Shabbat and Yom Tov", isOn: $viewModel.notificationsOnShabbat)
+                Text("Receive zemanim notifications on shabbat and yom tov")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
-            
+
             Section {
-                Text("Select on the row of the zman to change the amount of minutes")
+                Text("Select on the row of the zeman to change the amount of minutes")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
             } header: {
                 VStack {
-                    Text("Minutes before the zman for notifications").textCase(nil)
+                    Text("Minutes before the zeman for notifications").textCase(nil)
                 }
             }
-            
+
             Section {
-                ForEach(viewModel.editableZmanim, id: \.self) { zman in
+                ForEach(viewModel.editZmanimIndex, id: \.self) { zman in
                     let isNotified = viewModel.zmanimSettings[zman] ?? false
                     let minutesBefore = viewModel.zmanimMinutes[zman] ?? -1
-                    
+
                     let displayText: String = {
                         if minutesBefore >= 1 {
                             return "Notify ".localized().appending("\(minutesBefore)").appending(" minutes before".localized())
                         } else if minutesBefore == 0 {
-                            return "Notify at the time of the zman".localized()
+                            return "Notify at the time of the zeman".localized()
                         } else {
                             return "Off".localized()
                         }
                     }()
-                    
+
                     Button(action: {
                         if isNotified {
                             selectedZman = zman
@@ -129,8 +129,6 @@ struct ZmanimNotificationsSettingsView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(zman
-                                    .replacingOccurrences(of: "Plag HaMincha Halacha Berurah", with: "Pelag HaMincha (Halacha Berura)")
-                                    .replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Pelag HaMincha (Yalkut Yosef)")
                                     .localized())
                                     .foregroundColor(isNotified ? .primary : .gray)
                                 Text(displayText)

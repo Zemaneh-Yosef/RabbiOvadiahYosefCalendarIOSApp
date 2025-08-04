@@ -9,7 +9,7 @@ import UIKit
 import KosherSwift
 
 class MoladViewController: UIViewController {
-    
+
     let jewishCalendar = JewishCalendar()
 
     @IBAction func back(_ sender: UIButton) {
@@ -23,7 +23,7 @@ class MoladViewController: UIViewController {
     @IBOutlet weak var moladChalakim: UILabel!
     @IBOutlet weak var molad: UILabel!
     @IBOutlet weak var earliestBL: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         assignBackground()
@@ -34,7 +34,7 @@ class MoladViewController: UIViewController {
             changeMonthButton.tintColor = .black
         }
     }
-    
+
     func assignBackground() {
         let background = UIImage(named: "molad_background")
 
@@ -47,27 +47,27 @@ class MoladViewController: UIViewController {
         view.addSubview(imageView)
         self.view.sendSubviewToBack(imageView)
     }
-    
+
     func setLabelTexts() {
         let calendar = Calendar.init(identifier: .gregorian)
-        
+
         let moladDate = jewishCalendar.getMoladAsDate()
-        
+
         let sevenDays = calendar.date(byAdding: .day, value: 7, to: moladDate)!
-        
+
         let formatter = DateFormatter()
         if Locale.isHebrewLocale() {
             formatter.dateFormat = "E MMM d H:mm:ss"
         } else {
             formatter.dateFormat = "E MMM d h:mm:ss a"
         }
-        
+
         let monthFormatter = DateFormatter()
         monthFormatter.dateFormat = "MMMM yyyy"
         let hebrewMonthFormatter = DateFormatter()
         hebrewMonthFormatter.calendar = Calendar.init(identifier: .hebrew)
         hebrewMonthFormatter.dateFormat = "MMMM yyyy"
-        
+
         chosenMonth.text = monthFormatter.string(from: jewishCalendar.workingDate) + " / " + hebrewMonthFormatter.string(from: jewishCalendar.workingDate).replacingOccurrences(of: "Heshvan", with: "Cheshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
         jewishCalendar.calculateMolad()
@@ -75,14 +75,14 @@ class MoladViewController: UIViewController {
         molad.text = formatter.string(from: moladDate)
         earliestBL.text = formatter.string(from: sevenDays)
     }
-    
+
     @objc func showDatePicker() {
         var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
 
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
-        
+
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.date = jewishCalendar.workingDate
@@ -96,7 +96,7 @@ class MoladViewController: UIViewController {
         datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
-        
+
         let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.showHebrewDatePicker()
         }
@@ -108,13 +108,13 @@ class MoladViewController: UIViewController {
         }
 
         alertController.addAction(doneAction)
-        
+
         present(alertController, animated: true, completion: nil)
     }
-    
+
     @objc func showHebrewDatePicker() {
         var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
-        
+
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
@@ -134,7 +134,7 @@ class MoladViewController: UIViewController {
         datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
-        
+
         let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.showDatePicker()
         }
@@ -154,7 +154,7 @@ class MoladViewController: UIViewController {
     @objc func datePickerValueChanged(sender: UIDatePicker) {
         jewishCalendar.workingDate = sender.date
     }
-    
+
 
     /*
     // MARK: - Navigation

@@ -13,7 +13,7 @@ struct InIsraelView: View {
     @State var showNextView = false
     @Environment(\.dismiss) private var dismiss
     @State var nextView = NextSetupView.zmanimLanguage
-    
+
     var body: some View {
         VStack(spacing: 40) {
             Text("Are you currently in Israel?")
@@ -79,12 +79,12 @@ struct InIsraelView: View {
             }
         }.hidden()
     }
-    
+
     func presentNextView() {
         defaults.set(inIsrael.unsafelyUnwrapped, forKey: "inIsrael")
         defaults.set(!inIsrael.unsafelyUnwrapped, forKey: "LuachAmudeiHoraah")
         defaults.set(inIsrael.unsafelyUnwrapped, forKey: "useElevation")
-        
+
         if Locale.isHebrewLocale() {
             defaults.set(true, forKey: "isZmanimInHebrew")
             defaults.set(false, forKey: "isZmanimEnglishTranslated")
@@ -101,7 +101,7 @@ struct InIsraelView: View {
             showNextView = true
         }
     }
-    
+
     private func goBackToRootView() {
         guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
           return

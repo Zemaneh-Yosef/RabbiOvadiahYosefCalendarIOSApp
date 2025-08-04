@@ -19,7 +19,7 @@ class TabBarViewController: UITabBarController {
             self.tabBar.items?.last?.badgeValue = ""
         }
     }
-    
+
 
     /*
     // MARK: - Navigation

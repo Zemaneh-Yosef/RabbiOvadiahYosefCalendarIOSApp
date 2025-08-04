@@ -47,7 +47,7 @@ struct ZmanimView: View {
     @State var scrollToTop = false
     @State var scrollDirection = 1
     @ScrollOffsetProxy(.bottom, id: "Scroller") private var scrollOffsetProxy
-    
+
     @State var showZmanAlert = false
     @State var showLocationInfoAlert = false
     @State var selectedZman: ZmanListEntry = ZmanListEntry(title: "")
@@ -63,12 +63,12 @@ struct ZmanimView: View {
     @State var showNextView = false
     @State var isBannerHidden = false
     @State var isFirstTimeForShabbatBanner = true
-    
+
     init() {
         dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "")
         dateFormatterForRT.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss")
     }
-    
+
     func startShabbatMode() {
         userChosenDate = Date()
         syncCalendarDates()
@@ -76,12 +76,12 @@ struct ZmanimView: View {
         isBannerHidden = false
         scheduleTimer()//to update zmanim at 12AM
     }
-    
+
     func endShabbatMode() {
         updateZmanimList()
         scrollViewOffset = CGFloat(1000)
     }
-    
+
     func scheduleTimer() {
         let calendar = Calendar.current
         let currentDate = Date()
@@ -95,7 +95,7 @@ struct ZmanimView: View {
         let timeInterval = calendar.dateComponents([.second], from: currentDate, to: targetDate).second!
         timerForShabbatMode = Timer.publish(every: TimeInterval(timeInterval), on: .main, in: .common).autoconnect()
     }
-    
+
     func formatDate(using calendar: Calendar = Calendar.current, format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
@@ -103,7 +103,7 @@ struct ZmanimView: View {
         dateFormatter.calendar = calendar
         return dateFormatter.string(from: GlobalStruct.userChosenDate)
     }
-    
+
     func getFastStartTime() -> String {
         let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         let useAHZmanim = defaults.bool(forKey: "LuachAmudeiHoraah")
@@ -127,7 +127,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     func getFastEndTime() -> String {
         let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         let useAHZmanim = defaults.bool(forKey: "LuachAmudeiHoraah")
@@ -141,7 +141,7 @@ struct ZmanimView: View {
             return zmanimNames.getTaanitString() + zmanimNames.getEndsString() + ": " + fastEnds
         }
     }
-    
+
     func getShabbatStartEndsAsString() -> String {
         let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
         let useAHZmanim = defaults.bool(forKey: "LuachAmudeiHoraah")
@@ -176,7 +176,7 @@ struct ZmanimView: View {
         jewishCalendar.workingDate = backup
         return result
     }
-    
+
     func getShabbatAndOrChag() -> String {
         if (defaults.bool(forKey: "isZmanimInHebrew")) {
             if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
@@ -196,7 +196,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     func getMoonRiseSet(isRise: Bool) -> String {
         do {
             var cal = Calendar.current
@@ -230,7 +230,7 @@ struct ZmanimView: View {
         }
         return ""
     }
-    
+
     func updateZmanimList(add66Misheyakir: Bool = false) {
         zmanimList = []
         if !simpleList {
@@ -242,20 +242,20 @@ struct ZmanimView: View {
         dateFormatter.timeZone = timezone
         zmanimList.append(ZmanListEntry(title: locationName))
         var date = dateFormatter.string(from: userChosenDate)
-        
+
         let hDateFormatter = DateFormatter()
         hDateFormatter.calendar = Calendar(identifier: .hebrew)
         hDateFormatter.dateFormat = "d MMMM, yyyy"
         var hebrewDate = hDateFormatter.string(from: userChosenDate)
             .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
-        
+
         if Locale.isHebrewLocale() {
             let hebrewDateFormatter = HebrewDateFormatter()
             hebrewDateFormatter.hebrewFormat = true
             hebrewDate = hebrewDateFormatter.format(jewishCalendar: jewishCalendar)
         }
-        
+
         if Calendar.current.isDateInToday(userChosenDate) {
             date += "   ▼   " + hebrewDate
         } else {
@@ -271,7 +271,7 @@ struct ZmanimView: View {
         //now that we are on saturday, check the parasha
         let specialParasha = hebrewDateFormatter.formatSpecialParsha(jewishCalendar: jewishCalendar)
         var parasha = hebrewDateFormatter.formatParsha(parsha: jewishCalendar.getParshah())
-        
+
         if !specialParasha.isEmpty {
             parasha += " / " + specialParasha
         }
@@ -381,12 +381,12 @@ struct ZmanimView: View {
         if jewishCalendar.isBirkasHachamah() {
             zmanimList.append(ZmanListEntry(title: "Birchat Ha'Ḥamah is said today".localized()))
         }
-        
+
         if (jewishCalendar.tomorrow().getDayOfWeek() == 7
             && jewishCalendar.tomorrow().getYomTovIndex() == JewishCalendar.EREV_PESACH) {
             zmanimList.append(ZmanListEntry(title: "Burn your Ḥametz today".localized()))
         }
-        
+
         if Locale.isHebrewLocale() {
             dateFormatter.dateFormat = "H:mm"
         } else {
@@ -443,7 +443,7 @@ struct ZmanimView: View {
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
-            
+
             let tekufaAH = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufaAH != nil {
                 if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
@@ -482,22 +482,22 @@ struct ZmanimView: View {
             }
             jewishCalendar.workingDate = userChosenDate //reset
         }
-        
+
         zmanimList = ZmanimFactory.addZmanim(list: zmanimList, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: add66Misheyakir)
-        
+
         zmanimList.append(ZmanListEntry(title:jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()))
-        
+
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
         // TODO replace with only colons
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
             zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
             zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (O\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
         }
-        
+
         if defaults.bool(forKey: "showShmita") {
             switch (jewishCalendar.getYearOfShmitaCycle()) {
             case 1:
@@ -524,7 +524,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     func addTekufaLength(_ tekufa: Date?, _ dateFormatter: DateFormatter) {
         let halfHourBefore = tekufa!.addingTimeInterval(-1800)
         let halfHourAfter = tekufa!.addingTimeInterval(1800)
@@ -540,7 +540,7 @@ struct ZmanimView: View {
                 .appending(dateFormatter.string(from: halfHourAfter))))
         }
     }
-    
+
     func doesTekufaOccurToday() -> Bool {
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
         if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1 { // 0 is default
@@ -588,7 +588,7 @@ struct ZmanimView: View {
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
-            
+
             let tekufaAH = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufaAH != nil {
                 if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
@@ -606,37 +606,37 @@ struct ZmanimView: View {
         }
         return false
     }
-    
+
     func recreateZmanimCalendar() {
         zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected()))
         zmanimCalendar.useElevation = GlobalStruct.useElevation
         zmanimCalendar.useAstronomicalChatzos = false
         GlobalStruct.geoLocation = zmanimCalendar.geoLocation
     }
-    
+
     func setNextUpcomingZman() {
         var theZman: Date? = nil
         var zmanim = Array<ZmanListEntry>()
         var today = Date()
-        
+
         today = today.advanced(by: -86400)//yesterday
         jewishCalendar.workingDate = today
         zmanimCalendar.workingDate = today
         zmanim = ZmanimFactory.addZmanim(list: zmanim, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: false)
-        
+
         today = today.advanced(by: 86400)//today
         jewishCalendar.workingDate = today
         zmanimCalendar.workingDate = today
         zmanim = ZmanimFactory.addZmanim(list: zmanim, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: false)
-        
+
         today = today.advanced(by: 86400)//tomorrow
         jewishCalendar.workingDate = today
         zmanimCalendar.workingDate = today
         zmanim = ZmanimFactory.addZmanim(list: zmanim, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: false)
-        
+
         zmanimCalendar.workingDate = userChosenDate//reset
         jewishCalendar.workingDate = userChosenDate//reset
-        
+
         for entry in zmanim {
             let zman = entry.zman
             if zman != nil {
@@ -647,7 +647,7 @@ struct ZmanimView: View {
         }
         nextUpcomingZman = theZman
     }
-    
+
     func createBackgroundThreadForNextUpcomingZman() {
         setNextUpcomingZman()
         updateZmanimList()
@@ -657,20 +657,20 @@ struct ZmanimView: View {
             createBackgroundThreadForNextUpcomingZman()
         }
     }
-    
+
     func syncCalendarDates() {//with userChosenDate
         zmanimCalendar.workingDate = userChosenDate
         jewishCalendar.workingDate = userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
         GlobalStruct.userChosenDate = userChosenDate
     }
-    
+
     func setNotificationsDefaults() {
         defaults.set(false, forKey: "showDayOfOmer")
         defaults.set(true, forKey: "roundUpRT")
         defaults.set(false, forKey: "zmanim_notifications")
         defaults.set(false, forKey: "zmanim_notifications_on_shabbat")
-        
+
         defaults.set(false, forKey: "NotifyAlot Hashachar")
         defaults.set(false, forKey: "NotifyTalit And Tefilin")
         defaults.set(false, forKey: "NotifySunrise")
@@ -692,7 +692,7 @@ struct ZmanimView: View {
         defaults.set(false, forKey: "NotifyShabbat Ends")
         defaults.set(false, forKey: "NotifyRabbeinu Tam")
         defaults.set(false, forKey: "NotifyChatzot Layla")
-        
+
         defaults.set(-1, forKey: "Alot Hashachar")
         defaults.set(-1, forKey: "Talit And Tefilin")
         defaults.set(-1, forKey: "Sunrise")
@@ -715,10 +715,10 @@ struct ZmanimView: View {
         defaults.set(0, forKey: "Rabbeinu Tam")
         defaults.set(-1, forKey: "Chatzot Layla")
     }
-    
+
     func getUserLocation() {
         let concurrentQueue = DispatchQueue(label: "mainApp", attributes: .concurrent)
-        
+
         LocationManager.shared.getUserLocation {//4.4 fixed the location issue
             location in concurrentQueue.async { [self] in
                 if location != nil {
@@ -748,7 +748,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     func getSettingsDictionary() -> [String : Any] {
         return ["useElevation" : defaults.bool(forKey: "useElevation"),
                 "showSeconds" : defaults.bool(forKey: "showSeconds"),
@@ -810,7 +810,7 @@ struct ZmanimView: View {
                 "location5Timezone" : defaults.string(forKey: "location5Timezone") ?? "",
         ]
     }
-    
+
     func resolveElevation() {
         if self.defaults.object(forKey: "elevation" + self.locationName) != nil {//if we have been here before, use the elevation saved for this location
             if self.defaults.bool(forKey: "useElevation") {
@@ -832,7 +832,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     func getElevationFromOnline() {
         var intArray: [Int] = []
         var e1:Int = 0
@@ -893,7 +893,7 @@ struct ZmanimView: View {
             self.updateZmanimList()
         }
     }
-    
+
     func refreshTable() {
         if defaults.bool(forKey: "useAdvanced") {
             setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
@@ -918,7 +918,7 @@ struct ZmanimView: View {
         syncCalendarDates()
         updateZmanimList()
     }
-    
+
     func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {
         locationName = defaults.string(forKey: defaultsLN) ?? ""
         lat = defaults.double(forKey: defaultsLat)
@@ -933,32 +933,32 @@ struct ZmanimView: View {
         NotificationManager.instance.requestAuthorization()
         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
-    
+
     func syncOldDefaults() {
         let oldDefaults = UserDefaults.standard
-        
+
         if oldDefaults.bool(forKey: "hasBeenSynced") {
             return
         }
-        
+
         if oldDefaults.object(forKey: "isSetup") != nil {
             for (key, value) in oldDefaults.dictionaryRepresentation() {
                 defaults.set(value, forKey: key)
             }
         }
-        
+
         oldDefaults.setValue(true, forKey: "hasBeenSynced")
     }
-    
+
     func getShabbatBannerText(isFirstTime:Bool) -> String {
         if isFirstTime {
             jewishCalendar.forward()
         }
-        
+
         let isShabbat = jewishCalendar.getDayOfWeek() == 7
-        
+
         var bannerText = ""
-        
+
         switch jewishCalendar.getYomTovIndex() {
         case JewishCalendar.PESACH:
             bannerText += "PESACH".localized()
@@ -1005,22 +1005,22 @@ struct ZmanimView: View {
         default:
             bannerText = "SHABBAT MODE          SHABBAT MODE          SHABBAT MODE           SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          SHABBAT MODE          ".localized()
         }
-                
+
         if isFirstTime {
             jewishCalendar.back()
         }
-        
+
         return bannerText
     }
-    
+
     func getShabbatBannerColors(isFirstTime:Bool, textOnly: Bool) -> Color {
         if isFirstTime {
             jewishCalendar.forward()
         }
-                
+
         var bannerBGColor = Color.black
         var bannerTextColor = Color.white
-        
+
         switch jewishCalendar.getYomTovIndex() {
         case JewishCalendar.PESACH:
             bannerBGColor = Color("light_yellow")
@@ -1047,18 +1047,18 @@ struct ZmanimView: View {
             bannerBGColor = Color(.darkBlue)
             bannerTextColor = .white
         }
-        
+
         if isFirstTime {
             jewishCalendar.back()
         }
-        
+
         if textOnly {
             return bannerTextColor
         } else {
             return bannerBGColor
         }
     }
-    
+
     func checkIfUserIsInIsrael() {
         if defaults.bool(forKey: "neverAskInIsrael") {
             return
@@ -1066,12 +1066,12 @@ struct ZmanimView: View {
         if !defaults.bool(forKey: "inIsrael") && timezone.corrected().identifier == "Asia/Jerusalem" {
             showInIsraelAlert = true
         }
-        
+
         if defaults.bool(forKey: "inIsrael") && timezone.corrected().identifier != "Asia/Jerusalem" {
             showOutOfIsraelAlert = true
         }
     }
-    
+
     func checkIfTablesNeedToBeUpdated() {
         if defaults.object(forKey: "chaitablesLink" + locationName) == nil || askedToUpdateTablesAlready {
             return
@@ -1087,7 +1087,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     func ZmanimMenu() -> some View {
         Menu {
             Button(action: {
@@ -1171,7 +1171,7 @@ struct ZmanimView: View {
                 .clipShape(Circle())
         }
     }
-    
+
     func alerts(view: any View) -> some View {
         let result = view.overlay {
             ZStack {
@@ -1357,7 +1357,7 @@ struct ZmanimView: View {
         }
         return AnyView(result)
     }
-    
+
     var simpleListView: some View {
         ScrollViewReader { scrollViewProxy in
             List(zmanimList, id: \.self) { zmanEntry in
@@ -1450,7 +1450,7 @@ struct ZmanimView: View {
             .gesture(DragGesture(minimumDistance: 5, coordinateSpace: .global).onEnded { value in
                 let horizontalAmount = value.translation.width
                 let verticalAmount = value.translation.height
-                
+
                 if abs(horizontalAmount) > abs(verticalAmount) {
                     if horizontalAmount < 0 {
                         updateDate(86400)
@@ -1473,14 +1473,14 @@ struct ZmanimView: View {
             }
             .onReceive(timer) { _ in
                 guard shabbatMode else { return }
-                
+
                 let topOfView = ScrollOffset.proxy(.top, id: "Scroller")
                 let bottomOfView = ScrollOffset.proxy(.bottom, id: "Scroller")
-                
+
                 if scrollViewOffset ==  CGFloat(1000) {
                     scrollViewOffset = bottomOfView.offset
                 }
-                                                                
+
                 if scrollDirection == 1 {
                     scrollViewOffset += 0.25
                 } else {
@@ -1502,7 +1502,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     fileprivate func zmanEntryRow(_ zmanEntry: ZmanListEntry) -> some View {
         return HStack {
             if defaults.bool(forKey: "isZmanimInHebrew") && !Locale.isHebrewLocale() {
@@ -1560,19 +1560,19 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     struct PelagZmanView: View {
         let title: String
-        
+
         var body: some View {
             let (mainTitle, parenTitle) = splitTitle(title)
-            
+
             HStack(spacing: 2) {
                 Text(mainTitle)
                     .font(.system(size: 20, weight: .bold))
                     .lineLimit(1)
                     .layoutPriority(1) // prioritize full title
-                
+
                 if !parenTitle.isEmpty {
                     Text(parenTitle)
                         .font(.system(size: 20, weight: .bold))
@@ -1584,20 +1584,20 @@ struct ZmanimView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .environment(\.layoutDirection, isHebrew(text: title) ? .rightToLeft : .leftToRight)
         }
-        
+
         private func splitTitle(_ full: String) -> (String, String) {
             let pattern = #"^(.*?)\s*(\([^)]*\))?$"#
             guard let regex = try? NSRegularExpression(pattern: pattern),
                   let match = regex.firstMatch(in: full, range: NSRange(full.startIndex..., in: full)) else {
                 return (full, "")
             }
-            
+
             let main = Range(match.range(at: 1), in: full).map { String(full[$0]) } ?? full
             let paren = Range(match.range(at: 2), in: full).map { String(full[$0]) } ?? ""
-            
+
             return (main, paren)
         }
-        
+
         private func isHebrew(text: String) -> Bool {
             return text.range(of: #"[\u0590-\u05FF]"#, options: .regularExpression) != nil
         }
@@ -1623,9 +1623,9 @@ struct ZmanimView: View {
                                     Text(String(jewishCalendar.getJewishYear()))
                                 }
                                 .frame(maxWidth: .infinity, alignment: .center)
-                                
+
                                 Divider()
-                                
+
                                 VStack {
                                     Text(formatDate(format: "MMM")).bold()
                                     Text(String(Calendar.current.dateComponents([.day], from: GlobalStruct.userChosenDate).day ?? 1)).font(.largeTitle)
@@ -1652,7 +1652,7 @@ struct ZmanimView: View {
                                 }
                             }
                         }
-                        
+
                         VStack(alignment: .leading) {
                             Text(locationName.isEmpty ? "Updating...".localized() : locationName).fontWeight(.heavy).padding(.bottom, 5)
                                 .onTapGesture {
@@ -1670,7 +1670,7 @@ struct ZmanimView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    
+
                     VStack {
                         if jewishCalendar.tomorrow().isAssurBemelacha() || jewishCalendar.isAssurBemelacha() {
                             Text(getShabbatStartEndsAsString())
@@ -1782,7 +1782,7 @@ struct ZmanimView: View {
                 .gesture(DragGesture(minimumDistance: 5, coordinateSpace: .global).onEnded { value in
                     let horizontalAmount = value.translation.width
                     let verticalAmount = value.translation.height
-                    
+
                     if abs(horizontalAmount) > abs(verticalAmount) {
                         if horizontalAmount < 0 {
                             updateDate(86400)
@@ -1800,7 +1800,7 @@ struct ZmanimView: View {
             }
         }
     }
-    
+
     fileprivate func updateDate(_ seconds: TimeInterval) {
         userChosenDate = userChosenDate.advanced(by: seconds)
         syncCalendarDates()
@@ -1808,7 +1808,7 @@ struct ZmanimView: View {
         checkIfTablesNeedToBeUpdated()
         scrollToTop.toggle()
     }
-    
+
     var body: some View {
         if shabbatMode && !isBannerHidden {
             MarqueeText(
@@ -1854,8 +1854,8 @@ struct ZmanimView: View {
         .padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
         .sheet(isPresented: $showShareSheet) {
             let image = UIImage(named: "AppIcon")
-            let textToShare = "Find all the Zmanim on Zmanei Yosef".localized()
-            
+            let textToShare = "Find all the Zmanim on Zemaneh Yosef".localized()
+
             if let myWebsite = URL(string: "https://royzmanim.com/calendar?locationName=\(locationName)&lat=\(lat)&long=\(long)&elevation=\(elevation)&timeZone=\(timezone.identifier)") {
                 ShareSheet(items: [textToShare, myWebsite, image ?? UIImage(systemName: "square.and.arrow.up") as Any])
             }
@@ -2024,7 +2024,7 @@ public enum NextView {
 
 struct ShareSheet: UIViewControllerRepresentable {
     let items: [Any]
-    
+
     func makeUIViewController(context: Context) -> UIActivityViewController {
         return UIActivityViewController(activityItems: items, applicationActivities: nil)
     }

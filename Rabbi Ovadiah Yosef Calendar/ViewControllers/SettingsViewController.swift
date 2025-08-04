@@ -9,7 +9,7 @@ import UIKit
 import MessageUI
 
 class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
-    
+
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     let length = 18 //increment this every time you want to add...
 
@@ -185,7 +185,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         cell.contentConfiguration = content
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
@@ -202,7 +202,7 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         }
         if indexPath.row == 15 {
             let recipient = "elyahujacobi@gmail.com"
-            
+
             // Check if the user's device can send email
             guard MFMailComposeViewController.canSendMail() else {
                 // Display an error message if the device can't send email
@@ -211,12 +211,12 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
                 present(alert, animated: true, completion: nil)
                 return
             }
-            
+
             let mailComposer = MFMailComposeViewController()
             mailComposer.mailComposeDelegate = self
-            mailComposer.setSubject("Zmanei Yosef (IOS)".localized())
+            mailComposer.setSubject("Zemaneh Yosef (iOS)".localized())
             mailComposer.setToRecipients([recipient])
-            
+
             present(mailComposer, animated: true, completion: nil)
         }
         if indexPath.row == 16 {

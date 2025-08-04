@@ -34,12 +34,12 @@ struct GetiOS17PlusUserLocationView: View {
     @State var lat: Double = 0
     @State var long: Double = 0
     @State var timezone: TimeZone = TimeZone.current
-    
+
     @State var showNoLocationPermissionSnackbar = false
     @State var showNoLocationSetSnackbar = false
     @State var showRedSnackbar = false
     @State var showGreenSnackbar = false
-    
+
     @State var useZipcode = false
     @State var useAdvanced = false
     @State var useLocation1 = false
@@ -47,24 +47,24 @@ struct GetiOS17PlusUserLocationView: View {
     @State var useLocation3 = false
     @State var useLocation4 = false
     @State var useLocation5 = false
-    
+
     @State var bLocationName = ""
     @State var bLat = 0.0
     @State var bLong = 0.0
     @State var bTimezone = TimeZone.current.corrected()
-    
+
     @State var bALocationName = ""
     @State var bALat = 0.0
     @State var bALong = 0.0
     @State var bATimezone = TimeZone.current.corrected()
-    
+
     @State var showAdvancedAlert = false
     @State var AdvancedLocationName: String = ""
     @State var AdvancedLat: String = ""
     @State var AdvancedLong: String = ""
     @State var AdvancedElevation: String = ""
     @State var AdvancedTimezone: String = ""
-    
+
     @State var confirmPressed = false
     @State var showEmptyError = false
     @Environment(\.dismiss) private var dismiss
@@ -92,7 +92,7 @@ struct GetiOS17PlusUserLocationView: View {
             .tint(.blue)
             .buttonStyle(.borderedProminent)
             .padding(.bottom)
-            
+
             if !searchResults.isEmpty {
                 List(searchResults, id: \.self) { item in
                     Button {
@@ -117,7 +117,7 @@ struct GetiOS17PlusUserLocationView: View {
                     }
                     .onTapGesture(perform: { screenCoord in
                         let location = reader.convert(screenCoord, from: .local)
-                        
+
                         let coordinate = CLLocationCoordinate2D(latitude: location?.latitude ?? 0, longitude: location?.longitude ?? 0)
                         lat = coordinate.latitude
                         long = coordinate.longitude
@@ -190,7 +190,7 @@ struct GetiOS17PlusUserLocationView: View {
                 defaults.setValue(true, forKey: "useAdvanced")
                 defaults.setValue(false, forKey: "useZipcode")
                 useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
-                
+
                 locationName = AdvancedLocationName
                 lat = Double(AdvancedLat) ?? 0
                 long = Double(AdvancedLong) ?? 0
@@ -225,7 +225,7 @@ struct GetiOS17PlusUserLocationView: View {
             AdvancedTimezone = ""
         }
     }
-    
+
     private func handleConfirm() {
         if lat == 0 && long == 0 {
             showNoLocationSetSnackbar = true
@@ -261,7 +261,7 @@ struct GetiOS17PlusUserLocationView: View {
         }
         GetUserLocationView.loneView = false// reset bool
     }
-    
+
     private func goBackToRootView() {
         guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
           return
@@ -272,7 +272,7 @@ struct GetiOS17PlusUserLocationView: View {
         firstWindow.rootViewController = UIHostingController(rootView: ContentView())
         firstWindow.makeKeyAndVisible()
     }
-    
+
     private func getDeviceLocation() {
         searchResults.removeAll()
         searchQuery = ""
@@ -296,7 +296,7 @@ struct GetiOS17PlusUserLocationView: View {
             }
         }
     }
-    
+
     private func submitSearch() {
         if searchQuery.isEmpty {
             showEmptyError = true
@@ -357,7 +357,7 @@ struct GetiOS17PlusUserLocationView: View {
             }
         }
     }
-    
+
     func addSavedLocation(locationDefault: String) {
         let location = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: defaults.double(forKey: locationDefault.appending("Lat")), longitude: defaults.double(forKey: locationDefault.appending("Long")))))
         location.name = defaults.string(forKey: locationDefault)
@@ -371,16 +371,16 @@ struct GetiOS17PlusUserLocationView: View {
 
     private func selectMapItem(_ item: MKMapItem) {
         guard let coordinate = item.placemark.location?.coordinate else { return }
-        
+
         withAnimation {
             position = .item(MKMapItem(placemark: .init(coordinate: coordinate)))
         }
-        
+
         locationName = item.name ?? "Selected Location"
         lat = coordinate.latitude
         long = coordinate.longitude
         timezone = item.timeZone ?? TimeZone.current.corrected()
-        
+
         CLGeocoder().geocodeAddressString(locationName, in: nil, preferredLocale: .current, completionHandler: { [self] i, j in
             var name = ""
             if i?.first?.locality != nil {
@@ -424,32 +424,32 @@ struct GetiOS17PlusUserLocationView: View {
             }
         })
         showRedSnackbar = true
-        
+
         searchResults.removeAll()
         searchQuery = ""
         searchFocused = false
     }
-    
+
     func saveLocation() {
         var setOfLocationNames = Set<String>()
-        
+
         setOfLocationNames.insert(defaults.string(forKey: "location1") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location2") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location3") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location4") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location5") ?? "")
-        
+
         if !locationName.isEmpty && !setOfLocationNames.contains(locationName) {
             defaults.setValue(defaults.string(forKey: "location4") ?? "", forKey: "location5")
             defaults.setValue(defaults.double(forKey: "location4Lat"), forKey: "location5Lat")
             defaults.setValue(defaults.double(forKey: "location4Long"), forKey: "location5Long")
             defaults.setValue(defaults.string(forKey: "location4Timezone"), forKey: "location5Timezone")
-            
+
             defaults.setValue(defaults.string(forKey: "location3") ?? "", forKey: "location4")
             defaults.setValue(defaults.double(forKey: "location3Lat"), forKey: "location4Lat")
             defaults.setValue(defaults.double(forKey: "location3Long"), forKey: "location4Long")
             defaults.setValue(defaults.string(forKey: "location3Timezone"), forKey: "location4Timezone")
-            
+
             defaults.setValue(defaults.string(forKey: "location2") ?? "", forKey: "location3")
             defaults.setValue(defaults.double(forKey: "location2Lat"), forKey: "location3Lat")
             defaults.setValue(defaults.double(forKey: "location2Long"), forKey: "location3Long")
@@ -466,7 +466,7 @@ struct GetiOS17PlusUserLocationView: View {
             defaults.setValue(timezone.identifier, forKey: "location1Timezone")
         }
     }
-        
+
     func useLocation(location1:Bool, location2:Bool, location3:Bool, location4:Bool, location5:Bool) {
         defaults.setValue(location1, forKey: "useLocation1")
         defaults.setValue(location2, forKey: "useLocation2")
@@ -474,7 +474,7 @@ struct GetiOS17PlusUserLocationView: View {
         defaults.setValue(location4, forKey: "useLocation4")
         defaults.setValue(location5, forKey: "useLocation5")
     }
-    
+
     func parseAddress(selectedItem:MKPlacemark) -> String {
         // put a space between "4" and "Melrose Place"
         let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
@@ -517,12 +517,12 @@ struct GetiOS16MinusUserLocationView: View {
     @State var lat: Double = 0
     @State var long: Double = 0
     @State var timezone: TimeZone = TimeZone.current
-    
+
     @State var showNoLocationPermissionSnackbar = false
     @State var showNoLocationSetSnackbar = false
     @State var showRedSnackbar = false
     @State var showGreenSnackbar = false
-    
+
     @State var useZipcode = false
     @State var useAdvanced = false
     @State var useLocation1 = false
@@ -530,34 +530,34 @@ struct GetiOS16MinusUserLocationView: View {
     @State var useLocation3 = false
     @State var useLocation4 = false
     @State var useLocation5 = false
-    
+
     @State var bLocationName = ""
     @State var bLat = 0.0
     @State var bLong = 0.0
     @State var bTimezone = TimeZone.current.corrected()
-    
+
     @State var bALocationName = ""
     @State var bALat = 0.0
     @State var bALong = 0.0
     @State var bATimezone = TimeZone.current.corrected()
-    
+
     @State var showAdvancedAlert = false
     @State var AdvancedLocationName: String = ""
     @State var AdvancedLat: String = ""
     @State var AdvancedLong: String = ""
     @State var AdvancedElevation: String = ""
     @State var AdvancedTimezone: String = ""
-    
+
     @State var confirmPressed = false
     @State var showEmptyError = false
     @Environment(\.dismiss) private var dismiss
     @State var nextView = NextSetupView.inIsrael
-    
+
     struct LocationItem: Identifiable {
         let id = UUID()
         let coordinate: CLLocationCoordinate2D
     }
-    
+
     private var annotationItems: [LocationItem] {
         [LocationItem(coordinate: region.center)]
     }
@@ -584,7 +584,7 @@ struct GetiOS16MinusUserLocationView: View {
             .tint(.blue)
             .buttonStyle(.borderedProminent)
             .padding(.bottom)
-            
+
             if !searchResults.isEmpty {
                 List(searchResults, id: \.self) { item in
                     Button {
@@ -652,7 +652,7 @@ struct GetiOS16MinusUserLocationView: View {
                 defaults.setValue(true, forKey: "useAdvanced")
                 defaults.setValue(false, forKey: "useZipcode")
                 useLocation(location1: false, location2: false, location3: false, location4: false, location5: false)
-                
+
                 locationName = AdvancedLocationName
                 lat = Double(AdvancedLat) ?? 0
                 long = Double(AdvancedLong) ?? 0
@@ -687,7 +687,7 @@ struct GetiOS16MinusUserLocationView: View {
             AdvancedTimezone = ""
         }
     }
-    
+
     private func handleConfirm() {
         if lat == 0 && long == 0 {
             showNoLocationSetSnackbar = true
@@ -723,7 +723,7 @@ struct GetiOS16MinusUserLocationView: View {
         }
         GetUserLocationView.loneView = false// reset bool
     }
-    
+
     private func goBackToRootView() {
         guard let firstScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
           return
@@ -734,7 +734,7 @@ struct GetiOS16MinusUserLocationView: View {
         firstWindow.rootViewController = UIHostingController(rootView: ContentView())
         firstWindow.makeKeyAndVisible()
     }
-    
+
     private func getDeviceLocation() {
         searchResults.removeAll()
         searchQuery = ""
@@ -758,7 +758,7 @@ struct GetiOS16MinusUserLocationView: View {
             }
         }
     }
-    
+
     private func submitSearch() {
         if searchQuery.isEmpty {
             showEmptyError = true
@@ -819,7 +819,7 @@ struct GetiOS16MinusUserLocationView: View {
             }
         }
     }
-    
+
     func addSavedLocation(locationDefault: String) {
         let location = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: defaults.double(forKey: locationDefault.appending("Lat")), longitude: defaults.double(forKey: locationDefault.appending("Long")))))
         location.name = defaults.string(forKey: locationDefault)
@@ -833,16 +833,16 @@ struct GetiOS16MinusUserLocationView: View {
 
     private func selectMapItem(_ item: MKMapItem) {
         guard let coordinate = item.placemark.location?.coordinate else { return }
-        
+
         withAnimation {
             region = .init(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
         }
-        
+
         locationName = item.name ?? "Selected Location"
         lat = coordinate.latitude
         long = coordinate.longitude
         timezone = item.timeZone ?? TimeZone.current.corrected()
-        
+
         CLGeocoder().geocodeAddressString(locationName, in: nil, preferredLocale: .current, completionHandler: { [self] i, j in
             var name = ""
             if i?.first?.locality != nil {
@@ -886,32 +886,32 @@ struct GetiOS16MinusUserLocationView: View {
             }
         })
         showRedSnackbar = true
-        
+
         searchResults.removeAll()
         searchQuery = ""
         searchFocused = false
     }
-    
+
     func saveLocation() {
         var setOfLocationNames = Set<String>()
-        
+
         setOfLocationNames.insert(defaults.string(forKey: "location1") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location2") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location3") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location4") ?? "")
         setOfLocationNames.insert(defaults.string(forKey: "location5") ?? "")
-        
+
         if !locationName.isEmpty && !setOfLocationNames.contains(locationName) {
             defaults.setValue(defaults.string(forKey: "location4") ?? "", forKey: "location5")
             defaults.setValue(defaults.double(forKey: "location4Lat"), forKey: "location5Lat")
             defaults.setValue(defaults.double(forKey: "location4Long"), forKey: "location5Long")
             defaults.setValue(defaults.string(forKey: "location4Timezone"), forKey: "location5Timezone")
-            
+
             defaults.setValue(defaults.string(forKey: "location3") ?? "", forKey: "location4")
             defaults.setValue(defaults.double(forKey: "location3Lat"), forKey: "location4Lat")
             defaults.setValue(defaults.double(forKey: "location3Long"), forKey: "location4Long")
             defaults.setValue(defaults.string(forKey: "location3Timezone"), forKey: "location4Timezone")
-            
+
             defaults.setValue(defaults.string(forKey: "location2") ?? "", forKey: "location3")
             defaults.setValue(defaults.double(forKey: "location2Lat"), forKey: "location3Lat")
             defaults.setValue(defaults.double(forKey: "location2Long"), forKey: "location3Long")
@@ -928,7 +928,7 @@ struct GetiOS16MinusUserLocationView: View {
             defaults.setValue(timezone.identifier, forKey: "location1Timezone")
         }
     }
-        
+
     func useLocation(location1:Bool, location2:Bool, location3:Bool, location4:Bool, location5:Bool) {
         defaults.setValue(location1, forKey: "useLocation1")
         defaults.setValue(location2, forKey: "useLocation2")
@@ -936,7 +936,7 @@ struct GetiOS16MinusUserLocationView: View {
         defaults.setValue(location4, forKey: "useLocation4")
         defaults.setValue(location5, forKey: "useLocation5")
     }
-    
+
     func parseAddress(selectedItem:MKPlacemark) -> String {
         // put a space between "4" and "Melrose Place"
         let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""

@@ -22,29 +22,29 @@ class NetzViewModel: ObservableObject {
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.geoLocation.elevation = 0 // Ensure elevation is considered
         let jewishCalendar = JewishCalendar()
-        
+
         var netz = ChaiTables(
             locationName: GlobalStruct.geoLocation.locationName,
             jewishCalendar: jewishCalendar,
             defaults: defaults
         ).getVisibleSurise(forDate: zmanimCalendar.workingDate)
-        
+
         if netz == nil {
             netz = zmanimCalendar.getSeaLevelSunrise()
         }
-        
+
         // If the time is in the past, adjust to the next day
         if netz?.timeIntervalSinceNow ?? 0 < 0 {
             zmanimCalendar.workingDate = Calendar.current.date(byAdding: .day, value: 1, to: zmanimCalendar.workingDate)!
             jewishCalendar.workingDate = zmanimCalendar.workingDate
-            
+
             netz = ChaiTables(
                 locationName: GlobalStruct.geoLocation.locationName,
                 jewishCalendar: jewishCalendar,
                 defaults: defaults
             ).getVisibleSurise(forDate: zmanimCalendar.workingDate) ?? zmanimCalendar.getSeaLevelSunrise()
         }
-        
+
         startCountdown(netz: netz ?? Date())
     }
 
@@ -53,21 +53,21 @@ class NetzViewModel: ObservableObject {
             mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"),
             mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")
         )
-        
+
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.zeroFormattingBehavior = .dropLeading
         formatter.unitsStyle = .short
-        
+
         timer?.cancel() // Cancel any existing timer
         let targetTime = netz.timeIntervalSinceReferenceDate
-        
+
         timer = Timer.publish(every: 1.0, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 let now = Date().timeIntervalSinceReferenceDate
                 let secondsRemaining = max(0, targetTime - now)
-                
+
                 if secondsRemaining > 0 {
                     self?.countdownText = netzNames.getHaNetzString()
                         .appending(netzNames.getIsInString())
@@ -147,63 +147,63 @@ struct NetzView: View {
 //    @Published var progressToNetz: Double = 0.0
 //    private var timer: AnyCancellable?
 //    private let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-//    
+//
 //    init() {
 //        getNextNetzAndStartCountdown()
 //    }
-//    
+//
 //    func getNextNetzAndStartCountdown() {
 //        let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
 //        zmanimCalendar.geoLocation.elevation = 0 // Ensure elevation is not considered
 //        let jewishCalendar = JewishCalendar()
-//        
+//
 //        var netz = ChaiTables(
 //            locationName: GlobalStruct.geoLocation.locationName,
 //            jewishCalendar: jewishCalendar,
 //            defaults: defaults
 //        ).getVisibleSurise(forDate: zmanimCalendar.workingDate)
-//        
+//
 //        isUsingChaiTables = netz != nil
-//        
+//
 //        if !isUsingChaiTables {
 //            netz = zmanimCalendar.getSeaLevelSunrise()
 //        }
-//        
+//
 //        // If the time is in the past, adjust to the next day
 //        if netz?.timeIntervalSinceNow ?? 0 < 0 {
 //            zmanimCalendar.workingDate = Calendar.current.date(byAdding: .day, value: 1, to: zmanimCalendar.workingDate)!
 //            jewishCalendar.workingDate = zmanimCalendar.workingDate
-//            
+//
 //            netz = ChaiTables(
 //                locationName: GlobalStruct.geoLocation.locationName,
 //                jewishCalendar: jewishCalendar,
 //                defaults: defaults
 //            ).getVisibleSurise(forDate: zmanimCalendar.workingDate) ?? zmanimCalendar.getSeaLevelSunrise()
 //        }
-//        
+//
 //        startCountdown(netz: netz ?? Date())
 //    }
-//    
+//
 //    func startCountdown(netz: Date) {
 //        let netzNames = ZmanimTimeNames(
 //            mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"),
 //            mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")
 //        )
-//        
+//
 //        let formatter = DateComponentsFormatter()
 //        formatter.allowedUnits = [.hour, .minute, .second]
 //        formatter.zeroFormattingBehavior = .dropLeading
 //        formatter.unitsStyle = .short
-//        
+//
 //        timer?.cancel() // Cancel any existing timer
 //        let targetTime = netz.timeIntervalSinceReferenceDate
-//        
+//
 //        timer = Timer.publish(every: 1.0, on: .main, in: .common)
 //            .autoconnect()
 //            .sink { [weak self] _ in
 //                let now = Date().timeIntervalSinceReferenceDate
 //                let secondsRemaining = max(0, targetTime - now)
-//                
+//
 //                if secondsRemaining > 0 {
 //                    self?.progressToNetz = 1.0 - (secondsRemaining / 86400.0) // 86400 = 24 hours
 //                    self?.countdownText = netzNames.getHaNetzString()
@@ -233,7 +233,7 @@ struct NetzView: View {
 //
 //struct NetzView: View {
 //    @StateObject private var viewModel = NetzViewModel()
-//    
+//
 //    var body: some View {
 //        ZStack {
 //            // Dynamic background
@@ -241,7 +241,7 @@ struct NetzView: View {
 //
 //            VStack {
 //                Spacer()
-//                
+//
 //                // Countdown timer with glowing text
 //                Text(viewModel.countdownText)
 //                    .font(.largeTitle)
@@ -249,9 +249,9 @@ struct NetzView: View {
 //                    .shadow(color: .yellow.opacity(0.7), radius: 10, x: 0, y: 0)
 //                    .padding()
 //                    .foregroundStyle(Color.white)
-//                
+//
 //                Spacer()
-//                
+//
 //                // Animated sun that moves up as Netz approaches
 //                SunAnimation(progress: viewModel.progressToNetz, isUsingChaiTables: viewModel.isUsingChaiTables)
 //

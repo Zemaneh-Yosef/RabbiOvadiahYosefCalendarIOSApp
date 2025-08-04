@@ -8,7 +8,7 @@
 import UIKit
 
 class ZmanimNotificationsSettingsViewController: UITableViewController {
-    
+
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
 
     var editableZmanim = ["Alot Hashachar",
@@ -58,7 +58,7 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BasicSettingsCell", for: indexPath)
         cell.accessoryView = nil
-        
+
         var content = cell.defaultContentConfiguration()
         switch indexPath.row {
         case 0:
@@ -103,17 +103,17 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
         default:
             break
         }
-        
+
         cell.contentConfiguration = content
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-                
+
         if indexPath.row >= 2 && self.defaults.bool(forKey: "Notify" + editableZmanim[indexPath.row-2]) {
             let alertController = UIAlertController(title: editableZmanim[indexPath.row-2].localized(), message:"Enter how many minutes before you would like to be notified for ".localized() + editableZmanim[indexPath.row-2].localized(), preferredStyle: .alert)
-            
+
             alertController.addTextField { (textField) in
                 textField.placeholder = "Minutes".localized()
             }
@@ -128,7 +128,7 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
             present(alertController, animated: true, completion: nil)
         }
     }
-    
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -146,7 +146,7 @@ class ZmanimNotificationsSettingsViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 

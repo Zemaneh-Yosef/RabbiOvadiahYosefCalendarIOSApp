@@ -12,11 +12,11 @@ struct MoladView: View {
     @State var englishMonth = ""
     @State var hebrewMonth = ""
     let dateFormatter = DateFormatter()
-    
+
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
-    
+
     init() {
         if Locale.isHebrewLocale() {
             dateFormatter.dateFormat = "E MMM d H:mm:ss"
@@ -24,18 +24,18 @@ struct MoladView: View {
             dateFormatter.dateFormat = "E MMM d h:mm:ss a"
         }
     }
-    
+
     func getMoladAnnouncement() -> String {
         GlobalStruct.jewishCalendar.calculateMolad()
         return String(GlobalStruct.jewishCalendar.moladHours) + "h:".localized() + String(GlobalStruct.jewishCalendar.moladMinutes) + "m and ".localized() + String(GlobalStruct.jewishCalendar.moladChalakim) + " Chalakim".localized()
     }
-    
+
     func getEnglishMonth() -> String {
         let monthFormatter = DateFormatter()
         monthFormatter.dateFormat = "MMMM"
         return monthFormatter.string(from: GlobalStruct.jewishCalendar.workingDate)
     }
-    
+
     func getHebrewMonth() -> String {
         let hebrewMonthFormatter = DateFormatter()
         hebrewMonthFormatter.calendar = Calendar.init(identifier: .hebrew)
@@ -44,14 +44,14 @@ struct MoladView: View {
             .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
     }
-    
+
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
         GlobalStruct.userChosenDate = userChosenDate
         englishMonth = getEnglishMonth()
         hebrewMonth = getHebrewMonth()
     }
-    
+
     func alerts(view: any View) -> some View {
         let result = view.overlay {
             ZStack {
@@ -127,7 +127,7 @@ struct MoladView: View {
         }
         return AnyView(result)
     }
-    
+
     var body: some View {
         alerts(view:
                 ScrollView {
@@ -136,7 +136,7 @@ struct MoladView: View {
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
-                
+
                 VStack(spacing: 16) {
                     HStack {
                         VStack {
@@ -171,9 +171,9 @@ struct MoladView: View {
                             datePickerIsVisible.toggle()
                         }
                     }
-                    
+
                     Spacer()
-                    
+
                     VStack {
                         Text("Molad Time Announced")
                             .font(.headline)
@@ -187,7 +187,7 @@ struct MoladView: View {
                     .background(alignment: .center) {
                         RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
                     }
-                    
+
                     VStack {
                         Text("Molad for This Month (Your Timezone)")
                             .font(.headline)
@@ -201,7 +201,7 @@ struct MoladView: View {
                     .background(alignment: .center) {
                         RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
                     }
-                    
+
                     VStack {
                         Text("Earliest Birchat Halevana (7 days)")
                             .font(.headline)
@@ -210,9 +210,9 @@ struct MoladView: View {
                             .font(.title2)
                             .bold()
                             .foregroundStyle(Color.yellow)
-                        
+
                         Divider().background(Color.white)
-                        
+
                         Text("Latest Birchat Halevana (15 days)")
                             .font(.headline)
                             .foregroundStyle(Color.white)
@@ -225,9 +225,9 @@ struct MoladView: View {
                     .background(alignment: .center) {
                         RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
                     }
-                    
+
                     Spacer()
-                    
+
                     Text("Disclaimer: Times are just for reference, you should ask a rav if you can say the bracha earlier or later.")
                         .font(.footnote)
                         .multilineTextAlignment(.center)

@@ -8,9 +8,9 @@
 import UIKit
 
 class ElevationViewController: UIViewController {
-    
+
     let _acceptableCharacters = "0123456789."
-    
+
     @IBOutlet weak var desc: UILabel!
     @IBOutlet weak var getFromOnlineButton: UIButton!
     @IBAction func getFromOnline(_ sender: Any) {
@@ -88,7 +88,7 @@ class ElevationViewController: UIViewController {
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.textfield.addTarget(self, action: #selector(onReturn), for: UIControl.Event.editingDidEndOnExit)

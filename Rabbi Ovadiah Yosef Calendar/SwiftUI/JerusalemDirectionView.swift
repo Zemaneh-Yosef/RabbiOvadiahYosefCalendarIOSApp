@@ -31,14 +31,14 @@ struct JerusalemDirectionView: View {
     @State private var isCompassGreen = false
     @State private var compassRotation: Angle = .zero
     @State private var showInfoAlert = false
-    
+
     let jerusalemLocation = CLLocationCoordinate2D(latitude: 31.778015, longitude: 35.235413)
-    
+
     let polyline: [CLLocationCoordinate2D] = [
         CLLocationCoordinate2D(latitude: GlobalStruct.geoLocation.latitude, longitude: GlobalStruct.geoLocation.longitude), // current location
         CLLocationCoordinate2D(latitude: 31.778015, longitude: 35.235413), // Jerusalem
     ]
-    
+
     var body: some View {
         ZStack {
             Map(position: $cameraPosition, interactionModes: []) {
@@ -53,14 +53,14 @@ struct JerusalemDirectionView: View {
                     .stroke(.blue, lineWidth: 3)
             }
             .disabled(true)
-            
+
             // Compass centered in the middle of the map
             Image(isCompassGreen ? "green_compass" : "compass_without_text")
                 .rotationEffect(compassRotation)
                 .onReceive(locationManager.$heading) { heading in
                     updateCompass(heading: heading)
                 }
-            
+
             // Aligning elements using GeometryReader for absolute positioning
             GeometryReader { geometry in
                 VStack {
@@ -72,7 +72,7 @@ struct JerusalemDirectionView: View {
                         Spacer()
                     }
                     Spacer()
-                    
+
                     HStack {
                         Spacer()
                         VStack(spacing: 8) {
@@ -89,10 +89,10 @@ struct JerusalemDirectionView: View {
                                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2)) // Border
                                     .foregroundStyle(Color.blue)
                             }
-                            
+
                             Divider() // Line between buttons
                                 .frame(width: 50) // Controls the width of the divider
-                            
+
                             Button {
                                 zoomOut()
                             } label: {
@@ -127,17 +127,17 @@ struct JerusalemDirectionView: View {
             Text("When praying the Amidah, one should direct himself towards Israel, Jerusalem, the temple mount and the Kodesh Hakodashim (Holy of Holies) area (Berakhot Bavli 30a, based on Kings I 8:35–48 & Chronicles II 6:32). Determining which direction that is in can be done through the \"Rhumb line\" method, which \"draws\" a line from one\'s location to a specific point (which in our case, would be the Temple mount). Once the line is drawn, you are expected to pray in the direction the line is drawn in through matching your direction with its degree angle. Please note that even if the Aron in the synagogue that you are in is misplaced, you should not separate from the others. Rather, you should only adjust your head to the right direction.")
         }.textCase(nil)
     }
-    
+
     private func updateCompass(heading: Double?) {
         guard let heading = heading else { return }
         let bearing = locationManager.currentGeolocation.getRhumbLineBearing(location: GeoLocation(locationName: "Jerusalem", latitude: 31.778015, longitude: 35.235413, timeZone: TimeZone.current))
         let directionDifference = abs(heading - bearing)
         let threshold = 10.0
-        
+
         isCompassGreen = directionDifference <= threshold
         compassRotation = Angle(degrees: heading)
     }
-    
+
     private func zoomIn() {
         withAnimation {
             latDelta /= 2
@@ -147,7 +147,7 @@ struct JerusalemDirectionView: View {
                 span: MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)))
         }
     }
-    
+
     private func zoomOut() {
         withAnimation {
             latDelta = min(latDelta * 2, 180)
@@ -163,20 +163,20 @@ class CompassManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
     @Published var heading: Double?
     var currentGeolocation = GlobalStruct.geoLocation
-    
+
     override init() {
         super.init()
         manager.delegate = self
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
         manager.desiredAccuracy = kCLLocationAccuracyKilometer
-        
+
         if CLLocationManager.headingAvailable() {
             manager.headingFilter = 1
             manager.startUpdatingHeading()
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if newHeading.headingAccuracy >= 0 {
             heading = newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading

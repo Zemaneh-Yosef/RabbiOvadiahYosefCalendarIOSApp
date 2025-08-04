@@ -10,7 +10,7 @@ import MessageUI
 
 @available(iOS 15.0, *)
 struct SettingsView: View {
-    
+
     private static let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
 
     @AppStorage("zmanimNotifications", store: defaults) private var zmanimNotifications: Bool = false
@@ -112,7 +112,7 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
-        
+
         .alert("Choose a haskama to view", isPresented: $showHaskamotAlert) {
             Button("Rabbi Yitzchak Yosef (Hebrew)", action: { openURL("https://royzmanim.com/assets/haskamah-rishon-letzion.pdf") })
             Button("Rabbi Elbaz (English)", action: { openURL("https://royzmanim.com/assets/Haskamah.pdf") })
@@ -122,26 +122,26 @@ struct SettingsView: View {
             Text("Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.")
         }
         .textCase(nil)
-        
+
         .alert("Do not rely on these seconds!".localized(), isPresented: $showSecondsAlert) {
             Button("Dismiss", role: .cancel) { }
         } message: {
             Text("DO NOT RELY ON THESE SECONDS. The only zman that can be relied on to the second is the visible sunrise time based on chaitables.com. Otherwise, these zmanim are NOT accurate to the second! You should always round up or down a minute or two just in case.".localized())
         }
         .textCase(nil)
-        
+
         .alert("Cannot Send Email".localized(), isPresented: $showCantSendAlert) {
             Button("Dismiss", role: .cancel) { }
         } message: {
             Text("Your device is not configured to send emails. Please send an email from another device to ElyahuJacobi@gmail.com")
         }
         .textCase(nil)
-        
+
         .sheet(isPresented: $showMailView) {
             MailView(recipient: "elyahujacobi@gmail.com")
         }
     }
-    
+
     private func sendEmail() {
         if MFMailComposeViewController.canSendMail() {
             showMailView = true
@@ -149,7 +149,7 @@ struct SettingsView: View {
             showCantSendAlert = true
         }
     }
-    
+
     private func openURL(_ urlString: String) {
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)

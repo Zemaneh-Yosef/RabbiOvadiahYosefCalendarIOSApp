@@ -10,9 +10,9 @@ import SwiftyJSON
 import KosherSwift
 
 class LimudimViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+
     var lastTimeUserWasInApp: Date = Date()
-    
+
     @IBAction func prevDay(_ sender: UIButton) {
         GlobalStruct.userChosenDate = GlobalStruct.userChosenDate.advanced(by: -86400)
         GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
@@ -42,7 +42,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
             return hiloulot.count
         }
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let hiddenHeadCell = UIView()
@@ -69,7 +69,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         headerCell.contentConfiguration = content
         return headerCell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0) {
             return 0
@@ -110,7 +110,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         }
-        
+
         if indexPath.section == 1 {
             if limudim[indexPath.row].title.contains("Daf Yomi: ".localized()) {
                 let masechta = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar)!.getMasechtaTransliterated()
@@ -231,7 +231,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
             hebrewDateFormatter.hebrewFormat = true
             hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
         }
-        
+
         if Calendar.current.isDateInToday(GlobalStruct.userChosenDate) {
             date += "   ▼   " + hebrewDate
         } else {
@@ -243,7 +243,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         let hebrewDateFormatter = HebrewDateFormatter()
         hebrewDateFormatter.hebrewFormat = true
         hebrewDateFormatter.useGershGershayim = false
-        
+
         limudim = []
         let dafYomi = GlobalStruct.jewishCalendar.getDafYomiBavli()
         if dafYomi != nil {
@@ -352,14 +352,14 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
             ]
         }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Weekly)".localized() + ": " + dailyWeeklyTehilim[GlobalStruct.jewishCalendar.getDayOfWeek() - 1]))
-        
-        
+
+
         //limudim.append(ZmanListEntry(title: "Hillulot".localized()))
         loadJsonFromFile(fileName: Locale.isHebrewLocale() ? "hiloulah_he" : "hiloulah_en")
         limudTableView.reloadData()
         limudTableView.refreshControl?.endRefreshing()
     }
-    
+
     // Method to load JSON from the file and decode it into a Swift object
     func loadJsonFromFile(fileName:String) {
         // Get the file path for the JSON file
@@ -367,10 +367,10 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
             do {
                 // Read the JSON file as Data
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                
+
                 // Parse the data using SwiftyJSON
                 let json = try JSON(data: data)
-                
+
                 let month = GlobalStruct.jewishCalendar.getNissanStartingJewishMonth()
                 let day = GlobalStruct.jewishCalendar.getJewishDayOfMonth()
                 var currentDate:String
@@ -394,7 +394,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
                         if let name = hillula["name"].string {
                             entry.title = name
                         }
-                        
+
                         if let src = hillula["desc"].string {
                             entry.desc = src
                         }
@@ -411,10 +411,10 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
     }
-    
+
     @objc func showDatePicker() {
         var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
-        
+
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
@@ -432,7 +432,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
-        
+
         let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.dismiss(animated: true)
             self.showHebrewDatePicker()
@@ -448,10 +448,10 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
 
         present(alertController, animated: true, completion: nil)
     }
-    
+
     @objc func showHebrewDatePicker() {
         var alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .actionSheet)
-        
+
         if (UIDevice.current.userInterfaceIdiom == .pad) {
             alertController = UIAlertController(title: "Select a date".localized(), message: nil, preferredStyle: .alert)
         }
@@ -471,7 +471,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         datePicker.trailingAnchor.constraint(equalTo: alertController.view.trailingAnchor, constant: -32).isActive = true
         datePicker.topAnchor.constraint(equalTo: alertController.view.topAnchor, constant: 64).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: alertController.view.bottomAnchor, constant: -96).isActive = true
-        
+
         let changeCalendarAction = UIAlertAction(title: "Switch Calendar".localized(), style: .default) { (_) in
             self.dismiss(animated: true)
             self.showDatePicker()
@@ -493,7 +493,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         GlobalStruct.userChosenDate = sender.date
         GlobalStruct.jewishCalendar.workingDate = GlobalStruct.userChosenDate
     }
-    
+
 
     /*
     // MARK: - Navigation

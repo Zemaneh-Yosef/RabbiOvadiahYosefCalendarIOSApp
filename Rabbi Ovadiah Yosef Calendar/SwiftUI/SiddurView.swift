@@ -11,7 +11,7 @@ import FrameUp
 
 @available(iOS 15.0, *)
 struct SiddurView: View {
-    
+
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var categoriesFound = false
     var fontName = "Guttman Keren"
@@ -22,7 +22,7 @@ struct SiddurView: View {
     @State var isJustified = false
     @State var goToMussaf = false
     @StateObject private var compassVM = CompassViewModel()
-    
+
     init(prayer: String) {
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
@@ -95,7 +95,7 @@ struct SiddurView: View {
             }
         }
     }
-    
+
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -212,12 +212,12 @@ class CompassViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        
+
         // Start location services to get the true heading.
         locationManager.distanceFilter = 1000
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.startUpdatingLocation()
-        
+
         // Start heading updating.
         if CLLocationManager.headingAvailable() {
             locationManager.headingFilter = 1

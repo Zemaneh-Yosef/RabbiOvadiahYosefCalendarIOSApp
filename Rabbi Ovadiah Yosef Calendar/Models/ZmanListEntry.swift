@@ -19,11 +19,11 @@ struct ZmanListEntry: Hashable {
     var isVisibleSunriseZman = false
     var isBirchatHachamahZman = false
     var is66MisheyakirZman = false
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(title)
     }
-    
+
     static func == (lhs: ZmanListEntry, rhs: ZmanListEntry) -> Bool {
         return lhs.title == rhs.title && lhs.src == rhs.src && lhs.zman == rhs.zman && lhs.isZman == rhs.isZman
     }

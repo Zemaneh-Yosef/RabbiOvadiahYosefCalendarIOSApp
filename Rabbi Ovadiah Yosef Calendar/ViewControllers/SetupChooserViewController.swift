@@ -13,11 +13,11 @@ class SetupChooserViewController: UIViewController {
     @IBOutlet weak var back: UIButton!
     @IBOutlet weak var simpleSetup: UIButton!
     @IBOutlet weak var advancedSetup: UIButton!
-    
+
     @IBAction func back(_ sender: UIButton) {
         super.dismiss(animated: true)
     }
-    
+
     @IBAction func info(_ sender: UIButton) {
         var message: String
         if Locale.isHebrewLocale() {
@@ -25,15 +25,15 @@ class SetupChooserViewController: UIViewController {
         } else {
             message = "There are 2 options in order to download the visible sunrise times for your location.\n\n Pressing the \"Setup your city!\" button will take you to a page that will ask you to choose your city/area. Once you choose your city, it will download a table that lists the times for VISIBLE sunrise throughout the next 2 years from a website called ChaiTables.com.\n\nThe \"Advanced Setup\" option allows you to choose whether you want to supply your own URL for the chaitables website, or do navigate the website yourself.\n\nKnow that the visible sunrise data changes for each and every city and you will need to set the visible sunrise data of your city every time you change cities."
         }
-        
+
         let alertController = UIAlertController(title: "Introduction".localized(), message: message, preferredStyle: .alert)
-        
+
         let dismissAction = UIAlertAction(title: "Dismiss".localized(), style: .cancel) { (_) in }
         alertController.addAction(dismissAction)
-        
+
         present(alertController, animated: true, completion: nil)
     }
-    
+
     @IBAction func startSimpleSetup(_ sender: UIButton) {
         let transition = CATransition()
         transition.duration = 0.5
@@ -43,7 +43,7 @@ class SetupChooserViewController: UIViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
         showFullScreenView("SimpleSetup")
     }
-    
+
     @IBAction func startAdvancedSetup(_ sender: UIButton) {
         let transition = CATransition()
         transition.duration = 0.5
@@ -53,7 +53,7 @@ class SetupChooserViewController: UIViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
         showFullScreenView("AdvancedSetup")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 15.0, *) {
@@ -64,7 +64,7 @@ class SetupChooserViewController: UIViewController {
             advancedSetup.setTitleColor(.white, for: .normal)
         }
     }
-    
+
 
     /*
     // MARK: - Navigation

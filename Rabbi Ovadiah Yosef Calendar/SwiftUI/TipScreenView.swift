@@ -30,7 +30,7 @@ struct TipScreenView: View {
                 }
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal)
-            
+
             Button {
                 goBackToRootView()
             } label: {

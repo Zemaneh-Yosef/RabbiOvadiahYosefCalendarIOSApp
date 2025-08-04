@@ -9,7 +9,7 @@ import UIKit
 import AVKit
 
 class TipScreenViewController: UIViewController {
-    
+
     var player : AVPlayer!
     var avPlayerLayer : AVPlayerLayer!
 
@@ -17,7 +17,7 @@ class TipScreenViewController: UIViewController {
     @IBAction func okay(_ sender: UIButton) {
         dismissAllViews()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let path = Bundle.main.path(forResource: "explanation", ofType:"mp4") else {
@@ -32,23 +32,23 @@ class TipScreenViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(videoDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
         player.play()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         avPlayerLayer.frame = videoPlayer.layer.bounds
     }
-    
+
     @objc func videoDidEnd(notification: Notification) {
         player.seek(to: .zero)
         player.play()
     }
-    
+
     func dismissAllViews() {
         let welcome = super.presentingViewController?.presentingViewController?.presentingViewController?.presentingViewController
         let inIsraelView = super.presentingViewController?.presentingViewController?.presentingViewController
         let zmanimLanguagesView = super.presentingViewController?.presentingViewController
         let getUserLocationView = super.presentingViewController
-        
+
         super.dismiss(animated: false) {//when this view is dismissed, dismiss the superview as well
             if zmanimLanguagesView != nil {
                 zmanimLanguagesView?.dismiss(animated: false)
@@ -66,7 +66,7 @@ class TipScreenViewController: UIViewController {
             }
         }
     }
-    
+
 
     /*
     // MARK: - Navigation
