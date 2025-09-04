@@ -17,6 +17,21 @@ public extension JewishCalendar {
         return result
     }
     
+    func yesterday() -> JewishCalendar {
+        let result = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        result.back()
+        return result
+    }
+    
+    func currentToString(zmanimCalendar: ComplexZmanimCalendar) -> String {
+        let jewishCalendar = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        jewishCalendar.workingDate = zmanimCalendar.workingDate
+        if (Date() > zmanimCalendar.getSunset() ?? Date()) {
+            jewishCalendar.forward()
+        }
+        return jewishCalendar.toString()
+    }
+    
     func getSpecialDay(addOmer: Bool) -> String {
         var result = Array<String>()
                 
@@ -455,11 +470,13 @@ public extension JewishCalendar {
     
     func isDayTikkunChatzotSaid() -> Bool {
         // Tikkun Rachel is said during the daytime for the three weeks, but not in these cases. Tikkun Rachel IS said on Erev Tisha Beav
+        let tachanun = getTachanun()
         return !((isErevRoshChodesh() && getJewishMonth() == JewishCalendar.TAMMUZ) ||// Use tammuz to check for erev rosh chodesh Av
-                isRoshChodesh() ||
-                getDayOfWeek() == 6 ||
-                getDayOfWeek() == 7 ||
-                getTachanun() == "No Tachanun today" || getTachanun() == "לא אומרים תחנון");
+                 isRoshChodesh() ||
+                 getDayOfWeek() == 6 ||
+                 getDayOfWeek() == 7 ||
+                 tachanun == "No Tachanun today" || tachanun == "לא אומרים תחנון" ||
+                 tachanun == "Tachanun only in the morning" || tachanun == "אומרים תחנון רק בבוקר")
     }
     
     func isOnlyTikkunLeiaSaid(forNightTikkun: Bool) -> Bool {
@@ -534,6 +551,46 @@ public extension AstronomicalCalendar {
 public extension ZmanimCalendar {
     func getCandleLighting() -> Date? {
         return ZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: -Double(getCandleLightingOffset()) * ZmanimCalendar.MINUTE_MILLIS);
+    }
+}
+
+public extension ComplexZmanimCalendar {
+    func getAlotHashachar(defaults: UserDefaults) -> Date? {
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            return getAlosAmudeiHoraah()
+        } else {
+            return getAlos72Zmanis()
+        }
+    }
+    
+    func getTzeitHacochavim(defaults: UserDefaults) -> Date? {
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            return getTzaisAmudeiHoraah()
+        } else {
+            return getTzais13Point5MinutesZmanis()
+        }
+    }
+    
+    func isNowAfterHalachicSolarMidnight() -> Bool {
+        let now = Date();
+        var solarMidnight = getSolarMidnight();
+        let calendar = Calendar.current
+        // Handle possible edge case when solarMidnight is actually for tomorrow
+        if (solarMidnight != nil && calendar.component(.hour, from: solarMidnight!) < 3) {
+            workingDate = workingDate.addingTimeInterval(-86400)
+            solarMidnight = getSolarMidnight();
+            workingDate = workingDate.addingTimeInterval(86400) // reset
+        }
+        return now > solarMidnight ?? Date()
+    }
+    
+    func getSecondAshmora() -> Date? {
+        let clonedCal = ZmanimCalendar(location: getGeoLocation())
+        clonedCal.useElevation = useElevation
+        clonedCal.workingDate = workingDate.addingTimeInterval(86400)
+        let sunsetForToday = getElevationAdjustedSunset();
+        let sunriseForTomorrow = clonedCal.getElevationAdjustedSunrise();
+        return getShaahZmanisBasedZman(startOfDay: sunsetForToday, endOfDay: sunriseForTomorrow, hours: 4);
     }
 }
 

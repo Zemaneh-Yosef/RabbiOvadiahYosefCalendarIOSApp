@@ -25,8 +25,8 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     var amountOfNotificationsSet = 0
     let amountOfPossibleNotifications = 63 // really 64 but programming
 
-    var zmanimCalendar = ComplexZmanimCalendar()
-    var jewishCalendar = JewishCalendar()
+    private var zmanimCalendar = ComplexZmanimCalendar()
+    private var jewishCalendar = JewishCalendar()
     
     var notificationsAreBeingSet:Bool = false
     var lastOmerNotification:Bool = false
@@ -39,7 +39,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         let content = UNMutableNotificationContent()
         content.title = "Jewish Special Day".localized()
         content.sound = .default
-        content.body = "Today is ".localized() + jewishCalendar.getSpecialDay(addOmer: defaults.bool(forKey: "showDayOfOmer"))
+        content.body = "Today is ".localized() + jewishCalendar.getSpecialDay(addOmer: false)
 
         if amountOfNotificationsSet == amountOfPossibleNotifications - 1 {// if this is the last notification being set
             content.body = content.body.appending(" / Last notification until the app is opened again.".localized())
@@ -228,13 +228,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             notificationCenter.setNotificationCategories([category])
 
             //same issue as described in scheduleDailyNotifications()
-            var trigger: UNCalendarNotificationTrigger
-
-            if defaults.bool(forKey: "LuachAmudeiHoraah") {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()), repeats: false)
-            } else {
-                trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date()), repeats: false)
-            }
+            let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getTzeitHacochavim(defaults: defaults) ?? Date()), repeats: false)
 
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             notificationCenter.add(request)
@@ -474,7 +468,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                 if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
                     temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", desc: "Shabbat Ends", zman:zmanimCalendar.getTzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
                 } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.14°)", desc: "Shabbat Ends", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.165°)", desc: "Shabbat Ends", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
                 } else {
                     temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), desc: "Shabbat Ends", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
                 }
@@ -563,7 +557,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
             if defaults.bool(forKey: "NotifyShabbat Ends") {
                 if !defaults.bool(forKey: "overrideAHEndShabbatTime") {// default zman
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.14°)", desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.165°)", desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
                 } else {// if user wants to override
                     zmanimCalendar.ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40 // should never be used in Israel
                     if defaults.object(forKey: "shabbatOffset") != nil {
@@ -572,7 +566,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
                         temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", desc: "Chatzot", zman: zmanimCalendar.getTzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
                     } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                        temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.14°)", desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
+                        temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.165°)", desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
                     } else {
                         temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
                     }

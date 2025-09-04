@@ -120,13 +120,15 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         }
         var listOfTexts = Array<HighlightString>()
         let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
-        zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
-
         var dropDownTitle: String = ""
+        let forNextDay = GlobalStruct.chosenPrayer.contains("+1")
+        if forNextDay {
+            GlobalStruct.jewishCalendar.forward()
+        }
+        GlobalStruct.chosenPrayer = GlobalStruct.chosenPrayer.replacingOccurrences(of: "+1", with: "")
         switch GlobalStruct.chosenPrayer {
         case "Selichot":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: Date().timeIntervalSince1970 > zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0
-            && Date().timeIntervalSince1970 < (zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0) + 7200)
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: zmanimCalendar.isNowAfterHalachicSolarMidnight())
             dropDownTitle = "סליחות"
         case "Shacharit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getShacharitPrayers()
@@ -143,14 +145,8 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         case "Sefirat HaOmer":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSefiratHaOmer()
             dropDownTitle = "ספירת העומר"
-        case "Sefirat HaOmer+1":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getSefiratHaOmer()
-            dropDownTitle = "ספירת העומר"
         case "Birchat Hamazon":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatHamazonPrayers()
-            dropDownTitle = "ברכת המזון"
-        case "Birchat Hamazon+1":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatHamazonPrayers()
             dropDownTitle = "ברכת המזון"
         case "Tefilat HaDerech":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTefilatHaderechPrayer()
@@ -165,16 +161,13 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: false)
             dropDownTitle = "תיקון חצות"
         case "Tikkun Chatzot":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getTikkunChatzotPrayers(isForNight: true)
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
             dropDownTitle = "תיקון חצות"
         case "Kriat Shema SheAl Hamita":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getKriatShemaShealHamitaPrayers(isBeforeChatzot: Date().timeIntervalSince1970 < zmanimCalendar.getSolarMidnightIfSunTransitNil()?.timeIntervalSince1970 ?? 0)
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: !zmanimCalendar.isNowAfterHalachicSolarMidnight())
             dropDownTitle = "ק״ש שעל המיטה"
         case "Birchat MeEyin Shalosh":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
-            dropDownTitle = "ברכת מעין שלוש"
-        case "Birchat MeEyin Shalosh+1":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar.tomorrow()).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
             dropDownTitle = "ברכת מעין שלוש"
         case "Hadlakat Neirot Chanuka":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getHadlakatNeirotChanukaPrayers()
@@ -184,6 +177,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             dropDownTitle = "הבדלה"
         default:
             listOfTexts = []
+        }
+        if forNextDay {
+            GlobalStruct.jewishCalendar.back()
         }
         listOfTexts = appendUnicodeForDuplicates(in: listOfTexts)// to fix the issue of going to the same place for different categories with the same name
         dropdown.setTitle(dropDownTitle, for: .normal)

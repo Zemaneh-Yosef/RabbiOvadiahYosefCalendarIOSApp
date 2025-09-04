@@ -123,7 +123,7 @@ class ZmanimFactory {
         
         if !defaults.bool(forKey: "overrideAHEndShabbatTime") {// default zman
             if useAHZmanim {
-                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString()  + " (7.14°)", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true)
+                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString()  + " (7.165°)", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true)
             } else {
                 endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", zman: zmanimCalendar.getTzaisAteretTorah(), isZman: true)
             }
@@ -131,7 +131,7 @@ class ZmanimFactory {
             if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
                 endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", zman: zmanimCalendar.getTzaisAteretTorah(), isZman: true)
             } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString() + " (7.14°)", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true)
+                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString() + " (7.165°)", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true)
             } else {
                 endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40(), isZman: true)
             }

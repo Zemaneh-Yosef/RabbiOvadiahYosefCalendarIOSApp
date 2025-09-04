@@ -166,7 +166,7 @@ class ZmanimSettingsViewController: UITableViewController {
             }
             alertController.addAction(regularAction)
             
-            let degreeAction = UIAlertAction(title: "7.14 Degrees".localized(), style: .default) { (_) in
+            let degreeAction = UIAlertAction(title: "7.165 Degrees".localized(), style: .default) { (_) in
                 self.defaults.set(2, forKey: "endOfShabbatOpinion")
             }
             alertController.addAction(degreeAction)

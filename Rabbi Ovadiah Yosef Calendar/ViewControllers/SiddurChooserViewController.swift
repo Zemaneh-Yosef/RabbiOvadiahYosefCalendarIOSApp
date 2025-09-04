@@ -10,7 +10,7 @@ import KosherSwift
 
 class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-    var zmanimCalendar = ComplexZmanimCalendar()
+    private var zmanimCalendar = ComplexZmanimCalendar()
     var lastTimeUserWasInApp: Date = Date()
     let dateFormatterForZmanim = DateFormatter()
     var specialDayText = ""
@@ -304,13 +304,7 @@ class SiddurChooserViewController: UIViewController, UITableViewDataSource, UITa
             zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
             zmanimCalendar.useElevation = GlobalStruct.useElevation
             zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
-            var tzeit = Date()
-            if defaults.bool(forKey: "LuachAmudeiHoraah") {
-                tzeit = zmanimCalendar.getTzaisAmudeiHoraah() ?? Date()
-            } else {
-                tzeit = zmanimCalendar.getTzais13Point5MinutesZmanis() ?? Date();
-            }
-            if Date().compare(tzeit) == .orderedDescending && Date().compare(zmanimCalendar.getSolarMidnightIfSunTransitNil() ?? Date()) == .orderedAscending {
+            if Date().compare(zmanimCalendar.getTzeitHacochavim(defaults: defaults) ?? Date()) == .orderedDescending && Date().compare(zmanimCalendar.getSolarMidnightIfSunTransitNil() ?? Date()) == .orderedAscending {
                     content.textProperties.color = .systemGray // Subtle gray for text
                     cell.alpha = 0.8 // Slightly dim entire cell
             }

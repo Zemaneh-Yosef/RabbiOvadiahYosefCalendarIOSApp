@@ -106,6 +106,7 @@
 		CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */; };
 		CE9641BA2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */; };
 		CE9641BB2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */; };
+		CE9687E72E62332200A03C8D /* Guttman Keren.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9687E62E62332200A03C8D /* Guttman Keren.ttf */; };
 		CE96B07E2DE663CF00BBC00C /* hiloulah_he.json in Resources */ = {isa = PBXBuildFile; fileRef = CE96B07D2DE663CF00BBC00C /* hiloulah_he.json */; };
 		CE97D7C32D4C95FF00C019AA /* ZmanimFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE97D7C22D4C95FF00C019AA /* ZmanimFactory.swift */; };
 		CE97D7C42D4C95FF00C019AA /* ZmanimFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE97D7C22D4C95FF00C019AA /* ZmanimFactory.swift */; };
@@ -116,7 +117,6 @@
 		CEB21E3A2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CEB21E3D2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */; };
 		CEB21E3B2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CEB21E3D2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */; };
 		CEB980DA2D5F1A68003D96F4 /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB980D92D5F1A68003D96F4 /* WCSessionManager.swift */; };
-		CEBC70E52D221B8C00468477 /* Guttman Keren.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70E42D221B8B00468477 /* Guttman Keren.ttf */; };
 		CEBC70E92D222FB800468477 /* menora.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70E82D222FB800468477 /* menora.svg */; };
 		CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70EA2D22367200468477 /* menora-shadow.svg */; };
 		CEBC70ED2D22590000468477 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70EC2D22590000468477 /* compass.png */; };
@@ -245,6 +245,7 @@
 		CE9641B42B71A46800BA7BC7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		CE9641B82B71A73F00BA7BC7 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		CE9641BD2B75A1AE00BA7BC7 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Main.strings; sourceTree = "<group>"; };
+		CE9687E62E62332200A03C8D /* Guttman Keren.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guttman Keren.ttf"; sourceTree = "<group>"; };
 		CE96B07D2DE663CF00BBC00C /* hiloulah_he.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = hiloulah_he.json; sourceTree = "<group>"; };
 		CE97D7C22D4C95FF00C019AA /* ZmanimFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimFactory.swift; sourceTree = "<group>"; };
 		CEB143362DDEFACF00AFA75E /* GlobalStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalStruct.swift; sourceTree = "<group>"; };
@@ -253,7 +254,6 @@
 		CEB21E3F2B7B38060081C142 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Rabbi_Ovadiah_Yosef_Calendar_Widget.strings; sourceTree = "<group>"; };
 		CEB21E402B7B3BF30081C142 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		CEB980D92D5F1A68003D96F4 /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
-		CEBC70E42D221B8B00468477 /* Guttman Keren.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guttman Keren.ttf"; sourceTree = "<group>"; };
 		CEBC70E82D222FB800468477 /* menora.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menora.svg; sourceTree = "<group>"; };
 		CEBC70EA2D22367200468477 /* menora-shadow.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "menora-shadow.svg"; sourceTree = "<group>"; };
 		CEBC70EC2D22590000468477 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
@@ -432,7 +432,7 @@
 				CE96B07D2DE663CF00BBC00C /* hiloulah_he.json */,
 				CE6F52562DC9C88600D3296A /* Taamey D.ttf */,
 				CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */,
-				CEBC70E42D221B8B00468477 /* Guttman Keren.ttf */,
+				CE9687E62E62332200A03C8D /* Guttman Keren.ttf */,
 				CEBC70E82D222FB800468477 /* menora.svg */,
 				CEBC70EA2D22367200468477 /* menora-shadow.svg */,
 				CEBC70EC2D22590000468477 /* compass.png */,
@@ -620,12 +620,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEBC70E52D221B8C00468477 /* Guttman Keren.ttf in Resources */,
 				CE7D2B5B2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
 				5D19D36D29A3687B00F8033D /* LaunchScreen.storyboard in Resources */,
 				CE8FB5D72DE2EF8D00C6B6CA /* hiloulah_en.json in Resources */,
 				CEC7611C2D531B4E00FD0AF1 /* explanation.mp4 in Resources */,
 				CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
+				CE9687E72E62332200A03C8D /* Guttman Keren.ttf in Resources */,
 				5D19D36A29A3687B00F8033D /* Assets.xcassets in Resources */,
 				CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */,
 				CEBC70E92D222FB800468477 /* menora.svg in Resources */,

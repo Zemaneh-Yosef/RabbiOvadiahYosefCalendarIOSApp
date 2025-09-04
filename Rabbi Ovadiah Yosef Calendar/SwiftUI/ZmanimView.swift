@@ -25,7 +25,7 @@ struct ZmanimView: View {
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
     @State var lastTimeUserWasInApp: Date = Date()
     @State var nextUpcomingZman: Date? = nil
-    @State var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
+    @State private var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
     @State var jewishCalendar: JewishCalendar = JewishCalendar()
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     @State private var zmanimList: [ZmanListEntry] = []
@@ -66,6 +66,8 @@ struct ZmanimView: View {
     init() {
         dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "")
         dateFormatterForRT.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss")
+        dateFormatterForZmanim.timeZone = timezone
+        dateFormatterForRT.timeZone = timezone
     }
     
     func startShabbatMode() {
@@ -248,17 +250,21 @@ struct ZmanimView: View {
         var hebrewDate = hDateFormatter.string(from: userChosenDate)
             .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
+        var postSunsetHDate = hDateFormatter.string(from: userChosenDate.addingTimeInterval(86400))
+            .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+            .replacingOccurrences(of: "Tamuz", with: "Tammuz")
         
         if Locale.isHebrewLocale() {
             let hebrewDateFormatter = HebrewDateFormatter()
             hebrewDateFormatter.hebrewFormat = true
             hebrewDate = hebrewDateFormatter.format(jewishCalendar: jewishCalendar)
+            postSunsetHDate = hebrewDateFormatter.format(jewishCalendar: jewishCalendar.tomorrow())
         }
         
         if Calendar.current.isDateInToday(userChosenDate) {
             date = "Today - ".localized() + date + "\n"
             if Date().timeIntervalSince1970 > zmanimCalendar.getSunset()?.timeIntervalSince1970 ?? TimeInterval.infinity {
-                date += "Post-sunset date:".localized() + " " + hebrewDate
+                date += "Post-sunset date:".localized() + " " + postSunsetHDate
             } else {
                 date += "Pre-sunset date:".localized() + " " + hebrewDate
             }
@@ -291,7 +297,7 @@ struct ZmanimView: View {
         }
         syncCalendarDates()//reset
         if defaults.bool(forKey: "showShabbatMevarchim") {
-            if (jewishCalendar.tomorrow().isShabbosMevorchim()) {
+            if (jewishCalendar.isShabbosMevorchim()) {
                 zmanimList.append(ZmanListEntry(title: "שבת מברכים"))
             }
         }
@@ -527,6 +533,8 @@ struct ZmanimView: View {
                 break;
             }
         }
+        dateFormatterForZmanim.timeZone = timezone
+        dateFormatterForRT.timeZone = timezone
     }
     
     func addTekufaLength(_ tekufa: Date?, _ dateFormatter: DateFormatter) {
@@ -1401,18 +1409,18 @@ struct ZmanimView: View {
                                     .multilineTextAlignment(.center)
                                     .lineLimit(2)
                                     .minimumScaleFactor(0.5)
-                                    .padding(4) // Add padding to give space between text and border
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 6)
-                                            .stroke(
-                                                LinearGradient(
-                                                    colors: [Color.orange, Color.orange, Color.orange],
-                                                    startPoint: .leading,
-                                                    endPoint: .trailing
-                                                ),
-                                                lineWidth: 2
-                                            )
-                                    )
+//                                    .padding(4) // Add padding to give space between text and border
+//                                    .overlay(
+//                                        RoundedRectangle(cornerRadius: 6)
+//                                            .stroke(
+//                                                LinearGradient(
+//                                                    colors: [Color.orange, Color.orange, Color.orange],
+//                                                    startPoint: .leading,
+//                                                    endPoint: .trailing
+//                                                ),
+//                                                lineWidth: 2
+//                                            )
+//                                    )
                             } else {
                                 Text(zmanEntry.title)
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -1933,6 +1941,8 @@ struct ZmanimView: View {
             }
             dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
             dateFormatterForRT.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss") + (Locale.isHebrewLocale() ? "" : " aa")
+            dateFormatterForZmanim.timeZone = timezone
+            dateFormatterForRT.timeZone = timezone
             syncOldDefaults()
             userChosenDate = GlobalStruct.userChosenDate
             syncCalendarDates()

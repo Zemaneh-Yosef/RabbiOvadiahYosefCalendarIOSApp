@@ -24,8 +24,8 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     var userChosenDate: Date = Date()
     var lastTimeUserWasInApp: Date = Date()
     var nextUpcomingZman: Date? = nil
-    var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
-    var jewishCalendar: JewishCalendar = JewishCalendar()
+    private var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
+    private var jewishCalendar: JewishCalendar = JewishCalendar()
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var zmanimList = Array<ZmanListEntry>()
     let dateFormatterForZmanim = DateFormatter()

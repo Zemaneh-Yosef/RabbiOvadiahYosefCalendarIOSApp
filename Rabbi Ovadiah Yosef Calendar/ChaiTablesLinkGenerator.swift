@@ -158,7 +158,7 @@ class ChaiTablesLinkGenerator {
             searchRadiusIsrael = 2;//recommended radius for Israel only for some reason. Everywhere else the site defaults to 8(km).
         }
                 
-        return "http://www.chaitables.com/cgi-bin/ChaiTables.cgi/?cgi_TableType=Chai&cgi_country=\(selectedCountry)&cgi_USAcities1=\(metropolitanAreas.firstIndex(of: selectedMetropolitanArea)! + 1)&cgi_USAcities2=0&cgi_searchradius=\(searchRadiusIsrael == 2 ? 2 : searchRadius)&cgi_Placename=?&cgi_eroslatitude=\(lat)&cgi_eroslongitude=\(longSwitched)&cgi_eroshgt=0.0&cgi_geotz=\(timezone)&cgi_exactcoord=OFF&cgi_MetroArea=jerusalem&cgi_types=\(type)&cgi_RoundSecond=-1&cgi_AddCushion=0&cgi_24hr=&cgi_typezman=-1&cgi_yrheb=\(year)&cgi_optionheb=1&cgi_UserNumber=\(userId)&cgi_Language=English&cgi_AllowShaving=OFF"
+        return "http://www.chaitables.com/cgi-bin/ChaiTables.cgi/?cgi_TableType=Chai&cgi_country=\(selectedCountry)&cgi_USAcities1=\(metropolitanAreas.firstIndex(of: selectedMetropolitanArea)! + 1)&cgi_USAcities2=0&cgi_searchradius=\(searchRadiusIsrael == 2 ? 2 : searchRadius)&cgi_Placename=?&cgi_eroslatitude=\(lat)&cgi_eroslongitude=\(longSwitched)&cgi_eroshgt=0.0&cgi_geotz=\(timezone)&cgi_exactcoord=OFF&cgi_MetroArea=jerusalem&cgi_types=\(type)&cgi_RoundSecond=1&cgi_AddCushion=0&cgi_24hr=&cgi_typezman=-1&cgi_yrheb=\(year)&cgi_optionheb=1&cgi_UserNumber=\(userId)&cgi_Language=English&cgi_AllowShaving=OFF"
     }
     
     func getChaiTablesEretzYisroelLink(type:Int, year:Int, userId:Int) -> String {

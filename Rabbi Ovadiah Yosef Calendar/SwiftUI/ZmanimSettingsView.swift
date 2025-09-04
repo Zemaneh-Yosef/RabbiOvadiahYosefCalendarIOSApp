@@ -100,7 +100,7 @@ struct ZmanimSettingsView: View {
         
         .confirmationDialog("Choose End Shabbat Opinion", isPresented: $showEndShabbatOpinionAlert, titleVisibility: .visible) {
             Button("Regular Minutes") { endOfShabbatOpinion = 1 }
-            Button("7.14 Degrees") { endOfShabbatOpinion = 2 }
+            Button("7.165 Degrees") { endOfShabbatOpinion = 2 }
             Button("Lesser of the two") { endOfShabbatOpinion = 3 }
         }
     }
@@ -117,7 +117,7 @@ struct ZmanimSettingsView: View {
     private func endShabbatOpinionText() -> String {
         switch endOfShabbatOpinion {
         case 1: return "Regular Minutes".localized()
-        case 2: return "7.14 Degrees".localized()
+        case 2: return "7.165 Degrees".localized()
         case 3: return "Lesser of the two".localized()
         default: return "Calendar Based".localized()
         }

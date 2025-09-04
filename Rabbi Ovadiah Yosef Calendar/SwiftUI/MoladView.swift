@@ -219,6 +219,8 @@ struct MoladView: View {
                             .multilineTextAlignment(.center)
                             .font(.title3)
                             .foregroundStyle(Color.yellow)
+                            .lineLimit(nil)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
                     .background(alignment: .center) {

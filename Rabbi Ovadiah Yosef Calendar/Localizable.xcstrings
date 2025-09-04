@@ -102,6 +102,9 @@
         }
       }
     },
+    "--:--:--" : {
+
+    },
     ". Do not drink water from " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -254,13 +257,13 @@
         }
       }
     },
-    "7.14 Degrees" : {
+    "7.165 Degrees" : {
       "extractionState" : "manual",
       "localizations" : {
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7.14 מעלות"
+            "value" : "7.165 מעלות"
           }
         }
       }
@@ -774,17 +777,6 @@
         }
       }
     },
-    "Choose whether or not to display if shabbat mevarchim happens tomorrow on Friday" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בחר אם להציג האם השבת היא שבת מברכים (ביום שישי)"
-          }
-        }
-      }
-    },
     "Choose whether or not to display sea level sunrise if visible sunrise is setup as well" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1031,6 +1023,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שחרר"
+          }
+        }
+      }
+    },
+    "Display if it is Shabbat Mevarchim on Saturday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בחר אם להציג האם השבת היא שבת מברכים (ביום שבת)"
           }
         }
       }
@@ -2546,6 +2549,17 @@
         }
       }
     },
+    "Prayers able to be said now" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תפילות שניתן לומר כעת"
+          }
+        }
+      }
+    },
     "Pre-sunset date:" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2774,6 +2788,16 @@
         }
       }
     },
+    "See all prayers" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ראה את כל התפילות"
+          }
+        }
+      }
+    },
     "See full text" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2792,6 +2816,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הסכמות של רבנים לאפליקציה"
+          }
+        }
+      }
+    },
+    "See more…" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ראה עוד…"
+          }
+        }
+      }
+    },
+    "See prayers currently applicable" : {
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ראה תפילות שתקפות כעת"
           }
         }
       }
