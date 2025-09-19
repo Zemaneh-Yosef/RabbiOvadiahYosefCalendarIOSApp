@@ -262,6 +262,7 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
                     timezone = TimeZone.current
                     LocationManager.shared.resolveLocationName(with: location!) { name in
                         locationName = name ?? ""
+                        let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
                         if defaults.object(forKey: "elevation" + locationName) != nil {//if we have been here before, use the elevation saved for this location
                             elevation = defaults.double(forKey: "elevation" + locationName)
                         } else {//we have never been here before, get the elevation from online

@@ -10,16 +10,11 @@ import KosherSwift
 import SunCalc
 
 let defaults = UserDefaults.standard
-var locationName: String = ""
-var lat: Double = 0
-var long: Double = 0
-var elevation: Double = 0.0
-var timezone: TimeZone = TimeZone.current
+var timezone: TimeZone = TimeZone.current.corrected()
 var userChosenDate: Date = Date()
 var nextUpcomingZman: Date? = nil
 var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
 var jewishCalendar: JewishCalendar = JewishCalendar()
-let dateFormatterForZmanim = DateFormatter()
 
 struct ContentView: View {
     @State private var zmanimList: [ZmanListEntry] = []
@@ -50,11 +45,11 @@ struct ContentView: View {
                             } else {
                                 if defaults.bool(forKey: "isZmanimInHebrew") {
                                     if zmanTime.zman == nextUpcomingZman {
-                                        Text(dateFormatterForZmanim.string(from:zmanTime.zman!)).bold().underline()
+                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman)).bold().underline()
                                         Spacer()
                                         Text(zmanTime.title).bold().underline()
                                     } else {
-                                        Text(dateFormatterForZmanim.string(from:zmanTime.zman!))
+                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman))
                                         Spacer()
                                         Text(zmanTime.title)
                                     }
@@ -62,11 +57,11 @@ struct ContentView: View {
                                     if zmanTime.zman == nextUpcomingZman {
                                         Text(zmanTime.title).bold().underline()
                                         Spacer()
-                                        Text(dateFormatterForZmanim.string(from: zmanTime.zman!)).bold().underline()
+                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman)).bold().underline()
                                     } else {
                                         Text(zmanTime.title)
                                         Spacer()
-                                        Text(dateFormatterForZmanim.string(from: zmanTime.zman!))
+                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman))
                                     }
                                 }
                             }
@@ -95,16 +90,14 @@ struct ContentView: View {
                         }
                     }
                 }
-            }.navigationTitle(settings.description)
-        }.onChange(of: settings.hash, {
+            }
+            .navigationTitle(settings.description)
+        }
+        .onChange(of: settings.hash, {
             getZmanimCalendarWithLocation { complexZmanimCalendar in
                 zmanimCalendar = complexZmanimCalendar
-                if defaults.bool(forKey: "useElevation") {
-                    zmanimCalendar.useElevation = true
-                } else {
-                    zmanimCalendar.useElevation = false
-                }
-                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone.corrected()
+                zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+                timezone = complexZmanimCalendar.geoLocation.timeZone
                 setNextUpcomingZman()
                 zmanimList = updateZmanimList()
             }
@@ -114,14 +107,10 @@ struct ContentView: View {
                 // Once the complex zmanim calendar is obtained,
                 // update the zmanimList using the data obtained with the current date
                 zmanimCalendar = complexZmanimCalendar
-                if defaults.bool(forKey: "useElevation") {
-                    zmanimCalendar.useElevation = true
-                } else {
-                    zmanimCalendar.useElevation = false
-                }
+                zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+                timezone = complexZmanimCalendar.geoLocation.timeZone
                 userChosenDate = Date()
                 syncCalendarDates()
-                dateFormatterForZmanim.timeZone = zmanimCalendar.geoLocation.timeZone.corrected()
                 setNextUpcomingZman()
                 zmanimList = updateZmanimList()
             }
@@ -135,23 +124,10 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     if !defaults.bool(forKey: "hasGottenDataFromApp") {
         zmanimList.append(ZmanListEntry(title: "Settings not recieved from the Main App. Please open up the app on your phone.".localized()))
     }
-    if Locale.isHebrewLocale() {
-        if defaults.bool(forKey: "showSeconds") {
-            dateFormatterForZmanim.dateFormat = "H:mm:ss"
-        } else {
-            dateFormatterForZmanim.dateFormat = "H:mm"
-        }
-    } else {
-        if defaults.bool(forKey: "showSeconds") {
-            dateFormatterForZmanim.dateFormat = "h:mm:ss aa"
-        } else {
-            dateFormatterForZmanim.dateFormat = "h:mm aa"
-        }
-    }
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "d MMMM, yyyy"
     dateFormatter.timeZone = timezone
-    zmanimList.append(ZmanListEntry(title: locationName))
+    zmanimList.append(ZmanListEntry(title: zmanimCalendar.geoLocation.locationName))
     var date = dateFormatter.string(from: userChosenDate)
             
     let hDateFormatter = DateFormatter()
@@ -255,7 +231,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
             cal.timeZone = timezone
             let moonTimes = try MoonTimes.compute()
                 .on(cal.startOfDay(for: userChosenDate))
-                .at(lat, long)
+                .at(zmanimCalendar.geoLocation.latitude, zmanimCalendar.geoLocation.longitude)
                 .timezone(timezone)
                 .limit(TimeInterval.ofDays(1))
                 .execute()
@@ -394,12 +370,11 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute, .second]
     formatter.unitsStyle = .abbreviated
+    zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GR\"A: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
     if defaults.bool(forKey: "LuachAmudeiHoraah") {
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Amudei Horaah) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
     } else {
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GRA: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit MGA: ".localized() + "(Ohr HaChaim) ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (O\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
     }
     
     if defaults.bool(forKey: "showShmita") {

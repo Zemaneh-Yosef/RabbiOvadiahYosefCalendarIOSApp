@@ -409,21 +409,22 @@ struct LimudimView: View {
                         Spacer()
                     }
                 }
-            }.confirmationDialog(selectedHiloula?.title ?? "", isPresented: $showHillulotAlert, titleVisibility: .visible) {
-                Button("Dismiss", role: .cancel) { showHillulotAlert.toggle() }
-            } message: {
-                Text((selectedHiloula?.desc ?? "").appending("\n-----\n").appending(selectedHiloula?.src ?? ""))
-            }.textCase(nil)
-        }
-            .refreshable {
-                userChosenDate = Date()
-                syncCalendarDates()
             }
-            .onAppear {
-                userChosenDate = GlobalStruct.userChosenDate
-                syncCalendarDates()
-            }.listStyle(.insetGrouped)
+        }.listStyle(.insetGrouped)
         )
+        .refreshable {
+            userChosenDate = Date()
+            syncCalendarDates()
+        }
+        .onAppear {
+            userChosenDate = GlobalStruct.userChosenDate
+            syncCalendarDates()
+        }
+        .confirmationDialog(selectedHiloula?.title ?? "", isPresented: $showHillulotAlert, titleVisibility: .visible) {
+            Button("Dismiss", role: .cancel) { showHillulotAlert.toggle() }
+        } message: {
+            Text((selectedHiloula?.desc ?? "").appending("\n-----\n").appending(selectedHiloula?.src ?? ""))
+        }.textCase(nil)
         HStack {
             Button {
                 userChosenDate = userChosenDate.advanced(by: -86400)
@@ -431,6 +432,7 @@ struct LimudimView: View {
             } label: {
                 Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
             }
+            .padding(.leading, 2)
             Spacer()
             Button {
                 withAnimation(.easeInOut) {
@@ -446,6 +448,7 @@ struct LimudimView: View {
             } label: {
                 Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
             }
+            .padding(.trailing, 2)
         }.padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
     }
 }

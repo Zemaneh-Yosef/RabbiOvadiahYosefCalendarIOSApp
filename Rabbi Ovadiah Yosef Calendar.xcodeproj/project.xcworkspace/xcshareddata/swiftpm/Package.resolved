@@ -1,5 +1,5 @@
 {
-  "originHash" : "2fad7b897d97d8da1b9fc3e2e6360e5223c4d3a8e0c4a6d8a307dfecf384dd54",
+  "originHash" : "6787eb6545ff10831422599fa7549b69390662c29168c0939e7ec7d9ed67bf3f",
   "pins" : [
     {
       "identity" : "frameup",
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "revision" : "db0428bcfced386943c05ba8ea3e607baa715e45",
-        "version" : "2.11.0"
+        "revision" : "4206bc7b8bd9a4ff8e9511211e1b4bff979ef9c4",
+        "version" : "2.11.1"
       }
     },
     {
@@ -78,17 +78,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/swiftui-introspect",
       "state" : {
-        "revision" : "807f73ce09a9b9723f12385e592b4e0aaebd3336",
-        "version" : "1.3.0"
+        "revision" : "a08b87f96b41055577721a6e397562b21ad52454",
+        "version" : "26.0.0"
       }
     },
     {
       "identity" : "swiftuiscrolloffset",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ciaranrobrien/SwiftUIScrollOffset",
+      "location" : "https://github.com/Splash04/SwiftUIScrollOffset",
       "state" : {
         "branch" : "main",
-        "revision" : "e9a3d34a3597e1940b0de7d1d9b38fcb16f0565e"
+        "revision" : "1f2b92ce113bda1a89e929d936179f4486c2fa6b"
       }
     },
     {

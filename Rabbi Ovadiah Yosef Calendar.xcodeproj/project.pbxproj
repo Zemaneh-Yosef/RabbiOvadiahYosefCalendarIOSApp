@@ -128,6 +128,9 @@
 		CEE5D6E42CA679EF00E9C9C8 /* MishnaYomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE5D6E32CA679EF00E9C9C8 /* MishnaYomi.swift */; };
 		CEE5D6E62CA68B0000E9C9C8 /* ChafetzChayimYomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE5D6E52CA68B0000E9C9C8 /* ChafetzChayimYomi.swift */; };
 		CEEA0DCA2D51BD9B0051CB6C /* WelcomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEA0DC92D51BD9B0051CB6C /* WelcomeScreenViewController.swift */; };
+		CEEF36CF2E714D7E002D9436 /* Makam.json in Resources */ = {isa = PBXBuildFile; fileRef = CEEF36CE2E714D74002D9436 /* Makam.json */; };
+		CEEF36D32E714DE2002D9436 /* MakamJCal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEF36D22E714DE2002D9436 /* MakamJCal.swift */; };
+		CEEF36D52E714FC1002D9436 /* Makam_he.json in Resources */ = {isa = PBXBuildFile; fileRef = CEEF36D42E714FC1002D9436 /* Makam_he.json */; };
 		CEEF998B2BF0A8FF00D26EF3 /* GetUserLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEF998A2BF0A8FF00D26EF3 /* GetUserLocationViewController.swift */; };
 		CEFCE4002C62C97E00609B9D /* NumberToHebrew.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFCE3FF2C62C97E00609B9D /* NumberToHebrew.swift */; };
 /* End PBXBuildFile section */
@@ -266,6 +269,9 @@
 		CEE5D6E52CA68B0000E9C9C8 /* ChafetzChayimYomi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChafetzChayimYomi.swift; sourceTree = "<group>"; };
 		CEEA0DC92D51BD9B0051CB6C /* WelcomeScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreenViewController.swift; sourceTree = "<group>"; };
 		CEEAB8962D4F1CD7008D8721 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS11.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		CEEF36CE2E714D74002D9436 /* Makam.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Makam.json; sourceTree = "<group>"; };
+		CEEF36D22E714DE2002D9436 /* MakamJCal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakamJCal.swift; sourceTree = "<group>"; };
+		CEEF36D42E714FC1002D9436 /* Makam_he.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Makam_he.json; sourceTree = "<group>"; };
 		CEEF998A2BF0A8FF00D26EF3 /* GetUserLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserLocationViewController.swift; sourceTree = "<group>"; };
 		CEFCE3FF2C62C97E00609B9D /* NumberToHebrew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberToHebrew.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -359,6 +365,7 @@
 			children = (
 				5D0D7DB029A8AA3B003B6E43 /* ZmanListEntry.swift */,
 				CE6F52582DC9E52900D3296A /* HighlightString.swift */,
+				CEB143362DDEFACF00AFA75E /* GlobalStruct.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -422,7 +429,7 @@
 				CE6F52542DC9A9E500D3296A /* JustifiedText.swift */,
 				CE4E66032C6496F800E39907 /* GradientButton.swift */,
 				CE97D7C22D4C95FF00C019AA /* ZmanimFactory.swift */,
-				CEB143362DDEFACF00AFA75E /* GlobalStruct.swift */,
+				CEEF36D22E714DE2002D9436 /* MakamJCal.swift */,
 				5D19D36629A3687900F8033D /* Main.storyboard */,
 				5D19D36929A3687B00F8033D /* Assets.xcassets */,
 				5D19D36B29A3687B00F8033D /* LaunchScreen.storyboard */,
@@ -430,6 +437,8 @@
 				5D0D7D9E29A374C5003B6E43 /* Rabbi Ovadiah Yosef Calendar-Bridging-Header.h */,
 				CE8FB5D62DE2EF8D00C6B6CA /* hiloulah_en.json */,
 				CE96B07D2DE663CF00BBC00C /* hiloulah_he.json */,
+				CEEF36CE2E714D74002D9436 /* Makam.json */,
+				CEEF36D42E714FC1002D9436 /* Makam_he.json */,
 				CE6F52562DC9C88600D3296A /* Taamey D.ttf */,
 				CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */,
 				CE9687E62E62332200A03C8D /* Guttman Keren.ttf */,
@@ -629,11 +638,13 @@
 				5D19D36A29A3687B00F8033D /* Assets.xcassets in Resources */,
 				CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */,
 				CEBC70E92D222FB800468477 /* menora.svg in Resources */,
+				CEEF36CF2E714D7E002D9436 /* Makam.json in Resources */,
 				CE6F524A2DC9653200D3296A /* Guttman Mantova.ttf in Resources */,
 				CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 				CE6F52572DC9C88600D3296A /* Taamey D.ttf in Resources */,
 				5D19D36829A3687900F8033D /* Main.storyboard in Resources */,
 				CE96B07E2DE663CF00BBC00C /* hiloulah_he.json in Resources */,
+				CEEF36D52E714FC1002D9436 /* Makam_he.json in Resources */,
 				CEBC70ED2D22590000468477 /* compass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -693,6 +704,7 @@
 				CEFCE4002C62C97E00609B9D /* NumberToHebrew.swift in Sources */,
 				524A18362A80D38E00ACCBF8 /* ChaiTablesScraper.swift in Sources */,
 				CEEF998B2BF0A8FF00D26EF3 /* GetUserLocationViewController.swift in Sources */,
+				CEEF36D32E714DE2002D9436 /* MakamJCal.swift in Sources */,
 				5D7550B829FC555200894335 /* ZmanimSettingsViewController.swift in Sources */,
 				5D7550AC29EF94C300894335 /* ZmanimLanguageViewController.swift in Sources */,
 				5D0D7DB129A8AA3B003B6E43 /* ZmanListEntry.swift in Sources */,
@@ -828,7 +840,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.2;
+				MARKETING_VERSION = 7.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -862,7 +874,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.2;
+				MARKETING_VERSION = 7.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1019,7 +1031,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.2;
+				MARKETING_VERSION = 7.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1061,7 +1073,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.2;
+				MARKETING_VERSION = 7.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1100,7 +1112,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.0;
+				MARKETING_VERSION = 5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1140,7 +1152,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.0;
+				MARKETING_VERSION = 5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1252,7 +1264,7 @@
 		};
 		CE812C472DD6DC450053047D /* XCRemoteSwiftPackageReference "SwiftUIScrollOffset" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ciaranrobrien/SwiftUIScrollOffset";
+			repositoryURL = "https://github.com/Splash04/SwiftUIScrollOffset";
 			requirement = {
 				branch = main;
 				kind = branch;

@@ -762,6 +762,7 @@ struct SiddurChooserView: View {
                 } label: {
                     Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
                 }
+                .padding(.leading, 2)
                 Spacer()
                 Button {
                     withAnimation(.easeInOut) {
@@ -777,6 +778,7 @@ struct SiddurChooserView: View {
                 } label: {
                     Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
                 }
+                .padding(.trailing, 2)
             }.padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
         }
     }

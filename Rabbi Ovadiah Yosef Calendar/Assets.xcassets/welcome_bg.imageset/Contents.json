@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "welcome_bg_ivana_cajina.jpg",
+      "filename" : "splash.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "welcome_bg_ivana_cajina 1.jpg",
+      "filename" : "splash 1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "welcome_bg_ivana_cajina 2.jpg",
+      "filename" : "splash 2.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

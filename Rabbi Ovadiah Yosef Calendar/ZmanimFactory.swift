@@ -27,7 +27,7 @@ class ZmanimFactory {
         let chaitables = ChaiTables(locationName: zmanimCalendar.geoLocation.locationName, jewishCalendar: jewishCalendar, defaults: defaults)
         let visibleSurise = chaitables.getVisibleSurise(forDate: zmanimCalendar.workingDate)
         if visibleSurise != nil {
-            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isNoteworthyZman: true, isVisibleSunriseZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString(), zman: visibleSurise, isZman: true, isVisibleSunriseZman: true))
         } else {
             temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: zmanimCalendar.getSeaLevelSunrise(), isZman: true))
         }
@@ -153,9 +153,11 @@ class ZmanimFactory {
         if defaults.bool(forKey: "overrideRTZman") {
             rt.zman = zmanimCalendar.getTzais72Zmanis()
         }
+        rt.title += zmanimNames.getRTType(isFixed: rt.zman == zmanimCalendar.getTzais72())
         if isForTommorow {
             rt.title += zmanimNames.getMacharString()
         }
+        rt.title = rt.title.trimmingCharacters(in: .whitespaces)
         rt.isRTZman = true
         rt.isNoteworthyZman = true
         temp.append(rt)

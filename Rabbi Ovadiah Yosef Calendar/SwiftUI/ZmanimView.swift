@@ -13,6 +13,7 @@ import CoreLocation
 import ActivityKit
 import Combine
 import SwiftUIScrollOffset
+import SwiftyJSON
 
 struct ZmanimView: View {
     @State var locationName: String = ""
@@ -29,8 +30,6 @@ struct ZmanimView: View {
     @State var jewishCalendar: JewishCalendar = JewishCalendar()
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     @State private var zmanimList: [ZmanListEntry] = []
-    let dateFormatterForZmanim = DateFormatter()
-    let dateFormatterForRT = DateFormatter()
     @State var timer = Timer.publish(every: 0.001, on: .main, in: .common).autoconnect()
     @State var timerForShabbatMode: Publishers.Autoconnect<Timer.TimerPublisher> = .init(upstream: .init(interval: .greatestFiniteMagnitude, runLoop: .current, mode: .default))
     @State var scrollViewOffset = CGFloat(1000)
@@ -38,9 +37,11 @@ struct ZmanimView: View {
     var shouldAddMisheyakirZman = false
     @State var askedToUpdateTablesAlready = false
     @StateObject private var sessionManager = WCSessionManager.shared
-    @State var simpleList = false
+    @State var useSimpleList = false
+    @State var useWeeklyView = false
     @State var showSetup = false
     @State var didLocationUpdate = false // DO NOT DELETE
+    @State var forceUpdate = 1
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
     @State var scrollToTop = false
@@ -62,13 +63,6 @@ struct ZmanimView: View {
     @State var showNextView = false
     @State var isBannerHidden = false
     @State var isFirstTimeForShabbatBanner = true
-    
-    init() {
-        dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "")
-        dateFormatterForRT.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss")
-        dateFormatterForZmanim.timeZone = timezone
-        dateFormatterForRT.timeZone = timezone
-    }
     
     func startShabbatMode() {
         userChosenDate = Date()
@@ -111,18 +105,22 @@ struct ZmanimView: View {
         if jewishCalendar.isTaanis()
             && !jewishCalendar.isTishaBav()
             && !jewishCalendar.isYomKippur() {
-            return zmanimNames.getTaanitString() + zmanimNames.getStartsString() + ": " + dateFormatterForZmanim.string(from:((useAHZmanim ? zmanimCalendar.getAlosAmudeiHoraah() : zmanimCalendar.getAlos72Zmanis()) ?? Date()))
+            return zmanimNames.getTaanitString() +
+            zmanimNames.getStartsString() + ": " +
+            ((useAHZmanim ? zmanimCalendar.getAlosAmudeiHoraah() : zmanimCalendar.getAlos72Zmanis() ?? Date())?.format(defaults: defaults, timezone: timezone, isRT: false) ?? "")
         } else if jewishCalendar.tomorrow().isTaanis() && jewishCalendar.tomorrow().isTishaBav() {
-            return zmanimNames.getTaanitString() + zmanimNames.getStartsString() + ": " + dateFormatterForZmanim.string(from:( zmanimCalendar.getElevationAdjustedSunset() ?? Date()))
+            return zmanimNames.getTaanitString() +
+            zmanimNames.getStartsString() + ": " +
+            (zmanimCalendar.getElevationAdjustedSunset()?.format(defaults: defaults, timezone: timezone, isRT: false) ?? "")
         } else {
             if jewishCalendar.tomorrow().isTaanis() && !jewishCalendar.tomorrow().isTishaBav() {
                 zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
-                let tomorrowAlot = dateFormatterForZmanim.string(from:((useAHZmanim ? zmanimCalendar.getAlosAmudeiHoraah() : zmanimCalendar.getAlos72Zmanis()) ?? Date()))
+                let tomorrowAlot = (useAHZmanim ? zmanimCalendar.getAlosAmudeiHoraah() : zmanimCalendar.getAlos72Zmanis())?.format(defaults: defaults, timezone: timezone, isRT: false) ?? ""
                 zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
                 return zmanimNames.getTaanitString() + zmanimNames.getStartsString() + ": " + tomorrowAlot
             } else {
                 zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
-                let yesterdaySunset = dateFormatterForZmanim.string(from:(zmanimCalendar.getElevationAdjustedSunset() ?? Date()))
+                let yesterdaySunset = zmanimCalendar.getElevationAdjustedSunset()?.format(defaults: defaults, timezone: timezone, isRT: false) ?? ""
                 zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
                 return zmanimNames.getTaanitString() + zmanimNames.getStartsString() + ": " + yesterdaySunset
             }
@@ -134,10 +132,10 @@ struct ZmanimView: View {
         let useAHZmanim = defaults.bool(forKey: "LuachAmudeiHoraah")
         if jewishCalendar.isTaanis()
             && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
-            return zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + ": " + dateFormatterForZmanim.string(from: (useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzaisAteretTorah(minutes: 20)) ?? Date())
+            return zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() + ": " + ((useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzaisAteretTorah(minutes: 20))?.format(defaults: defaults, timezone: timezone, isRT: false) ?? "")
         } else {// This method was called the day before
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(86400)
-            let fastEnds = dateFormatterForZmanim.string(from: (useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() ?? Date() : zmanimCalendar.getTzaisAteretTorah(minutes: 20) ?? Date()))
+            let fastEnds = (useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() ?? Date() : zmanimCalendar.getTzaisAteretTorah(minutes: 20) ?? Date()).format(defaults: defaults, timezone: timezone, isRT: false)
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.addingTimeInterval(-86400)
             return zmanimNames.getTaanitString() + zmanimNames.getEndsString() + ": " + fastEnds
         }
@@ -151,7 +149,7 @@ struct ZmanimView: View {
             jewishCalendar.back()// go back until the start of shabbat/yom tov
         }
         zmanimCalendar.workingDate = jewishCalendar.workingDate
-        let startTime = dateFormatterForZmanim.string(from: zmanimCalendar.getCandleLighting() ?? Date())
+        let startTime = zmanimCalendar.getCandleLighting()?.format(defaults: defaults, timezone: timezone, isRT: false) ?? ""
         while jewishCalendar.tomorrow().isAssurBemelacha() {
             jewishCalendar.forward()
         }
@@ -172,8 +170,15 @@ struct ZmanimView: View {
                 endShabbat = zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40()
             }
         }
-        let endTime = dateFormatterForZmanim.string(from: endShabbat ?? Date())
-        let result = getShabbatAndOrChag() + zmanimNames.getStartsString() + ": " + startTime + " - " + zmanimNames.getEndsString() + ": " + endTime
+        let endTime = endShabbat?.format(defaults: defaults, timezone: timezone, isRT: false) ?? ""
+        let result = getShabbatAndOrChag()
+            .appending(zmanimNames.getStartsString())
+            .appending(": ")
+            .appending(startTime)
+            .appending(" - ")
+            .appending(zmanimNames.getEndsString())
+            .appending(": ")
+            .appending(endTime)
         jewishCalendar.workingDate = backup
         return result
     }
@@ -234,7 +239,7 @@ struct ZmanimView: View {
     
     func updateZmanimList(add66Misheyakir: Bool = false) {
         zmanimList = []
-        if !simpleList {
+        if !useSimpleList {
             zmanimList = ZmanimFactory.addZmanim(list: zmanimList, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: add66Misheyakir)
             return
         }
@@ -294,6 +299,31 @@ struct ZmanimView: View {
             .replacingOccurrences(of: "מפטירין", with: Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
         if !haftorah.isEmpty {
             zmanimList.append(ZmanListEntry(title: haftorah))
+        }
+        let makam = MakamJCal.getMakamData(jCal: jewishCalendar)
+        if let path = Bundle.main.path(forResource: Locale.isHebrewLocale() ? "Makam_he" : "Makam", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let jsonArray = try JSON(data: data).arrayValue.map { $0.stringValue }
+
+                if let makamList = makam["GABRIEL A SHREM 1964 SUHV"], !makamList.isEmpty {
+                    var makamStr = (Locale.isHebrewLocale() ? "מקאם: " : "Makam: ")
+
+                    for makamInd in makamList {
+                        if let index = Makam.allCases.firstIndex(of: makamInd), index < jsonArray.count {
+                            makamStr += jsonArray[index] + " "
+                        } else {
+                            // Fallback if index not found or out of bounds
+                            makamStr += "\(makamInd) "
+                        }
+                    }
+
+                    zmanimList.append(ZmanListEntry(title: makamStr.trimmingCharacters(in: .whitespaces)))
+                }
+
+            } catch {
+                print("Error reading makam.json: \(error)")
+            }
         }
         syncCalendarDates()//reset
         if defaults.bool(forKey: "showShabbatMevarchim") {
@@ -420,7 +450,6 @@ struct ZmanimView: View {
                     addTekufaLength(checkTomorrowForTekufa, dateFormatter)
                 }
             }
-            jewishCalendar.workingDate = userChosenDate //reset
         } else if tekufaSetting == 2 || (tekufaSetting == 0 && defaults.bool(forKey: "LuachAmudeiHoraah")) {
             let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufa != nil {
@@ -437,7 +466,6 @@ struct ZmanimView: View {
                     addTekufaLength(checkTomorrowForTekufa, dateFormatter)
                 }
             }
-            jewishCalendar.workingDate = userChosenDate //reset
         } else {
             let tekufa = jewishCalendar.getTekufaAsDate()
             if tekufa != nil {
@@ -490,8 +518,8 @@ struct ZmanimView: View {
                         .appending(dateFormatter.string(from: halfHourAfter))))
                 }
             }
-            jewishCalendar.workingDate = userChosenDate //reset
         }
+        jewishCalendar.workingDate = userChosenDate //reset
         
         zmanimList = ZmanimFactory.addZmanim(list: zmanimList, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: add66Misheyakir)
         
@@ -533,8 +561,6 @@ struct ZmanimView: View {
                 break;
             }
         }
-        dateFormatterForZmanim.timeZone = timezone
-        dateFormatterForRT.timeZone = timezone
     }
     
     func addTekufaLength(_ tekufa: Date?, _ dateFormatter: DateFormatter) {
@@ -732,7 +758,7 @@ struct ZmanimView: View {
     func getUserLocation() {
         let concurrentQueue = DispatchQueue(label: "mainApp", attributes: .concurrent)
         
-        LocationManager.shared.getUserLocation {//4.4 fixed the location issue
+        LocationManager.shared.getUserLocation {
             location in concurrentQueue.async { [self] in
                 if location != nil {
                     lat = location!.coordinate.latitude
@@ -751,12 +777,16 @@ struct ZmanimView: View {
                         setNextUpcomingZman()
                         updateZmanimList()
                         didLocationUpdate = true
+                        forceUpdate += 1
                         NotificationManager.instance.requestAuthorization()
                         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
                         sessionManager.sendMessage(self.getSettingsDictionary())
                     }
                 } else {
-                    print("location is nil")
+                    print("location is nil. Try again if we do not have a location name")
+                    if locationName.isEmpty {
+                        getUserLocation()
+                    }
                 }
             }
         }
@@ -1116,16 +1146,35 @@ struct ZmanimView: View {
                     Text("Shabbat/Chag Mode")
                 }
             }
-//            if #available(iOS 17.0, *) {
+            if #available(iOS 17.0, *) {
+                Button(action: {
+                    useWeeklyView.toggle()
+                    defaults.set(useWeeklyView, forKey: "useWeeklyView")
+                    if useWeeklyView {
+                        userChosenDate = startOfWeekSunday(for: userChosenDate)
+                        syncCalendarDates()
+                    } else {
+                        userChosenDate = Date()
+                        syncCalendarDates()
+                    }
+                }) {
+                    if useWeeklyView {
+                        Label("Weekly View", systemImage: "checkmark")
+                    } else {
+                        Text("Weekly View")
+                    }
+                }
+            }
+//            if #available(iOS 17.0, *) {//TODO hide this button in weeklyview as it will not do anything
 //                Button(action: {
-//                    simpleList.toggle()
+//                    useSimpleList.toggle()
 //                    defaults.set(simpleList, forKey: "useSimpleList")
 //                    updateZmanimList()
 //                }) {
-//                    if simpleList {
-//                        Label("Use Simple List", systemImage: "checkmark")
+//                    if useSimpleList {
+//                        Label("Simple List", systemImage: "checkmark")
 //                    } else {
-//                        Text("Use Simple List")
+//                        Text("Simple List")
 //                    }
 //                }
 //            }
@@ -1309,6 +1358,11 @@ struct ZmanimView: View {
                                 .labelsHidden()
                                 .datePickerStyle(.graphical)
                                 .onChange(of: userChosenDate) { newValue in
+                                    if useWeeklyView {
+                                        while Calendar.current.component(.weekday, from: userChosenDate) != 1 {
+                                            userChosenDate = userChosenDate.addingTimeInterval( -86400)
+                                        }
+                                    }
                                     syncCalendarDates()
                                     updateZmanimList()
                                     checkIfTablesNeedToBeUpdated()
@@ -1342,6 +1396,11 @@ struct ZmanimView: View {
                                 .environment(\.locale, Locale(identifier: "he"))
                                 .environment(\.calendar, Calendar(identifier: .hebrew))
                                 .onChange(of: userChosenDate) { newValue in
+                                    if useWeeklyView {
+                                        while Calendar.current.component(.weekday, from: userChosenDate) != 1 {
+                                            userChosenDate = userChosenDate.addingTimeInterval( -86400)
+                                        }
+                                    }
                                     syncCalendarDates()
                                     updateZmanimList()
                                     checkIfTablesNeedToBeUpdated()
@@ -1371,6 +1430,442 @@ struct ZmanimView: View {
             }
         }
         return AnyView(result)
+    }
+    
+    func monthsYears(hebrew : Bool) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        formatter.timeZone = timezone
+        if hebrew {
+            formatter.calendar = Calendar(identifier: .hebrew)
+        }
+        let sundayMonthYear = formatter.string(from: startOfWeekSunday(for: userChosenDate)).split(separator: " ")
+        let saturdayMonthYear = formatter.string(from: startOfWeekSunday(for: userChosenDate).addingTimeInterval(60 * 60 * 24 * 7)).split(separator: " ")
+        
+        var month = sundayMonthYear[0]
+        if sundayMonthYear[0] != saturdayMonthYear[0] {
+            month = sundayMonthYear[0] + " - " + saturdayMonthYear[0]
+        }
+        var year = sundayMonthYear[1]
+        if sundayMonthYear[1] != saturdayMonthYear[1] {
+            year = sundayMonthYear[1] + " / " + saturdayMonthYear[1]
+        }
+        return month + " " + year
+    }
+    
+    func getZmanimForDate(date: Date) -> Array<ZmanListEntry> {
+        let zCal = zmanimCalendar.copy()
+        zCal.workingDate = date
+        let jCal = jewishCalendar.copy()
+        jCal.workingDate = date
+        return ZmanimFactory.addZmanim(list: [], defaults: defaults, zmanimCalendar: zCal, jewishCalendar: jCal, add66Misheyakir: true)
+    }
+    
+    func getAnnouncementsForDate(date: Date, zmanim: Array<ZmanListEntry>) -> Array<String> {
+        var announcements: [String] = []
+        
+        for zman in zmanim {
+            if zman.isNoteworthyZman {
+                let result = zman.zman?.format(defaults: defaults, timezone: timezone, isRT: zman.isRTZman) ?? ""
+                if !result.isEmpty {
+                    announcements.append(zman.title
+                        .appending(defaults.bool(forKey: "isZmanimInHebrew") && Locale.isHebrewLocale() ? ": " : ": ‪")
+                        .appending(result))
+                }
+            }
+        }
+        
+        let jCal = jewishCalendar.copy()
+        jCal.workingDate = date
+        
+        let specialDay = jCal.getSpecialDay(addOmer: true)
+        if !specialDay.isEmpty {
+            announcements.append(specialDay)
+        }
+        
+        if jCal.isPurimMeshulash() {
+            announcements.append("No Tachanun in Yerushalayim or a Safek Mukaf Choma".localized())
+        }
+        
+        if (defaults.bool(forKey: "showShabbatMevarchim")) {
+            if (jCal.isShabbosMevorchim()) {
+                announcements.append("שבת מברכים")
+            }
+        }
+        
+        let music = jCal.isOKToListenToMusic()
+        if !music.isEmpty {
+            announcements.append(music)
+        }
+        
+        let up = jCal.getIsUlChaparatPeshaSaid()
+        if !up.isEmpty {
+            announcements.append(up)
+        }
+        
+        let hallel = jCal.getHallelOrChatziHallel()
+        if !hallel.isEmpty {
+            announcements.append(hallel)
+        }
+        
+        let tefilaRules = TefilaRules()
+
+        if (tefilaRules.isMashivHaruachEndDate(jewishCalendar: jCal)) {
+            announcements.append("מוריד הטל/ברכנו")
+        }
+
+        if (tefilaRules.isMashivHaruachStartDate(jewishCalendar: jCal)) {
+            announcements.append("משיב הרוח")
+        }
+
+        if (tefilaRules.isVeseinTalUmatarStartDate(jewishCalendar: jCal)) {
+            announcements.append("ברך עלינו")
+        }
+        
+        let tachanun = jCal.getTachanun()
+        if tachanun == "There is Tachanun today" || tachanun == "אומרים תחנון" {} else {
+            announcements.append(tachanun)
+        }
+        
+        let birchatHalevana = jCal.getBirchatLevanaStatus()
+        if !birchatHalevana.isEmpty, !birchatHalevana.contains("until"), !birchatHalevana.contains("עד") {
+            announcements.append(birchatHalevana)
+        }
+        
+        if jCal.isBirkasHachamah() {
+            announcements.append("Birchat Ha'Ḥamah is said today".localized())
+        }
+        
+        if (jCal.tomorrow().getDayOfWeek() == 7
+            && jCal.tomorrow().getYomTovIndex() == JewishCalendar.EREV_PESACH) {
+            announcements.append("Burn your Ḥametz today".localized())
+        }
+        
+        let dateFormatter = DateFormatter()
+        if Locale.isHebrewLocale() {
+            dateFormatter.dateFormat = "H:mm"
+        } else {
+            dateFormatter.dateFormat = "h:mm aa"
+        }
+        dateFormatter.timeZone = timezone
+        let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
+        if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1 { // 0 is default
+            let tekufa = jCal.getTekufaAsDate()
+            if tekufa != nil {
+                if Calendar.current.isDate(tekufa!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
+                }
+            }
+            jCal.forward()
+            let checkTomorrowForTekufa = jCal.getTekufaAsDate()
+            if checkTomorrowForTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
+                }
+            }
+        } else if tekufaSetting == 2 || (tekufaSetting == 0 && defaults.bool(forKey: "LuachAmudeiHoraah")) {
+            let tekufa = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
+            if tekufa != nil {
+                if Calendar.current.isDate(tekufa!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
+                }
+            }
+            jCal.forward()
+            let checkTomorrowForTekufa = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
+            if checkTomorrowForTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
+                }
+            }
+        } else {
+            let tekufa = jCal.getTekufaAsDate()
+            if tekufa != nil {
+                if Calendar.current.isDate(tekufa!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
+                }
+            }
+            jCal.forward()
+            let checkTomorrowForTekufa = jCal.getTekufaAsDate()
+            if checkTomorrowForTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
+                }
+            }
+            jCal.workingDate = date //reset
+            
+            let tekufaAH = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
+            if tekufaAH != nil {
+                if Calendar.current.isDate(tekufaAH!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!))
+                }
+            }
+            jCal.forward()
+            let checkTomorrowForAHTekufa = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
+            if checkTomorrowForAHTekufa != nil {
+                if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: date) {
+                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!))
+                }
+            }
+            var earlierTekufa = tekufaAH
+            if earlierTekufa == nil {
+                earlierTekufa = checkTomorrowForAHTekufa
+            }
+            var laterTekufa = tekufa
+            if laterTekufa == nil {
+                laterTekufa = checkTomorrowForTekufa
+            }
+            if earlierTekufa != nil && laterTekufa != nil && Calendar.current.isDate(earlierTekufa!, inSameDayAs: date) {
+                let halfHourBefore = earlierTekufa!.addingTimeInterval(-1800)
+                let halfHourAfter = laterTekufa!.addingTimeInterval(1800)
+                if Locale.isHebrewLocale() {
+                    announcements.append("Tekufa Length: ".localized()
+                        .appending(dateFormatter.string(from: halfHourAfter))
+                        .appending(" - ")
+                        .appending(dateFormatter.string(from: halfHourBefore)))
+                } else {
+                    announcements.append( "Tekufa Length: ".localized()
+                        .appending(dateFormatter.string(from: halfHourBefore))
+                        .appending(" - ")
+                        .appending(dateFormatter.string(from: halfHourAfter)))
+                }
+            }
+        }
+        jCal.workingDate = date //reset
+        
+        let makam = MakamJCal.getMakamData(jCal: jCal)
+        if let path = Bundle.main.path(forResource: Locale.isHebrewLocale() ? "Makam_he" : "Makam", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let jsonArray = try JSON(data: data).arrayValue.map { $0.stringValue }
+
+                if let makamList = makam["GABRIEL A SHREM 1964 SUHV"], !makamList.isEmpty {
+                    var makamStr = (Locale.isHebrewLocale() ? "מקאם: " : "Makam: ")
+
+                    for makamInd in makamList {
+                        if let index = Makam.allCases.firstIndex(of: makamInd), index < jsonArray.count {
+                            makamStr += jsonArray[index] + " "
+                        } else {
+                            // Fallback if index not found or out of bounds
+                            makamStr += "\(makamInd) "
+                        }
+                    }
+
+                    announcements.append(makamStr.trimmingCharacters(in: .whitespaces))
+                }
+            } catch {
+                print("Error reading makam.json: \(error)")
+            }
+        }
+        
+        return announcements
+    }
+    
+    struct WeeklyDayView: View {
+        var userChosenDate: Date
+        var hebrewDay: String
+        var hebrewDate: String
+        var englishDay: String
+        var englishDate: String
+        var zmanim: [ZmanListEntry]
+        var announcements: String
+        var defaults: UserDefaults
+        var timezone: TimeZone
+        
+        var body: some View {
+            HStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 0) {
+                            ForEach(zmanim, id: \.self) { zmanEntry in
+                                if !zmanEntry.isNoteworthyZman {
+                                    Text(
+                                        zmanEntry.title
+                                            .appending(defaults.bool(forKey: "isZmanimInHebrew") && Locale.isHebrewLocale() ? ": " : ": ‪")
+                                            .appending(zmanEntry.zman?.format(defaults: defaults, timezone: timezone, isRT: zmanEntry.isRTZman) ?? "XX:XX")
+                                            .replacingOccurrences(of: "סוף זמן ", with: "")
+                                            .replacingOccurrences(of: "Earliest ", with: "")
+                                            .replacingOccurrences(of: "Sof Zeman ", with: "")
+                                            .replacingOccurrences(of: "Latest ", with: "")
+                                            .replacingOccurrences(of: "(", with: "")
+                                            .replacingOccurrences(of: ")", with: "")
+                                    )
+                                    .font(.system(size: 11, weight: .medium))
+                                    .lineLimit(2)
+                                    .minimumScaleFactor(0.5)
+                                    .padding(.vertical, 1) // minimal row height
+                                    .padding(.horizontal, 2)
+                                    Divider().background(Color.primary)
+                                }
+                            }
+                        }
+                    }
+                    
+                    ScrollView {
+                        Text(announcements)
+                            .font(.system(size: 11, weight: .bold))
+                            .padding(2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
+                }
+                .frame(maxWidth: .infinity)
+                .layoutPriority(3)
+                
+                VStack(spacing: 4) {
+                    Text(hebrewDay)
+                        .font(.system(size: 16))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    Text(hebrewDate)
+                        .font(.system(size: 26, weight: .bold))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    HStack {
+                        Text(englishDay)
+                            .font(.system(size: 16))
+                            .frame(maxWidth: .infinity)
+                            .background(Calendar.current.isDateInToday(userChosenDate) ? Color.init("Gold") : Color.clear)
+                        
+                        Text(englishDate)
+                            .font(.system(size: 16, weight: .bold))
+                            .frame(maxWidth: .infinity)
+                    }
+                }
+                .frame(width: 100)
+                .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
+            }
+            .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
+            .environment(\.layoutDirection, .leftToRight) // Force LTR
+        }
+    }
+    
+    func startOfWeekSunday(for date: Date, calendar: Calendar = .current) -> Date {
+        let weekday = calendar.component(.weekday, from: date) // Sunday = 1
+        let daysSinceSunday = (weekday + 6) % 7
+        return calendar.date(byAdding: .day, value: -daysSinceSunday, to: date)!
+    }
+    
+    var weeklyView: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Spacer()
+                Text(locationName)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .multilineTextAlignment(.center)
+                Spacer()
+            }
+            .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
+            .id(forceUpdate)
+            HStack {
+                Text(monthsYears(hebrew: false))
+                    .padding(.leading, 4)
+                Spacer()
+                Text(monthsYears(hebrew: true))
+                    .padding(.trailing, 4)
+            }
+            .lineLimit(1)
+            .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
+            WeeklyDayView(
+                userChosenDate: startOfWeekSunday(for: userChosenDate),
+                hebrewDay: "ראשון",
+                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate))),
+                englishDay: "Sun",
+                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate))),
+                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate)),
+                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate))).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+            WeeklyDayView(
+                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400),
+                hebrewDay: "שני",
+                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400))),
+                englishDay: "Mon",
+                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400))),
+                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400)),
+                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400))).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+            WeeklyDayView(
+                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2),
+                hebrewDay: "שלישי",
+                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2))),
+                englishDay: "Tues",
+                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2))),
+                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2)),
+                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2))).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+            WeeklyDayView(
+                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3),
+                hebrewDay: "רביעי",
+                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3))),
+                englishDay: "Wed",
+                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3))),
+                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3)),
+                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3))).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+            WeeklyDayView(
+                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4),
+                hebrewDay: "חמישי",
+                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4))),
+                englishDay: "Thu",
+                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4))),
+                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4)),
+                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4))).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+            WeeklyDayView(
+                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5),
+                hebrewDay: "שישי",
+                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5))),
+                englishDay: "Fri",
+                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5))),
+                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5)),
+                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5))).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+            WeeklyDayView(
+                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6),
+                hebrewDay: "שבת",
+                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6))),
+                englishDay: "Sat",
+                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6))),
+                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6)),
+                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6))).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+            HStack {
+                Spacer()
+                Text(jewishCalendar.getThisWeeksParasha())
+                    .bold()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .multilineTextAlignment(.center)
+                Spacer()
+            }
+            .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
+            if !jewishCalendar.getThisWeeksHaftara().isEmpty {
+                HStack {
+                    Spacer()
+                    Text(jewishCalendar.getThisWeeksHaftara())
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                }
+                .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     var simpleListView: some View {
@@ -1470,6 +1965,7 @@ struct ZmanimView: View {
                 }.textCase(nil)
             }
             .listStyle(.plain)
+            .id(forceUpdate)
             .scrollOffsetID("Scroller")
             .refreshable {
                 refreshTable()
@@ -1533,13 +2029,8 @@ struct ZmanimView: View {
     fileprivate func zmanEntryRow(_ zmanEntry: ZmanListEntry) -> some View {
         return HStack {
             if defaults.bool(forKey: "isZmanimInHebrew") && !Locale.isHebrewLocale() {
-                if zmanEntry.isRTZman {
-                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForRT.string(from: zmanEntry.zman!))
-                        .font(.system(size: 20, weight: .regular))
-                } else {
-                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForZmanim.string(from: zmanEntry.zman!))
-                        .font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
-                }
+                Text(zmanEntry.zman == nil ? "XX:XX" : zmanEntry.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanEntry.isRTZman))
+                    .font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
                 if zmanEntry.zman == nextUpcomingZman {
                     Image(systemName: "arrowtriangle.backward.fill")
                 }
@@ -1579,11 +2070,8 @@ struct ZmanimView: View {
                 if zmanEntry.zman == nextUpcomingZman {
                     Image(systemName: "arrowtriangle.forward.fill")
                 }
-                if zmanEntry.isRTZman {
-                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForRT.string(from: zmanEntry.zman!)).font(.system(size: 20, weight: .regular))
-                } else {
-                    Text(zmanEntry.zman == nil ? "XX:XX" : dateFormatterForZmanim.string(from: zmanEntry.zman!)).font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
-                }
+                Text(zmanEntry.zman == nil ? "XX:XX" : zmanEntry.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanEntry.isRTZman))
+                    .font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
             }
         }
         .foregroundStyle(zmanEntry.shouldBeDimmed ? .gray : (zmanEntry.isBirchatHachamahZman ? .black : .primary))
@@ -1862,8 +2350,15 @@ struct ZmanimView: View {
             }
         }
         if #available(iOS 17.0, *) {
-            alerts(view: simpleList ? simpleListView : scrollView)
-                .scrollDisabled(shabbatMode)
+            if useWeeklyView {
+                alerts(view: weeklyView)
+            } else if useSimpleList {
+                alerts(view: simpleListView)
+                    .scrollDisabled(shabbatMode)
+            } else {
+                alerts(view: scrollView)
+                    .scrollDisabled(shabbatMode)
+            }
         } else {// The ScrollView should work on iOS 16 and below, but SwiftUI on those iOS verisons does not like the turnary above
             if #available(iOS 16.0, *) {
                 alerts(view: simpleListView)
@@ -1874,10 +2369,11 @@ struct ZmanimView: View {
         }
         HStack {
             Button {
-                updateDate(-86400)
+                updateDate(useWeeklyView ? -86400 * 7 : -86400)
             } label: {
                 Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
             }
+            .padding(.leading, 2)
             Spacer()
             Button {
                 withAnimation(.easeInOut) {
@@ -1888,10 +2384,11 @@ struct ZmanimView: View {
             }
             Spacer()
             Button {
-                updateDate(86400)
+                updateDate(useWeeklyView ? 86400 * 7 : 86400)
             } label: {
                 Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
             }
+            .padding(.trailing, 2)
         }
         .padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
         .sheet(isPresented: $showShareSheet) {
@@ -1939,15 +2436,19 @@ struct ZmanimView: View {
                 appStoreURL = appURL
                 showAppUpdateAlert = needsUpdate
             }
-            dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
-            dateFormatterForRT.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss") + (Locale.isHebrewLocale() ? "" : " aa")
-            dateFormatterForZmanim.timeZone = timezone
-            dateFormatterForRT.timeZone = timezone
             syncOldDefaults()
             userChosenDate = GlobalStruct.userChosenDate
             syncCalendarDates()
             //simpleList = defaults.bool(forKey: "useSimpleList")
-            simpleList = true// temp
+            useSimpleList = true// temp
+            useWeeklyView = defaults.bool(forKey: "useWeeklyView")
+            if useWeeklyView {
+                let calendar = Calendar.current
+                let weekday = calendar.component(.weekday, from: userChosenDate)
+                let daysSinceSunday = (weekday + 6) % 7
+                userChosenDate = calendar.date(byAdding: .day, value: -daysSinceSunday, to: userChosenDate)!
+                syncCalendarDates()
+            }
             if !defaults.bool(forKey: "isSetup") {
                 nextView = .setup
                 showNextView = true

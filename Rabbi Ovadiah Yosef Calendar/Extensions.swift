@@ -11,6 +11,10 @@ import UIKit
 
 public extension JewishCalendar {
     
+    func copy() -> JewishCalendar {
+        return JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+    }
+    
     func tomorrow() -> JewishCalendar {
         let result = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
         result.forward()
@@ -191,8 +195,19 @@ public extension JewishCalendar {
             .replacingOccurrences(of: "Simchas", with: "Simchat")
     }
     
+    func getThisWeeksHaftara() -> String {
+        let temp = workingDate.addingTimeInterval(0)
+        while getDayOfWeek() != 7 {//forward jewish calendar to saturday
+            forward()
+        }
+        let haftorah = WeeklyHaftarahReading.getThisWeeksHaftarah(jewishCalendar: self)
+            .replacingOccurrences(of: "מפטירין", with: Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
+        workingDate = temp //reset
+        return haftorah
+    }
+    
     func getThisWeeksParasha() -> String {
-        let temp = workingDate
+        let temp = workingDate.addingTimeInterval(0)
         while getDayOfWeek() != 7 {//forward jewish calendar to saturday
             forward()
         }
@@ -289,7 +304,7 @@ public extension JewishCalendar {
     
     func getYomTovIndexForNextDay() -> Int {
         //set workingDate to next day
-        let temp = workingDate
+        let temp = workingDate.addingTimeInterval(0)
         forward()
         let yomTovIndexForTomorrow = getYomTovIndex()
         workingDate = temp //reset
@@ -379,7 +394,7 @@ public extension JewishCalendar {
             return false
         }
         
-        let backup = workingDate
+        let backup = workingDate.addingTimeInterval(0)
         
         workingDate = Calendar(identifier: .hebrew).date(bySetting: .day, value: 9, of: workingDate)!
         
@@ -555,6 +570,16 @@ public extension ZmanimCalendar {
 }
 
 public extension ComplexZmanimCalendar {
+    
+    func copy() -> ComplexZmanimCalendar {
+        let result = ComplexZmanimCalendar(location: geoLocation)
+        result.ateretTorahSunsetOffset = ateretTorahSunsetOffset
+        result.useElevation = useElevation
+        result.useAstronomicalChatzos = useAstronomicalChatzos
+        result.useAstronomicalChatzosForOtherZmanim = useAstronomicalChatzosForOtherZmanim
+        return result
+    }
+    
     func getAlotHashachar(defaults: UserDefaults) -> Date? {
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
             return getAlosAmudeiHoraah()
@@ -603,6 +628,19 @@ public extension String {
 public extension Locale {
     static func isHebrewLocale() -> Bool {
         return Locale.current.localizedString(forIdentifier: "he") == "עברית"
+    }
+}
+
+public extension Date {
+    func format(defaults: UserDefaults, timezone: TimeZone, isRT: Bool) -> String {// isRT is to be replaced
+        let dateFormatterForZmanim = DateFormatter()
+        if isRT {
+            dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss") + (Locale.isHebrewLocale() ? "" : " aa")
+        } else {
+            dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
+        }
+        dateFormatterForZmanim.timeZone = timezone
+        return dateFormatterForZmanim.string(from: self)
     }
 }
 

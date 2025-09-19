@@ -7,7 +7,6 @@
 
 import WidgetKit
 import SwiftUI
-import SwiftUICore
 
 @main
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle: WidgetBundle {

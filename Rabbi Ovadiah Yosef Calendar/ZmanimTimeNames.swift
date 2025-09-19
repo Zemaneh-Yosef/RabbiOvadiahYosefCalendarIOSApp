@@ -108,6 +108,22 @@ struct ZmanimTimeNames {
         }
     }
     
+    public func getRTType(isFixed: Bool) -> String {
+        if (isFixed) {
+            if (mIsZmanimInHebrew) {
+                return " (קבוע) ";
+            } else {
+                return " (Fixed) ";
+            }
+        } else {
+            if (mIsZmanimInHebrew) {
+                return " (זמנית) ";
+            } else {
+                return " (Seasonal) ";
+            }
+        }
+    }
+    
     public func getMacharString() -> String {
         if (mIsZmanimInHebrew) {
             return " (מחר) ";
