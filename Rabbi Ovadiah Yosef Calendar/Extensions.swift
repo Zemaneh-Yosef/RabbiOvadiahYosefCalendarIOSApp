@@ -596,6 +596,29 @@ public extension ComplexZmanimCalendar {
         }
     }
     
+    func getSecondAshmora() -> Date? {
+        let clonedCal = ZmanimCalendar(location: getGeoLocation())
+        clonedCal.useElevation = useElevation
+        clonedCal.workingDate = workingDate.addingTimeInterval(86400)
+        let sunsetForToday = getElevationAdjustedSunset();
+        let sunriseForTomorrow = clonedCal.getElevationAdjustedSunrise();
+        return getShaahZmanisBasedZman(startOfDay: sunsetForToday, endOfDay: sunriseForTomorrow, hours: 4);
+    }
+    
+    func isNowBeforeSecondAshmora() -> Bool {
+        let now = Date();
+        let solarMidnight = getSolarMidnight();
+        var secondAshmora = getSecondAshmora();
+        let calendar = Calendar.current
+        // Handle possible edge case when solarMidnight is actually for tomorrow
+        if (solarMidnight != nil && calendar.component(.hour, from: now) < 3 && calendar.component(.hour, from: solarMidnight!) < 3) {
+            workingDate = workingDate.addingTimeInterval(-86400)
+            secondAshmora = getSecondAshmora();
+            workingDate = workingDate.addingTimeInterval(86400) // reset
+        }
+        return now < secondAshmora ?? Date()
+    }
+    
     func isNowAfterHalachicSolarMidnight() -> Bool {
         let now = Date();
         var solarMidnight = getSolarMidnight();
@@ -607,15 +630,6 @@ public extension ComplexZmanimCalendar {
             workingDate = workingDate.addingTimeInterval(86400) // reset
         }
         return now > solarMidnight ?? Date()
-    }
-    
-    func getSecondAshmora() -> Date? {
-        let clonedCal = ZmanimCalendar(location: getGeoLocation())
-        clonedCal.useElevation = useElevation
-        clonedCal.workingDate = workingDate.addingTimeInterval(86400)
-        let sunsetForToday = getElevationAdjustedSunset();
-        let sunriseForTomorrow = clonedCal.getElevationAdjustedSunrise();
-        return getShaahZmanisBasedZman(startOfDay: sunsetForToday, endOfDay: sunriseForTomorrow, hours: 4);
     }
 }
 

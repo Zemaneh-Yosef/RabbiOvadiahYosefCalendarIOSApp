@@ -1013,6 +1013,12 @@ struct SiddurChooserView: View {
         case "סליחות" :
             let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
             currentZmanimCalendar.useElevation = GlobalStruct.useElevation
+            let solarMidnight = currentZmanimCalendar.getSolarMidnight()
+            let calendar = Calendar.current
+            // Handle possible edge case when solarMidnight is actually for tomorrow
+            if (solarMidnight != nil && calendar.component(.hour, from: Date()) < 3 && calendar.component(.hour, from: solarMidnight!) < 3) {
+                currentZmanimCalendar.workingDate = currentZmanimCalendar.workingDate.addingTimeInterval(-86400)
+            }
             if Date() > currentZmanimCalendar.getTzeitHacochavim(defaults: defaults) ?? Date() && Date() < currentZmanimCalendar.getSolarMidnightIfSunTransitNil() ?? Date() {
                 return true
             }
@@ -1051,7 +1057,7 @@ struct SiddurChooserView: View {
         var result = true
         switch (key) {
         case "סליחות":
-            let isSelichotNotSaidNow = Date() > currentZmanimCalendar.getSunset()! && Date() < currentZmanimCalendar.getSecondAshmora()! || !currentZmanimCalendar.isNowAfterHalachicSolarMidnight()
+            let isSelichotNotSaidNow = (Date() > currentZmanimCalendar.getSunset()! && currentZmanimCalendar.isNowBeforeSecondAshmora()) || ( !currentZmanimCalendar.isNowBeforeSecondAshmora() && !currentZmanimCalendar.isNowAfterHalachicSolarMidnight())
             result = !isSelichotNotSaidNow
         case "שחרית":
             result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getChatzosIfHalfDayNil()!

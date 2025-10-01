@@ -111,15 +111,15 @@ struct ZmanimTimeNames {
     public func getRTType(isFixed: Bool) -> String {
         if (isFixed) {
             if (mIsZmanimInHebrew) {
-                return " (קבוע) ";
+                return " (קבוע)";
             } else {
-                return " (Fixed) ";
+                return " (Fixed)";
             }
         } else {
             if (mIsZmanimInHebrew) {
-                return " (זמנית) ";
+                return " (זמנית)";
             } else {
-                return " (Seasonal) ";
+                return " (Seasonal)";
             }
         }
     }

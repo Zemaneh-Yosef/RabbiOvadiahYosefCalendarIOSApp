@@ -44,6 +44,7 @@ struct ZmanimView: View {
     @State var forceUpdate = 1
     @State var datePickerIsVisible = false
     @State var hebrewDatePickerIsVisible = false
+    @State var contentHeight: CGFloat = 0 // for weekly view
     @State var scrollToTop = false
     @State var scrollDirection = 1
     @ScrollOffsetProxy(.bottom, id: "Scroller") private var scrollOffsetProxy
@@ -63,6 +64,8 @@ struct ZmanimView: View {
     @State var showNextView = false
     @State var isBannerHidden = false
     @State var isFirstTimeForShabbatBanner = true
+    let hebrewDays = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"]
+    let englishDays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"]
     
     func startShabbatMode() {
         userChosenDate = Date()
@@ -1359,9 +1362,7 @@ struct ZmanimView: View {
                                 .datePickerStyle(.graphical)
                                 .onChange(of: userChosenDate) { newValue in
                                     if useWeeklyView {
-                                        while Calendar.current.component(.weekday, from: userChosenDate) != 1 {
-                                            userChosenDate = userChosenDate.addingTimeInterval( -86400)
-                                        }
+                                        userChosenDate = startOfWeekSunday(for: userChosenDate)
                                     }
                                     syncCalendarDates()
                                     updateZmanimList()
@@ -1397,9 +1398,7 @@ struct ZmanimView: View {
                                 .environment(\.calendar, Calendar(identifier: .hebrew))
                                 .onChange(of: userChosenDate) { newValue in
                                     if useWeeklyView {
-                                        while Calendar.current.component(.weekday, from: userChosenDate) != 1 {
-                                            userChosenDate = userChosenDate.addingTimeInterval( -86400)
-                                        }
+                                        userChosenDate = startOfWeekSunday(for: userChosenDate)
                                     }
                                     syncCalendarDates()
                                     updateZmanimList()
@@ -1718,12 +1717,13 @@ struct ZmanimView: View {
                     
                     Text(hebrewDate)
                         .font(.system(size: 26, weight: .bold))
-                        .frame(maxWidth: .infinity, alignment: .center)
+                        .frame(maxWidth: .infinity, minHeight: 16, alignment: .center)
                     
                     HStack {
                         Text(englishDay)
                             .font(.system(size: 16))
                             .frame(maxWidth: .infinity)
+                            .foregroundStyle(Calendar.current.isDateInToday(userChosenDate) ? Color.black : Color.primary)
                             .background(Calendar.current.isDateInToday(userChosenDate) ? Color.init("Gold") : Color.clear)
                         
                         Text(englishDate)
@@ -1731,7 +1731,7 @@ struct ZmanimView: View {
                             .frame(maxWidth: .infinity)
                     }
                 }
-                .frame(width: 100)
+                .frame(minWidth: 80, maxWidth: 100)
                 .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
             }
             .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
@@ -1743,6 +1743,33 @@ struct ZmanimView: View {
         let weekday = calendar.component(.weekday, from: date) // Sunday = 1
         let daysSinceSunday = (weekday + 6) % 7
         return calendar.date(byAdding: .day, value: -daysSinceSunday, to: date)!
+    }
+    
+    func getNoGereshHDF() -> HebrewDateFormatter {
+        let hdf = HebrewDateFormatter()
+        hdf.useGershGershayim = false
+        return hdf
+    }
+    
+    var weeklyDays: some View {
+        ForEach(0..<7, id: \.self) { offset in
+            let date = startOfWeekSunday(for: userChosenDate).addingTimeInterval(Double(offset) * 86400)
+            
+            WeeklyDayView(
+                userChosenDate: date,
+                hebrewDay: hebrewDays[offset],
+                hebrewDate: getNoGereshHDF().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: date)),
+                englishDay: englishDays[offset],
+                englishDate: String(Calendar.current.component(.day, from: date)),
+                zmanim: getZmanimForDate(date: date),
+                announcements: getAnnouncementsForDate(
+                    date: date,
+                    zmanim: getZmanimForDate(date: date)
+                ).joined(separator: "\n"),
+                defaults: defaults,
+                timezone: timezone
+            )
+        }
     }
     
     var weeklyView: some View {
@@ -1766,83 +1793,9 @@ struct ZmanimView: View {
             }
             .lineLimit(1)
             .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
-            WeeklyDayView(
-                userChosenDate: startOfWeekSunday(for: userChosenDate),
-                hebrewDay: "ראשון",
-                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate))),
-                englishDay: "Sun",
-                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate))),
-                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate)),
-                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate))).joined(separator: "\n"),
-                defaults: defaults,
-                timezone: timezone
-            )
-            WeeklyDayView(
-                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400),
-                hebrewDay: "שני",
-                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400))),
-                englishDay: "Mon",
-                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400))),
-                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400)),
-                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400))).joined(separator: "\n"),
-                defaults: defaults,
-                timezone: timezone
-            )
-            WeeklyDayView(
-                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2),
-                hebrewDay: "שלישי",
-                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2))),
-                englishDay: "Tues",
-                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2))),
-                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2)),
-                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 2))).joined(separator: "\n"),
-                defaults: defaults,
-                timezone: timezone
-            )
-            WeeklyDayView(
-                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3),
-                hebrewDay: "רביעי",
-                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3))),
-                englishDay: "Wed",
-                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3))),
-                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3)),
-                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 3))).joined(separator: "\n"),
-                defaults: defaults,
-                timezone: timezone
-            )
-            WeeklyDayView(
-                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4),
-                hebrewDay: "חמישי",
-                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4))),
-                englishDay: "Thu",
-                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4))),
-                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4)),
-                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 4))).joined(separator: "\n"),
-                defaults: defaults,
-                timezone: timezone
-            )
-            WeeklyDayView(
-                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5),
-                hebrewDay: "שישי",
-                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5))),
-                englishDay: "Fri",
-                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5))),
-                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5)),
-                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 5))).joined(separator: "\n"),
-                defaults: defaults,
-                timezone: timezone
-            )
-            WeeklyDayView(
-                userChosenDate: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6),
-                hebrewDay: "שבת",
-                hebrewDate: HebrewDateFormatter().formatHebrewNumber(number: Calendar(identifier: .hebrew).component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6))),
-                englishDay: "Sat",
-                englishDate: String(Calendar.current.component(.day, from: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6))),
-                zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6)),
-                announcements: getAnnouncementsForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6), zmanim: getZmanimForDate(date: startOfWeekSunday(for: userChosenDate).advanced(by: 86400 * 6))).joined(separator: "\n"),
-                defaults: defaults,
-                timezone: timezone
-            )
+            
+            weeklyDays
+            
             HStack {
                 Spacer()
                 Text(jewishCalendar.getThisWeeksParasha())
@@ -2443,10 +2396,7 @@ struct ZmanimView: View {
             useSimpleList = true// temp
             useWeeklyView = defaults.bool(forKey: "useWeeklyView")
             if useWeeklyView {
-                let calendar = Calendar.current
-                let weekday = calendar.component(.weekday, from: userChosenDate)
-                let daysSinceSunday = (weekday + 6) % 7
-                userChosenDate = calendar.date(byAdding: .day, value: -daysSinceSunday, to: userChosenDate)!
+                userChosenDate = startOfWeekSunday(for: userChosenDate)
                 syncCalendarDates()
             }
             if !defaults.bool(forKey: "isSetup") {
