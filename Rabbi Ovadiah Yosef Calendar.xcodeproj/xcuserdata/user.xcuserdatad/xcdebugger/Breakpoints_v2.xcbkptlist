@@ -686,8 +686,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/SiddurChooserView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1082"
-            endingLineNumber = "1082"
+            startingLineNumber = "1090"
+            endingLineNumber = "1090"
             landmarkName = "isPrayerCurrentlySaid(key:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -734,8 +734,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/SiddurChooserView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1096"
-            endingLineNumber = "1096"
+            startingLineNumber = "1104"
+            endingLineNumber = "1104"
             landmarkName = "getSecondaryText(_:)"
             landmarkType = "7">
          </BreakpointContent>

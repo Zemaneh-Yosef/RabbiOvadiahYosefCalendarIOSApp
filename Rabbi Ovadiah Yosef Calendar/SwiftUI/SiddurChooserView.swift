@@ -671,7 +671,11 @@ struct SiddurChooserView: View {
                 }
                 Button("No") {
                     adjustDateBasedOnSunset = true
-                    siddurPrayer = "Birchat Hamazon+1"
+                    if !showAllPrayers {
+                        siddurPrayer = "Birchat Hamazon"
+                    } else {
+                        siddurPrayer = "Birchat Hamazon+1"
+                    }
                     openSiddurView()
                 }
                 Button("Dismiss", role: .cancel) { }
@@ -688,7 +692,11 @@ struct SiddurChooserView: View {
                 }
                 Button("No") {
                     adjustDateBasedOnSunset = true
-                    siddurPrayer = "Birchat MeEyin Shalosh+1"
+                    if !showAllPrayers {
+                        siddurPrayer = "Birchat MeEyin Shalosh"
+                    } else {
+                        siddurPrayer = "Birchat MeEyin Shalosh+1"
+                    }
                     openSiddurView()
                 }
                 Button("Dismiss", role: .cancel) { }
