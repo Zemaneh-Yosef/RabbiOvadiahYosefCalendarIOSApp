@@ -30,20 +30,21 @@ struct SettingsView: View {
     @State private var showHaskamotAlert = false
     @State private var showMailView = false
     @State private var showCantSendAlert = false
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         List {
             Section {
-                NavigationLink("Change Zmanim Settings", destination: ZmanimSettingsView())
+                NavigationLink("Change Zemanim Settings", destination: ZmanimSettingsView())
             } header: {
                 VStack {
-                    Text("Zmanim Settings").textCase(nil)
+                    Text("Zemanim Settings").textCase(nil)
                 }
             }
             Section {
-                Toggle("Receive daily zmanim notifications", isOn: $zmanimNotifications)
+                Toggle("Receive daily zemanim notifications", isOn: $zmanimNotifications)
                 if zmanimNotifications {
-                    NavigationLink("Zmanim Notifications Settings", destination: ZmanimNotificationsSettingsView())
+                    NavigationLink("Zemanim Notifications Settings", destination: ZmanimNotificationsSettingsView())
                         .onAppear {
                             NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
                         }
@@ -65,18 +66,18 @@ struct SettingsView: View {
                     .onChange(of: showSeconds) { value in
                         if value { showSecondsAlert = true }
                     }
-                Toggle("Show Rabbeinu Tam everyday?", isOn: $alwaysShowRT)
-                Toggle("Round up Rabbeinu Tam?", isOn: $roundUpRT)
+                Toggle("Show Rabbenu Tam everyday?", isOn: $alwaysShowRT)
+                Toggle("Round up Rabbenu Tam?", isOn: $roundUpRT)
             } header: {
                 VStack {
-                    Text("Zmanim Display").textCase(nil)
+                    Text("Zemanim Display").textCase(nil)
                 }
             }
             Section {
                 Toggle("Show when Shabbat/Chag ends the day before?", isOn: $showWhenShabbatChagEnds)
                 if showWhenShabbatChagEnds {
                     Toggle("Show Regular Minutes", isOn: $showRegularWhenShabbatChagEnds)
-                    Toggle("Show Rabbeinu Tam", isOn: $showRTWhenShabbatChagEnds)
+                    Toggle("Show Rabbenu Tam", isOn: $showRTWhenShabbatChagEnds)
                 }
             } header: {
                 VStack {
@@ -108,7 +109,7 @@ struct SettingsView: View {
             Section {
                 Button("Contact Developer") { sendEmail() }
                 Button("Haskamot") { showHaskamotAlert = true }
-                //Button("Watch Video Guide") { openURL("https://youtu.be/NP1_4kMA-Vs") }
+                //Button("Watch Video Guide") { openURL(URL(string: "https://youtu.be/NP1_4kMA-Vs")!) }
             } header: {
                 VStack {
                     Text("Help & Support").textCase(nil)
@@ -118,9 +119,10 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         
         .alert("Choose a haskama to view", isPresented: $showHaskamotAlert) {
-            Button("Rabbi Yitzchak Yosef (Hebrew)", action: { openURL("https://royzmanim.com/assets/haskamah-rishon-letzion.pdf") })
-            Button("Rabbi Elbaz (English)", action: { openURL("https://royzmanim.com/assets/Haskamah.pdf") })
-            Button("Rabbi Dahan (Hebrew)", action: { openURL("https://royzmanim.com/assets/%D7%94%D7%A1%D7%9B%D7%9E%D7%94.pdf") })
+            Button("Rabbi Yitzchak Yosef (Hebrew)", action: { openURL(URL(string: "https://royzmanim.com/assets/haskamah-rishon-letzion.pdf")!) })
+            Button("Rabbi Eliyahu Ben Chaim", action: { openURL(URL(string: "https://royzmanim.com/assets/RBH_Recommendation_Final.pdf")!) })
+            Button("Rabbi Elbaz (English)", action: { openURL(URL(string: "https://royzmanim.com/assets/Haskamah.pdf")!) })
+            Button("Rabbi Dahan (Hebrew)", action: { openURL(URL(string: "https://royzmanim.com/assets/%D7%94%D7%A1%D7%9B%D7%9E%D7%94.pdf")!) })
             Button("Dismiss", role: .cancel, action: {})
         } message: {
             Text("Multiple rabbanim have given their haskama/approval to this app. Choose which one you would like to view.")
@@ -130,7 +132,7 @@ struct SettingsView: View {
         .alert("Do not rely on these seconds!".localized(), isPresented: $showSecondsAlert) {
             Button("Dismiss", role: .cancel) { }
         } message: {
-            Text("DO NOT RELY ON THESE SECONDS. The only zman that can be relied on to the second is the visible sunrise time based on chaitables.com. Otherwise, these zmanim are NOT accurate to the second! You should always round up or down a minute or two just in case.".localized())
+            Text("DO NOT RELY ON THESE SECONDS. The only zman that can be relied on to the second is the visible sunrise time based on chaitables.com. Otherwise, these zemanim are NOT accurate to the second! You should always round up or down a minute or two just in case.".localized())
         }
         .textCase(nil)
         

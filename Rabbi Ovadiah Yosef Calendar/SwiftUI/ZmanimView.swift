@@ -256,10 +256,10 @@ struct ZmanimView: View {
         hDateFormatter.calendar = Calendar(identifier: .hebrew)
         hDateFormatter.dateFormat = "d MMMM, yyyy"
         var hebrewDate = hDateFormatter.string(from: userChosenDate)
-            .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+            .replacingOccurrences(of: "Heshvan", with: "Ḥeshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
         var postSunsetHDate = hDateFormatter.string(from: userChosenDate.addingTimeInterval(86400))
-            .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+            .replacingOccurrences(of: "Heshvan", with: "Ḥeshvan")
             .replacingOccurrences(of: "Tamuz", with: "Tammuz")
         
         if Locale.isHebrewLocale() {
@@ -532,7 +532,7 @@ struct ZmanimView: View {
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
         // TODO replace with only colons
-        zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GR\"A: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit GR\"A: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
             zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
         } else {
@@ -1834,7 +1834,7 @@ struct ZmanimView: View {
                     if zmanimList.count > 1 && zmanEntry.title == zmanimList[1].title {
                         datePickerIsVisible.toggle()
                     }
-                    if zmanEntry.title == ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
+                    if zmanEntry.title == getZmanimNames(defaults: defaults).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
                         withAnimation {
                             updateZmanimList(add66Misheyakir: true)
                         }
@@ -1880,8 +1880,8 @@ struct ZmanimView: View {
                     }
                 }
                 .id(zmanEntry.title)
-                .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert, titleVisibility: .visible) {
-                    if selectedZman.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
+                .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle().addingShabbatOpinion(defaults: defaults), isPresented: $showZmanAlert, titleVisibility: .visible) {
+                    if selectedZman.title.contains(getZmanimNames(defaults: defaults).getHaNetzString()) {
                         Button("Setup Visible Sunrise") {
                             nextView = .setupVisibleSunrise
                             showNextView = true
@@ -1911,6 +1911,9 @@ struct ZmanimView: View {
                                 _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
                             }
                         }
+                    }
+                    if #available(iOS 26, *) {
+                        Button(".......................................................................", role: .none) { }
                     }
                     Button("Dismiss", role: .cancel) { }
                 } message: {
@@ -1994,7 +1997,7 @@ struct ZmanimView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                 } else {
-                    if zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getHalachaBerurahString()) || zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getYalkutYosefString()) {
+                    if zmanEntry.title.contains(getZmanimNames(defaults: defaults).getHalachaBerurahString()) || zmanEntry.title.contains(getZmanimNames(defaults: defaults).getYalkutYosefString()) {
                         PelagZmanView(title: zmanEntry.title)
                     } else {
                         Text(zmanEntry.title)
@@ -2010,7 +2013,7 @@ struct ZmanimView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                 } else {
-                    if zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getHalachaBerurahString()) || zmanEntry.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew")).getYalkutYosefString()) {
+                    if zmanEntry.title.contains(getZmanimNames(defaults: defaults).getHalachaBerurahString()) || zmanEntry.title.contains(getZmanimNames(defaults: defaults).getYalkutYosefString()) {
                         PelagZmanView(title: zmanEntry.title)
                     } else {
                         Text(zmanEntry.title)
@@ -2037,6 +2040,10 @@ struct ZmanimView: View {
             )
             : .init(stops: [], startPoint: .leading, endPoint: .trailing)
         )
+    }
+    
+    func getZmanimNames(defaults: UserDefaults) -> ZmanimTimeNames {
+        return ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
     }
     
     struct PelagZmanView: View {
@@ -2197,7 +2204,7 @@ struct ZmanimView: View {
                                         if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
                                             return//do not show the dialogs
                                         }
-                                        if zmanEntry.title == ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
+                                        if zmanEntry.title == getZmanimNames(defaults: defaults).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
                                             withAnimation {
                                                 updateZmanimList(add66Misheyakir: true)
                                             }
@@ -2207,7 +2214,7 @@ struct ZmanimView: View {
                                         }
                                     }
                                     .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getFullTitle(), isPresented: $showZmanAlert, titleVisibility: .visible) {
-                                        if selectedZman.title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getHaNetzString()) {
+                                        if selectedZman.title.contains(getZmanimNames(defaults: defaults).getHaNetzString()) {
                                             Button("Setup Visible Sunrise") {
                                                 nextView = .setupVisibleSunrise
                                                 showNextView = true
@@ -2346,7 +2353,7 @@ struct ZmanimView: View {
         .padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
         .sheet(isPresented: $showShareSheet) {
             let image = UIImage(named: "AppIcon")
-            let textToShare = "Find all the Zmanim on Zmanei Yosef".localized()
+            let textToShare = "Find all the Zemanim on Zemaneh Yosef".localized()
             
             if let myWebsite = URL(string: "https://royzmanim.com/calendar?locationName=\(locationName)&lat=\(lat)&long=\(long)&elevation=\(elevation)&timeZone=\(timezone.identifier)") {
                 ShareSheet(items: [textToShare, myWebsite, image ?? UIImage(systemName: "square.and.arrow.up") as Any])

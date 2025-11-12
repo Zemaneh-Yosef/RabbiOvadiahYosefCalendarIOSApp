@@ -42,7 +42,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity: Widget {
                 // Expanded UI goes here.  Compose the expanded UI through
                 // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text(getHebrewDate())
+                    Text(getHebrewDate().joined(separator: " "))
                         .lineLimit(1)
                         .minimumScaleFactor(0.4)
                         .padding(.leading, 1)

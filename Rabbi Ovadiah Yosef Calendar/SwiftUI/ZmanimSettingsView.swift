@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct ZmanimSettingsView: View {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
+    private static let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
     
     @State private var showCandleLightingAlert = false
     @State private var showTekufaOpinionAlert = false
     @State private var showShabbatEndMinutesAlert = false
     @State private var showEndShabbatOpinionAlert = false
 
-    @AppStorage("LuachAmudeiHoraah", store: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar")) private var amudeiHoraahMode = false
-    @AppStorage("overrideAHEndShabbatTime", store: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar")) private var overrideShabbatTime = false
-    @AppStorage("overrideRTZman", store: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar")) private var alwaysCalcTenthOfDay = false
-    @AppStorage("candleLightingOffset", store: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar")) private var candleLightingOffset = 20
-    @AppStorage("tekufaOpinion", store: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar")) private var tekufaOpinion = 0
-    @AppStorage("shabbatOffset", store: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar")) private var shabbatOffset = 40
-    @AppStorage("endOfShabbatOpinion", store: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar")) private var endOfShabbatOpinion = 1
+    @AppStorage("LuachAmudeiHoraah", store: defaults) private var amudeiHoraahMode = false
+    @AppStorage("overrideAHEndShabbatTime", store: defaults) private var overrideShabbatTime = false
+    @AppStorage("overrideRTZman", store: defaults) private var alwaysCalcTenthOfDay = false
+    @AppStorage("candleLightingOffset", store: defaults) private var candleLightingOffset = 20
+    @AppStorage("tekufaOpinion", store: defaults) private var tekufaOpinion = 0
+    @AppStorage("shabbatOffset", store: defaults) private var shabbatOffset = 40
+    @AppStorage("endOfShabbatOpinion", store: defaults) private var endOfShabbatOpinion = 1
     
     var body: some View {
         Form {
@@ -29,7 +29,7 @@ struct ZmanimSettingsView: View {
                 Toggle("Amudei Horaah Mode", isOn: $amudeiHoraahMode)
             } header: {
                 VStack {
-                    Text("Zmanim Settings").textCase(nil)
+                    Text("Zemanim Settings").textCase(nil)
                 }
             }
             
@@ -66,7 +66,7 @@ struct ZmanimSettingsView: View {
             }
             
             Section {
-                Toggle("Always use a 10th of the day for Rabbeinu Tam", isOn: $alwaysCalcTenthOfDay)
+                Toggle("Always use a 10th of the day for Rabbenu Tam", isOn: $alwaysCalcTenthOfDay)
                 
                 Button("Candle Lighting Time: \(candleLightingOffset) min before sunset") {
                     showCandleLightingAlert = true
@@ -77,7 +77,7 @@ struct ZmanimSettingsView: View {
                 }
             }
         }
-        .navigationTitle("Zmanim Settings")
+        .navigationTitle("Zemanim Settings")
         
         .alert("Set Candle Lighting Minutes", isPresented: $showCandleLightingAlert) {
             TextField("Minutes", value: $candleLightingOffset, format: .number)

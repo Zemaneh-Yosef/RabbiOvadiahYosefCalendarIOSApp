@@ -119,21 +119,15 @@ class ZmanimFactory {
         if defaults.object(forKey: "shabbatOffset") != nil {
             zmanimCalendar.ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
         }
-        var endShabbat: ZmanListEntry
+        var endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString(), zman: useAHZmanim ? zmanimCalendar.getTzaisShabbosAmudeiHoraah() : zmanimCalendar.getTzaisAteretTorah(), isZman: true)
         
-        if !defaults.bool(forKey: "overrideAHEndShabbatTime") {// default zman
-            if useAHZmanim {
-                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString()  + " (7.165°)", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true)
-            } else {
-                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", zman: zmanimCalendar.getTzaisAteretTorah(), isZman: true)
-            }
-        } else {// if user wants to override
+        if defaults.bool(forKey: "overrideAHEndShabbatTime") {// if user wants to override
             if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
-                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", zman: zmanimCalendar.getTzaisAteretTorah(), isZman: true)
+                endShabbat.zman = zmanimCalendar.getTzaisAteretTorah()
             } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString() + " (7.165°)", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true)
+                endShabbat.zman = zmanimCalendar.getTzaisShabbosAmudeiHoraah()
             } else {
-                endShabbat = ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: jewishCalendar) + zmanimNames.getEndsString(), zman:zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40(), isZman: true)
+                endShabbat.zman = zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40()
             }
         }
         if isForTommorow {

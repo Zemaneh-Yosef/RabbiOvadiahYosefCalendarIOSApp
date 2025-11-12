@@ -45,6 +45,7 @@
 		5D7550BA29FC586100894335 /* ZmanimNotificationsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */; };
 		5D7550BC29FE3B9400894335 /* ZmanimAlertInfoHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */; };
 		5D948C312A38205E0017A8B6 /* TipScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D948C302A38205E0017A8B6 /* TipScreenViewController.swift */; };
+		CE09D55C2EC1469000CF2F2D /* spectral_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE09D55B2EC1469000CF2F2D /* spectral_bold.ttf */; };
 		CE0CE7D62B4B6ABF00913F40 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CA12D2A021CA100F24323 /* Notifications.swift */; };
 		CE0CE7D72B4B6AC000913F40 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CA12D2A021CA100F24323 /* Notifications.swift */; };
 		CE0CEBF42B07085100BFD068 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0CEBF32B07085100BFD068 /* ContentView.swift */; };
@@ -80,6 +81,7 @@
 		CE4C6D782C0E50B40013A8EC /* WeeklyHaftorahReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */; };
 		CE4C6D792C0E50B40013A8EC /* WeeklyHaftorahReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */; };
 		CE4E66042C6496F800E39907 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4E66032C6496F800E39907 /* GradientButton.swift */; };
+		CE51012B2EC32E98002FCA5E /* Guttman Mantova.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE51012A2EC32E98002FCA5E /* Guttman Mantova.ttf */; };
 		CE6309552B3BB5040020939B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = CE6309542B3BB5040020939B /* SwiftyJSON */; };
 		CE67C04F2AC3E7B200C8168A /* SiddurMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */; };
 		CE6C5FC02D5358B400D1A1F5 /* upcomingZmanim.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */; };
@@ -221,6 +223,7 @@
 		5D7550B929FC586100894335 /* ZmanimNotificationsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimNotificationsSettingsViewController.swift; sourceTree = "<group>"; };
 		5D7550BB29FE3B9400894335 /* ZmanimAlertInfoHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZmanimAlertInfoHolder.swift; sourceTree = "<group>"; };
 		5D948C302A38205E0017A8B6 /* TipScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipScreenViewController.swift; sourceTree = "<group>"; };
+		CE09D55B2EC1469000CF2F2D /* spectral_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = spectral_bold.ttf; sourceTree = "<group>"; };
 		CE0CEBF32B07085100BFD068 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CE0CEBF52B070AD400BFD068 /* Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.entitlements"; sourceTree = "<group>"; };
 		CE14479E2BE99A3E00AA52C9 /* OmerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmerViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +238,7 @@
 		CE4C6D762C0E50B40013A8EC /* WeeklyHaftorahReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyHaftorahReading.swift; sourceTree = "<group>"; };
 		CE4E66032C6496F800E39907 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		CE502A8F2B0DEC23008E716C /* Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rabbi-Ovadiah-Yosef-Calendar-watchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		CE51012A2EC32E98002FCA5E /* Guttman Mantova.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guttman Mantova.ttf"; sourceTree = "<group>"; };
 		CE67C04E2AC3E7B200C8168A /* SiddurMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiddurMaker.swift; sourceTree = "<group>"; };
 		CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = upcomingZmanim.swift; sourceTree = "<group>"; };
 		CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Guttman Mantova.ttf"; sourceTree = "<group>"; };
@@ -349,6 +353,7 @@
 		525950972A9B3AE500872955 /* Rabbi Ovadiah Yosef Calendar Widget */ = {
 			isa = PBXGroup;
 			children = (
+				CE51012A2EC32E98002FCA5E /* Guttman Mantova.ttf */,
 				525950982A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetBundle.swift */,
 				5259509A2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity.swift */,
 				5259509C2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.swift */,
@@ -442,6 +447,7 @@
 				CE6F52562DC9C88600D3296A /* Taamey D.ttf */,
 				CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */,
 				CE9687E62E62332200A03C8D /* Guttman Keren.ttf */,
+				CE09D55B2EC1469000CF2F2D /* spectral_bold.ttf */,
 				CEBC70E82D222FB800468477 /* menora.svg */,
 				CEBC70EA2D22367200468477 /* menora-shadow.svg */,
 				CEBC70EC2D22590000468477 /* compass.png */,
@@ -621,6 +627,7 @@
 				CE9641BA2B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
 				CE9641B62B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 				CE7D2B5C2BC37A25006FD03B /* PrivacyInfo.xcprivacy in Resources */,
+				CE51012B2EC32E98002FCA5E /* Guttman Mantova.ttf in Resources */,
 				525950A02A9B3AE700872955 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,6 +647,7 @@
 				CEBC70E92D222FB800468477 /* menora.svg in Resources */,
 				CEEF36CF2E714D7E002D9436 /* Makam.json in Resources */,
 				CE6F524A2DC9653200D3296A /* Guttman Mantova.ttf in Resources */,
+				CE09D55C2EC1469000CF2F2D /* spectral_bold.ttf in Resources */,
 				CE9641B52B71A46800BA7BC7 /* Localizable.xcstrings in Resources */,
 				CE6F52572DC9C88600D3296A /* Taamey D.ttf in Resources */,
 				5D19D36829A3687900F8033D /* Main.storyboard in Resources */,
@@ -840,7 +848,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.3;
+				MARKETING_VERSION = 7.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -874,7 +882,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.3;
+				MARKETING_VERSION = 7.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.Rabbi-Ovadiah-Yosef-Calendar-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1031,7 +1039,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.3;
+				MARKETING_VERSION = 7.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1073,7 +1081,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.3;
+				MARKETING_VERSION = 7.4;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1112,7 +1120,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.1;
+				MARKETING_VERSION = 5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1152,7 +1160,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 5.1;
+				MARKETING_VERSION = 5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;

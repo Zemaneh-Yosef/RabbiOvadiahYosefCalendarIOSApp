@@ -33,7 +33,9 @@ public extension JewishCalendar {
         if (Date() > zmanimCalendar.getSunset() ?? Date()) {
             jewishCalendar.forward()
         }
-        return jewishCalendar.toString()
+        let hdf = HebrewDateFormatter().withCorrectEnglishMonths()
+        hdf.hebrewFormat = Locale.isHebrewLocale()
+        return hdf.format(jewishCalendar: jewishCalendar)
     }
     
     func getSpecialDay(addOmer: Bool) -> String {
@@ -619,23 +621,45 @@ public extension ComplexZmanimCalendar {
         return now < secondAshmora ?? Date()
     }
     
-    func isNowAfterHalachicSolarMidnight() -> Bool {
+    func isNowAfterHalachicSolarMidnight(defaults: UserDefaults) -> Bool {
         let now = Date();
-        var solarMidnight = getSolarMidnight();
-        let calendar = Calendar.current
-        // Handle possible edge case when solarMidnight is actually for tomorrow
-        if (solarMidnight != nil && calendar.component(.hour, from: solarMidnight!) < 3) {
+        let alotHashachar = getAlotHashachar(defaults: defaults)
+        var solarMidnight = getSolarMidnight()
+        if (now > alotHashachar ?? Date() && now < solarMidnight ?? Date()) {
+            return false;
+        } else if (now < alotHashachar ?? Date()) {
             workingDate = workingDate.addingTimeInterval(-86400)
-            solarMidnight = getSolarMidnight();
+            solarMidnight = getSolarMidnight()
             workingDate = workingDate.addingTimeInterval(86400) // reset
+            return now > solarMidnight ?? Date()
+        } else {
+            return true
         }
-        return now > solarMidnight ?? Date()
     }
 }
 
 public extension String {
     func localized() -> String {
         return NSLocalizedString(self, comment: self)
+    }
+    
+    func addingShabbatOpinion(defaults: UserDefaults) -> String {
+        if self.contains("Shabbat Ends") || self.contains("Chag Ends") || self.contains("צאת שבת") || self.contains("צאת חג") {
+            var opinion = " (7.165°)"
+            if defaults.bool(forKey: "overrideAHEndShabbatTime") {// if user wants to override
+                if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
+                    if defaults.object(forKey: "shabbatOffset") != nil {
+                        opinion = " (".appending(String(Double(defaults.integer(forKey: "shabbatOffset")))).appending(")")
+                    }
+                } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
+                    // do nothing
+                } else {
+                    opinion = ""
+                }
+            }
+            return self.appending(opinion)
+        }
+        return self
     }
 }
 
@@ -668,7 +692,15 @@ public extension TimeZone {
     }
 }
 
-extension UIColor {
+public extension HebrewDateFormatter {
+    func withCorrectEnglishMonths() -> HebrewDateFormatter {
+        let hdf = HebrewDateFormatter()
+        hdf.setTransliteratedMonthList(transliteratedMonths: ["Tishri", "Ḥeshvan", "Kislev", "Tevet", "Shevat", "Adar", "Adar II", "Nissan", "Iyar", "Sivan", "Tammuz", "Av", "Elul" , "Adar I"])
+        return hdf
+    }
+}
+
+public extension UIColor {
     func toHex() -> String {
         var red: CGFloat = 0
         var green: CGFloat = 0

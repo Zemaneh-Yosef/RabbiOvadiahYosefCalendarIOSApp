@@ -103,6 +103,7 @@ struct WelcomeScreenView: View {
         .animation(.easeInOut(duration: 0.4), value: isAnimating)
         .alert("Choose a haskama to view", isPresented: $showHaskamotAlert) {
             Button("Rabbi Yitzchak Yosef (Hebrew)", action: { openURL(URL(string: "https://royzmanim.com/assets/haskamah-rishon-letzion.pdf")!) })
+            Button("Rabbi Eliyahu Ben Chaim", action: { openURL(URL(string: "https://royzmanim.com/assets/RBH_Recommendation_Final.pdf")!) })
             Button("Rabbi Elbaz (English)", action: { openURL(URL(string: "https://royzmanim.com/assets/Haskamah.pdf")!) })
             Button("Rabbi Dahan (Hebrew)", action: { openURL(URL(string: "https://royzmanim.com/assets/%D7%94%D7%A1%D7%9B%D7%9E%D7%94.pdf")!) })
             Button("Dismiss", role: .cancel, action: {})

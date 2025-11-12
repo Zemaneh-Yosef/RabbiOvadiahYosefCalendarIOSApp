@@ -12,22 +12,16 @@ import KosherSwift
 
 struct Provider: IntentTimelineProvider {
     
-    func placeholder(in context: Context) -> SimpleEntry {        
-        let formatter = HebrewDateFormatter()
-        formatter.hebrewFormat = true
-        formatter.useGershGershayim = false
-        let daf = formatter.formatDafYomiBavli(daf: JewishCalendar().getDafYomiBavli()!)
-
-        let entry = SimpleEntry(
-            hebrewDate: getHebrewDate(),
-            parasha: getParshah(jewishCalendar: JewishCalendar()),
+    func placeholder(in context: Context) -> SimpleEntry {
+        return SimpleEntry(
+            dayOfWeek: "Sunday",
+            hebrewDate: "1 Tishri, 5800".split(separator: " ").map { String($0) },
+            parasha: "בראשית",
             upcomingZman: "Zman",
             date: Date(),
-            tachanun: JewishCalendar().getTachanun(),
-            daf: daf,
+            tachanun: "Tachanun",
+            daf: "שבת ב",
             configuration: ConfigurationIntent())
-        
-        return entry
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -39,13 +33,15 @@ struct Provider: IntentTimelineProvider {
 
         getZmanimCalendarWithLocation() { zmanimCalendar in
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
+            let jewishCalendar = getJewishCalendar()
             
             let entry = SimpleEntry(
+                dayOfWeek: getDayOfWeek(),
                 hebrewDate: getHebrewDate(),
-                parasha: getParshah(jewishCalendar: getJewishCalendar()),
+                parasha: getParshah(jewishCalendar: jewishCalendar),
                 upcomingZman: upcomingZman.title,
                 date: upcomingZman.zman!,
-                tachanun: getJewishCalendar().getTachanun(),
+                tachanun: jewishCalendar.getTachanun(),
                 daf: daf,
                 configuration: ConfigurationIntent())
 
@@ -65,6 +61,7 @@ struct Provider: IntentTimelineProvider {
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
             
             let entry = SimpleEntry(
+                dayOfWeek: getDayOfWeek(),
                 hebrewDate: getHebrewDate(),
                 parasha: getParshah(jewishCalendar: getJewishCalendar()),
                 upcomingZman: upcomingZman.title,
@@ -91,7 +88,8 @@ struct Provider: IntentTimelineProvider {
 }
 
 struct SimpleEntry: TimelineEntry {
-    let hebrewDate: String
+    let dayOfWeek: String
+    let hebrewDate: [String]
     let parasha: String
     let upcomingZman: String
     let date: Date
@@ -115,20 +113,48 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
             //        case .accessoryInline:
             //            // Code to construct the view for the inline accessory widget or watch complication.
         case .systemSmall:
-            VStack {
-                Text(entry.hebrewDate)
+            VStack(spacing: 0) {
+                Spacer()
+                Text(entry.dayOfWeek)
+                    .font(.custom("Guttman Mantova", size: 26))
                     .bold()
-                    .padding(.bottom, .leastNormalMagnitude)
-                Text(entry.parasha)
+                    .foregroundStyle(.red)
+                                
+                HStack(spacing: 1) {
+                    VStack(alignment: .trailing, spacing: 0) {
+                        Text(entry.hebrewDate[1].replacingOccurrences(of: ",", with: ""))// Month
+                            .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 30) : .system(size: 30))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.1)
+                            .frame(alignment: .trailing)
+                        Text(entry.hebrewDate[2])// Year
+                            .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 20) : .system(size: 20))
+                            .foregroundStyle(.gray)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.1)
+                            .frame(alignment: .trailing)
+                    }
+                    .padding(.trailing, 10)
+                    
+                    Text(entry.hebrewDate[0])// Day of month
+                        .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 80) : .system(size: 80))
+                        .frame(alignment: .top)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
             }
+            .environment(\.layoutDirection, .leftToRight) // Force LTR
         case .systemMedium:
             HStack {
                 VStack {
-                    Text(entry.hebrewDate)
+                    Text(entry.hebrewDate.joined(separator: " "))
                         .bold()
                         .multilineTextAlignment(.center)
                         .padding(.bottom, .leastNormalMagnitude)
                     Text(entry.parasha)
+                        .font(.custom("Guttman Mantova", size: 18))
                 }
                 VStack {
                     Text(entry.upcomingZman)
@@ -145,7 +171,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
             }
         default:
             VStack {
-                Text(entry.hebrewDate)
+                Text(entry.hebrewDate.joined(separator: " "))
                     .bold()
                     .padding(.bottom, .leastNormalMagnitude)
                 Text(entry.parasha)
@@ -185,6 +211,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
         let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: cal)
         
         let entry = SimpleEntry(
+            dayOfWeek: getDayOfWeek(),
             hebrewDate: getHebrewDate(),
             parasha: getParshah(jewishCalendar: getJewishCalendar()),
             upcomingZman: upcomingZman.title,
@@ -198,13 +225,21 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
     }
 }
 
-func getHebrewDate() -> String {
-    let hebrewDateFormatter = DateFormatter()
-    hebrewDateFormatter.calendar = Calendar(identifier: .hebrew)
-    hebrewDateFormatter.dateFormat = "d MMMM, yyyy"
-    return hebrewDateFormatter.string(from: Date())
-        .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
-        .replacingOccurrences(of: "Tamuz", with: "Tammuz")
+func getDayOfWeek() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "EEEE"
+    return dateFormatter.string(from: Date())
+}
+
+func getHebrewDate() -> [String] {
+    let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
+    hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
+    let hebrewDate = hebrewDateFormatter.format(jewishCalendar: JewishCalendar())
+    var parts = hebrewDate.split(separator: " ").map { String($0) }
+    parts[0] = parts[0]
+        .replacingOccurrences(of: "׳", with: "")
+        .replacingOccurrences(of: "״", with: "")
+    return parts
 }
 
 func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {

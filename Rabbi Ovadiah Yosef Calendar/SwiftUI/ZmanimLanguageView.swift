@@ -58,7 +58,7 @@ struct ZmanimLanguageView: View {
             }
         }
         .padding()
-        .navigationTitle("Zmanim Language")
+        .navigationTitle("Zemanim Language")
         .onAppear {
             isZmanimInHebrew = ZmanimLanguageView.defaults.bool(forKey: "isZmanimInHebrew")
             isZmanimEnglishTranslated = ZmanimLanguageView.defaults.bool(forKey: "isZmanimEnglishTranslated")

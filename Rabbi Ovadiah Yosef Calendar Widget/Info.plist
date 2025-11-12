@@ -9,5 +9,9 @@
 	</dict>
 	<key>NSWidgetWantsLocation</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Guttman Mantova.ttf</string>
+	</array>
 </dict>
 </plist>

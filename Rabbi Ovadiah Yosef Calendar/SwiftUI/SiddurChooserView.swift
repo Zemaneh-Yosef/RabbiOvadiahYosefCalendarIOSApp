@@ -842,7 +842,7 @@ struct SiddurChooserView: View {
         if Calendar.current.isDate(date, inSameDayAs: Date()) {
             weekday = weekday.appending(" (Today)".localized())
         }
-        let hebrewDateFormatter = HebrewDateFormatter()
+        let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
         hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
 
         var specialDayText = weekday
@@ -872,7 +872,7 @@ struct SiddurChooserView: View {
         if Calendar.current.isDate(date, inSameDayAs: Date()) {
             weekday = weekday.appending(" (Today)".localized())
         }
-        let hebrewDateFormatter = HebrewDateFormatter()
+        let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
         hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
 
         var tonightText = weekday
@@ -1065,7 +1065,7 @@ struct SiddurChooserView: View {
         var result = true
         switch (key) {
         case "סליחות":
-            let isSelichotNotSaidNow = (Date() > currentZmanimCalendar.getSunset()! && currentZmanimCalendar.isNowBeforeSecondAshmora()) || ( !currentZmanimCalendar.isNowBeforeSecondAshmora() && !currentZmanimCalendar.isNowAfterHalachicSolarMidnight())
+            let isSelichotNotSaidNow = (Date() > currentZmanimCalendar.getSunset()! && currentZmanimCalendar.isNowBeforeSecondAshmora()) || ( !currentZmanimCalendar.isNowBeforeSecondAshmora() && !currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults))
             result = !isSelichotNotSaidNow
         case "שחרית":
             result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getChatzosIfHalfDayNil()!
@@ -1081,9 +1081,9 @@ struct SiddurChooserView: View {
             "ק״ש שעל המיטה":
             result = Date() > currentZmanimCalendar.getSunset()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
         case "תיקון חצות (לילה)":
-            result = !getSunsetBasedJewishCalendar().is3Weeks() && currentZmanimCalendar.isNowAfterHalachicSolarMidnight() && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
+            result = !getSunsetBasedJewishCalendar().is3Weeks() && currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
         case "תיקון חצות":
-            result = getSunsetBasedJewishCalendar().is3Weeks() && ((currentZmanimCalendar.isNowAfterHalachicSolarMidnight() && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!) || (Date() > currentZmanimCalendar.getChatzosIfHalfDayNil()! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
+            result = getSunsetBasedJewishCalendar().is3Weeks() && ((currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!) || (Date() > currentZmanimCalendar.getChatzosIfHalfDayNil()! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
         default:
             result = true
         }

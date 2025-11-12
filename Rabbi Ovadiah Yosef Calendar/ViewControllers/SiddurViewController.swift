@@ -128,7 +128,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         GlobalStruct.chosenPrayer = GlobalStruct.chosenPrayer.replacingOccurrences(of: "+1", with: "")
         switch GlobalStruct.chosenPrayer {
         case "Selichot":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: zmanimCalendar.isNowAfterHalachicSolarMidnight())
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getSelichotPrayers(isAfterChatzot: zmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults), isAfterSunrise: Date() > zmanimCalendar.getSunrise() ?? Date())
             dropDownTitle = "סליחות"
         case "Shacharit":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getShacharitPrayers()
@@ -164,7 +164,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getTikkunChatzotPrayers(isForNight: true)
             dropDownTitle = "תיקון חצות"
         case "Kriat Shema SheAl Hamita":
-            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: !zmanimCalendar.isNowAfterHalachicSolarMidnight())
+            listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getKriatShemaShealHamitaPrayers(isBeforeChatzot: !zmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults))
             dropDownTitle = "ק״ש שעל המיטה"
         case "Birchat MeEyin Shalosh":
             listOfTexts = SiddurMaker(jewishCalendar: GlobalStruct.jewishCalendar).getBirchatMeeyinShaloshPrayers(allItems: GlobalStruct.meEyinShaloshChoices)
@@ -201,6 +201,11 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         @font-face {
             font-family: "taamey";
             src: url('Taamey D.ttf') format('truetype');
+        }
+        
+        @font-face {
+            font-family: "spectral_bold";
+            src: url('spectral_bold.ttf') format('truetype');
         }
         """
         webView.navigationDelegate = self
@@ -249,6 +254,8 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
                 categories.append(UIAction(title: text.string, identifier: nil, state: .mixed) { _ in
                     self.webView.evaluateJavaScript("document.getElementById('\(text.string)').scrollIntoView()")
                 })
+            } else if text.isInstruction {
+                webstring += "<p style='font-family: spetral_bold; text-align: center;'>" + formattedString + "</p>"
             } else if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" || text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
                 webstring += "<a href='" + (text.string == "Open Sefaria Siddur/פתח את סידור ספריה" ? "iosapp://sefaria" : "iosapp://musaf") + "' class='highlight'>" + text.string + "</a>"
             } else if text.shouldBeHighlighted {

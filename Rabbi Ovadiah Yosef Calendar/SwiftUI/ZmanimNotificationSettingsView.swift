@@ -88,19 +88,19 @@ struct ZmanimNotificationsSettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle("Zmanim Notifications on Shabbat and Yom Tov", isOn: $viewModel.notificationsOnShabbat)
-                Text("Receive zmanim notifications on shabbat and yom tov")
+                Toggle("Zemanim Notifications on Shabbat and Yom Tov", isOn: $viewModel.notificationsOnShabbat)
+                Text("Receive zemanim notifications on shabbat and yom tov")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
             
             Section {
-                Text("Select on the row of the zman to change the amount of minutes")
+                Text("Select on the row of the zeman to change the amount of minutes")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
             } header: {
                 VStack {
-                    Text("Minutes before the zman for notifications").textCase(nil)
+                    Text("Minutes before the zeman for notifications").textCase(nil)
                 }
             }
             
@@ -113,7 +113,7 @@ struct ZmanimNotificationsSettingsView: View {
                         if minutesBefore >= 1 {
                             return "Notify ".localized().appending("\(minutesBefore)").appending(" minutes before".localized())
                         } else if minutesBefore == 0 {
-                            return "Notify at the time of the zman".localized()
+                            return "Notify at the time of the zeman".localized()
                         } else {
                             return "Off".localized()
                         }
@@ -147,11 +147,11 @@ struct ZmanimNotificationsSettingsView: View {
                 }
             } header: {
                 VStack {
-                    Text("Editable Zmanim Notifications").textCase(nil)
+                    Text("Editable Zemanim Notifications").textCase(nil)
                 }
             }
         }
-        .navigationTitle("Zmanim Notifications")
+        .navigationTitle("Zemanim Notifications")
         .alert("Set Minutes Before Notification", isPresented: Binding(
             get: { selectedZman != nil },
             set: { if !$0 { selectedZman = nil } }

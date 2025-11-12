@@ -466,7 +466,7 @@ func getDateString(currentDate: Date) -> String {
         .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
         .replacingOccurrences(of: "Tamuz", with: "Tammuz")
 
-    let hebrewDateFormatter = HebrewDateFormatter()
+    let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
     if Locale.isHebrewLocale() {
         hebrewDateFormatter.hebrewFormat = true
         hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
