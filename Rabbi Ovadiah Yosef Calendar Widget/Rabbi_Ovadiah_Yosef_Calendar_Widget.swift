@@ -113,39 +113,39 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
             //        case .accessoryInline:
             //            // Code to construct the view for the inline accessory widget or watch complication.
         case .systemSmall:
-            VStack(spacing: 0) {
-                Spacer()
-                Text(entry.dayOfWeek)
-                    .font(.custom("Guttman Mantova", size: 26))
-                    .bold()
-                    .foregroundStyle(.red)
-                                
-                HStack(spacing: 1) {
-                    VStack(alignment: .trailing, spacing: 0) {
-                        Text(entry.hebrewDate[1].replacingOccurrences(of: ",", with: ""))// Month
-                            .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 30) : .system(size: 30))
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.1)
-                            .frame(alignment: .trailing)
-                        Text(entry.hebrewDate[2])// Year
-                            .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 20) : .system(size: 20))
-                            .foregroundStyle(.gray)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.1)
-                            .frame(alignment: .trailing)
-                    }
-                    .padding(.trailing, 10)
+            GeometryReader { geo in
+                VStack(spacing: 0) {
+                    Text(entry.dayOfWeek)
+                        .font(.custom("Guttman Mantova", size: 26))
+                        .bold()
+                        .foregroundStyle(.red)
                     
-                    Text(entry.hebrewDate[0])// Day of month
-                        .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 80) : .system(size: 80))
-                        .frame(alignment: .top)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
+                    HStack(spacing: 8) {
+                        Text(entry.hebrewDate[0])// Day of month
+                            .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 50) : .system(size: 50))
+                            .bold()
+                            .frame(alignment: .top)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                        
+                        VStack(alignment: .center, spacing: 0) {
+                            Text(entry.hebrewDate[1].replacingOccurrences(of: ",", with: ""))// Month
+                                .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: geo.size.width  * 0.13) : .system(size: geo.size.width * 0.09))
+                                .lineLimit(1)
+                                .frame(alignment: .trailing)
+                            Text(entry.hebrewDate[2])// Year
+                                .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: geo.size.width * 0.095) : .system(size: geo.size.width * 0.075))
+                                .foregroundStyle(.gray)
+                                .lineLimit(1)
+                                .frame(alignment: .trailing)
+                        }
+                        .padding(.trailing, 10)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
                 }
-                .padding(.horizontal)
-                .padding(.bottom)
+                .position(x: geo.size.width / 2, y: geo.size.height / 2) // 👈 Centers inside GeometryReader
             }
-            .environment(\.layoutDirection, .leftToRight) // Force LTR
         case .systemMedium:
             HStack {
                 VStack {
@@ -242,7 +242,7 @@ func getHebrewDate() -> [String] {
     return parts
 }
 
-func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {
+public func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     
     var locationName = ""

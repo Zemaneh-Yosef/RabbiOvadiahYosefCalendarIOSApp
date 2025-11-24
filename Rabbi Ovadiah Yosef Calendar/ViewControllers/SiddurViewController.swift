@@ -226,12 +226,11 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         default:
             fontFamily = "none"
         }
-
-        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding-top: 0; padding-right: .4rem; padding-left: .4rem; padding-bottom: 1rem; margin: 0;} @media (prefers-color-scheme: dark) { #kefiraLight { display: none; }  .highlight { background: #DAA520; color: black; display: block; } details { background: \(UIColor.darkGray.toHex()); } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } details { background: \(UIColor.lightGray.toHex())} }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; } details { margin: 0; margin-bottom: .4rem; padding: .4rem; }</style>"
+        
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding-top: 0.5rem; padding-right: .4rem; padding-left: .4rem; padding-bottom: 0.5rem; margin: 0;} .firstWord{ float: right; font-size: 1.4em; padding-left: .25em; } @media (prefers-color-scheme: dark) { #kefiraLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } details { background: \(UIColor.systemGray4.toHex()); } } @media(prefers-color-scheme: light) { #kefiraShadow { display: none; } .highlight { background: #CCE6FF; } details { background: \(UIColor.systemGray4.toHex())} }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; } details { margin: 0; margin-bottom: .4rem; padding: .4rem; }</style>"
         for text in listOfTexts {
             let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>")
-            if text.string == "(Use this compass to help you find which direction South is in. Do not hold your phone straight up or place it on a table, hold it normally.) " +
-                "עזר לך למצוא את הכיוון הדרומי באמצעות המצפן הזה. אל תחזיק את הטלפון שלך בצורה ישרה למעלה או תנה אותו על שולחן, תחזיק אותו בצורה רגילה.:" {
+            if text.isCompass {
                 locationManager.delegate = self
 
                 // Start location services to get the true heading.
@@ -255,7 +254,13 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
                     self.webView.evaluateJavaScript("document.getElementById('\(text.string)').scrollIntoView()")
                 })
             } else if text.isInstruction {
-                webstring += "<p style='font-family: spetral_bold; text-align: center;'>" + formattedString + "</p>"
+                var p = "<p "
+                if text.shouldBeHighlighted {
+                    p = p.appending("class='highlight'")
+                }
+                webstring += p.appending(" style='font-family: spectral_bold; font-size: .75em; text-align: center;'>"
+                    .appending(formattedString)
+                    .appending("</p>"))
             } else if text.string == "Mussaf is said here, press here to go to Mussaf" || text.string == "מוסף אומרים כאן, לחץ כאן כדי להמשיך למוסף" || text.string == "Open Sefaria Siddur/פתח את סידור ספריה" {
                 webstring += "<a href='" + (text.string == "Open Sefaria Siddur/פתח את סידור ספריה" ? "iosapp://sefaria" : "iosapp://musaf") + "' class='highlight'>" + text.string + "</a>"
             } else if text.shouldBeHighlighted {
@@ -264,7 +269,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
                 webstring += formattedString
             } else {
                 webstring += "<p>" + formattedString + "</p>"
-                if text.string.hasSuffix(SiddurMaker.menorah) {
+                if text.isMenorah {
                     webstring += "<img id='kefiraLight' src='menora.svg' style='width: 100%;' /><img id='kefiraShadow' src='menora-shadow.svg' style='width: 100%;' />"
                 }
             }

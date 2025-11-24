@@ -290,6 +290,8 @@ struct LimudimView: View {
             Section {
                 Text(getDateString(currentDate: userChosenDate))
                     .font(.headline)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.5)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .onTapGesture {
                         datePickerIsVisible.toggle()
@@ -459,14 +461,8 @@ func getDateString(currentDate: Date) -> String {
     dateFormatter.timeZone = GlobalStruct.geoLocation.timeZone
     var date = dateFormatter.string(from: currentDate)
 
-    let hDateFormatter = DateFormatter()
-    hDateFormatter.calendar = Calendar(identifier: .hebrew)
-    hDateFormatter.dateFormat = "d MMMM, yyyy"
-    var hebrewDate = hDateFormatter.string(from: currentDate)
-        .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
-        .replacingOccurrences(of: "Tamuz", with: "Tammuz")
-
     let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
+    var hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
     if Locale.isHebrewLocale() {
         hebrewDateFormatter.hebrewFormat = true
         hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)

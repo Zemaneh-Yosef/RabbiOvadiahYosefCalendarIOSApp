@@ -110,7 +110,6 @@ struct upcomingZmanimEntryView : View {
     }
 }
 
-
 struct UpcomingZmanim: Widget {
     let kind: String = "upcomingZmanim"
 

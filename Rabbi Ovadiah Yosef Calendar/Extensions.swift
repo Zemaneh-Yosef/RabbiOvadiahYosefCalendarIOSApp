@@ -598,6 +598,11 @@ public extension ComplexZmanimCalendar {
         }
     }
     
+    func getTzeit20MinutesZmanit() -> Date? {
+        let seasonalHour = getTemporalHour()
+        return AstronomicalCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: seasonalHour / 3)
+    }
+    
     func getSecondAshmora() -> Date? {
         let clonedCal = ZmanimCalendar(location: getGeoLocation())
         clonedCal.useElevation = useElevation

@@ -118,6 +118,9 @@
 		CEB1BBA82B26A30300E58773 /* WatchInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1BBA72B26A30300E58773 /* WatchInterface.swift */; };
 		CEB21E3A2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CEB21E3D2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */; };
 		CEB21E3B2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CEB21E3D2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */; };
+		CEB8606C2EC57B9A0081A734 /* upcomingShabbatZmanim.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB8606B2EC57B9A0081A734 /* upcomingShabbatZmanim.swift */; };
+		CEB8606D2EC57B9A0081A734 /* upcomingShabbatZmanim.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB8606B2EC57B9A0081A734 /* upcomingShabbatZmanim.swift */; };
+		CEB8606F2EC58E6E0081A734 /* NEUTRO-BOLD.TTF in Resources */ = {isa = PBXBuildFile; fileRef = CEB8606E2EC58E6E0081A734 /* NEUTRO-BOLD.TTF */; };
 		CEB980DA2D5F1A68003D96F4 /* WCSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB980D92D5F1A68003D96F4 /* WCSessionManager.swift */; };
 		CEBC70E92D222FB800468477 /* menora.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70E82D222FB800468477 /* menora.svg */; };
 		CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */ = {isa = PBXBuildFile; fileRef = CEBC70EA2D22367200468477 /* menora-shadow.svg */; };
@@ -260,6 +263,8 @@
 		CEB21E3C2B7B37FE0081C142 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition; sourceTree = "<group>"; };
 		CEB21E3F2B7B38060081C142 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Rabbi_Ovadiah_Yosef_Calendar_Widget.strings; sourceTree = "<group>"; };
 		CEB21E402B7B3BF30081C142 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		CEB8606B2EC57B9A0081A734 /* upcomingShabbatZmanim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = upcomingShabbatZmanim.swift; sourceTree = "<group>"; };
+		CEB8606E2EC58E6E0081A734 /* NEUTRO-BOLD.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NEUTRO-BOLD.TTF"; sourceTree = "<group>"; };
 		CEB980D92D5F1A68003D96F4 /* WCSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSessionManager.swift; sourceTree = "<group>"; };
 		CEBC70E82D222FB800468477 /* menora.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = menora.svg; sourceTree = "<group>"; };
 		CEBC70EA2D22367200468477 /* menora-shadow.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "menora-shadow.svg"; sourceTree = "<group>"; };
@@ -358,6 +363,7 @@
 				5259509A2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity.swift */,
 				5259509C2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.swift */,
 				CE6C5FA72D53463900D1A1F5 /* upcomingZmanim.swift */,
+				CEB8606B2EC57B9A0081A734 /* upcomingShabbatZmanim.swift */,
 				CEB21E3D2B7B37FE0081C142 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.intentdefinition */,
 				5259509F2A9B3AE700872955 /* Assets.xcassets */,
 				525950A12A9B3AE700872955 /* Info.plist */,
@@ -448,6 +454,7 @@
 				CE6F52492DC9653200D3296A /* Guttman Mantova.ttf */,
 				CE9687E62E62332200A03C8D /* Guttman Keren.ttf */,
 				CE09D55B2EC1469000CF2F2D /* spectral_bold.ttf */,
+				CEB8606E2EC58E6E0081A734 /* NEUTRO-BOLD.TTF */,
 				CEBC70E82D222FB800468477 /* menora.svg */,
 				CEBC70EA2D22367200468477 /* menora-shadow.svg */,
 				CEBC70EC2D22590000468477 /* compass.png */,
@@ -641,6 +648,7 @@
 				CE8FB5D72DE2EF8D00C6B6CA /* hiloulah_en.json in Resources */,
 				CEC7611C2D531B4E00FD0AF1 /* explanation.mp4 in Resources */,
 				CE9641B92B71A73F00BA7BC7 /* InfoPlist.xcstrings in Resources */,
+				CEB8606F2EC58E6E0081A734 /* NEUTRO-BOLD.TTF in Resources */,
 				CE9687E72E62332200A03C8D /* Guttman Keren.ttf in Resources */,
 				5D19D36A29A3687B00F8033D /* Assets.xcassets in Resources */,
 				CEBC70EB2D22367200468477 /* menora-shadow.svg in Resources */,
@@ -689,6 +697,7 @@
 				CE341C402BA025AE00E8F4CB /* LocationManagerForNotifications.swift in Sources */,
 				CE1035532B4554F600193D1E /* LocationManager.swift in Sources */,
 				5259509B2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_WidgetLiveActivity.swift in Sources */,
+				CEB8606C2EC57B9A0081A734 /* upcomingShabbatZmanim.swift in Sources */,
 				5259509D2A9B3AE500872955 /* Rabbi_Ovadiah_Yosef_Calendar_Widget.swift in Sources */,
 				CE6C5FC02D5358B400D1A1F5 /* upcomingZmanim.swift in Sources */,
 				CE1035512B4554AC00193D1E /* ZmanimTimeNames.swift in Sources */,
@@ -729,6 +738,7 @@
 				5292D1BA2A6E556400857241 /* ChaiTablesLinkGenerator.swift in Sources */,
 				522122202A844A9000942C23 /* ChaiTables.swift in Sources */,
 				CE1A90632C9AAB1000FAE6FF /* TabBarViewController.swift in Sources */,
+				CEB8606D2EC57B9A0081A734 /* upcomingShabbatZmanim.swift in Sources */,
 				5D1CA12E2A021CA100F24323 /* Notifications.swift in Sources */,
 				5D7550B429F8FE6100894335 /* SettingsViewController.swift in Sources */,
 				5D19D38129A36DB300F8033D /* LocationManager.swift in Sources */,

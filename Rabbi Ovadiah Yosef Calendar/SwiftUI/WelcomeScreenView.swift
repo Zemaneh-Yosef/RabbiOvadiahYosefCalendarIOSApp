@@ -34,8 +34,9 @@ struct WelcomeScreenView: View {
 
                 if !isAnimating {
                     Text("Worldwide Halachic Times according to our Sepharadic Tradition.")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(.custom("NEUTRO-BOLD", size: 22))
+                        .bold()
+                        .shadow(color: .black, radius: 2)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: 300)

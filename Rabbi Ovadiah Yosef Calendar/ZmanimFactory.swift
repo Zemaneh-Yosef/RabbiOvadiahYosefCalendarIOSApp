@@ -79,16 +79,16 @@ class ZmanimFactory {
         }
         temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), zman: zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
         temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman: useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraah() : zmanimCalendar.getTzais13Point5MinutesZmanis(), isZman: true))
-        temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman: useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true))
+        temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman: useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzeit20MinutesZmanit(), isZman: true))
         if (jewishCalendar.hasCandleLighting() && jewishCalendar.isAssurBemelacha()) && jewishCalendar.getDayOfWeek() != 6 {
             if jewishCalendar.getDayOfWeek() == 7 {
                 temp = addShabbatEndsZman(list: temp, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, zmanimNames: zmanimNames, defaults: defaults, useAHZmanim: useAHZmanim, isForCandLighting: true, isForTommorow: false)
             } else {// just yom tov
-                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString(), zman: useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true, isNoteworthyZman: true))
+                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString(), zman: useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzeit20MinutesZmanit(), isZman: true, isNoteworthyZman: true))
             }
         }
         if jewishCalendar.isTaanis() && !jewishCalendar.isYomKippur() {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman: useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true, isNoteworthyZman: true))
+            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), zman: useAHZmanim ? zmanimCalendar.getTzaisAmudeiHoraahLChumra() : zmanimCalendar.getTzeit20MinutesZmanit(), isZman: true, isNoteworthyZman: true))
         }
         if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
             temp = addShabbatEndsZman(list: temp, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, zmanimNames: zmanimNames, defaults: defaults, useAHZmanim: useAHZmanim, isForCandLighting: false, isForTommorow: false)
