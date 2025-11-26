@@ -144,7 +144,7 @@ struct SettingsView: View {
         .textCase(nil)
         
         .sheet(isPresented: $showMailView) {
-            MailView(recipient: "elyahujacobi@gmail.com")
+            MailView(recipient: "elyahujacobi@gmail.com", cc: "neimmaor@gmail.com")
         }
     }
     
@@ -166,6 +166,7 @@ struct SettingsView: View {
 struct MailView: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentation
     let recipient: String
+    let cc: String
 
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
         var parent: MailView
@@ -190,6 +191,7 @@ struct MailView: UIViewControllerRepresentable {
         mailComposer.mailComposeDelegate = context.coordinator
         mailComposer.setSubject("Zemaneh Yosef (iOS)".localized())
         mailComposer.setToRecipients([recipient])
+        mailComposer.setCcRecipients([cc])
         return mailComposer
     }
 
