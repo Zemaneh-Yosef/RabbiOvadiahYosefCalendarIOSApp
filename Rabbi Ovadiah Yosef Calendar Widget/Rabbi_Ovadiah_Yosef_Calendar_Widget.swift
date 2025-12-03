@@ -21,7 +21,8 @@ struct Provider: IntentTimelineProvider {
             date: Date(),
             tachanun: "Tachanun",
             daf: "שבת ב",
-            configuration: ConfigurationIntent())
+            configuration: ConfigurationIntent(),
+            isHebrew: isCurrentLanguageHebrew(lang: ConfigurationIntent().language))
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -36,14 +37,15 @@ struct Provider: IntentTimelineProvider {
             let jewishCalendar = getJewishCalendar()
             
             let entry = SimpleEntry(
-                dayOfWeek: getDayOfWeek(),
-                hebrewDate: getHebrewDate(),
+                dayOfWeek: getDayOfWeek(language: configuration.language),
+                hebrewDate: getHebrewDate(language: configuration.language),
                 parasha: getParshah(jewishCalendar: jewishCalendar),
                 upcomingZman: upcomingZman.title,
                 date: upcomingZman.zman!,
                 tachanun: jewishCalendar.getTachanun(),
                 daf: daf,
-                configuration: ConfigurationIntent())
+                configuration: configuration,
+                isHebrew: isCurrentLanguageHebrew(lang: configuration.language))
 
             completion(entry)
         }
@@ -61,14 +63,15 @@ struct Provider: IntentTimelineProvider {
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
             
             let entry = SimpleEntry(
-                dayOfWeek: getDayOfWeek(),
-                hebrewDate: getHebrewDate(),
+                dayOfWeek: getDayOfWeek(language: configuration.language),
+                hebrewDate: getHebrewDate(language: configuration.language),
                 parasha: getParshah(jewishCalendar: getJewishCalendar()),
                 upcomingZman: upcomingZman.title,
                 date: upcomingZman.zman ?? Date(),
                 tachanun: getJewishCalendar().getTachanun(),
                 daf: daf,
-                configuration: ConfigurationIntent())
+                configuration: configuration,
+                isHebrew: isCurrentLanguageHebrew(lang: configuration.language))
             
             entries.append(entry)
             
@@ -96,6 +99,7 @@ struct SimpleEntry: TimelineEntry {
     let tachanun: String
     let daf: String
     let configuration: ConfigurationIntent
+    let isHebrew: Bool
 }
 
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
@@ -122,7 +126,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                     
                     HStack(spacing: 8) {
                         Text(entry.hebrewDate[0])// Day of month
-                            .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: 50) : .system(size: 50))
+                            .font(entry.isHebrew ? .custom("Guttman Mantova", size: 50) : .system(size: 50))
                             .bold()
                             .frame(alignment: .top)
                             .lineLimit(1)
@@ -130,11 +134,11 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                         
                         VStack(alignment: .center, spacing: 0) {
                             Text(entry.hebrewDate[1].replacingOccurrences(of: ",", with: ""))// Month
-                                .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: geo.size.width  * 0.13) : .system(size: geo.size.width * 0.09))
+                                .font(entry.isHebrew ? .custom("Guttman Mantova", size: geo.size.width  * 0.13) : .system(size: geo.size.width * 0.09))
                                 .lineLimit(1)
                                 .frame(alignment: .trailing)
                             Text(entry.hebrewDate[2])// Year
-                                .font(Locale.isHebrewLocale() ? .custom("Guttman Mantova", size: geo.size.width * 0.095) : .system(size: geo.size.width * 0.075))
+                                .font(entry.isHebrew ? .custom("Guttman Mantova", size: geo.size.width * 0.095) : .system(size: geo.size.width * 0.075))
                                 .foregroundStyle(.gray)
                                 .lineLimit(1)
                                 .frame(alignment: .trailing)
@@ -146,6 +150,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                 }
                 .position(x: geo.size.width / 2, y: geo.size.height / 2) // 👈 Centers inside GeometryReader
             }
+            .environment(\.layoutDirection, entry.isHebrew ? .rightToLeft : .leftToRight)
         case .systemMedium:
             HStack {
                 VStack {
@@ -211,34 +216,54 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
         let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: cal)
         
         let entry = SimpleEntry(
-            dayOfWeek: getDayOfWeek(),
-            hebrewDate: getHebrewDate(),
+            dayOfWeek: getDayOfWeek(language: .systemDefault),
+            hebrewDate: getHebrewDate(language: .systemDefault),
             parasha: getParshah(jewishCalendar: getJewishCalendar()),
             upcomingZman: upcomingZman.title,
             date: upcomingZman.zman!,
             tachanun: getJewishCalendar().getTachanun(),
             daf: daf,
-            configuration: ConfigurationIntent())
+            configuration: ConfigurationIntent(),
+            isHebrew: isCurrentLanguageHebrew(lang: ConfigurationIntent().language))
         
         return Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
 
-func getDayOfWeek() -> String {
+func getDayOfWeek(language: LanguageSetting) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "EEEE"
+    if language == .hebrew {
+        dateFormatter.locale = .init(identifier: "he_IL")
+    } else if language == .english {
+        dateFormatter.locale = .init(identifier: "en_US")
+    }
+    
     return dateFormatter.string(from: Date())
 }
 
-func getHebrewDate() -> [String] {
-    let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
-    hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
-    let hebrewDate = hebrewDateFormatter.format(jewishCalendar: JewishCalendar())
-    var parts = hebrewDate.split(separator: " ").map { String($0) }
-    parts[0] = parts[0]
-        .replacingOccurrences(of: "׳", with: "")
-        .replacingOccurrences(of: "״", with: "")
+func getHebrewDate(language: LanguageSetting) -> [String] {
+    let formatter = HebrewDateFormatter().withCorrectEnglishMonths()
+
+    switch language {
+    case .hebrew:
+        formatter.hebrewFormat = true
+    case .english:
+        formatter.hebrewFormat = false
+    case .systemDefault:
+        formatter.hebrewFormat = Locale.isHebrewLocale()
+    case .unknown:
+        formatter.hebrewFormat = Locale.isHebrewLocale()
+    @unknown default:
+        formatter.hebrewFormat = Locale.isHebrewLocale()
+    }
+
+    let heb = formatter.format(jewishCalendar: JewishCalendar())
+
+    var parts = heb.split(separator: " ").map { String($0) }
+    parts[0] = parts[0].replacingOccurrences(of: "׳", with: "")
+                       .replacingOccurrences(of: "״", with: "")
     return parts
 }
 
@@ -376,7 +401,7 @@ func getJewishCalendar() -> JewishCalendar {
     return jewishCalendar
 }
 
-func getParshah(jewishCalendar:JewishCalendar) -> String {
+func getParshah(jewishCalendar: JewishCalendar) -> String {
     //forward jewish calendar to saturday
     while jewishCalendar.getDayOfWeek() != 7 {
         jewishCalendar.forward()
@@ -394,5 +419,18 @@ func getParshah(jewishCalendar:JewishCalendar) -> String {
         return parasha
     } else {
         return "No Weekly Parasha".localized()
+    }
+}
+
+func isCurrentLanguageHebrew(lang: LanguageSetting) -> Bool {
+    switch lang {
+    case .english:
+        return false
+    case .hebrew:
+        return true
+    case .systemDefault:
+        return Locale.isHebrewLocale()
+    case .unknown:
+        return Locale.isHebrewLocale()
     }
 }

@@ -3,17 +3,71 @@
 <plist version="1.0">
 <dict>
 	<key>INEnums</key>
-	<array/>
+	<array>
+		<dict>
+			<key>INEnumDisplayName</key>
+			<string>Language Setting</string>
+			<key>INEnumDisplayNameID</key>
+			<string>r7Na0Q</string>
+			<key>INEnumGeneratesHeader</key>
+			<true/>
+			<key>INEnumName</key>
+			<string>LanguageSetting</string>
+			<key>INEnumType</key>
+			<string>Regular</string>
+			<key>INEnumValues</key>
+			<array>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>unknown</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>s7UI7w</string>
+					<key>INEnumValueName</key>
+					<string>unknown</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>System Default</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>3RN82E</string>
+					<key>INEnumValueIndex</key>
+					<integer>1</integer>
+					<key>INEnumValueName</key>
+					<string>systemDefault</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Hebrew</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>6C4SPs</string>
+					<key>INEnumValueIndex</key>
+					<integer>2</integer>
+					<key>INEnumValueName</key>
+					<string>hebrew</string>
+				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>English</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>K04xIJ</string>
+					<key>INEnumValueIndex</key>
+					<integer>3</integer>
+					<key>INEnumValueName</key>
+					<string>english</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
 	<key>INIntentDefinitionModelVersion</key>
 	<string>1.2</string>
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>21G531</string>
+	<string>25B78</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>14C18</string>
+	<string>17A400</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>14.2</string>
+	<string>26.0.1</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -29,12 +83,22 @@
 			<string>tVvJ9c</string>
 			<key>INIntentEligibleForWidgets</key>
 			<true/>
+			<key>INIntentInput</key>
+			<string>language</string>
+			<key>INIntentKeyParameter</key>
+			<string>language</string>
+			<key>INIntentLastParameterTag</key>
+			<integer>3</integer>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
-				<key></key>
+				<key>language</key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Change widget ${language}</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>hKH6yP</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
 					<true/>
 				</dict>
@@ -58,7 +122,87 @@
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>r4ByL7</string>
 				</dict>
+				<key>language</key>
+				<dict>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>Select a ${language}for the widgets.</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>hzNMXa</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Change widget ${language}</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>6ZOmQ3</string>
+				</dict>
 			</dict>
+			<key>INIntentParameters</key>
+			<array>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterCustomDisambiguation</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
+					<string>Language</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>rt7jgM</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>1</integer>
+					<key>INIntentParameterEnumType</key>
+					<string>LanguageSetting</string>
+					<key>INIntentParameterEnumTypeNamespace</key>
+					<string>88xZPY</string>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataDefaultValue</key>
+						<string>systemDefault</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>language</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>There are ${count} options matching ‘${language}’.</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>rJPupG</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>DisambiguationIntroduction</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Just to confirm, you wanted ‘${language}’?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>uEFn4L</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Confirmation</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>3</integer>
+					<key>INIntentParameterType</key>
+					<string>Integer</string>
+				</dict>
+			</array>
 			<key>INIntentResponse</key>
 			<dict>
 				<key>INIntentResponseCodes</key>

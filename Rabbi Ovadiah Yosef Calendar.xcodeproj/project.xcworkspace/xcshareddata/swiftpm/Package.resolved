@@ -1,5 +1,5 @@
 {
-  "originHash" : "6787eb6545ff10831422599fa7549b69390662c29168c0939e7ec7d9ed67bf3f",
+  "originHash" : "d294b92c8ddb77b4158ae7b8d596e41f00a5f150facadbd6c69f7f3067f7cc1d",
   "pins" : [
     {
       "identity" : "frameup",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicklockwood/LRUCache.git",
       "state" : {
-        "revision" : "e0e9e039b33db8f2ef39b8e25607e38f46b13584",
-        "version" : "1.1.2"
+        "revision" : "0d91406ecd4d6c1c56275866f00508d9aeacc92a",
+        "version" : "1.2.0"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "revision" : "4206bc7b8bd9a4ff8e9511211e1b4bff979ef9c4",
-        "version" : "2.11.1"
+        "revision" : "c1f3348d1845302b8e99b1c0787d9417ffa11053",
+        "version" : "2.11.2"
       }
     },
     {
@@ -85,10 +85,10 @@
     {
       "identity" : "swiftuiscrolloffset",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Splash04/SwiftUIScrollOffset",
+      "location" : "https://github.com/ciaranrobrien/SwiftUIScrollOffset",
       "state" : {
         "branch" : "main",
-        "revision" : "1f2b92ce113bda1a89e929d936179f4486c2fa6b"
+        "revision" : "3b6fa1e7f685fabbbc42178cd52df0339a161b55"
       }
     },
     {
