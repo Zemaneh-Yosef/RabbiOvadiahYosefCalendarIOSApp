@@ -36,8 +36,8 @@ struct UpcomingZmanimProvider: IntentTimelineProvider {
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [UpcomingZmanimEntry] = []
-        let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-        
+        let defaults = UserDefaults.getMyUserDefaults()
+
         getZmanimCalendarWithLocation() { zmanimCalendar in
             let upcomingZmanim = getNextUpcomingZmanim(forTime: Date(), zmanimCalendar: zmanimCalendar)
             let entry = UpcomingZmanimEntry(
@@ -125,7 +125,7 @@ struct UpcomingZmanim: Widget {
 }
 
 func getNextUpcomingZmanim(forTime: Date, zmanimCalendar: ComplexZmanimCalendar) -> [ZmanListEntry] {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     var upcomingZmanim: [ZmanListEntry] = []
     var zmanim = Array<ZmanListEntry>()
     var today = forTime

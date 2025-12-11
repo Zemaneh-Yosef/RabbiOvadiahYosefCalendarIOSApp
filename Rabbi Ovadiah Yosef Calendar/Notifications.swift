@@ -13,7 +13,7 @@ import UIKit
 class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     static let instance = NotificationManager()
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     let notificationCenter = UNUserNotificationCenter.current()
     
     var locationName = ""
@@ -390,7 +390,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             return addAmudeiHoraahZmanim(list:list)
         }
         var temp = list
-        let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
+        let zmanimNames = ZmanimTimeNames(defaults: defaults)
         if defaults.bool(forKey: "NotifyAlot Hashachar") {
             temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), desc: "Alot Hashachar", zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
         }
@@ -485,7 +485,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     
     func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
         var temp = list
-        let zmanimNames = ZmanimTimeNames.init(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
+        let zmanimNames = ZmanimTimeNames(defaults: defaults)
         if defaults.bool(forKey: "NotifyAlot Hashachar") {
             temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), desc: "Alot Hashachar", zman: zmanimCalendar.getAlosAmudeiHoraah(), isZman: true))
         }
@@ -688,22 +688,16 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
  
 
     func getShabbatAndOrChag() -> String {
-        if (defaults.bool(forKey: "isZmanimInHebrew")) {
-            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
-                return "\u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
-            } else if jewishCalendar.getDayOfWeek() == 7 {
-                return "\u{05E9}\u{05D1}\u{05EA}"
-            } else {
-                return "\u{05D7}\u{05D2}"
-            }
+        let hebrew = defaults.bool(forKey: "isZmanimInHebrew")
+        
+        if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
+            return hebrew ? "שבת/חג" : "Shabbat/Ḥag";
+        } else if jewishCalendar.getDayOfWeek() == 7 {
+            return hebrew ? "שבת" : "Shabbat";
         } else {
-            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
-                return "Shabbat/Chag";
-            } else if jewishCalendar.getDayOfWeek() == 7 {
-                return "Shabbat";
-            } else {
-                return "Chag";
-            }
+            let americanized = defaults.bool(forKey: "isZmanimAmericanized")
+            return hebrew ? "חג" :
+            americanized ? "Chag" : "Ḥag";
         }
     }
     

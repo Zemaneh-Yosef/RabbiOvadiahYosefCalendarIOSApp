@@ -65,7 +65,7 @@ class NetzViewController: UIViewController {
         // Cancel any existing timer
         countdownTimer?.cancel()
 
-        let netzNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
+        let netzNames = ZmanimTimeNames(defaults: defaults)
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.zeroFormattingBehavior = .dropLeading

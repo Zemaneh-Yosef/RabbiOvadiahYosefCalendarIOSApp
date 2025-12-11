@@ -10,7 +10,7 @@ import WebKit
 import KosherSwift
 
 struct AdvancedSetupView: View {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     @State private var link: String = ""
     @State private var showWebView = false
     @State private var urlToLoad: URL = URL(string: "https://chaitables.com")!
@@ -110,7 +110,7 @@ struct AdvancedSetupView: View {
             link: rawLink,
             locationName: GlobalStruct.geoLocation.locationName,
             jewishYear: JewishCalendar().getJewishYear(),
-            defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
+            defaults: defaults
         )
 
         chaitables.scrape {

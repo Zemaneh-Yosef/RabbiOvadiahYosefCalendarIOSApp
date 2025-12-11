@@ -8,8 +8,15 @@
 import Foundation
 
 struct ZmanimTimeNames {
-    var mIsZmanimInHebrew = false
-    var mIsZmanimEnglishTranslated = false
+    var mIsZmanimInHebrew: Bool
+    var mIsZmanimEnglishTranslated: Bool
+    var mIsZmanimAmericanized: Bool
+    
+    init(defaults: UserDefaults) {
+        self.mIsZmanimInHebrew = defaults.bool(forKey: "isZmanimInHebrew")
+        self.mIsZmanimEnglishTranslated = defaults.bool(forKey: "isZmanimEnglishTranslated")
+        self.mIsZmanimAmericanized = defaults.bool(forKey: "isZmanimAmericanized")
+    }
     
     func getYalkutYosefString() -> String {
         if (mIsZmanimInHebrew) {
@@ -49,6 +56,8 @@ struct ZmanimTimeNames {
             return "חצות הלילה";
         } else if (mIsZmanimEnglishTranslated) {
             return "Midnight";
+        } else if (mIsZmanimAmericanized) {
+            return "Chatzot Ha'Layla";
         } else {
             return "Ḥatzot Ha'Layla";
         }
@@ -59,6 +68,8 @@ struct ZmanimTimeNames {
             return "לחומרא";
         } else if (mIsZmanimEnglishTranslated) {
             return "(Stringent)";
+        } else if (mIsZmanimAmericanized) {
+            return "L'Chumra";
         } else {
             return "L'Ḥumra";
         }
@@ -85,6 +96,8 @@ struct ZmanimTimeNames {
             return "צאת הכוכבים";
         } else if (mIsZmanimEnglishTranslated) {
             return "Nightfall";
+        } else if (mIsZmanimAmericanized) {
+            return "Tzet Ha'Kochavim";
         } else {
             return "Tzet Ha'Kokhavim";
         }
@@ -95,6 +108,8 @@ struct ZmanimTimeNames {
             return "שקיעה";
         } else if (mIsZmanimEnglishTranslated) {
             return "Sunset";
+        } else if (mIsZmanimAmericanized) {
+            return "Shekia";
         } else {
             return "Sheqi'a";
         }
@@ -160,6 +175,9 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return "פלג המנחה"
         } else {
+            if (mIsZmanimAmericanized) {
+                return "Pelag Ha'Mincha";
+            }
             return "Pelag Ha'Minḥa"
         }
     }
@@ -167,6 +185,8 @@ struct ZmanimTimeNames {
     public func getMinchaKetanaString() -> String {
         if (mIsZmanimInHebrew) {
             return "מנחה קטנה"
+        } else if (mIsZmanimAmericanized) {
+            return "Mincha Ketana";
         } else {
             return "Minḥa Ketana"
         }
@@ -177,6 +197,8 @@ struct ZmanimTimeNames {
             return "מנחה גדולה"
         } else if (mIsZmanimEnglishTranslated) {
             return "Earliest Minḥa"
+        } else if (mIsZmanimAmericanized) {
+            return "Mincha Gedola";
         } else {
             return "Minḥa Gedola"
         }
@@ -187,6 +209,8 @@ struct ZmanimTimeNames {
             return "חצות"
         } else if (mIsZmanimEnglishTranslated) {
             return "Mid-day"
+        } else if (mIsZmanimAmericanized) {
+            return "Chatzot";
         } else {
             return "Ḥatzot"
         }
@@ -197,6 +221,8 @@ struct ZmanimTimeNames {
             return "סוף זמן ביעור חמץ"
         } else if (mIsZmanimEnglishTranslated) {
             return "Latest time to burn Ḥametz"
+        } else if (mIsZmanimAmericanized) {
+            return "Sof Zeman Biur Chametz";
         } else {
             return "Sof Zeman Biur Ḥametz"
         }
@@ -207,6 +233,8 @@ struct ZmanimTimeNames {
             return "סוף זמן ברכות שמע"
         } else if (mIsZmanimEnglishTranslated) {
             return "Latest Berakhot Shema"
+        } else if (mIsZmanimAmericanized) {
+            return "Sof Zeman Berachot Shema";
         } else {
             return "Sof Zeman Berakhot Shema"
         }
@@ -217,6 +245,8 @@ struct ZmanimTimeNames {
             return "סוף זמן אכילת חמץ"
         } else if (mIsZmanimEnglishTranslated) {
             return "Latest time to eat Ḥametz"
+        } else if (mIsZmanimAmericanized) {
+            return "Sof Zeman Achilat Chametz";
         } else {
             return "Sof Zeman Akhilat Ḥametz"
         }
@@ -237,6 +267,8 @@ struct ZmanimTimeNames {
             return "סוף זמן ברכת החמה";
         } else if (mIsZmanimEnglishTranslated) {
             return "Latest Birkat Ha'Ḥamah";
+        } else if (mIsZmanimAmericanized) {
+            return "Sof Zeman Birkat Ha'Chamah";
         } else {
             return "Sof Zeman Birkat Ha'Ḥamah";
         }
@@ -309,6 +341,8 @@ struct ZmanimTimeNames {
             return "עלות השחר"
         } else if (mIsZmanimEnglishTranslated) {
             return "Dawn"
+        } else if (mIsZmanimAmericanized) {
+            return "Alot Ha'Shachar";
         } else {
             return "Alot Ha'Shaḥar"
         }

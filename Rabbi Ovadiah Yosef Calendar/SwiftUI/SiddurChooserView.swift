@@ -86,7 +86,7 @@ struct SiddurChooserView: View {
         "נדה"
     ]
     
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     let secondaryTextSize = Font.system(size: 14)
     
     private func getSunsetBasedJewishCalendar(_ adjust: Bool = true) -> JewishCalendar {

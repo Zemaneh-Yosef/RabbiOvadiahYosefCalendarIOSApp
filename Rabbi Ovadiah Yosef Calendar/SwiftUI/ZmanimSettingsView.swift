@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ZmanimSettingsView: View {
-    private static let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
+    private static let defaults = UserDefaults.getMyUserDefaults()
     
     @State private var showCandleLightingAlert = false
     @State private var showTekufaOpinionAlert = false

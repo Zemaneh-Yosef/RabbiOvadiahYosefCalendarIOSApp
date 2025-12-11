@@ -268,8 +268,8 @@ func getHebrewDate(language: LanguageSetting) -> [String] {
 }
 
 public func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-    
+    let defaults = UserDefaults.getMyUserDefaults()
+
     var locationName = ""
     var lat = 0.0
     var long = 0.0
@@ -322,7 +322,7 @@ public func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCa
                     timezone = TimeZone.current
                     LocationManager.shared.resolveLocationName(with: location!) { name in
                         locationName = name ?? ""
-                        let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+                        let defaults = UserDefaults.getMyUserDefaults()
                         if defaults.object(forKey: "elevation" + locationName) != nil {//if we have been here before, use the elevation saved for this location
                             elevation = defaults.double(forKey: "elevation" + locationName)
                         } else {//we have never been here before, get the elevation from online
@@ -355,7 +355,7 @@ public func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCa
 }
 
 func getNextUpcomingZman(forTime: Date, zmanimCalendar: ComplexZmanimCalendar) -> ZmanListEntry {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     var theZman: ZmanListEntry? = nil
     var zmanim = Array<ZmanListEntry>()
     var today = forTime
@@ -394,8 +394,8 @@ func getJewishCalendar() -> JewishCalendar {
     let jewishCalendar = JewishCalendar()
     jewishCalendar.useModernHolidays = true
     
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-    
+    let defaults = UserDefaults.getMyUserDefaults()
+
     jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
     
     return jewishCalendar

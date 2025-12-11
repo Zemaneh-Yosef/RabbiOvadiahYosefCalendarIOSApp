@@ -12,7 +12,7 @@ import KosherSwift
 class NetzViewModel: ObservableObject {
     @Published var countdownText: String = "Calculating...".localized()
     private var timer: AnyCancellable?
-    private let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
 
     init() {
         getNextNetzAndStartCountdown()
@@ -49,10 +49,7 @@ class NetzViewModel: ObservableObject {
     }
 
     func startCountdown(netz: Date) {
-        let netzNames = ZmanimTimeNames(
-            mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"),
-            mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")
-        )
+        let netzNames = ZmanimTimeNames(defaults: defaults)
         
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
@@ -140,8 +137,7 @@ struct NetzView: View {
 //    @Published var isUsingChaiTables: Bool = false
 //    @Published var progressToNetz: Double = 0.0
 //    private var timer: AnyCancellable?
-//    private let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-//    
+//    private let defaults = UserDefaults.getMyUserDefaults()
 //    init() {
 //        getNextNetzAndStartCountdown()
 //    }

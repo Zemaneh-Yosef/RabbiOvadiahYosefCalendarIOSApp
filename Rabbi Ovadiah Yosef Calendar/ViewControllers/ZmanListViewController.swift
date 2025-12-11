@@ -254,7 +254,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 content.textProperties.font = .systemFont(ofSize: 18)
                 content.secondaryTextProperties.font = .systemFont(ofSize: 18)
             }
-            if zmanimList[indexPath.row].title.contains(ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated")).getPlagHaminchaString()) {
+            if zmanimList[indexPath.row].title.contains(ZmanimTimeNames(defaults: defaults).getPlagHaminchaString()) {
                 let title = zmanimList[indexPath.row].title
                 let attributedTitle = NSMutableAttributedString(string: title, attributes: [
                     .font: UIFont.boldSystemFont(ofSize: 20) // Default size for main text
@@ -316,14 +316,14 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
             return//do not show the dialogs
         }
         
-        let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
+        let zmanimNames = ZmanimTimeNames(defaults: defaults)
         
         if zmanimList[indexPath.row].title == zmanimNames.getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
             updateZmanimList(add66Misheyakir: true)
             return
         }
         
-        let zmanimInfo = ZmanimAlertInfoHolder(title: zmanimList[indexPath.row].title, mIsZmanimInHebrew: zmanimNames.mIsZmanimInHebrew, mIsZmanimEnglishTranslated: zmanimNames.mIsZmanimEnglishTranslated)
+        let zmanimInfo = ZmanimAlertInfoHolder(title: zmanimList[indexPath.row].title, defaults: defaults)
         
         let candleLightingOffset = zmanimCalendar.candleLightingOffset
         

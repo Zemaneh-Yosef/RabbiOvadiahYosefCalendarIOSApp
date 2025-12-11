@@ -723,3 +723,9 @@ public extension UIColor {
         return "#\(hexRed)\(hexGreen)\(hexBlue)"
     }
 }
+
+public extension UserDefaults {
+    static func getMyUserDefaults() -> UserDefaults { // convenience method
+        UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
+    }
+}

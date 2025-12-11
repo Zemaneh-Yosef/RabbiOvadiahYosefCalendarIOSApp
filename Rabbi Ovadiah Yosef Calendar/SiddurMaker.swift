@@ -4423,6 +4423,9 @@ public class SiddurMaker {
         addToSiddur("שְׁמַ֖ע יִשְׂרָאֵ֑ל יְהֹוָ֥ה אֱלֹהֵ֖ינוּ יְהֹוָ֥ה ׀ אֶחָֽד׃ \n" +
             "בלחש/quietly: בָּרוּךְ, שֵׁם כְּבוֹד מַלְכוּתוֹ, לְעוֹלָם וָעֶד:");
         addShema();
+        var last = siddur[6]
+        last.string = last.string.replacingOccurrences(of: " אֱמֶת.", with: "") // last emet is not needed
+        siddur[6] = last
         addToSiddur(
             "יְהֹוָה אֱלֹהֵיכֶם אֱמֶת. \n\n" +
             "יַעְלְז֣וּ חֲסִידִ֣ים בְּכָב֑וֹד יְ֝רַנְּנ֗וּ עַל־מִשְׁכְּבוֹתָֽם׃ רוֹמְמ֣וֹת אֵ֭ל בִּגְרוֹנָ֑ם וְחֶ֖רֶב פִּיפִיּ֣וֹת בְּיָדָֽם׃ \n\n" +

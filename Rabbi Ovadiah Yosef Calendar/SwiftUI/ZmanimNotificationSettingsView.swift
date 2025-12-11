@@ -8,8 +8,8 @@
 import SwiftUI
 
 class ZmanimSettingsViewModel: ObservableObject {
-    private let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
-    
+    private let defaults = UserDefaults.getMyUserDefaults()
+
     @Published var notificationsOnShabbat: Bool {
         didSet {
             defaults.set(notificationsOnShabbat, forKey: "zmanim_notifications_on_shabbat")

@@ -170,7 +170,7 @@ struct SimpleSetupView: View {
             link: link1,
             locationName: GlobalStruct.geoLocation.locationName,
             jewishYear: year1,
-            defaults: UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
+            defaults: UserDefaults.getMyUserDefaults()
         )
 
         scraper.scrape {

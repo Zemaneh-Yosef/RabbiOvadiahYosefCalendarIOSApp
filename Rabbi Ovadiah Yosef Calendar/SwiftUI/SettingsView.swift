@@ -10,7 +10,7 @@ import MessageUI
 
 struct SettingsView: View {
     
-    private static let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? .standard
+    private static let defaults = UserDefaults.getMyUserDefaults()
 
     @AppStorage("zmanim_notifications", store: defaults) private var zmanimNotifications: Bool = false
     @AppStorage("omerNotifications", store: defaults) private var omerNotifications: Bool = true

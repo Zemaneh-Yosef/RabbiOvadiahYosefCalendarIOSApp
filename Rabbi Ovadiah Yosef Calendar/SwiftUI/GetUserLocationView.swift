@@ -23,7 +23,7 @@ struct GetUserLocationView: View {
 
 @available(iOS 17.0, *)
 struct GetiOS17PlusUserLocationView: View {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     @State private var position: MapCameraPosition = .item(MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: GlobalStruct.geoLocation.latitude, longitude: GlobalStruct.geoLocation.longitude))))
     @State private var searchQuery = ""
     @FocusState private var searchFocused: Bool
@@ -502,7 +502,7 @@ struct GetiOS17PlusUserLocationView: View {
 
 // In order to get this to work, I removed the ability to click anywhere on the map to set your location and there is no location name under the map marker (adding a Text throws an error). There is also a small issue of the map marker always being shown even when the user is just moving the map, I am not going to stress about it because it will eventually be a non-issue.
 struct GetiOS16MinusUserLocationView: View {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: GlobalStruct.geoLocation.latitude,
                                        longitude: GlobalStruct.geoLocation.longitude),

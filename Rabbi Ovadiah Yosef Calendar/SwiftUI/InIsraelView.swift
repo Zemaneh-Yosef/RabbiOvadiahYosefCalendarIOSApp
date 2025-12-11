@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InIsraelView: View {
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     @State private var inIsrael: Bool? = nil
     @State var showNextView = false
     @Environment(\.dismiss) private var dismiss

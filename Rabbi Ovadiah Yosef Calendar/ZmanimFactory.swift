@@ -13,7 +13,7 @@ class ZmanimFactory {
     public static func addZmanim(list:Array<ZmanListEntry>, defaults: UserDefaults, zmanimCalendar: ComplexZmanimCalendar, jewishCalendar: JewishCalendar, add66Misheyakir: Bool = false) -> Array<ZmanListEntry> {
         let useAHZmanim = defaults.bool(forKey: "LuachAmudeiHoraah")
         var temp = list
-        let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: defaults.bool(forKey: "isZmanimInHebrew"), mIsZmanimEnglishTranslated: defaults.bool(forKey: "isZmanimEnglishTranslated"))
+        let zmanimNames = ZmanimTimeNames(defaults: defaults)
         if jewishCalendar.isTaanis()
             && jewishCalendar.getYomTovIndex() != JewishCalendar.TISHA_BEAV
             && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
@@ -159,22 +159,45 @@ class ZmanimFactory {
     }
     
     private static func getShabbatAndOrChag(defaults: UserDefaults, jewishCalendar: JewishCalendar) -> String {
-        if (defaults.bool(forKey: "isZmanimInHebrew")) {
-            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
-                return "\u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
-            } else if jewishCalendar.getDayOfWeek() == 7 {
-                return "\u{05E9}\u{05D1}\u{05EA}"
-            } else {
-                return "\u{05D7}\u{05D2}"
-            }
+        let hebrew = defaults.bool(forKey: "isZmanimInHebrew")
+        
+        if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
+            return hebrew ? "שבת/חג" : "Shabbat/Ḥag";
+        } else if jewishCalendar.getDayOfWeek() == 7 {
+            return hebrew ? "שבת" : "Shabbat";
         } else {
-            if jewishCalendar.isYomTovAssurBemelacha() && jewishCalendar.getDayOfWeek() == 7 {
-                return "Shabbat/Chag";
-            } else if jewishCalendar.getDayOfWeek() == 7 {
-                return "Shabbat";
-            } else {
-                return "Chag";
-            }
+            let americanized = defaults.bool(forKey: "isZmanimAmericanized")
+            return hebrew ? "חג" :
+            americanized ? "Chag" : "Ḥag";
         }
+    }
+    
+    public static func getDemoZmanim(isZmanimInHebrew: Bool, isZmanimEnglishTranslated: Bool, isZmanimAmericanized: Bool) -> Array<ZmanListEntry> {
+        let defaults = UserDefaults.getMyUserDefaults()
+        var zmanimNames = ZmanimTimeNames(defaults: defaults)
+        zmanimNames.mIsZmanimInHebrew = isZmanimInHebrew
+        zmanimNames.mIsZmanimEnglishTranslated = isZmanimEnglishTranslated
+        zmanimNames.mIsZmanimAmericanized = isZmanimAmericanized
+        
+        var zmanim = Array<ZmanListEntry>()
+        zmanim.append(ZmanListEntry(title: zmanimNames.getAlotString(), zman: nil))
+        zmanim.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), zman: nil))
+        zmanim.append( ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getShmaMgaString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getShmaGraString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getBrachotShmaString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getChatzotString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " (" + zmanimNames.getHalachaBerurahString() + ")", zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " (" + zmanimNames.getYalkutYosefString() + ")", zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (20)", zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getSunsetString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag(defaults: defaults, jewishCalendar: JewishCalendar()) + zmanimNames.getEndsString(), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getRTString() + zmanimNames.getRTType(isFixed: false), zman: nil));
+        zmanim.append( ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), zman: nil));
+        return zmanim;
     }
 }

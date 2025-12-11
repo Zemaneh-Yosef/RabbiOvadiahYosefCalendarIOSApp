@@ -11,11 +11,10 @@ import UIKit
 struct ZmanimAlertInfoHolder {
     
     var title = ""
-    var mIsZmanimInHebrew = false
-    var mIsZmanimEnglishTranslated = false
+    var defaults: UserDefaults
     
     func getFullTitle() -> String {
-        let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: mIsZmanimInHebrew, mIsZmanimEnglishTranslated: mIsZmanimEnglishTranslated)
+        let zmanimNames = ZmanimTimeNames(defaults: defaults)
         if title == zmanimNames.getAlotString() {
             return "Dawn - Alot Ha'Shaḥar - עלות השחר"
         }
@@ -70,7 +69,7 @@ struct ZmanimAlertInfoHolder {
         if title == zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString() {
             return "Fast Ends - צאת תענית"
         }
-        if title.contains("Shabbat") || title.contains("Chag") || title.contains("\u{05E9}\u{05D1}\u{05EA}") || title.contains("\u{05D7}\u{05D2}") {
+        if title.contains("Shabbat") || title.contains("Chag") || title.contains("Ḥag") || title.contains("שבת") || title.contains("חג") {
             return "Shabbat/Chag Ends - צאת \u{05E9}\u{05D1}\u{05EA}/\u{05D7}\u{05D2}"
         }
         if title.contains(zmanimNames.getRTString()) {
@@ -91,7 +90,7 @@ struct ZmanimAlertInfoHolder {
         if title.contains("Three Weeks".localized()) || title.contains("Nine Days".localized()) || title.contains("Shevuah Shechal Bo".localized()) {
             return title
         }
-        if title.contains("ברכת החמה") || title.contains("Birkat HaChamah") {
+        if title.contains("ברכת החמה") || title.contains("Birkat Ha'Ḥamah") || title.contains("Birkat Ha'Chamah") {
             return "Latest Birkat Ha'Ḥamah - סוף זמן ברכת החמה - Sof Zeman Birkat Ha'Ḥamah"
         }
         if title.contains("ברכת הלבנה") || title.contains("Birkat Halevana") {
@@ -108,7 +107,7 @@ struct ZmanimAlertInfoHolder {
     }
     
     func getFullMessage() -> String {
-        let zmanimNames = ZmanimTimeNames(mIsZmanimInHebrew: mIsZmanimInHebrew, mIsZmanimEnglishTranslated: mIsZmanimEnglishTranslated)
+        let zmanimNames = ZmanimTimeNames(defaults: defaults)
         if title == zmanimNames.getAlotString() {
             if Locale.isHebrewLocale() {
                 return """

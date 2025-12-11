@@ -11,7 +11,7 @@ import FrameUp
 
 struct SiddurView: View {
     
-    let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
+    let defaults = UserDefaults.getMyUserDefaults()
     var categoriesFound = false
     var fontName = "Guttman Keren"
     @State var prayer: String

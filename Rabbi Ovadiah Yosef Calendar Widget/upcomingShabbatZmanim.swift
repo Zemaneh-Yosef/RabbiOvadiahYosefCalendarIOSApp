@@ -36,8 +36,8 @@
 //
 //    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
 //        var entries: [UpcomingShabbatZmanimEntry] = []
-//        let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
-//        
+//        let defaults = UserDefaults.getMyUserDefaults()
+//
 //        getZmanimCalendarWithLocation() { zmanimCalendar in
 //            let upcomingZmanim = getNextUpcomingZmanim(forTime: Date(), zmanimCalendar: zmanimCalendar)
 //            let entry = UpcomingShabbatZmanimEntry(
