@@ -643,7 +643,7 @@ struct ZmanimView: View {
     }
     
     func recreateZmanimCalendar() {
-        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected()))
+        zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())
         zmanimCalendar.useElevation = GlobalStruct.useElevation
         zmanimCalendar.useAstronomicalChatzos = false
         GlobalStruct.geoLocation = zmanimCalendar.geoLocation

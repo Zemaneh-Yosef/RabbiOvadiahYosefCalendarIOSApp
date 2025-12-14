@@ -614,13 +614,12 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     self.lat = location.coordinate.latitude
                     self.long = location.coordinate.longitude
                     self.timezone = TimeZone.current
-                    zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
                     zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+                    zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
                     LocationManagerForNotifications.shared.resolveLocationNameForNotifications(with: location) { [self] locationName in
                         self.locationName = locationName ?? ""
                         resolveElevation()
-                        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
-                        zmanimCalendar.useElevation = self.defaults.bool(forKey: "useElevation")
+                        zmanimCalendar.geoLocation = GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
                         jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
                         jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                         jewishCalendar.useModernHolidays = true
@@ -634,7 +633,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             return // prevent the code at the bottom from running since it will happen in the above callback
         }
         resolveElevation()
-        zmanimCalendar = ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone))
+        zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
         zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
         if !defaults.bool(forKey: "hasShownVSNotification") {
             let content = UNMutableNotificationContent()
