@@ -2476,7 +2476,7 @@ struct ZmanimView: View {
                 case .settings:
                     SettingsView().applyToolbarHidden()
                 case .setupVisibleSunrise:
-                    SetupChooserView().applyToolbarHidden()
+                    ChaitablesSetup().applyToolbarHidden()
                 case .siddur:
                     UIKitSiddurControllerView().applyToolbarHidden() // Temp
                 default:

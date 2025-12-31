@@ -158,7 +158,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
                 alertController.addAction(dismissAction)
                 present(alertController, animated: true)
             } else if limudim[indexPath.row].title.contains("Mishna Yomi: ".localized()) {
-                let mishnaYomi = MishnaYomi.getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false)
+                let mishnaYomi = MishnaYomi().getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false)
                 if mishnaYomi != nil {
                     let mishnaYomiLink = "https://www.sefaria.org/" + "Mishnah_" + mishnaYomi!
                     alertController.title = "Open Sefaria Link for: ".localized()
@@ -255,7 +255,7 @@ class LimudimViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             limudim.append(ZmanListEntry(title:"No Yerushalmi Vilna Yomi".localized()))
         }
-        let mishnaYomi = MishnaYomi.getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: true)
+        let mishnaYomi = MishnaYomi().getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: true)
         if mishnaYomi != nil {
             limudim.append(ZmanListEntry(title: "Mishna Yomi: ".localized() + (mishnaYomi ?? "")))
         }

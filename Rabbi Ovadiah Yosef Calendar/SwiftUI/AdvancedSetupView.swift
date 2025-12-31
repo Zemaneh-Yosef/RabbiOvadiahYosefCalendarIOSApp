@@ -13,7 +13,7 @@ struct AdvancedSetupView: View {
     let defaults = UserDefaults.getMyUserDefaults()
     @State private var link: String = ""
     @State private var showWebView = false
-    @State private var urlToLoad: URL = URL(string: "https://chaitables.com")!
+    @State private var urlToLoad: URL = URL(string: "http://chaitables.com")!
     @State private var showAlert = false
     @State private var showNextView = false
 
@@ -59,7 +59,7 @@ struct AdvancedSetupView: View {
                 
                 Button {
                     setVisibleSunriseForThisLocation(true)
-                    urlToLoad = Locale.isHebrewLocale() ? URL(string: "https://chaitables.com/chai_heb.php")! : URL(string: "https://bit.ly/3rhS55b")!
+                    urlToLoad = Locale.isHebrewLocale() ? URL(string: "https://chaitables.com/chai_heb.php")! : URL(string: "http://chaitables.com/")! // https://bit.ly/3rhS55b just in case the direct link does not work
                     showAlert = true
                 } label: {
                     Text("Go to the website in the app")
@@ -85,6 +85,7 @@ struct AdvancedSetupView: View {
                 }
                 .buttonStyle(FilledButtonStyle(color: .gray.opacity(0.3)))
             }
+            .navigationTitle("Advanced Setup")
             .background {
                 NavigationLink(destination: SetupElevationView(), isActive: $showNextView) { EmptyView() }.hidden()
             }

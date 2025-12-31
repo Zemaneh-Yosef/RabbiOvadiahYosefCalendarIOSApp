@@ -81,3 +81,14 @@ class ChaiTablesScraper {
         }
     }
 }
+
+extension ChaiTablesScraper {
+    func scrapeAsync() async -> Bool {
+        await withCheckedContinuation { continuation in
+            self.scrape {
+                continuation.resume(returning: !self.errored)
+            }
+        }
+    }
+}
+

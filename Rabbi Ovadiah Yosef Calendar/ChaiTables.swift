@@ -52,6 +52,7 @@ class ChaiTables {
         let visibleSunrise = parsedTable[day + 1][month]
         
         let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = jewishCalendar.timeZone
         dateFormatter.dateFormat = "HH:mm:ss"
 
         guard let currentTime = dateFormatter.date(from: visibleSunrise) else {

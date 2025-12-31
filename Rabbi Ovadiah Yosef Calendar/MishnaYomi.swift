@@ -83,22 +83,26 @@ public class MishnaYomi {
         "Uktzin": [6, 10, 12]
     ]
     
-    private static var sFirstMasechta = "";
-    private static var sFirstPerek = 0;
-    private static var sFirstMishna = 0;
+    public var sFirstMasechta = "";
+    public var sFirstPerek = 0;
+    public var sFirstMishna = 0;
     
-    private static var sSecondMasechta = "";
-    private static var sSecondPerek = 0;
-    private static var sSecondMishna = 0;
+    public var sSecondMasechta = "";
+    public var sSecondPerek = 0;
+    public var sSecondMishna = 0;
     
-    public static func getMishnaYomi(jewishCalendar:JewishCalendar, useHebrewText:Bool) -> String? {
-        resetVars();
-        
+    init() {}
+    
+    init(jewishCalendar: JewishCalendar, useHebrewText:Bool) {
+        let _ = getMishnaYomi(jewishCalendar: jewishCalendar, useHebrewText: useHebrewText) // init variables
+    }
+    
+    public func getMishnaYomi(jewishCalendar: JewishCalendar, useHebrewText:Bool) -> String? {
         let dateCreator = Calendar(identifier: .gregorian)
         var nextCycle = DateComponents()
         var prevCycle = DateComponents()
         
-        if jewishCalendar.workingDate.compare(CYCLE_START_DATE!) == .orderedAscending {
+        if jewishCalendar.workingDate.compare(MishnaYomi.CYCLE_START_DATE!) == .orderedAscending {
             return nil
         }
         
@@ -109,11 +113,11 @@ public class MishnaYomi {
         // Go cycle by cycle, until we get the next cycle
         while jewishCalendar.workingDate.compare(dateCreator.date(from: nextCycle)!) == .orderedDescending {
             prevCycle = nextCycle
-            nextCycle.day! += CYCLE_LENGTH
+            nextCycle.day! += MishnaYomi.CYCLE_LENGTH
         }
         
         // Get the number of days from cycle start until request.
-        let numberOfMishnasRead = getDiffBetweenDays(start: dateCreator.date(from: prevCycle)!, end: jewishCalendar.workingDate) * MISHNAS_PER_DAY
+        let numberOfMishnasRead = MishnaYomi.getDiffBetweenDays(start: dateCreator.date(from: prevCycle)!, end: jewishCalendar.workingDate) * MishnaYomi.MISHNAS_PER_DAY
         
         // Finally find the mishna.
         findFirstMishna(numberOfMishnasRead: numberOfMishnasRead);
@@ -147,9 +151,9 @@ public class MishnaYomi {
             }
     }
     
-    static func findFirstMishna(numberOfMishnasRead: Int) {
+    func findFirstMishna(numberOfMishnasRead: Int) {
         var numberOfMishnasRead = numberOfMishnasRead // mutable copy for decrementing
-        for (masechta, perakim) in UNITS {
+        for (masechta, perakim) in MishnaYomi.UNITS {
             for (index, numberOfMishnayot) in perakim.enumerated() {
                 let perek = index + 1
                 var currentMishna = 1
@@ -175,9 +179,9 @@ public class MishnaYomi {
     }
 
 
-    static func findSecondMishna(numberOfMishnasRead: Int) {
+    func findSecondMishna(numberOfMishnasRead: Int) {
         var numberOfMishnasRead = numberOfMishnasRead // mutable copy for decrementing
-        for (masechta, perakim) in UNITS {
+        for (masechta, perakim) in MishnaYomi.UNITS {
             for (index, numberOfMishnayot) in perakim.enumerated() {
                 let perek = index + 1
                 var currentMishna = 1
@@ -201,16 +205,6 @@ public class MishnaYomi {
             }
         }
     }
-
-    
-    private static func resetVars() {
-        sFirstMasechta = "";
-        sFirstPerek = 0;
-        sFirstMishna = 0;
-        sSecondMasechta = "";
-        sSecondPerek = 0;
-        sSecondMishna = 0;
-    }
     
     /**
      * Return the number of days between the dates passed in
@@ -233,7 +227,7 @@ public class MishnaYomi {
         return components.date
     }
     
-    static func replaceEnglishWithHebrew(_ input: String) -> String {
+    func replaceEnglishWithHebrew(_ input: String) -> String {
         switch input {
         case "Berachot": return "ברכות"
         case "Peah": return "פאה"

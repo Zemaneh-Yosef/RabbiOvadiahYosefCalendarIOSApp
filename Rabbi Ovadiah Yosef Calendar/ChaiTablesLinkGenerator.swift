@@ -20,6 +20,10 @@ class ChaiTablesLinkGenerator {
         "Ukraine", "Uruguay", "USA", "Venezuela"
     ]
     
+    public static let search_radii = ["0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9",
+                        "1", "1.1", "1.2", "1.3", "1.4", "1.5", "2", "3", "4", "5",
+                        "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
+    
     var selectedCountry = ""
     
     var metropolitanAreas = Array<String>()
@@ -142,7 +146,7 @@ class ChaiTablesLinkGenerator {
         selectedMetropolitanArea = metropolitanArea
     }
     
-    func getChaiTablesLink(lat:Double, long:Double, timezone:Int, searchRadius:Int, type:Int, year:Int, userId:Int) ->String {
+    func getChaiTablesLink(lat:Double, long:Double, timezone:Int, searchRadius:Double, type:Int, year:Int, userId:Int) ->String {
         if (type < 0 || type > 5) {
             return ""
         }
@@ -152,17 +156,12 @@ class ChaiTablesLinkGenerator {
         if (selectedCountry == "Eretz_Yisroel") {
             return getChaiTablesEretzYisroelLink(type: type, year: year, userId: userId)
         }
-        
-        var searchRadiusIsrael = 0
-        if (selectedCountry == "Israel") {
-            searchRadiusIsrael = 2;//recommended radius for Israel only for some reason. Everywhere else the site defaults to 8(km).
-        }
                 
-        return "http://www.chaitables.com/cgi-bin/ChaiTables.cgi/?cgi_TableType=Chai&cgi_country=\(selectedCountry)&cgi_USAcities1=\(metropolitanAreas.firstIndex(of: selectedMetropolitanArea)! + 1)&cgi_USAcities2=0&cgi_searchradius=\(searchRadiusIsrael == 2 ? 2 : searchRadius)&cgi_Placename=?&cgi_eroslatitude=\(lat)&cgi_eroslongitude=\(longSwitched)&cgi_eroshgt=0.0&cgi_geotz=\(timezone)&cgi_exactcoord=OFF&cgi_MetroArea=jerusalem&cgi_types=\(type)&cgi_RoundSecond=1&cgi_AddCushion=0&cgi_24hr=&cgi_typezman=-1&cgi_yrheb=\(year)&cgi_optionheb=1&cgi_UserNumber=\(userId)&cgi_Language=English&cgi_AllowShaving=OFF"
+        return "http://www.chaitables.com/cgi-bin/ChaiTables.cgi/?cgi_TableType=Chai&cgi_country=\(selectedCountry)&cgi_USAcities1=\(metropolitanAreas.firstIndex(of: selectedMetropolitanArea)! + 1)&cgi_USAcities2=0&cgi_searchradius=\(searchRadius)&cgi_Placename=?&cgi_eroslatitude=\(lat)&cgi_eroslongitude=\(longSwitched)&cgi_eroshgt=0.0&cgi_geotz=\(timezone)&cgi_DST=ON&cgi_exactcoord=OFF&cgi_MetroArea=jerusalem&cgi_types=\(type)&cgi_RoundSecond=1&cgi_AddCushion=2&cgi_24hr=&cgi_typezman=-1&cgi_yrheb=\(year)&cgi_optionheb=1&cgi_UserNumber=\(userId)&cgi_Language=English&cgi_AllowShaving=OFF"
     }
     
     func getChaiTablesEretzYisroelLink(type:Int, year:Int, userId:Int) -> String {
-        return "http://www.chaitables.com/cgi-bin/ChaiTables.cgi/?cgi_TableType=BY&cgi_country=\(selectedCountry)&cgi_USAcities1=1&cgi_USAcities2=0&cgi_searchradius=&cgi_Placename=?&cgi_eroslatitude=0.0&cgi_eroslongitude=0.0&cgi_eroshgt=0.0&cgi_geotz=2&cgi_exactcoord=OFF&cgi_MetroArea=\(selectedMetropolitanArea)&cgi_types=\(type)&cgi_RoundSecond=-1&cgi_AddCushion=0&cgi_24hr=&cgi_typezman=-1&cgi_yrheb=\(year)&cgi_optionheb=1&cgi_UserNumber=\(userId)&cgi_Language=English&cgi_AllowShaving=OFF"
+        return "http://www.chaitables.com/cgi-bin/ChaiTables.cgi/?cgi_TableType=BY&cgi_country=\(selectedCountry)&cgi_USAcities1=1&cgi_USAcities2=0&cgi_searchradius=&cgi_Placename=?&cgi_eroslatitude=0.0&cgi_eroslongitude=0.0&cgi_eroshgt=0.0&cgi_geotz=2&cgi_DST=ON&cgi_exactcoord=OFF&cgi_MetroArea=\(selectedMetropolitanArea)&cgi_types=\(type)&cgi_RoundSecond=-1&cgi_AddCushion=2&cgi_24hr=&cgi_typezman=-1&cgi_yrheb=\(year)&cgi_optionheb=1&cgi_UserNumber=\(userId)&cgi_Language=English&cgi_AllowShaving=OFF"
     }
     
     private func initMetropolitanAreaArgentina() {

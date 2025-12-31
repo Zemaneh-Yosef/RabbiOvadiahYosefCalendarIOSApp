@@ -164,22 +164,28 @@ public extension JewishCalendar {
     }
     
     func yomTovAsString() -> String {
+        let hebrewDateFormatter = HebrewDateFormatter()
         if Locale.isHebrewLocale() {
-            let hebrewDateFormatter = HebrewDateFormatter()
             hebrewDateFormatter.hebrewFormat = true
             if (isPurimMeshulash()) {
                 return "פורים משולש"
             }
             return hebrewDateFormatter.formatYomTov(jewishCalendar: self)
         }
-        let hebrewDateFormatter = HebrewDateFormatter()
+        hebrewDateFormatter.transliteratedHolidays = ["Erev Pesach", "Pesach", "Chol Hamoed Pesach", "Pesach Sheni",
+                                                      "Erev Shavuot", "Shavuot", "Fast of the Seventeenth of Tammuz", "Tishah B'Av", "Tu B'Av", "Erev Rosh Hashana",
+                                                      "Rosh Hashana", "Fast of Gedalyah", "Erev Yom Kippur", "Yom Kippur", "Erev Succot", "Succot",
+                                                      "Chol Hamoed Succot", "Hoshana Rabbah", "Shemini Atzeret", "Simchat Torah", "Erev Chanukah", "Chanukah",
+                                                      "Fast of Asarah Be'Tevet", "Tu B'Shevat", "Fast of Esther", "Purim", "Shushan Purim", "Purim Katan", "Rosh Chodesh",
+                                                      "Yom HaShoah", "Yom Hazikaron", "Yom Ha'atzmaut", "Yom Yerushalayim", "Lag B'Omer", "Shushan Purim Katan",
+                                                      "Isru Chag"]
         let yomtov = hebrewDateFormatter.formatYomTov(jewishCalendar: self)
-        if yomtov.contains("Shemini Atzeres") {
+        if yomtov.contains("Shemini Atzeret") {
             if inIsrael {
                 return "Shemini Atzeret & Simchat Torah"
             }
         }
-        if yomtov.contains("Simchas Torah") {
+        if yomtov.contains("Simchat Torah") {
             if !inIsrael {
                 return "Shemini Atzeret & Simchat Torah"
             }
@@ -190,11 +196,7 @@ public extension JewishCalendar {
         if isPurimMeshulash() {
             return "Purim Meshulash"
         }
-        return yomtov.replacingOccurrences(of: "Teves", with: "Tevet")
-            .replacingOccurrences(of: "Shavuos", with: "Shavuot")
-            .replacingOccurrences(of: "Succos", with: "Succot")
-            .replacingOccurrences(of: "Atzeres", with: "Atzeret")
-            .replacingOccurrences(of: "Simchas", with: "Simchat")
+        return yomtov
     }
     
     func getThisWeeksHaftara() -> String {
