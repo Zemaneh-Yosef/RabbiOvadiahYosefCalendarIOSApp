@@ -14,8 +14,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/SiddurMaker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2839"
-            endingLineNumber = "2839"
+            startingLineNumber = "2850"
+            endingLineNumber = "2850"
             landmarkName = "addAmidahToSiddur(isMincha:isArvit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Rabbi Ovadiah Yosef Calendar/SiddurMaker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4400"
-            endingLineNumber = "4400"
+            startingLineNumber = "4411"
+            endingLineNumber = "4411"
             landmarkName = "getKriatShemaShealHamitaPrayers(isBeforeChatzot:)"
             landmarkType = "7">
          </BreakpointContent>
