@@ -14,7 +14,7 @@ struct ZmanListEntry: Hashable {
     var zman: Date? = nil // Date time of zman
     var isZman: Bool = false // Whether or not this object is a zman or just some text
     var isNoteworthyZman: Bool = false // For weekly view
-    var isRTZman: Bool = false // To know whether to round up
+    var secondTreatment: SecondTreatment = .roundEarlier // To know how to treat the seconds
     var shouldBeDimmed: Bool = false // For Tzeit on Shabbat/Yom Tov
     var isVisibleSunriseZman = false
     var isBirchatHachamahZman = false
@@ -45,7 +45,7 @@ extension ZmanListEntry {
         ZmanListEntry(title: "Candle Lighting", zman: Date(), isZman: true, isNoteworthyZman: true),
         ZmanListEntry(title: "Sunset", zman: Date(), isZman: true),
         ZmanListEntry(title: "Nightfall", zman: Date(), isZman: true),
-        ZmanListEntry(title: "RT", zman: Date(), isZman: true, isNoteworthyZman: true, isRTZman: true),
+        ZmanListEntry(title: "RT", zman: Date(), isZman: true, isNoteworthyZman: true)
     ]
 }
 #endif

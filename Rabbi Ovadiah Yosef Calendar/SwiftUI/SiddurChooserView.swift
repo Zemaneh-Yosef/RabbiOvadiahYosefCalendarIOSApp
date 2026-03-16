@@ -15,6 +15,7 @@ struct SiddurChooserView: View {
             GlobalStruct.chosenPrayer = siddurPrayer
         }
     }
+    @State private var showTehilimList = false
     @State private var showSiddur = false
     
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
@@ -310,6 +311,23 @@ struct SiddurChooserView: View {
         }
     }
     
+    var tehilimButton: some View {
+        Button(action: {
+            siddurPrayer = "Tehilim"
+            showTehilimList = true
+        }) {
+            VStack(alignment: .leading) {
+                Text("תהלים")
+                    .foregroundColor(shouldBeDimmed("תהלים") ? .gray : .primary)
+                if let secondary = getSecondaryText("תהלים") {
+                    Text(secondary)
+                        .font(secondaryTextSize)
+                        .foregroundStyle(Color.secondary)
+                }
+            }
+        }
+    }
+    
     var birchatHamazonButton: some View {
         Button(action: {
             siddurPrayer = "Birchat Hamazon"
@@ -584,6 +602,7 @@ struct SiddurChooserView: View {
             }
             
             Section {
+                tehilimButton
                 if showAllPrayers ? getSunsetBasedJewishCalendar(false).is3Weeks() : isPrayerCurrentlySaid(key: "תיקון חצות") {
                     tikkunChatzot3WeeksButton
                 }
@@ -759,9 +778,14 @@ struct SiddurChooserView: View {
                 Text("Are you located in a walled (Mukaf Choma) city from the time of Yehoshua Bin Nun?")
             }.textCase(nil)
         //NavigationLink("", isActive: $showSiddur) { SiddurView(prayer: siddurPrayer).applyToolbarHidden() }.hidden()// TODO fix
-        NavigationLink("", isActive: $showSiddur) { UIKitSiddurControllerView()
-                .navigationBarTitleDisplayMode(.inline)// fix for iOS 15/16
+        NavigationLink("", isActive: $showSiddur) { UIKitSiddurControllerView().navigationBarTitleDisplayMode(.inline)// fix for iOS 15/16
             .applyToolbarHidden() }.hidden()// Temp
+        NavigationLink("", isActive: $showTehilimList) {
+            TehilimSelectionView() { chosenChapter in
+                GlobalStruct.tehilimToScrollTo = chosenChapter
+                openSiddurView()
+            }
+        }.hidden()
         if showAllPrayers {
             HStack {
                 Button {
@@ -793,6 +817,8 @@ struct SiddurChooserView: View {
     
     private func openSiddurView() {
         if (GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.PURIM || GlobalStruct.jewishCalendar.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM)
+            && !siddurPrayer.contains("Birchat MeEyin Shalosh")
+            && !siddurPrayer.contains("Birchat MeEyin Shalosh+1")
             && !siddurPrayer.contains("Birchat Halevana")
             && !siddurPrayer.contains("Tikkun Chatzot")
             && !siddurPrayer.contains("Kriat Shema SheAl Hamita")
@@ -1050,6 +1076,11 @@ struct SiddurChooserView: View {
                 : getSunsetBasedJewishCalendar().isTishaBav() && getSunsetBasedJewishCalendar().getDayOfWeek() == 1 && isPrayerCurrentlySaid(key: "הבדלה")) {
                 return true
             }
+        case "תהלים":
+            let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+            currentZmanimCalendar.useElevation = GlobalStruct.useElevation
+            return Date() > currentZmanimCalendar.getTzeitHacochavim(defaults: defaults) ?? Date()
+            || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults) ?? Date()
         default:
             return false
         }
@@ -1258,7 +1289,7 @@ struct SiddurChooserView: View {
                             Button {
                                 datePickerIsVisible.toggle()
                             } label: {
-                                Text("Done")
+                                Text("Hide")
                             }
                         }.padding()
                     }.frame(width: 320)
@@ -1289,7 +1320,7 @@ struct SiddurChooserView: View {
                             Button {
                                 hebrewDatePickerIsVisible.toggle()
                             } label: {
-                                Text("Done")
+                                Text("Hide")
                             }
                         }.padding()
                     }.frame(width: 320)

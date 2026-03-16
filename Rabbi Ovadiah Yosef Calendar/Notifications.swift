@@ -290,9 +290,9 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             }
             return
         }
+        let zmanTimeFormatter = DateFormatter()
+        zmanTimeFormatter.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
         while amountOfNotificationsSet <= amountOfPossibleNotifications {
-            let zmanTimeFormatter = DateFormatter()
-            zmanTimeFormatter.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
             var editableZmanim = ["Alot Hashachar",
                                   "Talit And Tefilin",
                                   "Sunrise",
@@ -335,11 +335,11 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                 return
             }
             var zmanim: Array<ZmanListEntry> = []
-            zmanim = addZmanim(list: zmanim)
+            zmanim = ZmanimFactory.addZmanim(list: zmanim, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar)
             var index = 0 //we need the index for the list to match the array above
             for zmanEntry in zmanim {
                 let zman = zmanEntry.zman
-                if zman != nil && zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970 {
+                if zman != nil && zman ?? Date() > Date() {
                     let zmanContent = UNMutableNotificationContent()
                     zmanContent.title = zmanEntry.title
                     zmanContent.sound = .default
@@ -357,9 +357,11 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     if !defaults.bool(forKey: "zmanim_notifications_on_shabbat") && jewishCalendar.isAssurBemelacha() {
                         //no notification
                     } else {//notify
-                        if amountOfNotificationsSet <= amountOfPossibleNotifications {
+                        if amountOfNotificationsSet <= amountOfPossibleNotifications && editableZmanim.contains(zmanEntry.desc) {
                             let triggerZman = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zman?.addingTimeInterval(TimeInterval(-60 * defaults.integer(forKey: zmanEntry.desc))) ?? Date()), repeats: false)
-                            let request = UNNotificationRequest(identifier: UUID().uuidString, content: zmanContent, trigger: triggerZman)
+                            let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                                                content: zmanContent,
+                                                                trigger: triggerZman)
                             notificationCenter.add(request)
                             amountOfNotificationsSet+=1
                         }
@@ -385,271 +387,78 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         //printPendingNotifications()
     }
 
-    func addZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
-        if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            return addAmudeiHoraahZmanim(list:list)
-        }
-        var temp = list
-        let zmanimNames = ZmanimTimeNames(defaults: defaults)
-        if defaults.bool(forKey: "NotifyAlot Hashachar") {
-            temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), desc: "Alot Hashachar", zman: zmanimCalendar.getAlos72Zmanis(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyTalit And Tefilin") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), desc: "Talit And Tefilin", zman: zmanimCalendar.getMisheyakir60MinutesZmanis(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifySunrise") {
-            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", desc: "Sunrise", zman: zmanimCalendar.getSeaLevelSunrise(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifySof Zman Shma MGA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), desc: "Sof Zman Shma MGA",  zman:zmanimCalendar.getSofZmanShmaMGA72MinutesZmanis(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifySof Zman Shma GRA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), desc: "Sof Zman Shma GRA", zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
-        }
-        if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
-            if defaults.bool(forKey: "NotifyAchilat Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), desc: "Achilat Chametz", zman:zmanimCalendar.getSofZmanTfilaMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
-            }
-            if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), desc: "Sof Zman Tefila", zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
-            }
-            if defaults.bool(forKey: "NotifyBiur Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), desc: "Biur Chametz", zman:zmanimCalendar.getSofZmanBiurChametzMGA72MinutesZmanis(), isZman: true, isNoteworthyZman: true))
-            }
-        } else {
-            if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), desc: "Sof Zman Tefila", zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
-            }
-        }
-        if defaults.bool(forKey: "NotifyChatzot") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), desc: "Chatzot", zman:zmanimCalendar.getChatzosIfHalfDayNil(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyMincha Gedolah") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), desc: "Mincha Gedolah", zman:zmanimCalendar.getMinchaGedolaGreaterThan30(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyMincha Ketana") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), desc: "Mincha Ketana", zman:zmanimCalendar.getMinchaKetana(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
-            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString(), desc: "Plag HaMincha Yalkut Yosef", zman:zmanimCalendar.getPlagHaminchaYalkutYosef(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyPlag HaMincha Halacha Berurah") {
-            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), desc: "Plag HaMincha Halacha Berurah", zman:zmanimCalendar.getPlagHamincha(), isZman: true))
-        }
-        if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.getDayOfWeek() == 6 {
-            zmanimCalendar.candleLightingOffset = 20
-            if defaults.object(forKey: "candleLightingOffset") != nil {
-                zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
-            }
-            if defaults.bool(forKey: "NotifyCandle Lighting") {
-                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", desc: "Candle Lighting", zman: zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
-            }
-        }
-        if defaults.bool(forKey: "NotifySunset") {
-            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), desc: "Sunset", zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyTzeit Hacochavim") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), desc: "Tzeit Hacochavim", zman:zmanimCalendar.getTzais13Point5MinutesZmanis(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyTzeit Hacochavim (Stringent)") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getLChumraString(), desc: "Tzeit Hacochavim (Stringent)", zman: zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true))
-        }
-        if jewishCalendar.isTaanis() && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
-            if defaults.bool(forKey: "NotifyFast Ends") {
-                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), desc: "Fast Ends", zman:zmanimCalendar.getTzaisAteretTorah(minutes: 20), isZman: true, isNoteworthyZman: true))
-            }
-        }
-        if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
-            if defaults.bool(forKey: "NotifyShabbat Ends") {
-                zmanimCalendar.ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40
-                if defaults.object(forKey: "shabbatOffset") != nil {
-                    zmanimCalendar.ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
-                }
-                if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", desc: "Shabbat Ends", zman:zmanimCalendar.getTzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
-                } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.165°)", desc: "Shabbat Ends", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
-                } else {
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), desc: "Shabbat Ends", zman:zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
-                }
-            }
-        }
-        if defaults.bool(forKey: "NotifyRabbeinu Tam") {
-            temp.append(ZmanListEntry(title: zmanimNames.getRTString(), desc: "Rabbeinu Tam", zman: zmanimCalendar.getTzais72Zmanis(), isZman: true, isNoteworthyZman: true, isRTZman: true))
-        }
-        if defaults.bool(forKey: "NotifyChatzot Layla") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), desc: "Chatzot Layla", zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
-        }
-        return temp
-    }
-    
-    func addAmudeiHoraahZmanim(list:Array<ZmanListEntry>) -> Array<ZmanListEntry> {
-        var temp = list
-        let zmanimNames = ZmanimTimeNames(defaults: defaults)
-        if defaults.bool(forKey: "NotifyAlot Hashachar") {
-            temp.append(ZmanListEntry(title: zmanimNames.getAlotString(), desc: "Alot Hashachar", zman: zmanimCalendar.getAlosAmudeiHoraah(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyTalit And Tefilin") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTalitTefilinString(), desc: "Talit And Tefilin", zman: zmanimCalendar.getMisheyakir60AmudeiHoraah(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifySunrise") {
-            temp.append(ZmanListEntry(title: zmanimNames.getHaNetzString() + " (" + zmanimNames.getMishorString() + ")", desc: "Sunrise", zman: zmanimCalendar.getSeaLevelSunrise(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifySof Zman Shma MGA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaMgaString(), desc: "Sof Zman Shma MGA", zman: zmanimCalendar.getSofZmanShmaMGA72MinutesZmanisAmudeiHoraah(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifySof Zman Shma GRA") {
-            temp.append(ZmanListEntry(title: zmanimNames.getShmaGraString(), desc: "Sof Zman Shma GRA", zman:zmanimCalendar.getSofZmanShmaGRA(), isZman: true))
-        }
-        if jewishCalendar.getYomTovIndex() == JewishCalendar.EREV_PESACH {
-            if defaults.bool(forKey: "NotifyAchilat Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getAchilatChametzString(), desc: "Achilat Chametz", zman:zmanimCalendar.getSofZmanAchilatChametzAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
-            }
-            if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), desc: "Sof Zman Tefila", zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
-            }
-            if defaults.bool(forKey: "NotifyBiur Chametz") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBiurChametzString(), desc: "Biur Chametz", zman:zmanimCalendar.getSofZmanBiurChametzMGAAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
-            }
-        } else {
-            if defaults.bool(forKey: "NotifySof Zman Tefila") {
-                temp.append(ZmanListEntry(title: zmanimNames.getBrachotShmaString(), desc: "Sof Zman Tefila", zman:zmanimCalendar.getSofZmanTfilaGRA(), isZman: true))
-            }
-        }
-        if defaults.bool(forKey: "NotifyChatzot") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(), desc: "Chatzot", zman:zmanimCalendar.getChatzosIfHalfDayNil(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyMincha Gedolah") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(), desc: "Mincha Gedolah", zman:zmanimCalendar.getMinchaGedolaGreaterThan30(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyMincha Ketana") {
-            temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(), desc: "Mincha Ketana", zman:zmanimCalendar.getMinchaKetana(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyPlag HaMincha Halacha Berurah") {
-            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedHalachaBerurahString(), desc: "Plag HaMincha Halacha Berurah", zman:zmanimCalendar.getPlagHamincha(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyPlag HaMincha Yalkut Yosef") {
-            temp.append(ZmanListEntry(title: zmanimNames.getPlagHaminchaString() + " " + zmanimNames.getAbbreviatedYalkutYosefString(), desc: "Plag HaMincha Yalkut Yosef", zman: zmanimCalendar.getPlagHaminchaYalkutYosefAmudeiHoraah(), isZman: true))
-        }
-        if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.getDayOfWeek() == 6 {
-            zmanimCalendar.candleLightingOffset = 20
-            if defaults.object(forKey: "candleLightingOffset") != nil {
-                zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
-            }
-            if defaults.bool(forKey: "NotifyCandle Lighting") {
-                temp.append(ZmanListEntry(title: zmanimNames.getCandleLightingString() + " (" + String(zmanimCalendar.candleLightingOffset) + ")", desc: "Candle Lighting", zman:zmanimCalendar.getCandleLighting(), isZman: true, isNoteworthyZman: true))
-            }
-        }
-        if defaults.bool(forKey: "NotifySunset") {
-            temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(), desc: "Sunset", zman:zmanimCalendar.getElevationAdjustedSunset(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyTzeit Hacochavim") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(), desc: "Tzeit Hacochavim", zman:zmanimCalendar.getTzaisAmudeiHoraah(), isZman: true))
-        }
-        if defaults.bool(forKey: "NotifyTzeit Hacochavim (Stringent)") {
-            temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString() + " " + zmanimNames.getLChumraString(), desc: "Tzeit Hacochavim (Stringent)", zman:zmanimCalendar.getTzaisAmudeiHoraahLChumra(), isZman: true))
-        }
-        if jewishCalendar.isTaanis() && jewishCalendar.getYomTovIndex() != JewishCalendar.YOM_KIPPUR {
-            if defaults.bool(forKey: "NotifyFast Ends") {
-                temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString(), desc: "Fast Ends", zman:zmanimCalendar.getTzaisAmudeiHoraahLChumra(), isZman: true, isNoteworthyZman: true))
-            }
-        }
-        if jewishCalendar.isAssurBemelacha() && !jewishCalendar.hasCandleLighting() {
-            if defaults.bool(forKey: "NotifyShabbat Ends") {
-                if !defaults.bool(forKey: "overrideAHEndShabbatTime") {// default zman
-                    temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.165°)", desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
-                } else {// if user wants to override
-                    zmanimCalendar.ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40 // should never be used in Israel
-                    if defaults.object(forKey: "shabbatOffset") != nil {
-                        zmanimCalendar.ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
-                    }
-                    if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
-                        temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (" + String(Int(zmanimCalendar.ateretTorahSunsetOffset)) + ")", desc: "Chatzot", zman: zmanimCalendar.getTzaisAteretTorah(), isZman: true, isNoteworthyZman: true))
-                    } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
-                        temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString() + " (7.165°)", desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraah(), isZman: true, isNoteworthyZman: true))
-                    } else {
-                        temp.append(ZmanListEntry(title: zmanimNames.getTzaitString() + getShabbatAndOrChag() + zmanimNames.getEndsString(), desc: "Shabbat Ends", zman: zmanimCalendar.getTzaisShabbosAmudeiHoraahLesserThan40(), isZman: true, isNoteworthyZman: true))
-                    }
-                }
-            }
-        }
-        if defaults.bool(forKey: "NotifyRabbeinu Tam") {
-            var rt = ZmanListEntry(title: zmanimNames.getRTString(), desc: "Rabbeinu Tam", zman: zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah(), isZman: true, isNoteworthyZman: true, isRTZman: true)
-            if defaults.bool(forKey: "overrideRTZman") {
-                rt.zman = zmanimCalendar.getTzais72Zmanis()
-            }
-            temp.append(rt)
-        }
-        if defaults.bool(forKey: "NotifyChatzot Layla") {
-            temp.append(ZmanListEntry(title: zmanimNames.getChatzotLaylaString(), desc: "Chatzot Layla", zman:zmanimCalendar.getSolarMidnightIfSunTransitNil(), isZman: true))
-        }
-        return temp
-    }
-
     // MARK: - Helper methods
 
     func initializeLocationObjectsAndSetNotifications() {
-        if notificationsAreBeingSet {
-            return
-        }
+        guard !notificationsAreBeingSet else { return }
         notificationsAreBeingSet = true
-        if defaults.bool(forKey: "useAdvanced") {
-            setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
-        } else if defaults.bool(forKey: "useLocation1") {
-            setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
-        } else if defaults.bool(forKey: "useLocation2") {
-            setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
-        } else if defaults.bool(forKey: "useLocation3") {
-            setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
-        } else if defaults.bool(forKey: "useLocation4") {
-            setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
-        } else if defaults.bool(forKey: "useLocation5") {
-            setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
-        } else if defaults.bool(forKey: "useZipcode") {
-            setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
-        } else {
-            let concurrentQueue = DispatchQueue(label: "notifiications", attributes: .concurrent)
-            LocationManagerForNotifications.shared.getUserLocationForNotifications {
-                location in concurrentQueue.async { [self] in
-                    self.lat = location.coordinate.latitude
-                    self.long = location.coordinate.longitude
-                    self.timezone = TimeZone.current
-                    zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
-                    zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
-                    LocationManagerForNotifications.shared.resolveLocationNameForNotifications(with: location) { [self] locationName in
-                        self.locationName = locationName ?? ""
-                        resolveElevation()
-                        zmanimCalendar.geoLocation = GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
-                        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
-                        jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-                        jewishCalendar.useModernHolidays = true
-                        self.scheduleSunriseNotifications()
-                        self.scheduleSunsetNotifications()
-                        self.scheduleZmanimNotifications()
-                        self.notificationsAreBeingSet = false
-                    }
+
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            guard let self = self else { return }
+            if defaults.bool(forKey: "useAdvanced") {
+                setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+            } else if defaults.bool(forKey: "useLocation1") {
+                setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+            } else if defaults.bool(forKey: "useLocation2") {
+                setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+            } else if defaults.bool(forKey: "useLocation3") {
+                setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+            } else if defaults.bool(forKey: "useLocation4") {
+                setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+            } else if defaults.bool(forKey: "useLocation5") {
+                setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+            } else if defaults.bool(forKey: "useZipcode") {
+                setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
+            } else {
+                handleDynamicLocation()
+                return // prevent the code at the bottom from running since it will happen in the above mmethod's callback
+            }
+            resolveElevation()
+            zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
+            zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+            if !defaults.bool(forKey: "hasShownVSNotification") {
+                let content = UNMutableNotificationContent()
+                content.title = "Setup Visible Sunrise".localized()
+                content.sound = .default
+                content.body = "Setup visible sunrise now! (Want to try later? Visit the Sunrise description)".localized()
+                let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: Date()), repeats: false)
+                
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                notificationCenter.add(request)
+                defaults.set(true, forKey: "hasShownVSNotification")
+            }
+            self.scheduleSunriseNotifications()
+            self.scheduleSunsetNotifications()
+            self.scheduleZmanimNotifications()
+            DispatchQueue.main.async {
+                self.notificationsAreBeingSet = false
+            }
+        }
+    }
+    
+    func handleDynamicLocation() {
+        let concurrentQueue = DispatchQueue(label: "notifiications", attributes: .concurrent)
+        LocationManagerForNotifications.shared.getUserLocationForNotifications {
+            location in concurrentQueue.async { [self] in
+                self.lat = location.coordinate.latitude
+                self.long = location.coordinate.longitude
+                self.timezone = TimeZone.current
+                zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+                zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
+                LocationManagerForNotifications.shared.resolveLocationNameForNotifications(with: location) { [self] locationName in
+                    self.locationName = locationName ?? ""
+                    resolveElevation()
+                    zmanimCalendar.geoLocation = GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
+                    jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
+                    jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
+                    jewishCalendar.useModernHolidays = true
+                    self.scheduleSunriseNotifications()
+                    self.scheduleSunsetNotifications()
+                    self.scheduleZmanimNotifications()
+                    self.notificationsAreBeingSet = false
                 }
             }
-            return // prevent the code at the bottom from running since it will happen in the above callback
         }
-        resolveElevation()
-        zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
-        zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
-        if !defaults.bool(forKey: "hasShownVSNotification") {
-            let content = UNMutableNotificationContent()
-            content.title = "Setup Visible Sunrise".localized()
-            content.sound = .default
-            content.body = "Setup visible sunrise now! (Want to try later? Visit the Sunrise description)".localized()
-            let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: Date()), repeats: false)
-            
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-            notificationCenter.add(request)
-            defaults.set(true, forKey: "hasShownVSNotification")
-        }
-        self.scheduleSunriseNotifications()
-        self.scheduleSunsetNotifications()
-        self.scheduleZmanimNotifications()
-        self.notificationsAreBeingSet = false
     }
     
     func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {

@@ -235,9 +235,9 @@ struct ZmanimAlertInfoHolder {
         }
         if title == zmanimNames.getBrachotShmaString() {
             if Locale.isHebrewLocale() {
-                return " זהו הזמן האחרון בו ניתן לאומר ברכות שמע על פי הגר\"א (הגאון רבנו אליהו). בכל זאת, אדם עדיין יכול לאמר פסוקי דזמרה ועמידה עד חצות.  הגר\"א מחשב את הזמן הזה כ-4 שעות זמניות לאחר הזריחה (שמשתנה לפי הגובה). הגר\"א מחלק את הזמן בין הזריחה והשקיעה (שמשתנה לפי הגובה) ל-12 חלקים שווים, וכך מתקבלת שעה זמנית אחת."
+                return " זהו הזמן האחרון בו ניתן לאומר ברכות שמע על פי הגר\"א (הגאון רבנו אליהו). בכל זאת, אדם עדיין יכול לאמר פסוקי דזמרה (וגם את העמידה אם עבר או טעה) עד חצות.  הגר\"א מחשב את הזמן הזה כ-4 שעות זמניות לאחר הזריחה (שמשתנה לפי הגובה). הגר\"א מחלק את הזמן בין הזריחה והשקיעה (שמשתנה לפי הגובה) ל-12 חלקים שווים, וכך מתקבלת שעה זמנית אחת."
             } else {
-                return "This is the latest time a person can say the Brachot Shma according to the GR\"A. However, a person can still say Pisukei D'Zimra and Amidah until Chatzot.\n\nThe GR\"A calculates this time as 4 zmaniyot/seasonal hours (based on sunrise to sunset) after sunrise (elevation affects this time)."
+                return "This is the latest time a person can say the Brachot Shma according to the GR\"A. However, a person can still say Pisukei D'Zimra (and the Amidah if one missed the time or made a mistake) until Chatzot.\n\nThe GR\"A calculates this time as 4 zmaniyot/seasonal hours (based on sunrise to sunset) after sunrise (elevation affects this time)."
             }
         }
         if title == zmanimNames.getChatzotString() {

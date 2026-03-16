@@ -834,147 +834,147 @@ public class ChafetzChayimYomi {
                 return hilchosLH + ": " + "2.3-2.4";
             }
             if ((day == 2 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 1 && month == JewishCalendar.ADAR) ||
+                    (day == 1 && month == JewishCalendar.ADAR_II) ||
                     (day == 1 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "2.5-2.6";
             }
             if ((day == 3 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 2 && month == JewishCalendar.ADAR) ||
+                    (day == 2 && month == JewishCalendar.ADAR_II) ||
                     (day == 2 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "2.7-2.8";
             }
             if ((day == 4 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 3 && month == JewishCalendar.ADAR) ||
+                    (day == 3 && month == JewishCalendar.ADAR_II) ||
                     (day == 3 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "2.9-2.10";
             }
             if ((day == 5 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 4 && month == JewishCalendar.ADAR) ||
+                    (day == 4 && month == JewishCalendar.ADAR_II) ||
                     (day == 4 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "2.11";
             }
             if ((day == 6 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 5 && month == JewishCalendar.ADAR) ||
+                    (day == 5 && month == JewishCalendar.ADAR_II) ||
                     (day == 5 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "2.12-2.13";
             }
             if ((day == 7 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 6 && month == JewishCalendar.ADAR) ||
+                    (day == 6 && month == JewishCalendar.ADAR_II) ||
                     (day == 6 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "3.1-3.2";
             }
             if ((day == 8 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 7 && month == JewishCalendar.ADAR) ||
+                    (day == 7 && month == JewishCalendar.ADAR_II) ||
                     (day == 7 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "3.3-3.4";
             }
             if ((day == 9 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 8 && month == JewishCalendar.ADAR) ||
+                    (day == 8 && month == JewishCalendar.ADAR_II) ||
                     (day == 8 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "3.5-3.6";
             }
             if ((day == 10 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 9 && month == JewishCalendar.ADAR) ||
+                    (day == 9 && month == JewishCalendar.ADAR_II) ||
                     (day == 9 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "3.7-3.8";
             }
             if ((day == 11 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 10 && month == JewishCalendar.ADAR) ||
+                    (day == 10 && month == JewishCalendar.ADAR_II) ||
                     (day == 10 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "4.1-4.2";
             }
             if ((day == 12 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 11 && month == JewishCalendar.ADAR) ||
+                    (day == 11 && month == JewishCalendar.ADAR_II) ||
                     (day == 11 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "4.3-4.4";
             }
             if ((day == 13 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 12 && month == JewishCalendar.ADAR) ||
+                    (day == 12 && month == JewishCalendar.ADAR_II) ||
                     (day == 12 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "4.5-4.6";
             }
             if ((day == 14 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 13 && month == JewishCalendar.ADAR) ||
+                    (day == 13 && month == JewishCalendar.ADAR_II) ||
                     (day == 13 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "4.7-4.8";
             }
             if ((day == 15 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 14 && month == JewishCalendar.ADAR) ||
+                    (day == 14 && month == JewishCalendar.ADAR_II) ||
                     (day == 14 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "4.9-4.10";
             }
             if ((day == 16 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 15 && month == JewishCalendar.ADAR) ||
+                    (day == 15 && month == JewishCalendar.ADAR_II) ||
                     (day == 15 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "4.11";
             }
             if ((day == 17 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 16 && month == JewishCalendar.ADAR) ||
+                    (day == 16 && month == JewishCalendar.ADAR_II) ||
                     (day == 16 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "4.12-5.1";
             }
             if ((day == 18 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 17 && month == JewishCalendar.ADAR) ||
+                    (day == 17 && month == JewishCalendar.ADAR_II) ||
                     (day == 17 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "5.2-5.4";
             }
             if ((day == 19 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 18 && month == JewishCalendar.ADAR) ||
+                    (day == 18 && month == JewishCalendar.ADAR_II) ||
                     (day == 18 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "5.5-5.6";
             }
             if ((day == 20 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 19 && month == JewishCalendar.ADAR) ||
+                    (day == 19 && month == JewishCalendar.ADAR_II) ||
                     (day == 19 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "5.7-5.8";
             }
             if ((day == 21 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 20 && month == JewishCalendar.ADAR) ||
+                    (day == 20 && month == JewishCalendar.ADAR_II) ||
                     (day == 20 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "6.1-6.2";
             }
             if ((day == 22 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 21 && month == JewishCalendar.ADAR) ||
+                    (day == 21 && month == JewishCalendar.ADAR_II) ||
                     (day == 21 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "6.3-6.4";
             }
             if ((day == 23 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 22 && month == JewishCalendar.ADAR) ||
+                    (day == 22 && month == JewishCalendar.ADAR_II) ||
                     (day == 22 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "6.5-6.6";
             }
             if ((day == 24 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 23 && month == JewishCalendar.ADAR) ||
+                    (day == 23 && month == JewishCalendar.ADAR_II) ||
                     (day == 23 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "6.7-6.8";
             }
             if ((day == 25 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 24 && month == JewishCalendar.ADAR) ||
+                    (day == 24 && month == JewishCalendar.ADAR_II) ||
                     (day == 24 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "6.9-6.10";
             }
             if ((day == 26 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 25 && month == JewishCalendar.ADAR) ||
+                    (day == 25 && month == JewishCalendar.ADAR_II) ||
                     (day == 25 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "6.11-6.12";
             }
             if ((day == 27 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 26 && month == JewishCalendar.ADAR) ||
+                    (day == 26 && month == JewishCalendar.ADAR_II) ||
                     (day == 26 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "7.1-7.2";
             }
             if ((day == 28 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 27 && month == JewishCalendar.ADAR) ||
+                    (day == 27 && month == JewishCalendar.ADAR_II) ||
                     (day == 27 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "7.3-7.4";
             }
             if ((day == 29 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 28 && month == JewishCalendar.ADAR) ||
+                    (day == 28 && month == JewishCalendar.ADAR_II) ||
                     (day == 28 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "7.5-7.6";
             }
             if ((day == 30 && month == JewishCalendar.CHESHVAN) ||
-                    (day == 29 && month == JewishCalendar.ADAR) ||
+                    (day == 29 && month == JewishCalendar.ADAR_II) ||
                     (day == 29 && month == JewishCalendar.TAMMUZ)) {
                 return hilchosLH + ": " + "7.7-7.8";
             }

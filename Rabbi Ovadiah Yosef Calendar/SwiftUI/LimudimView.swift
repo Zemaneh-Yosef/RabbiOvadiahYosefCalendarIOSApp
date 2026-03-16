@@ -23,12 +23,30 @@ struct LimudimView: View {
     @State private var showHillulotAlert = false
     @State private var isNasiYomi = false
     @State private var seeMore = false
+    @State private var showSiddur = false
+    @State private var shouldAdjust = true
     
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
         GlobalStruct.userChosenDate = userChosenDate
+        if isToday() && isAfterSunset() && shouldAdjust {
+            GlobalStruct.jewishCalendar.forward()
+        }
         updateLimudim()
         updateHillulot()
+        if isToday() && isAfterSunset() && shouldAdjust {
+            GlobalStruct.jewishCalendar.back()
+        }
+    }
+    
+    func isToday() -> Bool {
+        return Calendar.current.isDate(Date(), inSameDayAs: userChosenDate)
+    }
+    
+    func isAfterSunset() -> Bool {
+        let zmanim = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanim.workingDate = userChosenDate
+        return Date() > zmanim.getSunset() ?? Date()
     }
     
     func limudTitle() -> String {
@@ -63,8 +81,7 @@ struct LimudimView: View {
         if mishnaYomi != nil {
             limudim.append(ZmanListEntry(title: "Mishna Yomi: ".localized() + (mishnaYomi ?? "")))
         }
-        
-        let halachaSegments = HalachaYomi.getDailyLearning(date: userChosenDate)
+        let halachaSegments = HalachaYomi.getDailyLearning(date: GlobalStruct.jewishCalendar.workingDate)
         if halachaSegments != nil {
             var halacha = halachaSegments![0].bookName.appending(" ")
             for segment in halachaSegments! {
@@ -149,7 +166,7 @@ struct LimudimView: View {
                 "119:97 - 119:176",
                 "120 - 134",
                 "135 - 139",
-                "140 - " + (GlobalStruct.jewishCalendar.getDaysInJewishMonth() == 29 ? String(150) : String(145)),
+                "140 - \(GlobalStruct.jewishCalendar.getDaysInJewishMonth() == 29 ? String(150) : String(145))",
                 "145 - 150"]
         }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Monthly)".localized() + ": " + dailyMonthlyTehilim[GlobalStruct.jewishCalendar.getJewishDayOfMonth() - 1]))
@@ -178,14 +195,14 @@ struct LimudimView: View {
         }
         limudim.append(ZmanListEntry(title: "Daily Tehilim ".localized() + "(Weekly)".localized() + ": " + dailyWeeklyTehilim[GlobalStruct.jewishCalendar.getDayOfWeek() - 1]))
         
-        let dailyMishnehTorah = DailyMishnehTorah.getDailyLearning(date: userChosenDate)
+        let dailyMishnehTorah = DailyMishnehTorah.getDailyLearning(date: GlobalStruct.jewishCalendar.workingDate)
         if dailyMishnehTorah != nil {
             limudim.append(ZmanListEntry(title: "Rambam Yomi: ".localized()
                 .appending(dailyMishnehTorah!.bookName)
                 .appending(" ")
                 .appending(dailyMishnehTorah!.chapter)))
         }
-        let dailyMishnehTorah3 = DailyMishnehTorah.getDailyLearning3(date: userChosenDate)
+        let dailyMishnehTorah3 = DailyMishnehTorah.getDailyLearning3(date: GlobalStruct.jewishCalendar.workingDate)
         if dailyMishnehTorah3 != nil {
             var rambam3Learnings = ""
             for reading in dailyMishnehTorah3! {
@@ -222,21 +239,25 @@ struct LimudimView: View {
                 // Parse the data using SwiftyJSON
                 let json = try JSON(data: data)
                 
-                let month = GlobalStruct.jewishCalendar.getNissanStartingJewishMonth()
+                var month = GlobalStruct.jewishCalendar.getNissanStartingJewishMonth()
+                if month == 13 && !GlobalStruct.jewishCalendar.isJewishLeapYear() {// edge case for Adar in non leap years
+                    month = 12
+                }
                 let day = GlobalStruct.jewishCalendar.getJewishDayOfMonth()
-                var currentDate:String
+                var monthString: String
+                var dayString: String
                 if month <= 9 {
-                    currentDate = "0" + String(month)
+                    monthString = "0\(month)"
                 } else {
-                    currentDate = String(month)
+                    monthString = String(month)
                 }
                 if day <= 9 {
-                    currentDate += "0" + String(day)
+                    dayString = "0\(day)"
                 } else {
-                    currentDate += String(day)
+                    dayString = String(day)
                 }
                 // Retrieve the array from the JSON for the currentDate
-                if let currentHillulot = json[currentDate].array {
+                if let currentHillulot = json["\(monthString)\(dayString)"].array {
                     
                     // Loop through the array of hillulot
                     for hillula in currentHillulot {
@@ -253,6 +274,55 @@ struct LimudimView: View {
                             entry.src = src
                         }
                         hiloulot.append(entry)
+                    }
+                }
+                if month == 12 { // Adar I with Nissan starting method. Only occurs in leap years
+                    // Retrieve the array from the JSON for the other Adar
+                    if let currentHillulot = json["13\(dayString)"].array {
+                        
+                        // Loop through the array of hillulot and do not add duplicates
+                        for hillula in currentHillulot {
+                            var entry = ZmanListEntry(title: "")
+                            if let name = hillula["name"].string {
+                                entry.title = name
+                            }
+                            
+                            if let src = hillula["desc"].string {
+                                entry.desc = src
+                            }
+                            
+                            if let src = hillula["src"].string {
+                                entry.src = src
+                            }
+                            
+                            if !hiloulot.contains(where: { $0.title == entry.title }) {
+                                hiloulot.append(entry)
+                            }
+                        }
+                    }
+                } else if month == 13 {// Adar II with Nissan starting method. Occurs every year
+                    // Retrieve the array from the JSON for the other Adar
+                    if let currentHillulot = json["12\(dayString)"].array {
+                        
+                        // Loop through the array of hillulot and do not add duplicates
+                        for hillula in currentHillulot {
+                            var entry = ZmanListEntry(title: "")
+                            if let name = hillula["name"].string {
+                                entry.title = name
+                            }
+                            
+                            if let src = hillula["desc"].string {
+                                entry.desc = src
+                            }
+                            
+                            if let src = hillula["src"].string {
+                                entry.src = src
+                            }
+                            
+                            if !hiloulot.contains(where: { $0.title == entry.title }) {
+                                hiloulot.append(entry)
+                            }
+                        }
                     }
                 }
             } catch {
@@ -283,7 +353,7 @@ struct LimudimView: View {
                             Button {
                                 datePickerIsVisible.toggle()
                             } label: {
-                                Text("Done")
+                                Text("Hide")
                             }
                         }.padding()
                     }.frame(width: 320)
@@ -314,7 +384,7 @@ struct LimudimView: View {
                             Button {
                                 hebrewDatePickerIsVisible.toggle()
                             } label: {
-                                Text("Done")
+                                Text("Hide")
                             }
                         }.padding()
                     }.frame(width: 320)
@@ -339,88 +409,92 @@ struct LimudimView: View {
         }
     }
     
-    fileprivate func mainLimudList() -> some View {
-        return List {
-            Section {
-                Text(getDateString(currentDate: userChosenDate))
-                    .font(.headline)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.5)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .onTapGesture {
-                        datePickerIsVisible.toggle()
-                    }
-            }
-            
-            Section(header: Label("Limudim", systemImage: "book")) {
-                if limudim.isEmpty {
-                    Text("No limudim available")
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-
-                ForEach(limudim.indices, id: \.self) { index in
-                    let limud = limudim[index]
-
-                    centeredButton(title: limud.title) {
-                        selectedLimud = limud
-                        showLimudAlert = shouldShowAlert(title: limud.title)
-                        isNasiYomi = limud.title.contains("Daily Nasi: ".localized())
-                    }
-                    .lineLimit(limud.title.contains("Rambam Yomi 3 Chapters: ".localized()) ? 4 : 1)
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.center)
-                }
-
-                if !seeMore && limudim.count >= 4 {
-                    centeredButton(title: "See more...") {
-                        seeMore = true
-                        updateLimudim()
-                    }
-                }
-            }
-            .alert(limudTitle(), isPresented: $showLimudAlert) {
-                if !isNasiYomi {
-                    Button("OK") {
-                        openSefariaLink(selectedLimud: selectedLimud)
-                    }
-                }
-                Button("Dismiss", role: .cancel) {
-                    isNasiYomi = false
-                }
-            } message: {
-                if isNasiYomi {
-                    Text(selectedLimud?.desc ?? "")
-                } else {
-                    Text("This will open the Sefaria website or app in a new window.")
-                }
-            }
-            .textCase(nil)
-
-            // Hillulot
-            Section(header: Label("Hillulot", systemImage: "flame")) {
-                ForEach(hiloulot, id: \.title) { hiloula in
-                    HStack {
-                        Text("").frame(maxWidth: 0)
-                        Spacer()
-                        Button(hiloula.title) {
-                            selectedHiloula = hiloula
-                            showHillulotAlert = true
-                        }
-                        .font(.title3.bold())
-                        .minimumScaleFactor(0.5)
+    var mainLimudList: some View {
+        VStack {
+            List {
+                Section {
+                    Text(getDateString())
+                        .font(.headline)
                         .lineLimit(1)
-                        .allowsTightening(true)
+                        .minimumScaleFactor(0.5)
                         .frame(maxWidth: .infinity, alignment: .center)
-                        Spacer()
+                        .onTapGesture {
+                            datePickerIsVisible.toggle()
+                        }
+                }
+                
+                Section(header: Label("Limudim", systemImage: "book")) {
+                    if limudim.isEmpty {
+                        Text("No limudim available")
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    
+                    ForEach(limudim.indices, id: \.self) { index in
+                        let limud = limudim[index]
+                        
+                        centeredButton(title: limud.title) {
+                            selectedLimud = limud
+                            showLimudAlert = shouldShowAlert(title: limud.title)
+                            isNasiYomi = limud.title.contains("Daily Nasi: ".localized())
+                        }
+                        .lineLimit(limud.title.contains("Rambam Yomi 3 Chapters: ".localized()) ? 4 : 1)
+                        .minimumScaleFactor(0.5)
+                        .multilineTextAlignment(.center)
+                    }
+                    
+                    if !seeMore && limudim.count >= 4 {
+                        centeredButton(title: "See more...") {
+                            seeMore = true
+                            syncCalendarDates()
+                        }
                     }
                 }
-            }
-        }.listStyle(.insetGrouped)
+                .alert(limudTitle(), isPresented: $showLimudAlert) {
+                    if !isNasiYomi {
+                        Button("OK") {
+                            openSefariaLink(selectedLimud: selectedLimud)
+                        }
+                    }
+                    Button("Dismiss", role: .cancel) {
+                        isNasiYomi = false
+                    }
+                } message: {
+                    if isNasiYomi {
+                        Text(selectedLimud?.desc ?? "")
+                    } else {
+                        Text("This will open the Sefaria website or app in a new window.")
+                    }
+                }
+                .textCase(nil)
+                
+                // Hillulot
+                Section(header: Label("Hillulot", systemImage: "flame")) {
+                    ForEach(hiloulot, id: \.title) { hiloula in
+                        HStack {
+                            Text("").frame(maxWidth: 0)
+                            Spacer()
+                            Button(hiloula.title) {
+                                selectedHiloula = hiloula
+                                showHillulotAlert = true
+                            }
+                            .font(.title3.bold())
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                            .allowsTightening(true)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            Spacer()
+                        }
+                    }
+                }
+            }.listStyle(.insetGrouped)
+            NavigationLink("", isActive: $showSiddur) { UIKitSiddurControllerView().navigationBarTitleDisplayMode(.inline)// fix for iOS 15/16
+                .applyToolbarHidden() }.hidden()// Temp
+        }
     }
     
     var body: some View {
-        alerts(view: mainLimudList())
+        alerts(view: mainLimudList)
         .refreshable {
             userChosenDate = Date()
             syncCalendarDates()
@@ -436,7 +510,11 @@ struct LimudimView: View {
         }.textCase(nil)
         HStack {
             Button {
-                userChosenDate = userChosenDate.advanced(by: -86400)
+                if isToday() && isAfterSunset() && shouldAdjust {
+                    shouldAdjust = false
+                } else {
+                    userChosenDate = userChosenDate.advanced(by: -86400)
+                }
                 syncCalendarDates()
             } label: {
                 Image(systemName: "arrowtriangle.backward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
@@ -454,99 +532,151 @@ struct LimudimView: View {
             Button {
                 userChosenDate = userChosenDate.advanced(by: 86400)
                 syncCalendarDates()
+                if isToday() {
+                    shouldAdjust = true
+                }
             } label: {
                 Image(systemName: "arrowtriangle.forward.fill").resizable().scaledToFit().frame(width: 18, height: 18)
             }
             .padding(.trailing, 2)
         }.padding(.init(top: 2, leading: 0, bottom: 8, trailing: 0))
     }
-}
-
-func getDateString(currentDate: Date) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "d MMMM, yyyy"
-    dateFormatter.timeZone = GlobalStruct.geoLocation.timeZone
-    var date = dateFormatter.string(from: currentDate)
-
-    let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
-    var hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
-    if Locale.isHebrewLocale() {
-        hebrewDateFormatter.hebrewFormat = true
-        hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
+    
+    func shouldShowAlert(title: String) -> Bool {
+        if title.contains("Tehilim") || title.contains("תהלים") {
+            if title.contains("Monthly") || title.contains("חודשי") {
+                let monthlyTehilim = [1, 10, 18, 23, 29, 35, 39, 44, 49, 55, 60, 66, 69, 72, 77, 79, 83, 88, 90, 97, 104, 106, 108, 113, 119, 119, 120, 135, 140, 145]
+                GlobalStruct.tehilimToScrollTo = monthlyTehilim[GlobalStruct.jewishCalendar.getJewishDayOfMonth() - 1]
+            }
+            if title.contains("Weekly") || title.contains("שבועי") {
+                let weeklyTehilim = [1, 30, 51, 73, 90, 107, 120]
+                GlobalStruct.tehilimToScrollTo = weeklyTehilim[GlobalStruct.jewishCalendar.getDayOfWeek() - 1]
+            }
+            GlobalStruct.chosenPrayer = "Tehilim"
+            showSiddur = true
+        }
+        
+        if title.contains("Daf Yomi: ".localized()) ||
+            title.contains("Yerushalmi Vilna Yomi: ".localized()) ||
+            title.contains("Mishna Yomi: ".localized()) ||
+            title.contains("Halacha Yomi: ".localized()) ||
+            title.contains("Daily Nasi: ".localized()) {
+            return true
+        } else {
+            return false
+        }
     }
     
-    if Calendar.current.isDateInToday(currentDate) {
-        date += "   ▼   " + hebrewDate
-    } else {
-        date += "       " + hebrewDate
-    }
-    return date
-}
+    func getDateString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM, yyyy"
+        dateFormatter.timeZone = GlobalStruct.geoLocation.timeZone
+        var date = dateFormatter.string(from: userChosenDate)
 
-func shouldShowAlert(title: String) -> Bool {
-    if title.contains("Daf Yomi: ".localized()) ||
-        title.contains("Yerushalmi Vilna Yomi: ".localized()) ||
-        title.contains("Mishna Yomi: ".localized()) ||
-        title.contains("Halacha Yomi: ".localized()) ||
-        title.contains("Daily Nasi: ".localized()) {
-        return true
-    } else {
-        return false
+        let hebrewDateFormatter = HebrewDateFormatter().withCorrectEnglishMonths()
+        if isToday() && isAfterSunset() && shouldAdjust {
+            GlobalStruct.jewishCalendar.forward()
+        }
+        var hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
+        if Locale.isHebrewLocale() {
+            hebrewDateFormatter.hebrewFormat = true
+            hebrewDate = hebrewDateFormatter.format(jewishCalendar: GlobalStruct.jewishCalendar)
+        }
+        if isToday() && isAfterSunset() && shouldAdjust {
+            GlobalStruct.jewishCalendar.back()
+        }
+        
+        if isToday() {
+            if isAfterSunset() && shouldAdjust {
+                date += "   🌙   " + hebrewDate
+            } else {
+                date += "   ☀️   " + hebrewDate
+            }
+        } else {
+            date += "       " + hebrewDate
+        }
+        return date
     }
-}
-
-func openSefariaLink(selectedLimud: ZmanListEntry?) {
-    if selectedLimud!.title.contains("Daf Yomi: ".localized()) {
-        let dafObject = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar)
-        if dafObject != nil {
-            let masechta = dafObject!.getMasechtaTransliterated()
-            let daf = dafObject!.getDaf()
-            let dafYomiLink: String = "https://www.sefaria.org/"
-                .appending(masechta)
-                .appending(".")
-                .appending(String(daf))
-                .appending("a")
-            if let url = URL(string: dafYomiLink) {
-                UIApplication.shared.open(url)
+    
+    func openSefariaLink(selectedLimud: ZmanListEntry?) {
+        if isToday() && isAfterSunset() {
+            GlobalStruct.jewishCalendar.forward()
+            userChosenDate = userChosenDate.addingTimeInterval(86400)
+        }
+        if selectedLimud!.title.contains("Daf Yomi: ".localized()) {
+            let dafObject = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar)
+            let masechtotBavliSefariaTransliterated = ["Berakhot", "Shabbat", "Eruvin", "Pesachim", "Shekalim",
+                                                       "Yoma", "Sukkah", "Beitzah", "Rosh_Hashana", "Taanit", "Megillah", "Moed_Katan", "Chagigah", "Yevamot",
+                                                       "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin", "Bava_Kamma", "Bava_Metzia", "Bava_Batra",
+                                                       "Sanhedrin", "Makkot", "Shevuot", "Avodah_Zarah", "Horayot", "Zevachim", "Menachot", "Chullin", "Bekhorot",
+                                                       "Arakhin", "Temurah", "Keritot", "Meilah", "Kinnim", "Tamid", "Midot", "Niddah" ]
+            if dafObject != nil {
+                dafObject!.setMasechtaTransliterated(masechtosBavliTransliterated: masechtotBavliSefariaTransliterated)
+                let masechta = dafObject!.getMasechtaTransliterated()
+                let daf = dafObject!.getDaf()
+                
+                var dafYomiLink: String
+                switch masechta {
+                case "Shekalim":
+                    dafYomiLink = "https://www.sefaria.org/Jerusalem_Talmud_\(masechta).\(daf)a"
+                case "Kinnim", "Midot":
+                    dafYomiLink = "https://www.dafyomi.org/index.php?masechta=meilah&daf=\(daf)a"
+                case "Meilah":
+                    if daf == 22 {
+                        dafYomiLink = "https://www.dafyomi.org/index.php?masechta=meilah&daf=22a"
+                    } else {
+                        dafYomiLink = "https://www.sefaria.org/\(masechta).\(daf)a"
+                    }
+                default:
+                    dafYomiLink = "https://www.sefaria.org/\(masechta).\(daf)a"
+                }
+                
+                if let url = URL(string: dafYomiLink) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } else if selectedLimud!.title.contains("Yerushalmi Vilna Yomi: ".localized()) {
+            let dafYomiYerushalmi = YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar: GlobalStruct.jewishCalendar)
+            let masechtotYerushalmiTransliterated = ["Berakhot", "Peah", "Demai", "Kilayim", "Sheviit",
+                                                     "Terumot", "Maasrot", "Maaser_Sheni", "Challah", "Orlah", "Bikkurim", "Shabbat", "Eruvin", "Pesachim",
+                                                     "Beitzah", "Rosh_Hashana", "Yoma", "Sukkah", "Taanit", "Shekalim", "Megillah", "Chagigah", "Moed_Katan",
+                                                     "Yevamot", "Ketubot", "Sotah", "Nedarim", "Nazir", "Gittin", "Kiddushin", "Bava_Kamma", "Bava_Metzia",
+                                                     "Bava_Batra", "Shevuot", "Makkot", "Sanhedrin", "Avodah_Zarah", "Horayot", "Niddah", "No Daf Today" ]
+            if dafYomiYerushalmi != nil {
+                dafYomiYerushalmi!.setYerushalmiMasechtaTransliterated(masechtosYerushalmiTransliterated: masechtotYerushalmiTransliterated)
+                let yerushalmiYomiLink = "https://www.sefaria.org/Jerusalem_Talmud_\(dafYomiYerushalmi!.getYerushalmiMasechtaTransliterated())"
+                if let url = URL(string: yerushalmiYomiLink) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } else if selectedLimud!.title.contains("Mishna Yomi: ".localized()) {
+            let mishnaYomi = MishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false)
+            if mishnaYomi.getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false) != nil {
+                let mishnaYomiLink = "https://www.sefaria.org/".appending((mishnaYomi.sFirstMasechta == "Avot" ? "" : "Mishnah_")) // apparently Pirkei Avot link is missing the Mishnah_ part
+                    .appending(replaceWithSefariaNames(masechta: mishnaYomi.sFirstMasechta))
+                    .appending(".")
+                    .appending(String(mishnaYomi.sFirstPerek))
+                    .appending(".")
+                    .appending(String(mishnaYomi.sFirstMishna))
+                if let url = URL(string: mishnaYomiLink) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } else if selectedLimud!.title.contains("Halacha Yomi: ".localized()) {
+            let halachaYomi = HalachaYomi.getDailyLearning(date: GlobalStruct.userChosenDate)
+            if halachaYomi != nil {
+                let halachaYomiLink = "https://www.sefaria.org/".appending((halachaYomi![0].bookName == "שו\"ע - או\"ח" ? "Shulchan_Arukh%2C_Orach_Chayim." : "Kitzur_Shulchan_Arukh."))
+                    .appending(String(halachaYomi![0].siman))
+                    .appending(".")
+                    .appending(String(halachaYomi![0].firstSeif))
+                if let url = URL(string: halachaYomiLink) {
+                    UIApplication.shared.open(url)
+                }
             }
         }
-    } else if selectedLimud!.title.contains("Yerushalmi Vilna Yomi: ".localized()) {
-        let dafYomiYerushalmi = YerushalmiYomiCalculator.getDafYomiYerushalmi(jewishCalendar: GlobalStruct.jewishCalendar)
-        let masechtotYerushalmiTransliterated = ["Berakhot", "Peah", "Demai", "Kilayim", "Sheviit",
-                                                 "Terumot", "Maasrot", "Maaser Sheni", "Challah", "Orlah", "Bikkurim", "Shabbat", "Eruvin", "Pesachim",
-                                                 "Beitzah", "Rosh Hashanah", "Yoma", "Sukkah", "Taanit", "Shekalim", "Megillah", "Chagigah", "Moed Katan",
-                                                 "Yevamot", "Ketubot", "Sotah", "Nedarim", "Nazir", "Gittin", "Kiddushin", "Bava Kamma", "Bava Metzia",
-                                                 "Bava Batra", "Shevuot", "Makkot", "Sanhedrin", "Avodah Zarah", "Horayot", "Niddah", "No Daf Today"]
-        if dafYomiYerushalmi != nil {
-            dafYomiYerushalmi!.setYerushalmiMasechtaTransliterated(masechtosYerushalmiTransliterated: masechtotYerushalmiTransliterated)
-            let yerushalmiYomiLink = "https://www.sefaria.org/" + "Jerusalem_Talmud_" + (dafYomiYerushalmi!.getYerushalmiMasechtaTransliterated())
-            if let url = URL(string: yerushalmiYomiLink) {
-                UIApplication.shared.open(url)
-            }
-        }
-    } else if selectedLimud!.title.contains("Mishna Yomi: ".localized()) {
-        let mishnaYomi = MishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false)
-        if mishnaYomi.getMishnaYomi(jewishCalendar: GlobalStruct.jewishCalendar, useHebrewText: false) != nil {
-            let mishnaYomiLink = "https://www.sefaria.org/".appending((mishnaYomi.sFirstMasechta == "Avot" ? "" : "Mishnah_")) // apparently Pirkei Avot link is missing the Mishnah_ part
-                .appending(replaceWithSefariaNames(masechta: mishnaYomi.sFirstMasechta))
-                .appending(".")
-                .appending(String(mishnaYomi.sFirstPerek))
-                .appending(".")
-                .appending(String(mishnaYomi.sFirstMishna))
-            if let url = URL(string: mishnaYomiLink) {
-                UIApplication.shared.open(url)
-            }
-        }
-    } else if selectedLimud!.title.contains("Halacha Yomi: ".localized()) {
-        let halachaYomi = HalachaYomi.getDailyLearning(date: GlobalStruct.userChosenDate)
-        if halachaYomi != nil {
-            let halachaYomiLink = "https://www.sefaria.org/".appending((halachaYomi![0].bookName == "שו\"ע - או\"ח" ? "Shulchan_Arukh%2C_Orach_Chayim." : "Kitzur_Shulchan_Arukh."))
-                .appending(String(halachaYomi![0].siman))
-                .appending(".")
-                .appending(String(halachaYomi![0].firstSeif))
-            if let url = URL(string: halachaYomiLink) {
-                UIApplication.shared.open(url)
-            }
+        if isToday() && isAfterSunset() {
+            GlobalStruct.jewishCalendar.back()
+            userChosenDate = userChosenDate.addingTimeInterval(-86400)
         }
     }
 }

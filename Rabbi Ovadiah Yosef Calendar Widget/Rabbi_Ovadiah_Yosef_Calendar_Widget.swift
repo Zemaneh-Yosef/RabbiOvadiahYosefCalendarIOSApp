@@ -17,12 +17,13 @@ struct Provider: IntentTimelineProvider {
             dayOfWeek: "Sunday",
             hebrewDate: "1 Tishri, 5800".split(separator: " ").map { String($0) },
             parasha: "בראשית",
-            upcomingZman: "Zman",
+            upcomingZman: ZmanListEntry(title: "Sunset"),
             date: Date(),
             tachanun: "Tachanun",
             daf: "שבת ב",
             configuration: ConfigurationIntent(),
-            isHebrew: isCurrentLanguageHebrew(lang: ConfigurationIntent().language))
+            isHebrew: isCurrentLanguageHebrew(lang: ConfigurationIntent().language),
+            isAfterSunset: false)
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -34,18 +35,20 @@ struct Provider: IntentTimelineProvider {
 
         getZmanimCalendarWithLocation() { zmanimCalendar in
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
+            let isAfterSunset = Date() > zmanimCalendar.getSunset() ?? Date()
             let jewishCalendar = getJewishCalendar()
             
             let entry = SimpleEntry(
                 dayOfWeek: getDayOfWeek(language: configuration.language),
-                hebrewDate: getHebrewDate(language: configuration.language),
+                hebrewDate: getHebrewDate(language: configuration.language, forTomorrow: isAfterSunset),
                 parasha: getParshah(jewishCalendar: jewishCalendar),
-                upcomingZman: upcomingZman.title,
+                upcomingZman: upcomingZman,
                 date: upcomingZman.zman!,
                 tachanun: jewishCalendar.getTachanun(),
                 daf: daf,
                 configuration: configuration,
-                isHebrew: isCurrentLanguageHebrew(lang: configuration.language))
+                isHebrew: isCurrentLanguageHebrew(lang: configuration.language),
+                isAfterSunset: isAfterSunset)
 
             completion(entry)
         }
@@ -61,17 +64,19 @@ struct Provider: IntentTimelineProvider {
 
         getZmanimCalendarWithLocation() { zmanimCalendar in
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
+            let isAfterSunset = Date() > zmanimCalendar.getSunset() ?? Date()
             
             let entry = SimpleEntry(
                 dayOfWeek: getDayOfWeek(language: configuration.language),
-                hebrewDate: getHebrewDate(language: configuration.language),
+                hebrewDate: getHebrewDate(language: configuration.language, forTomorrow: isAfterSunset),
                 parasha: getParshah(jewishCalendar: getJewishCalendar()),
-                upcomingZman: upcomingZman.title,
+                upcomingZman: upcomingZman,
                 date: upcomingZman.zman ?? Date(),
                 tachanun: getJewishCalendar().getTachanun(),
                 daf: daf,
                 configuration: configuration,
-                isHebrew: isCurrentLanguageHebrew(lang: configuration.language))
+                isHebrew: isCurrentLanguageHebrew(lang: configuration.language),
+                isAfterSunset: isAfterSunset)
             
             entries.append(entry)
             
@@ -94,12 +99,13 @@ struct SimpleEntry: TimelineEntry {
     let dayOfWeek: String
     let hebrewDate: [String]
     let parasha: String
-    let upcomingZman: String
+    let upcomingZman: ZmanListEntry
     let date: Date
     let tachanun: String
     let daf: String
     let configuration: ConfigurationIntent
     let isHebrew: Bool
+    let isAfterSunset: Bool
 }
 
 struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
@@ -128,6 +134,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                         Text(entry.hebrewDate[0])// Day of month
                             .font(entry.isHebrew ? .custom("Guttman Mantova", size: 50) : .system(size: 50))
                             .bold()
+                            .underline(entry.isAfterSunset)
                             .frame(alignment: .top)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
@@ -148,7 +155,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                     .padding(.horizontal)
                     .padding(.bottom)
                 }
-                .position(x: geo.size.width / 2, y: geo.size.height / 2) // 👈 Centers inside GeometryReader
+                .position(x: geo.size.width / 2, y: geo.size.height / 2) // Centers inside GeometryReader
             }
             .environment(\.layoutDirection, entry.isHebrew ? .rightToLeft : .leftToRight)
         case .systemMedium:
@@ -156,15 +163,16 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
                 VStack {
                     Text(entry.hebrewDate.joined(separator: " "))
                         .bold()
+                        .underline(entry.isAfterSunset)
                         .multilineTextAlignment(.center)
                         .padding(.bottom, .leastNormalMagnitude)
                     Text(entry.parasha)
                         .font(.custom("Guttman Mantova", size: 18))
                 }
                 VStack {
-                    Text(entry.upcomingZman)
+                    Text(entry.upcomingZman.title)
                         .padding(.bottom, .leastNormalMagnitude)
-                    Text(entry.date, style: .time).bold()
+                    Text(entry.date.format(defaults: UserDefaults.getMyUserDefaults(), timezone: .autoupdatingCurrent, secondTreatment: entry.upcomingZman.secondTreatment)).bold()
                 }
                 VStack {
                     Text(entry.tachanun
@@ -176,7 +184,7 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView : View {
             }
         default:
             VStack {
-                Text(entry.hebrewDate.joined(separator: " "))
+                Text(String(entry.isAfterSunset ? "🌙 " : "☀️ ").appending(entry.hebrewDate.joined(separator: " ")))
                     .bold()
                     .padding(.bottom, .leastNormalMagnitude)
                 Text(entry.parasha)
@@ -214,17 +222,19 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
         }
         
         let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: cal)
+        let isAfterSunset = Date() > cal.getSunset() ?? Date()
         
         let entry = SimpleEntry(
             dayOfWeek: getDayOfWeek(language: .systemDefault),
-            hebrewDate: getHebrewDate(language: .systemDefault),
+            hebrewDate: getHebrewDate(language: .systemDefault, forTomorrow: isAfterSunset),
             parasha: getParshah(jewishCalendar: getJewishCalendar()),
-            upcomingZman: upcomingZman.title,
-            date: upcomingZman.zman!,
+            upcomingZman: upcomingZman,
+            date: upcomingZman.zman ?? Date(),
             tachanun: getJewishCalendar().getTachanun(),
             daf: daf,
             configuration: ConfigurationIntent(),
-            isHebrew: isCurrentLanguageHebrew(lang: ConfigurationIntent().language))
+            isHebrew: isCurrentLanguageHebrew(lang: ConfigurationIntent().language),
+            isAfterSunset: isAfterSunset)
         
         return Rabbi_Ovadiah_Yosef_Calendar_WidgetEntryView(entry: entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
@@ -243,7 +253,7 @@ func getDayOfWeek(language: LanguageSetting) -> String {
     return dateFormatter.string(from: Date())
 }
 
-func getHebrewDate(language: LanguageSetting) -> [String] {
+func getHebrewDate(language: LanguageSetting, forTomorrow: Bool = false) -> [String] {
     let formatter = HebrewDateFormatter().withCorrectEnglishMonths()
 
     switch language {
@@ -259,7 +269,8 @@ func getHebrewDate(language: LanguageSetting) -> [String] {
         formatter.hebrewFormat = Locale.isHebrewLocale()
     }
 
-    let heb = formatter.format(jewishCalendar: JewishCalendar())
+    let jewishCalendar = forTomorrow ? getJewishCalendar().tomorrow() : getJewishCalendar()
+    let heb = formatter.format(jewishCalendar: jewishCalendar)
 
     var parts = heb.split(separator: " ").map { String($0) }
     parts[0] = parts[0].replacingOccurrences(of: "׳", with: "")

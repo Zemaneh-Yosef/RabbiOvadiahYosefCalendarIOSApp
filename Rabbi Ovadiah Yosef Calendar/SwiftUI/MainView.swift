@@ -76,7 +76,7 @@ struct ContentView: View {
                 Tab("Limudim/Hillulot", systemImage: "text.justify", value: 1) {
                     tabContent(title: "Limudim/Hillulot".localized())
                 }
-                Tab("Zmanim", systemImage: "alarm", value: 2) {
+                Tab("Zemanim", systemImage: "alarm", value: 2) {
                     tabContent(title: "Rabbi Ovadia Yosef Calendar".localized())
                 }
                 Tab("Siddur", systemImage: "book", value: 3) {
@@ -93,7 +93,7 @@ struct ContentView: View {
 
                 tabContent(title: "Rabbi Ovadia Yosef Calendar".localized())
                     .tabItem {
-                        Label("Zmanim", systemImage: "alarm")
+                        Label("Zemanim", systemImage: "alarm")
                     }
                     .tag(2)
 

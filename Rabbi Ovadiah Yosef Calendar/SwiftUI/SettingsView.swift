@@ -16,7 +16,8 @@ struct SettingsView: View {
     @AppStorage("omerNotifications", store: defaults) private var omerNotifications: Bool = true
     @AppStorage("showSeconds", store: defaults) private var showSeconds: Bool = false
     @AppStorage("alwaysShowRT", store: defaults) private var alwaysShowRT: Bool = false
-    @AppStorage("roundUpRT", store: defaults) private var roundUpRT: Bool = false
+    @AppStorage("keepMainScreenOn", store: defaults) private var keepMainScreenOn: Bool = false
+    @AppStorage("keepSiddurScreenOn", store: defaults) private var keepSiddurScreenOn: Bool = false
     @AppStorage("showWhenShabbatChagEnds", store: defaults) private var showWhenShabbatChagEnds: Bool = false
     @AppStorage("showRegularWhenShabbatChagEnds", store: defaults) private var showRegularWhenShabbatChagEnds: Bool = false
     @AppStorage("showRTWhenShabbatChagEnds", store: defaults) private var showRTWhenShabbatChagEnds: Bool = false
@@ -67,7 +68,6 @@ struct SettingsView: View {
                         if value { showSecondsAlert = true }
                     }
                 Toggle("Show Rabbenu Tam everyday?", isOn: $alwaysShowRT)
-                Toggle("Round up Rabbenu Tam?", isOn: $roundUpRT)
             } header: {
                 VStack {
                     Text("Zemanim Display").textCase(nil)
@@ -89,6 +89,8 @@ struct SettingsView: View {
                 Toggle("Show year of Shemita cycle?", isOn: $showShmita)
                 Toggle("Show Shabbat Mevarchim?", isOn: $showShabbatMevarchim)
                 Toggle("Set elevation to last known location?", isOn: $setElevationToLastKnownLocation)
+                Toggle("Keep Screen On (Main)", isOn: $keepMainScreenOn)
+                Toggle("Keep Screen On (Siddur)", isOn: $keepSiddurScreenOn)
             } header: {
                 VStack {
                     Text("Other Settings").textCase(nil)

@@ -16,4 +16,5 @@ struct GlobalStruct {
     static var meEyinShaloshChoices = ""
     static var siyumChoices = Array<String>()
     static var userChosenDate = Date()
+    static var tehilimToScrollTo = 1
 }

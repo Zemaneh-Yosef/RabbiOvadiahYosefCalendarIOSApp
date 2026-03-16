@@ -5,98 +5,131 @@
 //  Created by User on 11/16/23.
 //
 
+import Foundation
 import SwiftUI
 import KosherSwift
 import SunCalc
 
-let defaults = UserDefaults.standard
+let defaults = UserDefaults.standard // user defaults do not get brought over from the main iOS app, so no suiteID will help
 var timezone: TimeZone = TimeZone.current.corrected()
 var userChosenDate: Date = Date()
-var nextUpcomingZman: Date? = nil
+var nextUpcomingZman: ZmanListEntry? = nil
 var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
 var jewishCalendar: JewishCalendar = JewishCalendar()
 
 struct ContentView: View {
     @State private var zmanimList: [ZmanListEntry] = []
     @StateObject private var settings = InterfaceController()
-
+    @State private var userHasNotPressed = true
+    @State private var upcomingZman: ZmanListEntry? = nil
+    
+//    var initialView: some View {// TODO fix this transition
+//        VStack {
+//            Spacer()
+//            HStack {
+//                Spacer()
+//                Text(upcomingZman?.title ?? "Test")
+//                Spacer()
+//                Text(upcomingZman?.zman?.format(defaults: defaults,
+//                                                    timezone: timezone,
+//                                                    secondTreatment: (nextUpcomingZman != nil ? nextUpcomingZman!.secondTreatment : .roundEarlier)) ?? "XX:XX")
+//                Spacer()
+//            }
+//            Spacer()
+//        }
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .contentShape(Rectangle())
+//        .background {
+//            Color.secondary// TODO fix background color
+//        }
+//        .gesture(DragGesture(minimumDistance: 1, coordinateSpace: .global).onEnded { value in
+//            withAnimation(.smooth, {
+//                userHasNotPressed = false
+//            })
+//        })
+//        .onTapGesture {
+//            withAnimation(.smooth, {
+//                userHasNotPressed = false
+//            })
+//        }
+//        .onAppear {
+//            getZmanimCalendarWithLocation { complexZmanimCalendar in
+//                zmanimCalendar = complexZmanimCalendar
+//                zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+//                jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
+//                timezone = complexZmanimCalendar.geoLocation.timeZone
+//                userChosenDate = Date()
+//                syncCalendarDates()
+//                setNextUpcomingZman()
+//                upcomingZman = nextUpcomingZman
+//                zmanimList = updateZmanimList()
+//            }
+//        }
+//    }
+    
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollViewReader { proxy in
                 List {
                     ForEach(zmanimList, id: \.title) { zmanTime in
                         HStack {
                             if !zmanTime.isZman {
+                                Spacer()
+                                Text(zmanTime.title)
+                                    .multilineTextAlignment(.center)
+                                Spacer()
+                            } else {// zmanim
                                 if zmanTime.zman != nil {
-                                    if Calendar.current.isDateInToday(zmanTime.zman!) {
-                                        Spacer()
-                                        Text(zmanTime.title).bold()
-                                        Spacer()
+                                    if defaults.bool(forKey: "isZmanimInHebrew") {
+                                        if zmanTime.zman == nextUpcomingZman?.zman {
+                                            Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, secondTreatment: zmanTime.secondTreatment)).bold().underline()
+                                            Spacer()
+                                            Text(zmanTime.title).bold().underline()
+                                        } else {
+                                            Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, secondTreatment: zmanTime.secondTreatment))
+                                            Spacer()
+                                            Text(zmanTime.title)
+                                        }
                                     } else {
-                                        Spacer()
-                                        Text(zmanTime.title)
-                                        Spacer()
-                                    }
-                                } else {
-                                    Spacer()
-                                    Text(zmanTime.title)
-                                    Spacer()
-                                }
-                            } else {
-                                if defaults.bool(forKey: "isZmanimInHebrew") {
-                                    if zmanTime.zman == nextUpcomingZman {
-                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman)).bold().underline()
-                                        Spacer()
-                                        Text(zmanTime.title).bold().underline()
-                                    } else {
-                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman))
-                                        Spacer()
-                                        Text(zmanTime.title)
-                                    }
-                                } else {
-                                    if zmanTime.zman == nextUpcomingZman {
-                                        Text(zmanTime.title).bold().underline()
-                                        Spacer()
-                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman)).bold().underline()
-                                    } else {
-                                        Text(zmanTime.title)
-                                        Spacer()
-                                        Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, isRT: zmanTime.isRTZman))
+                                        if zmanTime.zman == nextUpcomingZman?.zman {
+                                            Text(zmanTime.title).bold().underline()
+                                            Spacer()
+                                            Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, secondTreatment: zmanTime.secondTreatment)).bold().underline()
+                                        } else {
+                                            Text(zmanTime.title)
+                                            Spacer()
+                                            Text(zmanTime.zman!.format(defaults: defaults, timezone: timezone, secondTreatment: zmanTime.secondTreatment))
+                                        }
                                     }
                                 }
                             }
                         }
+                        .id(zmanTime.zman?.timeIntervalSince1970)
                     }
-                    Button(action: {
-                        userChosenDate = userChosenDate.addingTimeInterval(-86400)
-                        syncCalendarDates()
-                        zmanimList = updateZmanimList()
-                    }) {
-                        HStack {
-                            Image(systemName: "chevron.left.circle.fill")
-                            Spacer()
-                            Text("Previous Day")
-                        }
+                }
+                .onChange(of: zmanimList, {
+                    proxy.scrollTo(nextUpcomingZman?.zman?.timeIntervalSince1970, anchor: .center)
+                })
+            }
+            .navigationTitle(settings.description)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button(action: { changeDay(by: -1) }) {
+                        Image(systemName: "chevron.left")
                     }
-                    Button(action: {
-                        userChosenDate = userChosenDate.addingTimeInterval(86400)
-                        syncCalendarDates()
-                        zmanimList = updateZmanimList()
-                    }) {
-                        HStack {
-                            Text("Next Day")
-                            Spacer()
-                            Image(systemName: "chevron.right.circle.fill")
-                        }
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button(action: { changeDay(by: 1) }) {
+                        Image(systemName: "chevron.right")
                     }
                 }
             }
-            .navigationTitle(settings.description)
         }
         .onChange(of: settings.hash, {
             getZmanimCalendarWithLocation { complexZmanimCalendar in
                 zmanimCalendar = complexZmanimCalendar
                 zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+                jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                 timezone = complexZmanimCalendar.geoLocation.timeZone
                 setNextUpcomingZman()
                 zmanimList = updateZmanimList()
@@ -108,6 +141,7 @@ struct ContentView: View {
                 // update the zmanimList using the data obtained with the current date
                 zmanimCalendar = complexZmanimCalendar
                 zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+                jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                 timezone = complexZmanimCalendar.geoLocation.timeZone
                 userChosenDate = Date()
                 syncCalendarDates()
@@ -116,8 +150,13 @@ struct ContentView: View {
             }
         }
     }
+    
+    func changeDay(by amount: Int) {
+        userChosenDate = Calendar.current.date(byAdding: .day, value: amount, to: userChosenDate) ?? Date()
+        syncCalendarDates()
+        zmanimList = updateZmanimList()
+    }
 }
-
 
 func updateZmanimList() -> Array<ZmanListEntry> {
     var zmanimList = Array<ZmanListEntry>()
@@ -144,9 +183,22 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     }
     
     if Calendar.current.isDateInToday(userChosenDate) {
-        date += "   ▼   " + hebrewDate
+        if Date() > zmanimCalendar.getSunset() ?? Date() {
+            hebrewDate = hDateFormatter.string(from: userChosenDate.addingTimeInterval(86400))
+                .replacingOccurrences(of: "Heshvan", with: "Cheshvan")
+                .replacingOccurrences(of: "Tamuz", with: "Tammuz")
+            
+            if Locale.isHebrewLocale() {
+                let hebrewDateFormatter = HebrewDateFormatter()
+                hebrewDateFormatter.hebrewFormat = true
+                hebrewDate = hebrewDateFormatter.format(jewishCalendar: jewishCalendar.tomorrow())
+            }
+            date += "\n🌙\n" + hebrewDate
+        } else {
+            date += "\n☀️\n" + hebrewDate
+        }
     } else {
-        date += "       " + hebrewDate
+        date += "\n" + hebrewDate
     }
     zmanimList.append(ZmanListEntry(title:date))
     //forward jewish calendar to saturday
@@ -167,9 +219,13 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     } else {
         zmanimList.append(ZmanListEntry(title:"No Weekly Parasha".localized()))
     }
-    let haftorah = WeeklyHaftarahReading.getThisWeeksHaftarah(jewishCalendar: jewishCalendar)
-    if !haftorah.isEmpty {
-        zmanimList.append(ZmanListEntry(title: haftorah))
+    let haftorah = WeeklySephardicHaftarot.getThisWeeksHaftarah(jCal: jewishCalendar)
+    if !haftorah.text.isEmpty {
+        zmanimList.append(ZmanListEntry(title: (Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
+            .appending(" (")
+            .appending(haftorah.source)
+            .appending(") ")
+            .appending(haftorah.text)))
     }
     syncCalendarDates()//reset
     if defaults.bool(forKey: "showShabbatMevarchim") {
@@ -446,7 +502,7 @@ func addTekufaLength(list: Array<ZmanListEntry>, tekufa: Date?, dateFormatter: D
 }
 
 func setNextUpcomingZman() {
-    var theZman: Date? = nil
+    var theZman: ZmanListEntry? = nil
     var zmanim = Array<ZmanListEntry>()
     var today = Date()
     
@@ -471,8 +527,8 @@ func setNextUpcomingZman() {
     for entry in zmanim {
         let zman = entry.zman
         if zman != nil {
-            if zman! > Date() && (theZman == nil || zman! < theZman!) {
-                theZman = zman
+            if zman! > Date() && (theZman == nil || zman! < theZman?.zman ?? Date()) {
+                theZman = entry
             }
         }
     }

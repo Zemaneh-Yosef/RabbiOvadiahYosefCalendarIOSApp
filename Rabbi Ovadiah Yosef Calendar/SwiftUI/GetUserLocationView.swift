@@ -71,7 +71,7 @@ struct GetiOS17PlusUserLocationView: View {
     @State var nextView = NextSetupView.inIsrael
 
     var body: some View {
-        VStack {
+        VStack(spacing: 4) {
             TextField("Enter location name/ZIP code", text: $searchQuery)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .focused($searchFocused)
@@ -91,7 +91,6 @@ struct GetiOS17PlusUserLocationView: View {
             }
             .tint(.blue)
             .buttonStyle(.borderedProminent)
-            .padding(.bottom)
             
             if !searchResults.isEmpty {
                 List(searchResults, id: \.self) { item in

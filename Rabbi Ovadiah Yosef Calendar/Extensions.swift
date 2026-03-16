@@ -127,6 +127,14 @@ public extension JewishCalendar {
             result = "Erev Rosh Chodesh ".localized() + nextHebrewMonth
         }
         
+        if (!result.isEmpty && !isErevRoshChodesh()) {// do not show the numbers for Erev Rosh Chodesh or if Rosh Chodesh is one day
+            if (yesterday().getJewishDayOfMonth() == 30) {
+                result += " (2)";
+            } else if (tomorrow().getJewishDayOfMonth() == 1) {
+                result += " (1)";
+            }
+        }
+        
         return result
     }
     
@@ -199,13 +207,12 @@ public extension JewishCalendar {
         return yomtov
     }
     
-    func getThisWeeksHaftara() -> String {
+    internal func getThisWeeksHaftara() -> HaftarahReading {
         let temp = workingDate.addingTimeInterval(0)
         while getDayOfWeek() != 7 {//forward jewish calendar to saturday
             forward()
         }
-        let haftorah = WeeklyHaftarahReading.getThisWeeksHaftarah(jewishCalendar: self)
-            .replacingOccurrences(of: "מפטירין", with: Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
+        let haftorah = WeeklySephardicHaftarot.getThisWeeksHaftarah(jCal: self)
         workingDate = temp //reset
         return haftorah
     }
@@ -576,7 +583,7 @@ public extension ZmanimCalendar {
 public extension ComplexZmanimCalendar {
     
     func copy() -> ComplexZmanimCalendar {
-        let result = ComplexZmanimCalendar(location: geoLocation)
+        let result = ComplexZmanimCalendar(location: getGeoLocation())
         result.ateretTorahSunsetOffset = ateretTorahSunsetOffset
         result.useElevation = useElevation
         result.useAstronomicalChatzos = useAstronomicalChatzos
@@ -589,6 +596,14 @@ public extension ComplexZmanimCalendar {
             return getAlosAmudeiHoraah()
         } else {
             return getAlos72Zmanis()
+        }
+    }
+    
+    func getPlagHamincha(defaults: UserDefaults) -> Date? {
+        if defaults.bool(forKey: "LuachAmudeiHoraah") {
+            return getPlagHaminchaYalkutYosefAmudeiHoraah()
+        } else {
+            return getPlagHaminchaYalkutYosef()
         }
     }
     
@@ -646,6 +661,10 @@ public extension ComplexZmanimCalendar {
 }
 
 public extension String {
+    func replace(_ target: String, _ replacement: String) -> String {
+        return self.replacingOccurrences(of: target, with: replacement)
+    }
+    
     func localized() -> String {
         return NSLocalizedString(self, comment: self)
     }
@@ -668,6 +687,16 @@ public extension String {
         }
         return self
     }
+    
+    func removingNekudot() -> String {
+        // This pattern targets Hebrew diacritics but explicitly excludes \u05BE (Maqaf)
+        // It looks for characters in the range \u0591 to \u05C7, excluding \u05BE
+        return self.replacingOccurrences(
+            of: "(?![\\u05BE])[\\u0591-\\u05C7]",
+            with: "",
+            options: .regularExpression
+        )
+    }
 }
 
 public extension Locale {
@@ -676,16 +705,29 @@ public extension Locale {
     }
 }
 
-public extension Date {
-    func format(defaults: UserDefaults, timezone: TimeZone, isRT: Bool) -> String {// isRT is to be replaced
-        let dateFormatterForZmanim = DateFormatter()
-        if isRT {
-            dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "roundUpRT") ? "" : ":ss") + (Locale.isHebrewLocale() ? "" : " aa")
+public extension Date {    
+    func format(defaults: UserDefaults, timezone: TimeZone, secondTreatment: SecondTreatment) -> String {
+        let dateFormatterYesSeconds = DateFormatter()
+        dateFormatterYesSeconds.dateFormat = (Locale.isHebrewLocale() ? "H" : "h")
+            + ":mm:ss"
+            + (Locale.isHebrewLocale() ? "" : " aa")
+        let dateFormatterNoSeconds = DateFormatter()
+        dateFormatterNoSeconds.dateFormat = (Locale.isHebrewLocale() ? "H" : "h")
+            + ":mm"
+            + (Locale.isHebrewLocale() ? "" : " aa")
+        dateFormatterYesSeconds.timeZone = timezone
+        dateFormatterNoSeconds.timeZone = timezone
+        
+        if secondTreatment == .alwaysDisplay || defaults.bool(forKey: "showSeconds") {
+            return dateFormatterYesSeconds.string(from: self)
         } else {
-            dateFormatterForZmanim.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
+            guard let seconds = Calendar.current.dateComponents([.second], from: self).second else { return "XX:XX" }
+            if (seconds > 40) || seconds > 20 && secondTreatment == .roundLater {
+                return dateFormatterNoSeconds.string(from: self.addingTimeInterval(60))
+            } else {
+                return dateFormatterNoSeconds.string(from: self)
+            }
         }
-        dateFormatterForZmanim.timeZone = timezone
-        return dateFormatterForZmanim.string(from: self)
     }
 }
 

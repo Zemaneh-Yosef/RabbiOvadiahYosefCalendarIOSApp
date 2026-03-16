@@ -149,6 +149,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ZmanEntry", for: indexPath)
+        /*
         var zman = zmanimList[indexPath.row].zman
         dateFormatterForZmanim.timeZone = timezone.corrected()
         
@@ -306,6 +307,7 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.alpha = 1
             }
         }
+         */
         return cell
     }
     
@@ -809,7 +811,6 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func setNotificationsDefaults() {
         defaults.set(false, forKey: "showDayOfOmer")
-        defaults.set(true, forKey: "roundUpRT")
         defaults.set(false, forKey: "zmanim_notifications")
         defaults.set(false, forKey: "zmanim_notifications_on_shabbat")
         
@@ -1362,11 +1363,11 @@ class ZmanListViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             zmanimList.append(ZmanListEntry(title:"No Weekly Parasha".localized()))
         }
-        let haftorah = WeeklyHaftarahReading.getThisWeeksHaftarah(jewishCalendar: jewishCalendar)
-            .replacingOccurrences(of: "מפטירין", with: Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
-        if !haftorah.isEmpty {
-            zmanimList.append(ZmanListEntry(title: haftorah))
-        }
+//        let haftorah = WeeklyHaftarahReading.getThisWeeksHaftarah(jewishCalendar: jewishCalendar)
+//            .replacingOccurrences(of: "מפטירין", with: Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
+//        if !haftorah.isEmpty {
+//            zmanimList.append(ZmanListEntry(title: haftorah))
+//        }
         syncCalendarDates()//reset
         if defaults.bool(forKey: "showShabbatMevarchim") {
             if (jewishCalendar.tomorrow().isShabbosMevorchim()) {
