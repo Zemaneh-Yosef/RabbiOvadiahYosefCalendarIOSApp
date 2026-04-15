@@ -61,6 +61,9 @@
         }
       }
     },
+    " Haftarah: ‫" : {
+
+    },
     " is today at " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1570,9 +1573,6 @@
           }
         }
       }
-    },
-    "Haftarah: ‫" : {
-
     },
     "Haskamot" : {
       "extractionState" : "manual",
