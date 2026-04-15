@@ -76,12 +76,16 @@ struct ContentView: View {
                 Tab("Limudim/Hillulot", systemImage: "text.justify", value: 1) {
                     tabContent(title: "Limudim/Hillulot".localized())
                 }
+                .badge(hasNissanLimudYomi() ? Text(getNissanTitle()) : nil)
+                
                 Tab("Zemanim", systemImage: "alarm", value: 2) {
                     tabContent(title: "Rabbi Ovadia Yosef Calendar".localized())
                 }
+                
                 Tab("Siddur", systemImage: "book", value: 3) {
                     tabContent(title: "Siddur".localized())
                 }
+                .badge(hasSpecialPrayer() ? Text(getSpecialPrayerTitle()) : nil)
             }
         } else {
             TabView(selection: $selectedTab) {
@@ -90,6 +94,7 @@ struct ContentView: View {
                         Label("Limudim/Hillulot", systemImage: "text.justify")
                     }
                     .tag(1)
+                    .badge(hasNissanLimudYomi() ? Text(getNissanTitle()) : nil)
 
                 tabContent(title: "Rabbi Ovadia Yosef Calendar".localized())
                     .tabItem {
@@ -102,9 +107,28 @@ struct ContentView: View {
                         Label("Siddur", systemImage: "book")
                     }
                     .tag(3)
+                    .badge(hasSpecialPrayer() ? Text(getSpecialPrayerTitle()) : nil)
             }
         }
     }
+}
+
+func hasSpecialPrayer() -> Bool {
+    return JewishCalendar().getYomTovIndex() == JewishCalendar.TU_BESHVAT ||
+            (JewishCalendar().getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH && JewishCalendar().getDayOfWeek() == 3)
+}
+
+func getSpecialPrayerTitle() -> String {
+    return JewishCalendar().getYomTovIndex() == JewishCalendar.TU_BESHVAT ? "Prayer for Etrog".localized() : "Parshat Haman".localized()
+}
+
+func hasNissanLimudYomi() -> Bool {
+    return JewishCalendar().getJewishMonth() == JewishCalendar.NISSAN
+    && !NisanLimudYomi.getNisanLimudYomiTitle(day: JewishCalendar().getJewishDayOfMonth()).isEmpty
+}
+
+func getNissanTitle() -> String {
+    return NisanLimudYomi.getNisanLimudYomiTitle(day: JewishCalendar().getJewishDayOfMonth())
 }
 
 #Preview {

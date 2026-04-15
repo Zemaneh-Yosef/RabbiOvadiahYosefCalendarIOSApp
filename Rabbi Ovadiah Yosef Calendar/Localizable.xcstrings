@@ -1372,6 +1372,17 @@
         }
       }
     },
+    "Eruv Tavshilin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "עירוב תבשילין"
+          }
+        }
+      }
+    },
     "ex: -73.740559" : {
       "localizations" : {
         "he" : {

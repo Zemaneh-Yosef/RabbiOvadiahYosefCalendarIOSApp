@@ -40,6 +40,7 @@ public extension JewishCalendar {
     
     func getSpecialDay(addOmer: Bool) -> String {
         var result = Array<String>()
+        let isHebrew = Locale.isHebrewLocale()
                 
         let yomTovOfToday = yomTovAsString()
         forward()
@@ -49,7 +50,7 @@ public extension JewishCalendar {
         if yomTovOfToday.isEmpty && yomTovOfNextDay.isEmpty {
             //Do nothing
         } else if yomTovOfToday.isEmpty && !yomTovOfNextDay.hasPrefix("Erev") {
-            if Locale.isHebrewLocale() {
+            if isHebrew {
                 if !yomTovOfNextDay.hasPrefix("ערב") {
                     result.append("ערב ".appending(yomTovOfNextDay))
                 }
@@ -57,7 +58,7 @@ public extension JewishCalendar {
                 result.append("Erev " + yomTovOfNextDay)
             }
         } else if !(yomTovOfNextDay.isEmpty) && !yomTovOfNextDay.hasPrefix("Erev") && !yomTovOfToday.hasSuffix(yomTovOfNextDay) {
-            if Locale.isHebrewLocale() {
+            if isHebrew {
                 if !yomTovOfNextDay.hasPrefix("ערב") {
                     result.append(yomTovOfToday.appending(" / ערב ").appending(yomTovOfNextDay))
                 } else {
@@ -67,8 +68,12 @@ public extension JewishCalendar {
                 result.append(yomTovOfToday + " / Erev " + yomTovOfNextDay)
             }
         } else {
-            if !yomTovOfToday.isEmpty {
-                result.append(yomTovOfToday)
+            if (yomTovOfToday == "Chol Hamoed Pesach" || yomTovOfToday == "חול המועד פסח") && yomTovOfNextDay != yomTovOfToday {
+                result.append(yomTovOfToday.appending(isHebrew ? " / ערב " : " / Erev ").appending(yomTovOfNextDay))
+            } else {
+                if !yomTovOfToday.isEmpty {
+                    result.append(yomTovOfToday)
+                }
             }
         }
         
@@ -173,38 +178,41 @@ public extension JewishCalendar {
     
     func yomTovAsString() -> String {
         let hebrewDateFormatter = HebrewDateFormatter()
-        if Locale.isHebrewLocale() {
-            hebrewDateFormatter.hebrewFormat = true
-            if (isPurimMeshulash()) {
-                return "פורים משולש"
-            }
-            return hebrewDateFormatter.formatYomTov(jewishCalendar: self)
-        }
-        hebrewDateFormatter.transliteratedHolidays = ["Erev Pesach", "Pesach", "Chol Hamoed Pesach", "Pesach Sheni",
-                                                      "Erev Shavuot", "Shavuot", "Fast of the Seventeenth of Tammuz", "Tishah B'Av", "Tu B'Av", "Erev Rosh Hashana",
-                                                      "Rosh Hashana", "Fast of Gedalyah", "Erev Yom Kippur", "Yom Kippur", "Erev Succot", "Succot",
-                                                      "Chol Hamoed Succot", "Hoshana Rabbah", "Shemini Atzeret", "Simchat Torah", "Erev Chanukah", "Chanukah",
-                                                      "Fast of Asarah Be'Tevet", "Tu B'Shevat", "Fast of Esther", "Purim", "Shushan Purim", "Purim Katan", "Rosh Chodesh",
-                                                      "Yom HaShoah", "Yom Hazikaron", "Yom Ha'atzmaut", "Yom Yerushalayim", "Lag B'Omer", "Shushan Purim Katan",
-                                                      "Isru Chag"]
-        let yomtov = hebrewDateFormatter.formatYomTov(jewishCalendar: self)
+        hebrewDateFormatter.transliteratedHolidays = ["Erev Pesach", "Pesach", "Chol Hamoed Pesach", "Pesach Sheni", "Erev Shavuot", "Shavuot", "Fast of the Seventeenth of Tammuz", "Tishah B'Av", "Tu B'Av", "Erev Rosh Hashana", "Rosh Hashana", "Fast of Gedalyah", "Erev Yom Kippur", "Yom Kippur", "Erev Succot", "Succot", "Chol Hamoed Succot", "Hoshana Rabbah", "Shemini Atzeret", "Shemini Atzeret & Simchat Torah", "Erev Chanukah", "Chanukah", "Fast of Asarah B'Tevet", "Tu B'Shevat", "Fast of Esther", "Purim", "Shushan Purim", "Purim Katan", "Rosh Chodesh", "Yom HaShoah", "Yom Hazikaron", "Yom Ha'atzmaut", "Yom Yerushalayim", "Lag La'Omer", "Shushan Purim Katan", "Isru Chag"]
+        
+        hebrewDateFormatter.hebrewFormat = Locale.isHebrewLocale()
+        var yomtov = hebrewDateFormatter.formatYomTov(jewishCalendar: self).replacingOccurrences(of: "ל\"ג בעומר", with: "ל״ג לעומר")
+
         if yomtov.contains("Shemini Atzeret") {
             if inIsrael {
-                return "Shemini Atzeret & Simchat Torah"
-            }
-        }
-        if yomtov.contains("Simchat Torah") {
-            if !inIsrael {
-                return "Shemini Atzeret & Simchat Torah"
+                yomtov = "Shemini Atzeret & Simchat Torah"
             }
         }
         if yomtov.contains("Chanukah") {
-            return "Chanukah" // to remove the numbers
+            yomtov = "Chanukah" // to remove the numbers
         }
-        if isPurimMeshulash() {
-            return "Purim Meshulash"
+        if (isPurimMeshulash()) {
+            if yomtov.isEmpty {
+                yomtov = Locale.isHebrewLocale() ? "פורים משולש" : "Purim Meshulash"
+            } else {// should never happen
+                yomtov = yomtov.appending(" / \(Locale.isHebrewLocale() ? "פורים משולש" : "Purim Meshulash")")
+            }
         }
         return yomtov
+    }
+    
+    func isEruvTavshilimMadeToday() -> Bool {
+        if (hasCandleLighting() && !isYomTovAssurBemelacha()) {// i.e. we are right before the Yom Tov starts and not into Yom Tov
+            let tomorrow = tomorrow()
+            let afterTomorrow = tomorrow.tomorrow()
+            if (getDayOfWeek() == 4) {
+                return tomorrow.isYomTovAssurBemelacha() && afterTomorrow.isYomTovAssurBemelacha();// two day Yom Tov going into shabbat
+            }
+            if (getDayOfWeek() == 5) {
+                return tomorrow.isYomTovAssurBemelacha();// yom tov (1 or 2 days) going into shabbat
+            }
+        }
+        return false;
     }
     
     internal func getThisWeeksHaftara() -> HaftarahReading {
@@ -468,11 +476,9 @@ public extension JewishCalendar {
     func getIsMashivHaruchOrMoridHatalSaid() -> String {
         if TefilaRules().isMashivHaruachRecited(jewishCalendar: self) {
             return "משיב הרוח"
-        }
-        if TefilaRules().isMoridHatalRecited(jewishCalendar: self) {
+        } else {
             return "מוריד הטל"
         }
-        return ""
     }
     
     func getIsBarcheinuOrBarechAleinuSaid() -> String {

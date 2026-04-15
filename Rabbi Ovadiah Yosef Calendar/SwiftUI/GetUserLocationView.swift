@@ -230,6 +230,9 @@ struct GetiOS17PlusUserLocationView: View {
             showNoLocationSetSnackbar = true
             return
         }
+        if lat < 29.4 || lat > 33.3 || long < 34.0 || long > 38.5 {
+            defaults.set(false, forKey: "inIsrael")
+        }
         if GetUserLocationView.loneView {
             dismiss()// this is good for one view
         } else {

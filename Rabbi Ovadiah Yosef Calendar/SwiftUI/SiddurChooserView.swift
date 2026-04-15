@@ -914,14 +914,12 @@ struct SiddurChooserView: View {
     }
     
     private func getBeforeSunsetMessage() -> String {
-        let dateFormatterForZmanim = DateFormatter()
-        dateFormatterForZmanim.dateFormat = Locale.isHebrewLocale() ? "H:mm" : "hh:mm a"
         let zmanimCalendar = ZmanimCalendar(location: GlobalStruct.geoLocation)
         zmanimCalendar.useElevation = GlobalStruct.useElevation
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
         return "Did you start your meal before sunset?".localized()
             .appending(" ")
-            .appending(dateFormatterForZmanim.string(from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()))
+            .appending(zmanimCalendar.getElevationAdjustedSunset()?.format(defaults: defaults, timezone: GlobalStruct.geoLocation.timeZone, secondTreatment: .roundEarlier) ?? "XX:XX")
     }
 
     /**

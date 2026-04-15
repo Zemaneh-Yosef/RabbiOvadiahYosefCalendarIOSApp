@@ -16,7 +16,7 @@ struct HaftarahReading {
 struct WeeklySephardicHaftarot {
     
     private static let specialShabbatot: [JewishCalendar.Parsha: HaftarahReading] = [
-        .SHKALIM: HaftarahReading(text: "ויכרת יהוידע", source: "מלכים ב י\"א"),
+        .SHKALIM: HaftarahReading(text: "ויכרות יהוידע", source: "מלכים ב י\"א"),
         .ZACHOR: HaftarahReading(text: "ויאמר שמואל", source: "שמואל א ט\"ו"),
         .PARA: HaftarahReading(text: "ויהי דבר", source: "יחזקאל ל\"ו"),
         .HACHODESH: HaftarahReading(text: "כה אמר", source: "יחזקאל מ\"ה"),
@@ -74,7 +74,7 @@ struct WeeklySephardicHaftarot {
             if jCal.isErevRoshChodesh() {
                 return HaftarahReading(text: "מחר חודש", source: "שמואל א כ")
             } else if jCal.isRoshChodesh() {
-                return HaftarahReading(text: "כה אמר", source: "ישעיה ס\"ו [הפטרת ר\"ח]")
+                return HaftarahReading(text: "השמים כסאי", source: "ישעיה ס\"ו [הפטרת ר\"ח]")
             }
         }
         
@@ -95,14 +95,14 @@ struct WeeklySephardicHaftarot {
         case .VAYESHEV: return HaftarahReading(text: "כה אמר", source: "עמוס ב")
         case .MIKETZ: return HaftarahReading(text: "ויקץ שלמה", source: "מלכים א ג")
         case .VAYIGASH: return HaftarahReading(text: "ויהי דבר", source: "יחזקאל ל\"ז")
-        case .VAYECHI: return HaftarahReading(text: "ויקרבו", source: "מלכים א ב")
-        case .SHEMOS: return HaftarahReading(text: "דברי ירמיה", source: "ירמיה א")
+        case .VAYECHI: return HaftarahReading(text: "ויקרבו ימי", source: "מלכים א ב")
+        case .SHEMOS: return HaftarahReading(text: "דברי ירמיהו", source: "ירמיה א")
         case .VAERA: return HaftarahReading(text: "כה אמר", source: "יחזקאל כ\"ח")
         case .BO: return HaftarahReading(text: "הדבר אשר", source: "ירמיה מ\"ו")
         case .BESHALACH: return HaftarahReading(text: "ותשר דבורה", source: "שופטים ד")
         case .YISRO: return HaftarahReading(text: "בשנת מות", source: "ישעיה ו")
         case .MISHPATIM: return HaftarahReading(text: "הדבר אשר", source: "ירמיה ל\"ד")
-        case .TERUMAH: return HaftarahReading(text: "ויהוה נתן", source: "מלכים א ה")
+        case .TERUMAH: return HaftarahReading(text: "וה' נתן", source: "מלכים א ה")
         case .TETZAVEH: return HaftarahReading(text: "אתה בן אדם", source: "יחזקאל מ\"ג")
         case .KI_SISA: return HaftarahReading(text: "וישלח אחאב", source: "מלכים א י\"ח")
         case .VAYAKHEL: return HaftarahReading(text: "וישלח המלך", source: "מלכים א ז")
@@ -114,37 +114,36 @@ struct WeeklySephardicHaftarot {
         case .METZORA, .TAZRIA_METZORA: return HaftarahReading(text: "וארבעה אנשים", source: "מלכים ב ז")
         case .ACHREI_MOS: return HaftarahReading(text: "ויהי דבר", source: "יחזקאל כ\"ב")
         case .KEDOSHIM, .ACHREI_MOS_KEDOSHIM: return HaftarahReading(text: "ויהי דבר", source: "יחזקאל כ")
-        case .EMOR: return HaftarahReading(text: "והכהנים", source: "יחזקאל מ\"ד")
+        case .EMOR: return HaftarahReading(text: "והכהנים הלוים", source: "יחזקאל מ\"ד")
         case .BEHAR: return HaftarahReading(text: "ויאמר ירמיהו", source: "ירמיה ל\"ב")
         case .BECHUKOSAI, .BEHAR_BECHUKOSAI: return HaftarahReading(text: "ה' עזי", source: "ירמיה ט\"ז")
         case .BAMIDBAR: return HaftarahReading(text: "והיה מספר", source: "הושע ב")
         case .NASSO: return HaftarahReading(text: "ויהי איש", source: "שופטים י\"ג")
         case .BEHAALOSCHA: return HaftarahReading(text: "רני ושמחי", source: "זכריה ב")
-        case .SHLACH: return HaftarahReading(text: "וישלח", source: "יהושע ב")
+        case .SHLACH: return HaftarahReading(text: "וישלח יהושע", source: "יהושע ב")
         case .KORACH: return HaftarahReading(text: "ויאמר שמואל", source: "שמואל א י\"א")
-        case .CHUKAS: return HaftarahReading(text: "ויפתח", source: "שופטים י\"א")
-        case .BALAK, .CHUKAS_BALAK: return HaftarahReading(text: "והיה", source: "מיכה ה")
+        case .CHUKAS: return HaftarahReading(text: "ויפתח הגלעדי", source: "שופטים י\"א")
+        case .BALAK, .CHUKAS_BALAK: return HaftarahReading(text: "והיה שארית", source: "מיכה ה")
         case .PINCHAS:
-            // Swift Date/Calendar comparison
             return jCal.workingDate < tammuz17.workingDate
                 ? HaftarahReading(text: "ויד יהוה", source: "מלכים י\"ח")
-                : HaftarahReading(text: "דברי ירמיהו", source: "ירמיהו א")
-        case .MATOS: return HaftarahReading(text: "דברי ירמיהו", source: "ירמיהו א")
-        case .MASEI, .MATOS_MASEI: return HaftarahReading(text: "שמעו דבר", source: "ירמיהו ב")
-        case .DEVARIM: return HaftarahReading(text: "חזון", source: "ישעיה א")
-        case .VAESCHANAN: return HaftarahReading(text: "נחמו", source: "ישעיה מ")
+                : HaftarahReading(text: "דברי ירמיהו", source: "ירמיה א")
+        case .MATOS: return HaftarahReading(text: "דברי ירמיהו", source: "ירמיה א")
+        case .MASEI, .MATOS_MASEI: return HaftarahReading(text: "שמעו דבר", source: "ירמיה ב")
+        case .DEVARIM: return HaftarahReading(text: "חזון ישעיהו", source: "ישעיה א")
+        case .VAESCHANAN: return HaftarahReading(text: "נחמו נחמו", source: "ישעיה מ")
         case .EIKEV: return HaftarahReading(text: "ותאמר ציון", source: "ישעיה מ\"ט")
         case .REEH: return HaftarahReading(text: "עניה סערה", source: "ישעיה נ\"ד")
         case .SHOFTIM: return HaftarahReading(text: "אנכי אנכי", source: "ישעיה נ\"א")
-        case .KI_SEITZEI: return HaftarahReading(text: "רני עקרה", source: "ישעיה נ\"ד")
+        case .KI_SEITZEI: return HaftarahReading(text: "רוני עקרה", source: "ישעיה נ\"ד")
         case .KI_SAVO: return HaftarahReading(text: "קומי אורי", source: "ישעיה ס")
         case .NITZAVIM, .NITZAVIM_VAYEILECH: return HaftarahReading(text: "שוש אשיש", source: "ישעיה ס\"א")
-        case .VAYEILECH: return HaftarahReading(text: "שובה", source: "הושע י\"ד")
+        case .VAYEILECH: return HaftarahReading(text: "שובה ישראל", source: "הושע י\"ד")
         case .HAAZINU:
             if jCal.getJewishMonth() == JewishCalendar.TISHREI && jCal.getJewishDayOfMonth() > 10 {
                 return HaftarahReading(text: "וידבר דוד", source: "שמואל ב כ\"ב")
             } else {
-                return HaftarahReading(text: "שובה", source: "הושע י\"ד")
+                return HaftarahReading(text: "שובה ישראל", source: "הושע י\"ד")
             }
         default: return HaftarahReading(text: "", source: "")
         }

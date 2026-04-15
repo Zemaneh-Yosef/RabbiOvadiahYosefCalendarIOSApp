@@ -292,51 +292,52 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         let zmanTimeFormatter = DateFormatter()
         zmanTimeFormatter.dateFormat = (Locale.isHebrewLocale() ? "H" : "h") + ":mm" + (defaults.bool(forKey: "showSeconds") ? ":ss" : "") + (Locale.isHebrewLocale() ? "" : " aa")
-        while amountOfNotificationsSet <= amountOfPossibleNotifications {
-            var editableZmanim = ["Alot Hashachar",
-                                  "Talit And Tefilin",
-                                  "Sunrise",
-                                  "Sof Zman Shma MGA",
-                                  "Sof Zman Shma GRA",
-                                  "Sof Zman Tefila",
-                                  "Achilat Chametz",
-                                  "Biur Chametz",
-                                  "Chatzot",
-                                  "Mincha Gedolah",
-                                  "Mincha Ketana",
-                                  "Plag HaMincha Halacha Berurah",
-                                  "Plag HaMincha Yalkut Yosef",
-                                  "Candle Lighting",
-                                  "Sunset",
-                                  "Tzeit Hacochavim",
-                                  "Tzeit Hacochavim (Stringent)",
-                                  "Fast Ends",
-                                  "Shabbat Ends",
-                                  "Rabbeinu Tam",
-                                  "Chatzot Layla"]
+        zmanTimeFormatter.timeZone = timezone
+        var editableZmanim = ["Alot Hashachar",
+                              "Talit And Tefilin",
+                              "Sunrise",
+                              "Sof Zman Shma MGA",
+                              "Sof Zman Shma GRA",
+                              "Sof Zman Tefila",
+                              "Achilat Chametz",
+                              "Biur Chametz",
+                              "Chatzot",
+                              "Mincha Gedolah",
+                              "Mincha Ketana",
+                              "Plag HaMincha Halacha Berurah",
+                              "Plag HaMincha Yalkut Yosef",
+                              "Candle Lighting",
+                              "Sunset",
+                              "Tzeit Hacochavim",
+                              "Tzeit Hacochavim (Stringent)",
+                              "Fast Ends",
+                              "Shabbat Ends",
+                              "Rabbeinu Tam",
+                              "Chatzot Layla"]
 
-            for string in editableZmanim {
-                if !defaults.bool(forKey: "Notify"+string) || defaults.integer(forKey: string) < 0 {
-                    editableZmanim.remove(at: editableZmanim.firstIndex(of: string)!)//get rid of zmanim we do not want to notify for
-                }
+        for string in editableZmanim {
+            if !defaults.bool(forKey: "Notify"+string) || defaults.integer(forKey: string) < 0 {
+                editableZmanim.remove(at: editableZmanim.firstIndex(of: string)!)//get rid of zmanim we do not want to notify for
             }
-            if editableZmanim.isEmpty {
-                //if there are no zmanim to notify for, we can use the other local notifications for daily notifications which are the most important in my opinion
-                if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
-                    addOneDayToCalendars()
-                }
-                //we already scheduled for 14 days, so advance the date by 15 days
-                zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400 * 15)
-                jewishCalendar.workingDate = zmanimCalendar.workingDate
-                while amountOfNotificationsSet != amountOfPossibleNotifications {
-                    scheduleDailyNotification()
-                    addOneDayToCalendars()
-                }
-                return
+        }
+        if editableZmanim.isEmpty {
+            //if there are no zmanim to notify for, we can use the other local notifications for daily notifications which are the most important in my opinion
+            if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+                addOneDayToCalendars()
             }
+            //we already scheduled for 14 days, so advance the date by 15 days
+            zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400 * 15)
+            jewishCalendar.workingDate = zmanimCalendar.workingDate
+            while amountOfNotificationsSet != amountOfPossibleNotifications {
+                scheduleDailyNotification()
+                addOneDayToCalendars()
+            }
+            return
+        }
+        let isHebrew = defaults.bool(forKey: "isZmanimInHebrew")
+        while amountOfNotificationsSet <= amountOfPossibleNotifications {
             var zmanim: Array<ZmanListEntry> = []
             zmanim = ZmanimFactory.addZmanim(list: zmanim, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar)
-            var index = 0 //we need the index for the list to match the array above
             for zmanEntry in zmanim {
                 let zman = zmanEntry.zman
                 if zman != nil && zman ?? Date() > Date() {
@@ -345,7 +346,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                     zmanContent.sound = .default
                     zmanContent.subtitle = locationName
                     zmanContent.interruptionLevel = .timeSensitive
-                    if defaults.bool(forKey: "isZmanimInHebrew") {
+                    if isHebrew {
                         zmanContent.body = zmanTimeFormatter.string(from: zman ?? Date()) + " : " + zmanEntry.title
                     } else {
                         zmanContent.body = zmanEntry.title + " is at " + zmanTimeFormatter.string(from: zman ?? Date())
@@ -367,7 +368,6 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                         }
                     }
                 }
-                index+=1
             }
             zmanimCalendar.workingDate = zmanimCalendar.workingDate.advanced(by: 86400)
             jewishCalendar.workingDate = zmanimCalendar.workingDate
@@ -392,75 +392,66 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     func initializeLocationObjectsAndSetNotifications() {
         guard !notificationsAreBeingSet else { return }
         notificationsAreBeingSet = true
-
-        DispatchQueue.global(qos: .utility).async { [weak self] in
-            guard let self = self else { return }
-            if defaults.bool(forKey: "useAdvanced") {
-                setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
-            } else if defaults.bool(forKey: "useLocation1") {
-                setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
-            } else if defaults.bool(forKey: "useLocation2") {
-                setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
-            } else if defaults.bool(forKey: "useLocation3") {
-                setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
-            } else if defaults.bool(forKey: "useLocation4") {
-                setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
-            } else if defaults.bool(forKey: "useLocation5") {
-                setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
-            } else if defaults.bool(forKey: "useZipcode") {
-                setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
-            } else {
-                handleDynamicLocation()
-                return // prevent the code at the bottom from running since it will happen in the above mmethod's callback
-            }
-            resolveElevation()
-            zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
-            zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
-            if !defaults.bool(forKey: "hasShownVSNotification") {
-                let content = UNMutableNotificationContent()
-                content.title = "Setup Visible Sunrise".localized()
-                content.sound = .default
-                content.body = "Setup visible sunrise now! (Want to try later? Visit the Sunrise description)".localized()
-                let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: Date()), repeats: false)
-                
-                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-                notificationCenter.add(request)
-                defaults.set(true, forKey: "hasShownVSNotification")
-            }
-            self.scheduleSunriseNotifications()
-            self.scheduleSunsetNotifications()
-            self.scheduleZmanimNotifications()
-            DispatchQueue.main.async {
-                self.notificationsAreBeingSet = false
-            }
-        }
-    }
-    
-    func handleDynamicLocation() {
-        let concurrentQueue = DispatchQueue(label: "notifiications", attributes: .concurrent)
-        LocationManagerForNotifications.shared.getUserLocationForNotifications {
-            location in concurrentQueue.async { [self] in
-                self.lat = location.coordinate.latitude
-                self.long = location.coordinate.longitude
-                self.timezone = TimeZone.current
-                zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
-                zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
-                LocationManagerForNotifications.shared.resolveLocationNameForNotifications(with: location) { [self] locationName in
-                    self.locationName = locationName ?? ""
-                    resolveElevation()
-                    zmanimCalendar.geoLocation = GeoLocation(locationName: locationName ?? "", latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
-                    jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
-                    jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
-                    jewishCalendar.useModernHolidays = true
-                    self.scheduleSunriseNotifications()
-                    self.scheduleSunsetNotifications()
-                    self.scheduleZmanimNotifications()
-                    self.notificationsAreBeingSet = false
+        
+        if defaults.bool(forKey: "useAdvanced") {
+            setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
+        } else if defaults.bool(forKey: "useLocation1") {
+            setLocation(defaultsLN: "location1", defaultsLat: "location1Lat", defaultsLong: "location1Long", defaultsTimezone: "location1Timezone")
+        } else if defaults.bool(forKey: "useLocation2") {
+            setLocation(defaultsLN: "location2", defaultsLat: "location2Lat", defaultsLong: "location2Long", defaultsTimezone: "location2Timezone")
+        } else if defaults.bool(forKey: "useLocation3") {
+            setLocation(defaultsLN: "location3", defaultsLat: "location3Lat", defaultsLong: "location3Long", defaultsTimezone: "location3Timezone")
+        } else if defaults.bool(forKey: "useLocation4") {
+            setLocation(defaultsLN: "location4", defaultsLat: "location4Lat", defaultsLong: "location4Long", defaultsTimezone: "location4Timezone")
+        } else if defaults.bool(forKey: "useLocation5") {
+            setLocation(defaultsLN: "location5", defaultsLat: "location5Lat", defaultsLong: "location5Long", defaultsTimezone: "location5Timezone")
+        } else if defaults.bool(forKey: "useZipcode") {
+            setLocation(defaultsLN: "locationName", defaultsLat: "lat", defaultsLong: "long", defaultsTimezone: "timezone")
+        } else {
+            let concurrentQueue = DispatchQueue(label: "notifiications", attributes: .concurrent)
+            LocationManagerForNotifications.shared.getUserLocationForNotifications {
+                location in concurrentQueue.async { [self] in
+                    lat = location.coordinate.latitude
+                    long = location.coordinate.longitude
+                    timezone = TimeZone.current
+                    zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+                    zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
+                    LocationManagerForNotifications.shared.resolveLocationNameForNotifications(with: location) { [self] locationName in
+                        self.locationName = locationName ?? ""
+                        zmanimCalendar.geoLocation.locationName = self.locationName
+                        resolveElevation()
+                        zmanimCalendar.geoLocation.elevation = self.elevation
+                        jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
+                        jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
+                        jewishCalendar.useModernHolidays = true
+                        self.scheduleSunriseNotifications()
+                        self.scheduleSunsetNotifications()
+                        self.scheduleZmanimNotifications()
+                        self.notificationsAreBeingSet = false
+                    }
                 }
             }
+            return // prevent the code at the bottom from running since it will happen in the above mmethod's callback
         }
+        zmanimCalendar.geoLocation = GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone)
+        zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
+        if !defaults.bool(forKey: "hasShownVSNotification") {
+            let content = UNMutableNotificationContent()
+            content.title = "Setup Visible Sunrise".localized()
+            content.sound = .default
+            content.body = "Setup visible sunrise now! (Want to try later? Visit the Sunrise description)".localized()
+            let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: Date()), repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            notificationCenter.add(request)
+            defaults.set(true, forKey: "hasShownVSNotification")
+        }
+        scheduleSunriseNotifications()
+        scheduleSunsetNotifications()
+        scheduleZmanimNotifications()
+        notificationsAreBeingSet = false
     }
-    
+        
     func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {
         locationName = defaults.string(forKey: defaultsLN) ?? ""
         lat = defaults.double(forKey: defaultsLat)

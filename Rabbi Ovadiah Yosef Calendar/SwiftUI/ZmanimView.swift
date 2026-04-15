@@ -252,6 +252,9 @@ struct ZmanimView: View {
         if !specialDay.isEmpty {
             zmanimList.append(ZmanListEntry(title:specialDay))
         }
+        if jewishCalendar.isEruvTavshilimMadeToday() {
+            zmanimList.append(ZmanListEntry(title: "Eruv Tavshilin".localized()))
+        }
         let omerDay = jewishCalendar.addDayOfOmer(result: Array())
         if omerDay.count == 1 && !omerDay[0].isEmpty {
             zmanimList.append(ZmanListEntry(title:omerDay[0]))
@@ -433,7 +436,7 @@ struct ZmanimView: View {
         
         zmanimList = ZmanimFactory.addZmanim(list: zmanimList, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: add66Misheyakir)
         
-        zmanimList.append(ZmanListEntry(title:jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()))
+        zmanimList.append(ZmanListEntry(title: getSeasonalPrayerChanges()))
         
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
@@ -471,6 +474,20 @@ struct ZmanimView: View {
                 break;
             }
         }
+    }
+    
+    func getSeasonalPrayerChanges() -> String {
+        let rules = TefilaRules()
+        if (rules.isMashivHaruachEndDate(jewishCalendar: jewishCalendar)) {
+            return "במוסף מוריד הטל / ברכנו";
+        }
+        if (rules.isMashivHaruachStartDate(jewishCalendar: jewishCalendar)) {
+            return "במוסף משיב הרוח / ברכנו";
+        }
+        if (rules.isVeseinTalUmatarStartDate(jewishCalendar: jewishCalendar.tomorrow())) {
+            return "בערבית משיב הרוח / ברך עלינו";
+        }
+        return jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()
     }
     
     func addTekufaLength(_ tekufa: Date?, _ dateFormatter: DateFormatter) {
@@ -678,8 +695,9 @@ struct ZmanimView: View {
                     defaults.set(false, forKey: "useAdvanced")
                     LocationManager.shared.resolveLocationName(with: location!) { [self] locationName in
                         self.locationName = locationName ?? ""
+                        zmanimCalendar.geoLocation.locationName = self.locationName
                         resolveElevation()
-                        recreateZmanimCalendar()
+                        zmanimCalendar.geoLocation.elevation = self.elevation
                         jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone, inIsrael: defaults.bool(forKey: "inIsrael"), useModernHolidays: true)
                         GlobalStruct.jewishCalendar = jewishCalendar
                         userChosenDate = GlobalStruct.userChosenDate
@@ -870,6 +888,7 @@ struct ZmanimView: View {
         userChosenDate = Date()
         syncCalendarDates()
         updateZmanimList()
+        checkIfUserIsInIsrael()
     }
     
     func setLocation(defaultsLN:String, defaultsLat:String, defaultsLong:String, defaultsTimezone:String) {
@@ -1387,6 +1406,10 @@ struct ZmanimView: View {
         let specialDay = jCal.getSpecialDay(addOmer: true)
         if !specialDay.isEmpty {
             announcements.append(specialDay)
+        }
+        
+        if jCal.isEruvTavshilimMadeToday() {
+            announcements.append("Eruv Tavshilin".localized())
         }
         
         if jCal.isPurimMeshulash() {
@@ -1911,10 +1934,13 @@ struct ZmanimView: View {
                                 Text(getThisWeeksParsha())
                                     .font(.custom("Guttman Mantova", size: 20))
                                     .lineLimit(1)
-                                    .minimumScaleFactor(0.5)
+                                    //.minimumScaleFactor(0.8)
                                     .frame(maxWidth: .infinity, alignment: .center)
                                 HStack(spacing: 1) {
-                                    Text(Locale.isHebrewLocale() ? "מפטירין" : "Haftarah: \u{202B}")
+                                    Image("megila_icon")
+                                        .resizable()
+                                        .frame(width: 20, height: 20, alignment: .center)
+                                    Text(Locale.isHebrewLocale() ? "מפטירין" : " Haftarah: \u{202B}")
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.5)
                                     Text(" (\(getThisWeeksHaftra().source)) ")
@@ -1926,10 +1952,15 @@ struct ZmanimView: View {
                                         .minimumScaleFactor(0.5)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .center)
-                                Text(getThisWeeksMakam())
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.5)
-                                    .frame(maxWidth: .infinity, alignment: .center)
+                                HStack {
+                                    Image("musical_score")
+                                        .resizable()
+                                        .frame(width: 20, height: 20, alignment: .center)
+                                    Text(getThisWeeksMakam())
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.5)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .center)
                             }
                             .frame(maxWidth: .infinity)
                             .background(
@@ -2080,6 +2111,7 @@ struct ZmanimView: View {
             .id(forceUpdate)
             .scrollOffsetID("Scroller")
             .refreshable {
+                GlobalStruct.userChosenDate = Date()
                 refreshTable()
             }
             .gesture(DragGesture(minimumDistance: 5, coordinateSpace: .global).onEnded { value in
