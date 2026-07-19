@@ -103,9 +103,10 @@ class ZmanimFactory {
                                       isZman: true,
                                       secondTreatment: .roundEarlier))
         }
+        zmanimCalendar.useAstronomicalChatzos = false
         temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(),
                                   desc: "Chatzot",
-                                  zman: zmanimCalendar.getChatzosIfHalfDayNil(),
+                                  zman: zmanimCalendar.getChatzos(),
                                   isZman: true,
                                   secondTreatment: .roundEarlier))
         temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(),

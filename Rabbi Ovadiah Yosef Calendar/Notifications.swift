@@ -424,7 +424,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
                         jewishCalendar = JewishCalendar(workingDate: Date(), timezone: timezone)
                         jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                         jewishCalendar.useModernHolidays = true
-                        self.scheduleSunriseNotifications()
+                        self.scheduleSunriseNotifications() // always call this first as it removes all previously set notifications
                         self.scheduleSunsetNotifications()
                         self.scheduleZmanimNotifications()
                         self.notificationsAreBeingSet = false
@@ -446,7 +446,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
             notificationCenter.add(request)
             defaults.set(true, forKey: "hasShownVSNotification")
         }
-        scheduleSunriseNotifications()
+        scheduleSunriseNotifications()// always call this first as it removes all previously set notifications
         scheduleSunsetNotifications()
         scheduleZmanimNotifications()
         notificationsAreBeingSet = false

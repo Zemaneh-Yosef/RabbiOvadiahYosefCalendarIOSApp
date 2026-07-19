@@ -2149,9 +2149,9 @@ struct ZmanimView: View {
                 }
                                                                 
                 if scrollDirection == 1 {
-                    scrollViewOffset += 0.25
+                    scrollViewOffset += 1
                 } else {
-                    scrollViewOffset -= 0.25
+                    scrollViewOffset -= 1
                 }
 
                 // Reverse direction at bounds

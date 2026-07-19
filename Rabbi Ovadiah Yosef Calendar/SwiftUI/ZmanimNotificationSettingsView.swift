@@ -77,6 +77,65 @@ class ZmanimSettingsViewModel: ObservableObject {
         objectWillChange.send()
         NotificationManager.instance.initializeLocationObjectsAndSetNotifications()
     }
+    
+    func replaceWithDisplayName(zmanName: String) -> String {
+        let zmanimNames = ZmanimTimeNames(defaults: defaults)
+        switch zmanName {
+        case "Alot Hashachar":
+            return zmanimNames.getAlotString()
+        case "Sunrise":
+            return zmanimNames.getHaNetzString()
+        case "Talit And Tefilin":
+            return zmanimNames.getTalitTefilinString()
+        case "Sof Zman Shma MGA":
+            return zmanimNames.getShmaMgaString()
+        case "Sof Zman Shma GRA":
+            return zmanimNames.getShmaGraString()
+        case "Sof Zman Tefila":
+            return zmanimNames.getBrachotShmaString()
+        case "Achilat Chametz":
+            return zmanimNames.getAchilatChametzString()
+        case "Biur Chametz":
+            return zmanimNames.getBiurChametzString()
+        case "Chatzot":
+            return zmanimNames.getChatzotString()
+        case "Mincha Gedolah":
+            return zmanimNames.getMinchaGedolaString()
+        case "Mincha Ketana":
+            return zmanimNames.getMinchaKetanaString()
+        case "Plag HaMincha Halacha Berurah":
+            return "\(zmanimNames.getPlagHaminchaString()) (\(zmanimNames.getHalachaBerurahString()))"
+        case "Plag HaMincha Yalkut Yosef":
+            return "\(zmanimNames.getPlagHaminchaString()) (\(zmanimNames.getYalkutYosefString()))"
+        case "Candle Lighting":
+            if defaults.object(forKey: "candleLightingOffset") != nil {
+                return "\(zmanimNames.getCandleLightingString()) (\(defaults.integer(forKey: "candleLightingOffset")))"
+            }
+            return "\(zmanimNames.getCandleLightingString()) (20)"
+        case "Sunset":
+            return zmanimNames.getSunsetString()
+        case "Tzeit Hacochavim":
+            return zmanimNames.getTzaitHacochavimString()
+        case "Tzeit Hacochavim (Stringent)":
+            return "\(zmanimNames.getTzaitHacochavimString()) \(zmanimNames.getLChumraString())"
+        case "Fast Ends":
+            return zmanimNames.getTzaitString() + zmanimNames.getTaanitString() + zmanimNames.getEndsString()
+        case "Shabbat Ends":
+            return zmanimNames.getTzaitString() + getShabbatChagString() + zmanimNames.getEndsString()
+        case "Rabbeinu Tam":
+            return zmanimNames.getRTString()
+        case "Chatzot Layla":
+            return zmanimNames.getChatzotLaylaString()
+        default:
+            return ""
+        }
+    }
+    
+    private func getShabbatChagString() -> String {
+        let hebrew = defaults.bool(forKey: "isZmanimInHebrew")
+        let americanized = defaults.bool(forKey: "isZmanimAmericanized")
+        return hebrew ? "שבת/חג" : americanized ? "Shabbat/Chag" : "Shabbat/Ḥag"
+    }
 }
 
 struct ZmanimNotificationsSettingsView: View {
@@ -127,10 +186,7 @@ struct ZmanimNotificationsSettingsView: View {
                     }) {
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(zman
-                                    .replacingOccurrences(of: "Plag HaMincha Halacha Berurah", with: "Pelag HaMincha (Halacha Berura)")
-                                    .replacingOccurrences(of: "Plag HaMincha Yalkut Yosef", with: "Pelag HaMincha (Yalkut Yosef)")
-                                    .localized())
+                                Text(viewModel.replaceWithDisplayName(zmanName: zman))
                                     .foregroundColor(isNotified ? .primary : .gray)
                                 Text(displayText)
                                     .font(.subheadline)

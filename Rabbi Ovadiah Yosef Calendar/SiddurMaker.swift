@@ -233,10 +233,12 @@ public class SiddurMaker {
         || jewishCalendar.getTachanun() == "אומרים תחנון רק בבוקר"
         || jewishCalendar.getTachanun() == "Some say Tachanun today"
         || jewishCalendar.getTachanun() == "יש אומרים תחנון"
+        || jewishCalendar.getTachanun() == "יש אומרים תחנון בשחרית; אין תחנון במנחה"
         || jewishCalendar.getTachanun() == "There is Tachanun today"
         || jewishCalendar.getTachanun() == "אומרים תחנון"
         || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה"
         || jewishCalendar.getTachanun() == "Some skip Tachanun by mincha"
+        || jewishCalendar.getTachanun() == "Some say Tachanun in the morning; no Tachanun by mincha"
         || jewishCalendar.isPurimMeshulash() && (jewishCalendar.isMukafChoma || jewishCalendar.isSafekMukafChoma)
         
         self.isTachanunSaidByMincha = jewishCalendar.getTachanun() == "There is Tachanun today"
@@ -789,8 +791,8 @@ public class SiddurMaker {
             }
         } else {
             
-            if (jewishCalendar.getTachanun() == "Some say Tachanun today"
-                || jewishCalendar.getTachanun() == "יש אומרים תחנון") {
+            if (jewishCalendar.getTachanun().contains("Some say Tachanun today")
+                || jewishCalendar.getTachanun().contains("יש אומרים תחנון")) {
                 addToSiddur("[" + jewishCalendar.getTachanun() + "]");
             }
             
@@ -885,7 +887,7 @@ public class SiddurMaker {
                         (isHebrew ? "ומברך העולה לפני הקריאה" : "Before the reading the one who is called up says") + "\n\n" +
                         "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר בָּחַר בָּנוּ מִכָּל הָעַמִּים וְנָתַן לָנוּ אֶת תּוֹרָתוֹ. בָּרוּךְ אַתָּה יְהֹוָה, נוֹתֵן הַתּוֹרָה: [אמן] \n\n" +
                         (isHebrew ? "אחר הקריאה מברך העולה" : "After the reading the one who is called up says") + "\n\n" +
-                        "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר נָתַן לָנוּ אֶת תּוֹרָתוֹ תּוֹרַת אֱמֶת, וְחַיֵּי עוֹלָם נָטַע בְּתוֹכֵנוּ. בָּרוּךְ אַתָּה יְהֹוָה, נוֹתֵן הַתּוֹרָה: [אמן]");
+                        "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר נָתַן לָנוּ תּוֹרָתוֹ תּוֹרַת אֱמֶת, וְחַיֵּי עוֹלָם נָטַע בְּתוֹכֵנוּ. בָּרוּךְ אַתָּה יְהֹוָה, נוֹתֵן הַתּוֹרָה: [אמן]");
             
             if (jewishCalendar.isRoshChodesh()) {
                 addToSiddur(
@@ -1184,7 +1186,7 @@ public class SiddurMaker {
                                        "רַחֵם עַל צִיּוֹן כִּי הִיא בֵּית חַיֵּינוּ, וְלַעֲלוּבַת נֶפֶשׁ תּוֹשִׁיעַ בִּמְהֵרָה בְיָמֵינוּ. בָּרוּךְ אַתָּה יְהֹוָה, מְשַׂמֵּחַ צִיּוֹן בְּבָנֶיהָ: \n" +
                                        "שַׂמְּחֵנוּ יְהֹוָה אֱלֹהֵינוּ, בְּאֵלִיָהוּ הַנָּבִיא עַבְדָּךְ, וּבְמַלְכוּת בֵּית דָּוִד מְשִׁיחָךְ, בִּמְהֵרָה יָבֹא וְיָגֵל לִבֵּנוּ, עַל כִּסְאוֹ לֹא יֵשֶׁב זָר, וְלֹא יִנְחֲלוּ עוֹד אֲחֵרִים אֶת כְּבוֹדוֹ, כִּי בְשֵׁם קָדְשְׁךָ נִשְׁבַּעְתָּ לּוֹ, שֶׁלֹּא יִכְבֶּה נֵרוֹ לְעוֹלָם וָעֶד. בָּרוּךְ אַתָּה יְהֹוָה, מָגֵן דָּוִד: [אָמֵן]");
             } else {
-                addToSiddur(WeeklyParashaReadings.getWeeklyParashaReading(parsha: jewishCalendar.getUpcomingParshah(), jewishCalendar: jewishCalendar, isForShacharit: true))
+                siddur.append(contentsOf: WeeklyParashaReadings.getWeeklyParashaReading(parsha: jewishCalendar.getUpcomingParshah(), jewishCalendar: jewishCalendar, isForShacharit: true))
                 addInstructionToSiddur(isHebrew ? "העולה האחרון אומר חצי קדיש" : "The last person says Half Kaddish");
             }
             addHalfKaddish(highlighted: false);
@@ -1618,12 +1620,12 @@ public class SiddurMaker {
             addToSiddur(
                 "עַד אָנָה בִּכְיָה בְּצִיּוֹן וּמִסְפֵּד בִּירוּשָׁלַיִם. תָּקוּם תְּרַחֵם צִיּוֹן תִּבְנֶה חוֹמוֹת יְרוּשָׁלַיִם: כַּכָּתוּב. אַתָּ֣ה תָ֭קוּם תְּרַחֵ֣ם צִיּ֑וֹן כִּי־עֵ֥ת לְ֝חֶֽנְנָ֗הּ כִּי־בָ֥א מוֹעֵֽד׃ וְנֶאֱמַר. וּפְדוּיֵ֨י יְהֹוָ֜ה יְשֻׁב֗וּן וּבָ֤אוּ צִיּוֹן֙ בְּרִנָּ֔ה וְשִׂמְחַ֥ת עוֹלָ֖ם עַל־רֹאשָׁ֑ם שָׂשׂ֤וֹן וְשִׂמְחָה֙ יַשִּׂ֔יגוּ וְנָ֖סוּ יָג֥וֹן וַאֲנָחָֽה׃"
             );
-            addToSiddur(isHebrew ? "יש אומרים" : "Some say");
+            addInstructionToSiddur(isHebrew ? "יש אומרים" : "Some say");
             addToSiddur(
                 "כְּדִכְתִיב. כִּֽי־נִחַ֨ם יְהֹוָ֜ה צִיּ֗וֹן נִחַם֙ כָּל־חָרְבֹתֶ֔יהָ וַיָּ֤שֶׂם מִדְבָּרָהּ֙ כְּעֵ֔דֶן וְעַרְבָתָ֖הּ כְּגַן־יְהֹוָ֑ה שָׂשׂ֤וֹן וְשִׂמְחָה֙ יִמָּ֣צֵא בָ֔הּ תּוֹדָ֖ה וְק֥וֹל זִמְרָֽה׃ הִתְנַעֲרִ֧י מֵעָפָ֛ר ק֥וּמִי שְּׁבִ֖י יְרֽוּשָׁלִָ֑ם הִֽתְפַּתְּחִי֙ מוֹסְרֵ֣י צַוָּארֵ֔ךְ שְׁבִיָּ֖ה בַּת־צִיּֽוֹן׃"
             );
-            addKaddishTitkabal(highlighted: false);// Chazon Ovadiah Page 391
-            addToSiddur(isHebrew ? "יש אנשים שקוראים כאן את הספר איוב" : "Some read the entire Iyov here");
+            addKaddishTitkabal(highlighted: false);// Chazon Ovadiah Taaniyot Page 391
+            addInstructionToSiddur(isHebrew ? "יש אנשים שקוראים כאן את הספר איוב" : "Some read the entire Iyov here");
             // Some add the entire Iyov here. Not gonna do that because they can pick up a tanach to do that, and it will make this class even bigger than necessary
         }
         
@@ -1988,7 +1990,7 @@ public class SiddurMaker {
         }
     }
     
-    private func addKaddishTitkabal(highlighted:Bool) {
+    private func addKaddishTitkabal(highlighted: Bool, hasChazarahBefore: Bool = true) {
         let kaddishTitkabal1 = "יִתְגַּדַּל וְיִתְקַדַּשׁ שְׁמֵהּ רַבָּא. [אָמֵן] בְּעָלְמָא דִּי בְרָא, כִּרְעוּתֵהּ, וְיַמְלִיךְ מַלְכוּתֵהּ, וְיַצְמַח פֻּרְקָנֵהּ, וִיקָרֵב מְשִׁיחֵהּ. [אָמֵן] בְּחַיֵּיכוֹן וּבְיוֹמֵיכוֹן וּבְחַיֵּי דְכָל בֵּית יִשְׂרָאֵל, בַּעֲגָלָא וּבִזְמַן קָרִיב, וְאִמְרוּ אָמֵן. [אָמֵן] יְהֵא שְׁמֵהּ רַבָּא מְבָרַךְ לְעָלַם וּלְעָלְמֵי עָלְמַיָּא יִתְבָּרַךְ. וְיִשְׁתַּבַּח. וְיִתְפָּאַר. וְיִתְרוֹמַם. וְיִתְנַשֵּׂא. וְיִתְהַדָּר. וְיִתְעַלֶּה. וְיִתְהַלָּל שְׁמֵהּ דְּקֻדְשָׁא, בְּרִיךְ הוּא. [אָמֵן] לְעֵלָּא מִן כָּל בִּרְכָתָא שִׁירָתָא, תִשְׁבְּחָתָא וְנֶחֱמָתָא, דַּאֲמִירָן בְּעָלְמָא, וְאִמְרוּ אָמֵן. [אָמֵן]"
         let kaddishTitkabal2 = "תִּתְקַבַּל צְלוֹתָֽנָא וּבָֽעוּתָֽנָא, עִם צְלֽוֹתְהוֹן וּבָעֽוּתְהוֹן דְּכָל־בֵּית יִשְׂרָאֵל, קֳדָם אֲבוּנָא דְּבִשְׁמַיָּא, וְאִמְרוּ אָמֵן. [אָמֵן]"
         let kaddishTitkabal3 = "יְהֵא שְׁלָמָא רַבָּא מִן שְׁמַיָּא. חַיִּים וְשָׂבָע וִישׁוּעָה וְנֶחָמָה. וְשֵׁיזָבָא וּרְפוּאָה וּגְאוּלָה וּסְלִיחָה וְכַפָּרָה וְרֶוַח וְהַצָּלָה לָנוּ וּלְכָל עַמּוֹ יִשְׂרָאֵל. וְאִמְרוּ אָמֵן. [אָמֵן]"
@@ -2006,7 +2008,7 @@ public class SiddurMaker {
         if (highlighted && jewishCalendar.isAseresYemeiTeshuva()) {
             addOneWordToSiddurHighlighted(endAYT)
         } else {
-            if (jewishCalendar.isAseresYemeiTeshuva()) {
+            if (jewishCalendar.isAseresYemeiTeshuva() && hasChazarahBefore) {
                 addToSiddur("עוֹשֶׂה");
                 addToSiddurHighlighted("הַשָּׁלוֹם");
                 addToSiddur("בִּמְרוֹמָיו. הוּא בְּרַחֲמָיו יַעֲשֶׂה שָׁלוֹם עָלֵינוּ וְעַל כָּל־עַמּוֹ יִשְׂרָאֵל. וְאִמְרוּ אָמֵן. [אָמֵן]");
@@ -3293,9 +3295,15 @@ public class SiddurMaker {
         addOneWordToSiddur(
             "אֱלֹהַי, נְצֹר לְשׁוֹנִי מֵרָע וְשִׂפְתוֹתַי מִדַּבֵּר מִרְמָה, וְלִמְקַלְלַי נַפְשִׁי תִדֹּם, וְנַפְשִׁי כֶּֽעָפָר לַכֹּל תִּֽהְיֶה, פְּתַח לִבִּי בְּתוֹרָתֶֽךָ, וְאַחֲרֵי מִצְוֹתֶֽיךָ תִּרְדֹּף נַפְשִׁי. וְכָל־הַקָּמִים עָלַי לְרָעָה, מְהֵרָה הָפֵר עֲצָתָם וְקַלְקֵל מַחְשְׁבוֹתָם. עֲשֵׂה לְמַֽעַן שְׁמָךְ, עֲשֵׂה לְמַֽעַן יְמִינָךְ, עֲשֵׂה לְמַֽעַן תּֽוֹרָתָךְ, עֲשֵׂה לְמַֽעַן קְדֻשָּׁתָךְ. לְ֭מַעַן יֵחָלְצ֣וּן יְדִידֶ֑יךָ הוֹשִׁ֖יעָה יְמִֽינְךָ֣ וַעֲנֵֽנִי:");
         addToSiddur("יִֽהְי֥וּ לְרָצ֨וֹן ׀ אִמְרֵי־פִ֡י וְהֶגְי֣וֹן לִבִּ֣י לְפָנֶ֑יךָ יְ֝הֹוָ֗ה צוּרִ֥י וְגֹאֲלִֽי׃");
+        addInstructionToSiddur(isHebrew ? "יש להביט לאחור שאין אדם המתפלל בתוך ד' אמותיך (כ־2 מטרים). יש לכרוע עד שכל חוליות השדרה בולטות ולפסוע ג' פסיעות לאחור, החל ברגל שמאל. יש לפנות שמאלה באמירת \"עושה שלום\", לאחר מכן לפנות ימינה באמירת \"הוא ברחמיו\", ולבסוף לפנות קדימה באמירת \"ועל כל עמו\"" :
+                        "Look back to ensure there isn't one praying within your four amot (six feet). One should now bow to the point where all the vertebrae in the spine stick out and take three steps back, starting with your left foot. Turn left as you say \"Oseh Shalom\", then turn right as you say \"Hu BeRakhamav\", then turn forward as you say VeAlkol 'Amo");
         addTwoWordToSiddur("עֹשֶׂה שָׁלוֹם בִּמְרוֹמָיו, הוּא בְּרַחֲמָיו יַעֲשֶׂה שָׁלוֹם עָלֵֽינוּ, וְעַל כָּל־עַמּוֹ יִשְׂרָאֵל, וְאִמְרוּ אָמֵן:");
+        addInstructionToSiddur(isHebrew ? "זקוף את גבך" : "Straighten your back");
         addOneWordToSiddur(
             "יְהִי רָצוֹן מִלְּפָנֶֽיךָ, יְהֹוָה אֱלֹהֵֽינוּ וֵֽאלֹהֵי אֲבוֹתֵֽינוּ, שֶׁתִּבְנֶה בֵּית הַמִּקְדָשׁ בִּמְהֵרָה בְיָמֵֽינוּ, וְתֵן חֶלְקֵֽנוּ בְתוֹרָתָךְ לַעֲשׂוֹת חֻקֵּי רְצוֹנָךְ וּלְעָבְדָךְ בְּלֵבָב שָׁלֵם:");
+        
+        addInstructionToSiddur(isHebrew ? "במניין עם חזרת הש״ץ, יש להמתין עד הש״ץ מתחיל \"כתר\" ואז פוסעים את ג' הפסיעות קדימה." :
+                        "In a minyan with a repetition, wait until the Shaliach Tzibur starts \"Keter\" before taking the three steps forward");
 
         addTwoWordToSiddur(
             "יְהִ֤י שֵׁ֣ם יְהֹוָ֣ה מְבֹרָ֑ךְ מֵ֝עַתָּ֗ה וְעַד־עוֹלָֽם׃ מִמִּזְרַח־שֶׁ֥מֶשׁ עַד־מְבוֹא֑וֹ מְ֝הֻלָּ֗ל שֵׁ֣ם יְהֹוָֽה׃ רָ֖ם עַל־כׇּל־גּוֹיִ֥ם ׀ יְהֹוָ֑ה עַ֖ל הַשָּׁמַ֣יִם כְּבוֹדֽוֹ׃ יְהֹוָ֥ה אֲדֹנֵ֑ינוּ מָה־אַדִּ֥יר שִׁ֝מְךָ֗ בְּכׇל־הָאָֽרֶץ׃");
@@ -3433,11 +3441,11 @@ public class SiddurMaker {
                         "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר בָּחַר בָּנוּ מִכָּל הָעַמִּים וְנָתַן לָנוּ אֶת תּוֹרָתוֹ. בָּרוּךְ אַתָּה יְהֹוָה, נוֹתֵן הַתּוֹרָה: [אמן] \n\n" +
                         (isHebrew ? "אחר הקריאה מברך העולה" : "After the reading, the one who is called up says") + "\n\n" +
                         "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר נָתַן לָנוּ אֶת תּוֹרָתוֹ תּוֹרַת אֱמֶת, וְחַיֵּי עוֹלָם נָטַע בְּתוֹכֵנוּ. בָּרוּךְ אַתָּה יְהֹוָה, נוֹתֵן הַתּוֹרָה: [אמן] \n\n" +
-                        (isHebrew ? "מוציאים ספר תורה וקוראים ג' עולים" : "Three people go up for Aliya") + "\n\n" +
-                        WeeklyParashaReadings.getWeeklyParashaReading(
-                            parsha: jewishCalendar.getUpcomingParshah(),
-                            jewishCalendar: jewishCalendar,
-                            isForShacharit: false));
+                        (isHebrew ? "מוציאים ספר תורה וקוראים ג' עולים" : "Three people go up for Aliya"))
+            siddur.append(contentsOf: WeeklyParashaReadings.getWeeklyParashaReading(
+                parsha: jewishCalendar.getUpcomingParshah(),
+                jewishCalendar: jewishCalendar,
+                isForShacharit: false))
             if (jewishCalendar.isTishaBav()) {
                 addToSiddurHighlighted(isHebrew ? "אין אומרים חצי קדיש" : "Do NOT say Half Kaddish here");
                 addToSiddurHighlighted( "בָּרוּךְ אַתָּה יְהֹוָה, אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר בָּחַר בִּנְבִיאִים טוֹבִים וְרָצָה בְדִבְרֵיהֶם הַנֶּאֱמָרִים בֶּאֱמֶת. בָּרוּךְ אַתָּה יְהֹוָה, הַבּוֹחֵר בַּתּוֹרָה וּבְמֹשֶׁה עַבְדּוֹ, וּבְיִשְׂרָאֵל עַמּוֹ וּבִנְבִיאֵי הָאֱמֶת וְהַצֶּדֶק:");
@@ -3609,7 +3617,7 @@ public class SiddurMaker {
                 addToSiddur("יֹ֭שֵׁב בְּסֵ֣תֶר עֶלְי֑וֹן בְּצֵ֥ל שַׁ֝דַּ֗י יִתְלוֹנָֽן׃ אֹמַ֗ר לַ֭יהֹוָה מַחְסִ֣י וּמְצוּדָתִ֑י אֱ֝לֹהַ֗י אֶבְטַח־בּֽוֹ׃ כִּ֤י ה֣וּא יַ֭צִּילְךָ מִפַּ֥ח יָק֗וּשׁ מִדֶּ֥בֶר הַוּֽוֹת׃ בְּאֶבְרָת֨וֹ ׀  יָ֣סֶךְ לָ֭ךְ וְתַחַת־כְּנָפָ֣יו תֶּחְסֶ֑ה צִנָּ֖ה וְסֹחֵרָ֣ה אֲמִתּֽוֹ׃ לֹֽא־תִ֭ירָא מִפַּ֣חַד לָ֑יְלָה מֵ֝חֵ֗ץ יָע֥וּף יוֹמָֽם׃ מִ֭דֶּבֶר בָּאֹ֣פֶל יַהֲלֹ֑ךְ מִ֝קֶּ֗טֶב יָשׁ֥וּד צׇהֳרָֽיִם׃ יִפֹּ֤ל מִצִּדְּךָ֨ ׀ אֶ֗לֶף וּרְבָבָ֥ה מִימִינֶ֑ךָ אֵ֝לֶ֗יךָ לֹ֣א יִגָּֽשׁ׃ רַ֭ק בְּעֵינֶ֣יךָ תַבִּ֑יט וְשִׁלֻּמַ֖ת רְשָׁעִ֣ים תִּרְאֶֽה׃ כִּֽי־אַתָּ֣ה יְהֹוָ֣ה מַחְסִ֑י עֶ֝לְי֗וֹן שַׂ֣מְתָּ מְעוֹנֶֽךָ׃ לֹא־תְאֻנֶּ֣ה אֵלֶ֣יךָ רָעָ֑ה וְ֝נֶ֗גַע לֹא־יִקְרַ֥ב בְּאׇהֳלֶֽךָ׃ כִּ֣י מַ֭לְאָכָיו יְצַוֶּה־לָּ֑ךְ לִ֝שְׁמׇרְךָ֗ בְּכׇל־דְּרָכֶֽיךָ׃ עַל־כַּפַּ֥יִם יִשָּׂא֑וּנְךָ פֶּן־תִּגֹּ֖ף בָּאֶ֣בֶן רַגְלֶֽךָ׃ עַל־שַׁ֣חַל וָפֶ֣תֶן תִּדְרֹ֑ךְ תִּרְמֹ֖ס כְּפִ֣יר וְתַנִּֽין׃ כִּ֤י בִ֣י חָ֭שַׁק וַאֲפַלְּטֵ֑הוּ אֲ֝שַׂגְּבֵ֗הוּ כִּֽי־יָדַ֥ע שְׁמִֽי׃ יִקְרָאֵ֨נִי ׀ וְֽאֶעֱנֵ֗הוּ עִמּֽוֹ־אָנֹכִ֥י בְצָרָ֑ה אֲ֝חַלְּצֵ֗הוּ וַאֲכַבְּדֵֽהוּ׃ אֹ֣רֶךְ יָ֭מִים אַשְׂבִּיעֵ֑הוּ וְ֝אַרְאֵ֗הוּ בִּישׁוּעָתִֽי׃");
             }
         } else {
-            addKaddishTitkabal(highlighted: false)
+            addKaddishTitkabal(highlighted: false, hasChazarahBefore: false)
         }
         
         if (purim) {
@@ -3751,7 +3759,7 @@ public class SiddurMaker {
                 );
                 addToSiddurHighlighted( "עַד אָנָה בִּכְיָה בְּצִיּוֹן וּמִסְפֵּד בִּירוּשָׁלָיִם, תְָּשׁוּב תְּרַחֵם צִיּוֹן, וְתִּבְנֶה חוֹמוֹת יְרוּשָׁלָיִם:");
             } else {
-                addKaddishTitkabal(highlighted: false);
+                addKaddishTitkabal(highlighted: false, hasChazarahBefore: false)
             }
         }
         addCategoryToSiddur("שיר למעלות");
@@ -4449,6 +4457,8 @@ public class SiddurMaker {
             || jewishCalendar.getTachanun() == "יש אומרים תחנון"
             || jewishCalendar.getTachanun() == "There is Tachanun today"
             || jewishCalendar.getTachanun() == "אומרים תחנון"
+            || jewishCalendar.getTachanun() == "יש אומרים תחנון בשחרית; אין תחנון במנחה"
+            || jewishCalendar.getTachanun() == "Some say Tachanun in the morning; no Tachanun by mincha"
             || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה"
             || jewishCalendar.getTachanun() == "Some skip Tachanun by mincha";
         }
@@ -4460,6 +4470,8 @@ public class SiddurMaker {
         if (jewishCalendar.getTachanun() == "Some say Tachanun today"
             || jewishCalendar.getTachanun() == "יש אומרים תחנון"
             || jewishCalendar.getTachanun() == "יש מדלגים תחנון במנחה"
+            || jewishCalendar.getTachanun() == "יש אומרים תחנון בשחרית; אין תחנון במנחה"
+            || jewishCalendar.getTachanun() == "Some say Tachanun in the morning; no Tachanun by mincha"
             || jewishCalendar.getTachanun() == "Some skip Tachanun by mincha") {
             addToSiddur("[" + jewishCalendar.getTachanun() + "]");
         }

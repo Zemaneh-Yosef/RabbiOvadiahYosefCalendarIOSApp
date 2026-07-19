@@ -62,7 +62,7 @@
       }
     },
     " Haftarah: ‫" : {
-
+      "shouldTranslate" : false
     },
     " is today at " : {
       "extractionState" : "manual",
@@ -3759,6 +3759,17 @@
         }
       }
     },
+    "Tefilat HaShelah" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תפילת השל\\\"ה"
+          }
+        }
+      }
+    },
     "Tekufa " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4595,7 +4606,7 @@
       "shouldTranslate" : false
     },
     "מפטירין" : {
-
+      "shouldTranslate" : false
     },
     "סדר סיום מסכת" : {
       "shouldTranslate" : false

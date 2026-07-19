@@ -42,13 +42,15 @@ class WeeklyParashaReadings {
         "וַיֹּ֗אמֶר הִנֵּ֣ה אָנֹכִי֮ כֹּרֵ֣ת בְּרִית֒ נֶ֤גֶד כׇּֽל־עַמְּךָ֙ אֶעֱשֶׂ֣ה נִפְלָאֹ֔ת אֲשֶׁ֛ר לֹֽא־נִבְרְא֥וּ בְכׇל־הָאָ֖רֶץ וּבְכׇל־הַגּוֹיִ֑ם וְרָאָ֣ה כׇל־הָ֠עָ֠ם אֲשֶׁר־אַתָּ֨ה בְקִרְבּ֜וֹ אֶת־מַעֲשֵׂ֤ה יְהֹוָה֙ כִּֽי־נוֹרָ֣א ה֔וּא אֲשֶׁ֥ר אֲנִ֖י עֹשֶׂ֥ה עִמָּֽךְ׃"
     ]
     
-    public static func getWeeklyParashaReading(parsha: JewishCalendar.Parsha, jewishCalendar: JewishCalendar, isForShacharit: Bool) -> String {
+    public static func getWeeklyParashaReading(parsha: JewishCalendar.Parsha, jewishCalendar: JewishCalendar, isForShacharit: Bool) -> Array<HighlightString> {
         let isTaanit = jewishCalendar.isRegularTaanis()
         let isPurim = jewishCalendar.isPurim();
+        var readings = Array<HighlightString>()
         var result = "";
         
         if (isPurim) {
-            return "וַיָּבֹ֖א עֲמָלֵ֑ק וַיִּלָּ֥חֶם עִם־יִשְׂרָאֵ֖ל בִּרְפִידִֽם׃ \n" +
+            readings.append(HighlightString(
+                         "וַיָּבֹ֖א עֲמָלֵ֑ק וַיִּלָּ֥חֶם עִם־יִשְׂרָאֵ֖ל בִּרְפִידִֽם׃ \n" +
                     "וַיֹּ֨אמֶר מֹשֶׁ֤ה אֶל־יְהוֹשֻׁ֙עַ֙ בְּחַר־לָ֣נוּ אֲנָשִׁ֔ים וְצֵ֖א הִלָּחֵ֣ם בַּעֲמָלֵ֑ק מָחָ֗ר אָנֹכִ֤י נִצָּב֙ עַל־רֹ֣אשׁ הַגִּבְעָ֔ה וּמַטֵּ֥ה הָאֱלֹהִ֖ים בְּיָדִֽי׃ \n" +
                     "וַיַּ֣עַשׂ יְהוֹשֻׁ֗עַ כַּאֲשֶׁ֤ר אָֽמַר־לוֹ֙ מֹשֶׁ֔ה לְהִלָּחֵ֖ם בַּעֲמָלֵ֑ק וּמֹשֶׁה֙ אַהֲרֹ֣ן וְח֔וּר עָל֖וּ רֹ֥אשׁ הַגִּבְעָֽה׃ \n" +
                     "[לוי]: וְהָיָ֗ה כַּאֲשֶׁ֨ר יָרִ֥ים מֹשֶׁ֛ה יָד֖וֹ וְגָבַ֣ר יִשְׂרָאֵ֑ל וְכַאֲשֶׁ֥ר יָנִ֛יחַ יָד֖וֹ וְגָבַ֥ר עֲמָלֵֽק׃ \n" +
@@ -58,21 +60,18 @@ class WeeklyParashaReadings {
                     "וַיִּ֥בֶן מֹשֶׁ֖ה מִזְבֵּ֑חַ וַיִּקְרָ֥א שְׁמ֖וֹ יְהֹוָ֥ה ׀ נִסִּֽי׃ \n" +
                     "וַיֹּ֗אמֶר כִּֽי־יָד֙ עַל־כֵּ֣ס יָ֔הּ מִלְחָמָ֥ה לַיהֹוָ֖ה בַּֽעֲמָלֵ֑ק מִדֹּ֖ר דֹּֽר׃ וַיֹּ֗אמֶר כִּֽי־יָד֙ עַל־כֵּ֣ס יָ֔הּ מִלְחָמָ֥ה לַיהֹוָ֖ה בַּֽעֲמָלֵ֑ק מִדֹּ֖ר דֹּֽר׃\n\n" +
                     "(את הפסוק האחרון קוראים ב' פעמים כדי להשלים עשרה פסוקים)"
-                .replace(Locale.isHebrewLocale() ? "@" : "את הפסוק האחרון קוראים ב' פעמים כדי להשלים עשרה פסוקים", "We say the last verse twice in order to complete the requirement to have 10 verses when reading the torah in public");
+                .replace(Locale.isHebrewLocale() ? "@" : "את הפסוק האחרון קוראים ב' פעמים כדי להשלים עשרה פסוקים", "We say the last verse twice in order to complete the requirement to have 10 verses when reading the torah in public")))
         } else if (isTaanit) {
-            result = "(אם יש ששה אנשים הצמים):\n\n".replace(Locale.isHebrewLocale() ? "@" : "אם יש ששה אנשים הצמים", "If there are more than 6 people fasting") +
+            readings.append(HighlightString("(אם יש ששה אנשים הצמים):\n\n".replace(Locale.isHebrewLocale() ? "@" : "אם יש ששה אנשים הצמים", "If there are more than 6 people fasting") +
                     "וַיְחַ֣ל מֹשֶׁ֔ה אֶת־פְּנֵ֖י יְהֹוָ֣ה אֱלֹהָ֑יו וַיֹּ֗אמֶר לָמָ֤ה יְהֹוָה֙ יֶחֱרֶ֤ה אַפְּךָ֙ בְּעַמֶּ֔ךָ אֲשֶׁ֤ר הוֹצֵ֙אתָ֙ מֵאֶ֣רֶץ מִצְרַ֔יִם בְּכֹ֥חַ גָּד֖וֹל וּבְיָ֥ד חֲזָקָֽה׃ \n" +
                     "לָ֩מָּה֩ יֹאמְר֨וּ מִצְרַ֜יִם לֵאמֹ֗ר בְּרָעָ֤ה הֽוֹצִיאָם֙ לַהֲרֹ֤ג אֹתָם֙ בֶּֽהָרִ֔ים וּ֨לְכַלֹּתָ֔ם מֵעַ֖ל פְּנֵ֣י הָֽאֲדָמָ֑ה שׁ֚וּב מֵחֲר֣וֹן אַפֶּ֔ךָ וְהִנָּחֵ֥ם עַל־הָרָעָ֖ה לְעַמֶּֽךָ׃ \n" +
                     "זְכֹ֡ר לְאַבְרָהָם֩ לְיִצְחָ֨ק וּלְיִשְׂרָאֵ֜ל עֲבָדֶ֗יךָ אֲשֶׁ֨ר נִשְׁבַּ֣עְתָּ לָהֶם֮ בָּךְ֒ וַתְּדַבֵּ֣ר אֲלֵהֶ֔ם אַרְבֶּה֙ אֶֽת־זַרְעֲכֶ֔ם כְּכוֹכְבֵ֖י הַשָּׁמָ֑יִם וְכׇל־הָאָ֨רֶץ הַזֹּ֜את אֲשֶׁ֣ר אָמַ֗רְתִּי אֶתֵּן֙ לְזַרְעֲכֶ֔ם וְנָחֲל֖וּ לְעֹלָֽם׃ \n" +
                     "וַיִּנָּ֖חֶם יְהֹוָ֑ה עַל־הָ֣רָעָ֔ה אֲשֶׁ֥ר דִּבֶּ֖ר לַעֲשׂ֥וֹת לְעַמּֽוֹ׃ \n\n" +
                     "\u{202B}" + "[לוי]: " + vayavorParagraph[0] + "\n\n" +
-                    "\u{202B}" + "[ישראל]: " + vayavorParagraph[1];
+                    "\u{202B}" + "[ישראל]: " + vayavorParagraph[1]))
 
-            if (isForShacharit && (jewishCalendar.getDayOfWeek() == 2 || jewishCalendar.getDayOfWeek() == 5)) {
-                result += "\n\n" + "(אם אין ששה אנשים הצמים)\n\n".replace(Locale.isHebrewLocale() ? "@" : "אם אין ששה אנשים הצמים", "If there are less than 6 people fasting");
-                // if there less than 6 people fasting, we will append the next week's parsha ONLY ON MONDAYS AND THURSDAYS
-            } else {
-                return result;
+            if (!(isForShacharit && (jewishCalendar.getDayOfWeek() == 2 || jewishCalendar.getDayOfWeek() == 5))) {// we will append the next week's parsha ONLY ON MONDAYS AND THURSDAYS FOR SHACHARIT
+                return readings;
             }
         }
         
@@ -1241,6 +1240,28 @@ class WeeklyParashaReadings {
         default:
             break
         }
-        return result;
+        if (isTaanit) {
+            // This body is only if it's Shaharit on Mondays & Thursdays.
+            // In this case, check if the upcoming Perasha is string-based.
+            // If it is, then we simply hide the string in the spoiler
+            // If not, then we just ensure you focus on the taanit text
+            if (!result.isEmpty) {
+                readings.append(HighlightString("<details><summary>"
+                    .appending("(אם אין ששה אנשים הצמים)".replace(Locale.isHebrewLocale() ? "@" : "אם אין ששה אנשים הצמים", "If there are less than 6 people fasting")
+                    .appending("</summary>")
+                    .appending("\n" + result))
+                    .appending("</details>"))
+                    .setIsInfo(true));
+            } else {
+                readings[0].shouldBeHighlighted = true
+                readings.append(HighlightString("[break here]"));
+                readings.append(HighlightString("(אם אין ששה אנשים הצמים)".replace(Locale.isHebrewLocale() ? "@" : "אם אין ששה אנשים הצמים", "If there are less than 6 people fasting")).setIsInstruction(true));
+            }
+        } else {
+            if (!result.isEmpty) {
+                readings.append(HighlightString(result));
+            }
+        }
+        return readings;
     }
 }

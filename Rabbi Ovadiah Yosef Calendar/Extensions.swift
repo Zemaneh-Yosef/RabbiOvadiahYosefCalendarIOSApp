@@ -11,24 +11,20 @@ import UIKit
 
 public extension JewishCalendar {
     
-    func copy() -> JewishCalendar {
-        return JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
-    }
-    
     func tomorrow() -> JewishCalendar {
-        let result = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        let result = copy()
         result.forward()
         return result
     }
     
     func yesterday() -> JewishCalendar {
-        let result = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        let result = copy()
         result.back()
         return result
     }
     
     func currentToString(zmanimCalendar: ComplexZmanimCalendar) -> String {
-        let jewishCalendar = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        let jewishCalendar = copy()
         jewishCalendar.workingDate = zmanimCalendar.workingDate
         if (Date() > zmanimCalendar.getSunset() ?? Date()) {
             jewishCalendar.forward()
@@ -292,6 +288,12 @@ public extension JewishCalendar {
                 }
                 return "No Tachanun today";
             }
+            if (yomTovIndex == JewishCalendar.YOM_YERUSHALAYIM || yomTovIndex == JewishCalendar.YOM_HAATZMAUT) {
+                if (Locale.isHebrewLocale()) {
+                    return "יש אומרים תחנון בשחרית; אין תחנון במנחה";
+                }
+                return "Some say Tachanun in the morning; no Tachanun by mincha";
+            }
             if Locale.isHebrewLocale() {
                 return "אומרים תחנון רק בבוקר";
             }
@@ -431,7 +433,7 @@ public extension JewishCalendar {
         
         while jewishCal.getDayOfWeek() != 7 {
             daysOfShevuahShechalBo.append(jewishCal.getJewishDayOfMonth())
-            jewishCal.forward()
+            jewishCal.back()
         }
         return daysOfShevuahShechalBo.contains(getJewishDayOfMonth())
     }
@@ -527,7 +529,7 @@ public extension JewishCalendar {
     }
     
     func isAfterMoladBeforeRoshChodesh() -> Bool {
-        let currentDate = workingDate
+        let currentDate = workingDate.addingTimeInterval(0)
         let currentHebrewMonth = getJewishMonth();
         while (currentHebrewMonth == getJewishMonth()) {
             forward() // go forward until the next month
@@ -554,7 +556,7 @@ public extension JewishCalendar {
     }
     
     func isPurimMeshulash() -> Bool {
-        let yesterday = JewishCalendar(workingDate: workingDate, timezone: timeZone, inIsrael: inIsrael, useModernHolidays: useModernHolidays)
+        let yesterday = copy()
         yesterday.back() // Move to yesterday
         return yesterday.getYomTovIndex() == JewishCalendar.SHUSHAN_PURIM && yesterday.getDayOfWeek() == 7
     }

@@ -530,6 +530,25 @@ struct SiddurChooserView: View {
         }
     }
     
+    var tefilatHaShelahButton: some View {
+        Button(action: {
+            if let openLink = URL(string: "https://elyahu41.github.io/tefillas_hasheloh.pdf") {
+                if UIApplication.shared.canOpenURL(openLink) {
+                    UIApplication.shared.open(openLink, options: [:])
+                }
+            }
+        }) {
+            VStack(alignment: .leading) {
+                Text("Tefilat HaShelah".localized())
+                if let secondary = getSecondaryText("Tefilat HaShelah".localized()) {
+                    Text(secondary)
+                        .font(secondaryTextSize)
+                        .foregroundStyle(Color.secondary)
+                }
+            }
+        }
+    }
+    
     private var mainList: some View {
         List {
             Section {
@@ -621,6 +640,9 @@ struct SiddurChooserView: View {
                 if getSunsetBasedJewishCalendar().getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH &&
                     getSunsetBasedJewishCalendar().getDayOfWeek() == 3 {
                     parshatHamanButton
+                }
+                if getSunsetBasedJewishCalendar().isErevRoshChodesh() && getSunsetBasedJewishCalendar().getJewishMonth() == JewishCalendar.IYAR {
+                    tefilatHaShelahButton
                 }
             } header: {
                 VStack {
@@ -1004,10 +1026,11 @@ struct SiddurChooserView: View {
             if (getSunsetBasedJewishCalendar().is3Weeks()) {
                 let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
                 currentZmanimCalendar.useElevation = GlobalStruct.useElevation
+                currentZmanimCalendar.useAstronomicalChatzos = false
 
                 let isNightTikkunSaid = getSunsetBasedJewishCalendar().isNightTikkunChatzotSaid();
                 let isDayTikkunSaid = getSunsetBasedJewishCalendar().isDayTikkunChatzotSaid();
-                let isNowForDayTikkun = (Date() > currentZmanimCalendar.getChatzosIfHalfDayNil() ?? Date()) && (Date() < currentZmanimCalendar.getSunset() ?? Date());
+                let isNowForDayTikkun = (Date() > currentZmanimCalendar.getChatzos() ?? Date()) && (Date() < currentZmanimCalendar.getSunset() ?? Date());
                 if (isNightTikkunSaid && isDayTikkunSaid) {// figure out which it is by the time
                     if isNowForDayTikkun {
                         siddurPrayer = "Tikkun Chatzot (Day)"
@@ -1088,6 +1111,7 @@ struct SiddurChooserView: View {
     private func isPrayerCurrentlySaid(key: String) -> Bool {
         let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
         currentZmanimCalendar.useElevation = GlobalStruct.useElevation
+        currentZmanimCalendar.useAstronomicalChatzos = false
         if (currentZmanimCalendar.getSunset() == nil || currentZmanimCalendar.getSunrise() == nil) {
             return true;// show the prayer by default
         }
@@ -1097,7 +1121,7 @@ struct SiddurChooserView: View {
             let isSelichotNotSaidNow = (Date() > currentZmanimCalendar.getSunset()! && currentZmanimCalendar.isNowBeforeSecondAshmora()) || ( !currentZmanimCalendar.isNowBeforeSecondAshmora() && !currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults))
             result = !isSelichotNotSaidNow
         case "שחרית":
-            result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getChatzosIfHalfDayNil()!
+            result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getChatzos()!
         case "מוסף":
             result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getSunset()!
         case "מנחה":
@@ -1112,7 +1136,7 @@ struct SiddurChooserView: View {
         case "תיקון חצות (לילה)":
             result = !getSunsetBasedJewishCalendar().is3Weeks() && currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
         case "תיקון חצות":
-            result = getSunsetBasedJewishCalendar().is3Weeks() && ((currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!) || (Date() > currentZmanimCalendar.getChatzosIfHalfDayNil()! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
+            result = getSunsetBasedJewishCalendar().is3Weeks() && ((currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!) || (Date() > currentZmanimCalendar.getChatzos()! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
         default:
             result = true
         }
@@ -1144,11 +1168,13 @@ struct SiddurChooserView: View {
                     .replacingOccurrences(of: "צדקתך", with: "")
                     .replacingOccurrences(of: "לא אומרים תחנון", with: "יהי שם")
                     .replacingOccurrences(of: "אומרים תחנון רק בבוקר", with: "תחנון")
+                    .replacingOccurrences(of: "יש אומרים תחנון בשחרית; אין תחנון במנחה", with: "יש אומרים תחנון")
                     .replacingOccurrences(of: "יש מדלגים תחנון במנחה", with: "תחנון")
                     .replacingOccurrences(of: "אומרים תחנון", with: "תחנון")
 
                     .replacingOccurrences(of: "No Tachanun today", with: "יהי שם")
                     .replacingOccurrences(of: "Tachanun only in the morning", with: "תחנון")
+                    .replacingOccurrences(of: "Some say Tachanun in the morning; no Tachanun by mincha", with: "יש אומרים תחנון")
                     .replacingOccurrences(of: "Some say Tachanun today", with: "יש אומרים תחנון")
                     .replacingOccurrences(of: "Some skip Tachanun by mincha", with: "תחנון")
                     .replacingOccurrences(of: "There is Tachanun today", with: "תחנון")
@@ -1180,8 +1206,10 @@ struct SiddurChooserView: View {
                     .replacingOccurrences(of: "אומרים תחנון רק בבוקר", with: "יהי שם")
                     .replacingOccurrences(of: "יש מדלגים תחנון במנחה", with: "יש אומרים תחנון")
                     .replacingOccurrences(of: "אומרים תחנון", with: "תחנון")
-
+                    .replacingOccurrences(of: "יש אומרים תחנון בשחרית; אין תחנון במנחה", with: "יהי שם")
+                
                     .replacingOccurrences(of: "No Tachanun today", with: "יהי שם")
+                    .replacingOccurrences(of: "Some say Tachanun in the morning; no Tachanun by mincha", with: "יהי שם")
                     .replacingOccurrences(of: "Tachanun only in the morning", with: "יהי שם")
                     .replacingOccurrences(of: "Some say Tachanun today", with: "יש אומרים תחנון")
                     .replacingOccurrences(of: "Some skip Tachanun by mincha", with: "יש אומרים תחנון")
@@ -1244,6 +1272,8 @@ struct SiddurChooserView: View {
         case "Prayer for Etrog".localized():
             return "It is good to say this prayer today.".localized()
         case "Parshat Haman".localized():
+            return "It is good to say this prayer today.".localized()
+        case "Tefilat HaShelah".localized():
             return "It is good to say this prayer today.".localized()
         case "סדר סיום מסכת":
             let currentDaf = YomiCalculator.getDafYomiBavli(jewishCalendar: GlobalStruct.jewishCalendar);

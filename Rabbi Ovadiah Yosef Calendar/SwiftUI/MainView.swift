@@ -114,12 +114,24 @@ struct ContentView: View {
 }
 
 func hasSpecialPrayer() -> Bool {
-    return JewishCalendar().getYomTovIndex() == JewishCalendar.TU_BESHVAT ||
-            (JewishCalendar().getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH && JewishCalendar().getDayOfWeek() == 3)
+    let jewishCalendar = JewishCalendar()
+    return jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT ||
+    (jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH && jewishCalendar.getDayOfWeek() == 3) ||
+    (jewishCalendar.isErevRoshChodesh() && jewishCalendar.getJewishMonth() == JewishCalendar.IYAR)
 }
 
 func getSpecialPrayerTitle() -> String {
-    return JewishCalendar().getYomTovIndex() == JewishCalendar.TU_BESHVAT ? "Prayer for Etrog".localized() : "Parshat Haman".localized()
+    let jewishCalendar = JewishCalendar()
+    if jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
+        return "Prayer for Etrog".localized()
+    }
+    if jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH && jewishCalendar.getDayOfWeek() == 3 {
+        return "Parshat Haman".localized()
+    }
+    if jewishCalendar.isErevRoshChodesh() && jewishCalendar.getJewishMonth() == JewishCalendar.IYAR {
+        return "Tefilat HaShelah".localized()
+    }
+    return ""
 }
 
 func hasNissanLimudYomi() -> Bool {
