@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Elyahu41/KosherSwift",
       "state" : {
-        "revision" : "b26a11c6d038494ebb25b89783b622890ed33772",
-        "version" : "1.10.6"
+        "revision" : "ab3104dc1e46fc7933eda754bc3c1d42110e8c1d",
+        "version" : "1.10.10"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "revision" : "6c7915e16f729857aec3e99068c361e58a00ed68",
-        "version" : "2.13.4"
+        "revision" : "7a185638b31911a9980655b70a26af1279d4917b",
+        "version" : "2.14.2"
       }
     },
     {
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/swiftui-introspect",
       "state" : {
-        "revision" : "26986a57e31c813f98262ddb62d4b07d40008535",
-        "version" : "26.0.1"
+        "revision" : "7f76fe19415a60ce28493c5ec67b8da629f27a44",
+        "version" : "27.1.0"
       }
     },
     {
@@ -70,7 +70,7 @@
       "location" : "https://github.com/ciaranrobrien/SwiftUIScrollOffset",
       "state" : {
         "branch" : "main",
-        "revision" : "3b6fa1e7f685fabbbc42178cd52df0339a161b55"
+        "revision" : "cfa31ff216e77d50b44cec8eeaf8f11d1a22035a"
       }
     },
     {

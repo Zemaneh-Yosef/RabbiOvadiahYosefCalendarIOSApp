@@ -378,7 +378,7 @@ public extension JewishCalendar {
                 return "No Music".localized()
             }
         } else if getJewishMonth() == JewishCalendar.AV {
-            if getJewishDayOfMonth() <= 9 {
+            if getJewishDayOfMonth() <= 9 || isTishaBav() {
                 return "No Music".localized()
             }
         }
@@ -450,10 +450,12 @@ public extension JewishCalendar {
                 return "Birkat Halevana starts tonight".localized();
             }
         } else {
-            if getJewishDayOfMonth() < 9 {
+            let ninthOfAv = self.copy();
+            ninthOfAv.setJewishDayOfMonth(dayOfMonth: 9)
+            if (getJewishDayOfMonth() < (ninthOfAv.getDayOfWeek() == 7 ? 10 : 9)) {// the fast is deferred to the 10th when the 9th is Shabbat
                 return ""
             }
-            if getYomTovIndex() == JewishCalendar.TISHA_BEAV {
+            if isTishaBav() {
                 return "Birkat Halevana starts tonight".localized();
             }
         }

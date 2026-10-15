@@ -63,7 +63,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "525950912A9B3AE500872955"
             BuildableName = "Rabbi Ovadiah Yosef Calendar WidgetExtension.appex"
-            BlueprintName = "Rabbi Ovadiah Yosef Calendar WidgetExtension"
             ReferencedContainer = "container:Rabbi Ovadiah Yosef Calendar.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>

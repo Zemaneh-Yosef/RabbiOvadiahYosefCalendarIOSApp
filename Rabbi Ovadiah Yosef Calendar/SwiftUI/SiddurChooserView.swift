@@ -347,7 +347,8 @@ struct SiddurChooserView: View {
     var bmsButton: some View {
         Button(action: {
             siddurPrayer = "Birchat MeEyin Shalosh"
-            showMeEyinShaloshChoicePicker = true
+            GlobalStruct.meEyinShaloshChoices = choices.joined(separator: ", ")
+            handleMeEyinShalosh()
         }) {
             VStack(alignment: .leading) {
                 Text("ברכת מעין שלוש")
@@ -357,6 +358,10 @@ struct SiddurChooserView: View {
                         .foregroundStyle(Color.secondary)
                 }
             }
+        }
+        .supportsLongPress {
+            siddurPrayer = "Birchat MeEyin Shalosh"
+            showMeEyinShaloshChoicePicker = true
         }
         .sheet(isPresented: $showMeEyinShaloshChoicePicker) {
             NavigationView {
@@ -572,7 +577,7 @@ struct SiddurChooserView: View {
                     if (getSunsetBasedJewishCalendar().getDayOfOmer() != -1 && getSunsetBasedJewishCalendar().getDayOfOmer() <= 49) && isPrayerCurrentlySaid(key: "ספירת העומר") {
                         sefiratHaomerButton
                     }
-                    if isPrayerCurrentlySaid(key: "הדלקת נרות חנוכה") && getSunsetBasedJewishCalendar().isChanukah() {
+                    if isPrayerCurrentlySaid(key: "הדלקת נרות חנוכה") && (getSunsetBasedJewishCalendar().isChanukah() || getSunsetBasedJewishCalendar(false).getDayOfWeek() == 6 && getSunsetBasedJewishCalendar(false).tomorrow().isChanukah()) {
                         hadlaketNeirotChanukaButton
                     }
                     if (!getSunsetBasedJewishCalendar().yesterday().hasCandleLighting()
@@ -1071,10 +1076,10 @@ struct SiddurChooserView: View {
             let solarMidnight = currentZmanimCalendar.getSolarMidnight()
             let calendar = Calendar.current
             // Handle possible edge case when solarMidnight is actually for tomorrow
-            if (solarMidnight != nil && calendar.component(.hour, from: Date()) < 3 && calendar.component(.hour, from: solarMidnight!) < 3) {
+            if (solarMidnight != nil && calendar.component(.hour, from: Date()) < 3 && calendar.component(.hour, from: solarMidnight!) <= 3) {
                 currentZmanimCalendar.workingDate = currentZmanimCalendar.workingDate.addingTimeInterval(-86400)
             }
-            if Date() > currentZmanimCalendar.getTzeitHacochavim(defaults: defaults) ?? Date() && Date() < currentZmanimCalendar.getSolarMidnightIfSunTransitNil() ?? Date() {
+            if Date() > currentZmanimCalendar.getSecondAshmora() ?? Date() && Date() < currentZmanimCalendar.getSolarMidnightIfSunTransitNil() ?? Date() {
                 return true
             }
         case "תיקון חצות" :
@@ -1118,7 +1123,7 @@ struct SiddurChooserView: View {
         var result = true
         switch (key) {
         case "סליחות":
-            let isSelichotNotSaidNow = (Date() > currentZmanimCalendar.getSunset()! && currentZmanimCalendar.isNowBeforeSecondAshmora()) || ( !currentZmanimCalendar.isNowBeforeSecondAshmora() && !currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults))
+            let isSelichotNotSaidNow = Date() > currentZmanimCalendar.getSunset()! && currentZmanimCalendar.isNowBeforeSecondAshmora()
             result = !isSelichotNotSaidNow
         case "שחרית":
             result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getChatzos()!
@@ -1128,15 +1133,16 @@ struct SiddurChooserView: View {
             result = Date() > currentZmanimCalendar.getMinchaGedolaGreaterThan30()! && Date() < currentZmanimCalendar.getTzeitHacochavim(defaults: defaults)!
         case "ערבית":
             result = Date() > currentZmanimCalendar.getPlagHamincha()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
+        case "הדלקת נרות חנוכה":
+            result = Date() > currentZmanimCalendar.getSunset()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)! || (getSunsetBasedJewishCalendar(false).getDayOfWeek() == 6 && Date() > (currentZmanimCalendar.getPlagHamincha()!) && getSunsetBasedJewishCalendar(false).tomorrow().isChanukah())
         case "ספירת העומר",
-            "הדלקת נרות חנוכה",
             "הבדלה",
             "ק״ש שעל המיטה":
             result = Date() > currentZmanimCalendar.getSunset()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
         case "תיקון חצות (לילה)":
-            result = !getSunsetBasedJewishCalendar().is3Weeks() && currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
+            result = !getSunsetBasedJewishCalendar().is3Weeks() && currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults)
         case "תיקון חצות":
-            result = getSunsetBasedJewishCalendar().is3Weeks() && ((currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) && Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!) || (Date() > currentZmanimCalendar.getChatzos()! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
+            result = getSunsetBasedJewishCalendar().is3Weeks() && (currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) || (Date() > currentZmanimCalendar.getChatzos()! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
         default:
             result = true
         }
@@ -1253,6 +1259,8 @@ struct SiddurChooserView: View {
             ]
             entries = entries.filter { !$0.isEmpty }
             result = entries.joined(separator: ", ")
+        case "ברכת מעין שלוש":
+            return "Hold for more options".localized()
         case "ק״ש שעל המיטה":
             return nil
         case "תיקון חצות (לילה)":

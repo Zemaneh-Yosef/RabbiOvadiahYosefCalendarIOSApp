@@ -12,7 +12,7 @@ import SnackBar
 @preconcurrency import WebKit
 
 class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavigationDelegate {
-
+    
     let defaults = UserDefaults(suiteName: "group.com.elyjacobi.Rabbi-Ovadiah-Yosef-Calendar") ?? UserDefaults.standard
     var locationManager = CLLocationManager()
     var views: Array<UILabel> = []
@@ -24,70 +24,71 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     *::after {
       box-sizing: border-box;
     }
-
+    
     /* Prevent font size inflation */
     html {
       -moz-text-size-adjust: none;
       -webkit-text-size-adjust: none;
       text-size-adjust: none;
     }
-
+    
     /* Remove default margin in favour of better control in authored CSS */
     body, h1, h2, h3, h4, p,
     figure, blockquote, dl, dd {
       margin-block-end: 0;
     }
-
+    
     /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
     ul[role='list'],
     ol[role='list'] {
       list-style: none;
     }
-
+    
     /* Set core body defaults */
     body {
       min-height: 100vh;
       line-height: 1.5;
       margin: 0;
+      text-rendering: geometricPrecision;
     }
-
+    
     /* Set shorter line heights on headings and interactive elements */
     h1, h2, h3, h4,
     button, input, label {
       line-height: 1.1;
     }
-
+    
     /* Balance text wrapping on headings */
     h1, h2,
     h3, h4 {
       text-wrap: balance;
     }
-
+    
     /* A elements that don't have a class get default styles */
     a:not([class]) {
       text-decoration-skip-ink: auto;
       color: currentColor;
     }
-
+    
     /* Make images easier to work with */
     img,
     picture {
       max-width: 100%;
       display: block;
     }
-
+    
     /* Inherit fonts for inputs and buttons */
     input, button,
     textarea, select {
       font-family: inherit;
       font-size: inherit;
     }
-
+    
     /* Make sure textareas without a rows attribute are not tiny */
     textarea:not([rows]) {
       min-height: 10em;
     }
-
+    
     /* Anything that has been anchored to should have extra scroll margin */
     :target {
       scroll-margin-block: 5ex;
@@ -100,7 +101,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         list-style-type: " ▾";
     }
     """
-
+    
     public static var hideBackButton = false
     @IBAction func back(_ sender: UIButton) {
         UIApplication.shared.isIdleTimerDisabled = !defaults.bool(forKey: "keepMainScreenOn")
@@ -197,7 +198,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         dropdown.showsMenuAsPrimaryAction = true
         dropdown.semanticContentAttribute = .forceLeftToRight
         var categories:[UIAction] = []
-
+        
         let fontString = """
         @font-face {
             font-family: "guttman-mantova";
@@ -220,6 +221,9 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         }
         """
         webView.navigationDelegate = self
+        webView.isOpaque = false
+        webView.backgroundColor = .systemBackground
+        webView.scrollView.backgroundColor = .systemBackground
         if defaults.float(forKey: "textSize") == 0.0 {
             slider.value = 16
             defaults.set(16, forKey: "textSize")
@@ -238,17 +242,17 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             fontFamily = "none"
         }
         
-        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding-top: 0.5rem; padding-right: .4rem; padding-left: .4rem; padding-bottom: 0.5rem; margin: 0;} .firstWord{ float: right; font-size: 1.4em; padding-left: .25em; } @media (prefers-color-scheme: dark) { #menorahLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } details { background: \(UIColor.systemGray4.toHex()); } } @media(prefers-color-scheme: light) { #menorahShadow { display: none; } .highlight { background: #CCE6FF; } details { background: \(UIColor.systemGray4.toHex())} }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; } details { margin: 0; margin-bottom: .4rem; padding: .4rem; }</style>"
+        var webstring = "<!DOCTYPE html><html dir=rtl><body><meta name='viewport' content='width=device-width, initial-scale=1' /><meta name='color-scheme' content='light dark' /><style>:root{overflow-x: hidden; color-scheme: light dark; -webkit-text-size-adjust: \(defaults.float(forKey: "textSize") * 10)%; text-align: \(defaults.bool(forKey: "JustifyText") ? "justify" : "right"); font-family: '\(fontFamily)'; }\(resetCSS)\(fontString)p{padding-top: 0.5rem; padding-right: .4rem; padding-left: .4rem; padding-bottom: 0.5rem; margin: 0;} .firstWord{ float: right; font-size: 1.4em; padding-left: .25em; } @media (prefers-color-scheme: dark) { #menorahLight { display: none; } .highlight { background: #DAA520; color: black; display: block; } details { background: \(UIColor.systemGray4.toHex()); } } @media(prefers-color-scheme: light) { #menorahShadow { display: none; } .highlight { background: #CCE6FF; } details { background: \(UIColor.systemGray4.toHex())} }#compass { transform: rotate(var(--deg, 0deg)); position: absolute; width: 100vw; } .compassContainer { aspect-ratio: 1/1; position: relative; overflow: hidden; } details { margin: 0; margin-bottom: .4rem; padding: .4rem; }</style>"
         for text in listOfTexts {
             let formattedString = text.string.replacingOccurrences(of: "\n", with: "<br>")
             if text.isCompass {
                 locationManager.delegate = self
-
+                
                 // Start location services to get the true heading.
                 locationManager.distanceFilter = 1000
                 locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
                 locationManager.startUpdatingLocation()
-
+                
                 // Start heading updating.
                 if CLLocationManager.headingAvailable() {
                     locationManager.headingFilter = 1
@@ -297,7 +301,7 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         defaults.bool(forKey: "JustifyText") ? justify.setImage(.init(systemName: "text.justify"), for: .normal) : justify.setImage(.init(systemName: "text.alignright"), for: .normal)
         UIApplication.shared.isIdleTimerDisabled = defaults.bool(forKey: "keepSiddurScreenOn")
     }
-        
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if GlobalStruct.tehilimToScrollTo != 1 {
             let formatter = HebrewDateFormatter()
@@ -312,13 +316,36 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(.allow)
         let urlAsString = navigationAction.request.url?.absoluteString.lowercased()
-
+        
         if urlAsString?.range(of: "iosapp://musaf") != nil {
             tapFunctionMussaf()
         } else if urlAsString?.range(of: "iosapp://sefaria") != nil {
             tapFunctionSefaria()
         }
-     }
+    }
+    
+    // Update scrollbar when view loads
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateScrollIndicator()
+    }
+    
+    // Listen for Dark Mode / Light Mode changes
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            updateScrollIndicator()
+        }
+    }
+    
+    // Force the scrollbar color
+    private func updateScrollIndicator() {
+        if traitCollection.userInterfaceStyle == .dark {
+            webView.scrollView.indicatorStyle = .white
+        } else {
+            webView.scrollView.indicatorStyle = .black // or .default
+        }
+    }
     
     func tapFunctionMussaf() {
         GlobalStruct.chosenPrayer = "Mussaf"
@@ -329,38 +356,38 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
     
     func tapFunctionSefaria() {
         if let url = URL(string: "https://www.sefaria.org/Siddur_Edot_HaMizrach") {
-                UIApplication.shared.open(url)
+            UIApplication.shared.open(url)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-
+        
         if newHeading.headingAccuracy < 0 {
             return
         }
-
+        
         // Get the heading(direction) in degrees
         let heading: CLLocationDirection = ((newHeading.trueHeading > 0) ? newHeading.trueHeading : newHeading.magneticHeading) * -1
         webView.evaluateJavaScript("document.documentElement.style.setProperty('--deg', '\(heading)deg');")
-
-//       var strDirection = String()
-//        if(heading > 23 && heading <= 67){
-//            strDirection = "North East";
-//        } else if(heading > 68 && heading <= 112){
-//            strDirection = "East";
-//        } else if(heading > 113 && heading <= 167){
-//            strDirection = "South East";
-//        } else if(heading > 168 && heading <= 202){
-//            strDirection = "South";
-//        } else if(heading > 203 && heading <= 247){
-//            strDirection = "South West";
-//        } else if(heading > 248 && heading <= 293){
-//            strDirection = "West";
-//        } else if(heading > 294 && heading <= 337){
-//            strDirection = "North West";
-//        } else if(heading >= 338 || heading <= 22){
-//            strDirection = "North";
-//        }
+        
+        //       var strDirection = String()
+        //        if(heading > 23 && heading <= 67){
+        //            strDirection = "North East";
+        //        } else if(heading > 68 && heading <= 112){
+        //            strDirection = "East";
+        //        } else if(heading > 113 && heading <= 167){
+        //            strDirection = "South East";
+        //        } else if(heading > 168 && heading <= 202){
+        //            strDirection = "South";
+        //        } else if(heading > 203 && heading <= 247){
+        //            strDirection = "South West";
+        //        } else if(heading > 248 && heading <= 293){
+        //            strDirection = "West";
+        //        } else if(heading > 294 && heading <= 337){
+        //            strDirection = "North West";
+        //        } else if(heading >= 338 || heading <= 22){
+        //            strDirection = "North";
+        //        }
     }
     
     func appendUnicodeForDuplicates(in array: Array<HighlightString>) -> Array<HighlightString> {
@@ -384,15 +411,24 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
         
         return result
     }
-
+    
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+public extension UIViewController {
+    func showFullScreenView(_ identifier: String = "") {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyboard.instantiateViewController(withIdentifier: identifier)
+        newViewController.modalPresentationStyle = .fullScreen
+        present(newViewController, animated: true)
     }
-    */
-
 }

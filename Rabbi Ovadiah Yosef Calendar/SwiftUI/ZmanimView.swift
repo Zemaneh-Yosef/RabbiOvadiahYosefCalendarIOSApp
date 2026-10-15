@@ -49,9 +49,7 @@ struct ZmanimView: View {
     @State var scrollDirection = 1
     @ScrollOffsetProxy(.bottom, id: "Scroller") private var scrollOffsetProxy
     
-    @State var showZmanAlert = false
     @State var showLocationInfoAlert = false
-    @State var selectedZman: ZmanListEntry = ZmanListEntry(title: "")
     @State var showLocationServicesDisabledAlert = false
     @State var showInIsraelAlert = false
     @State var showOutOfIsraelAlert = false
@@ -64,6 +62,8 @@ struct ZmanimView: View {
     @State var showNextView = false
     @State var isBannerHidden = false
     @State var isFirstTimeForShabbatBanner = true
+    @State private var zmanInfoRequest: ZmanInfoRequest? = nil
+    @State private var pendingZmanInfoAction: ZmanEntryInfoView.Action? = nil
     let hebrewDays = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"]
     let englishDaysFull = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     let englishDays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"]
@@ -250,48 +250,48 @@ struct ZmanimView: View {
         hebrewDateFormatter.hebrewFormat = false
         let specialDay = jewishCalendar.getSpecialDay(addOmer:false)
         if !specialDay.isEmpty {
-            zmanimList.append(ZmanListEntry(title:specialDay))
+            zmanimList.append(ZmanListEntry(title:specialDay, type: .specialDay))
         }
         if jewishCalendar.isEruvTavshilimMadeToday() {
-            zmanimList.append(ZmanListEntry(title: "Eruv Tavshilin".localized()))
+            zmanimList.append(ZmanListEntry(title: "Eruv Tavshilin".localized(), type: .eruvTavshilin))
         }
         let omerDay = jewishCalendar.addDayOfOmer(result: Array())
         if omerDay.count == 1 && !omerDay[0].isEmpty {
-            zmanimList.append(ZmanListEntry(title:omerDay[0]))
+            zmanimList.append(ZmanListEntry(title:omerDay[0], type: .dayOfOmer))
         }
         if jewishCalendar.is3Weeks() {
             if jewishCalendar.is9Days() {
                 if jewishCalendar.isShevuahShechalBo() {
-                    zmanimList.append(ZmanListEntry(title: "Shevuah Shechal Bo".localized()))
+                    zmanimList.append(ZmanListEntry(title: "Shevuah Shechal Bo".localized(), type: .shevuaShechalBo))
                 } else {
-                    zmanimList.append(ZmanListEntry(title: "Nine Days".localized()))
+                    zmanimList.append(ZmanListEntry(title: "Nine Days".localized(), type: .nineDays))
                 }
             } else {
-                zmanimList.append(ZmanListEntry(title: "Three Weeks".localized()))
+                zmanimList.append(ZmanListEntry(title: "Three Weeks".localized(), type: .threeWeeks))
             }
         }
         if jewishCalendar.isRoshHashana() && jewishCalendar.isShmitaYear() {
-            zmanimList.append(ZmanListEntry(title: "This year is a Shemita year".localized()))
+            zmanimList.append(ZmanListEntry(title: "This year is a Shemita year".localized(), type: .shmitaYear))
         }
         let music = jewishCalendar.isOKToListenToMusic()
         if !music.isEmpty {
-            zmanimList.append(ZmanListEntry(title: music))
+            zmanimList.append(ZmanListEntry(title: music, type: .music))
         }
         let hallel = jewishCalendar.getHallelOrChatziHallel()
         if !hallel.isEmpty {
-            zmanimList.append(ZmanListEntry(title: hallel))
+            zmanimList.append(ZmanListEntry(title: hallel, type: .halelOrChatziHallel))
         }
         let ulChaparatPesha = jewishCalendar.getIsUlChaparatPeshaSaid()
         if !ulChaparatPesha.isEmpty {
-            zmanimList.append(ZmanListEntry(title: ulChaparatPesha))
+            zmanimList.append(ZmanListEntry(title: ulChaparatPesha, type: .ulchaparatPesha))
         }
-        zmanimList.append(ZmanListEntry(title:jewishCalendar.getTachanun()))
+        zmanimList.append(ZmanListEntry(title:jewishCalendar.getTachanun(), type: .tachanun))
         if (jewishCalendar.isPurimMeshulash()) {
-            zmanimList.append(ZmanListEntry(title: "No Tachanun in Yerushalayim or a Safek Mukaf Choma".localized()))
+            zmanimList.append(ZmanListEntry(title: "No Tachanun in Yerushalayim or a Safek Mukaf Choma".localized(), type: .purimMeshulash))
         }
         let bircatHelevana = jewishCalendar.getBirchatLevanaStatus()
         if !bircatHelevana.isEmpty {
-            zmanimList.append(ZmanListEntry(title: bircatHelevana))
+            zmanimList.append(ZmanListEntry(title: bircatHelevana, type: .birchatHalevana))
             do {
                 var cal = Calendar.current
                 cal.timeZone = timezone
@@ -302,9 +302,9 @@ struct ZmanimView: View {
                     .limit(TimeInterval.ofDays(1))
                     .execute()
                 if (moonTimes.alwaysUp) {
-                    zmanimList.append(ZmanListEntry(title: "The moon is up all night".localized()))
+                    zmanimList.append(ZmanListEntry(title: "The moon is up all night".localized(), type: .moonStatus))
                 } else if (moonTimes.alwaysDown) {
-                    zmanimList.append(ZmanListEntry(title: "There is no moon tonight".localized()))
+                    zmanimList.append(ZmanListEntry(title: "There is no moon tonight".localized(), type: .moonStatus))
                 } else {
                     let dateFormatterForMoonTimes = DateFormatter()
                     if (Locale.isHebrewLocale()) {
@@ -323,7 +323,7 @@ struct ZmanimView: View {
                         moonRiseSet += "Moonset: ".localized() + dateFormatterForMoonTimes.string(from: Date(timeIntervalSince1970: moonTimes.set!.timeIntervalSince1970))
                     }
                     if (!moonRiseSet.isEmpty) {
-                        zmanimList.append(ZmanListEntry(title: moonRiseSet));
+                        zmanimList.append(ZmanListEntry(title: moonRiseSet, type: .moonStatus));
                     }
                 }
             } catch {
@@ -331,12 +331,12 @@ struct ZmanimView: View {
             }
         }
         if jewishCalendar.isBirkasHachamah() {
-            zmanimList.append(ZmanListEntry(title: "Birchat Ha'Ḥamah is said today".localized()))
+            zmanimList.append(ZmanListEntry(title: "Birchat Ha'Ḥamah is said today".localized(), type: .birkatHachamah))
         }
         
         if (jewishCalendar.tomorrow().getDayOfWeek() == 7
             && jewishCalendar.tomorrow().getYomTovIndex() == JewishCalendar.EREV_PESACH) {
-            zmanimList.append(ZmanListEntry(title: "Burn your Ḥametz today".localized()))
+            zmanimList.append(ZmanListEntry(title: "Burn your Ḥametz today".localized(), type: .burnChametz))
         }
         
         let dateFormatter = DateFormatter()
@@ -351,7 +351,7 @@ struct ZmanimView: View {
             let tekufa = jewishCalendar.getTekufaAsDate()
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!), type: .tekufaTime))
                     addTekufaLength(tekufa, dateFormatter)
                 }
             }
@@ -359,7 +359,7 @@ struct ZmanimView: View {
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!), type: .tekufaTime))
                     addTekufaLength(checkTomorrowForTekufa, dateFormatter)
                 }
             }
@@ -367,7 +367,7 @@ struct ZmanimView: View {
             let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!), type: .tekufaTime))
                     addTekufaLength(tekufa, dateFormatter)
                 }
             }
@@ -375,7 +375,7 @@ struct ZmanimView: View {
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!), type: .tekufaTime))
                     addTekufaLength(checkTomorrowForTekufa, dateFormatter)
                 }
             }
@@ -383,14 +383,14 @@ struct ZmanimView: View {
             let tekufa = jewishCalendar.getTekufaAsDate()
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!), type: .tekufaTime))
                 }
             }
             jewishCalendar.forward()
             let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!), type: .tekufaTime))
                 }
             }
             jewishCalendar.workingDate = userChosenDate //reset
@@ -398,14 +398,14 @@ struct ZmanimView: View {
             let tekufaAH = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufaAH != nil {
                 if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!), type: .tekufaTime))
                 }
             }
             jewishCalendar.forward()
             let checkTomorrowForAHTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForAHTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: userChosenDate) {
-                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
+                    zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!), type: .tekufaTime))
                 }
             }
             var earlierTekufa = tekufaAH
@@ -423,12 +423,12 @@ struct ZmanimView: View {
                     zmanimList.append(ZmanListEntry(title: "Tekufa Length: ".localized()
                         .appending(dateFormatter.string(from: halfHourAfter))
                         .appending(" - ")
-                        .appending(dateFormatter.string(from: halfHourBefore))))
+                        .appending(dateFormatter.string(from: halfHourBefore)), type: .tekufaLength))
                 } else {
                     zmanimList.append(ZmanListEntry(title: "Tekufa Length: ".localized()
                         .appending(dateFormatter.string(from: halfHourBefore))
                         .appending(" - ")
-                        .appending(dateFormatter.string(from: halfHourAfter))))
+                        .appending(dateFormatter.string(from: halfHourAfter)), type: .tekufaLength))
                 }
             }
         }
@@ -436,41 +436,50 @@ struct ZmanimView: View {
         
         zmanimList = ZmanimFactory.addZmanim(list: zmanimList, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar, add66Misheyakir: add66Misheyakir)
         
-        zmanimList.append(ZmanListEntry(title: getSeasonalPrayerChanges()))
+        if !useWeeklyView {
+            let fastStarts = zmanimList.first(where: {$0.type == .fastStartsTishaBavZman}) ?? ZmanListEntry(title: "")
+            let fastStartsNonTish = zmanimList.first(where: {$0.type == .fastStartsNonTishaBavZman}) ?? ZmanListEntry(title: "")
+            
+            zmanimList = zmanimList
+                .removing(fastStarts)
+                .removing(fastStartsNonTish)
+        }
+        
+        zmanimList.append(ZmanListEntry(title: getSeasonalPrayerChanges(), type: .seasonalPrayerChanges))
         
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
         // TODO replace with only colons
-        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit GR\"A: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit GR\"A: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX"), type: .shaahZmanitGRA))
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX"), type: .shaahZmanitMGA))
         } else {
-            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (O\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+            zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (O\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX"), type: .shaahZmanitMGA))
         }
         
         if defaults.bool(forKey: "showShmita") {
             switch (jewishCalendar.getYearOfShmitaCycle()) {
             case 1:
-                zmanimList.append(ZmanListEntry(title: "First year of Shemita".localized()))
+                zmanimList.append(ZmanListEntry(title: "First year of Shemita".localized(), type: .shmitaYear))
                 break;
             case 2:
-                zmanimList.append(ZmanListEntry(title: "Second year of Shemita".localized()))
+                zmanimList.append(ZmanListEntry(title: "Second year of Shemita".localized(), type: .shmitaYear))
                 break;
             case 3:
-                zmanimList.append(ZmanListEntry(title: "Third year of Shemita".localized()))
+                zmanimList.append(ZmanListEntry(title: "Third year of Shemita".localized(), type: .shmitaYear))
                 break;
             case 4:
-                zmanimList.append(ZmanListEntry(title: "Fourth year of Shemita".localized()))
+                zmanimList.append(ZmanListEntry(title: "Fourth year of Shemita".localized(), type: .shmitaYear))
                 break;
             case 5:
-                zmanimList.append(ZmanListEntry(title: "Fifth year of Shemita".localized()))
+                zmanimList.append(ZmanListEntry(title: "Fifth year of Shemita".localized(), type: .shmitaYear))
                 break;
             case 6:
-                zmanimList.append(ZmanListEntry(title: "Sixth year of Shemita".localized()))
+                zmanimList.append(ZmanListEntry(title: "Sixth year of Shemita".localized(), type: .shmitaYear))
                 break;
             default:
-                zmanimList.append(ZmanListEntry(title: "This year is a Shemita Year".localized()))
+                zmanimList.append(ZmanListEntry(title: "This year is a Shemita Year".localized(), type: .shmitaYear))
                 break;
             }
         }
@@ -1462,7 +1471,7 @@ struct ZmanimView: View {
         }
         
         if jCal.isBirkasHachamah() {
-            announcements.append("Birchat Ha'Ḥamah is said today".localized())
+            announcements.append("Birkat Ha'Ḥamah is said today".localized())
         }
         
         if (jCal.tomorrow().getDayOfWeek() == 7
@@ -1477,47 +1486,48 @@ struct ZmanimView: View {
             dateFormatter.dateFormat = "h:mm aa"
         }
         dateFormatter.timeZone = timezone
+        let hebrewDateFormatter = HebrewDateFormatter()
         let tekufaSetting = defaults.integer(forKey: "tekufaOpinion")
         if (tekufaSetting == 0 && !defaults.bool(forKey: "LuachAmudeiHoraah")) || tekufaSetting == 1 { // 0 is default
             let tekufa = jCal.getTekufaAsDate()
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
                 }
             }
             jCal.forward()
             let checkTomorrowForTekufa = jCal.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
                 }
             }
         } else if tekufaSetting == 2 || (tekufaSetting == 0 && defaults.bool(forKey: "LuachAmudeiHoraah")) {
             let tekufa = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
                 }
             }
             jCal.forward()
             let checkTomorrowForTekufa = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
                 }
             }
         } else {
             let tekufa = jCal.getTekufaAsDate()
             if tekufa != nil {
                 if Calendar.current.isDate(tekufa!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!))
                 }
             }
             jCal.forward()
             let checkTomorrowForTekufa = jCal.getTekufaAsDate()
             if checkTomorrowForTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!))
                 }
             }
             jCal.workingDate = date //reset
@@ -1525,14 +1535,14 @@ struct ZmanimView: View {
             let tekufaAH = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
             if tekufaAH != nil {
                 if Calendar.current.isDate(tekufaAH!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!))
                 }
             }
             jCal.forward()
             let checkTomorrowForAHTekufa = jCal.getTekufaAsDate(shouldMinus21Minutes: true)
             if checkTomorrowForAHTekufa != nil {
                 if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: date) {
-                    announcements.append("Tekufa ".localized() + jCal.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!))
+                    announcements.append("Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jCal).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!))
                 }
             }
             var earlierTekufa = tekufaAH
@@ -1791,6 +1801,21 @@ struct ZmanimView: View {
                     return makamStr.trimmingCharacters(in: .whitespaces)
                 }
                 
+                if let makamList = makam["Eliahou Yaaqob DWECK-KESAR"], !makamList.isEmpty {
+                    var makamStr = (Locale.isHebrewLocale() ? "מקאם: " : "Makam: ")
+                    
+                    for makamInd in makamList {
+                        if let index = Makam.allCases.firstIndex(of: makamInd), index < jsonArray.count {
+                            makamStr += jsonArray[index] + " "
+                        } else {
+                            // Fallback if index not found or out of bounds
+                            makamStr += "\(makamInd) "
+                        }
+                    }
+                    
+                    return makamStr.trimmingCharacters(in: .whitespaces)
+                }
+                
             } catch {
                 print("Error reading makam.json: \(error)")
             }
@@ -1876,6 +1901,33 @@ struct ZmanimView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
+    struct ZmanInfoRequest: Identifiable {
+        let id = UUID()
+        let type: ZmanListEntryType
+        let title: String
+        let zman: Date?
+        var jewishMonth: Int = 0
+        let alternateType: ZmanListEntryType?
+    }
+    
+    private func runPendingZmanInfoAction() {
+        guard let action = pendingZmanInfoAction else { return }
+        pendingZmanInfoAction = nil
+        switch action {
+        case .setupVisibleSunrise:
+            nextView = .setupVisibleSunrise
+        case .showFullText(let prayer):
+            GlobalStruct.chosenPrayer = prayer
+            nextView = .siddur
+        case .showDatePicker:
+            withAnimation(.easeInOut) {
+                datePickerIsVisible.toggle()
+            }
+            return
+        }
+        showNextView = true
+    }
+    
     var simpleListView: some View {
         ScrollViewReader { scrollViewProxy in
             List(zmanimList, id: \.self) { zmanEntry in
@@ -1891,7 +1943,7 @@ struct ZmanimView: View {
                                 .minimumScaleFactor(0.5)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .onTapGesture {
-                                    showLocationInfoAlert = true
+                                    showLocationInfoAlert.toggle()
                                 }
                             
                             VStack {// Dates and weekday
@@ -1927,7 +1979,13 @@ struct ZmanimView: View {
                             .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                             .listRowBackground(Color.clear)
                             .onTapGesture {
-                                datePickerIsVisible.toggle()
+                                zmanInfoRequest = ZmanInfoRequest(
+                                    type: .jewishMonth,
+                                    title: "",
+                                    zman: nil,
+                                    jewishMonth: jewishCalendar.getJewishMonth(),
+                                    alternateType: nil
+                                )
                             }
                             
                             VStack {// Parsha, Haftara, and Makam
@@ -1940,7 +1998,7 @@ struct ZmanimView: View {
                                     Image("megila_icon")
                                         .resizable()
                                         .frame(width: 20, height: 20, alignment: .center)
-                                    Text(Locale.isHebrewLocale() ? "מפטירין" : " Haftarah: \u{202B}")
+                                    Text(Locale.isHebrewLocale() ? " מפטירין " : " Haftarah: \u{202B}")
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.5)
                                     Text(" (\(getThisWeeksHaftra().source)) ")
@@ -1983,13 +2041,14 @@ struct ZmanimView: View {
                             if jewishCalendar.getDayOfChanukah() != 8
                                 && (jewishCalendar.tomorrow().isChanukah() || jewishCalendar.isChanukah()) {
                                 VStack {// Chanuka lighting times
-                                    Text("Chanukah - Night ".appending(String((jewishCalendar.getDayOfChanukah() == -1 ? 0 : jewishCalendar.getDayOfChanukah()) + 1)))
+                                    Text("Chanukah - Night ".localized()
+                                        .appending(String((jewishCalendar.getDayOfChanukah() == -1 ? 0 : jewishCalendar.getDayOfChanukah()) + 1)))
                                         .bold()
                                         .font(.title3)
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.5)
                                         .frame(maxWidth: .infinity, alignment: .center)
-                                    Text("Ideal:"
+                                    Text("Ideal:".localized()
                                         .appending(" ")
                                         .appending(zmanimCalendar.getTzeitHacochavim(defaults: defaults)?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundLater) ?? "")
                                         .appending(" - ")
@@ -1997,11 +2056,11 @@ struct ZmanimView: View {
                                     .lineLimit(1)
                                     .minimumScaleFactor(0.5)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    Text("Earliest:"
+                                    Text("Earliest:".localized()
                                         .appending(" ")
                                         .appending(zmanimCalendar.getPlagHamincha(defaults: defaults)?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundEarlier) ?? "")
                                         .appending(" - ")
-                                        .appending("Latest:")
+                                        .appending("Latest:".localized())
                                         .appending(" ")
                                         .appending(getAlotHashacharForTomorrow()))
                                     .lineLimit(1)
@@ -2033,18 +2092,19 @@ struct ZmanimView: View {
                     if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
                         return //do not show the dialogs
                     }
-                    if zmanEntry.title == ZmanimTimeNames(defaults: defaults).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
+                    if zmanEntry.type == .misheyakir60Zman && !zmanimList.contains(where: { $0.type == .misheyakir66Zman }) {
                         withAnimation {
                             updateZmanimList(add66Misheyakir: true)
                         }
-                    } else {
-                        if !ZmanimAlertInfoHolder(title: zmanEntry.title, defaults: defaults).getFullTitle().isEmpty {
-                            selectedZman = zmanEntry
-                            showZmanAlert = true
-                        }
+                    } else if zmanEntry.type == .alotHashacharZman && jewishCalendar.isRegularTaanis() && !jewishCalendar.isTishaBav() {
+                        zmanInfoRequest = ZmanInfoRequest(type: zmanEntry.type, title: zmanEntry.title, zman: zmanEntry.zman, alternateType: .fastStartsNonTishaBavZman)
+                    } else if zmanEntry.type == .sunsetZman && jewishCalendar.tomorrow().isTishaBav() {
+                        zmanInfoRequest = ZmanInfoRequest(type: zmanEntry.type, title: zmanEntry.title, zman: zmanEntry.zman, alternateType: .fastStartsTishaBavZman)
+                    } else if !ZmanimAlertInfoHolder(type: zmanEntry.type).getFullTitle().isEmpty {
+                        zmanInfoRequest = ZmanInfoRequest(type: zmanEntry.type, title: zmanEntry.title, zman: zmanEntry.zman, alternateType: nil)
                     }
                 } label: {
-                    if zmanEntry.isZman {
+                    if zmanEntry.type.isZman {
                         zmanEntryRow(zmanEntry)
                     } else {
                         HStack {
@@ -2067,47 +2127,21 @@ struct ZmanimView: View {
                     }
                 }
                 .id(zmanEntry.title)
-                .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, defaults: defaults).getFullTitle().addingShabbatOpinion(defaults: defaults), isPresented: $showZmanAlert, titleVisibility: .visible) {
-                    if selectedZman.title.contains(ZmanimTimeNames(defaults: defaults).getHaNetzString()) {
-                        Button("Setup Visible Sunrise") {
-                            nextView = .setupVisibleSunrise
-                            showNextView = true
-                        }
-                    }
-                    if selectedZman.title.contains("Birkat Halevana") || selectedZman.title.contains("ברכת הלבנה") {
-                        Button("Show Full Text") {
-                            GlobalStruct.chosenPrayer = "Birchat Halevana"
-                            nextView = .siddur
-                            showNextView = true
-                        }
-                    }
-                    if selectedZman.title.contains("day of Omer") || selectedZman.title.contains("ימים לעומר") {
-                        Button("Show Full Text") {
-                            GlobalStruct.chosenPrayer = "Sefirat HaOmer"
-                            nextView = .siddur
-                            showNextView = true
-                        }
-                    }
-                    if #available(iOS 16.2, *), ActivityAuthorizationInfo().areActivitiesEnabled {
-                        if selectedZman.isZman
-                            && (selectedZman.zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
-                            && selectedZman.zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
-                            Button("Keep track of this zman with a Live Activity?") {
-                                let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: selectedZman.title)
-                                let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.TimerStatus(endTime: selectedZman.zman ?? Date())
-                                _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
-                            }
-                        }
-                    }
-                    if #available(iOS 26, *) {
-                        Button(".......................................................................", role: .none) { }
-                    }
-                    Button("Dismiss", role: .cancel) { }
-                } message: {
-                    Text(ZmanimAlertInfoHolder(title: selectedZman.title, defaults: defaults).getFullMessage().replacingOccurrences(of: "%c", with: String(zmanimCalendar.candleLightingOffset)))
-                }.textCase(nil)
             }
             .listStyle(.plain)
+            .sheet(item: $zmanInfoRequest, onDismiss: runPendingZmanInfoAction) { request in
+                ZmanEntryInfoView(
+                    type: request.type,
+                    alternateType: request.alternateType,
+                    entryTitle: request.title,
+                    zman: request.zman,
+                    jewishMonth: request.jewishMonth,
+                    candleLightingOffset: String(zmanimCalendar.candleLightingOffset),
+                    defaults: defaults
+                ) { action in
+                    pendingZmanInfoAction = action
+                }
+            }
             .id(forceUpdate)
             .scrollOffsetID("Scroller")
             .refreshable {
@@ -2174,53 +2208,93 @@ struct ZmanimView: View {
         return HStack {
             if defaults.bool(forKey: "isZmanimInHebrew") && !Locale.isHebrewLocale() {
                 Text(zmanEntry.zman == nil ? "XX:XX" : zmanEntry.zman!.format(defaults: defaults, timezone: timezone, secondTreatment: zmanEntry.secondTreatment))
-                    .font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
+                    .font(.system(size: zmanEntry.type == .misheyakir66Zman ? 18 : 20, weight: .regular))
                 if zmanEntry.zman == nextUpcomingZman {
                     Image(systemName: "arrowtriangle.backward.fill")
                 }
                 Spacer()
-                if zmanEntry.is66MisheyakirZman {
+                if zmanEntry.type == .misheyakir66Zman {
                     Text(zmanEntry.title)
                         .font(.system(size: 18, weight: .regular))
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                } else {
-                    if zmanEntry.title.contains(ZmanimTimeNames(defaults: defaults).getHalachaBerurahString()) || zmanEntry.title.contains(ZmanimTimeNames(defaults: defaults).getYalkutYosefString()) {
-                        PelagZmanView(title: zmanEntry.title)
-                    } else {
+                } else if zmanEntry.type == .plagHaminchaHBZman || zmanEntry.type == .plagHaminchaYYZman {
+                    PelagZmanView(title: zmanEntry.title)
+                } else if zmanEntry.type == .alotHashacharZman && jewishCalendar.isRegularTaanis() && !jewishCalendar.isTishaBav() {
+                    VStack {
                         Text(zmanEntry.title)
                             .font(.system(size: 20, weight: .bold))
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
+                        Text(ZmanimTimeNames(defaults: defaults).getTaanitString().appending(ZmanimTimeNames(defaults: defaults).getStartsString()))
+                            .font(.system(size: 18, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                     }
+                } else if zmanEntry.type == .sunsetZman && jewishCalendar.tomorrow().isTishaBav() {
+                    VStack {
+                        Text(zmanEntry.title)
+                            .font(.system(size: 20, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                        Text(ZmanimTimeNames(defaults: defaults).getTaanitString().appending(ZmanimTimeNames(defaults: defaults).getStartsString()))
+                            .font(.system(size: 18, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                    }
+                } else {
+                    Text(zmanEntry.title)
+                        .font(.system(size: 20, weight: .bold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                 }
             } else {
-                if zmanEntry.is66MisheyakirZman {
+                if zmanEntry.type == .misheyakir66Zman {
                     Text(zmanEntry.title)
                         .font(.system(size: 18, weight: .regular))
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                } else {
-                    if zmanEntry.title.contains(ZmanimTimeNames(defaults: defaults).getHalachaBerurahString()) || zmanEntry.title.contains(ZmanimTimeNames(defaults: defaults).getYalkutYosefString()) {
+                } else if zmanEntry.type == .plagHaminchaHBZman || zmanEntry.type == .plagHaminchaYYZman {
                         PelagZmanView(title: zmanEntry.title)
-                    } else {
+                } else if zmanEntry.type == .alotHashacharZman && jewishCalendar.isRegularTaanis() && !jewishCalendar.isTishaBav() {
+                    VStack {
                         Text(zmanEntry.title)
                             .font(.system(size: 20, weight: .bold))
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
+                        Text(ZmanimTimeNames(defaults: defaults).getTaanitString().appending(ZmanimTimeNames(defaults: defaults).getStartsString()))
+                            .font(.system(size: 18, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                     }
+                } else if zmanEntry.type == .sunsetZman && jewishCalendar.tomorrow().isTishaBav() {
+                    VStack {
+                        Text(zmanEntry.title)
+                            .font(.system(size: 20, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                        Text(ZmanimTimeNames(defaults: defaults).getTaanitString().appending(ZmanimTimeNames(defaults: defaults).getStartsString()))
+                            .font(.system(size: 18, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                    }
+                } else {
+                    Text(zmanEntry.title)
+                        .font(.system(size: 20, weight: .bold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                 }
                 Spacer()
                 if zmanEntry.zman == nextUpcomingZman {
                     Image(systemName: "arrowtriangle.forward.fill")
                 }
                 Text(zmanEntry.zman == nil ? "XX:XX" : zmanEntry.zman!.format(defaults: defaults, timezone: timezone, secondTreatment: zmanEntry.secondTreatment))
-                    .font(.system(size: zmanEntry.is66MisheyakirZman ? 18 : 20, weight: .regular))
+                    .font(.system(size: zmanEntry.type == .misheyakir66Zman ? 18 : 20, weight: .regular))
             }
         }
-        .foregroundStyle(zmanEntry.shouldBeDimmed ? .gray : (zmanEntry.isBirchatHachamahZman ? .black : .primary))
+        .foregroundStyle(zmanEntry.shouldBeDimmed ? .gray : (zmanEntry.type == .birkatHachmahZman ? .black : .primary))
         .background(
-            zmanEntry.isBirchatHachamahZman ?
+            zmanEntry.type == .birkatHachmahZman ?
             LinearGradient(
                 gradient: Gradient(colors: [Color("Gold"), Color("GoldStart"), Color("Gold")]),
                 startPoint: .leading,
@@ -2272,203 +2346,203 @@ struct ZmanimView: View {
         }
     }
 
-    var scrollView: some View {
-        VStack {
-            ScrollViewReader { scrollViewProxy in
-                ScrollView {
-                    HStack {
-                        VStack(spacing: 10) {
-                            Color.clear.frame(height: 1).id("top") // this as a scroll anchor
-                            if Calendar.current.isDateInToday(userChosenDate) {
-                                Text(formatDate(format: "EEEE")).fontWeight(.heavy).foregroundStyle(Color.red)
-                            } else {
-                                Text(formatDate(format: "EEEE")).bold().foregroundStyle(Color.red)
-                            }
-                            Divider()
-                            HStack {
-                                VStack {
-                                    Text(formatDate(using: Calendar(identifier: .hebrew), format: "MMM")).bold()
-                                    Text(String(jewishCalendar.getJewishDayOfMonth())).font(.largeTitle)
-                                    Text(String(jewishCalendar.getJewishYear()))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                
-                                Divider()
-                                
-                                VStack {
-                                    Text(formatDate(format: "MMM")).bold()
-                                    Text(String(Calendar.current.dateComponents([.day], from: GlobalStruct.userChosenDate).day ?? 1)).font(.largeTitle)
-                                    Text(String(Calendar.current.dateComponents([.year], from: GlobalStruct.userChosenDate).year ?? 1))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                        .padding(.top, 0)
-                        .padding(.bottom, nil)
-                        .background(Color(.systemBackground))
-                        .frame(maxWidth: .infinity)
-                        .clipShape(RoundedRectangle(cornerRadius: 26))
-                        .onTapGesture {
-                            if datePickerIsVisible {
-                                withAnimation {
-                                    datePickerIsVisible.toggle()
-                                }
-                            }
-                            if hebrewDatePickerIsVisible {
-                                withAnimation {
-                                    hebrewDatePickerIsVisible.toggle()
-                                }
-                            }
-                        }
-                        
-                        VStack(alignment: .leading) {
-                            Text(locationName.isEmpty ? "Updating...".localized() : locationName).fontWeight(.heavy).padding(.bottom, 5)
-                                .onTapGesture {
-                                    showLocationInfoAlert = true
-                                }
-                            Text(jewishCalendar.getThisWeeksParasha()).fontWeight(.heavy).foregroundStyle(Color.gray)
-                            HStack(spacing: 5) {
-                                Image(systemName: "star")
-                                    .frame(width: 20).hidden()
-                                Text(jewishCalendar.getSpecialDay(addOmer: false))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    
-                    VStack {
-                        if jewishCalendar.tomorrow().isAssurBemelacha() || jewishCalendar.isAssurBemelacha() {
-                            Text(getShabbatStartEndsAsString())
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(Color.secondary)
-                        }
-                        if !jewishCalendar.tomorrow().isYomKippur() || !jewishCalendar.isYomKippur() {
-                            if jewishCalendar.tomorrow().isTaanis() {
-                                Text(jewishCalendar.tomorrow().yomTovAsString())
-                                Text(getFastStartTime())
-                                Text(getFastEndTime())
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundColor(Color.secondary)
-                            } else if jewishCalendar.isTaanis() {
-                                Text(jewishCalendar.yomTovAsString())
-                                Text(getFastStartTime())
-                                Text(getFastEndTime())
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundColor(Color.secondary)
-                            }
-                        }
-                        if !jewishCalendar.getBirchatLevanaStatus().isEmpty {
-                            Text(jewishCalendar.getBirchatLevanaStatus())
-                            Text(getMoonRiseSet(isRise: true))
-                            Text(getMoonRiseSet(isRise: false))
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(Color.secondary)
-                        }
-                        if doesTekufaOccurToday() {
-                            Text(jewishCalendar.getTekufaName())
-                            Text("Do not drink ....")
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(Color.secondary)
-                        }
-                        Divider()
-                        ForEach(zmanimList, id: \.self) { zmanEntry in
-                            if zmanEntry.isZman {
-                                zmanEntryRow(zmanEntry)
-                                    .padding(.leading).padding(.trailing)
-                                    .onTapGesture {
-                                        if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
-                                            return//do not show the dialogs
-                                        }
-                                        if zmanEntry.title == ZmanimTimeNames(defaults: defaults).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
-                                            withAnimation {
-                                                updateZmanimList(add66Misheyakir: true)
-                                            }
-                                        } else {
-                                            selectedZman = zmanEntry
-                                            showZmanAlert = true
-                                        }
-                                    }
-                                    .confirmationDialog(ZmanimAlertInfoHolder(title: selectedZman.title, defaults: defaults).getFullTitle(), isPresented: $showZmanAlert, titleVisibility: .visible) {
-                                        if selectedZman.title.contains(ZmanimTimeNames(defaults: defaults).getHaNetzString()) {
-                                            Button("Setup Visible Sunrise") {
-                                                nextView = .setupVisibleSunrise
-                                                showNextView = true
-                                            }
-                                        }
-                                        if selectedZman.title.contains("Birkat Halevana") || selectedZman.title.contains("ברכת הלבנה") {
-                                            Button("Show Full Text") {
-                                                GlobalStruct.chosenPrayer = "Birchat Halevana"
-                                                nextView = .siddur
-                                                showNextView = true
-                                            }
-                                        }
-                                        if selectedZman.title.contains("day of Omer") || selectedZman.title.contains("ימים לעומר") {
-                                            Button("Show Full Text") {
-                                                GlobalStruct.chosenPrayer = "Sefirat HaOmer"
-                                                nextView = .siddur
-                                                showNextView = true
-                                            }
-                                        }
-                                        if #available(iOS 16.2, *), ActivityAuthorizationInfo().areActivitiesEnabled {
-                                            if selectedZman.isZman
-                                                && (selectedZman.zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
-                                                && selectedZman.zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
-                                                Button("Keep track of this zman with a Live Activity?") {
-                                                    let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: selectedZman.title)
-                                                    let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.TimerStatus(endTime: selectedZman.zman ?? Date())
-                                                    _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
-                                                }
-                                            }
-                                        }
-                                        Button("Dismiss", role: .cancel) { }
-                                    } message: {
-                                        Text(ZmanimAlertInfoHolder(title: selectedZman.title, defaults: defaults).getFullMessage().replacingOccurrences(of: "%c", with: String(zmanimCalendar.candleLightingOffset)))
-                                    }.textCase(nil)
-                                Divider()
-                            }
-                        }
-                        Text(jewishCalendar.getTachanun())
-                        Text(jewishCalendar.getIsUlChaparatPeshaSaid())
-                        Text(jewishCalendar.getIsMashivHaruchOrMoridHatalSaid()).padding()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Takes up all remaining space
-                    .background(Color(.systemBackground))
-                }
-                .background(Color(uiColor: .systemGray6))
-                .offset(y: scrollViewOffset)
-                .refreshable {
-                    refreshTable()
-                }
-                .gesture(DragGesture(minimumDistance: 5, coordinateSpace: .global).onEnded { value in
-                    let horizontalAmount = value.translation.width
-                    let verticalAmount = value.translation.height
-                    
-                    if abs(horizontalAmount) > abs(verticalAmount) {
-                        if horizontalAmount < 0 {
-                            updateDate(86400)
-                        } else {
-                            updateDate(-86400)
-                        }
-                    }
-                })
-                .onChange(of: scrollToTop) { newValue in
-                    DispatchQueue.main.async {
-                        scrollViewProxy.scrollTo("top", anchor: .bottom)// use the anchor
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading) // Keep it compact
-            }
-        }
-    }
+//    var scrollView: some View {
+//        VStack {
+//            ScrollViewReader { scrollViewProxy in
+//                ScrollView {
+//                    HStack {
+//                        VStack(spacing: 10) {
+//                            Color.clear.frame(height: 1).id("top") // this as a scroll anchor
+//                            if Calendar.current.isDateInToday(userChosenDate) {
+//                                Text(formatDate(format: "EEEE")).fontWeight(.heavy).foregroundStyle(Color.red)
+//                            } else {
+//                                Text(formatDate(format: "EEEE")).bold().foregroundStyle(Color.red)
+//                            }
+//                            Divider()
+//                            HStack {
+//                                VStack {
+//                                    Text(formatDate(using: Calendar(identifier: .hebrew), format: "MMM")).bold()
+//                                    Text(String(jewishCalendar.getJewishDayOfMonth())).font(.largeTitle)
+//                                    Text(String(jewishCalendar.getJewishYear()))
+//                                }
+//                                .frame(maxWidth: .infinity, alignment: .center)
+//                                
+//                                Divider()
+//                                
+//                                VStack {
+//                                    Text(formatDate(format: "MMM")).bold()
+//                                    Text(String(Calendar.current.dateComponents([.day], from: GlobalStruct.userChosenDate).day ?? 1)).font(.largeTitle)
+//                                    Text(String(Calendar.current.dateComponents([.year], from: GlobalStruct.userChosenDate).year ?? 1))
+//                                }
+//                                .frame(maxWidth: .infinity, alignment: .center)
+//                            }
+//                            .frame(maxWidth: .infinity)
+//                        }
+//                        .padding(.top, 0)
+//                        .padding(.bottom, nil)
+//                        .background(Color(.systemBackground))
+//                        .frame(maxWidth: .infinity)
+//                        .clipShape(RoundedRectangle(cornerRadius: 26))
+//                        .onTapGesture {
+//                            if datePickerIsVisible {
+//                                withAnimation {
+//                                    datePickerIsVisible.toggle()
+//                                }
+//                            }
+//                            if hebrewDatePickerIsVisible {
+//                                withAnimation {
+//                                    hebrewDatePickerIsVisible.toggle()
+//                                }
+//                            }
+//                        }
+//                        
+//                        VStack(alignment: .leading) {
+//                            Text(locationName.isEmpty ? "Updating...".localized() : locationName).fontWeight(.heavy).padding(.bottom, 5)
+//                                .onTapGesture {
+//                                    showLocationInfoAlert = true
+//                                }
+//                            Text(jewishCalendar.getThisWeeksParasha()).fontWeight(.heavy).foregroundStyle(Color.gray)
+//                            HStack(spacing: 5) {
+//                                Image(systemName: "star")
+//                                    .frame(width: 20).hidden()
+//                                Text(jewishCalendar.getSpecialDay(addOmer: false))
+//                                    .frame(maxWidth: .infinity, alignment: .leading)
+//                            }
+//                        }
+//                        .frame(maxWidth: .infinity)
+//                    }
+//                    .frame(maxWidth: .infinity)
+//                    .padding()
+//                    
+//                    VStack {
+//                        if jewishCalendar.tomorrow().isAssurBemelacha() || jewishCalendar.isAssurBemelacha() {
+//                            Text(getShabbatStartEndsAsString())
+//                            Rectangle()
+//                                .frame(height: 1)
+//                                .foregroundColor(Color.secondary)
+//                        }
+//                        if !jewishCalendar.tomorrow().isYomKippur() || !jewishCalendar.isYomKippur() {
+//                            if jewishCalendar.tomorrow().isTaanis() {
+//                                Text(jewishCalendar.tomorrow().yomTovAsString())
+//                                Text(getFastStartTime())
+//                                Text(getFastEndTime())
+//                                Rectangle()
+//                                    .frame(height: 1)
+//                                    .foregroundColor(Color.secondary)
+//                            } else if jewishCalendar.isTaanis() {
+//                                Text(jewishCalendar.yomTovAsString())
+//                                Text(getFastStartTime())
+//                                Text(getFastEndTime())
+//                                Rectangle()
+//                                    .frame(height: 1)
+//                                    .foregroundColor(Color.secondary)
+//                            }
+//                        }
+//                        if !jewishCalendar.getBirchatLevanaStatus().isEmpty {
+//                            Text(jewishCalendar.getBirchatLevanaStatus())
+//                            Text(getMoonRiseSet(isRise: true))
+//                            Text(getMoonRiseSet(isRise: false))
+//                            Rectangle()
+//                                .frame(height: 1)
+//                                .foregroundColor(Color.secondary)
+//                        }
+//                        if doesTekufaOccurToday() {
+//                            Text(jewishCalendar.getTekufaName())
+//                            Text("Do not drink ....")
+//                            Rectangle()
+//                                .frame(height: 1)
+//                                .foregroundColor(Color.secondary)
+//                        }
+//                        Divider()
+//                        ForEach(zmanimList, id: \.self) { zmanEntry in
+//                            if zmanEntry.isZman {
+//                                zmanEntryRow(zmanEntry)
+//                                    .padding(.leading).padding(.trailing)
+//                                    .onTapGesture {
+//                                        if shabbatMode || !defaults.bool(forKey: "showZmanDialogs") {
+//                                            return//do not show the dialogs
+//                                        }
+//                                        if zmanEntry.title == ZmanimTimeNames(defaults: defaults).getTalitTefilinString() && !zmanimList.contains(where: { $0.is66MisheyakirZman == true }) {
+//                                            withAnimation {
+//                                                updateZmanimList(add66Misheyakir: true)
+//                                            }
+//                                        } else {
+//                                            selectedZman = zmanEntry
+//                                            showZmanAlert = true
+//                                        }
+//                                    }
+//                                    .confirmationDialog(ZmanimAlertInfoHolder(type: zmanEntry.type).getFullTitle(), isPresented: $showZmanAlert, titleVisibility: .visible) {
+//                                        if selectedZman.title.contains(ZmanimTimeNames(defaults: defaults).getHaNetzString()) {
+//                                            Button("Setup Visible Sunrise") {
+//                                                nextView = .setupVisibleSunrise
+//                                                showNextView = true
+//                                            }
+//                                        }
+//                                        if selectedZman.title.contains("Birkat Halevana") || selectedZman.title.contains("ברכת הלבנה") {
+//                                            Button("Show Full Text") {
+//                                                GlobalStruct.chosenPrayer = "Birchat Halevana"
+//                                                nextView = .siddur
+//                                                showNextView = true
+//                                            }
+//                                        }
+//                                        if selectedZman.title.contains("day of Omer") || selectedZman.title.contains("ימים לעומר") {
+//                                            Button("Show Full Text") {
+//                                                GlobalStruct.chosenPrayer = "Sefirat HaOmer"
+//                                                nextView = .siddur
+//                                                showNextView = true
+//                                            }
+//                                        }
+//                                        if #available(iOS 16.2, *), ActivityAuthorizationInfo().areActivitiesEnabled {
+//                                            if selectedZman.isZman
+//                                                && (selectedZman.zman?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 > Date().timeIntervalSince1970) //after now
+//                                                && selectedZman.zman?.timeIntervalSinceNow ?? Date().timeIntervalSinceNow < 28800 {// not after 8 hours
+//                                                Button("Keep track of this zman with a Live Activity?") {
+//                                                    let attributes = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes(zmanName: selectedZman.title)
+//                                                    let contentState = Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes.TimerStatus(endTime: selectedZman.zman ?? Date())
+//                                                    _ = try? Activity<Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes>.request(attributes: attributes, content: ActivityContent.init(state: contentState, staleDate: nil), pushType: nil)
+//                                                }
+//                                            }
+//                                        }
+//                                        Button("Dismiss", role: .cancel) { }
+//                                    } message: {
+//                                        Text(ZmanimAlertInfoHolder(type: zmanEntry.type).getFullMessage().replacingOccurrences(of: "%c", with: String(zmanimCalendar.candleLightingOffset)))
+//                                    }.textCase(nil)
+//                                Divider()
+//                            }
+//                        }
+//                        Text(jewishCalendar.getTachanun())
+//                        Text(jewishCalendar.getIsUlChaparatPeshaSaid())
+//                        Text(jewishCalendar.getIsMashivHaruchOrMoridHatalSaid()).padding()
+//                    }
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Takes up all remaining space
+//                    .background(Color(.systemBackground))
+//                }
+//                .background(Color(uiColor: .systemGray6))
+//                .offset(y: scrollViewOffset)
+//                .refreshable {
+//                    refreshTable()
+//                }
+//                .gesture(DragGesture(minimumDistance: 5, coordinateSpace: .global).onEnded { value in
+//                    let horizontalAmount = value.translation.width
+//                    let verticalAmount = value.translation.height
+//                    
+//                    if abs(horizontalAmount) > abs(verticalAmount) {
+//                        if horizontalAmount < 0 {
+//                            updateDate(86400)
+//                        } else {
+//                            updateDate(-86400)
+//                        }
+//                    }
+//                })
+//                .onChange(of: scrollToTop) { newValue in
+//                    DispatchQueue.main.async {
+//                        scrollViewProxy.scrollTo("top", anchor: .bottom)// use the anchor
+//                    }
+//                }
+//                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading) // Keep it compact
+//            }
+//        }
+//    }
     
     fileprivate func updateDate(_ seconds: TimeInterval) {
         userChosenDate = userChosenDate.advanced(by: seconds)
@@ -2501,8 +2575,8 @@ struct ZmanimView: View {
                 alerts(view: simpleListView)
                     .scrollDisabled(shabbatMode)
             } else {
-                alerts(view: scrollView)
-                    .scrollDisabled(shabbatMode)
+                //alerts(view: scrollView)
+                    //.scrollDisabled(shabbatMode)
             }
         } else {// The ScrollView should work on iOS 16 and below, but SwiftUI on those iOS verisons does not like the turnary above
             if #available(iOS 16.0, *) {

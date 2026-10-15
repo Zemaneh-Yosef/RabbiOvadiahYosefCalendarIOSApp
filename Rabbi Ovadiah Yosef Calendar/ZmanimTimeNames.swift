@@ -143,7 +143,7 @@ struct ZmanimTimeNames {
         if (mIsZmanimInHebrew) {
             return " (מחר) ";
         } else {
-            return " (Tom) ";
+            return " (Tmrw) ";
         }
     }
     

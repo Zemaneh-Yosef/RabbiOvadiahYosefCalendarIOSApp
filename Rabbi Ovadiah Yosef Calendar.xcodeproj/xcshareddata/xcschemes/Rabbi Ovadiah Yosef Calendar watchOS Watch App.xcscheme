@@ -59,7 +59,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CED163552B07031700E05876"
             BuildableName = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.app"
-            BlueprintName = "Rabbi Ovadiah Yosef Calendar watchOS Watch App"
             ReferencedContainer = "container:Rabbi Ovadiah Yosef Calendar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -80,7 +79,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CED163552B07031700E05876"
             BuildableName = "Rabbi Ovadiah Yosef Calendar watchOS Watch App.app"
-            BlueprintName = "Rabbi Ovadiah Yosef Calendar watchOS Watch App"
             ReferencedContainer = "container:Rabbi Ovadiah Yosef Calendar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

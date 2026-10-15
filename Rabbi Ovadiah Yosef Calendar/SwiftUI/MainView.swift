@@ -19,9 +19,6 @@ struct MainView: App {
 }
 
 struct ContentView: View {
-    init() {
-        UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
-    }
     
     @State private var selectedTab = 2 // Default tab
     
@@ -32,17 +29,17 @@ struct ContentView: View {
             case "Limudim/Hillulot".localized():
                 NavigationStack {
                     LimudimView()
-                        .navigationTitle(title)
+                        .shrinkingNavigationTitle(title)
                 }
             case "Rabbi Ovadia Yosef Calendar".localized():
                 NavigationStack {
                     ZmanimView()
-                        .navigationTitle(title)
+                        .shrinkingNavigationTitle(title)
                 }
             case "Siddur".localized():
                 NavigationStack {
                     SiddurChooserView()
-                        .navigationTitle(title)
+                        .shrinkingNavigationTitle(title)
                 }
             default:
                 EmptyView()
@@ -52,17 +49,17 @@ struct ContentView: View {
             case "Limudim/Hillulot".localized():
                 NavigationView {
                     LimudimView()
-                        .navigationTitle(title)
+                        .shrinkingNavigationTitle(title)
                 }
             case "Rabbi Ovadia Yosef Calendar".localized():
                 NavigationView {
                     ZmanimView()
-                        .navigationTitle(title)
+                        .shrinkingNavigationTitle(title)
                 }
             case "Siddur".localized():
                 NavigationView {
                     SiddurChooserView()
-                        .navigationTitle(title)
+                        .shrinkingNavigationTitle(title)
                 }
             default:
                 EmptyView()
@@ -142,6 +139,37 @@ func hasNissanLimudYomi() -> Bool {
 func getNissanTitle() -> String {
     return NisanLimudYomi.getNisanLimudYomiTitle(day: JewishCalendar().getJewishDayOfMonth())
 }
+
+struct AutoShrinkingNavigationTitle: ViewModifier {
+    let title: String
+    let minimumScaleFactor: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(title)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .minimumScaleFactor(minimumScaleFactor)
+                }
+            }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func shrinkingNavigationTitle(_ title: String, minimumScaleFactor: CGFloat = 0.5) -> some View {
+        if title.count <= 16 {// This is really specific to this app as Limudim/Hillulot is 16 characters long, but the main title is longer. You could add more or less characters depending on the title used.
+            self.navigationTitle(title)
+        } else {
+            self.modifier(AutoShrinkingNavigationTitle(title: title, minimumScaleFactor: minimumScaleFactor))
+        }
+    }
+}
+
+
 
 #Preview {
     ContentView()

@@ -300,30 +300,6 @@ struct LimudimView: View {
                             }
                         }
                     }
-                } else if month == 13 {// Adar II with Nissan starting method. Occurs every year
-                    // Retrieve the array from the JSON for the other Adar
-                    if let currentHillulot = json["12\(dayString)"].array {
-                        
-                        // Loop through the array of hillulot and do not add duplicates
-                        for hillula in currentHillulot {
-                            var entry = ZmanListEntry(title: "")
-                            if let name = hillula["name"].string {
-                                entry.title = name
-                            }
-                            
-                            if let src = hillula["desc"].string {
-                                entry.desc = src
-                            }
-                            
-                            if let src = hillula["src"].string {
-                                entry.src = src
-                            }
-                            
-                            if !hiloulot.contains(where: { $0.title == entry.title }) {
-                                hiloulot.append(entry)
-                            }
-                        }
-                    }
                 }
             } catch {
                 print("Error reading or parsing the hillulot JSON file: \(error)")

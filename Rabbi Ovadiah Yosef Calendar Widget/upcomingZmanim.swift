@@ -120,7 +120,7 @@ struct UpcomingZmanim: Widget {
         }
         .supportedFamilies([.systemSmall, .systemMedium])
         .configurationDisplayName("Upcoming Zmanim Widget".localized())
-        .description("Show the four next upcoming zmanim.".localized())
+        .description("Show the four/five next upcoming zmanim.".localized())
     }
 }
 

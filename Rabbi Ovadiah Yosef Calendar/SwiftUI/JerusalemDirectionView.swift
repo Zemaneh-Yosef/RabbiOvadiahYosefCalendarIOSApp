@@ -1,6 +1,7 @@
 import SwiftUI
 import MapKit
 import KosherSwift
+import SwiftUISnackbar
 
 struct JerDirectionView: View {
     var body: some View {
@@ -31,6 +32,10 @@ struct JerusalemDirectionView: View {
     @State private var isCompassGreen = false
     @State private var compassRotation: Angle = .zero
     @State private var showInfoAlert = false
+    
+    @State private var showLowAccuracySnackbar = false
+    @State private var showOkayAccuracySnackbar = false
+    @State private var showUnreliableSnackbar = false
     
     let jerusalemLocation = CLLocationCoordinate2D(latitude: 31.778015, longitude: 35.235413)
     
@@ -112,6 +117,15 @@ struct JerusalemDirectionView: View {
                 }
             }
         }
+        .onAppear {
+            updateSnackbarStatus(for: locationManager.accuracyStatus)
+        }
+        .onChange(of: locationManager.accuracyStatus) { _, newStatus in
+            updateSnackbarStatus(for: newStatus)
+        }
+        .snackbar(isShowing: $showLowAccuracySnackbar, title: "Sensor accuracy is low".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.orange))
+        .snackbar(isShowing: $showOkayAccuracySnackbar, title: "Sensor accuracy is okay".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.green))
+        .snackbar(isShowing: $showUnreliableSnackbar, title: "No sensor found or unreliable".localized(), text: "[Tap to dismiss]".localized(), style: .custom(.red))
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button {
@@ -157,11 +171,30 @@ struct JerusalemDirectionView: View {
                 span: MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: longDelta)))
         }
     }
+    
+    private func updateSnackbarStatus(for status: CompassAccuracyStatus) {
+        showLowAccuracySnackbar = false
+        showOkayAccuracySnackbar = false
+        showUnreliableSnackbar = false
+        
+        switch status {
+        case .low:
+            showLowAccuracySnackbar = true
+        case .okay:
+            showOkayAccuracySnackbar = true
+        case .unreliable:
+            showUnreliableSnackbar = true
+        case .unknown:
+            break
+        }
+    }
 }
 
 class CompassManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let manager = CLLocationManager()
     @Published var heading: Double?
+    @Published var accuracyStatus: CompassAccuracyStatus = .unknown
+    
     var currentGeolocation = GlobalStruct.geoLocation
     
     override init() {
@@ -179,7 +212,28 @@ class CompassManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         if newHeading.headingAccuracy >= 0 {
-            heading = newHeading.trueHeading > 0 ? newHeading.trueHeading : newHeading.magneticHeading
+            heading = newHeading.trueHeading >= 0 ? newHeading.trueHeading : newHeading.magneticHeading
+        }
+        
+        let newStatus: CompassAccuracyStatus
+        if newHeading.headingAccuracy < 0 {
+            newStatus = .unreliable
+        } else if newHeading.headingAccuracy > 25.0 {// 25+ degrees of error is generally considered low accuracy
+            newStatus = .low
+        } else {
+            newStatus = .okay
+        }
+        
+        // Only update if the status category actually changed to prevent snackbar spam
+        if newStatus != accuracyStatus {
+            accuracyStatus = newStatus
         }
     }
+}
+
+enum CompassAccuracyStatus: Equatable {
+    case unknown
+    case unreliable
+    case low
+    case okay
 }

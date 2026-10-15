@@ -11,6 +11,7 @@ struct MoladView: View {
     @State var englishMonth = ""
     @State var hebrewMonth = ""
     let dateFormatter = DateFormatter()
+    let dateFormatterForJer = DateFormatter()
     
     @State var userChosenDate: Date = GlobalStruct.userChosenDate
     @State var datePickerIsVisible = false
@@ -19,9 +20,12 @@ struct MoladView: View {
     init() {
         if Locale.isHebrewLocale() {
             dateFormatter.dateFormat = "E MMM d H:mm:ss"
+            dateFormatterForJer.dateFormat = "E MMM d H:mm:ss"
         } else {
             dateFormatter.dateFormat = "E MMM d h:mm:ss a"
+            dateFormatterForJer.dateFormat = "E MMM d h:mm:ss a"
         }
+        dateFormatterForJer.timeZone = TimeZone(identifier: "Asia/Jerusalem")
     }
     
     func getMoladAnnouncement() -> String {
@@ -188,7 +192,21 @@ struct MoladView: View {
                     }
                     
                     VStack {
-                        Text("Molad for This Month (Your Timezone)")
+                        Text("Molad for This Month (Jerusalem Time Zone)")
+                            .font(.headline)
+                            .foregroundStyle(Color.white)
+                        Text(dateFormatterForJer.string(from: GlobalStruct.jewishCalendar.getMoladAsDate()))
+                            .font(.title2)
+                            .bold()
+                            .foregroundStyle(Color.yellow)
+                    }
+                    .padding()
+                    .background(alignment: .center) {
+                        RoundedRectangle(cornerRadius: 10).fill(Color.black.opacity(0.5))
+                    }
+                    
+                    VStack {
+                        Text("Molad for This Month (Your Time Zone)")
                             .font(.headline)
                             .foregroundStyle(Color.white)
                         Text(dateFormatter.string(from: GlobalStruct.jewishCalendar.getMoladAsDate()))

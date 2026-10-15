@@ -7,31 +7,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "62A87C45-6A6F-434D-814C-EBE5E991381E"
+            uuid = "D6492933-F049-4B54-A039-52D2AC677283"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar Widget/Rabbi_Ovadiah_Yosef_Calendar_Widget.swift"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/ZmanimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
-            landmarkName = "getHebrewDate(language:forTomorrow:)"
-            landmarkType = "9">
+            startingLineNumber = "443"
+            endingLineNumber = "443"
+            landmarkName = "updateZmanimList(add66Misheyakir:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3C915390-F764-4B87-9EA6-AFF323A96A3A"
+            uuid = "2E25645C-651F-4BDC-BDD6-E88E3839B469"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar Widget/Rabbi_Ovadiah_Yosef_Calendar_Widget.swift"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/ZmanimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "1983"
+            endingLineNumber = "1983"
+            landmarkName = "simpleListView"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54995C00-3F8A-4850-8ECD-96809A2FCBBE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/LimudimView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -39,15 +55,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB3D91D8-9835-493F-9384-6761AB9CC1C9"
+            uuid = "CCB27A68-2F67-4939-8560-4548AF968722"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar Widget/Rabbi_Ovadiah_Yosef_Calendar_Widget.swift"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/LimudimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -55,81 +71,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4B118571-A64E-4007-88F5-A2C67E3E090A"
+            uuid = "0098AE04-644A-4DFE-9EDE-49B7A30D22CF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar/Notifications.swift"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/LimudimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "scheduleZmanimNotifications()"
-            landmarkType = "7">
+            startingLineNumber = "484"
+            endingLineNumber = "484"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8690EE85-9D2B-4375-AE65-8FA795044EE7"
+            uuid = "2FAB4848-2B4D-4B1D-AD41-AD09A4814739"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar/Notifications.swift"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/LimudimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
-            landmarkName = "scheduleZmanimNotifications()"
-            landmarkType = "7">
+            startingLineNumber = "485"
+            endingLineNumber = "485"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "122214E9-FB6D-4E89-B0BC-47340BAD4EB0"
+            uuid = "02D701D3-2175-428A-BE73-D1636666BB5A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar/Notifications.swift"
+            filePath = "Rabbi Ovadiah Yosef Calendar/SwiftUI/LimudimView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
-            landmarkName = "initializeLocationObjectsAndSetNotifications()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "55DDD51E-DB5C-49ED-9F7A-92251DC993B2"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar/Notifications.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
-            landmarkName = "initializeLocationObjectsAndSetNotifications()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5B6E35EF-80BC-4635-8AEA-E3E4D396F303"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Rabbi Ovadiah Yosef Calendar/Extensions.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
-            landmarkName = "isShevuahShechalBo()"
-            landmarkType = "7">
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

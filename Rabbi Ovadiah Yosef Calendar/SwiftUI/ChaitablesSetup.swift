@@ -185,6 +185,7 @@ struct ChaitablesSetup: View {
             Text(infoMessage)
         }
         .navigationTitle("Visible Sunrise Setup")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     var infoMessage: String {
@@ -317,7 +318,7 @@ struct ChaitablesSetup: View {
         }
     }
 
-    func findZmanTable(in doc: Document) -> Element? {
+    func findZmanTable(in doc: SwiftSoup.Document) -> Element? {
         do {
             for table in try doc.select("table") {
                 guard let firstRow = try table.select("tr").first() else { continue }
@@ -332,12 +333,12 @@ struct ChaitablesSetup: View {
         return nil
     }
     
-    func containsNoVantagePointMessage(in doc: Document) -> Bool {
+    func containsNoVantagePointMessage(in doc: SwiftSoup.Document) -> Bool {
         let text = (try? doc.text()) ?? ""
         return text.contains("Couldn't find a vantage point within the chosen search radius")
     }
 
-    func fetchDocument(from urlString: String) async throws -> Document {
+    func fetchDocument(from urlString: String) async throws -> SwiftSoup.Document {
         guard let url = URL(string: urlString) else {
             print("Bad URL")
             return Document("")

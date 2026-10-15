@@ -73,7 +73,7 @@ struct ContentView: View {
                 List {
                     ForEach(zmanimList, id: \.title) { zmanTime in
                         HStack {
-                            if !zmanTime.isZman {
+                            if !zmanTime.type.isZman {
                                 Spacer()
                                 Text(zmanTime.title)
                                     .multilineTextAlignment(.center)
@@ -334,7 +334,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let tekufa = jewishCalendar.getTekufaAsDate()
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
                 zmanimList = addTekufaLength(list: zmanimList, tekufa: tekufa, dateFormatter: dateFormatter)
             }
         }
@@ -342,7 +342,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
         if checkTomorrowForTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
                 zmanimList = addTekufaLength(list: zmanimList, tekufa: checkTomorrowForTekufa, dateFormatter: dateFormatter)
             }
         }
@@ -351,7 +351,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let tekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
                 zmanimList = addTekufaLength(list: zmanimList, tekufa: tekufa, dateFormatter: dateFormatter)
             }
         }
@@ -359,7 +359,7 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if checkTomorrowForTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
                 zmanimList = addTekufaLength(list: zmanimList, tekufa: checkTomorrowForTekufa, dateFormatter: dateFormatter)
             }
         }
@@ -368,14 +368,14 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let tekufa = jewishCalendar.getTekufaAsDate()
         if tekufa != nil {
             if Calendar.current.isDate(tekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufa!)))
             }
         }
         jewishCalendar.forward()
         let checkTomorrowForTekufa = jewishCalendar.getTekufaAsDate()
         if checkTomorrowForTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForTekufa!)))
             }
         }
         jewishCalendar.workingDate = userChosenDate //reset
@@ -383,14 +383,14 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         let tekufaAH = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if tekufaAH != nil {
             if Calendar.current.isDate(tekufaAH!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: tekufaAH!)))
             }
         }
         jewishCalendar.forward()
         let checkTomorrowForAHTekufa = jewishCalendar.getTekufaAsDate(shouldMinus21Minutes: true)
         if checkTomorrowForAHTekufa != nil {
             if Calendar.current.isDate(checkTomorrowForAHTekufa!, inSameDayAs: userChosenDate) {
-                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + jewishCalendar.getTekufaName().localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
+                zmanimList.append(ZmanListEntry(title: "Tekufa ".localized() + hebrewDateFormatter.formatTekufaName(jewishCalendar: jewishCalendar).replace("Tekufas ", "").replace("תקופת ", "").localized() + " is today at ".localized() + dateFormatter.string(from: checkTomorrowForAHTekufa!)))
             }
         }
         var earlierTekufa = tekufaAH
