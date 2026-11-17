@@ -10,7 +10,7 @@ import KosherSwift
 
 class ZmanimFactory {
     
-    public static func addZmanim(list:Array<ZmanListEntry>, defaults: UserDefaults, zmanimCalendar: ComplexZmanimCalendar, jewishCalendar: JewishCalendar, add66Misheyakir: Bool = false) -> Array<ZmanListEntry> {
+    public static func addZmanim(list:Array<ZmanListEntry>, defaults: UserDefaults, zmanimCalendar: ComprehensiveZmanimCalendar, jewishCalendar: JewishCalendar, add66Misheyakir: Bool = false) -> Array<ZmanListEntry> {
         let useAHZmanim = defaults.bool(forKey: "LuachAmudeiHoraah")
         var temp = list
         let zmanimNames = ZmanimTimeNames(defaults: defaults)
@@ -104,22 +104,22 @@ class ZmanimFactory {
         zmanimCalendar.useAstronomicalChatzos = false
         temp.append(ZmanListEntry(title: zmanimNames.getChatzotString(),
                                   desc: "Chatzot",
-                                  zman: zmanimCalendar.getChatzos(),
+                                  zman: zmanimCalendar.getChatzos(begin: zmanimCalendar.getSunriseBasedOnElevationSetting(), end: zmanimCalendar.getSunsetBasedOnElevationSetting()),
                                   type: .chatzotZman,
                                   secondTreatment: .roundEarlier))
         temp.append(ZmanListEntry(title: zmanimNames.getMinchaGedolaString(),
                                   desc: "Mincha Gedolah",
-                                  zman: zmanimCalendar.getMinchaGedolaGreaterThan30(),
+                                  zman: zmanimCalendar.getMinchaGedolaGRAGreaterThan30(),
                                   type: .minchaGedolahZman,
                                   secondTreatment: .roundLater))
         temp.append(ZmanListEntry(title: zmanimNames.getMinchaKetanaString(),
                                   desc: "Mincha Ketana",
-                                  zman: zmanimCalendar.getMinchaKetana(),
+                                  zman: zmanimCalendar.getMinchaKetanaGRA(),
                                   type: .minchaKetanaZman,
                                   secondTreatment: .roundLater))
         temp.append(ZmanListEntry(title: "\(zmanimNames.getPlagHaminchaString()) (\(zmanimNames.getHalachaBerurahString()))",
                                   desc: "Plag HaMincha Halacha Berurah",
-                                  zman: zmanimCalendar.getPlagHamincha(),
+                                  zman: zmanimCalendar.getPlagHaminchaGRA(),
                                   type: .plagHaminchaHBZman,
                                   secondTreatment: .roundLater))
         temp.append(ZmanListEntry(title: "\(zmanimNames.getPlagHaminchaString()) (\(zmanimNames.getYalkutYosefString()))",
@@ -130,7 +130,7 @@ class ZmanimFactory {
         if (jewishCalendar.hasCandleLighting() && !jewishCalendar.isAssurBemelacha()) || jewishCalendar.getDayOfWeek() == 6 {
             zmanimCalendar.candleLightingOffset = 20// override default
             if defaults.object(forKey: "candleLightingOffset") != nil {
-                zmanimCalendar.candleLightingOffset = defaults.integer(forKey: "candleLightingOffset")
+                zmanimCalendar.candleLightingOffset = Double(defaults.integer(forKey: "candleLightingOffset"))
             }
             temp.append(ZmanListEntry(title: "\(zmanimNames.getCandleLightingString()) (\(zmanimCalendar.candleLightingOffset))",
                                       desc: "Candle Lighting",
@@ -170,13 +170,13 @@ class ZmanimFactory {
         }
         if jewishCalendar.tomorrow().isTishaBav() {
             temp.append(ZmanListEntry(title: zmanimNames.getTaanitString() + zmanimNames.getStartsString(),
-                                      zman: zmanimCalendar.getElevationAdjustedSunset(),
+                                      zman: zmanimCalendar.getSunsetBasedOnElevationSetting(),
                                       type: .fastStartsTishaBavZman,
                                       secondTreatment: .roundEarlier))
         }
         temp.append(ZmanListEntry(title: zmanimNames.getSunsetString(),
                                   desc: "Sunset",
-                                  zman: zmanimCalendar.getElevationAdjustedSunset(),
+                                  zman: zmanimCalendar.getSunsetBasedOnElevationSetting(),
                                   type: .sunsetZman,
                                   secondTreatment: .roundEarlier))
         temp.append(ZmanListEntry(title: zmanimNames.getTzaitHacochavimString(),
@@ -267,7 +267,7 @@ class ZmanimFactory {
         return temp
     }
     
-    private static func addShabbatEndsZman(list: Array<ZmanListEntry>, zmanimCalendar: ComplexZmanimCalendar, jewishCalendar: JewishCalendar, zmanimNames: ZmanimTimeNames, defaults: UserDefaults, useAHZmanim: Bool, isForCandLighting: Bool, isForTommorow: Bool) -> Array<ZmanListEntry> {
+    private static func addShabbatEndsZman(list: Array<ZmanListEntry>, zmanimCalendar: ComprehensiveZmanimCalendar, jewishCalendar: JewishCalendar, zmanimNames: ZmanimTimeNames, defaults: UserDefaults, useAHZmanim: Bool, isForCandLighting: Bool, isForTommorow: Bool) -> Array<ZmanListEntry> {
         var temp = list
         zmanimCalendar.ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40
         if defaults.object(forKey: "shabbatOffset") != nil {
@@ -299,7 +299,7 @@ class ZmanimFactory {
         return temp
     }
     
-    private static func addRTZman(list: Array<ZmanListEntry>, zmanimCalendar: ComplexZmanimCalendar, jewishCalendar: JewishCalendar, zmanimNames: ZmanimTimeNames, defaults: UserDefaults, useAHZmanim: Bool, isForTommorow: Bool) -> Array<ZmanListEntry> {
+    private static func addRTZman(list: Array<ZmanListEntry>, zmanimCalendar: ComprehensiveZmanimCalendar, jewishCalendar: JewishCalendar, zmanimNames: ZmanimTimeNames, defaults: UserDefaults, useAHZmanim: Bool, isForTommorow: Bool) -> Array<ZmanListEntry> {
         var temp = list
         var rt = ZmanListEntry(title: zmanimNames.getRTString(),
                                zman: useAHZmanim ? zmanimCalendar.getTzais72ZmanisAmudeiHoraahLkulah() : zmanimCalendar.getTzais72Zmanis(),
@@ -307,7 +307,7 @@ class ZmanimFactory {
         if defaults.bool(forKey: "overrideRTZman") {
             rt.zman = zmanimCalendar.getTzais72Zmanis()
         }
-        rt.title += zmanimNames.getRTType(isFixed: rt.zman == zmanimCalendar.getTzais72())
+        rt.title += zmanimNames.getRTType(isFixed: rt.zman == zmanimCalendar.getTzais72Minutes())
         if isForTommorow {
             rt.title += zmanimNames.getMacharString()
         }

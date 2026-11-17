@@ -113,7 +113,7 @@ struct ContentView: View {
 func hasSpecialPrayer() -> Bool {
     let jewishCalendar = JewishCalendar()
     return jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT ||
-    (jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH && jewishCalendar.getDayOfWeek() == 3) ||
+    (jewishCalendar.getUpcomingParshah() == JewishCalendar.Parshah.BESHALACH && jewishCalendar.getDayOfWeek() == 3) ||
     (jewishCalendar.isErevRoshChodesh() && jewishCalendar.getJewishMonth() == JewishCalendar.IYAR)
 }
 
@@ -122,7 +122,7 @@ func getSpecialPrayerTitle() -> String {
     if jewishCalendar.getYomTovIndex() == JewishCalendar.TU_BESHVAT {
         return "Prayer for Etrog".localized()
     }
-    if jewishCalendar.getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH && jewishCalendar.getDayOfWeek() == 3 {
+    if jewishCalendar.getUpcomingParshah() == JewishCalendar.Parshah.BESHALACH && jewishCalendar.getDayOfWeek() == 3 {
         return "Parshat Haman".localized()
     }
     if jewishCalendar.isErevRoshChodesh() && jewishCalendar.getJewishMonth() == JewishCalendar.IYAR {

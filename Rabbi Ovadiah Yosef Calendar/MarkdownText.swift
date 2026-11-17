@@ -12,6 +12,7 @@ struct MarkdownText: View {
 
     var body: some View {
         Text(attributed)
+            .tint(Color(UIColor.link))
     }
 
     private var attributed: AttributedString {
@@ -23,8 +24,15 @@ struct MarkdownText: View {
         let options = AttributedString.MarkdownParsingOptions(
             interpretedSyntax: .inlineOnlyPreservingWhitespace
         )
-        return (try? AttributedString(markdown: withBullets, options: options))
+        var result = (try? AttributedString(markdown: withBullets, options: options))
             ?? AttributedString(withBullets)
+
+        let linkRanges = result.runs.filter { $0.link != nil }.map(\.range)
+        for range in linkRanges {
+            result[range].foregroundColor = Color(UIColor.link)
+            result[range].underlineStyle = .single
+        }
+        return result
     }
 }
 

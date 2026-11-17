@@ -124,7 +124,7 @@ struct UpcomingZmanim: Widget {
     }
 }
 
-func getNextUpcomingZmanim(forTime: Date, zmanimCalendar: ComplexZmanimCalendar) -> [ZmanListEntry] {
+func getNextUpcomingZmanim(forTime: Date, zmanimCalendar: ComprehensiveZmanimCalendar) -> [ZmanListEntry] {
     let defaults = UserDefaults.getMyUserDefaults()
     var upcomingZmanim: [ZmanListEntry] = []
     var zmanim = Array<ZmanListEntry>()

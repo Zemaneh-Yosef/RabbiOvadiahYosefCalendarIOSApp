@@ -15,7 +15,7 @@ enum ZmanListEntryType: CaseIterable {
     case nineDays
     case shevuaShechalBo
     case music
-    case halelOrChatziHallel
+    case hallelOrChatziHallel
     case ulchaparatPesha
     case tachanun
     case purimMeshulash

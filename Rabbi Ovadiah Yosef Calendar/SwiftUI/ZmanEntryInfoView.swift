@@ -32,10 +32,10 @@ struct ZmanEntryInfoView: View {
     init(type: ZmanListEntryType,
          alternateType: ZmanListEntryType? = nil,
          entryTitle: String,
-         zman: Date?,
+         zman: Date? = nil,
          jewishMonth: Int = 0,
-         candleLightingOffset: String,
-         defaults: UserDefaults,
+         candleLightingOffset: String = "20",
+         defaults: UserDefaults = UserDefaults.getMyUserDefaults(),
          onAction: @escaping (Action) -> Void) {
         self.type = type
         self.alternateType = alternateType
@@ -213,5 +213,5 @@ struct Rabbi_Ovadiah_Yosef_Calendar_WidgetAttributes: ActivityAttributes {
 }
 
 #Preview {
-    ZmanEntryInfoView(type: .unspecified, entryTitle: "Test", zman: Date(), candleLightingOffset: "20", defaults: UserDefaults.standard, onAction: { _ in })
+    ZmanEntryInfoView(type: .unspecified, entryTitle: "Test", zman: nil, onAction: { _ in })
 }

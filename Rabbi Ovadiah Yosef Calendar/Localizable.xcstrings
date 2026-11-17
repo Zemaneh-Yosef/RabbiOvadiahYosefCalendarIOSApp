@@ -14,9 +14,6 @@
         }
       }
     },
-    " (%@) " : {
-
-    },
     " (Today)" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -60,9 +57,6 @@
           }
         }
       }
-    },
-    " Haftarah: ‫" : {
-
     },
     " is today at " : {
       "extractionState" : "manual",
@@ -108,7 +102,7 @@
         }
       }
     },
-    " מפטירין " : {
+    " מפטירין:" : {
 
     },
     "--:--:--" : {
@@ -135,6 +129,12 @@
           }
         }
       }
+    },
+    "(%@)" : {
+
+    },
+    "(%@) " : {
+
     },
     "(After Sunset)" : {
       "extractionState" : "manual",
@@ -227,6 +227,9 @@
       }
     },
     "%@" : {
+
+    },
+    "%@ " : {
 
     },
     "⏱️" : {
@@ -1066,7 +1069,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "שחרר"
+            "value" : "בטל"
           }
         }
       }
@@ -1596,6 +1599,9 @@
           }
         }
       }
+    },
+    "Haftarah: ‫" : {
+
     },
     "Haskamot" : {
       "extractionState" : "manual",

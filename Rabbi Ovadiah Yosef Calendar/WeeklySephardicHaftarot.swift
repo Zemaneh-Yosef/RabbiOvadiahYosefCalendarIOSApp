@@ -15,7 +15,7 @@ struct HaftarahReading {
 
 struct WeeklySephardicHaftarot {
     
-    private static let specialShabbatot: [JewishCalendar.Parsha: HaftarahReading] = [
+    private static let specialShabbatot: [JewishCalendar.Parshah: HaftarahReading] = [
         .SHKALIM: HaftarahReading(text: "ויכרות יהוידע", source: "מלכים ב י\"א"),
         .ZACHOR: HaftarahReading(text: "ויאמר שמואל", source: "שמואל א ט\"ו"),
         .PARA: HaftarahReading(text: "ויהי דבר", source: "יחזקאל ל\"ו"),
@@ -70,7 +70,7 @@ struct WeeklySephardicHaftarot {
         }
         
         // Rosh Chodesh / Erev Rosh Chodesh
-        if !([JewishCalendar.Parsha.MATOS_MASEI, JewishCalendar.Parsha.REEH].contains(jCal.getParshah())) {
+        if !([JewishCalendar.Parshah.MATOS_MASEI, JewishCalendar.Parshah.REEH].contains(jCal.getParshah())) {
             if jCal.isErevRoshChodesh() {
                 return HaftarahReading(text: "מחר חודש", source: "שמואל א כ")
             } else if jCal.isRoshChodesh() {

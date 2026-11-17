@@ -23,7 +23,7 @@ public extension JewishCalendar {
         return result
     }
     
-    func currentToString(zmanimCalendar: ComplexZmanimCalendar) -> String {
+    func currentToString(zmanimCalendar: ComprehensiveZmanimCalendar) -> String {
         let jewishCalendar = copy()
         jewishCalendar.workingDate = zmanimCalendar.workingDate
         if (Date() > zmanimCalendar.getSunset() ?? Date()) {
@@ -229,8 +229,8 @@ public extension JewishCalendar {
         let hebrewDateFormatter = HebrewDateFormatter()
         hebrewDateFormatter.hebrewFormat = true
         //now that we are on saturday, check the parasha
-        let specialParasha = hebrewDateFormatter.formatSpecialParsha(jewishCalendar: self)
-        var parasha = hebrewDateFormatter.formatParsha(parsha: getParshah())
+        let specialParasha = hebrewDateFormatter.formatSpecialParshah(jewishCalendar: self)
+        var parasha = hebrewDateFormatter.formatParshah(parsha: getParshah())
         workingDate = temp //reset
         
         if !specialParasha.isEmpty {
@@ -493,6 +493,20 @@ public extension JewishCalendar {
         }
     }
     
+    func getSeasonalPrayerChanges() -> String {
+        let rules = TefilaRules()
+        if (rules.isMashivHaruachEndDate(jewishCalendar: self)) {
+            return "במוסף מוריד הטל / ברכנו";
+        }
+        if (rules.isMashivHaruachStartDate(jewishCalendar: self)) {
+            return "במוסף משיב הרוח / ברכנו";
+        }
+        if (rules.isVeseinTalUmatarStartDate(jewishCalendar: tomorrow())) {
+            return "בערבית משיב הרוח / ברך עלינו";
+        }
+        return getIsMashivHaruchOrMoridHatalSaid() + " / " + getIsBarcheinuOrBarechAleinuSaid()
+    }
+    
     func isNightTikkunChatzotSaid() -> Bool {
         // These are all days that Tikkun Chatzot is not said at all, so we NOT it to know if Tikkun Chatzot IS said
         return !(getDayOfWeek() == 7 ||
@@ -576,7 +590,7 @@ public extension AstronomicalCalendar {
             return getSolarMidnight()
         }
         
-        let offset = ((sunTransitTomorrow!.timeIntervalSince1970 - sunTransit!.timeIntervalSince1970) / 2) * 1000
+        let offset = ((sunTransitTomorrow!.timeIntervalSince1970 - sunTransit!.timeIntervalSince1970) / 2)
         
         return AstronomicalCalendar.getTimeOffset(
             time: sunTransit,
@@ -586,20 +600,11 @@ public extension AstronomicalCalendar {
 
 public extension ZmanimCalendar {
     func getCandleLighting() -> Date? {
-        return ZmanimCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: -Double(getCandleLightingOffset()) * ZmanimCalendar.MINUTE_MILLIS);
+        return ZmanimCalendar.getTimeOffset(time: getSunsetBasedOnElevationSetting(), offset: -Double(getCandleLightingOffset()) * ZmanimCalendar.MINUTE_SECONDS);
     }
 }
 
-public extension ComplexZmanimCalendar {
-    
-    func copy() -> ComplexZmanimCalendar {
-        let result = ComplexZmanimCalendar(location: getGeoLocation())
-        result.ateretTorahSunsetOffset = ateretTorahSunsetOffset
-        result.useElevation = useElevation
-        result.useAstronomicalChatzos = useAstronomicalChatzos
-        result.useAstronomicalChatzosForOtherZmanim = useAstronomicalChatzosForOtherZmanim
-        return result
-    }
+public extension ComprehensiveZmanimCalendar {
     
     func getAlotHashachar(defaults: UserDefaults) -> Date? {
         if defaults.bool(forKey: "LuachAmudeiHoraah") {
@@ -627,15 +632,19 @@ public extension ComplexZmanimCalendar {
     
     func getTzeit20MinutesZmanit() -> Date? {
         let seasonalHour = getTemporalHour()
-        return AstronomicalCalendar.getTimeOffset(time: getElevationAdjustedSunset(), offset: seasonalHour / 3)
+        if seasonalHour != nil {
+            return AstronomicalCalendar.getTimeOffset(time: getSunsetBasedOnElevationSetting(), offset: seasonalHour! / 3)
+        } else {
+            return nil
+        }
     }
     
     func getSecondAshmora() -> Date? {
         let clonedCal = ZmanimCalendar(location: getGeoLocation())
         clonedCal.useElevation = useElevation
         clonedCal.workingDate = workingDate.addingTimeInterval(86400)
-        let sunsetForToday = getElevationAdjustedSunset();
-        let sunriseForTomorrow = clonedCal.getElevationAdjustedSunrise();
+        let sunsetForToday = getSunsetBasedOnElevationSetting();
+        let sunriseForTomorrow = clonedCal.getSunriseBasedOnElevationSetting();
         return getShaahZmanisBasedZman(startOfDay: sunsetForToday, endOfDay: sunriseForTomorrow, hours: 4);
     }
     

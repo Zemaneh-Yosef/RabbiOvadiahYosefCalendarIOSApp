@@ -20,11 +20,19 @@ struct LimudimView: View {
     @State private var selectedLimud: ZmanListEntry? // Track selected item
     @State private var selectedHiloula: ZmanListEntry? // Track selected item
     @State private var showLimudAlert = false
-    @State private var showHillulotAlert = false
     @State private var isNasiYomi = false
     @State private var seeMore = false
     @State private var showSiddur = false
     @State private var shouldAdjust = true
+    
+    struct HilulaInfoRequest: Identifiable {
+        let id = UUID()
+        let title: String
+        let desc: String
+        let src: String
+    }
+    
+    @State private var hilulaInfoRequest: HilulaInfoRequest? = nil
     
     func syncCalendarDates() {//with userChosenDate
         GlobalStruct.jewishCalendar.workingDate = userChosenDate
@@ -44,7 +52,8 @@ struct LimudimView: View {
     }
     
     func isAfterSunset() -> Bool {
-        let zmanim = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        let zmanim = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanim.astronomicalCalculator = SPACalculator()
         zmanim.workingDate = userChosenDate
         return Date() > zmanim.getSunset() ?? Date()
     }
@@ -451,8 +460,7 @@ struct LimudimView: View {
                             Text("").frame(maxWidth: 0)
                             Spacer()
                             Button(hiloula.title) {
-                                selectedHiloula = hiloula
-                                showHillulotAlert = true
+                                hilulaInfoRequest = HilulaInfoRequest(title: hiloula.title, desc: hiloula.desc, src: hiloula.src)
                             }
                             .font(.title3.bold())
                             .minimumScaleFactor(0.5)
@@ -479,11 +487,12 @@ struct LimudimView: View {
             userChosenDate = GlobalStruct.userChosenDate
             syncCalendarDates()
         }
-        .confirmationDialog(selectedHiloula?.title ?? "", isPresented: $showHillulotAlert, titleVisibility: .visible) {
-            Button("Dismiss", role: .cancel) { showHillulotAlert.toggle() }
-        } message: {
-            Text((selectedHiloula?.desc ?? "").appending("\n-----\n").appending(selectedHiloula?.src ?? ""))
-        }.textCase(nil)
+        .sheet(item: $hilulaInfoRequest, onDismiss: nil) { request in
+            LimudEntryInfoView(entryTitle: request.title,
+            entryDesc: request.desc
+                .appending("\n-----\n")
+                .appending(request.src))
+        }
         HStack {
             Button {
                 if isToday() && isAfterSunset() && shouldAdjust {

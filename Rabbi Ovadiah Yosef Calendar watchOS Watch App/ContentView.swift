@@ -14,7 +14,7 @@ let defaults = UserDefaults.standard // user defaults do not get brought over fr
 var timezone: TimeZone = TimeZone.current.corrected()
 var userChosenDate: Date = Date()
 var nextUpcomingZman: ZmanListEntry? = nil
-var zmanimCalendar: ComplexZmanimCalendar = ComplexZmanimCalendar()
+var zmanimCalendar: ComprehensiveZmanimCalendar = ComprehensiveZmanimCalendar()
 var jewishCalendar: JewishCalendar = JewishCalendar()
 
 struct ContentView: View {
@@ -128,6 +128,7 @@ struct ContentView: View {
         .onChange(of: settings.hash, {
             getZmanimCalendarWithLocation { complexZmanimCalendar in
                 zmanimCalendar = complexZmanimCalendar
+                zmanimCalendar.astronomicalCalculator = SPACalculator()
                 zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
                 jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                 timezone = complexZmanimCalendar.geoLocation.timeZone
@@ -140,6 +141,7 @@ struct ContentView: View {
                 // Once the complex zmanim calendar is obtained,
                 // update the zmanimList using the data obtained with the current date
                 zmanimCalendar = complexZmanimCalendar
+                zmanimCalendar.astronomicalCalculator = SPACalculator()
                 zmanimCalendar.useElevation = defaults.bool(forKey: "useElevation")
                 jewishCalendar.inIsrael = defaults.bool(forKey: "inIsrael")
                 timezone = complexZmanimCalendar.geoLocation.timeZone
@@ -208,8 +210,8 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     let hebrewDateFormatter = HebrewDateFormatter()
     hebrewDateFormatter.hebrewFormat = true
     //now that we are on saturday, check the parasha
-    let specialParasha = hebrewDateFormatter.formatSpecialParsha(jewishCalendar: jewishCalendar)
-    var parasha = hebrewDateFormatter.formatParsha(parsha: jewishCalendar.getParshah())
+    let specialParasha = hebrewDateFormatter.formatSpecialParshah(jewishCalendar: jewishCalendar)
+    var parasha = hebrewDateFormatter.formatParshah(parsha: jewishCalendar.getParshah())
 
     if !specialParasha.isEmpty {
         parasha += " / " + specialParasha
@@ -281,43 +283,13 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     }
     let bircatHelevana = jewishCalendar.getBirchatLevanaStatus()
     if !bircatHelevana.isEmpty {
-        zmanimList.append(ZmanListEntry(title: bircatHelevana))
-        do {// This might crash watches with 32 bit architecture. Keep an eye out
-            var cal = Calendar.current
-            cal.timeZone = timezone
-            let moonTimes = try MoonTimes.compute()
-                .on(cal.startOfDay(for: userChosenDate))
-                .at(zmanimCalendar.geoLocation.latitude, zmanimCalendar.geoLocation.longitude)
-                .timezone(timezone)
-                .limit(TimeInterval.ofDays(1))
-                .execute()
-            if (moonTimes.alwaysUp) {
-                zmanimList.append(ZmanListEntry(title: "The moon is up all night".localized()))
-            } else if (moonTimes.alwaysDown) {
-                zmanimList.append(ZmanListEntry(title: "There is no moon tonight".localized()))
-            } else {
-                let dateFormatterForMoonTimes = DateFormatter()
-                if (Locale.isHebrewLocale()) {
-                    dateFormatterForMoonTimes.dateFormat = "H:mm"
-                } else {
-                    dateFormatterForMoonTimes.dateFormat = "h:mm aa"
-                }
-                var moonRiseSet = ""
-                if (moonTimes.rise != nil) {
-                    moonRiseSet += "Moonrise: ".localized() + dateFormatterForMoonTimes.string(from: Date(timeIntervalSince1970: moonTimes.rise!.timeIntervalSince1970))
-                }
-                if (moonTimes.set != nil) {
-                    if (!moonRiseSet.isEmpty) {
-                        moonRiseSet += " - ";
-                    }
-                    moonRiseSet += "Moonset: ".localized() + dateFormatterForMoonTimes.string(from: Date(timeIntervalSince1970: moonTimes.set!.timeIntervalSince1970))
-                }
-                if (!moonRiseSet.isEmpty) {
-                    zmanimList.append(ZmanListEntry(title: moonRiseSet));
-                }
+        zmanimList.append(ZmanListEntry(title: bircatHelevana, type: .birchatHalevana))
+        if let nightfall = zmanimCalendar.getTzeitHacochavim(defaults: defaults),
+           let dawn = getAlotHashacharDateForTomorrow() {
+            let summary = getMoonSummary(czc: zmanimCalendar, start: nightfall, dawn: dawn)
+            if !summary.isEmpty {
+                zmanimList.append(ZmanListEntry(title: summary, type: .moonStatus))
             }
-        } catch {
-            print(error)
         }
     }
     if jewishCalendar.isBirkasHachamah() {
@@ -421,16 +393,27 @@ func updateZmanimList() -> Array<ZmanListEntry> {
     
     zmanimList = ZmanimFactory.addZmanim(list: zmanimList, defaults: defaults, zmanimCalendar: zmanimCalendar, jewishCalendar: jewishCalendar)
     
-    zmanimList.append(ZmanListEntry(title:jewishCalendar.getIsMashivHaruchOrMoridHatalSaid() + " / " + jewishCalendar.getIsBarcheinuOrBarechAleinuSaid()))
+    zmanimList.append(ZmanListEntry(title: jewishCalendar.getSeasonalPrayerChanges(), type: .seasonalPrayerChanges))
     
-    let formatter = DateComponentsFormatter()
-    formatter.allowedUnits = [.hour, .minute, .second]
-    formatter.unitsStyle = .abbreviated
-    zmanimList.append(ZmanListEntry(title:"Shaah Zmanit GR\"A: ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanisGra() / 1000)) ?? "XX:XX")))
+    zmanimList.append(ZmanListEntry(
+        title: "Shaah Zemanit GR\"A: ".localized() + formatZmanitHours(zmanimCalendar.getShaahZmanisGRA()),
+        type: .shaahZmanitGRA
+    ))
+
     if defaults.bool(forKey: "LuachAmudeiHoraah") {
-        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (A\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getTemporalHour(startOfDay: zmanimCalendar.getAlosAmudeiHoraah(), endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()) / 1000)) ?? "XX:XX")))
+        let amudeiHoraahTI = zmanimCalendar.getTemporalHour(
+            startOfDay: zmanimCalendar.getAlosAmudeiHoraah(),
+            endOfDay: zmanimCalendar.getTzais72ZmanisAmudeiHoraah()
+        )
+        zmanimList.append(ZmanListEntry(
+            title: "Shaah Zemanit MG\"A (A\"H): ".localized() + formatZmanitHours(amudeiHoraahTI),
+            type: .shaahZmanitMGA
+        ))
     } else {
-        zmanimList.append(ZmanListEntry(title:"Shaah Zemanit MG\"A (O\"H): ".localized() + (formatter.string(from: TimeInterval(zmanimCalendar.getShaahZmanis72MinutesZmanis() / 1000)) ?? "XX:XX")))
+        zmanimList.append(ZmanListEntry(
+            title: "Shaah Zemanit MG\"A (O\"H): ".localized() + formatZmanitHours(zmanimCalendar.getShaahZmanis72MinutesZmanis()),
+            type: .shaahZmanitMGA
+        ))
     }
     
     if defaults.bool(forKey: "showShmita") {
@@ -481,6 +464,75 @@ func updateZmanimList() -> Array<ZmanListEntry> {
         }
     }
     return zmanimList
+}
+
+func getAlotHashacharDateForTomorrow() -> Date? {
+    var cal = Calendar(identifier: .gregorian)
+    cal.timeZone = timezone
+    let copy = zmanimCalendar.copy()
+    copy.workingDate = cal.date(byAdding: .day, value: 1, to: userChosenDate) ?? userChosenDate.addingTimeInterval(86400)
+    return copy.getAlotHashachar(defaults: defaults)
+}
+
+/// Describes the moon between nightfall and dawn: up until moonset, rising later, up all night, or not up.
+/// Returns an empty string if it can't be computed.
+private func getMoonSummary(czc: ComprehensiveZmanimCalendar,start: Date, dawn: Date) -> String {
+    guard dawn > start else { return "" }
+
+    let hebrew = Locale.isHebrewLocale()
+    let label = hebrew ? "נראות הירח: " : "Moon Visibility: "
+
+    do {
+        let moon = try MoonTimes.compute()
+            .on(start)
+            .at(czc.geoLocation.latitude, czc.geoLocation.longitude)
+            .timezone(timezone)
+            .limit(dawn.timeIntervalSince(start)) // one night only, not a full day
+            .execute()
+
+        if moon.alwaysUp {
+            return label + (hebrew ? "כל הלילה" : "all night")
+        }
+        if moon.alwaysDown {
+            return label + (hebrew ? "לא נראה הלילה" : "none tonight")
+        }
+
+        let formatter = DateFormatter()
+        formatter.timeZone = timezone
+        formatter.dateFormat = hebrew ? "H:mm" : "h:mm aa"
+        let from = hebrew ? "מ-" : "from "
+        let until = hebrew ? "עד " : "until "
+
+        let rise = moon.rise.map { Date(timeIntervalSince1970: $0.timeIntervalSince1970) }
+        let set = moon.set.map { Date(timeIntervalSince1970: $0.timeIntervalSince1970) }
+
+        switch (rise, set) {
+        case let (rise?, set?):
+            return rise < set
+                ? label + from + formatter.string(from: rise) + " " + until + formatter.string(from: set)
+                : label + until + formatter.string(from: set) + ", " + from + formatter.string(from: rise)
+        case let (nil, set?):
+            return label + until + formatter.string(from: set)  // up at nightfall, sets during the night
+        case let (rise?, nil):
+            return label + from + formatter.string(from: rise)  // rises during the night, up until dawn
+        default:
+            return ""
+        }
+    } catch {
+        print(error) // the moon line is a bonus, still show everything else
+        return ""
+    }
+}
+
+func formatZmanitHours(_ ti: TimeInterval?) -> String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute, .second]
+    formatter.unitsStyle = .abbreviated
+    // Check if the calculation returned a valid, finite number (not NaN or Infinity)
+    guard let seconds = ti, !seconds.isNaN && !seconds.isInfinite else {
+        return "XX:XX"
+    }
+    return formatter.string(from: TimeInterval(seconds)) ?? "XX:XX"
 }
 
 func addTekufaLength(list: Array<ZmanListEntry>, tekufa: Date?, dateFormatter: DateFormatter) -> Array<ZmanListEntry> {
@@ -540,7 +592,7 @@ func syncCalendarDates() {//with userChosenDate
     jewishCalendar.workingDate = userChosenDate
 }
 
-func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {
+func getZmanimCalendarWithLocation(completion: @escaping (ComprehensiveZmanimCalendar) -> Void) {
     var locationName = ""
     var lat = 0.0
     var long = 0.0
@@ -604,7 +656,7 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
                                 elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
                             }
                         }
-                        completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
+                        completion(ComprehensiveZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
                     }
                 }
             }
@@ -621,7 +673,7 @@ func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar)
             elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
         }
     }
-    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
+    completion(ComprehensiveZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
 }
 
 #Preview {

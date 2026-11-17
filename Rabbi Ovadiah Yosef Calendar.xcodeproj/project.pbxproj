@@ -1241,7 +1241,7 @@
 			repositoryURL = "https://github.com/Elyahu41/KosherSwift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.1;
+				minimumVersion = 3.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -128,7 +128,8 @@ class SiddurViewController: UIViewController, CLLocationManagerDelegate, WKNavig
             back.isHidden = true
         }
         var listOfTexts = Array<HighlightString>()
-        let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        let zmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.astronomicalCalculator = SPACalculator()
         var dropDownTitle: String = ""
         let forNextDay = GlobalStruct.chosenPrayer.contains("+1")
         if forNextDay {

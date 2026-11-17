@@ -19,8 +19,8 @@ class NetzViewModel: ObservableObject {
     }
 
     func getNextNetzAndStartCountdown() {
-        let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
-        zmanimCalendar.geoLocation.elevation = 0 // Ensure elevation is considered
+        let zmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.astronomicalCalculator = SPACalculator()
         let jewishCalendar = JewishCalendar()
         
         var netz = ChaiTables(
@@ -79,7 +79,9 @@ class NetzViewModel: ObservableObject {
     }
 
     func setTimerForSunset() {
-        let sunset = ComplexZmanimCalendar(location: GlobalStruct.geoLocation).getElevationAdjustedSunset()
+        let zmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.astronomicalCalculator = SPACalculator()
+        let sunset = zmanimCalendar.getSunsetBasedOnElevationSetting()
         guard let sunsetTimeLeft = sunset?.timeIntervalSinceNow, sunsetTimeLeft > 0 else {
             getNextNetzAndStartCountdown()
             return

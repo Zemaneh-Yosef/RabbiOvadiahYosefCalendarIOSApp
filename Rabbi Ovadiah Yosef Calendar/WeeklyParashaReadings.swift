@@ -42,7 +42,7 @@ class WeeklyParashaReadings {
         "וַיֹּ֗אמֶר הִנֵּ֣ה אָנֹכִי֮ כֹּרֵ֣ת בְּרִית֒ נֶ֤גֶד כׇּֽל־עַמְּךָ֙ אֶעֱשֶׂ֣ה נִפְלָאֹ֔ת אֲשֶׁ֛ר לֹֽא־נִבְרְא֥וּ בְכׇל־הָאָ֖רֶץ וּבְכׇל־הַגּוֹיִ֑ם וְרָאָ֣ה כׇל־הָ֠עָ֠ם אֲשֶׁר־אַתָּ֨ה בְקִרְבּ֜וֹ אֶת־מַעֲשֵׂ֤ה יְהֹוָה֙ כִּֽי־נוֹרָ֣א ה֔וּא אֲשֶׁ֥ר אֲנִ֖י עֹשֶׂ֥ה עִמָּֽךְ׃"
     ]
     
-    public static func getWeeklyParashaReading(parsha: JewishCalendar.Parsha, jewishCalendar: JewishCalendar, isForShacharit: Bool) -> Array<HighlightString> {
+    public static func getWeeklyParashaReading(parsha: JewishCalendar.Parshah, jewishCalendar: JewishCalendar, isForShacharit: Bool) -> Array<HighlightString> {
         let isTaanit = jewishCalendar.isRegularTaanis()
         let isPurim = jewishCalendar.isPurim();
         var readings = Array<HighlightString>()

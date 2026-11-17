@@ -23,7 +23,8 @@ struct SiddurView: View {
     @StateObject private var compassVM = CompassViewModel()
     
     init(prayer: String) {
-        let zmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        let zmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        zmanimCalendar.astronomicalCalculator = SPACalculator()
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
         fontName = defaults.string(forKey: "fontName") ?? "Guttman Keren"
         self.prayer = prayer

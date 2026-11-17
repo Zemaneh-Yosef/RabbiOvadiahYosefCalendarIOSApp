@@ -159,7 +159,7 @@ class MakamJCal {
         }
 
         // Combine the two Parashiot entries into one
-        let mergeParashaMap = [JewishCalendar.Parsha.VAYAKHEL_PEKUDEI: JewishCalendar.Parsha.VAYAKHEL, JewishCalendar.Parsha.TAZRIA_METZORA: JewishCalendar.Parsha.TAZRIA, JewishCalendar.Parsha.ACHREI_MOS_KEDOSHIM: JewishCalendar.Parsha.ACHREI_MOS, JewishCalendar.Parsha.BEHAR_BECHUKOSAI: JewishCalendar.Parsha.BEHAR, JewishCalendar.Parsha.CHUKAS_BALAK: JewishCalendar.Parsha.CHUKAS, JewishCalendar.Parsha.MATOS_MASEI: JewishCalendar.Parsha.MATOS, JewishCalendar.Parsha.NITZAVIM_VAYEILECH: JewishCalendar.Parsha.NITZAVIM]
+        let mergeParashaMap = [JewishCalendar.Parshah.VAYAKHEL_PEKUDEI: JewishCalendar.Parshah.VAYAKHEL, JewishCalendar.Parshah.TAZRIA_METZORA: JewishCalendar.Parshah.TAZRIA, JewishCalendar.Parshah.ACHREI_MOS_KEDOSHIM: JewishCalendar.Parshah.ACHREI_MOS, JewishCalendar.Parshah.BEHAR_BECHUKOSAI: JewishCalendar.Parshah.BEHAR, JewishCalendar.Parshah.CHUKAS_BALAK: JewishCalendar.Parshah.CHUKAS, JewishCalendar.Parshah.MATOS_MASEI: JewishCalendar.Parshah.MATOS, JewishCalendar.Parshah.NITZAVIM_VAYEILECH: JewishCalendar.Parshah.NITZAVIM]
         let parsha = jCal.getParshah()
         let thisWeekParsha = mergeParashaMap[parsha] ?? parsha
         let data: [String: [Makam]] = switch thisWeekParsha {
@@ -168,7 +168,7 @@ class MakamJCal {
             case .NOACH:
                 ["TABBUSH Ms NLI 8*7622, Aleppo": [Makam.IRAQ], "R COHEN \"SHIR USHBAHA\" Jerusalem, 1905": [Makam.IRAQ, Makam.SABA], "TEBELE Pre1888": [Makam.IRAQ], "ELIE SHAUL COHEN FROM AINTAB, ~1880": [Makam.IRAQ, Makam.SABA], "YAAQOB ABADI-PARSIYA": [Makam.BAYAT], "YISHAQ YEQAR ARGENTINA": [Makam.IRAQ], "ADES: 24793": [Makam.IRAQ, Makam.SABA], "Dibre Shelomo S KASSIN Pre1915": [Makam.IRAQ, Makam.SABA], "Knis Betesh Geniza List, Aleppo": [Makam.IRAQ, Makam.SIGAH], "ABRAHAM DWECK Pre1920": [Makam.SIGAH], "IDELSOHN Pre1923": [Makam.IRAQ], "S SAGIR Laniado": [Makam.BAYAT], "M H Elias, SHIR HADASH, Jerusalem, 1930": [Makam.SIGAH], "ASHEAR list": [Makam.IRAQ], "ASHEAR NOTES 1936-1940": [Makam.IRAQ, Makam.SIGAH], "ABRAHAM E SHREM ~1945": [Makam.SIGAH], "Argentina 1947 & Ezra Mishanieh": [Makam.IRAQ], "Shire Zimra H S ABOUD Jerusalem, 1950": [Makam.IRAQ, Makam.BAYAT], "GABRIEL A SHREM 1964 SUHV": [Makam.SIGAH], "D KASSIN/ ISAAC CAIN; RODFE SEDEQ; MEXICO": [Makam.SIGAH], "YOSEF YEHEZKEL Jerusalem 1975": [Makam.HIJAZ], "Ish Massliah \"Abia Renanot\" Tunisians": [Makam.HIJAZ], "Shaare Zimra YANANI Buenos Aires, 01": [Makam.BAYAT], "BOZO, Ades, Shir Ushbaha 2005": [Makam.BAYAT, Makam.SIGAH], "Yishaq Yeranen Halabi": [Makam.BAYAT], "MOSHE AMASH (Shami)": [Makam.NAWAH], "EZRA MASLATON TARAB (Shami)": [Makam.NAWAH], "ABRAHAM SHAMRICHA (Shami)": [Makam.NAWAH], "Victor Afya, Istanbul List": [Makam.HICAZ], "Izak Alaluf, Izmir List": [Makam.HICAZ]]
             case
-            // Parsha.VZOS_HABERACHA is unused
+            // Parshah.VZOS_HABERACHA is unused
             .LECH_LECHA:
                 generateUniformMap(keys: getAllBooks(allBooks: AllBooks.BERESHIT), value: [Makam.SABA], normal: ["MOSHE AMASH (Shami)": [Makam.SIGAH, Makam.IRAQ], "EZRA MASLATON TARAB (Shami)": [Makam.SIGAH, Makam.IRAQ], "ABRAHAM SHAMRICHA (Shami)": [Makam.SIGAH], "Victor Afya, Istanbul List": [Makam.HUSEYNI], "Izak Alaluf, Izmir List": [Makam.HUSEYNI], "Hallel VeZimrah, Salonika, 1928": [Makam.NAHOFT]])
             case .VAYERA:

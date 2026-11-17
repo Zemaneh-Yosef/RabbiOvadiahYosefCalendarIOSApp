@@ -94,9 +94,10 @@ struct SiddurChooserView: View {
         var result = GlobalStruct.jewishCalendar
         if !showAllPrayers {
             result = JewishCalendar(workingDate: Date(), timezone: .autoupdatingCurrent, inIsrael: GlobalStruct.jewishCalendar.inIsrael, useModernHolidays: true)
-            let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+            let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+            currentZmanimCalendar.astronomicalCalculator = SPACalculator()
             currentZmanimCalendar.useElevation = GlobalStruct.useElevation
-            if (currentZmanimCalendar.getElevationAdjustedSunset() ?? Date() < Date() && adjust && adjustDateBasedOnSunset) {
+            if (currentZmanimCalendar.getSunsetBasedOnElevationSetting() ?? Date() < Date() && adjust && adjustDateBasedOnSunset) {
                 result.forward()
             }
         }
@@ -642,7 +643,7 @@ struct SiddurChooserView: View {
                 if getSunsetBasedJewishCalendar().getYomTovIndex() == JewishCalendar.TU_BESHVAT {
                     prayerForEtrogButton
                 }
-                if getSunsetBasedJewishCalendar().getUpcomingParshah() == JewishCalendar.Parsha.BESHALACH &&
+                if getSunsetBasedJewishCalendar().getUpcomingParshah() == JewishCalendar.Parshah.BESHALACH &&
                     getSunsetBasedJewishCalendar().getDayOfWeek() == 3 {
                     parshatHamanButton
                 }
@@ -855,11 +856,12 @@ struct SiddurChooserView: View {
         } else {
             if !showAllPrayers {
                 GlobalStruct.jewishCalendar = getSunsetBasedJewishCalendar()
-                let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+                let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+                currentZmanimCalendar.astronomicalCalculator = SPACalculator()
                 currentZmanimCalendar.useElevation = GlobalStruct.useElevation
                 let sunset = currentZmanimCalendar.getSunset()
                 let tzeit = currentZmanimCalendar.getTzeitHacochavim(defaults: defaults)
-                let plag = currentZmanimCalendar.getPlagHamincha()
+                let plag = currentZmanimCalendar.getPlagHaminchaGRA()
                 let isMinchaAfterSunsetBeforeTzeit = Date() > (sunset ?? Date()) && Date() < (tzeit ?? Date())
                 let isArvitAfterPlagBeforeSunset = Date() > (plag ?? Date()) && Date() < (sunset ?? Date())
                 if siddurPrayer == "Mincha" && isMinchaAfterSunsetBeforeTzeit {
@@ -910,7 +912,8 @@ struct SiddurChooserView: View {
         if showAllPrayers {
             return specialDayText
         } else {
-            let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+            let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+            currentZmanimCalendar.astronomicalCalculator = SPACalculator()
             currentZmanimCalendar.useElevation = GlobalStruct.useElevation
             return "Prayers able to be said now".localized()
                 .appending("\n")
@@ -946,14 +949,15 @@ struct SiddurChooserView: View {
         zmanimCalendar.workingDate = GlobalStruct.jewishCalendar.workingDate
         return "Did you start your meal before sunset?".localized()
             .appending(" ")
-            .appending(zmanimCalendar.getElevationAdjustedSunset()?.format(defaults: defaults, timezone: GlobalStruct.geoLocation.timeZone, secondTreatment: .roundEarlier) ?? "XX:XX")
+            .appending(zmanimCalendar.getSunsetBasedOnElevationSetting()?.format(defaults: defaults, timezone: GlobalStruct.geoLocation.timeZone, secondTreatment: .roundEarlier) ?? "XX:XX")
     }
 
     /**
      Time bound method to check if it is currently NOT assur to do melacha.
      */
     private func isNowNotAssurBemelacha() -> Bool {
-        let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        currentZmanimCalendar.astronomicalCalculator = SPACalculator()
         currentZmanimCalendar.useElevation = GlobalStruct.useElevation
         let currentJewishCalendar = JewishCalendar(workingDate: Date(), timezone: .autoupdatingCurrent, inIsrael: GlobalStruct.jewishCalendar.inIsrael, useModernHolidays: true)
         // easier to check the case where it is Assur Bemelacha and NOT it
@@ -971,9 +975,9 @@ struct SiddurChooserView: View {
             if showAllPrayers {
                 showBirchatHamazonAlert = true
             } else {
-                let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+                let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
                 currentZmanimCalendar.useElevation = GlobalStruct.useElevation
-                if Date() > currentZmanimCalendar.getElevationAdjustedSunset() ?? Date() {
+                if Date() > currentZmanimCalendar.getSunsetBasedOnElevationSetting() ?? Date() {
                     showBirchatHamazonAlert = true
                 } else {
                     openSiddurView()
@@ -992,9 +996,10 @@ struct SiddurChooserView: View {
             if showAllPrayers {
                 showMeEyinShaloshAlert = true
             } else {
-                let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+                let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+                currentZmanimCalendar.astronomicalCalculator = SPACalculator()
                 currentZmanimCalendar.useElevation = GlobalStruct.useElevation
-                if Date() > currentZmanimCalendar.getElevationAdjustedSunset() ?? Date() {
+                if Date() > currentZmanimCalendar.getSunsetBasedOnElevationSetting() ?? Date() {
                     showMeEyinShaloshAlert = true
                 } else {
                     openSiddurView()
@@ -1029,13 +1034,14 @@ struct SiddurChooserView: View {
             }
         } else {
             if (getSunsetBasedJewishCalendar().is3Weeks()) {
-                let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+                let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+                currentZmanimCalendar.astronomicalCalculator = SPACalculator()
                 currentZmanimCalendar.useElevation = GlobalStruct.useElevation
                 currentZmanimCalendar.useAstronomicalChatzos = false
 
                 let isNightTikkunSaid = getSunsetBasedJewishCalendar().isNightTikkunChatzotSaid();
                 let isDayTikkunSaid = getSunsetBasedJewishCalendar().isDayTikkunChatzotSaid();
-                let isNowForDayTikkun = (Date() > currentZmanimCalendar.getChatzos() ?? Date()) && (Date() < currentZmanimCalendar.getSunset() ?? Date());
+                let isNowForDayTikkun = (Date() > currentZmanimCalendar.getChatzos(begin: currentZmanimCalendar.getSunriseBasedOnElevationSetting(), end: currentZmanimCalendar.getSunsetBasedOnElevationSetting()) ?? Date()) && (Date() < currentZmanimCalendar.getSunset() ?? Date());
                 if (isNightTikkunSaid && isDayTikkunSaid) {// figure out which it is by the time
                     if isNowForDayTikkun {
                         siddurPrayer = "Tikkun Chatzot (Day)"
@@ -1071,7 +1077,8 @@ struct SiddurChooserView: View {
     func shouldBeDimmed(_ prayer: String) -> Bool {
         switch prayer {
         case "סליחות" :
-            let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+            let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+            currentZmanimCalendar.astronomicalCalculator = SPACalculator()
             currentZmanimCalendar.useElevation = GlobalStruct.useElevation
             let solarMidnight = currentZmanimCalendar.getSolarMidnight()
             let calendar = Calendar.current
@@ -1103,7 +1110,8 @@ struct SiddurChooserView: View {
                 return true
             }
         case "תהלים":
-            let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+            let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+            currentZmanimCalendar.astronomicalCalculator = SPACalculator()
             currentZmanimCalendar.useElevation = GlobalStruct.useElevation
             return Date() > currentZmanimCalendar.getTzeitHacochavim(defaults: defaults) ?? Date()
             || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults) ?? Date()
@@ -1114,7 +1122,8 @@ struct SiddurChooserView: View {
     }
     
     private func isPrayerCurrentlySaid(key: String) -> Bool {
-        let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        currentZmanimCalendar.astronomicalCalculator = SPACalculator()
         currentZmanimCalendar.useElevation = GlobalStruct.useElevation
         currentZmanimCalendar.useAstronomicalChatzos = false
         if (currentZmanimCalendar.getSunset() == nil || currentZmanimCalendar.getSunrise() == nil) {
@@ -1126,15 +1135,15 @@ struct SiddurChooserView: View {
             let isSelichotNotSaidNow = Date() > currentZmanimCalendar.getSunset()! && currentZmanimCalendar.isNowBeforeSecondAshmora()
             result = !isSelichotNotSaidNow
         case "שחרית":
-            result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getChatzos()!
+            result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getChatzos(begin: currentZmanimCalendar.getSunriseBasedOnElevationSetting(), end: currentZmanimCalendar.getSunsetBasedOnElevationSetting())!
         case "מוסף":
             result = Date() > currentZmanimCalendar.getAlotHashachar(defaults: defaults)! && Date() < currentZmanimCalendar.getSunset()!
         case "מנחה":
-            result = Date() > currentZmanimCalendar.getMinchaGedolaGreaterThan30()! && Date() < currentZmanimCalendar.getTzeitHacochavim(defaults: defaults)!
+            result = Date() > currentZmanimCalendar.getMinchaGedolaGRAGreaterThan30()! && Date() < currentZmanimCalendar.getTzeitHacochavim(defaults: defaults)!
         case "ערבית":
-            result = Date() > currentZmanimCalendar.getPlagHamincha()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
+            result = Date() > currentZmanimCalendar.getPlagHaminchaGRA()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)!
         case "הדלקת נרות חנוכה":
-            result = Date() > currentZmanimCalendar.getSunset()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)! || (getSunsetBasedJewishCalendar(false).getDayOfWeek() == 6 && Date() > (currentZmanimCalendar.getPlagHamincha()!) && getSunsetBasedJewishCalendar(false).tomorrow().isChanukah())
+            result = Date() > currentZmanimCalendar.getSunset()! || Date() < currentZmanimCalendar.getAlotHashachar(defaults: defaults)! || (getSunsetBasedJewishCalendar(false).getDayOfWeek() == 6 && Date() > (currentZmanimCalendar.getPlagHaminchaGRA()!) && getSunsetBasedJewishCalendar(false).tomorrow().isChanukah())
         case "ספירת העומר",
             "הבדלה",
             "ק״ש שעל המיטה":
@@ -1142,7 +1151,7 @@ struct SiddurChooserView: View {
         case "תיקון חצות (לילה)":
             result = !getSunsetBasedJewishCalendar().is3Weeks() && currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults)
         case "תיקון חצות":
-            result = getSunsetBasedJewishCalendar().is3Weeks() && (currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) || (Date() > currentZmanimCalendar.getChatzos()! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
+            result = getSunsetBasedJewishCalendar().is3Weeks() && (currentZmanimCalendar.isNowAfterHalachicSolarMidnight(defaults: defaults) || (Date() > currentZmanimCalendar.getChatzos(begin: currentZmanimCalendar.getSunriseBasedOnElevationSetting(), end: currentZmanimCalendar.getSunsetBasedOnElevationSetting())! && Date() < currentZmanimCalendar.getSunset()! && getSunsetBasedJewishCalendar().getDayOfWeek() != 7))
         default:
             result = true
         }
@@ -1152,11 +1161,12 @@ struct SiddurChooserView: View {
     func getSecondaryText(_ prayer: String) -> String? {
         var result: String? = nil
         let timeAdjustedJCal = getSunsetBasedJewishCalendar()
-        let currentZmanimCalendar = ComplexZmanimCalendar(location: GlobalStruct.geoLocation)
+        let currentZmanimCalendar = ComprehensiveZmanimCalendar(location: GlobalStruct.geoLocation)
+        currentZmanimCalendar.astronomicalCalculator = SPACalculator()
         currentZmanimCalendar.useElevation = GlobalStruct.useElevation
         let sunset = currentZmanimCalendar.getSunset()
         let tzeit = currentZmanimCalendar.getTzeitHacochavim(defaults: defaults)
-        let plag = currentZmanimCalendar.getPlagHamincha()
+        let plag = currentZmanimCalendar.getPlagHaminchaGRA()
         let isMinchaAfterSunsetBeforeTzeit = Date() > (sunset ?? Date()) && Date() < (tzeit ?? Date())
         let isArvitAfterPlagBeforeSunset = Date() > (plag ?? Date()) && Date() < (sunset ?? Date())
 

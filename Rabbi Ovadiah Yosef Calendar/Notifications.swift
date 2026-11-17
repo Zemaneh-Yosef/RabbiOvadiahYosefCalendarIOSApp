@@ -25,7 +25,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     var amountOfNotificationsSet = 0
     let amountOfPossibleNotifications = 63 // really 64 but programming
 
-    private var zmanimCalendar = ComplexZmanimCalendar()
+    private var zmanimCalendar = ComprehensiveZmanimCalendar()
     private var jewishCalendar = JewishCalendar()
     
     var notificationsAreBeingSet:Bool = false
@@ -59,7 +59,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         amountOfNotificationsSet = 0
         notificationCenter.removeAllPendingNotificationRequests()//always start from scratch...
 
-        if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+        if zmanimCalendar.getSunriseBasedOnElevationSetting()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
             addOneDayToCalendars()
         }
 
@@ -267,7 +267,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         contentBarech.subtitle = locationName
         contentBarech.body = "Tonight we start saying Barech Aleinu!".localized()
 
-        let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getElevationAdjustedSunset() ?? Date()), repeats: false)
+        let triggerBarech = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: zmanimCalendar.getSunsetBasedOnElevationSetting() ?? Date()), repeats: false)
 
         let request = UNNotificationRequest(identifier: "BarechAleinuNotification", content: contentBarech, trigger: triggerBarech)
         notificationCenter.add(request)
@@ -279,7 +279,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
     func scheduleZmanimNotifications() {
         if !defaults.bool(forKey: "zmanim_notifications") {
             //if zmanim notifications are off, we can use the other local notifications for daily notifications which are the most important in my opinion
-            if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+            if zmanimCalendar.getSunriseBasedOnElevationSetting()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
                 addOneDayToCalendars()
             }
             //we already scheduled for 14 days, so advance the dates 15/16 days
@@ -323,7 +323,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         }
         if editableZmanim.isEmpty {
             //if there are no zmanim to notify for, we can use the other local notifications for daily notifications which are the most important in my opinion
-            if zmanimCalendar.getElevationAdjustedSunrise()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
+            if zmanimCalendar.getSunriseBasedOnElevationSetting()?.timeIntervalSince1970 ?? Date().timeIntervalSince1970 < Date().timeIntervalSince1970 {// if after sunrise, skip today
                 addOneDayToCalendars()
             }
             //we already scheduled for 14 days, so advance the date by 15 days
@@ -394,6 +394,7 @@ class NotificationManager : NSObject, UNUserNotificationCenterDelegate {
         guard !notificationsAreBeingSet else { return }
         notificationsAreBeingSet = true
         
+        zmanimCalendar.astronomicalCalculator = SPACalculator()
         if defaults.bool(forKey: "useAdvanced") {
             setLocation(defaultsLN: "advancedLN", defaultsLat: "advancedLat", defaultsLong: "advancedLong", defaultsTimezone: "advancedTimezone")
         } else if defaults.bool(forKey: "useLocation1") {

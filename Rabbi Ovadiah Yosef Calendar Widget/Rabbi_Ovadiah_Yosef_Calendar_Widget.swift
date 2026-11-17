@@ -34,6 +34,7 @@ struct Provider: IntentTimelineProvider {
         let daf = formatter.formatDafYomiBavli(daf: JewishCalendar().getDafYomiBavli()!)
 
         getZmanimCalendarWithLocation() { zmanimCalendar in
+            zmanimCalendar.astronomicalCalculator = SPACalculator()
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
             let isAfterSunset = Date() > zmanimCalendar.getSunset() ?? Date()
             let jewishCalendar = getJewishCalendar()
@@ -63,6 +64,7 @@ struct Provider: IntentTimelineProvider {
         let daf = formatter.formatDafYomiBavli(daf: JewishCalendar().getDafYomiBavli()!)
 
         getZmanimCalendarWithLocation() { zmanimCalendar in
+            zmanimCalendar.astronomicalCalculator = SPACalculator()
             let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: zmanimCalendar)
             let isAfterSunset = Date() > zmanimCalendar.getSunset() ?? Date()
             
@@ -215,10 +217,11 @@ struct Rabbi_Ovadiah_Yosef_Calendar_Widget_Previews: PreviewProvider {
         formatter.useGershGershayim = false
         let daf = formatter.formatDafYomiBavli(daf: JewishCalendar().getDafYomiBavli()!)
 
-        var cal = ComplexZmanimCalendar()
+        var cal = ComprehensiveZmanimCalendar()
         
         getZmanimCalendarWithLocation() { zmanimCalendar in
             cal = zmanimCalendar
+            cal.astronomicalCalculator = SPACalculator()
         }
         
         let upcomingZman = getNextUpcomingZman(forTime: Date(), zmanimCalendar: cal)
@@ -278,7 +281,7 @@ func getHebrewDate(language: LanguageSetting, forTomorrow: Bool = false) -> [Str
     return parts
 }
 
-public func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCalendar) -> Void) {
+public func getZmanimCalendarWithLocation(completion: @escaping (ComprehensiveZmanimCalendar) -> Void) {
     let defaults = UserDefaults.getMyUserDefaults()
 
     var locationName = ""
@@ -345,7 +348,7 @@ public func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCa
                                 elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
                             }
                         }
-                        completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
+                        completion(ComprehensiveZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
                     }
                 }
             }
@@ -362,10 +365,10 @@ public func getZmanimCalendarWithLocation(completion: @escaping (ComplexZmanimCa
             elevation = defaults.double(forKey: "elevation" + (defaults.string(forKey: "lastKnownLocation") ?? ""))
         }
     }
-    completion(ComplexZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
+    completion(ComprehensiveZmanimCalendar(location: GeoLocation(locationName: locationName, latitude: lat, longitude: long, elevation: elevation, timeZone: timezone.corrected())))
 }
 
-func getNextUpcomingZman(forTime: Date, zmanimCalendar: ComplexZmanimCalendar) -> ZmanListEntry {
+func getNextUpcomingZman(forTime: Date, zmanimCalendar: ComprehensiveZmanimCalendar) -> ZmanListEntry {
     let defaults = UserDefaults.getMyUserDefaults()
     var theZman: ZmanListEntry? = nil
     var zmanim = Array<ZmanListEntry>()
@@ -420,8 +423,8 @@ func getParshah(jewishCalendar: JewishCalendar) -> String {
     let hebrewDateFormatter = HebrewDateFormatter()
     hebrewDateFormatter.hebrewFormat = true
     //now that we are on saturday, check the parasha
-    var parasha = hebrewDateFormatter.formatParsha(parsha: jewishCalendar.getParshah())
-    let specialParasha = hebrewDateFormatter.formatSpecialParsha(jewishCalendar: jewishCalendar)
+    var parasha = hebrewDateFormatter.formatParshah(parsha: jewishCalendar.getParshah())
+    let specialParasha = hebrewDateFormatter.formatSpecialParshah(jewishCalendar: jewishCalendar)
     
     if !specialParasha.isEmpty {
         parasha += " / " + specialParasha
