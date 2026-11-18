@@ -1848,6 +1848,62 @@ struct ZmanimView: View {
         return copy.getAlotHashachar(defaults: defaults)
     }
 
+    /// The lighting window lines on the Chanukah card. Friday and Motzei Shabbat have their own instructions instead of the usual window.
+    @ViewBuilder
+    var chanukahLightingTimes: some View {
+        let tzeit = zmanimCalendar.getTzeitHacochavim(defaults: defaults)
+        let tzeitPlus30 = ComprehensiveZmanimCalendar.getTimeOffset(time: tzeit, offset: Double(30 * ComprehensiveZmanimCalendar.MINUTE_SECONDS))?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundEarlier) ?? ""
+        let plag = zmanimCalendar.getPlagHamincha(defaults: defaults)?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundLater) ?? ""
+        switch jewishCalendar.getDayOfWeek() {
+        case 6: // Friday
+            Text("Light Menorah before Shabbat candles".localized()
+                .appending(" (")
+                .appending("Earliest:".localized().lowercased())
+                .appending(" ")
+                .appending(plag)
+                .appending(")\n")
+                .appending("Leave enough oil to burn until".localized())
+                .appending(" ")
+                .appending(tzeitPlus30))
+            .lineLimit(2)
+            .minimumScaleFactor(0.5)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity, alignment: .center)
+        case 7: // Motzei Shabbat
+            Text("Light after Havdala".localized()
+                .appending(" (")
+                .appending(zmanimCalendar.getShabbatEnds(defaults: defaults)?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundLater) ?? "")
+                .appending(")")
+                .appending(", before Dawn".localized())
+                .appending(" (")
+                .appending(getAlotHashacharForTomorrow())
+                .appending(")"))
+            .lineLimit(2)
+            .minimumScaleFactor(0.5)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity, alignment: .center)
+        default:
+            Text("Ideal:".localized()
+                .appending(" ")
+                .appending(tzeit?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundLater) ?? "")
+                .appending(" - ")
+                .appending(tzeitPlus30))
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+            .frame(maxWidth: .infinity, alignment: .center)
+            Text("Earliest:".localized()
+                .appending(" ")
+                .appending(plag)
+                .appending(" • ")
+                .appending("Latest:".localized())
+                .appending(" ")
+                .appending(getAlotHashacharForTomorrow()))
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+    }
+    
     func getAlotHashacharForTomorrow() -> String {
         getAlotHashacharDateForTomorrow()?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundEarlier) ?? ""
     }
@@ -2021,7 +2077,7 @@ struct ZmanimView: View {
                                     Image("megila_icon")
                                         .resizable()
                                         .frame(width: 20, height: 20, alignment: .center)
-                                    Text(Locale.isHebrewLocale() ? " מפטירין:" : "Haftarah: \u{202B}")
+                                    Text(Locale.isHebrewLocale() ? " מפטירין:" : " Haftarah: \u{202B}")
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.5)
                                     if Locale.isHebrewLocale() {
@@ -2082,24 +2138,7 @@ struct ZmanimView: View {
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.5)
                                         .frame(maxWidth: .infinity, alignment: .center)
-                                    Text("Ideal:".localized()
-                                        .appending(" ")
-                                        .appending(zmanimCalendar.getTzeitHacochavim(defaults: defaults)?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundLater) ?? "")
-                                        .appending(" - ")
-                                        .appending(ComprehensiveZmanimCalendar.getTimeOffset(time: zmanimCalendar.getTzeitHacochavim(defaults: defaults), offset: Double(30 * ComprehensiveZmanimCalendar.MINUTE_SECONDS))?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundLater) ?? ""))
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.5)
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    Text("Earliest:".localized()
-                                        .appending(" ")
-                                        .appending(zmanimCalendar.getPlagHamincha(defaults: defaults)?.format(defaults: defaults, timezone: timezone, secondTreatment: .roundEarlier) ?? "")
-                                        .appending(" - ")
-                                        .appending("Latest:".localized())
-                                        .appending(" ")
-                                        .appending(getAlotHashacharForTomorrow()))
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.5)
-                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    chanukahLightingTimes
                                 }
                                 .frame(maxWidth: .infinity)
                                 .background(

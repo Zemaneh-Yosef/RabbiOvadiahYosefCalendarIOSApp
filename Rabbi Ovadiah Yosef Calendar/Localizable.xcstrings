@@ -58,6 +58,9 @@
         }
       }
     },
+    " Haftarah: ‫" : {
+
+    },
     " is today at " : {
       "extractionState" : "manual",
       "localizations" : {
@@ -107,6 +110,17 @@
     },
     "--:--:--" : {
       "shouldTranslate" : false
+    },
+    ", before Dawn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ", לפני עלות השחר"
+          }
+        }
+      }
     },
     ". Do not drink water from " : {
       "extractionState" : "manual",
@@ -1600,9 +1614,6 @@
         }
       }
     },
-    "Haftarah: ‫" : {
-
-    },
     "Haskamot" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1951,6 +1962,17 @@
         }
       }
     },
+    "Leave enough oil to burn until" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "יש לתת מספיק שמן כדי שידלוק עד"
+          }
+        }
+      }
+    },
     "Lesser of the two" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1958,6 +1980,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הקטן מביניהם"
+          }
+        }
+      }
+    },
+    "Light after Havdala" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מדליקים לאחר הבדלה"
+          }
+        }
+      }
+    },
+    "Light Menorah before Shabbat candles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מדליקים את החנוכייה לפני נרות שבת"
           }
         }
       }

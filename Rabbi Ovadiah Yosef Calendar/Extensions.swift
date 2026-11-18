@@ -146,9 +146,16 @@ public extension JewishCalendar {
             if let index = arr.firstIndex(of: "Chanukah") {
                 arr.remove(at: index)
             }
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .ordinal
-            if !Locale.isHebrewLocale() {
+            if let index = arr.firstIndex(of: "חנוכה") {
+                arr.remove(at: index)
+            }
+            if Locale.isHebrewLocale() {
+                let hebrewDateFormatter = HebrewDateFormatter()
+                hebrewDateFormatter.hebrewFormat = true
+                arr.append(hebrewDateFormatter.formatHebrewNumber(number: dayOfChanukah).appending(" חנוכה"))
+            } else {
+                let formatter = NumberFormatter()
+                formatter.numberStyle = .ordinal
                 arr.append(formatter.string(from: dayOfChanukah as NSNumber)! + " day of Chanukah")
             }
         }
@@ -184,8 +191,9 @@ public extension JewishCalendar {
                 yomtov = "Shemini Atzeret & Simchat Torah"
             }
         }
-        if yomtov.contains("Chanukah") {
-            yomtov = "Chanukah" // to remove the numbers
+        if getYomTovIndex() == JewishCalendar.CHANUKAH {
+            // Use the bare name in both languages so consecutive days match and the day number is only added once.
+            yomtov = Locale.isHebrewLocale() ? "חנוכה" : "Chanukah"
         }
         if (isPurimMeshulash()) {
             if yomtov.isEmpty {
@@ -628,6 +636,23 @@ public extension ComprehensiveZmanimCalendar {
         } else {
             return getTzais13Point5MinutesZmanis()
         }
+    }
+    
+    func getShabbatEnds(defaults: UserDefaults) -> Date? {
+        ateretTorahSunsetOffset = defaults.bool(forKey: "inIsrael") ? 30 : 40
+        if defaults.object(forKey: "shabbatOffset") != nil {
+            ateretTorahSunsetOffset = Double(defaults.integer(forKey: "shabbatOffset"))
+        }
+        if defaults.bool(forKey: "overrideAHEndShabbatTime") {// if user wants to override
+            if defaults.integer(forKey: "endOfShabbatOpinion") == 1 || defaults.object(forKey: "endOfShabbatOpinion") == nil {
+                return getTzaisAteretTorah()
+            } else if defaults.integer(forKey: "endOfShabbatOpinion") == 2 {
+                return getTzaisShabbosAmudeiHoraah()
+            } else {
+                return getTzaisShabbosAmudeiHoraahLesserThan40()
+            }
+        }
+        return defaults.bool(forKey: "LuachAmudeiHoraah") ? getTzaisShabbosAmudeiHoraah() : getTzaisAteretTorah()
     }
     
     func getTzeit20MinutesZmanit() -> Date? {
