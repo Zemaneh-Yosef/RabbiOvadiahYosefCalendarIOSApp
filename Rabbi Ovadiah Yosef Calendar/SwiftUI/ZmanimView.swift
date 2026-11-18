@@ -1920,6 +1920,7 @@ struct ZmanimView: View {
                 .overlay(Rectangle().stroke(Color.secondary, lineWidth: 1))
             }
         }
+        .padding(.horizontal, 4)
         .navigationBarTitleDisplayMode(.inline)
     }
     

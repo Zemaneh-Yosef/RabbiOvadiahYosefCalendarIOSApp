@@ -83,6 +83,7 @@ struct GetiOS17PlusUserLocationView: View {
                 .onSubmit {
                     submitSearch()
                 }
+                .padding(.horizontal)
             Button {
                 getDeviceLocation()
             } label: {
@@ -151,6 +152,7 @@ struct GetiOS17PlusUserLocationView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .foregroundStyle(Color.white)
                 }
+                .padding(.horizontal)
             }
         }
         .background {
@@ -577,6 +579,7 @@ struct GetiOS16MinusUserLocationView: View {
                 .onSubmit {
                     submitSearch()
                 }
+                .padding(.horizontal)
             Button {
                 getDeviceLocation()
             } label: {

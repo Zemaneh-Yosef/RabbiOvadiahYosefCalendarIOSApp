@@ -133,15 +133,9 @@ struct MoladView: View {
     
     var body: some View {
         alerts(view:
+                GeometryReader { geometry in
                 ScrollView {
             ZStack {
-                Image("molad_sky")
-                    .resizable()
-                    .scaledToFill()
-                    .overlay { DriftingCloudsView() }
-                    .ignoresSafeArea()
-                    .accessibilityHidden(true)
-                
                 VStack(spacing: 16) {
                     HStack {
                         VStack {
@@ -256,7 +250,12 @@ struct MoladView: View {
                         .padding(.bottom, 10)
                 }
                 .padding()
-            }.onAppear {
+            }
+            // at least one screen tall, so the Spacers still spread the cards out on a phone,
+            // but the content never grows with the background on wide screens (like the iPhone Duo's inner screen)
+            .frame(maxWidth: .infinity, minHeight: geometry.size.height)
+            .contentShape(Rectangle())
+            .onAppear {
                 syncCalendarDates()
             }
             .onTapGesture {// dismiss the datepickers if the user taps elsewhere while they are up
@@ -270,8 +269,24 @@ struct MoladView: View {
                 }
             }
         }
+                }
+            .background { moladBackground }
             .navigationTitle("Molad Calculator")
         )
+    }
+
+    /// The sky and the drifting clouds, filling the whole screen behind the scrolling content on any screen size.
+    private var moladBackground: some View {
+        Color.clear
+            .overlay {
+                Image("molad_sky")
+                    .resizable()
+                    .scaledToFill()
+                    .overlay { DriftingCloudsView() }
+            }
+            .clipped()
+            .ignoresSafeArea()
+            .accessibilityHidden(true)
     }
 }
 

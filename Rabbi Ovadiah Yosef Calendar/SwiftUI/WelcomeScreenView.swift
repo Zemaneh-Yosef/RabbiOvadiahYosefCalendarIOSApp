@@ -18,11 +18,6 @@ struct WelcomeScreenView: View {
 
     var body: some View {
         ZStack {
-            Image("welcome_bg")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            
             VStack {
                 if !isAnimating {
                     Image("logo")
@@ -100,6 +95,18 @@ struct WelcomeScreenView: View {
             NavigationLink(destination: GetUserLocationView(), isActive: $navigate) {
                 EmptyView()
             }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            // Kept out of the layout so the wide photo can't stretch the content past the screen edges.
+            Color.clear
+                .overlay {
+                    Image("welcome_bg")
+                        .resizable()
+                        .scaledToFill()
+                }
+                .clipped()
+                .ignoresSafeArea()
         }
         .animation(.easeInOut(duration: 0.4), value: isAnimating)
         .alert("Choose a haskama to view", isPresented: $showHaskamotAlert) {
